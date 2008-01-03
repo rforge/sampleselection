@@ -3,7 +3,8 @@
 \title{Heckit Variance Covariance Matrix}
 
 \description{
-   Calculate Variance Covariance Matrix for Heckit Estimations.
+   Calculate the asymptotic covariance matrix
+   for the coefficients of a Heckit estimation
 }
 
 \usage{
@@ -21,6 +22,11 @@
    \item{sigma}{the estimated \eqn{\sigma}, see Greene (2003, p. 784).}
    \item{saveMemory}{logical. Save memory by using a different implementation
       of the formula? (this should not influence the results).}
+}
+
+\details{
+   The formula implemented in \code{heckitVcov} is available,
+   e.g., in Greene (2003), last formula on page 785.
 }
 
 \value{

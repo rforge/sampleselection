@@ -49,10 +49,10 @@ probit(formula, subset, start = NULL, data = sys.frame(sys.parent()),
   \item{y}{if requested, the response used.}
   \item{model}{the model frame, only if \code{model = TRUE} or
     \code{method = "model.frame"}.}
-  Other components are inherited from \code{\link{maxLik}}.
+  Other components are inherited from \code{\link[maxLik]{maxLik}}.
 }
 \author{Ott Toomet \email{otoomet@ut.ee}}
-\seealso{\code{\link{maxLik}} for ready-packaged likelihood maximisation
+\seealso{\code{\link[maxLik]{maxLik}} for ready-packaged likelihood maximisation
   routines and methods, \code{\link{glm}} for generalised linear models,
   including probit, \code{\link{binomial}}.
 }

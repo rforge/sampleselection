@@ -11,7 +11,7 @@
    The arguments must be given as numeric vectors/matrices,
    initial value of parameters must be specified.
    These functions are called by \code{\link{selection}} and
-   are intended for \code{micEcon} internal use.
+   are intended for \code{sampleSelection} internal use.
 }
 
 \usage{
@@ -31,8 +31,8 @@ outcomes are ignored (they may or may not be NA).}
 betaO(1), sigma(1), rho(1), betaO2, sigma2, rho2.}
   \item{print.level}{numeric, values greater than 0 will produce
 increasingly more debugging information.}
-  \item{maxMethod}{character, a maximisation method supported by \code{\link{maxLik}}}
-  \item{\dots}{Additional parameters to \code{\link{maxLik}}.}
+  \item{maxMethod}{character, a maximisation method supported by \code{\link[maxLik]{maxLik}}}
+  \item{\dots}{Additional parameters to \code{\link[maxLik]{maxLik}}.}
 }
 
 \value{
@@ -46,7 +46,7 @@ increasingly more debugging information.}
   }
 \author{Ott Toomet \email{otoomet@ut.ee}}
 
-\seealso{\code{\link{selection}}, \code{\link{maxLik}}}
+\seealso{\code{\link{selection}}, \code{\link[maxLik]{maxLik}}}
 
 \keyword{internal}
 \keyword{models}

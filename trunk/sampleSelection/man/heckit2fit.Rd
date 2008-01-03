@@ -10,7 +10,7 @@
    models by the 2-step Heckman (heckit) estimation.
    They are called by \code{\link{selection}} or
    \code{\link{heckit}} and
-   they are intended for \code{micEcon} internal use.
+   they are intended for \code{sampleSelection} internal use.
 }
 
 \usage{

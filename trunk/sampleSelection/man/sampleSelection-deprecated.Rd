@@ -1,10 +1,11 @@
-\name{micEcon-deprecated}
-\alias{micEcon-deprecated}
+\name{sampleSelection-deprecated}
+\alias{sampleSelection-deprecated}
 \alias{tobit2}
-\title{Deprecated Functions in micEcon package}
+\title{Deprecated Functions in the sampleSelection package}
 \description{
   These functions are provided for compatibility with older versions of
-  micEcon only, and may be defunct as soon as the next release.
+  \code{micEcon}/\code{sampleSelection} only,
+  and may be defunct as soon as the next release.
 }
 \usage{
 tobit2(selection, formula, data = sys.frame(sys.parent()),
@@ -30,21 +31,21 @@ method="ml",
   \item{print.level}{information about calculations.  0 -- nothing is
     printed, bigger numbers give more information.
     \code{print.level} is sent further to the maximisation algorithm,
-    see \code{\link{maxNR}}.}
+    see \code{\link[maxLik]{maxNR}}.}
   \item{y1, z, y2, x, model}{logicals. If TRUE the corresponding
     components of the fit (the selection response, the selection model
     matrix, the equation response, the equation model matrix and both
     model frames) are returned.}
   \item{\dots}{further arguments to the maximisation algorithm,
-    see \code{\link{maxNR}}.}
+    see \code{\link[maxLik]{maxNR}}.}
 }
 \details{
   The original help page for these functions is often
   available at \code{help("oldName-deprecated")} (note the quotes).
 
   Function \code{tobit2} are for historical
-  compatibility with old versions of micEcon.  Use
-  \code{\link{selection}} instead.
+  compatibility with old versions of \code{micEcon}/\code{sampleSelection}.
+  Use \code{\link{selection}} instead.
 }
 \seealso{
   \code{\link{Deprecated}}, \code{\link{selection}}

@@ -15,7 +15,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library( micEcon )
+> library( sampleSelection )
 Loading required package: systemfit
 > data( Mroz87 )
 > options( digits = 6 )

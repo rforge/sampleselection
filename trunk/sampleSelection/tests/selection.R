@@ -1,4 +1,4 @@
-library(sampleSelection)
+library(micEcon)
 library(mvtnorm)
 options(digits=6)
 N <- 1500

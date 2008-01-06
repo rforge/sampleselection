@@ -1,4 +1,4 @@
-library( micEcon )
+library( sampleSelection )
 data( Mroz87 )
 options( digits = 6 )
 

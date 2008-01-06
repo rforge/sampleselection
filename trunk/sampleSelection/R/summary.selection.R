@@ -71,7 +71,7 @@ print.summary.selection <- function(x,
       cat(x$type, ", ", x$iterations, " iterations\n", sep="")
       cat("Return code ", x$code, ": ", x$message, "\n", sep="")
       if(!is.null(x$estimate)) {
-         cat("Log-Likelihood:", loglikValue(x), "\n")
+         cat("Log-Likelihood:", logLik(x), "\n")
       }
    } else if( x$method == "2step" ) {
       cat( "2-step Heckman / heckit estimation\n" )

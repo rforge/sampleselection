@@ -23,7 +23,8 @@ heckit5fit( selection, outcome1, outcome2, data = sys.frame(sys.parent()),
 
 
 \arguments{
-  \item{selection}{formula for the probit estimation (1st step) (see details).}
+  \item{selection}{formula for the probit estimation (1st step)
+    (see \code{\link{selection}}).}
   \item{outcome}{formula to be estimated (2nd step).}
   \item{outcome1}{formula, the first outcome equation.}
   \item{outcome2}{formula, the second outcome equation.}

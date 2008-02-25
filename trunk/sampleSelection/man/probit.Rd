@@ -11,9 +11,8 @@ probit(formula, subset, start = NULL, data = sys.frame(sys.parent()),
 }
 \arguments{
   \item{formula}{a symbolic description of the model to be fit, in the
-    form \code{response ~ explanatory variables}.  The
-    response variable should be either logical or numeric with values
-    only 0-1 or a factor with two levels.}
+    form \code{response ~ explanatory variables}
+    (see also details).}
   \item{subset}{an optional vector specifying a subset of observations to be
     used in the fitting process.}
   \item{start}{inital value of parameters.}
@@ -35,10 +34,11 @@ probit(formula, subset, start = NULL, data = sys.frame(sys.parent()),
 
    The dependent variable must have exactly
    two levels (e.g. '0' and '1', 'FALSE' and 'TRUE', or 'no' and 'yes').
-   \code{probit} takes the first level as (numeric) '0' and
-   the second level as (numeric) '1',
-   because levels are sorted in increasing order by default
-   (e.g. '0' is before '1' and 'FALSE' is before 'TRUE').
+   \code{probit} always takes the first level as '0' and
+   the second level as '1' -- no matter the actual value.
+   However, by default levels are sorted in increasing order and thus,
+   the second level is generally, e.g., '1' (after '0'),
+   'TRUE' (after 'FALSE'), or 'yes' (after 'no').
 }
 \value{
   An object of class "probit".  It is a list with following components:

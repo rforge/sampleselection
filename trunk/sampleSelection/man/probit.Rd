@@ -1,5 +1,6 @@
 \name{probit}
 \alias{probit}
+\alias{print.probit}
 \title{Probit binary choice model}
 \description{
   The functions calculates probit binary choice model

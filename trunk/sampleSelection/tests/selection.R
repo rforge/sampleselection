@@ -42,6 +42,18 @@ print( coef( summary( testTobit5Ml ), part = "outcome" ), digits = 5 )
 print( vcov( testTobit5Ml ), digits = 5 )
 print( vcov( testTobit5Ml, part = "outcome" ), digits = 5 )
 
+# factors as dependent variable (from Achim Zeileis)
+selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step" )
+selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step" )
+selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
+   list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step" )
+
+selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
+selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
+selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
+   list( yo1 ~ xo1, yo2 ~ xo2 ) )
+
+
 ## ------- Tobit-2 exmple -----------
 vc <- diag(2)
 vc[2,1] <- vc[1,2] <- -0.7
@@ -74,3 +86,13 @@ print( coef( summary( testTobit2Ml ) ), digits = 5 )
 print( coef( summary( testTobit2Ml ), part = "outcome" ), digits = 5 )
 print( vcov( testTobit2Ml ), digits = 5 )
 print( vcov( testTobit2Ml, part = "outcome" ), digits = 5 )
+
+# factors as dependent variable (from Achim Zeileis)
+selection( ys ~ xs, yo ~ xo, method = "2step" )
+selection( factor( ys ) ~ xs, yo ~ xo, method = "2step" )
+selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo,
+   method = "2step" )
+selection( ys ~ xs, yo ~ xo )
+selection( factor( ys ) ~ xs, yo ~ xo )
+selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo )
+

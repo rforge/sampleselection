@@ -24,11 +24,13 @@ heckit5fit <- function(selection, outcome1, outcome2,
    mfS <- eval(mfS, parent.frame())
    mtS <- attr(mfS, "terms")
    XS <- model.matrix(mtS, mfS)
-   YS <- factor(model.response(mfS, "numeric"))
-   if( length(levels(YS)) != 2 ) {
-      stop( "the left hand side of 'selection' has to contain",
+   YS <- model.response( mfS )
+   YSLevels <- levels( as.factor( YS ) )
+   if( length( YSLevels ) != 2 ) {
+      stop( "the dependent variable of 'selection' has to contain",
          " exactly two levels (e.g. FALSE and TRUE)" )
    }
+   YS <- YS == YSLevels[ 2 ]
    ## check for NA-s.  Because we have to find NA-s in several frames, we cannot use the standard na.
    ## functions here.  Find bad rows and remove them later.
    badRow <- is.na(YS)
@@ -137,8 +139,8 @@ heckit5fit <- function(selection, outcome1, outcome2,
    YO2 <- YO2[!badRow]
    nObs <- length(YS)
    # few pre-calculations: split according to selection
-   i1 <- YS == levels(YS)[1]
-   i2 <- YS == levels(YS)[2]
+   i1 <- YS == 0
+   i2 <- YS == 1
    XS1 <- XS[i1,]
    XS2 <- XS[i2,]
    XO1 <- XO1[i1,]

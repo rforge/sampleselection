@@ -43,7 +43,7 @@ heckit2fit <- function( selection, outcome,
    mtS <- attr(mfS, "terms")
    XS <- model.matrix(mtS, mfS)
    NXS <- ncol(XS)
-   YS <- factor(model.response(mfS, "numeric"))
+   YS <- model.response(mfS)
    badRow <- is.na(YS)
    badRow <- badRow | apply(XS, 1, function(v) any(is.na(v)))
                                         # check for NA-s.  Because we have to find NA-s in several
@@ -51,10 +51,11 @@ heckit2fit <- function( selection, outcome,
                                         # Find bad rows and remove them later.
    probitLevels <- levels( as.factor( YS ) )
    if( length( probitLevels ) != 2 ) {
-      stop( "the left hand side of 'selection' has to contain",
+      stop( "the dependent variable of 'selection' has to contain",
          " exactly two levels (e.g. FALSE and TRUE)" )
    }
-   probitDummy <- YS == probitLevels[ 2 ]
+   YS <- YS == probitLevels[ 2 ]
+   probitDummy <- YS
    ## Outcome equation
    m <- match(c("outcome", "data", "subset", "weights",
                 "offset"), names(mf), 0)
@@ -95,7 +96,7 @@ heckit2fit <- function( selection, outcome,
    ##
    nObs <- length(YS)
    nParam <- iRho
-   N0 <- sum(YS == levels(YS)[1])
+   N0 <- sum(YS == 0)
    N1 <- nObs - N0
                                         # sigma, rho
    if( print.level > 0 ) {

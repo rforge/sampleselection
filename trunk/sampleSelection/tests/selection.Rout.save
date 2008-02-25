@@ -1,6 +1,6 @@
 
-R version 2.6.1 (2007-11-26)
-Copyright (C) 2007 The R Foundation for Statistical Computing
+R version 2.6.2 (2008-02-08)
+Copyright (C) 2008 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -263,6 +263,84 @@ xo2         0.936184    0.10162 9.21229 3.1925e-20
 [3,] -3.1689e-04 -8.4932e-05  1.2463e-02 -5.5413e-03
 [4,]  3.6795e-05  4.3445e-06 -5.5413e-03  1.0327e-02
 > 
+> # factors as dependent variable (from Achim Zeileis)
+> selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step" )
+
+Call:
+ selection(selection = ys ~ xs, outcome = list(yo1 ~ xo1, yo2 ~      xo2), method = "2step") 
+
+Coefficients:
+ S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  
+       0.07977         0.78112         0.61886         0.99753        -1.51527  
+        sigma1            rho1  O2:(Intercept)          O2:xo2  invMillsRatio2  
+       1.29259         0.99000        -0.00343         0.92760         0.61858  
+        sigma2            rho2  
+       0.99291         0.62300  
+
+> selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step" )
+
+Call:
+ selection(selection = factor(ys) ~ xs, outcome = list(yo1 ~ xo1,      yo2 ~ xo2), method = "2step") 
+
+Coefficients:
+ S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  
+       0.07977         0.78112         0.61886         0.99753        -1.51527  
+        sigma1            rho1  O2:(Intercept)          O2:xo2  invMillsRatio2  
+       1.29259         0.99000        -0.00343         0.92760         0.61858  
+        sigma2            rho2  
+       0.99291         0.62300  
+
+> selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
++    list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step" )
+
+Call:
+ selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = list(yo1 ~ xo1, yo2 ~ xo2), method = "2step") 
+
+Coefficients:
+ S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  
+       0.07977         0.78112         0.61886         0.99753        -1.51527  
+        sigma1            rho1  O2:(Intercept)          O2:xo2  invMillsRatio2  
+       1.29259         0.99000        -0.00343         0.92760         0.61858  
+        sigma2            rho2  
+       0.99291         0.62300  
+
+> 
+> selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
+
+Call:
+ selection(selection = ys ~ xs, outcome = list(yo1 ~ xo1, yo2 ~      xo2)) 
+
+Coefficients:
+ S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
+        0.0021          0.9559          0.0712          0.9870          1.1214  
+          rho1  O2:(Intercept)          O2:xo2          sigma2            rho2  
+        0.9035          0.0709          0.9362          0.9980          0.4722  
+
+> selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
+
+Call:
+ selection(selection = factor(ys) ~ xs, outcome = list(yo1 ~ xo1,      yo2 ~ xo2)) 
+
+Coefficients:
+ S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
+        0.0021          0.9559          0.0712          0.9870          1.1214  
+          rho1  O2:(Intercept)          O2:xo2          sigma2            rho2  
+        0.9035          0.0709          0.9362          0.9980          0.4722  
+
+> selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
++    list( yo1 ~ xo1, yo2 ~ xo2 ) )
+
+Call:
+ selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = list(yo1 ~ xo1, yo2 ~ xo2)) 
+
+Coefficients:
+ S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
+        0.0021          0.9559          0.0712          0.9870          1.1214  
+          rho1  O2:(Intercept)          O2:xo2          sigma2            rho2  
+        0.9035          0.0709          0.9362          0.9980          0.4722  
+
+> 
+> 
 > ## ------- Tobit-2 exmple -----------
 > vc <- diag(2)
 > vc[2,1] <- vc[1,2] <- -0.7
@@ -426,4 +504,74 @@ xo          0.950258   0.089673 10.5969 3.079e-26
            [,1]       [,2]
 [1,]  0.0038017 -0.0037233
 [2,] -0.0037233  0.0080412
+> 
+> # factors as dependent variable (from Achim Zeileis)
+> selection( ys ~ xs, yo ~ xo, method = "2step" )
+
+Call:
+ selection(selection = ys ~ xs, outcome = yo ~ xo, method = "2step") 
+
+Coefficients:
+S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio  
+       0.0647         0.8910         0.1284         0.9176        -0.8714  
+        sigma            rho  
+       1.0458        -0.8333  
+
+> selection( factor( ys ) ~ xs, yo ~ xo, method = "2step" )
+
+Call:
+ selection(selection = factor(ys) ~ xs, outcome = yo ~ xo, method = "2step") 
+
+Coefficients:
+S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio  
+       0.0647         0.8910         0.1284         0.9176        -0.8714  
+        sigma            rho  
+       1.0458        -0.8333  
+
+> selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo,
++    method = "2step" )
+
+Call:
+ selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = yo ~ xo, method = "2step") 
+
+Coefficients:
+S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio  
+       0.0647         0.8910         0.1284         0.9176        -0.8714  
+        sigma            rho  
+       1.0458        -0.8333  
+
+> selection( ys ~ xs, yo ~ xo )
+
+Call:
+ selection(selection = ys ~ xs, outcome = yo ~ xo) 
+
+Coefficients:
+S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma  
+       0.0420         0.9313         0.0697         0.9503         1.0125  
+          rho  
+      -0.7791  
+
+> selection( factor( ys ) ~ xs, yo ~ xo )
+
+Call:
+ selection(selection = factor(ys) ~ xs, outcome = yo ~ xo) 
+
+Coefficients:
+S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma  
+       0.0420         0.9313         0.0697         0.9503         1.0125  
+          rho  
+      -0.7791  
+
+> selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo )
+
+Call:
+ selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = yo ~ xo) 
+
+Coefficients:
+S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma  
+       0.0420         0.9313         0.0697         0.9503         1.0125  
+          rho  
+      -0.7791  
+
+> 
 > 

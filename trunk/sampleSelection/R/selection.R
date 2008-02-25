@@ -101,7 +101,13 @@ selection <- function(selection, outcome,
    mfS <- eval(mfS, parent.frame())
    mtS <- attr(mfS, "terms")
    XS <- model.matrix(mtS, mfS)
-   YS <- model.response(mfS, "numeric")
+   YS <- model.response(mfS)
+   YSLevels <- levels( as.factor( YS ) )
+   if( length( YSLevels ) != 2 ) {
+      stop( "the dependent variable of 'selection' has to contain",
+         " exactly two levels (e.g. FALSE and TRUE)" )
+   }
+   YS <- YS == YSLevels[ 2 ]
    ## check for NA-s.  Because we have to find NA-s in several frames, we cannot use the standard na.
    ## functions here.  Find bad rows and remove them later.
    ## We check XS and YS separately, because mfS may be a data frame with complex structure (e.g.

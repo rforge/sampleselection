@@ -137,3 +137,32 @@ Significance test:
 chi2(5) = 48.0507 (p=3.46824e-09)
 --------------------------------------------
 > 
+> ## factors as dependent variable (from Achim Zeileis)
+> probit( lfp ~ exper, data = Mroz87 )
+
+Call:
+ probit(formula = lfp ~ exper, data = Mroz87) 
+
+Coefficients:
+(Intercept)       exper 
+    -0.4431      0.0605 
+
+> probit( factor( lfp ) ~ exper, data = Mroz87 )
+
+Call:
+ probit(formula = factor(lfp) ~ exper, data = Mroz87) 
+
+Coefficients:
+(Intercept)       exper 
+    -0.4431      0.0605 
+
+> probit( factor( lfp, labels = c( "no", "yes" ) ) ~ exper, data = Mroz87 )
+
+Call:
+ probit(formula = factor(lfp, labels = c("no", "yes")) ~ exper,      data = Mroz87) 
+
+Coefficients:
+(Intercept)       exper 
+    -0.4431      0.0605 
+
+> 

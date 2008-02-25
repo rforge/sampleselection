@@ -66,6 +66,12 @@ probit <- function( formula, subset, start=NULL,
        warning("method = ", method, " is not supported. Using \"ML\"")
    mt <- attr(mf, "terms")
    Y <- model.response( mf )
+   YLevels <- levels( as.factor( Y ) )
+   if( length( YLevels ) != 2 ) {
+      stop( "the left hand side of the 'formula' has to contain",
+         " exactly two levels (e.g. FALSE and TRUE)" )
+   }
+   Y <- Y == YLevels[ 2 ]
    X <- model.matrix(mt, mf, contrasts)
    nParam <- ncol( X)
    nObs <- length( Y)

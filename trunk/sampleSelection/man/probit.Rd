@@ -32,6 +32,13 @@ probit(formula, subset, start = NULL, data = sys.frame(sys.parent()),
 }
 \details{
   The model is estimated using Maximum Likelihood method.
+
+   The dependent variable must have exactly
+   two levels (e.g. '0' and '1', 'FALSE' and 'TRUE', or 'no' and 'yes').
+   \code{probit} takes the first level as (numeric) '0' and
+   the second level as (numeric) '1',
+   because levels are sorted in increasing order by default
+   (e.g. '0' is before '1' and 'FALSE' is before 'TRUE').
 }
 \value{
   An object of class "probit".  It is a list with following components:

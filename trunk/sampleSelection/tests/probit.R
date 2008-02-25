@@ -27,3 +27,8 @@ summary( lfpResult )
 greene <- probit( lfp ~ age + I( age^2 ) + faminc + kids + educ, data = Mroz87 )
 print( greene )
 summary( greene )
+
+## factors as dependent variable (from Achim Zeileis)
+probit( lfp ~ exper, data = Mroz87 )
+probit( factor( lfp ) ~ exper, data = Mroz87 )
+probit( factor( lfp, labels = c( "no", "yes" ) ) ~ exper, data = Mroz87 )

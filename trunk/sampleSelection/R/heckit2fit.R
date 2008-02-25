@@ -55,7 +55,6 @@ heckit2fit <- function( selection, outcome,
          " exactly two levels (e.g. FALSE and TRUE)" )
    }
    YS <- YS == probitLevels[ 2 ]
-   probitDummy <- YS
    ## Outcome equation
    m <- match(c("outcome", "data", "subset", "weights",
                 "offset"), names(mf), 0)
@@ -85,7 +84,6 @@ heckit2fit <- function( selection, outcome,
    YS <- YS[!badRow]
    XO <- XO[!badRow,]
    YO <- YO[!badRow]
-   probitDummy <- probitDummy[!badRow]
    ## Now indices for packing the separate outcomes into full outcome vectors.  Note we treat
    ## invMillsRatio as a separate parameter
    iBetaS <- seq(length=NXS)
@@ -115,7 +113,7 @@ heckit2fit <- function( selection, outcome,
          cat ( "Estimating 2nd step (outcome) OLS model . . ." )
       }
       outcomeMod <- lm(YO ~ -1 + XO + imrData$IMR1,
-                      subset = probitDummy )
+                      subset = YS )
       intercept <- any(apply(model.matrix(outcomeMod), 2,
                              function(v) (v[1] > 0) & (all(v == v[1]))))
                                         # we have determine whether the outcome model has intercept.
@@ -137,7 +135,7 @@ heckit2fit <- function( selection, outcome,
       instImr <- as.formula( paste( "~", inst[ 2 ], "+ invMillsRatio" ) )
       library( systemfit )
       outcomeMod <- systemfit( formulaList, method = "2SLS", inst = instImr,
-                             data = data[ probitDummy, ] )
+                             data = data[ YS, ] )
       intercept = FALSE
                                         # we calculate R^2 differently here (hopefully)
       resid <- residuals( outcomeMod )[ , 1 ]
@@ -145,8 +143,8 @@ heckit2fit <- function( selection, outcome,
       if( print.level > 0 ) cat( " OK\n" )
    }
    result$sigma <- drop( sqrt( crossprod( resid ) /
-                              sum( probitDummy ) +
-                              mean(result$imrDelta[ probitDummy ] ) *
+                              sum( YS ) +
+                              mean(result$imrDelta[ YS ] ) *
                               step2coef[ "invMillsRatio" ]^2 ) )
    result$rho <-  step2coef[ "invMillsRatio" ] / result$sigma
    names(result$rho) <- NULL
@@ -169,10 +167,10 @@ heckit2fit <- function( selection, outcome,
    if(!is.null(vcov(result$probit)))
        vc[iBetaS,iBetaS] <- vcov(result$probit)
    vc[c(iBetaO, iMills), c(iBetaO, iMills)] <- heckitVcov( xMat,
-                                                          model.matrix( result$probit )[ probitDummy, ],
+                                                          model.matrix( result$probit )[ YS, ],
                                                           vcov( result$probit ),
                                                           result$rho,
-                                                          result$imrDelta[ probitDummy ],
+                                                          result$imrDelta[ YS ],
                                                           result$sigma )
                                         # here we drop invMillsRatio part
    result$vcov <- vc

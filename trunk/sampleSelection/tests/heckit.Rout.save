@@ -1,6 +1,6 @@
 
-R version 2.6.1 (2007-11-26)
-Copyright (C) 2007 The R Foundation for Statistical Computing
+R version 2.6.2 (2008-02-08)
+Copyright (C) 2008 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -81,7 +81,7 @@ rho             -0.343         NA      NA       NA
 > print(summary( greene$lm ) )
 
 Call:
-lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = probitDummy)
+lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = YS)
 
 Residuals:
    Min     1Q Median     3Q    Max 
@@ -99,7 +99,7 @@ imrData$IMR1  -1.097619   1.252900   -0.88     0.38
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 
 Residual standard error: 3.11 on 422 degrees of freedom
-Multiple R-Squared: 0.664,	Adjusted R-squared: 0.659 
+Multiple R-squared: 0.664,	Adjusted R-squared: 0.659 
 F-statistic:  139 on 6 and 422 DF,  p-value: <2e-16 
 
 > print( summary( greene$probit ) )
@@ -270,7 +270,7 @@ rho            0.04861         NA      NA       NA
 > print( summary( wooldridge$lm ) )
 
 Call:
-lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = probitDummy)
+lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = YS)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
@@ -287,7 +287,7 @@ imrData$IMR1   0.032262   0.134388    0.24   0.8104
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 
 Residual standard error: 0.667 on 423 degrees of freedom
-Multiple R-Squared: 0.773,	Adjusted R-squared: 0.77 
+Multiple R-squared: 0.773,	Adjusted R-squared: 0.77 
 F-statistic:  288 on 5 and 423 DF,  p-value: <2e-16 
 
 > print( summary( wooldridge$probit ) )

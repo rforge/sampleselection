@@ -75,7 +75,7 @@ probit <- function( formula, subset, start=NULL,
    X <- model.matrix(mt, mf, contrasts)
    nParam <- ncol( X)
    nObs <- length( Y)
-   N1 <- length( y[Y != 0])
+   N1 <- sum(Y == 1)
    N0 <- nObs - N1
    if(N0 == 0 | N1 == 0) {
       stop("No variance in the response variable")

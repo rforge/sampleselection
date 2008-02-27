@@ -96,7 +96,7 @@ XOeduc         0.417017   0.099003    4.21  3.1e-05 ***
 XOcity         0.443838   0.317921    1.40     0.16    
 imrData$IMR1  -1.097619   1.252900   -0.88     0.38    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 
 Residual standard error: 3.11 on 422 degrees of freedom
 Multiple R-squared: 0.664,	Adjusted R-squared: 0.659 
@@ -284,7 +284,7 @@ XOexper        0.043887   0.016353    2.68   0.0076 **
 XOI(exper^2)  -0.000859   0.000441   -1.95   0.0523 .  
 imrData$IMR1   0.032262   0.134388    0.24   0.8104    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
 
 Residual standard error: 0.667 on 423 degrees of freedom
 Multiple R-squared: 0.773,	Adjusted R-squared: 0.77 

@@ -3,7 +3,7 @@
 \alias{print.probit}
 \title{Probit binary choice model}
 \description{
-  The functions calculates probit binary choice model
+  This function calculates probit binary choice model
 }
 \usage{
 probit(formula, subset, start = NULL, data = sys.frame(sys.parent()),
@@ -23,7 +23,7 @@ probit(formula, subset, start = NULL, data = sys.frame(sys.parent()),
   \item{x, y, model}{logicals. If TRUE the corresponding components of
     the fit (the
     model matrix, the response, the model frame) are returned.}
-  \item{method}{the method to be used; for fitting,
+  \item{method}{the method to use; for fitting,
     currently only method = "ML" (Maximum Likelihood) is supported;
     method = "model.frame" returns the model frame (the same as
     with model = TRUE, see below).}
@@ -54,7 +54,7 @@ probit(formula, subset, start = NULL, data = sys.frame(sys.parent()),
   \item{N0}{Number of observations with zero (false) response}
   \item{df}{Number of free parameters}
   \item{x}{if requested, the model matrix used.}
-  \item{y}{if requested, the response used.}
+  \item{y}{if requested, the model response used.}
   \item{model}{the model frame, only if \code{model = TRUE} or
     \code{method = "model.frame"}.}
   Other components are inherited from \code{\link[maxLik]{maxLik}}.

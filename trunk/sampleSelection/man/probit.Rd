@@ -54,7 +54,8 @@ probit(formula, subset, start = NULL, data = sys.frame(sys.parent()),
   \item{N0}{Number of observations with zero (false) response}
   \item{df}{Number of free parameters}
   \item{x}{if requested, the model matrix used.}
-  \item{y}{if requested, the model response used.}
+  \item{y}{if requested, the model response used.  The
+   response is represented internally as 0/1 integer vector.}
   \item{model}{the model frame, only if \code{model = TRUE} or
     \code{method = "model.frame"}.}
   Other components are inherited from \code{\link[maxLik]{maxLik}}.

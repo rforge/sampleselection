@@ -115,7 +115,10 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
   \item{termsS, termsO}{terms for the selection and outcome equation}
   \item{ys, xs, yo, xo, mfs, mfo}{response, matrix and frame of the
     selection- and outcome equations (as a list of two for the latter).
-    NULL, if not requested.}
+    NULL, if not requested.  The
+    response is represented internally as 0/1 integer vector with 0
+    denoting either the unobservable outcome (tobit 2) or the first
+    selection (tobit 5).}
   \item{coefficients}{estimated coefficients, the complete model.
     coefficient for the Inverse Mills ratio is treated as a parameter
     (\eqn{=\varrho \sigma}{= rho * sigma}).}

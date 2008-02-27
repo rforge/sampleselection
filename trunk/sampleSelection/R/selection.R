@@ -102,21 +102,13 @@ selection <- function(selection, outcome,
    mtS <- attr(mfS, "terms")
    XS <- model.matrix(mtS, mfS)
    YS <- model.response(mfS)
-   if(!is.numeric(YS)) {
-      YS <- as.factor(YS)
-      if(length(levels(YS)) != 2)
-          stop("LHS of the probit equation must have exactly two different values")
+   YSLevels <- levels( as.factor( YS ) )
+   if( length( YSLevels ) != 2 ) {
+      stop( "the left hand side of the 'formula' has to contain",
+         " exactly two levels (e.g. FALSE and TRUE)" )
    }
-   else {
-      if(length(levels(as.factor(YS))) != 2)
-          stop("LHS of the probit equation must have exactly two different numeric values values")
-   }
-   ## the following is rather a hack: extract the "0" and "1" levels of the factors
-   levelYS0 <- levels(as.factor(YS))[1]
-   levelYS1 <- levels(as.factor(YS))[2]
-                                        # extract two levels: first one is 'zero', second one 'one'
-   YS <- as.numeric(YS == levelYS1)
-                                        # we need it here for eliminating NA-rows
+   YS <- as.integer(YS == YSLevels[ 2 ])
+                                        # selection will be kept as integer internally
    ## check for NA-s.  Because we have to find NA-s in several frames, we cannot use the standard na.
    ## functions here.  Find bad rows and remove them later.
    ## We check XS and YS separately, because mfS may be a data frame with complex structure (e.g.

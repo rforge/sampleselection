@@ -71,7 +71,8 @@ probit <- function( formula, subset, start=NULL,
       stop( "the left hand side of the 'formula' has to contain",
          " exactly two levels (e.g. FALSE and TRUE)" )
    }
-   Y <- Y == YLevels[ 2 ]
+   Y <- as.integer(Y == YLevels[ 2 ])
+                                        # selection will be kept as integer internally
    X <- model.matrix(mt, mf, contrasts)
    nParam <- ncol( X)
    nObs <- length( Y)

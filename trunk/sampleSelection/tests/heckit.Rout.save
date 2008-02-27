@@ -81,7 +81,7 @@ rho             -0.343         NA      NA       NA
 > print(summary( greene$lm ) )
 
 Call:
-lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = YS)
+lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = YS == 1)
 
 Residuals:
    Min     1Q Median     3Q    Max 
@@ -270,7 +270,7 @@ rho            0.04861         NA      NA       NA
 > print( summary( wooldridge$lm ) )
 
 Call:
-lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = YS)
+lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = YS == 1)
 
 Residuals:
     Min      1Q  Median      3Q     Max 

@@ -104,7 +104,7 @@ selection <- function(selection, outcome,
    YS <- model.response(mfS)
    YSLevels <- levels( as.factor( YS ) )
    if( length( YSLevels ) != 2 ) {
-      stop( "the left hand side of the 'formula' has to contain",
+      stop( "the left hand side of the 'selection' formula has to contain",
          " exactly two levels (e.g. FALSE and TRUE)" )
    }
    YS <- as.integer(YS == YSLevels[ 2 ])

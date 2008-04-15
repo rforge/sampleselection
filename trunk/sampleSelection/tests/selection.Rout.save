@@ -434,7 +434,7 @@ invMillsRatio  -0.0283568 -0.00023644    0.05667814
 > print(testTobit2TwoStep$invMillsRatio[10:20])
       10       11       12       13       14       15       16       17 
 0.652992 0.725720 0.720768 0.338952 0.471034 0.385594 0.527795 0.644218 
-      18       19       20 
+      18       19       21 
 0.518806 0.345413 0.603452 
 > 
 > testTobit2Ml <- selection(ys~xs, yo ~xo, method="ml")

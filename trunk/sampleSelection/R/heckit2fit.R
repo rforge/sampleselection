@@ -54,8 +54,11 @@ heckit2fit <- function( selection, outcome,
       stop( "the dependent variable of 'selection' has to contain",
          " exactly two levels (e.g. FALSE and TRUE)" )
    }
+   ysNames <- names( YS )
    YS <- as.integer(YS == probitLevels[ 2 ])
                                         # selection kept as integer internally
+   names( YS ) <- ysNames
+
    ## Outcome equation
    m <- match(c("outcome", "data", "subset", "weights",
                 "offset"), names(mf), 0)

@@ -30,8 +30,11 @@ heckit5fit <- function(selection, outcome1, outcome2,
       stop( "the dependent variable of 'selection' has to contain",
          " exactly two levels (e.g. FALSE and TRUE)" )
    }
+   ysNames <- names( YS )
    YS <- as.integer(YS == YSLevels[ 2 ])
                                         # selection kept as integer internally
+   names( YS ) <- ysNames
+
    ## check for NA-s.  Because we have to find NA-s in several frames, we cannot use the standard na.
    ## functions here.  Find bad rows and remove them later.
    badRow <- is.na(YS)

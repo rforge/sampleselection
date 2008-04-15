@@ -9,17 +9,18 @@ fitted.selection <- function( object, part = "outcome", ... ) {
       if( part == "selection" ) {
          result <- fitted( object$probit, ... )
       } else if( part == "outcome" ) {
+         response <- model.frame( object$probit )[ , 1 ]
+         result <- rep( NA, length( response ) )
          if( object$tobitType == 2 ) {
-            result <- fitted( object$lm, ... )
+            result[ response == 1 ] <- fitted( object$lm, ... )
          } else if( object$tobitType == 5 ) {
-            response <- model.frame( object$probit )[ , 1 ]
-            result <- rep( NA, length( response ) )
             result[ response == 0 ] <- fitted( object$lm1, ... )
             result[ response == 1 ] <- fitted( object$lm2, ... )
          } else {
             stop( "unknown tobit type '",  object$tobitType,
                "' in object$tobitType" )
          }
+         names( result ) <- row.names( model.frame( object$probit ) )
       } else {
          stop( "argument 'part' must be either 'outcome' or 'selection'" )
       }

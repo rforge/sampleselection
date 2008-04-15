@@ -1,0 +1,31 @@
+\name{residuals.selection}
+\alias{residuals.selection}
+
+\title{Residuals of Selection Models}
+
+\description{
+   Calculate residuals of sample selection models
+}
+
+\usage{
+\method{residuals}{selection}(object, part = "outcome", ... )
+}
+
+\arguments{
+   \item{object}{object of class \code{selection}.}
+   \item{part}{character string indication which residuals to extract:
+      "outcome" for the fitted values of the outcome equation(s) or
+      "selection" for the fitted values of the selection equation.}
+   \item{\dots}{further arguments passed to other methods
+      (e.g. \code{\link{residuals.probit}} or \code{\link{residuals}}).}
+}
+\value{
+   A numeric vector of the residuals.
+}
+
+\author{Arne Henningsen \email{ahenningsen@agric-econ.uni-kiel.de}}
+
+\seealso{\code{\link{selection}},
+   \code{\link{residuals}}, and \code{\link{residuals.probit}}}
+
+\keyword{methods}

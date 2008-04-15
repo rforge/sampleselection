@@ -20,6 +20,8 @@ print( vcov( greene ), digits = 5 )
 print( vcov( greene, part = "outcome" ), digits = 5 )
 fitted( greene, part = "outcome" )
 fitted( greene, part = "selection" )
+residuals( greene, part = "outcome" )
+residuals( greene, part = "selection", type = "response" )
 
 ## Wooldridge( 2003 ): example 17.5, page 590
 data( Mroz87 )
@@ -39,6 +41,8 @@ print( vcov( wooldridge ), digits = 5 )
 print( vcov( wooldridge, part = "outcome" ), digits = 5 )
 fitted( wooldridge, part = "outcome" )
 fitted( wooldridge, part = "selection" )
+residuals( wooldridge, part = "outcome" )
+residuals( wooldridge, part = "selection", type = "response" )
 
 ## Tobit 5 Example from the selection paper
 library(mvtnorm)
@@ -64,3 +68,5 @@ print( vcov( heckit5test ), digits = 5 )
 print( vcov( heckit5test, part = "outcome" ), digits = 5 )
 fitted( heckit5test, part = "outcome" )
 fitted( heckit5test, part = "selection" )
+residuals( heckit5test, part = "outcome" )
+residuals( heckit5test, part = "selection", type = "response" )

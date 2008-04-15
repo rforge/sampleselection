@@ -1086,96 +1086,75 @@ sigma2           0.9763         NA      NA       NA
 rho1             0.9900         NA      NA       NA
 rho2             0.2284         NA      NA       NA
 --------------------------------------------
-> print( coef( wooldridge ), digits = 5 )
-S:(Intercept)     S:nwifeinc         S:educ        S:exper   S:I(exper^2)  
-   0.27007677    -0.01202374     0.13090473     0.12334759    -0.00188708  
-        S:age        S:kids5      S:kids618  O:(Intercept)         O:educ  
-  -0.05285267    -0.86832851     0.03600496    -0.57810319     0.10906552  
-      O:exper   O:I(exper^2)  invMillsRatio          sigma            rho  
-   0.04388734    -0.00085911     0.03226186     0.66362875     0.04861433  
-> print( coef( wooldridge, part = "outcome" ), digits = 5 )
-  (Intercept)           educ          exper     I(exper^2)  invMillsRatio  
-  -0.57810319     0.10906552     0.04388734    -0.00085911     0.03226186  
-> print( coef( summary( wooldridge ) ), digits = 5 )
-                 Estimate Std. Error  t value   Pr(>|t|)
-(Intercept)    0.27007677 0.50859304  0.53103 5.9556e-01
-nwifeinc      -0.01202374 0.00483984 -2.48433 1.3200e-02
-educ           0.13090473 0.02525420  5.18348 2.8133e-07
-exper          0.12334759 0.01871640  6.59035 8.3424e-11
-I(exper^2)    -0.00188708 0.00059999 -3.14521 1.7262e-03
-age           -0.05285267 0.00847724 -6.23466 7.6101e-10
-kids5         -0.86832851 0.11852231 -7.32629 6.2083e-13
-kids618        0.03600496 0.04347679  0.82814 4.0786e-01
-(Intercept)   -0.57810319 0.30500620 -1.89538 5.8432e-02
-educ           0.10906552 0.01552295  7.02608 4.8301e-12
-exper          0.04388734 0.01626106  2.69892 7.1153e-03
-I(exper^2)    -0.00085911 0.00043892 -1.95735 5.0682e-02
-invMillsRatio  0.03226186 0.13362464  0.24144 8.0928e-01
-sigma          0.66362875         NA       NA         NA
-rho            0.04861433         NA       NA         NA
-> print( coef( summary( wooldridge ), part = "outcome" ), digits = 5 )
-                 Estimate Std. Error  t value   Pr(>|t|)
-(Intercept)   -0.57810319 0.30500620 -1.89538 5.8432e-02
-educ           0.10906552 0.01552295  7.02608 4.8301e-12
-exper          0.04388734 0.01626106  2.69892 7.1153e-03
-I(exper^2)    -0.00085911 0.00043892 -1.95735 5.0682e-02
-invMillsRatio  0.03226186 0.13362464  0.24144 8.0928e-01
-> print( vcov( wooldridge ), digits = 5 )
-              (Intercept)    nwifeinc        educ       exper  I(exper^2)
-(Intercept)    2.5867e-01  2.5462e-04 -7.7190e-03 -1.5870e-03  6.0907e-05
-nwifeinc       2.5462e-04  2.3424e-05 -4.1824e-05  3.9085e-06  1.0825e-07
-educ          -7.7190e-03 -4.1824e-05  6.3777e-04 -2.0315e-05  3.7843e-07
-exper         -1.5870e-03  3.9085e-06 -2.0315e-05  3.5030e-04 -1.0290e-05
-I(exper^2)     6.0907e-05  1.0825e-07  3.7843e-07 -1.0290e-05  3.5998e-07
-age           -3.3333e-03 -6.3127e-06  2.0148e-05 -5.3129e-06 -4.9697e-07
-kids5         -1.8858e-02  2.4826e-05 -4.1135e-04 -5.5154e-06 -6.1290e-07
-kids618       -1.0115e-02 -1.0221e-05  1.1849e-04  6.9064e-05 -3.1146e-07
-(Intercept)            NA          NA          NA          NA          NA
-educ                   NA          NA          NA          NA          NA
-exper                  NA          NA          NA          NA          NA
-I(exper^2)             NA          NA          NA          NA          NA
-invMillsRatio          NA          NA          NA          NA          NA
-sigma                  NA          NA          NA          NA          NA
-rho                    NA          NA          NA          NA          NA
-                      age       kids5     kids618 (Intercept)        educ
-(Intercept)   -3.3333e-03 -1.8858e-02 -1.0115e-02          NA          NA
-nwifeinc      -6.3127e-06  2.4826e-05 -1.0221e-05          NA          NA
-educ           2.0148e-05 -4.1135e-04  1.1849e-04          NA          NA
-exper         -5.3129e-06 -5.5154e-06  6.9064e-05          NA          NA
-I(exper^2)    -4.9697e-07 -6.1290e-07 -3.1146e-07          NA          NA
-age            7.1864e-05  4.5286e-04  1.2759e-04          NA          NA
-kids5          4.5286e-04  1.4048e-02  6.3130e-04          NA          NA
-kids618        1.2759e-04  6.3130e-04  1.8902e-03          NA          NA
-(Intercept)            NA          NA          NA  0.09302878 -3.9693e-03
-educ                   NA          NA          NA -0.00396930  2.4096e-04
-exper                  NA          NA          NA -0.00318491  5.1544e-05
-I(exper^2)             NA          NA          NA  0.00006911 -9.1792e-07
-invMillsRatio          NA          NA          NA -0.03103081  8.7226e-04
-sigma                  NA          NA          NA          NA          NA
-rho                    NA          NA          NA          NA          NA
-                    exper  I(exper^2) invMillsRatio sigma rho
-(Intercept)            NA          NA            NA    NA  NA
-nwifeinc               NA          NA            NA    NA  NA
-educ                   NA          NA            NA    NA  NA
-exper                  NA          NA            NA    NA  NA
-I(exper^2)             NA          NA            NA    NA  NA
-age                    NA          NA            NA    NA  NA
-kids5                  NA          NA            NA    NA  NA
-kids618                NA          NA            NA    NA  NA
-(Intercept)   -3.1849e-03  6.9110e-05   -3.1031e-02    NA  NA
-educ           5.1544e-05 -9.1792e-07    8.7226e-04    NA  NA
-exper          2.6442e-04 -6.7995e-06    1.2845e-03    NA  NA
-I(exper^2)    -6.7995e-06  1.9265e-07   -2.6522e-05    NA  NA
-invMillsRatio  1.2845e-03 -2.6522e-05    1.7856e-02    NA  NA
-sigma                  NA          NA            NA    NA  NA
-rho                    NA          NA            NA    NA  NA
-> print( vcov( wooldridge, part = "outcome" ), digits = 5 )
-              (Intercept)        educ       exper  I(exper^2) invMillsRatio
-(Intercept)    0.09302878 -3.9693e-03 -3.1849e-03  6.9110e-05   -3.1031e-02
-educ          -0.00396930  2.4096e-04  5.1544e-05 -9.1792e-07    8.7226e-04
-exper         -0.00318491  5.1544e-05  2.6442e-04 -6.7995e-06    1.2845e-03
-I(exper^2)     0.00006911 -9.1792e-07 -6.7995e-06  1.9265e-07   -2.6522e-05
-invMillsRatio -0.03103081  8.7226e-04  1.2845e-03 -2.6522e-05    1.7856e-02
+> print( coef( heckit5test ), digits = 5 )
+ S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  
+      0.026693        0.875456        0.066494        0.918072       -0.926769  
+        sigma1            rho1  O2:(Intercept)          O2:xo2  invMillsRatio2  
+      0.895785        0.990000        0.024214        1.045656        0.222990  
+        sigma2            rho2  
+      0.976269        0.228410  
+> print( coef( heckit5test, part = "outcome" ), digits = 5 )
+   (Intercept)             xo1  invMillsRatio1     (Intercept)             xo2  
+      0.066494        0.918072       -0.926769        0.024214        1.045656  
+invMillsRatio2  
+      0.222990  
+> print( coef( summary( heckit5test ) ), digits = 5 )
+                Estimate Std. Error t value   Pr(>|t|)
+(Intercept)     0.026693    0.11159  0.2392 8.1105e-01
+xs              0.875456    0.19605  4.4654 9.9303e-06
+(Intercept)     0.066494         NA      NA         NA
+xo1             0.918072         NA      NA         NA
+invMillsRatio1 -0.926769         NA      NA         NA
+sigma1          0.895785         NA      NA         NA
+rho1            0.990000         NA      NA         NA
+(Intercept)     0.024214         NA      NA         NA
+xo2             1.045656         NA      NA         NA
+invMillsRatio2  0.222990         NA      NA         NA
+sigma2          0.976269         NA      NA         NA
+rho2            0.228410         NA      NA         NA
+> print( coef( summary( heckit5test ), part = "outcome" ), digits = 5 )
+                Estimate Std. Error t value Pr(>|t|)
+(Intercept)     0.066494         NA      NA       NA
+xo1             0.918072         NA      NA       NA
+invMillsRatio1 -0.926769         NA      NA       NA
+(Intercept)     0.024214         NA      NA       NA
+xo2             1.045656         NA      NA       NA
+invMillsRatio2  0.222990         NA      NA       NA
+> print( vcov( heckit5test ), digits = 5 )
+               (Intercept)        xs (Intercept) xo1 invMillsRatio1 sigma1 rho1
+(Intercept)       0.012453 -0.018566          NA  NA             NA     NA   NA
+xs               -0.018566  0.038437          NA  NA             NA     NA   NA
+(Intercept)             NA        NA          NA  NA             NA     NA   NA
+xo1                     NA        NA          NA  NA             NA     NA   NA
+invMillsRatio1          NA        NA          NA  NA             NA     NA   NA
+sigma1                  NA        NA          NA  NA             NA     NA   NA
+rho1                    NA        NA          NA  NA             NA     NA   NA
+(Intercept)             NA        NA          NA  NA             NA     NA   NA
+xo2                     NA        NA          NA  NA             NA     NA   NA
+invMillsRatio2          NA        NA          NA  NA             NA     NA   NA
+sigma2                  NA        NA          NA  NA             NA     NA   NA
+rho2                    NA        NA          NA  NA             NA     NA   NA
+               (Intercept) xo2 invMillsRatio2 sigma2 rho2
+(Intercept)             NA  NA             NA     NA   NA
+xs                      NA  NA             NA     NA   NA
+(Intercept)             NA  NA             NA     NA   NA
+xo1                     NA  NA             NA     NA   NA
+invMillsRatio1          NA  NA             NA     NA   NA
+sigma1                  NA  NA             NA     NA   NA
+rho1                    NA  NA             NA     NA   NA
+(Intercept)             NA  NA             NA     NA   NA
+xo2                     NA  NA             NA     NA   NA
+invMillsRatio2          NA  NA             NA     NA   NA
+sigma2                  NA  NA             NA     NA   NA
+rho2                    NA  NA             NA     NA   NA
+> print( vcov( heckit5test, part = "outcome" ), digits = 5 )
+               (Intercept) xo1 invMillsRatio1 (Intercept) xo2 invMillsRatio2
+(Intercept)             NA  NA             NA          NA  NA             NA
+xo1                     NA  NA             NA          NA  NA             NA
+invMillsRatio1          NA  NA             NA          NA  NA             NA
+(Intercept)             NA  NA             NA          NA  NA             NA
+xo2                     NA  NA             NA          NA  NA             NA
+invMillsRatio2          NA  NA             NA          NA  NA             NA
 > fitted( heckit5test, part = "outcome" )
   [1]  0.84094811  0.30946349  0.67177531 -0.32033351  0.67157346 -1.13539363
   [7]  0.49998348  0.90769069  0.87737471  0.62143813  0.38578720  0.94083606

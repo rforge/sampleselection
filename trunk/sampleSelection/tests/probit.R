@@ -16,6 +16,7 @@ probitResult <- probit( (y > 0) ~ x )
 print( probitResult )
 summary( probitResult )
 fitted( probitResult )
+residuals( probitResult, type = "response" )
 
 ## female labour force participation probability
 lfpResult <- probit( lfp ~ kids + age30.39 + age50.60 + educ + hushrs +
@@ -23,12 +24,14 @@ lfpResult <- probit( lfp ~ kids + age30.39 + age50.60 + educ + hushrs +
 print( lfpResult )
 summary( lfpResult )
 fitted( lfpResult )
+residuals( lfpResult, type = "response" )
 
 ## Greene( 2003 ): example 22.8, page 786 (only probit part )
 greene <- probit( lfp ~ age + I( age^2 ) + faminc + kids + educ, data = Mroz87 )
 print( greene )
 summary( greene )
 fitted( greene )
+residuals( greene, type = "response" )
 
 ## factors as dependent variable (from Achim Zeileis)
 probit( lfp ~ exper, data = Mroz87 )

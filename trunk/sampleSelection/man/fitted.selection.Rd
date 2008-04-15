@@ -14,7 +14,7 @@
 \arguments{
    \item{object}{object of class \code{selection}.}
    \item{part}{character string indication which fitted values to extract:
-      "outcome" for the fitted values of the outcome equation or
+      "outcome" for the fitted values of the outcome equation(s) or
       "selection" for the fitted values of the selection equation.}
    \item{\dots}{further arguments passed to other methods
       (e.g. \code{\link{fitted.probit}} or \code{\link{fitted}}).}

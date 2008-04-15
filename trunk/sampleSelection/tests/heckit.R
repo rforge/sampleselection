@@ -18,6 +18,8 @@ print( coef( summary( greene ) ), digits = 5 )
 print( coef( summary( greene ), part = "outcome" ), digits = 5 )
 print( vcov( greene ), digits = 5 )
 print( vcov( greene, part = "outcome" ), digits = 5 )
+fitted( greene, part = "outcome" )
+fitted( greene, part = "selection" )
 
 ## Wooldridge( 2003 ): example 17.5, page 590
 data( Mroz87 )
@@ -35,6 +37,8 @@ print( coef( summary( wooldridge ) ), digits = 5 )
 print( coef( summary( wooldridge ), part = "outcome" ), digits = 5 )
 print( vcov( wooldridge ), digits = 5 )
 print( vcov( wooldridge, part = "outcome" ), digits = 5 )
+fitted( wooldridge, part = "outcome" )
+fitted( wooldridge, part = "selection" )
 
 ## Tobit 5 Example from the selection paper
 library(mvtnorm)
@@ -58,3 +62,5 @@ print( coef( summary( wooldridge ) ), digits = 5 )
 print( coef( summary( wooldridge ), part = "outcome" ), digits = 5 )
 print( vcov( wooldridge ), digits = 5 )
 print( vcov( wooldridge, part = "outcome" ), digits = 5 )
+fitted( heckit5test, part = "outcome" )
+fitted( heckit5test, part = "selection" )

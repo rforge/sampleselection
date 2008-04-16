@@ -24,6 +24,7 @@ residuals( greene, part = "outcome" )
 residuals( greene, part = "selection", type = "response" )
 print( model.matrix( greene, part = "outcome" ), digits = 5 )
 print( model.matrix( greene, part = "selection" ), digits = 5 )
+print( model.frame( greene ), digits = 5 )
 
 ## Wooldridge( 2003 ): example 17.5, page 590
 data( Mroz87 )
@@ -47,6 +48,7 @@ residuals( wooldridge, part = "outcome" )
 residuals( wooldridge, part = "selection", type = "response" )
 print( model.matrix( wooldridge, part = "outcome" ), digits = 5 )
 print( model.matrix( wooldridge, part = "selection" ), digits = 5 )
+print( model.frame( wooldridge ), digits = 5 )
 
 ## Tobit 5 Example from the selection paper
 library(mvtnorm)
@@ -76,3 +78,4 @@ residuals( heckit5test, part = "outcome" )
 residuals( heckit5test, part = "selection", type = "response" )
 print( model.matrix( heckit5test, part = "outcome" ), digits = 5 )
 print( model.matrix( heckit5test, part = "selection" ), digits = 5 )
+print( model.frame( heckit5test ), digits = 5 )

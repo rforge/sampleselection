@@ -1,7 +1,5 @@
 fitted.probit <- function( object, ... ) {
-   mMatrix <- model.matrix( object )
-   mCoef <- coef( object )
-   result <- drop( pnorm( mMatrix %*% mCoef ) )
-   names( result ) <- row.names( mMatrix )
+   result <- drop( pnorm( linearPredictors( object ) ) )
+   names( result ) <- row.names( model.matrix( object ) )
    return( result )
 }

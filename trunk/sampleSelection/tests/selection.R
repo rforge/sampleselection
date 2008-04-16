@@ -36,6 +36,8 @@ print( fitted( testTobit5TwoStep, part = "selection" ), digits = 5 )
 print( residuals( testTobit5TwoStep, part = "outcome" ), digits = 5 )
 print( residuals( testTobit5TwoStep, part = "selection", type = "response" ),
    digits = 5 )
+print( model.matrix( testTobit5TwoStep, part = "outcome" ), digits = 5 )
+print( model.matrix( testTobit5TwoStep, part = "selection" ), digits = 5 )
 
 testTobit5Ml <- selection(ys~xs, list(yo1 ~ xo1, yo2 ~ xo2), method="ml")
 print( testTobit5Ml )
@@ -86,6 +88,8 @@ print( fitted( testTobit2TwoStep, part = "selection" ), digits = 5 )
 print( residuals( testTobit2TwoStep, part = "outcome" ), digits = 5 )
 print( residuals( testTobit2TwoStep, part = "selection", type = "response" ),
    digits = 5 )
+print( model.matrix( testTobit2TwoStep, part = "outcome" ), digits = 5 )
+print( model.matrix( testTobit2TwoStep, part = "selection" ), digits = 5 )
 
 testTobit2Ml <- selection(ys~xs, yo ~xo, method="ml")
 print( testTobit2Ml )

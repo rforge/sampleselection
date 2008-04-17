@@ -9,11 +9,9 @@ residuals.probit <- function( object, type = "response", ... ) {
          sqrt( -2 * log( fitVal ) ), -sqrt( -2 * log( 1 - fitVal ) ) )
    } else if( type == "pearson" ) {
       result <- ( response - fitVal ) / sqrt( fitVal * ( 1 - fitVal ) )
-   } else if( type %in% c( "working", "partial" ) ) {
-      stop( "type '", type, "' has not yet been implemented" )
    } else {
       stop( "argument 'type' must be either 'deviance', 'pearson',",
-         " 'working', 'response', or 'partial'" )
+         " or 'response'" )
    }
 
    result <- drop( result )

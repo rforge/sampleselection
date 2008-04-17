@@ -1,4 +1,4 @@
-residuals.probit <- function( object, type = "response", ... ) {
+residuals.probit <- function( object, type = "deviance", ... ) {
 
    fitVal <- fitted( object )
    response <- model.frame( object )[ , 1 ]

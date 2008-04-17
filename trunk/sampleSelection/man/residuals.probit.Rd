@@ -7,13 +7,13 @@
 }
 
 \usage{
-   \method{residuals}{probit}( object, type = "response", ... )
+   \method{residuals}{probit}( object, type = "deviance", ... )
 }
 
 \arguments{
    \item{object}{an object of class \code{probit}.}
    \item{type}{the type of residuals which should be returned.
-      The alternatives are: "response" (default), "deviance", and "pearson"
+      The alternatives are: "deviance" (default), "pearson", and "response"
       (see \code{\link[stats]{residuals.glm}}
       and Davison & Snell 1991).}
    \item{\dots}{further arguments (currently ignored).}

@@ -16,7 +16,7 @@
       The alternatives are: "response" (default), "deviance", "pearson",
       "working", and "partial" (see \code{\link[stats]{residuals.glm}}
       and Davison & Snell 1991).
-      However, currently only "response" and "pearson" are implemented.}
+      However, currently "working" and "partial" are not implemented yet.}
    \item{\dots}{further arguments (currently ignored).}
 }
 

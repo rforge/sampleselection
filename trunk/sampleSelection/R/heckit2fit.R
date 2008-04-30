@@ -84,9 +84,9 @@ heckit2fit <- function( selection, outcome,
    if(print.level > 0) {
       cat(sum(badRow), "invalid observations\n")
    }
-   XS <- XS[!badRow,]
+   XS <- XS[!badRow,,drop=FALSE]
    YS <- YS[!badRow]
-   XO <- XO[!badRow,]
+   XO <- XO[!badRow,,drop=FALSE]
    YO <- YO[!badRow]
    ## Now indices for packing the separate outcomes into full outcome vectors.  Note we treat
    ## invMillsRatio as a separate parameter

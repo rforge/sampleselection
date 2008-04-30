@@ -61,6 +61,10 @@ selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
 selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
    list( yo1 ~ xo1, yo2 ~ xo2 ) )
 
+# the case without intercepts 
+cat("Now run tobit5 without intercepts\n")
+print(coef(selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1))))
+
 
 ## ------- Tobit-2 exmple -----------
 vc <- diag(2)
@@ -112,3 +116,6 @@ selection( ys ~ xs, yo ~ xo )
 selection( factor( ys ) ~ xs, yo ~ xo )
 selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo )
 
+# the case without intercepts (by Lucas Salazar)
+cat("Now run tobit2 without intercepts\n")
+print(coef(selection( ys ~ xs - 1, yo ~ xo - 1)))

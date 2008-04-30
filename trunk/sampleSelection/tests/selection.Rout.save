@@ -9412,6 +9412,13 @@ Coefficients:
         0.9035          0.0709          0.9362          0.9980          0.4722  
 
 > 
+> # the case without intercepts 
+> cat("Now run tobit5 without intercepts\n")
+Now run tobit5 without intercepts
+> print(coef(selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1))))
+    S:  O1:xo1  sigma1    rho1  O2:xo2  sigma2    rho2  
+ 0.833   1.409   1.265   0.970   0.950   1.023   0.544  
+> 
 > 
 > ## ------- Tobit-2 exmple -----------
 > vc <- diag(2)
@@ -16060,4 +16067,10 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma
       -0.7791  
 
 > 
+> # the case without intercepts (by Lucas Salazar)
+> cat("Now run tobit2 without intercepts\n")
+Now run tobit2 without intercepts
+> print(coef(selection( ys ~ xs - 1, yo ~ xo - 1)))
+  S:xs    O:xo   sigma     rho  
+ 1.011   1.016   0.989  -0.743  
 > 

@@ -133,6 +133,11 @@ selection <- function(selection, outcome,
                                         # marked as NA, eval returns a
                                         # subframe of visible variables only.
                                         # We have to check it later
+      if( method == "model.frame" ) {
+         mf <- mfS
+         mf <- cbind( mf, mfO[ , ! names( mfO ) %in% names( mf ) ] )
+         return( mf )
+      }
       mtO <- attr(mfO, "terms")
       XO <- model.matrix(mtO, mfO)
       YO <- model.response(mfO, "numeric")
@@ -212,6 +217,12 @@ selection <- function(selection, outcome,
                                         # eval it as model frame
       names(mf2)[2] <- "formula"
       mf2 <- eval(mf2, parent.frame())
+      if( method == "model.frame" ) {
+         mf <- mfS
+         mf <- cbind( mf, mf1[ , ! names( mf1 ) %in% names( mf ) ] )
+         mf <- cbind( mf, mf2[ , ! names( mf2 ) %in% names( mf ) ] )
+         return( mf )
+      }
       mtO2 <- attr(mf2, "terms")
       XO2 <- model.matrix(mtO2, mf2)
       YO2 <- model.response(mf2, "numeric")

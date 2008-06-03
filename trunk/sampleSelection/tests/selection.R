@@ -50,6 +50,9 @@ print( coef( summary( testTobit5Ml ), part = "outcome" ), digits = 5 )
 print( vcov( testTobit5Ml ), digits = 5 )
 print( vcov( testTobit5Ml, part = "outcome" ), digits = 5 )
 
+# return just the model.frame
+selection( ys~xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method="model.frame" )
+
 # factors as dependent variable (from Achim Zeileis)
 selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step" )
 selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step" )
@@ -60,11 +63,18 @@ selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
 selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
 selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
    list( yo1 ~ xo1, yo2 ~ xo2 ) )
+# return just the model.frame
+selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method="model.frame" )
+selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method="model.frame" )
+selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
+   list( yo1 ~ xo1, yo2 ~ xo2 ), method="model.frame" )
 
 # the case without intercepts 
 cat("Now run tobit5 without intercepts\n")
 print(coef(selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1))))
-
+# return just the model.frame
+selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1 ),
+   method = "model.frame" )
 
 ## ------- Tobit-2 exmple -----------
 vc <- diag(2)
@@ -107,6 +117,9 @@ print( coef( summary( testTobit2Ml ), part = "outcome" ), digits = 5 )
 print( vcov( testTobit2Ml ), digits = 5 )
 print( vcov( testTobit2Ml, part = "outcome" ), digits = 5 )
 
+# return just the model.frame
+selection( ys~xs, yo ~xo, method = "model.frame" )
+
 # factors as dependent variable (from Achim Zeileis)
 selection( ys ~ xs, yo ~ xo, method = "2step" )
 selection( factor( ys ) ~ xs, yo ~ xo, method = "2step" )
@@ -115,7 +128,14 @@ selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo,
 selection( ys ~ xs, yo ~ xo )
 selection( factor( ys ) ~ xs, yo ~ xo )
 selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo )
+# return just the model.frame
+selection( ys ~ xs, yo ~ xo, method = "model.frame" )
+selection( factor( ys ) ~ xs, yo ~ xo, method = "model.frame" )
+selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo,
+   method = "model.frame" )
 
 # the case without intercepts (by Lucas Salazar)
 cat("Now run tobit2 without intercepts\n")
 print(coef(selection( ys ~ xs - 1, yo ~ xo - 1)))
+# return just the model.frame
+selection( ys ~ xs - 1, yo ~ xo - 1, method = "model.frame" )

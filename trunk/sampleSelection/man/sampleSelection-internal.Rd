@@ -2,8 +2,6 @@
 \alias{coef.summary.probit}
 \alias{model.frame.probit}
 \alias{model.matrix.probit}
-\alias{print.summary.probit}
-\alias{summary.probit}
 % Document the following:
 
 %%%%

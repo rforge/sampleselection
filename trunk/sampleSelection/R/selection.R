@@ -151,6 +151,8 @@ selection <- function(selection, outcome,
       YS <- YS[!badRow]
       XO <- XO[!badRow,, drop=FALSE]
       YO <- YO[!badRow]
+      YO[ YS == 0 ] <- NA
+      XO[ YS == 0, ] <- NA
       NXS <- ncol(XS)
       NXO <- ncol(XO)
       iGamma <- 1:NXS
@@ -239,6 +241,10 @@ selection <- function(selection, outcome,
       YO1 <- YO1[!badRow]
       XO2 <- XO2[!badRow,, drop=FALSE]
       YO2 <- YO2[!badRow]
+      YO1[ YS == 1 ] <- NA
+      YO2[ YS == 0 ] <- NA
+      XO1[ YS == 1, ] <- NA
+      XO2[ YS == 0, ] <- NA
       iBetaS <- 1:NXS
       iBetaO1 <- seq(tail(iBetaS, 1)+1, length=NXO1)
       iSigma1 <- tail(iBetaO1, 1) + 1

@@ -49,6 +49,13 @@ print( coef( summary( testTobit5Ml ) ), digits = 5 )
 print( coef( summary( testTobit5Ml ), part = "outcome" ), digits = 5 )
 print( vcov( testTobit5Ml ), digits = 5 )
 print( vcov( testTobit5Ml, part = "outcome" ), digits = 5 )
+mfTestTobit5Ml <- model.frame( testTobit5Ml )
+print( mfTestTobit5Ml, digits = 5 )
+# ML with model.frames returned
+testTobit5MlMf <- selection( ys~xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
+   method = "ml", mfs = TRUE, mfo = TRUE )
+mfTestTobit5MlMf <- model.frame( testTobit5MlMf )
+all.equal( mfTestTobit5Ml, mfTestTobit5MlMf )
 
 # return just the model.frame
 selection( ys~xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method="model.frame" )
@@ -116,6 +123,12 @@ print( coef( summary( testTobit2Ml ) ), digits = 5 )
 print( coef( summary( testTobit2Ml ), part = "outcome" ), digits = 5 )
 print( vcov( testTobit2Ml ), digits = 5 )
 print( vcov( testTobit2Ml, part = "outcome" ), digits = 5 )
+mfTestTobit2Ml <- model.frame( testTobit2Ml )
+print( mfTestTobit2Ml, digits = 5 )
+# ML with model.frames returned
+testTobit2MlMf <- selection(ys~xs, yo ~xo, method="ml", mfs = TRUE, mfo = TRUE)
+mfTestTobit2MlMf <- model.frame( testTobit2MlMf )
+all.equal( mfTestTobit2Ml, mfTestTobit2MlMf )
 
 # return just the model.frame
 selection( ys~xs, yo ~xo, method = "model.frame" )

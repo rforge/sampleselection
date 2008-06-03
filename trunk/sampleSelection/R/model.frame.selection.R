@@ -54,8 +54,33 @@ model.frame.selection <- function( formula, ... ) {
       }
    # maximum likelihood estimation
    } else if( formula$method == "ml" ) {
-      stop( "the 'model.frame' method has not yet been implemented",
-         " for sample selection models estimated by Maximum Likelihood" )
+      if( formula$tobitType == 2 ) {
+         if( !is.null( formula$mfs ) && !is.null( formula$mfo ) ){
+            result <- formula$mfs
+            result <- cbind( result,
+               formula$mfo[ , ! names( formula$mfo ) %in% names( result ) ] )
+            return( result )
+         }
+      }
+      if( formula$tobitType == 5 ) {
+         if( !is.null( formula$mfs ) && !is.null( formula$mfo1 ) &&
+               !is.null( formula$mfo2 ) ){
+            result <- formula$mfs
+            result <- cbind( result,
+               formula$mfo1[ , ! names( formula$mfo1 ) %in% names( result ) ] )
+            result <- cbind( result,
+               formula$mfo2[ , ! names( formula$mfo2 ) %in% names( result ) ] )
+            return( result )
+         }
+      }
+      fcall <- formula$call
+      fcall$method <- "model.frame"
+      fcall[[ 1 ]] <- as.name("selection")
+      env <- environment( formula$terms )
+      if( is.null( env ) ) {
+         env <- parent.frame()
+      }
+      result <- eval( fcall, env, parent.frame() )
    }
 
    return( result )

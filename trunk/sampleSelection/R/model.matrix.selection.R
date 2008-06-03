@@ -44,8 +44,40 @@ model.matrix.selection <- function( object, part = "outcome", ... ) {
       }
    # maximum likelihood estimation
    } else if( object$method == "ml" ) {
-      stop( "the 'model.matrix' method has not yet been implemented for objects",
-         " estimated by Maximum Likelihood" )
+      if( part == "selection" ) {
+         if( ! is.null( object$xs ) ) {
+            result <- object$xs
+         } else {
+            mf <- model.frame( object )
+            result <- model.matrix( object$termsS, mf )
+         }
+      } else if( part == "outcome" ) {
+         response <- model.frame( object )[ , 1 ]
+         nObs <- length( response )
+         if( object$tobitType == 2 ) {
+            if( ! is.null( object$xo ) ) {
+               result <- object$xo
+            } else {
+               mf <- model.frame( object )
+               attributes( mf )$na.action <- na.pass
+               result <- model.matrix( object$termsO, mf )
+               result[ response == 0, ] <- NA
+            }
+         } else if( object$tobitType == 5 ) {
+            result <- list()
+            if( ! is.null( object$xo1 ) && ! is.null( object$xo2 ) ) {
+               result[[ 1 ]] <- object$xo1
+               result[[ 2 ]] <- object$xo2
+            } else {
+               mf <- model.frame( object )
+               attributes( mf )$na.action <- na.pass
+               result[[ 1 ]] <- model.matrix( object$termsO1, mf )
+               result[[ 2 ]] <- model.matrix( object$termsO2, mf )
+               result[[ 1 ]][ response == 1, ] <- NA
+               result[[ 2 ]][ response == 0, ] <- NA
+            }
+         }
+      }
    }
 
    return( result )

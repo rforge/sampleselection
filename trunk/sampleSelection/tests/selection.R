@@ -49,8 +49,22 @@ print( coef( summary( testTobit5Ml ) ), digits = 5 )
 print( coef( summary( testTobit5Ml ), part = "outcome" ), digits = 5 )
 print( vcov( testTobit5Ml ), digits = 5 )
 print( vcov( testTobit5Ml, part = "outcome" ), digits = 5 )
+mmsTestTobit5Ml <- model.matrix( testTobit5Ml, part = "selection" )
+print( mmsTestTobit5Ml, digits = 5 )
+mmoTestTobit5Ml <- model.matrix( testTobit5Ml, part = "outcome" )
+print( mmoTestTobit5Ml, digits = 5 )
 mfTestTobit5Ml <- model.frame( testTobit5Ml )
 print( mfTestTobit5Ml, digits = 5 )
+# ML with model.matrices returned
+testTobit5MlMm <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
+   method = "ml", xs = TRUE, xo = TRUE )
+mmsTestTobit5MlMm <- model.matrix( testTobit5MlMm, part = "selection" )
+attributes( mmsTestTobit5Ml )$assign <- NULL
+all.equal( mmsTestTobit5Ml, mmsTestTobit5MlMm )
+mmoTestTobit5MlMm <- model.matrix( testTobit5MlMm, part = "outcome" )
+attributes( mmoTestTobit5Ml[[ 1 ]] )$assign <- NULL
+attributes( mmoTestTobit5Ml[[ 2 ]] )$assign <- NULL
+all.equal( mmoTestTobit5Ml, mmoTestTobit5MlMm )
 # ML with model.frames returned
 testTobit5MlMf <- selection( ys~xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
    method = "ml", mfs = TRUE, mfo = TRUE )
@@ -123,8 +137,21 @@ print( coef( summary( testTobit2Ml ) ), digits = 5 )
 print( coef( summary( testTobit2Ml ), part = "outcome" ), digits = 5 )
 print( vcov( testTobit2Ml ), digits = 5 )
 print( vcov( testTobit2Ml, part = "outcome" ), digits = 5 )
+mmsTestTobit2Ml <- model.matrix( testTobit2Ml, part = "selection" )
+print( mmsTestTobit2Ml, digits = 5 )
+mmoTestTobit2Ml <- model.matrix( testTobit2Ml, part = "outcome" )
+print( mmsTestTobit2Ml, digits = 5 )
 mfTestTobit2Ml <- model.frame( testTobit2Ml )
 print( mfTestTobit2Ml, digits = 5 )
+# ML with model.matrices returned
+testTobit2MlMm <- selection( ys ~ xs, yo ~ xo, method = "ml", 
+   xs = TRUE, xo = TRUE )
+mmsTestTobit2MlMm <- model.matrix( testTobit2MlMm, part = "selection" )
+attributes( mmsTestTobit2Ml )$assign <- NULL
+all.equal( mmsTestTobit2Ml, mmsTestTobit2MlMm )
+mmoTestTobit2MlMm <- model.matrix( testTobit2MlMm, part = "outcome" )
+attributes( mmoTestTobit2Ml )$assign <- NULL
+all.equal( mmoTestTobit2Ml, mmoTestTobit2MlMm )
 # ML with model.frames returned
 testTobit2MlMf <- selection(ys~xs, yo ~xo, method="ml", mfs = TRUE, mfo = TRUE)
 mfTestTobit2MlMf <- model.frame( testTobit2MlMf )

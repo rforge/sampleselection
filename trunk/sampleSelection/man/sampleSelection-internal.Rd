@@ -1,6 +1,4 @@
 \name{sampleSelection-internal}
-\alias{coef.probit}
-\alias{coef.summary.probit}
 \alias{model.frame.probit}
 \alias{model.matrix.probit}
 % Document the following:

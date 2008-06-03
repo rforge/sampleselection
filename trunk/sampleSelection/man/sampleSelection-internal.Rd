@@ -1,6 +1,5 @@
 \name{sampleSelection-internal}
 \alias{model.frame.probit}
-\alias{model.matrix.probit}
 % Document the following:
 
 %%%%

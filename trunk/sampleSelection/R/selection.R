@@ -133,11 +133,6 @@ selection <- function(selection, outcome,
                                         # marked as NA, eval returns a
                                         # subframe of visible variables only.
                                         # We have to check it later
-      if( method == "model.frame" ) {
-         mf <- mfS
-         mf <- cbind( mf, mfO[ , ! names( mfO ) %in% names( mf ) ] )
-         return( mf )
-      }
       mtO <- attr(mfO, "terms")
       XO <- model.matrix(mtO, mfO)
       YO <- model.response(mfO, "numeric")
@@ -146,6 +141,11 @@ selection <- function(selection, outcome,
                                         # rows in outcome, which contain NA and are observable -> bad too
       if(print.level > 0) {
          cat(sum(badRow), "invalid observations\n")
+      }
+      if( method == "model.frame" ) {
+         mf <- mfS
+         mf <- cbind( mf, mfO[ , ! names( mfO ) %in% names( mf ) ] )
+         return( mf[ !badRow, ] )
       }
       XS <- XS[!badRow,, drop=FALSE]
       YS <- YS[!badRow]
@@ -217,17 +217,17 @@ selection <- function(selection, outcome,
                                         # eval it as model frame
       names(mf2)[2] <- "formula"
       mf2 <- eval(mf2, parent.frame())
-      if( method == "model.frame" ) {
-         mf <- mfS
-         mf <- cbind( mf, mf1[ , ! names( mf1 ) %in% names( mf ) ] )
-         mf <- cbind( mf, mf2[ , ! names( mf2 ) %in% names( mf ) ] )
-         return( mf )
-      }
       mtO2 <- attr(mf2, "terms")
       XO2 <- model.matrix(mtO2, mf2)
       YO2 <- model.response(mf2, "numeric")
       badRow <- badRow | (is.na(YO2) & (!is.na(YS) & YS == 1))
       badRow <- badRow | (apply(XO2, 1, function(v) any(is.na(v))) & (!is.na(YS) & YS == 1))
+      if( method == "model.frame" ) {
+         mf <- mfS
+         mf <- cbind( mf, mf1[ , ! names( mf1 ) %in% names( mf ) ] )
+         mf <- cbind( mf, mf2[ , ! names( mf2 ) %in% names( mf ) ] )
+         return( mf[ !badRow, ] )
+      }
       ## indices in for the parameter vector.  These are returned in order to provide the user a way
       ## to extract certain components from the coefficients
       NXS <- ncol(XS)
@@ -292,10 +292,10 @@ selection <- function(selection, outcome,
                                                                YO2)), "FALSE"=NULL),
                xo=switch(as.character(xo),
                "TRUE"=switch(as.character(type), "2"=list(XO), "5"=list(XO1, XO2)), "FALSE"=NULL),
-               mfs=switch(as.character(mfs), "TRUE"=list(mfS), "FALSE"=NULL),
+               mfs=switch(as.character(mfs), "TRUE"=list(mfS[!badRow,]), "FALSE"=NULL),
                mfo=switch(as.character(mfs),
-               "TRUE"=switch(as.character(type), "2"=list(mfO), "5"=list(mf1,
-                      mf2), "FALSE"=NULL))
+               "TRUE"=switch(as.character(type), "2"=list(mfO[!badRow,]),
+                  "5"=list(mf1[!badRow,], mf2[!badRow,]), "FALSE"=NULL))
                )
    class( result ) <- class( estimation ) 
    return(result)

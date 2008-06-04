@@ -8,7 +8,8 @@
 }
 
 \usage{
-\method{residuals}{selection}(object, part = "outcome", ... )
+\method{residuals}{selection}(object, part = "outcome",
+   type = "deviance", ... )
 }
 
 \arguments{
@@ -16,6 +17,9 @@
    \item{part}{character string indication which residuals to extract:
       "outcome" for the fitted values of the outcome equation(s) or
       "selection" for the fitted values of the selection equation.}
+   \item{type}{the type of residuals of the selection equation.
+      The alternatives are: "deviance" (default), "pearson", and "response"
+      (see \code{\link{residuals.probit}}).}
    \item{\dots}{further arguments passed to other methods
       (e.g. \code{\link{residuals.probit}} or \code{\link{residuals}}).}
 }

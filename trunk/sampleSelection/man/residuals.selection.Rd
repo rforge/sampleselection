@@ -23,13 +23,21 @@
    \item{\dots}{further arguments passed to other methods
       (e.g. \code{\link{residuals.probit}} or \code{\link{residuals}}).}
 }
+
+\details{
+   The calculation of the fitted values
+   that are used to calculate the residuals
+   is described in the details section of the documentation
+   of \code{\link{fitted.selection}}.
+}
+
 \value{
    A numeric vector of the residuals.
 }
 
 \author{Arne Henningsen \email{ahenningsen@agric-econ.uni-kiel.de}}
 
-\seealso{\code{\link{selection}},
+\seealso{\code{\link{selection}}, \code{\link{fitted.selection}},
    \code{\link{residuals}}, and \code{\link{residuals.probit}}}
 
 \keyword{methods}

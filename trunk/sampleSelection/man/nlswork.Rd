@@ -66,4 +66,12 @@ National Longitudinal Survey. Young Women 14-26 years of age in 1968,
 \url{http://fmwww.bc.edu/ec-p/data/stata/nlswork.dta}.
 }
 
+\examples{
+data( "nlswork" )
+library( "plm" )
+nlswork <- plm.data( nlswork, c( "idcode", "year" ) )
+plmResult <- plm( ln_wage ~ union + age + grade + not_smsa + south + occ_code,
+   data = nlswork, model = "random" )
+}
+
 \keyword{datasets}

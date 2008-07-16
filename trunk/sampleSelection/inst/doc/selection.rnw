@@ -1,5 +1,5 @@
-\documentclass[article]{jss}
-\usepackage{amsmath,amssymb,bbm,thumbpdf}
+\documentclass[article,nojss]{jss}
+\usepackage{amsmath,amssymb,bbm}
 %% need no \usepackage{Sweave.sty}
 
 \newcommand{\dnorm}{\phi}% normal density
@@ -16,7 +16,11 @@
 \Plaintitle{Sample Selection Models in R: Package sampleSelection}
 
 \Abstract{ 
-\  This paper describes the implementation of Heckman-type sample
+  This introduction to the \proglang{R} package \pkg{sampleSelection} 
+  is a slightly modified version of \cite{toomet08}, 
+  published in the \emph{Journal of Statistical Software}.
+
+   This paper describes the implementation of Heckman-type sample
   selection models in \proglang{R}.  We discuss the sample selection
   problem as well as the Heckman solution to it, and argue that
   although modern econometrics has non- and semiparametric estimation
@@ -32,13 +36,6 @@
 
 \Keywords{sample selection models, Heckman selection models, econometrics, \proglang{R}}
 \Plainkeywords{sample selection models, Heckman selection models, econometrics, R}
-
-\Volume{27}
-\Issue{7}
-\Month{July}
-\Year{2008}
-\Submitdate{2007-05-01}
-\Acceptdate{2008-06-06}
 
 \Address{
   Ott Toomet\\
@@ -60,8 +57,13 @@
 }
 
 \begin{document}
+% initialisation stuff
+\SweaveOpts{engine=R}
+%\VignetteIndexEntry{Sample Selection Models}
+%\VignetteDepends{sampleSelection,mvtnorm}
+%\VignetteKeywords{{sample selection models, Heckman selection models, econometrics, R}
+%\VignettePackage{sampleSelection}
 <<echo=FALSE>>=
-## initialisation stuff
 options( prompt = "R> ", ctinue = "+  " )
 @ 
 

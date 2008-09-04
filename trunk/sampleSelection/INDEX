@@ -9,13 +9,23 @@ heckitVcov              Heckit Variance Covariance Matrix
 invMillsRatio           Inverse Mill's Ratio of probit models
 linearPredictors        Calculates linear predictors for different
                         models
+<<<<<<< .mine
+model.frame.selection   Data of Selection Models
+model.matrix.selection
+                        Design Matrix of Selection Models
+=======
 model.frame.probit      Data of Probit Models
 model.frame.selection   Data of Selection Models
 model.matrix.probit     Design Matrix of Probit Models
 model.matrix.selection
                         Design Matrix of Selection Models
+<<<<<<< .mine
+>>>>>>> .r765
+Mroz87                  U.S. Women's Labor Force Participation
+=======
 nlswork                 National Longitudinal Survey of Young Working
                         Women
+>>>>>>> .r935
 probit                  Probit binary choice model
 residuals.probit        Residuals of probit models
 residuals.selection     Residuals of Selection Models

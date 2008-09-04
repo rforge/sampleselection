@@ -1,5 +1,5 @@
 
-R version 2.7.0 (2008-04-22)
+R version 2.7.2 (2008-08-25)
 Copyright (C) 2008 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -9285,7 +9285,7 @@ sigma2  0.99800    0.04797  20.806 < 2e-16 ***
 rho1    0.90346    0.02630  34.350 < 2e-16 ***
 rho2    0.47218    0.15987   2.953 0.00314 ** 
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > print( coef( testTobit5Ml ), digits = 5 )
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
@@ -24136,7 +24136,7 @@ Coefficients:
 Now run tobit5 without intercepts
 > print(coef(selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1))))
     S:  O1:xo1  sigma1    rho1  O2:xo2  sigma2    rho2  
--1.032  -0.390   2.455   1.000   0.848   0.988   0.497  
+-0.964  -0.338   2.404   1.000   0.851   0.988   0.500  
 > # return just the model.frame
 > selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1 ),
 +    method = "model.frame" )
@@ -25665,7 +25665,7 @@ invMillsRatio  -0.8714     0.2381   -3.66 0.000261 ***
 sigma           1.0458         NA      NA       NA    
 rho            -0.8333         NA      NA       NA    
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > print( coef( testTobit2TwoStep ), digits = 5 )
 S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio  
@@ -32164,7 +32164,7 @@ Error terms:
 sigma  1.01254    0.03672   27.57  <2e-16 ***
 rho   -0.77910    0.04533  -17.19  <2e-16 ***
 ---
-Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > print( coef( testTobit2Ml ), digits = 5 )
 S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma  
@@ -45636,4 +45636,43 @@ Now run tobit2 without intercepts
 1498 FALSE 0.091045262  0.000000000 7.17723e-01
 1499  TRUE 0.002380339 -0.133651717 5.65243e-01
 1500 FALSE 0.342000945  0.000000000 7.15973e-01
+> 
+> # NA-s in data frames (Nelson Villoria)
+> vc <- diag(2)
+> vc[2,1] <- vc[1,2] <- -0.8
+> eps <- rmvnorm(N, rep(0, 2), vc)
+> xs <- runif(N)
+> ys <- xs + eps[,1] > 0
+> xo <- runif(N)
+> yo <- (xo + eps[,2])*(ys > 0)
+> xs[sample(N, NNA)] <- NA
+> ys[sample(N, NNA)] <- NA
+> xo[sample(N, NNA)] <- NA
+> yo[sample(N, NNA)] <- NA
+> data <- data.frame(ys, xs, yo, xo)
+> rm(eps, xs, ys, xo, yo)
+> testTobit2ML <- selection(ys~xs, yo ~xo, data=data, method="ml")
+> print(summary(testTobit2ML))
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+Newton-Raphson maximisation, 3 iterations
+Return code 1: gradient close to zero. May be a solution
+Log-Likelihood: -2113.9 
+1482 observations (483 censored and 999 observed) and 6 free parameters (df = 1476)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept) 0.009442   0.058022   0.163    0.87    
+xs          0.931581   0.103798   8.975  <2e-16 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)  0.10714    0.06606   1.622   0.105    
+xo           0.84520    0.08785   9.621  <2e-16 ***
+Error terms:
+      Estimate Std. error t value Pr(> t)    
+sigma  1.01501    0.03783   26.83  <2e-16 ***
+rho   -0.82752    0.03932  -21.05  <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+--------------------------------------------
 > 

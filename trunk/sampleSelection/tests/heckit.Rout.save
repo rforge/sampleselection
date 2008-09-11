@@ -118,13 +118,15 @@ Return code 1: gradient close to zero. May be a solution
 Log-Likelihood: -490.848 
 753 observations (325 zeros and 428 ones) and 6 free parameters (df = 747)
 Estimates:
-                  Estimate  Std. error  t value     Pr(> t)
-XS(Intercept) -4.15681e+00 1.40209e+00 -2.96473 0.003029483
-XSage          1.85395e-01 6.59667e-02  2.81044 0.004947438
-XSI(age^2)    -2.42590e-03 7.73540e-04 -3.13610 0.001712131
-XSfaminc       4.58045e-06 4.20642e-06  1.08892 0.276189979
-XSkidsTRUE    -4.48987e-01 1.30911e-01 -3.42970 0.000604256
-XSeduc         9.81823e-02 2.29841e-02  4.27174 0.000019395
+                Estimate Std. error t value  Pr(> t)    
+XS(Intercept) -4.157e+00  1.402e+00  -2.965 0.003029 ** 
+XSage          1.854e-01  6.597e-02   2.810 0.004947 ** 
+XSI(age^2)    -2.426e-03  7.735e-04  -3.136 0.001712 ** 
+XSfaminc       4.580e-06  4.206e-06   1.089 0.276190    
+XSkidsTRUE    -4.490e-01  1.309e-01  -3.430 0.000604 ***
+XSeduc         9.818e-02  2.298e-02   4.272 1.94e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 Significance test:
 chi2(5) = 48.0507 (p=3.46824e-09)
 --------------------------------------------
@@ -4181,15 +4183,17 @@ Return code 1: gradient close to zero. May be a solution
 Log-Likelihood: -401.302 
 753 observations (325 zeros and 428 ones) and 8 free parameters (df = 745)
 Estimates:
-                 Estimate  Std. error   t value     Pr(> t)
-XS(Intercept)  0.27007677 0.508593036  0.531027 5.95400e-01
-XSnwifeinc    -0.01202374 0.004839838 -2.484327 1.29797e-02
-XSeduc         0.13090473 0.025254196  5.183485 2.17778e-07
-XSexper        0.12334759 0.018716402  6.590348 4.38798e-11
-XSI(exper^2)  -0.00188708 0.000599986 -3.145205 1.65970e-03
-XSage         -0.05285267 0.008477240 -6.234656 4.52772e-10
-XSkids5       -0.86832851 0.118522311 -7.326287 2.36616e-13
-XSkids618      0.03600496 0.043476788  0.828142 4.07590e-01
+               Estimate Std. error t value  Pr(> t)    
+XS(Intercept)  0.270077   0.508593   0.531  0.59540    
+XSnwifeinc    -0.012024   0.004840  -2.484  0.01298 *  
+XSeduc         0.130905   0.025254   5.183 2.18e-07 ***
+XSexper        0.123348   0.018716   6.590 4.39e-11 ***
+XSI(exper^2)  -0.001887   0.000600  -3.145  0.00166 ** 
+XSage         -0.052853   0.008477  -6.235 4.53e-10 ***
+XSkids5       -0.868328   0.118522  -7.326 2.37e-13 ***
+XSkids618      0.036005   0.043477   0.828  0.40759    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 Significance test:
 chi2(7) = 227.142 (p=2.00867e-45)
 --------------------------------------------

@@ -65,24 +65,24 @@ Tobit 2 model (sample selection model)
 2-step Heckman / heckit estimation
 753 observations (325 censored and 428 observed) and 14 free parameters (df = 740)
 Probit selection equation:
-              Estimate Std. Error t value Pr(>|t|)    
-(Intercept) -4.157e+00  1.402e+00  -2.965 0.003127 ** 
-age          1.854e-01  6.597e-02   2.810 0.005078 ** 
-I(age^2)    -2.426e-03  7.735e-04  -3.136 0.001780 ** 
-faminc       4.580e-06  4.206e-06   1.089 0.276544    
-kidsTRUE    -4.490e-01  1.309e-01  -3.430 0.000638 ***
-educ         9.818e-02  2.298e-02   4.272 2.19e-05 ***
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -4.16e+00   1.40e+00   -2.96  0.00313 ** 
+age          1.85e-01   6.60e-02    2.81  0.00508 ** 
+I(age^2)    -2.43e-03   7.74e-04   -3.14  0.00178 ** 
+faminc       4.58e-06   4.21e-06    1.09  0.27654    
+kidsTRUE    -4.49e-01   1.31e-01   -3.43  0.00064 ***
+educ         9.82e-02   2.30e-02    4.27  2.2e-05 ***
 Outcome equation:
-              Estimate Std. Error t value Pr(>|t|)    
-(Intercept) -0.9712003  2.0593505  -0.472    0.637    
-exper        0.0210610  0.0624646   0.337    0.736    
-I(exper^2)   0.0001371  0.0018782   0.073    0.942    
-educ         0.4170174  0.1002497   4.160 3.56e-05 ***
-city         0.4438379  0.3158984   1.405    0.160    
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -0.971200   2.059351   -0.47     0.64    
+exper        0.021061   0.062465    0.34     0.74    
+I(exper^2)   0.000137   0.001878    0.07     0.94    
+educ         0.417017   0.100250    4.16  3.6e-05 ***
+city         0.443838   0.315898    1.41     0.16    
 Multiple R-Squared:0.126,	Adjusted R-Squared:0.116
 Error terms:
               Estimate Std. Error t value Pr(>|t|)
-invMillsRatio   -1.098      1.266  -0.867    0.386
+invMillsRatio   -1.098      1.266   -0.87     0.39
 sigma            3.200         NA      NA       NA
 rho             -0.343         NA      NA       NA
 --------------------------------------------
@@ -4128,27 +4128,27 @@ Tobit 2 model (sample selection model)
 2-step Heckman / heckit estimation
 753 observations (325 censored and 428 observed) and 15 free parameters (df = 739)
 Probit selection equation:
-             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  0.270077   0.508593   0.531  0.59556    
-nwifeinc    -0.012024   0.004840  -2.484  0.01320 *  
-educ         0.130905   0.025254   5.183 2.81e-07 ***
-exper        0.123348   0.018716   6.590 8.34e-11 ***
-I(exper^2)  -0.001887   0.000600  -3.145  0.00173 ** 
-age         -0.052853   0.008477  -6.235 7.61e-10 ***
-kids5       -0.868328   0.118522  -7.326 6.21e-13 ***
-kids618      0.036005   0.043477   0.828  0.40786    
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  0.27008    0.50859    0.53   0.5956    
+nwifeinc    -0.01202    0.00484   -2.48   0.0132 *  
+educ         0.13090    0.02525    5.18  2.8e-07 ***
+exper        0.12335    0.01872    6.59  8.3e-11 ***
+I(exper^2)  -0.00189    0.00060   -3.15   0.0017 ** 
+age         -0.05285    0.00848   -6.23  7.6e-10 ***
+kids5       -0.86833    0.11852   -7.33  6.2e-13 ***
+kids618      0.03601    0.04348    0.83   0.4079    
 Outcome equation:
-              Estimate Std. Error t value Pr(>|t|)    
-(Intercept) -0.5781032  0.3050062  -1.895  0.05843 .  
-educ         0.1090655  0.0155230   7.026 4.83e-12 ***
-exper        0.0438873  0.0162611   2.699  0.00712 ** 
-I(exper^2)  -0.0008591  0.0004389  -1.957  0.05068 .  
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -0.578103   0.305006   -1.90   0.0584 .  
+educ         0.109066   0.015523    7.03  4.8e-12 ***
+exper        0.043887   0.016261    2.70   0.0071 ** 
+I(exper^2)  -0.000859   0.000439   -1.96   0.0507 .  
 Multiple R-Squared:0.157,	Adjusted R-Squared:0.149
 Error terms:
               Estimate Std. Error t value Pr(>|t|)
-invMillsRatio  0.03226    0.13362   0.241     0.81
-sigma          0.66363         NA      NA       NA
-rho            0.04861         NA      NA       NA
+invMillsRatio   0.0323     0.1336    0.24     0.81
+sigma           0.6636         NA      NA       NA
+rho             0.0486         NA      NA       NA
 --------------------------------------------
 > print( summary( wooldridge$lm ) )
 
@@ -9013,26 +9013,26 @@ Tobit 5 model (switching regression model)
 500 observations (162 selection 1 and 338 selection 2) and 12 free parameters (df = 490)
 Probit selection equation:
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  0.02669    0.11159   0.239    0.811    
-xs           0.87546    0.19605   4.465 9.93e-06 ***
+(Intercept)   0.0267     0.1116    0.24     0.81    
+xs            0.8755     0.1961    4.47    1e-05 ***
 Outcome equation 1:
             Estimate Std. Error t value Pr(>|t|)
-(Intercept)  0.06649         NA      NA       NA
-xo1          0.91807         NA      NA       NA
+(Intercept)   0.0665         NA      NA       NA
+xo1           0.9181         NA      NA       NA
 Multiple R-Squared:0.25,	Adjusted R-Squared:0.241
 Outcome equation 2:
             Estimate Std. Error t value Pr(>|t|)
-(Intercept)  0.02421         NA      NA       NA
-xo2          1.04566         NA      NA       NA
+(Intercept)   0.0242         NA      NA       NA
+xo2           1.0457         NA      NA       NA
 Multiple R-Squared:0.091,	Adjusted R-Squared:0.085
 Error terms:
                Estimate Std. Error t value Pr(>|t|)
-invMillsRatio1  -0.9268         NA      NA       NA
-invMillsRatio2   0.2230         NA      NA       NA
-sigma1           0.8958         NA      NA       NA
-sigma2           0.9763         NA      NA       NA
-rho1             0.9900         NA      NA       NA
-rho2             0.2284         NA      NA       NA
+invMillsRatio1   -0.927         NA      NA       NA
+invMillsRatio2    0.223         NA      NA       NA
+sigma1            0.896         NA      NA       NA
+sigma2            0.976         NA      NA       NA
+rho1              0.990         NA      NA       NA
+rho2              0.228         NA      NA       NA
 --------------------------------------------
 > print( coef( heckit5test ), digits = 5 )
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  

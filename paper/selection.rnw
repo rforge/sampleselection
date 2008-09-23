@@ -1260,7 +1260,7 @@ the two-step estimator is preferable.
 
 \section*{Acknowledgments}
 
-The authors thank Roger Koenker and two anonymous referees
+The authors thank Roger Koenker, Achim Zeileis, and two anonymous referees
 for helpful comments and suggestions.
 Ott Toomet is grateful to the project TMJRI 0525 2003-2007 of the
 Estonian Ministry of Education and Science.

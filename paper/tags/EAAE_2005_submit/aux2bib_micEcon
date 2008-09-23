@@ -1,2 +1,0 @@
-aux2bib micEcon.aux
-mv references.bib micEcon.bib

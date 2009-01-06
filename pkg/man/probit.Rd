@@ -50,8 +50,10 @@ probit(formula, subset, na.action, start = NULL, data = sys.frame(sys.parent()),
   \item{LRT}{Likelihood ration test.  The full model is tested against
     H0: the parameters have no effect on the result.  This is a list
     with components
+    \itemize{
     \item{LRT}{The LRT value}
     \item{df}{Degrees of freedom for LRT (= df of the model - 1)}
+    }
     LRT is distributed by chi2(df) under H0.}
   \item{nParam}{Number of parameters of the model including constant}
   \item{nObs}{Number of the observations}

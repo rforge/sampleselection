@@ -2,9 +2,9 @@ Package: sampleSelection
 Version: 0.6-3
 Date: 2008/09/16
 Title: Sample Selection Models
-Author: Arne Henningsen <ahenningsen@agric-econ.uni-kiel.de>,
+Author: Arne Henningsen <arne.henningsen@googlemail.com>,
    Ott Toomet <otoomet@ut.ee>
-Maintainer: Arne Henningsen <ahenningsen@agric-econ.uni-kiel.de>
+Maintainer: Arne Henningsen <arne.henningsen@googlemail.com>
 Depends: R (>= 2.4.0), maxLik (>= 0.5-1), systemfit (>= 1.0-0)
 Suggests: VGAM, mvtnorm, plm
 Description: Estimation of Sample Selection Models

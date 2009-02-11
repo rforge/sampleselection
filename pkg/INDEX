@@ -25,5 +25,6 @@ sampleSelection-deprecated
 selection               Heckman-style selection models
 summary.probit          Summarizing Probit Estimations
 summary.selection       Summarizing Selection Estimations
+tobitBayes              Bayesian Tobit Estimation
 vcov.probit             Variance Covariance Matrix of probit models
 vcov.selection          Extract Variance Covariance Matrix

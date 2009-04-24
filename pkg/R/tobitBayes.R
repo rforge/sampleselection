@@ -47,7 +47,7 @@ tobitBayes <- function( formula, data, nRep = 500, nBurn = 100, ... ) {
    s2nu <- plmStart$sigma2$id
    # variance of the idiosyncratic error
    s2eps <- plmStart$sigma2$idios
-   # individual effects
+                                        # individual effects
    effInd <- yCens - drop( xMat %*% beta ) - residuals( plmStart )
 
    # prepare formula for estimation with simulated dependent variable

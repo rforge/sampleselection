@@ -77,13 +77,13 @@ print.summary.selection <- function(x,
    if(!is.null(x$estimate)) {
       cat( x$param$nObs, "observations" )
       if( x$tobitType == 2 ) {
-         cat( " (", x$param$N0, " censored and ", x$param$N1, " observed)",
+         cat( " (", x$param$N0, " censored and ", x$param$N1, " observed)\n",
             sep = "" )
       } else {
-         cat( " (", x$param$N1, " selection 1 and ",
-            x$param$N2, " selection 2)", sep = "" )
+         cat( ": ", x$param$N1, " selection 1 (", x$param$levels[1], ") and ",
+            x$param$N2, " selection 2 (", x$param$levels[2], ")\n", sep = "" )
       }
-      cat( " and", x$param$nParam, "free parameters" )
+      cat( x$param$nParam, "free parameters" )
       cat( " (df = ", x$param$df, ")\n", sep="")
       if(part == "full") {
          cat("Probit selection equation:\n")

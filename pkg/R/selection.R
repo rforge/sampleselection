@@ -185,7 +185,10 @@ selection <- function(selection, outcome,
                     NXS=ncol(XS), NXO=ncol(XO),
                     N0=sum(YS==0), N1=sum(YS==1),
                     nObs=length(YS), nParam=length(start),
-                    df=length(YS) - length(start))
+                    df=length(YS) - length(start),
+                    levels=YSLevels
+                           # levels[1]: selection 1; levels[2]: selection 2
+                    )
    }
    else if(type == 5) {
       ## extract the outcome formulas.  Anyone able to explain why do we need to do the complicated stuff?
@@ -288,7 +291,10 @@ selection <- function(selection, outcome,
                     NXO1=ncol(XO1), NXO2=ncol(XO2),
                     N1=sum(YS==0), N2=sum(YS==1),
                     nObs=length(YS), nParam=length(start),
-                    df=length(YS) - length(start))
+                    df=length(YS) - length(start),
+                    levels=YSLevels
+                           # levels[1]: selection 1; levels[2]: selection 2
+                    )
    }
    ## now fit the model
    result <- c(estimation,

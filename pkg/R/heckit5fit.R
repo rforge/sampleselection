@@ -47,7 +47,7 @@ heckit5fit <- function(selection, outcome1, outcome2,
                                         # selection kept as integer internally
    names( YS ) <- ysNames
 
-   ## check for NA-s.  Because we have to find NA-s in several frames, we cannot use the standard na.
+   ## check for NA-s.  Because we have to find NA-s in several frames, we cannot use the standard 'na.'
    ## functions here.  Find bad rows and remove them later.
    badRow <- is.na(YS)
    badRow <- badRow | apply(XS, 1, function(v) any(is.na(v)))
@@ -254,7 +254,10 @@ heckit5fit <- function(selection, outcome1, outcome2,
                                         # The location of results in the coef vector
                  oIntercept1=intercept1, oIntercept2=intercept2,
                  nObs=nObs, nParam=nParam, df=nObs-nParam + 2,
-                 NXS=NXS, NXO1=NXO1, NXO2=NXO2, N1=N1, N2=N2)
+                 NXS=NXS, NXO1=NXO1, NXO2=NXO2, N1=N1, N2=N2,
+                 levels=YSLevels
+                           # levels[1]: selection 1; levels[2]: selection 2
+                 )
    #
    result <- list(probit=probitResult,
                   lm1=lm1,

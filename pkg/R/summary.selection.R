@@ -66,8 +66,8 @@ print.summary.selection <- function(x,
    }
    if( x$method == "ml" ) {
       cat( "Maximum Likelihood estimation\n" )
-      cat(x$type, ", ", x$iterations, " iterations\n", sep="")
-      cat("Return code ", x$code, ": ", x$message, "\n", sep="")
+      cat(maximType(x), ", ", nIter(x), " iterations\n", sep="")
+      cat("Return code ", returnCode(x), ": ", returnMessage(x), "\n", sep="")
       if(!is.null(x$estimate)) {
          cat("Log-Likelihood:", logLik(x), "\n")
       }

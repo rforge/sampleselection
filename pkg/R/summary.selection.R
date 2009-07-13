@@ -2,7 +2,7 @@ summary.selection <- function(object, ...) {
    ## object      object of class "selection"
 
    if( object$method == "ml" ) {
-      s <- summary.maxLik(object, ...)
+      s <- maxLik:::summary.maxLik(object, ...)
    } else if( object$method == "2step" )  {
       s <- list()  # list for results that will be returned
       RSq <- function(model, intercept) {

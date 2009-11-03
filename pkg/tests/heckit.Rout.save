@@ -1,5 +1,5 @@
 
-R version 2.9.0 (2009-04-17)
+R version 2.10.0 (2009-10-26)
 Copyright (C) 2009 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
@@ -20,19 +20,6 @@ Loading required package: maxLik
 Loading required package: systemfit
 Loading required package: Matrix
 Loading required package: lattice
-
-Attaching package: 'Matrix'
-
-
-	The following object(s) are masked from package:stats :
-
-	 xtabs 
-
-
-	The following object(s) are masked from package:base :
-
-	 rcond 
-
 Loading required package: car
 Loading required package: lmtest
 Loading required package: zoo
@@ -122,7 +109,7 @@ Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 4 iterations
 Return code 1: gradient close to zero. May be a solution
 Log-Likelihood: -490.848 
-Model: Y == 1 in contrary to 0 
+Model: Y == '1' in contrary to '0'
 753 observations (325 'negative' and 428 'positive') and 6 free parameters (df = 747)
 Estimates:
                 Estimate Std. error t value  Pr(> t)    
@@ -4190,7 +4177,7 @@ Newton-Raphson maximisation, 5 iterations
 Return code 2: successive function values within tolerance limit.
 May be a solution
 Log-Likelihood: -401.302 
-Model: Y == 1 in contrary to 0 
+Model: Y == '1' in contrary to '0'
 753 observations (325 'negative' and 428 'positive') and 8 free parameters (df = 745)
 Estimates:
                Estimate Std. error t value  Pr(> t)    

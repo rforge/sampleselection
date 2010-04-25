@@ -1,6 +1,6 @@
 
-R version 2.10.1 (2009-12-14)
-Copyright (C) 2009 The R Foundation for Statistical Computing
+R version 2.11.0 (2010-04-22)
+Copyright (C) 2010 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -20,6 +20,13 @@ Loading required package: maxLik
 Loading required package: systemfit
 Loading required package: Matrix
 Loading required package: lattice
+
+Attaching package: 'Matrix'
+
+The following object(s) are masked from 'package:base':
+
+    det, norm
+
 Loading required package: car
 Loading required package: lmtest
 Loading required package: zoo
@@ -99,7 +106,7 @@ F-statistic:  139 on 6 and 422 DF,  p-value: <2e-16
 --------------------------------------------
 Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 4 iterations
-Return code 1: gradient close to zero. May be a solution
+Return code 1: gradient close to zero
 Log-Likelihood: -490.848 
 Model: Y == '1' in contrary to '0'
 753 observations (325 'negative' and 428 'positive') and 6 free parameters (df = 747)
@@ -4166,7 +4173,7 @@ F-statistic:  288 on 5 and 423 DF,  p-value: <2e-16
 --------------------------------------------
 Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 5 iterations
-Return code 1: gradient close to zero. May be a solution
+Return code 1: gradient close to zero
 Log-Likelihood: -401.302 
 Model: Y == '1' in contrary to '0'
 753 observations (325 'negative' and 428 'positive') and 8 free parameters (df = 745)

@@ -25,7 +25,7 @@ Attaching package: 'Matrix'
 
 The following object(s) are masked from 'package:base':
 
-    det, norm
+    det
 
 Loading required package: car
 Loading required package: lmtest

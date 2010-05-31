@@ -9,8 +9,8 @@ export( "tobit2fit" )
 export( "tobit5fit" )
 export( "linearPredictors" )
 
-importFrom( "maxLik", "nObs" )
 importFrom( "miscTools", "coefTable" )
+importFrom( "miscTools", "nObs" )
 
 S3method( "coef", "selection" )
 S3method( "coef", "summary.selection" )

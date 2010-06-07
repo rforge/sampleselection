@@ -24,4 +24,5 @@ sampleSelection-deprecated
 selection               Heckman-style selection models
 summary.probit          Summarizing Probit Estimations
 summary.selection       Summarizing Selection Estimations
+tobit                   Censored Regression (Tobit) Model
 vcov.selection          Extract Variance Covariance Matrix

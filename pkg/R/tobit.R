@@ -91,7 +91,32 @@ tobit <- function( formula, left = 0, right = Inf,
       return( ll )
    }
 
-   result <- maxLik( tobitLogLik, start = start, ... )
+   ## gradients of log likelihood function
+   tobitLogLikGrad <- function( beta ) {
+      yHat <- xMat %*% beta[ - length( beta ) ]
+      sigma <- exp( beta[ length( beta ) ] )
+      grad <- matrix( NA, nrow = length( yVec ), ncol = length( beta ) )
+      grad[ yVec <= left, ] <-
+         dnorm( ( left - yHat[ yVec <= left ] ) / sigma ) /
+         pnorm( ( left - yHat[ yVec <= left ] ) / sigma ) *
+         cbind( - xMat[ yVec <= left, , drop = FALSE ] / sigma,
+            - ( left - yHat[ yVec <= left ] ) / sigma )
+      grad[ yVec > left & yVec < right, ] <-
+         ddnorm( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma ) /
+         dnorm( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma ) *
+         cbind(  - xMat[ yVec > left & yVec < right, , drop = FALSE ] / sigma,
+            - ( yVec - yHat )[ yVec > left & yVec < right ] / sigma )
+      grad[ yVec > left & yVec < right, length( beta ) ] <-
+         grad[ yVec > left & yVec < right, length( beta ) ] - 1
+      grad[ yVec >= right, ] <-
+         dnorm( ( yHat[ yVec >= right ] - right ) / sigma ) /
+         pnorm( ( yHat[ yVec >= right ] - right ) / sigma ) *
+         cbind( xMat[ yVec >= right, , drop = FALSE ] / sigma,
+            - ( yHat[ yVec >= right ] - right ) / sigma )
+      return( grad )
+   }
+
+   result <- maxLik( tobitLogLik, tobitLogLikGrad, start = start, ... )
 
    class( result ) <- c( "tobit", class( result ) )
    return( result )

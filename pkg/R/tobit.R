@@ -67,7 +67,7 @@ tobit <- function( formula, left = 0, right = Inf,
       # OLS estimation for starting values
       ols <- lm.fit( xMat, yVec )
       start <- c( ols$coefficients,
-         logSigma = log( sum( ols$residuals^2 ) / length( ols$residuals ) ) )
+         log( sum( ols$residuals^2 ) / length( ols$residuals ) ) )
    } else {
       if( !is.numeric( start ) ) {
          stop( "argument 'start' must be numeric" )
@@ -75,6 +75,7 @@ tobit <- function( formula, left = 0, right = Inf,
          stop( "argument 'start' must have length ", nParam )
       }
    }
+   names( start ) <- c( colnames( xMat ), "logSigma" )
 
    ## log likelihood function
    tobitLogLik <- function( beta ) {

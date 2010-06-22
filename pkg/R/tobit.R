@@ -103,8 +103,7 @@ tobit <- function( formula, left = 0, right = Inf,
          cbind( - xMat[ yVec <= left, , drop = FALSE ] / sigma,
             - ( left - yHat[ yVec <= left ] ) / sigma )
       grad[ yVec > left & yVec < right, ] <-
-         ddnorm( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma ) /
-         dnorm( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma ) *
+         - ( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma ) *
          cbind(  - xMat[ yVec > left & yVec < right, , drop = FALSE ] / sigma,
             - ( yVec - yHat )[ yVec > left & yVec < right ] / sigma )
       grad[ yVec > left & yVec < right, length( beta ) ] <-

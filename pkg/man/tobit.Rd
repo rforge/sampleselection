@@ -69,13 +69,13 @@ tobit( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
 \seealso{\code{\link[AER]{tobit}}, \code{\link{selection}}}
 
 \examples{
-## Kleiber & Zeilei( 2008 ), page 142
+## Kleiber & Zeileis ( 2008 ), page 142
 data( "Affairs", package = "AER" )
 tobitResult <- tobit( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs )
 summary( tobitResult )
 
-## Kleiber & Zeilei( 2008 ), page 143
+## Kleiber & Zeileis ( 2008 ), page 143
 tobitResultBoth <- tobit( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs, right = 4 )
 summary( tobitResultBoth )

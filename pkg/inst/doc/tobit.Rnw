@@ -275,7 +275,7 @@ cbind( coef( tobitResult ), coef( tobitResultMinus ) )
 The censored regression model for panel data
 with individual specific effects has following specification:
 \begin{align}
-y_{it}^* &= x_i ' \beta + \varepsilon_{it} =  x_i ' \beta + \mu_{i} + \eta_{it} \\
+y_{it}^* &= x_i ' \beta + \varepsilon_{it} =  x_i ' \beta + \mu_{i} + \nu_{it} \\
 y_{it} &=
    \begin{cases}
    a        & \text{if } y_{it}^* \leq a\\
@@ -286,7 +286,7 @@ y_{it} &=
 Here the subscript $i = 1, \ldots , N$ indicates the individual,
 subscript $t = 1, \ldots , T_i$ indicates the time period,
 $\mu_i$ is a time-invariant individual specific effect,
-and $\eta_{it}$ is the remaining disturbance.
+and $\nu_{it}$ is the remaining disturbance.
 
 
 \subsection{Fixed effects}
@@ -303,22 +303,22 @@ the parameters can be consistently estimated with a random effects model.
 Assuming
 that the individual specific effects $\mu$ follow a normal distribution
 with mean $0$ and variance $\sigma_\mu^2$,
-that the remaining disturbance $\eta$ follows a normal distribution
-with mean $0$ and variance $\sigma_\eta^2$, and
-that $\mu$ and $\eta$ are independent,
+that the remaining disturbance $\nu$ follows a normal distribution
+with mean $0$ and variance $\sigma_\nu^2$, and
+that $\mu$ and $\nu$ are independent,
 the likelihood contributiom of a single individual $i$ is
 \begin{align}
 L_i  = \int_{-\infty}^\infty
    \Bigg\{ \prod_{t=1}^{T_i} \;&
       \left[
-         \pnorm \left( \frac{ a - x_i ' \beta - \mu_i }{ \sigma_\eta } \right)
+         \pnorm \left( \frac{ a - x_i ' \beta - \mu_i }{ \sigma_\nu } \right)
       \right]^{I_i^a}
       \left[
-         \pnorm \left( \frac{ x_i ' \beta + \mu_i - b }{ \sigma_\eta } \right)
+         \pnorm \left( \frac{ x_i ' \beta + \mu_i - b }{ \sigma_\nu } \right)
       \right]^{I_i^b}\\
       & \left[
-         \frac{1}{\sigma_\eta}
-         \dnorm \left( \frac{ y_i - x_i ' \beta - \mu_i }{ \sigma_\eta } \right)
+         \frac{1}{\sigma_\nu}
+         \dnorm \left( \frac{ y_i - x_i ' \beta - \mu_i }{ \sigma_\nu } \right)
       \right]^{\left( 1 - I_i^a - I_i^b \right)}
    \Bigg\} \; \dnorm \left( \frac{\mu_i}{\sigma_\mu} \right) \; d \mu_i
       \nonumber

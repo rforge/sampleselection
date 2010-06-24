@@ -74,6 +74,19 @@ describes function \code{tobit} of the \proglang{R} package
 and demonstrates how this function can be used
 to estimate censored regression models.
 
+There are also some other functions for estimating censored regression models
+available in \proglang{R}.
+For instance function \code{tobit} from the \pkg{AER} package
+\citep{kleiber08a,r-aer-1.1}
+and function \code{cenmle} from the \pkg{NADA} package
+are front ends to the \code{survreg} function from the \pkg{survival} package.
+Function \code{tobit} from the \pkg{VGAM} package
+estimates the censored regression model
+by using its own maximum likelihood routine.
+Function \code{MCMCtobit} from the \pkg{MCMCpack} package
+uses the Bayesian Markov Chain Monte Carlo (MCMC) method
+to estimate censored regression models.
+
 
 \section{Censored regression model for cross-sectional data}
 \label{sec:censored}

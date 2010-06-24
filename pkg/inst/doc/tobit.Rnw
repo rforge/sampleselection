@@ -329,6 +329,17 @@ and the log-likelihood function is
 \end{equation}
 \citep[see][p.~2]{bruno04}.
 
+Given that we assumed that $\mu$ follows a normal distribution,
+we can calculate the integrals in the log-likelihood function
+by the Gauss-Hermite quadrature and then maximise the log-likelihood function
+using standard non-linear optimisation algorithms
+\citep[see][]{butler82}.
+
+Alternatively, the log-likelihood function can be maximized
+usind the method of Maximum Simulated Likelihood (MSL),
+which allows some flexibility in the specification
+of the error terms \citep[p.~799]{greene08}.
+
 
 % \section{Conclusions}
 % \label{sec:conclusions}

@@ -104,7 +104,7 @@ y_i &=
    y_i^* & \text{if } y_i^* > 0
    \end{cases}
 \end{align}
-Here the subscript $i$ indicates the observation,
+Here the subscript $i = 1, \ldots , N$ indicates the observation,
 $y_i^*$ is an unobserved (§latent§) variable,
 $x_i$ is a vector of explanatory variables,
 $\beta$ is a vector of unknown parameters, and
@@ -264,6 +264,70 @@ but the (logarithmised) standard error of the residuals remains unchanged.
 <<>>=
 cbind( coef( tobitResult ), coef( tobitResultMinus ) )
 @
+
+
+
+\section{Censored regression model for panel data}
+\label{sec:panel}
+
+\subsection{Specification}
+
+The censored regression model for panel data
+with individual specific effects has following specification:
+\begin{align}
+y_{it}^* &= x_i ' \beta + \varepsilon_{it} =  x_i ' \beta + \mu_{i} + \eta_{it} \\
+y_{it} &=
+   \begin{cases}
+   a        & \text{if } y_{it}^* \leq a\\
+   y_{it}^* & \text{if } a < y_{it}^* < b\\
+   b        & \text{if } y_{it}^* \geq b
+   \end{cases}
+\end{align}
+Here the subscript $i = 1, \ldots , N$ indicates the individual,
+subscript $t = 1, \ldots , T_i$ indicates the time period,
+$\mu_i$ is a time-invariant individual specific effect,
+and $\eta_{it}$ is the remaining disturbance.
+
+
+\subsection{Fixed effects}
+
+In contrast to linear panel data models,
+we cannot get rid of the individual effects by the within transformation.
+
+
+\subsection{Random effects}
+
+If the individual specific effects $\mu_i$ are independent
+of the regressors $x_{it}$,
+the parameters can be consistently estimated with a random effects model.
+Assuming
+that the individual specific effects $\mu$ follow a normal distribution
+with mean $0$ and variance $\sigma_\mu^2$,
+that the remaining disturbance $\eta$ follows a normal distribution
+with mean $0$ and variance $\sigma_\eta^2$, and
+that $\mu$ and $\eta$ are independent,
+the likelihood contributiom of a single individual $i$ is
+\begin{align}
+L_i  = \int_{-\infty}^\infty
+   \Bigg\{ \prod_{t=1}^{T_i} \;&
+      \left[
+         \pnorm \left( \frac{ a - x_i ' \beta - \mu_i }{ \sigma_\eta } \right)
+      \right]^{I_i^a}
+      \left[
+         \pnorm \left( \frac{ x_i ' \beta + \mu_i - b }{ \sigma_\eta } \right)
+      \right]^{I_i^b}\\
+      & \left[
+         \frac{1}{\sigma_\eta}
+         \dnorm \left( \frac{ y_i - x_i ' \beta - \mu_i }{ \sigma_\eta } \right)
+      \right]^{\left( 1 - I_i^a - I_i^b \right)}
+   \Bigg\} \; \dnorm \left( \frac{\mu_i}{\sigma_\mu} \right) \; d \mu_i
+      \nonumber
+\end{align}
+and the log-likelihood function is
+\begin{equation}
+\log L = \sum_{i=1}^N \log L_i
+\end{equation}
+\citep[see][p.~2]{bruno04}.
 
 
 % \section{Conclusions}

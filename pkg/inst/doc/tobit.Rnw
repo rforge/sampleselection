@@ -141,20 +141,37 @@ Assuming that the error term $\varepsilon$ follows a normal distribution
 with mean $0$ and variance $\sigma^2$,
 the log-likelihood function is
 \begin{align}
-\log L  = \;&
-   \sum_{y_i = a}
-      \log \pnorm \left( \frac{ a - x_i ' \beta }{ \sigma } \right)\\
-   & + \sum_{a < y_i < b}
+\log L  = 
+   \sum_{i = 1}^N \bigg[ \;&
+      I_i^a \log \pnorm \left( \frac{ a - x_i ' \beta }{ \sigma } \right)
+      + I_i^b \log \pnorm \left( \frac{ x_i ' \beta - b }{ \sigma } \right)
+      \label{eq:logLik}\\
+   & + \left( 1 - I_i^a - I_i^b \right)
       \left(
          \log \dnorm \left( \frac{ y_i - x_i ' \beta }{ \sigma } \right)
          - \log \sigma
-      \right) \nonumber \\
-   & + \sum_{y_i = b}
-      \log \pnorm \left( \frac{ x_i ' \beta - b }{ \sigma } \right)
-      \nonumber
+      \right)
+   \bigg], \nonumber
 \end{align}
-This log-likelihood function can be maximised using standard non-linear
-optimisation algorithms.
+where $\dnorm(.)$ and  $\pnorm(.)$ denote the probability density function
+and the cumulative distribution function, repectively,
+of the standard normal distribution,
+and $I_i^a$ and $I_i^b$ are indicator functions with
+\begin{align}
+I_i^a & =
+   \begin{cases}
+   1 & \text{if } y_i = a\\
+   0 & \text{if } y_i > a
+   \end{cases}\\
+I_i^b & =
+   \begin{cases}
+   1 & \text{if } y_i = b\\
+   0 & \text{if } y_i < b
+   \end{cases}
+\end{align}
+The log-likelihood function of the censored regression model~(\ref{eq:logLik})
+can be maximised with respect to the parameter vector $( \beta' , \sigma )'$
+using standard non-linear optimisation algorithms.
 
 
 \subsection[Implementation in function tobit]{Implementation in function \code{tobit}}
@@ -262,37 +279,36 @@ cbind( coef( tobitResult ), coef( tobitResultMinus ) )
 \section{Gradients of the log-likelihood function}
 \label{sec:logLikGrad}
 \begin{align}
-\frac{ \partial \log L }{ \partial \beta_j } = \;&
-   - \sum_{y_i = a}
-      \frac{ \dnorm \left( \frac{ a - x_i ' \beta }{ \sigma } \right) }
-         { \pnorm \left( \frac{ a - x_i ' \beta }{ \sigma } \right) }
-      \; \frac{ x_{ij} }{ \sigma }\\
-   & + \sum_{a < y_i < b}
+\frac{ \partial \log L }{ \partial \beta_j } =
+   \sum_{i = 1}^N \Bigg[ &\;
+      - I_i^a \;
+         \frac{ \dnorm \left( \frac{ a - x_i ' \beta }{ \sigma } \right) }
+            { \pnorm \left( \frac{ a - x_i ' \beta }{ \sigma } \right) }
+         \; \frac{ x_{ij} }{ \sigma }
+      + I_i^b \;
+         \frac{ \dnorm \left( \frac{ x_i ' \beta - b }{ \sigma } \right) }
+            { \pnorm \left( \frac{ x_i ' \beta - b }{ \sigma } \right) }
+         \; \frac{ x_{ij} }{ \sigma } \\
+   & + \left( 1 - I_i^a - I_i^b \right)
       \frac{ y_i - x_i ' \beta }{ \sigma }
       \; \frac{ x_{ij} }{ \sigma }
-      \nonumber \\
-   & + \sum_{y_i = b}
-      \frac{ \dnorm \left( \frac{ x_i ' \beta - b }{ \sigma } \right) }
-         { \pnorm \left( \frac{ x_i ' \beta - b }{ \sigma } \right) }
-      \; \frac{ x_{ij} }{ \sigma }
-      \nonumber\\
-\frac{ \partial \log L }{ \partial \log \sigma } = \;&
-   - \sum_{y_i = a}
-      \frac{ \dnorm \left( \frac{ a - x_i ' \beta }{ \sigma } \right) }
-         { \pnorm \left( \frac{ a - x_i ' \beta }{ \sigma } \right) }
-      \; \frac{ a - x_i ' \beta }{ \sigma }\\
-   & + \sum_{a < y_i < b}
+      \Bigg] \nonumber\\
+\frac{ \partial \log L }{ \partial \log \sigma } =
+   \sum_{i = 1}^N \Bigg[ \;&
+      - I_i^a \;
+         \frac{ \dnorm \left( \frac{ a - x_i ' \beta }{ \sigma } \right) }
+            { \pnorm \left( \frac{ a - x_i ' \beta }{ \sigma } \right) }
+         \; \frac{ a - x_i ' \beta }{ \sigma }
+      - I_i^b \;
+         \frac{ \dnorm \left( \frac{ x_i ' \beta - b }{ \sigma } \right) }
+            { \pnorm \left( \frac{ x_i ' \beta - b }{ \sigma } \right) }
+         \; \frac{ x_i ' \beta - b }{ \sigma } \\
+   & + \left( 1 - I_i^a - I_i^b \right)
       \left(
-         \frac{ y_i - x_i ' \beta }{ \sigma }
-         \; \frac{ y_i - x_i ' \beta }{ \sigma }
+         \left( \frac{ y_i - x_i ' \beta }{ \sigma } \right)^2
          - 1
       \right)
-      \nonumber \\
-   & - \sum_{y_i = b}
-      \frac{ \dnorm \left( \frac{ x_i ' \beta - b }{ \sigma } \right) }
-         { \pnorm \left( \frac{ x_i ' \beta - b }{ \sigma } \right) }
-      \; \frac{ x_i ' \beta - b }{ \sigma }
-      \nonumber
+      \Bigg] \nonumber
 \end{align}
 
 

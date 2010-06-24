@@ -50,9 +50,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
--3.588702e-12 -1.101836e-10 -2.484262e-11 -1.189309e-11 -1.441034e-11 
+-3.657695e-12 -1.123246e-10 -2.533772e-11 -1.212106e-11 -1.469341e-11 
        rating      logSigma 
--1.534176e-11 -3.455028e-12 
+-1.563155e-11 -3.594555e-12 
 
 $hessian
               (Intercept)        age yearsmarried religiousness occupation
@@ -6488,9 +6488,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
--8.976361e-13 -3.581335e-11 -1.326832e-11 -2.727187e-12 -3.700016e-12 
+-8.726492e-13 -3.496453e-11 -1.306651e-11 -2.647342e-12 -3.597195e-12 
        rating      logSigma 
--3.038901e-12  3.070891e-12 
+-2.940845e-12  3.416954e-12 
 
 $hessian
               (Intercept)        age yearsmarried religiousness occupation
@@ -7775,9 +7775,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
--4.104023e-12 -1.262659e-10 -2.854301e-11 -1.358288e-11 -1.650577e-11 
+-4.090103e-12 -1.258609e-10 -2.844091e-11 -1.354194e-11 -1.645654e-11 
        rating      logSigma 
--1.751643e-11 -4.068981e-12 
+-1.746191e-11 -3.964884e-12 
 
 $hessian
               (Intercept)        age yearsmarried religiousness occupation
@@ -9062,9 +9062,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
- 3.588702e-12  1.101836e-10  2.484262e-11  1.189309e-11  1.441034e-11 
+ 3.657695e-12  1.123246e-10  2.533772e-11  1.212106e-11  1.469341e-11 
        rating      logSigma 
- 1.534176e-11 -3.455028e-12 
+ 1.563155e-11 -3.594555e-12 
 
 $hessian
               (Intercept)        age yearsmarried religiousness occupation
@@ -10349,9 +10349,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
- 4.104023e-12  1.262659e-10  2.854301e-11  1.358288e-11  1.650577e-11 
+ 4.090103e-12  1.258609e-10  2.844091e-11  1.354194e-11  1.645654e-11 
        rating      logSigma 
- 1.751643e-11 -4.068981e-12 
+ 1.746191e-11 -3.964884e-12 
 
 $hessian
               (Intercept)        age yearsmarried religiousness occupation
@@ -11637,9 +11637,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
--5.138970e-09 -1.592629e-07 -3.482880e-08 -1.695922e-08 -2.088078e-08 
+-5.138986e-09 -1.592645e-07 -3.482976e-08 -1.695940e-08 -2.088120e-08 
        rating      logSigma 
--2.211836e-08 -1.614653e-08 
+-2.211832e-08 -1.614606e-08 
 
 $hessian
               (Intercept)        age yearsmarried religiousness occupation

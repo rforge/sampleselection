@@ -97,11 +97,15 @@ tobit5fit <- function(YS, XS, YO1, XO1, YO2, XO2, start,
         betaS <- beta[iBetaS]
         b1 <- beta[iBetaO1]
         sigma1 <- beta[iSigma1]
-       if(sigma1 <= 0) return(NA)
+        if(sigma1 <= 0) {
+            return( matrix( NA, nrow = nParam, ncol = nParam ) )
+        }
         rho1 <- beta[iRho1]
         b2 <- beta[iBetaO2]
         sigma2 <- beta[iSigma2]
-       if(sigma2 <= 0) return(NA)
+        if(sigma2 <= 0) {
+            return( matrix( NA, nrow = nParam, ncol = nParam ) )
+        }
         rho2 <- beta[iRho2]
         XS0.bS <- XS0%*%betaS
         XS1.bS <- XS1%*%betaS

@@ -24131,7 +24131,6 @@ Now run tobit5 without intercepts
 > print(coef(selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1))))
     S:  O1:xo1  sigma1    rho1  O2:xo2  sigma2    rho2  
  0.949   1.026   1.092   0.891   0.971   1.022   0.549  
-There were 43 warnings (use warnings() to see them)
 > # return just the model.frame
 > selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1 ),
 +    method = "model.frame" )

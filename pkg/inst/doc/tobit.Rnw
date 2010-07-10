@@ -275,7 +275,7 @@ cbind( coef( tobitResult ), coef( tobitResultMinus ) )
 The censored regression model for panel data
 with individual specific effects has following specification:
 \begin{align}
-y_{it}^* &= x_i ' \beta + \varepsilon_{it} =  x_i ' \beta + \mu_{i} + \nu_{it} \\
+y_{it}^* &= x_{it} ' \beta + \varepsilon_{it} =  x_{it} ' \beta + \mu_{i} + \nu_{it} \\
 y_{it} &=
    \begin{cases}
    a        & \text{if } y_{it}^* \leq a\\
@@ -285,6 +285,7 @@ y_{it} &=
 \end{align}
 Here the subscript $i = 1, \ldots , N$ indicates the individual,
 subscript $t = 1, \ldots , T_i$ indicates the time period,
+$T_i$ is the number of time periods observed for the $i$th individual,
 $\mu_i$ is a time-invariant individual specific effect,
 and $\nu_{it}$ is the remaining disturbance.
 
@@ -303,23 +304,23 @@ the parameters can be consistently estimated with a random effects model.
 Assuming
 that the individual specific effects $\mu$ follow a normal distribution
 with mean $0$ and variance $\sigma_\mu^2$,
-that the remaining disturbance $\nu$ follows a normal distribution
+the remaining disturbance $\nu$ follows a normal distribution
 with mean $0$ and variance $\sigma_\nu^2$, and
-that $\mu$ and $\nu$ are independent,
-the likelihood contributiom of a single individual $i$ is
+$\mu$ and $\nu$ are independent,
+the likelihood contribution of a single individual $i$ is
 \begin{align}
 L_i  = \int_{-\infty}^\infty
    \Bigg\{ \prod_{t=1}^{T_i} \;&
       \left[
-         \pnorm \left( \frac{ a - x_i ' \beta - \mu_i }{ \sigma_\nu } \right)
-      \right]^{I_i^a}
+         \pnorm \left( \frac{ a - x_{it} ' \beta - \mu_i }{ \sigma_\nu } \right)
+      \right]^{I_{it}^a}
       \left[
-         \pnorm \left( \frac{ x_i ' \beta + \mu_i - b }{ \sigma_\nu } \right)
-      \right]^{I_i^b}\\
+         \pnorm \left( \frac{ x_{it} ' \beta + \mu_i - b }{ \sigma_\nu } \right)
+      \right]^{I_{it}^b}\\
       & \left[
          \frac{1}{\sigma_\nu}
-         \dnorm \left( \frac{ y_i - x_i ' \beta - \mu_i }{ \sigma_\nu } \right)
-      \right]^{\left( 1 - I_i^a - I_i^b \right)}
+         \dnorm \left( \frac{ y_{it} - x_{it} ' \beta - \mu_i }{ \sigma_\nu } \right)
+      \right]^{\left( 1 - I_{it}^a - I_{it}^b \right)}
    \Bigg\} \; \dnorm \left( \frac{\mu_i}{\sigma_\mu} \right) \; d \mu_i
       \nonumber
 \end{align}
@@ -336,7 +337,7 @@ using standard non-linear optimisation algorithms
 \citep[see][]{butler82}.
 
 Alternatively, the log-likelihood function can be maximized
-usind the method of Maximum Simulated Likelihood (MSL),
+using the method of Maximum Simulated Likelihood (MSL),
 which allows some flexibility in the specification
 of the error terms \citep[p.~799]{greene08}.
 

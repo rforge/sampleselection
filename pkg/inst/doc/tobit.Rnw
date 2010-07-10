@@ -316,7 +316,8 @@ L_i  = \int_{-\infty}^\infty
       \right]^{I_{it}^a}
       \left[
          \pnorm \left( \frac{ x_{it} ' \beta + \mu_i - b }{ \sigma_\nu } \right)
-      \right]^{I_{it}^b}\\
+      \right]^{I_{it}^b}
+      \label{eq:likRandom}\\
       & \left[
          \frac{1}{\sigma_\nu}
          \dnorm \left( \frac{ y_{it} - x_{it} ' \beta - \mu_i }{ \sigma_\nu } \right)
@@ -340,6 +341,40 @@ Alternatively, the log-likelihood function can be maximized
 using the method of Maximum Simulated Likelihood (MSL),
 which allows some flexibility in the specification
 of the error terms \citep[p.~799]{greene08}.
+
+
+\subsubsection{Random effects estimation using the Gauss-Hermite quadrature}
+
+The Gauss-Hermite quadrature is a technique
+for approximating specific integrals
+with a weighted sum of function values at some specified points.
+Applying the Gauss-Hermite quadrature to equation~(\ref{eq:likRandom}),
+we get
+\begin{align}
+L_i  = \frac{1}{\sqrt{\pi}}
+   \sum_{h=1}^H w_h
+   \Bigg\{ \prod_{t=1}^{T_i} \;&
+      \left[
+         \pnorm \left( \frac{ a - x_{it} ' \beta - \sqrt{2} \sigma_\mu \psi_h }
+            { \sigma_\nu } \right)
+      \right]^{I_{it}^a}
+      \left[
+         \pnorm \left( \frac{ x_{it} ' \beta + \sqrt{2} \sigma_\mu \psi_h - b }
+            { \sigma_\nu } \right)
+      \right]^{I_{it}^b}
+      \label{eq:likRandomGhq}\\
+      & \left[
+         \frac{1}{\sigma_\nu}
+         \dnorm \left( \frac{ y_{it} - x_{it} ' \beta - \sqrt{2} \sigma_\mu \psi_h }
+            { \sigma_\nu } \right)
+      \right]^{\left( 1 - I_{it}^a - I_{it}^b \right)}
+   \Bigg\},  \nonumber
+\end{align}
+where $H$ is number of quadrature points,
+$\psi_1 , \ldots , \psi_H$ are the abscissae, and
+$w_1, \ldots , w_H$ are the corresponding weights
+\citep[p.~553]{greene08}
+ 
 
 
 % \section{Conclusions}

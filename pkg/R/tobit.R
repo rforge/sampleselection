@@ -77,7 +77,7 @@ tobit <- function( formula, left = 0, right = Inf,
    }
    names( start ) <- c( colnames( xMat ), "logSigma" )
 
-   ## log likelihood function
+   ## log likelihood function for cross-sectional data
    tobitLogLik <- function( beta ) {
       yHat <- xMat %*% beta[ - length( beta ) ]
       sigma <- exp( beta[ length( beta ) ] )
@@ -89,13 +89,8 @@ tobit <- function( formula, left = 0, right = Inf,
             log = TRUE ) - log( sigma )
       ll[ yVec >= right ] <-
          pnorm( ( yHat[ yVec >= right ] - right ) / sigma, log.p = TRUE )
-      return( ll )
-   }
 
-   ## gradients of log likelihood function
-   tobitLogLikGrad <- function( beta ) {
-      yHat <- xMat %*% beta[ - length( beta ) ]
-      sigma <- exp( beta[ length( beta ) ] )
+      ## gradients of log likelihood function for cross-sectional data
       grad <- matrix( NA, nrow = length( yVec ), ncol = length( beta ) )
       grad[ yVec <= left, ] <-
          dnorm( ( left - yHat[ yVec <= left ] ) / sigma ) /
@@ -111,10 +106,11 @@ tobit <- function( formula, left = 0, right = Inf,
          pnorm( ( yHat[ yVec >= right ] - right ) / sigma ) *
          cbind( xMat[ yVec >= right, , drop = FALSE ] / sigma,
             - ( yHat[ yVec >= right ] - right ) / sigma )
-      return( grad )
+      attr( ll, "gradient" ) <- grad
+      return( ll )
    }
 
-   result <- maxLik( tobitLogLik, tobitLogLikGrad, start = start, ... )
+   result <- maxLik( tobitLogLik, start = start, ... )
 
    class( result ) <- c( "tobit", class( result ) )
    return( result )

@@ -59,7 +59,7 @@ Loading required package: sandwich
 > ## Newton-Raphson method
 > system.time( randEff <- tobit( y ~ x1 + x2, data = pData ) )
    user  system elapsed 
- 42.142   0.028  42.538 
+ 13.361   0.128  14.125 
 > summary( randEff )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -82,7 +82,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBhhh <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
- 24.862   0.016  26.087 
+  8.512   0.040   8.948 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -105,7 +105,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBfgs <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
- 16.841   0.016  17.663 
+  5.240   0.008   5.486 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -128,7 +128,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBfgsr <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
- 15.169   0.240  17.352 
+  4.577   0.000   4.755 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation

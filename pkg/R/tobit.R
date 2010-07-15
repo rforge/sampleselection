@@ -120,17 +120,17 @@ tobit <- function( formula, left = 0, right = Inf,
          ll <- rep( 0, nInd )
          for( i in 1:nInd ) {
             likInd <- 0
+            obsBelowInd <- pIndex[[ 1 ]] == indNames[ i ] & obsBelow
+            obsAboveInd <- pIndex[[ 1 ]] == indNames[ i ] & obsAbove
+            obsBetweenInd <- pIndex[[ 1 ]] == indNames[ i ] & obsBetween
             for( h in 1:nGHQ ) {
-               obs <- pIndex[[ 1 ]] == indNames[ i ] & obsBelow
-               tProd <- prod( 1, pnorm( ( left - yHat[ obs ] -
-                  sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) )
-               obs <- pIndex[[ 1 ]] == indNames[ i ] & obsAbove
-               tProd <- prod( tProd, pnorm( ( yHat[ obs ] - right +
-                  sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) )
-               obs <- pIndex[[ 1 ]] == indNames[ i ] & obsBetween
-               tProd <- prod( tProd, dnorm( ( yVec[ obs ] - yHat[ obs ] -
-                  sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
-                  sigmaNu )
+               tProd <- prod( 1, pnorm( ( left - yHat[ obsBelowInd ] -
+                     sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ),
+                  pnorm( ( yHat[ obsAboveInd ] - right +
+                     sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ),
+                  dnorm( ( yVec[ obsBetweenInd ] - yHat[ obsBetweenInd ] -
+                     sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
+                     sigmaNu )
                likInd <- likInd + ghqPoints$weights[ h ] * tProd
             }
             ll[ i ] <- log( likInd / sqrt( pi ) )

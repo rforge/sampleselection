@@ -116,30 +116,17 @@ tobit <- function( formula, left = 0, right = Inf,
          for( i in 1:nInd ) {
             likInd <- 0
             for( h in 1:nGHQ ) {
-               tProd <- 1
-               for( j in 1:nTime ) {
-                  obsNo <- which( pIndex[[ 1 ]] == indNames[ i ] &
-                     pIndex[[ 2 ]] == timeNames[ j ] )
-                  if( length( obsNo ) == 1 ) {
-                     if( yVec[ obsNo ] <= left ) {
-                        tProd <- tProd * pnorm( ( left - yHat[ obsNo ] -
-                           sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) /
-                           sigmaNu )
-                     } else if( yVec[ obsNo ] >= right ) {
-                        tProd <- tProd * pnorm( ( yHat[ obsNo ] - right +
-                           sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) /
-                           sigmaNu )
-                     } else {
-                        tProd <- tProd * dnorm( ( yVec[ obsNo ] - yHat[ obsNo ] -
-                           sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) /
-                           sigmaNu ) / sigmaNu
-                     }
-                  } else if( length( obsNo ) > 1 ) {
-                     stop( "there is more than one observation",
-                        " for individual '", indNames[ i ],
-                        "' and time period '", timeNames[ j ], "'" )
-                  }
-               }
+               obs <- pIndex[[ 1 ]] == indNames[ i ] & yVec <= left
+               tProd <- prod( 1, pnorm( ( left - yHat[ obs ] -
+                  sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) )
+               obs <- pIndex[[ 1 ]] == indNames[ i ] & yVec >= right
+               tProd <- prod( tProd, pnorm( ( yHat[ obs ] - right +
+                  sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) )
+               obs <- pIndex[[ 1 ]] == indNames[ i ] &
+                  yVec > left & yVec < right
+               tProd <- prod( tProd, dnorm( ( yVec[ obs ] - yHat[ obs ] -
+                  sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
+                  sigmaNu )
                likInd <- likInd + ghqPoints$weights[ h ] * tProd
             }
             ll[ i ] <- log( likInd / sqrt( pi ) )

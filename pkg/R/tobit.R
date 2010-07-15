@@ -124,14 +124,14 @@ tobit <- function( formula, left = 0, right = Inf,
             obsAboveInd <- pIndex[[ 1 ]] == indNames[ i ] & obsAbove
             obsBetweenInd <- pIndex[[ 1 ]] == indNames[ i ] & obsBetween
             for( h in 1:nGHQ ) {
-               tProd <- prod( 1, pnorm( ( left - yHat[ obsBelowInd ] -
+               likInd <- likInd + ghqPoints$weights[ h ] * 
+                  prod( 1, pnorm( ( left - yHat[ obsBelowInd ] -
                      sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ),
                   pnorm( ( yHat[ obsAboveInd ] - right +
                      sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ),
                   dnorm( ( yVec[ obsBetweenInd ] - yHat[ obsBetweenInd ] -
                      sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
                      sigmaNu )
-               likInd <- likInd + ghqPoints$weights[ h ] * tProd
             }
             ll[ i ] <- log( likInd / sqrt( pi ) )
          }

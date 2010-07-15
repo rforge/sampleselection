@@ -1,5 +1,6 @@
 tobit <- function( formula, left = 0, right = Inf,
-      data = sys.frame( sys.parent() ), start = NULL, ... ) {
+      data = sys.frame( sys.parent() ), start = NULL,
+      nGHQ = 4, ... ) {
 
    ## checking formula
    if( class( formula ) != "formula" ) {
@@ -46,6 +47,12 @@ tobit <- function( formula, left = 0, right = Inf,
          " of the exogenous variables (", nrow( xMat ), ")" )
    }
 
+   ## extract information on panel structure of data set
+   isPanel <- "pdata.frame" %in% class( data )
+   if( isPanel ) {
+      pIndex <- attributes( data )$index
+   }
+
    ## check if endogenous variable is within limits
    if( any( yVec < left ) ) {
       warning( "at least one value of the endogenous variable is smaller than",
@@ -60,14 +67,31 @@ tobit <- function( formula, left = 0, right = Inf,
       is.infinite( cbind( yVec, xMat ) ) ) == 0
    yVec <- yVec[ validObs ]
    xMat <- xMat[ validObs, , drop = FALSE ]
+   if( isPanel ) {
+      pIndex <- pIndex[ validObs, , drop = FALSE ]
+      indNames <- unique( pIndex[[ 1 ]] )  # 'names' of individuals
+      nInd <- length( indNames )           # number of individuals
+      timeNames <- unique( pIndex[[ 2 ]] ) # 'names' of time periods
+      nTime <- length( timeNames )         # number of time periods
+   }
 
    ## starting values
    nParam <- ncol( xMat ) + 1
    if( is.null( start ) ) {
-      # OLS estimation for starting values
-      ols <- lm.fit( xMat, yVec )
-      start <- c( ols$coefficients,
-         log( sum( ols$residuals^2 ) / length( ols$residuals ) ) )
+      if( isPanel ) {
+         assign( "validObs2", validObs, inherits = TRUE )
+         # Random effects panel model estimation for starting values
+         rEff <- plm( formula, data = data, subset = validObs2,
+            effect = "individual", model = "random" )
+         start <- c( coef( rEff ),
+            0.5 * log( rEff$ercomp$sigma$id ),
+            0.5 * log( rEff$ercomp$sigma$idios ) )
+      } else {
+         # OLS estimation for starting values
+         ols <- lm.fit( xMat, yVec )
+         start <- c( ols$coefficients,
+            log( sum( ols$residuals^2 ) / length( ols$residuals ) ) )
+      }
    } else {
       if( !is.numeric( start ) ) {
          stop( "argument 'start' must be numeric" )
@@ -75,39 +99,89 @@ tobit <- function( formula, left = 0, right = Inf,
          stop( "argument 'start' must have length ", nParam )
       }
    }
-   names( start ) <- c( colnames( xMat ), "logSigma" )
 
-   ## log likelihood function for cross-sectional data
-   tobitLogLik <- function( beta ) {
-      yHat <- xMat %*% beta[ - length( beta ) ]
-      sigma <- exp( beta[ length( beta ) ] )
-      ll <- rep( NA, length( yVec ) )
-      ll[ yVec <= left ] <-
-         pnorm( ( left - yHat[ yVec <= left ] ) / sigma, log.p = TRUE )
-      ll[ yVec > left & yVec < right ] <-
-         dnorm( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma,
-            log = TRUE ) - log( sigma )
-      ll[ yVec >= right ] <-
-         pnorm( ( yHat[ yVec >= right ] - right ) / sigma, log.p = TRUE )
+   if( isPanel ) {
+      ## naming coefficients
+      names( start ) <- c( colnames( xMat ), "logSigmaMu", "logSigmaNu" )
 
-      ## gradients of log likelihood function for cross-sectional data
-      grad <- matrix( NA, nrow = length( yVec ), ncol = length( beta ) )
-      grad[ yVec <= left, ] <-
-         dnorm( ( left - yHat[ yVec <= left ] ) / sigma ) /
-         pnorm( ( left - yHat[ yVec <= left ] ) / sigma ) *
-         cbind( - xMat[ yVec <= left, , drop = FALSE ] / sigma,
-            - ( left - yHat[ yVec <= left ] ) / sigma )
-      grad[ yVec > left & yVec < right, ] <-
-         cbind( ( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma ) *
-            xMat[ yVec > left & yVec < right, , drop = FALSE ] / sigma,
-            ( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma )^2 - 1 )
-      grad[ yVec >= right, ] <-
-         dnorm( ( yHat[ yVec >= right ] - right ) / sigma ) /
-         pnorm( ( yHat[ yVec >= right ] - right ) / sigma ) *
-         cbind( xMat[ yVec >= right, , drop = FALSE ] / sigma,
-            - ( yHat[ yVec >= right ] - right ) / sigma )
-      attr( ll, "gradient" ) <- grad
-      return( ll )
+      ## Abscissae and weights for the Gauss-Hermite-Quadrature
+      ghqPoints <- ghq( nGHQ, modified = FALSE )
+
+      ## log likelihood function for panel data
+      tobitLogLik <- function( beta ) {
+         yHat <- xMat %*% beta[ 1:( length( beta ) - 2 ) ]
+         sigmaMu <- exp( beta[ length( beta ) - 1 ] )
+         sigmaNu <- exp( beta[ length( beta ) ] )
+         ll <- rep( 0, nInd )
+         for( i in 1:nInd ) {
+            likInd <- 0
+            for( h in 1:nGHQ ) {
+               tProd <- 1
+               for( j in 1:nTime ) {
+                  obsNo <- which( pIndex[[ 1 ]] == indNames[ i ] &
+                     pIndex[[ 2 ]] == timeNames[ j ] )
+                  if( length( obsNo ) == 1 ) {
+                     if( yVec[ obsNo ] <= left ) {
+                        tProd <- tProd * pnorm( ( left - yHat[ obsNo ] -
+                           sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) /
+                           sigmaNu )
+                     } else if( yVec[ obsNo ] >= right ) {
+                        tProd <- tProd * pnorm( ( yHat[ obsNo ] - right +
+                           sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) /
+                           sigmaNu )
+                     } else {
+                        tProd <- tProd * dnorm( ( yVec[ obsNo ] - yHat[ obsNo ] -
+                           sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) /
+                           sigmaNu ) / sigmaNu
+                     }
+                  } else if( length( obsNo ) > 1 ) {
+                     stop( "there is more than one observation",
+                        " for individual '", indNames[ i ],
+                        "' and time period '", timeNames[ j ], "'" )
+                  }
+               }
+               likInd <- likInd + ghqPoints$weights[ h ] * tProd
+            }
+            ll[ i ] <- log( likInd / sqrt( pi ) )
+         }
+         return( ll )
+      }
+   } else {
+      ## naming coefficients
+      names( start ) <- c( colnames( xMat ), "logSigma" )
+
+      ## log likelihood function for cross-sectional data
+      tobitLogLik <- function( beta ) {
+         yHat <- xMat %*% beta[ - length( beta ) ]
+         sigma <- exp( beta[ length( beta ) ] )
+         ll <- rep( NA, length( yVec ) )
+         ll[ yVec <= left ] <-
+            pnorm( ( left - yHat[ yVec <= left ] ) / sigma, log.p = TRUE )
+         ll[ yVec > left & yVec < right ] <-
+            dnorm( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma,
+               log = TRUE ) - log( sigma )
+         ll[ yVec >= right ] <-
+            pnorm( ( yHat[ yVec >= right ] - right ) / sigma, log.p = TRUE )
+
+         ## gradients of log likelihood function for cross-sectional data
+         grad <- matrix( NA, nrow = length( yVec ), ncol = length( beta ) )
+         grad[ yVec <= left, ] <-
+            dnorm( ( left - yHat[ yVec <= left ] ) / sigma ) /
+            pnorm( ( left - yHat[ yVec <= left ] ) / sigma ) *
+            cbind( - xMat[ yVec <= left, , drop = FALSE ] / sigma,
+               - ( left - yHat[ yVec <= left ] ) / sigma )
+         grad[ yVec > left & yVec < right, ] <-
+            cbind( ( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma ) *
+               xMat[ yVec > left & yVec < right, , drop = FALSE ] / sigma,
+               ( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma )^2 - 1 )
+         grad[ yVec >= right, ] <-
+            dnorm( ( yHat[ yVec >= right ] - right ) / sigma ) /
+            pnorm( ( yHat[ yVec >= right ] - right ) / sigma ) *
+            cbind( xMat[ yVec >= right, , drop = FALSE ] / sigma,
+               - ( yHat[ yVec >= right ] - right ) / sigma )
+         attr( ll, "gradient" ) <- grad
+         return( ll )
+      }
    }
 
    result <- maxLik( tobitLogLik, start = start, ... )

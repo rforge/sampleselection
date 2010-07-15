@@ -7,7 +7,7 @@
 
 \usage{
 tobit( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
-   start = NULL, ... )
+   start = NULL, nGHQ = 4, ... )
 }
 
 \arguments{
@@ -19,12 +19,16 @@ tobit( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
    \item{right}{right limit for the censored dependent variable;
       if set to \code{Inf}, the dependent variable is assumed to be
       not right-censored; defaults to \code{Inf} (classical Tobit model).}
-   \item{data}{an optional data frame.}
+   \item{data}{an optional data frame.
+      If argument \code{data} is of class \code{"pdata.frame"},
+      a panel-tobit model is estimated.}
    \item{start}{an optional vector of initial parameters for the ML estimation
       (intercept, slope parameters, and logarithm of the standard deviation
       of the disturbance term);
       if \code{start} is not specified, initial values are taken from an OLS
       estimation.}
+   \item{nGHQ}{number of points used in the Gauss-Hermite quadrature,
+      which is used to compute the likelihood value in case of panel data.} 
   \item{\dots}{additional arguments are passed to
       \code{\link[maxLik]{maxLik}}.}
 }

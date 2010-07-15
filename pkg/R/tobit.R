@@ -100,6 +100,11 @@ tobit <- function( formula, left = 0, right = Inf,
       }
    }
 
+   ## classify observations
+   obsBelow <- yVec <= left
+   obsAbove <- yVec >= right
+   obsBetween <- !obsBelow & !obsAbove
+
    if( isPanel ) {
       ## naming coefficients
       names( start ) <- c( colnames( xMat ), "logSigmaMu", "logSigmaNu" )
@@ -116,14 +121,13 @@ tobit <- function( formula, left = 0, right = Inf,
          for( i in 1:nInd ) {
             likInd <- 0
             for( h in 1:nGHQ ) {
-               obs <- pIndex[[ 1 ]] == indNames[ i ] & yVec <= left
+               obs <- pIndex[[ 1 ]] == indNames[ i ] & obsBelow
                tProd <- prod( 1, pnorm( ( left - yHat[ obs ] -
                   sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) )
-               obs <- pIndex[[ 1 ]] == indNames[ i ] & yVec >= right
+               obs <- pIndex[[ 1 ]] == indNames[ i ] & obsAbove
                tProd <- prod( tProd, pnorm( ( yHat[ obs ] - right +
                   sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) )
-               obs <- pIndex[[ 1 ]] == indNames[ i ] &
-                  yVec > left & yVec < right
+               obs <- pIndex[[ 1 ]] == indNames[ i ] & obsBetween
                tProd <- prod( tProd, dnorm( ( yVec[ obs ] - yHat[ obs ] -
                   sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
                   sigmaNu )
@@ -142,30 +146,30 @@ tobit <- function( formula, left = 0, right = Inf,
          yHat <- xMat %*% beta[ - length( beta ) ]
          sigma <- exp( beta[ length( beta ) ] )
          ll <- rep( NA, length( yVec ) )
-         ll[ yVec <= left ] <-
-            pnorm( ( left - yHat[ yVec <= left ] ) / sigma, log.p = TRUE )
-         ll[ yVec > left & yVec < right ] <-
-            dnorm( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma,
-               log = TRUE ) - log( sigma )
-         ll[ yVec >= right ] <-
-            pnorm( ( yHat[ yVec >= right ] - right ) / sigma, log.p = TRUE )
+         ll[ obsBelow ] <-
+            pnorm( ( left - yHat[ obsBelow ] ) / sigma, log.p = TRUE )
+         ll[ obsBetween ] <-
+            dnorm( ( yVec - yHat )[ obsBetween ] / sigma, log = TRUE ) -
+            log( sigma )
+         ll[ obsAbove ] <-
+            pnorm( ( yHat[ obsAbove ] - right ) / sigma, log.p = TRUE )
 
          ## gradients of log likelihood function for cross-sectional data
          grad <- matrix( NA, nrow = length( yVec ), ncol = length( beta ) )
-         grad[ yVec <= left, ] <-
-            dnorm( ( left - yHat[ yVec <= left ] ) / sigma ) /
-            pnorm( ( left - yHat[ yVec <= left ] ) / sigma ) *
-            cbind( - xMat[ yVec <= left, , drop = FALSE ] / sigma,
-               - ( left - yHat[ yVec <= left ] ) / sigma )
-         grad[ yVec > left & yVec < right, ] <-
-            cbind( ( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma ) *
-               xMat[ yVec > left & yVec < right, , drop = FALSE ] / sigma,
-               ( ( yVec - yHat )[ yVec > left & yVec < right ] / sigma )^2 - 1 )
-         grad[ yVec >= right, ] <-
-            dnorm( ( yHat[ yVec >= right ] - right ) / sigma ) /
-            pnorm( ( yHat[ yVec >= right ] - right ) / sigma ) *
-            cbind( xMat[ yVec >= right, , drop = FALSE ] / sigma,
-               - ( yHat[ yVec >= right ] - right ) / sigma )
+         grad[ obsBelow, ] <-
+            dnorm( ( left - yHat[ obsBelow ] ) / sigma ) /
+            pnorm( ( left - yHat[ obsBelow ] ) / sigma ) *
+            cbind( - xMat[ obsBelow, , drop = FALSE ] / sigma,
+               - ( left - yHat[ obsBelow ] ) / sigma )
+         grad[ obsBetween, ] <-
+            cbind( ( ( yVec - yHat )[ obsBetween ] / sigma ) *
+               xMat[ obsBetween, , drop = FALSE ] / sigma,
+               ( ( yVec - yHat )[ obsBetween ] / sigma )^2 - 1 )
+         grad[ obsAbove, ] <-
+            dnorm( ( yHat[ obsAbove ] - right ) / sigma ) /
+            pnorm( ( yHat[ obsAbove ] - right ) / sigma ) *
+            cbind( xMat[ obsAbove, , drop = FALSE ] / sigma,
+               - ( yHat[ obsAbove ] - right ) / sigma )
          attr( ll, "gradient" ) <- grad
          return( ll )
       }

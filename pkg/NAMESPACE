@@ -5,15 +5,12 @@ export( "heckitVcov" )
 export( "invMillsRatio" )
 export( "probit" )
 export( "selection" )
-export( "tobit" )
 export( "tobit2fit" )
 export( "tobit5fit" )
 export( "linearPredictors" )
 
 importFrom( "miscTools", "coefTable" )
 importFrom( "miscTools", "nObs" )
-
-importFrom( "glmmML", "ghq" )
 
 S3method( "coef", "selection" )
 S3method( "coef", "summary.selection" )

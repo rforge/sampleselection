@@ -69,9 +69,9 @@ tobit <- function( formula, left = 0, right = Inf,
    xMat <- xMat[ validObs, , drop = FALSE ]
    if( isPanel ) {
       pIndex <- pIndex[ validObs, , drop = FALSE ]
-      indNames <- unique( pIndex[[ 1 ]] )  # 'names' of individuals
+      indNames <- sort( unique( pIndex[[ 1 ]] ) )  # 'names' of individuals
       nInd <- length( indNames )           # number of individuals
-      timeNames <- unique( pIndex[[ 2 ]] ) # 'names' of time periods
+      timeNames <- sort( unique( pIndex[[ 2 ]] ) ) # 'names' of time periods
       nTime <- length( timeNames )         # number of time periods
    }
 

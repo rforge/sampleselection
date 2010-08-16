@@ -541,6 +541,64 @@ $w_1, \ldots , w_H$ are the corresponding weights
    \right\}  \nonumber
 \end{align}
 
+\begin{align}
+\frac{ \partial \ln L_i }{ \partial \sigma_\nu } =
+   & \frac{ 1 }{ \sqrt{\pi} \; L_i } \;
+   \sum_{h=1}^H w_h
+   \left\{
+      \left( \prod_{t=1}^{T_i}
+         \left[
+            \pnorm \left( \frac{ a - x_{it} ' \beta - \sqrt{2} \sigma_\mu \psi_h }
+               { \sigma_\nu } \right)
+         \right]^{I_{it}^a}
+         \label{eq:gradLikRandomGhqSigmaMu} \right. \right. \\
+         & \left.
+         \left[
+            \pnorm \left( \frac{ x_{it} ' \beta + \sqrt{2} \sigma_\mu \psi_h - b }
+               { \sigma_\nu } \right)
+         \right]^{I_{it}^b}
+         \left[
+            \frac{1}{\sigma_\nu}
+            \dnorm \left( \frac{ y_{it} - x_{it} ' \beta - \sqrt{2} \sigma_\mu \psi_h }
+               { \sigma_\nu } \right)
+         \right]^{\left( 1 - I_{it}^a - I_{it}^b \right)}
+      \right)\nonumber \\
+      & \left( \sum_{t=1}^{T_i}
+         \left[ -
+            \frac{
+               \dnorm \left( \frac{ a - x_{it} ' \beta - \sqrt{2} \sigma_\mu \psi_h }
+                  { \sigma_\nu } \right)
+            }{
+               \pnorm \left( \frac{ a - x_{it} ' \beta - \sqrt{2} \sigma_\mu \psi_h }
+                  { \sigma_\nu } \right)
+            }
+            \; \frac{ a - x_{it} ' \beta - \sqrt{2} \sigma_\mu \psi_h }{ \sigma_\nu^2 }
+         \right]^{I_{it}^a}\nonumber \right. \\
+         & \left[
+            - \frac{
+               \dnorm \left( \frac{ x_{it} ' \beta + \sqrt{2} \sigma_\mu \psi_h - b }
+                  { \sigma_\nu } \right)
+            }{
+               \pnorm \left( \frac{ x_{it} ' \beta + \sqrt{2} \sigma_\mu \psi_h - b }
+                  { \sigma_\nu } \right)
+            }
+            \; \frac{ x_{it} ' \beta + \sqrt{2} \sigma_\mu \psi_h - b }{ \sigma_\nu^2 }
+         \right]^{I_{it}^b}\nonumber \\
+         & \left. \left. \left[ -
+            \frac{ 1 }{\sigma_\nu}
+            - \frac{
+               \dnorm ' \left( \frac{ y_{it} - x_{it} ' \beta - \sqrt{2} \sigma_\mu \psi_h }
+                  { \sigma_\nu } \right)
+            }{
+               \dnorm \left( \frac{ y_{it} - x_{it} ' \beta - \sqrt{2} \sigma_\mu \psi_h }
+                  { \sigma_\nu } \right)
+            } \;
+            \frac{ y_{it} - x_{it} ' \beta - \sqrt{2} \sigma_\mu \psi_h }{\sigma_\nu^2}
+         \right]^{\left( 1 - I_{it}^a - I_{it}^b \right)}
+      \right)
+   \right\}  \nonumber
+\end{align}
+
 
 
 \bibliography{tobit}

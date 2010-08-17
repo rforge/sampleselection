@@ -132,26 +132,24 @@ tobit <- function( formula, left = 0, right = Inf,
             sigmaNu <- exp( beta[ length( beta ) ] )
             likInd <- rep( 0, nInd )
             for( h in 1:nGHQ ) {
-               likGhq <- rep( 1, nInd )
+               likGhq <- matrix( 1, nrow = nInd, ncol = nTime )
                for( i in 1:nTime ) {
                   obsBelowTime <- pIndex[[ 2 ]] == timeNames[ i ] & obsBelow
                   obsAboveTime <- pIndex[[ 2 ]] == timeNames[ i ] & obsAbove
                   obsBetweenTime <- pIndex[[ 2 ]] == timeNames[ i ] & obsBetween
-                  likGhq[ indNames %in% pIndex[[ 1 ]][ obsBelowTime ] ] <-
-                     likGhq[ indNames %in% pIndex[[ 1 ]][ obsBelowTime ] ] *
+                  likGhq[ indNames %in% pIndex[[ 1 ]][ obsBelowTime ], i ] <-
                      pnorm( ( left - yHat[ obsBelowTime ] - sqrt( 2 ) * sigmaMu *
                         ghqPoints$zeros[ h ] ) / sigmaNu )
-                  likGhq[ indNames %in% pIndex[[ 1 ]][ obsAboveTime ] ] <-
-                     likGhq[ indNames %in% pIndex[[ 1 ]][ obsAboveTime ] ] *
+                  likGhq[ indNames %in% pIndex[[ 1 ]][ obsAboveTime ], i ] <-
                      pnorm( ( yHat[ obsAboveTime ] - right + sqrt( 2 ) * sigmaMu *
                         ghqPoints$zeros[ h ] ) / sigmaNu )
-                  likGhq[ indNames %in% pIndex[[ 1 ]][ obsBetweenTime ] ] <-
-                     likGhq[ indNames %in% pIndex[[ 1 ]][ obsBetweenTime ] ] *
+                  likGhq[ indNames %in% pIndex[[ 1 ]][ obsBetweenTime ], i ] <-
                      dnorm( ( yVec[ obsBetweenTime ] - yHat[ obsBetweenTime ] -
                         sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
                         sigmaNu
                }
-               likInd <- likInd + ghqPoints$weights[ h ] * likGhq
+               likInd <- likInd + ghqPoints$weights[ h ] * 
+                  apply( likGhq, 1, prod )
             }
             ll <- log( likInd / sqrt( pi ) )
             return( ll )

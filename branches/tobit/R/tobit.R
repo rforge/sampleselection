@@ -65,10 +65,10 @@ tobit <- function( formula, left = 0, right = Inf,
    }
 
    ## check if endogenous variable is within limits
-   if( any( yVec < left ) ) {
+   if( any( yVec[ !is.na( yVec ) ] < left ) ) {
       warning( "at least one value of the endogenous variable is smaller than",
          " the left limit" )
-   } else if( any( yVec > right ) ) {
+   } else if( any( yVec[ !is.na( yVec ) ] > right ) ) {
       warning( "at least one value of the endogenous variable is larger than",
          " the right limit" )
    }

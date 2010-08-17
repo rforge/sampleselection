@@ -68,7 +68,7 @@ Loading required package: sandwich
 > ## Newton-Raphson method
 > system.time( randEff <- tobit( y ~ x1 + x2, data = pData ) )
    user  system elapsed 
-  1.228   0.000   1.278 
+  1.116   0.012   1.150 
 > summary( randEff )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -92,7 +92,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBhhh <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  0.772   0.004   0.804 
+  0.740   0.004   0.759 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -116,7 +116,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBfgs <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  0.560   0.004   0.586 
+  0.528   0.000   0.533 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -140,7 +140,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBfgsr <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.496   0.000   0.518 
+  0.476   0.000   0.473 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -173,7 +173,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBfgsr2 <- tobit( y ~ x1 + x2, data = pData2,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.468   0.004   0.475 
+  0.480   0.000   0.494 
 > all.equal( randEffBfgsr2[ -11 ], randEffBfgsr[ -11 ] )
 [1] "Component 3: Mean relative difference: 0.0001304908"
 [2] "Component 4: Mean relative difference: 0.003106662" 
@@ -187,7 +187,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBfgsrUnb <- tobit( y ~ x1 + x2, data = pDataUnb,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.492   0.000   0.500 
+  0.496   0.000   0.498 
 > summary( randEffBfgsrUnb )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -209,28 +209,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > ## NAs in data
 > pDataNa <- pData
-> pDataNa$y[ 11 ] <- NA
+> obsNa <- which( ! rownames( pData ) %in% rownames( pDataUnb ) )
+> pDataNa$y[ obsNa[ 1:2 ] ] <- NA
+> pDataNa$x1[ obsNa[ 3 ] ] <- NA
+> pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
 > system.time( randEffBfgsrNa <- tobit( y ~ x1 + x2, data = pDataNa,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.580   0.000   0.585 
-> summary( randEffBfgsrNa )
---------------------------------------------
-Maximum Likelihood estimation
-BFGS-YC maximization, 10 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -71.90907 
-5  free parameters
-Estimates:
-            Estimate Std. error t value   Pr(> t)    
-(Intercept) -0.15775    0.46379 -0.3401   0.73375    
-x1           1.65183    0.21948  7.5260 5.233e-14 ***
-x2           1.88792    0.73135  2.5814   0.00984 ** 
-logSigmaMu  -0.31242    0.29901 -1.0448   0.29610    
-logSigmaNu   0.03579    0.12904  0.2774   0.78150    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
---------------------------------------------
+  0.568   0.000   0.585 
+> all.equal( randEffBfgsrNa, randEffBfgsrUnb )
+[1] TRUE
 > 
 > 
 > 

@@ -66,9 +66,12 @@ summary( randEffBfgsrUnb )
 
 ## NAs in data
 pDataNa <- pData
-pDataNa$y[ 11 ] <- NA
+obsNa <- which( ! rownames( pData ) %in% rownames( pDataUnb ) )
+pDataNa$y[ obsNa[ 1:2 ] ] <- NA
+pDataNa$x1[ obsNa[ 3 ] ] <- NA
+pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
 system.time( randEffBfgsrNa <- tobit( y ~ x1 + x2, data = pDataNa,
    method = "BFGSR" ) )
-summary( randEffBfgsrNa )
+all.equal( randEffBfgsrNa, randEffBfgsrUnb )
 
 

@@ -20,18 +20,36 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 system.time( randEff <- tobit( y ~ x1 + x2, data = pData ) )
 summary( randEff )
 
+system.time( randEff2 <- tobit( y ~ x1 + x2, data = pData, vecIndGHQ = FALSE ) )
+all.equal( randEff, randEff2 )
+
+
 ## BHHH method
 system.time( randEffBhhh <- tobit( y ~ x1 + x2, data = pData,
    method = "BHHH" ) )
 summary( randEffBhhh )
+
+system.time( randEffBhhh2 <- tobit( y ~ x1 + x2, data = pData,
+   method = "BHHH", vecIndGHQ = FALSE ) )
+all.equal( randEffBhhh, randEffBhhh2 )
+
 
 ## BFGS method (optim)
 system.time( randEffBfgs <- tobit( y ~ x1 + x2, data = pData,
    method = "BFGS" ) )
 summary( randEffBfgs )
 
+system.time( randEffBfgs2 <- tobit( y ~ x1 + x2, data = pData,
+   method = "BFGS", vecIndGHQ = FALSE ) )
+all.equal( randEffBfgs, randEffBfgs2 )
+
+
 ## BFGS method (R)
 system.time( randEffBfgsr <- tobit( y ~ x1 + x2, data = pData,
    method = "BFGSR" ) )
 summary( randEffBfgsr )
+
+system.time( randEffBfgsr2 <- tobit( y ~ x1 + x2, data = pData,
+   method = "BFGSR", vecIndGHQ = FALSE ) )
+all.equal( randEffBfgsr, randEffBfgsr2 )
 

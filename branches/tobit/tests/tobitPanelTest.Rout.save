@@ -67,7 +67,7 @@ Loading required package: sandwich
 > ## Newton-Raphson method
 > system.time( randEff <- tobit( y ~ x1 + x2, data = pData ) )
    user  system elapsed 
- 18.801   0.008  18.977 
+ 19.249   0.016  19.355 
 > summary( randEff )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -86,11 +86,19 @@ logSigmaNu   0.021602   0.131464  0.1643  0.869478
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > 
+> system.time( randEff2 <- tobit( y ~ x1 + x2, data = pData, vecIndGHQ = FALSE ) )
+   user  system elapsed 
+ 10.857   0.000  10.864 
+> all.equal( randEff, randEff2 )
+[1] "Component 3: Mean relative difference: 1.096447"   
+[2] "Component 4: Mean relative difference: 0.001490313"
+> 
+> 
 > ## BHHH method
 > system.time( randEffBhhh <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
- 11.417   0.004  11.458 
+ 11.440   0.004  11.475 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -109,11 +117,19 @@ logSigmaNu   0.021567   0.135004  0.1597  0.873078
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > 
+> system.time( randEffBhhh2 <- tobit( y ~ x1 + x2, data = pData,
++    method = "BHHH", vecIndGHQ = FALSE ) )
+   user  system elapsed 
+  6.889   0.008   6.919 
+> all.equal( randEffBhhh, randEffBhhh2 )
+[1] "Component 3: Mean relative difference: 9.321172e-06"
+> 
+> 
 > ## BFGS method (optim)
 > system.time( randEffBfgs <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  7.784   0.000   7.787 
+  7.784   0.000   7.794 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -132,11 +148,20 @@ logSigmaNu   0.021602   0.131456  0.1643  0.869474
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > 
+> system.time( randEffBfgs2 <- tobit( y ~ x1 + x2, data = pData,
++    method = "BFGS", vecIndGHQ = FALSE ) )
+   user  system elapsed 
+  4.501   0.000   4.499 
+> all.equal( randEffBfgs, randEffBfgs2 )
+[1] "Component 3: Mean relative difference: 0.0004331104"
+[2] "Component 4: Mean relative difference: 0.005674653" 
+> 
+> 
 > ## BFGS method (R)
 > system.time( randEffBfgsr <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  6.841   0.000   6.848 
+  7.000   0.004   7.062 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -154,5 +179,13 @@ logSigmaNu   0.021602   0.131458  0.1643  0.869473
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> 
+> system.time( randEffBfgsr2 <- tobit( y ~ x1 + x2, data = pData,
++    method = "BFGSR", vecIndGHQ = FALSE ) )
+   user  system elapsed 
+  4.036   0.004   4.052 
+> all.equal( randEffBfgsr, randEffBfgsr2 )
+[1] "Component 3: Mean relative difference: 0.0002022509"
+[2] "Component 4: Mean relative difference: 0.002063558" 
 > 
 > 

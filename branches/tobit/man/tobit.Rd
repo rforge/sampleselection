@@ -7,7 +7,7 @@
 
 \usage{
 tobit( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
-   start = NULL, nGHQ = 4, ... )
+   start = NULL, nGHQ = 4, vecIndGHQ = TRUE, ... )
 }
 
 \arguments{
@@ -28,7 +28,17 @@ tobit( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
       if \code{start} is not specified, initial values are taken from an OLS
       estimation.}
    \item{nGHQ}{number of points used in the Gauss-Hermite quadrature,
-      which is used to compute the likelihood value in case of panel data.} 
+      which is used to compute the log-likelihood value in case of the
+      random effects model for panel data.} 
+   \item{vecIndGHQ}{logical. If \code{TRUE},
+      the log-likelihood value of the random effects panel data model
+      is calculated by vectorizing over individuals
+      (and a loop over time periods).
+      If \code{FALSE},
+      the log-likelihood value of the random effects panel data model
+      is calculated by a loop over individuals
+      (and vectorizing over time periods).
+      The former is much faster if the number of individuals is large.}
   \item{\dots}{additional arguments are passed to
       \code{\link[maxLik]{maxLik}}.}
 }

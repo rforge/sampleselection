@@ -122,32 +122,41 @@ tobit <- function( formula, left = 0, right = Inf,
       obsAbove <- obsAbove[ obsOrder ]
       obsBetween <- obsBetween[ obsOrder ]
 
+      ## re-organize data
+      xArr <- array( NA, dim = c( nInd, nTime, ncol( xMat ) ) )
+      yMat <- matrix( NA, nrow = nInd, ncol = nTime )
+      for( i in 1:nTime ) {
+         obsTime <- pIndex[[ 2 ]] == timeNames[ i ]
+         xArr[ indNames %in% pIndex[[ 1 ]][ obsTime ], i, ] <- xMat[ obsTime, ]
+         yMat[ indNames %in% pIndex[[ 1 ]][ obsTime ], i ] <- yVec[ obsTime ]
+      }
+      obsMatBelow <- yMat <= left & !is.na( yMat )
+      obsMatAbove <- yMat >= right & !is.na( yMat )
+      obsMatBetween <- !obsMatBelow & !obsMatAbove & !is.na( yMat )
+
+
       ## log likelihood function for panel data
       if( vecIndGHQ ) {
          # this version of the log likelihood function vectorizes over
          # individuals and has a loop over time periods
          tobitLogLik <- function( beta ) {
-            yHat <- xMat %*% beta[ 1:( length( beta ) - 2 ) ]
+            yMatHat <- matrix( matrix( xArr, ncol = ncol( xMat ) ) %*%
+               beta[ 1:( length( beta ) - 2 ) ], nrow = nInd, ncol = nTime )
             sigmaMu <- exp( beta[ length( beta ) - 1 ] )
             sigmaNu <- exp( beta[ length( beta ) ] )
             likInd <- rep( 0, nInd )
             for( h in 1:nGHQ ) {
                likGhq <- matrix( 1, nrow = nInd, ncol = nTime )
-               for( i in 1:nTime ) {
-                  obsBelowTime <- pIndex[[ 2 ]] == timeNames[ i ] & obsBelow
-                  obsAboveTime <- pIndex[[ 2 ]] == timeNames[ i ] & obsAbove
-                  obsBetweenTime <- pIndex[[ 2 ]] == timeNames[ i ] & obsBetween
-                  likGhq[ indNames %in% pIndex[[ 1 ]][ obsBelowTime ], i ] <-
-                     pnorm( ( left - yHat[ obsBelowTime ] - sqrt( 2 ) * sigmaMu *
-                        ghqPoints$zeros[ h ] ) / sigmaNu )
-                  likGhq[ indNames %in% pIndex[[ 1 ]][ obsAboveTime ], i ] <-
-                     pnorm( ( yHat[ obsAboveTime ] - right + sqrt( 2 ) * sigmaMu *
-                        ghqPoints$zeros[ h ] ) / sigmaNu )
-                  likGhq[ indNames %in% pIndex[[ 1 ]][ obsBetweenTime ], i ] <-
-                     dnorm( ( yVec[ obsBetweenTime ] - yHat[ obsBetweenTime ] -
-                        sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
-                        sigmaNu
-               }
+               likGhq[ obsMatBelow ] <-
+                  pnorm( ( left - yMatHat[ obsMatBelow ] - sqrt( 2 ) * sigmaMu *
+                     ghqPoints$zeros[ h ] ) / sigmaNu )
+               likGhq[ obsMatAbove ] <-
+                  pnorm( ( yMatHat[ obsMatAbove ] - right + sqrt( 2 ) * sigmaMu *
+                     ghqPoints$zeros[ h ] ) / sigmaNu )
+               likGhq[ obsMatBetween ] <-
+                  dnorm( ( yMat[ obsMatBetween ] - yMatHat[ obsMatBetween ] -
+                     sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
+                     sigmaNu
                likInd <- likInd + ghqPoints$weights[ h ] * 
                   apply( likGhq, 1, prod )
             }

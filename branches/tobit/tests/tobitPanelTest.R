@@ -54,3 +54,12 @@ system.time( randEffBfgsr2 <- tobit( y ~ x1 + x2, data = pData2,
    method = "BFGSR" ) )
 all.equal( randEffBfgsr2[ -11 ], randEffBfgsr[ -11 ] )
 all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
+
+
+## unbalanced panel data
+nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
+pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
+system.time( randEffBfgsrUnb <- tobit( y ~ x1 + x2, data = pDataUnb,
+   method = "BFGSR" ) )
+summary( randEffBfgsrUnb )
+

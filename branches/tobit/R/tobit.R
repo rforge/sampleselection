@@ -51,6 +51,17 @@ tobit <- function( formula, left = 0, right = Inf,
    isPanel <- "pdata.frame" %in% class( data )
    if( isPanel ) {
       pIndex <- attributes( data )$index
+      ## check if observations are ordered with respect to names of individuals
+      # (theoretically, it is not required that the observations are ordered
+      # alphabetically with respect to individuals' names but
+      # if the individuals are not in the same order for each time period,
+      # the observations are allocated to a wrong individual)
+      if( !identical( order( pIndex[[ 1 ]] ), 1:length( pIndex[[ 1 ]] ) ) ) {
+         stop( "names of individuals in attributes(data)$index[[1]]",
+            " must be in alphabetical order but they are not;",
+            " please fix this and re-run tobit()." )
+      }
+
    }
 
    ## check if endogenous variable is within limits
@@ -69,9 +80,9 @@ tobit <- function( formula, left = 0, right = Inf,
    xMat <- xMat[ validObs, , drop = FALSE ]
    if( isPanel ) {
       pIndex <- pIndex[ validObs, , drop = FALSE ]
-      indNames <- sort( unique( pIndex[[ 1 ]] ) )  # 'names' of individuals
+      indNames <- unique( pIndex[[ 1 ]] )  # 'names' of individuals
       nInd <- length( indNames )           # number of individuals
-      timeNames <- sort( unique( pIndex[[ 2 ]] ) ) # 'names' of time periods
+      timeNames <- unique( pIndex[[ 2 ]] ) # 'names' of time periods
       nTime <- length( timeNames )         # number of time periods
    }
 
@@ -111,16 +122,6 @@ tobit <- function( formula, left = 0, right = Inf,
 
       ## Abscissae and weights for the Gauss-Hermite-Quadrature
       ghqPoints <- ghq( nGHQ, modified = FALSE )
-
-      ## order observations with respect to names of individuals
-      ## (otherwise the observations might be allocated to a wrong individual)
-      obsOrder <- order( pIndex[[ 1 ]] )
-      pIndex <- pIndex[ obsOrder, ]
-      xMat <- xMat[ obsOrder, ]
-      yVec <- yVec[ obsOrder ]
-      obsBelow <- obsBelow[ obsOrder ]
-      obsAbove <- obsAbove[ obsOrder ]
-      obsBetween <- obsBetween[ obsOrder ]
 
       ## re-organize data
       xArr <- array( NA, dim = c( nInd, nTime, ncol( xMat ) ) )

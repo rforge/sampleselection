@@ -63,3 +63,12 @@ system.time( randEffBfgsrUnb <- tobit( y ~ x1 + x2, data = pDataUnb,
    method = "BFGSR" ) )
 summary( randEffBfgsrUnb )
 
+
+## NAs in data
+pDataNa <- pData
+pDataNa$y[ 11 ] <- NA
+system.time( randEffBfgsrNa <- tobit( y ~ x1 + x2, data = pDataNa,
+   method = "BFGSR" ) )
+summary( randEffBfgsrNa )
+
+

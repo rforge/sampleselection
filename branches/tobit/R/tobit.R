@@ -111,11 +111,6 @@ tobit <- function( formula, left = 0, right = Inf,
       }
    }
 
-   ## classify observations
-   obsBelow <- yVec <= left
-   obsAbove <- yVec >= right
-   obsBetween <- !obsBelow & !obsAbove
-
    if( isPanel ) {
       ## naming coefficients
       names( start ) <- c( colnames( xMat ), "logSigmaMu", "logSigmaNu" )
@@ -123,7 +118,7 @@ tobit <- function( formula, left = 0, right = Inf,
       ## Abscissae and weights for the Gauss-Hermite-Quadrature
       ghqPoints <- ghq( nGHQ, modified = FALSE )
 
-      ## re-organize data
+      ## re-organize data 
       xArr <- array( NA, dim = c( nInd, nTime, ncol( xMat ) ) )
       yMat <- matrix( NA, nrow = nInd, ncol = nTime )
       for( i in 1:nTime ) {
@@ -131,10 +126,11 @@ tobit <- function( formula, left = 0, right = Inf,
          xArr[ indNames %in% pIndex[[ 1 ]][ obsTime ], i, ] <- xMat[ obsTime, ]
          yMat[ indNames %in% pIndex[[ 1 ]][ obsTime ], i ] <- yVec[ obsTime ]
       }
+
+      ## classify observations
       obsMatBelow <- yMat <= left & !is.na( yMat )
       obsMatAbove <- yMat >= right & !is.na( yMat )
       obsMatBetween <- !obsMatBelow & !obsMatAbove & !is.na( yMat )
-
 
       ## log likelihood function for panel data
       tobitLogLik <- function( beta ) {
@@ -164,6 +160,11 @@ tobit <- function( formula, left = 0, right = Inf,
    } else {
       ## naming coefficients
       names( start ) <- c( colnames( xMat ), "logSigma" )
+
+      ## classify observations
+      obsBelow <- yVec <= left
+      obsAbove <- yVec >= right
+      obsBetween <- !obsBelow & !obsAbove
 
       ## log likelihood function for cross-sectional data
       tobitLogLik <- function( beta ) {

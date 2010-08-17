@@ -1,6 +1,6 @@
 tobit <- function( formula, left = 0, right = Inf,
       data = sys.frame( sys.parent() ), start = NULL,
-      nGHQ = 4, vecIndGHQ = TRUE, ... ) {
+      nGHQ = 4, ... ) {
 
    ## checking formula
    if( class( formula ) != "formula" ) {
@@ -136,60 +136,29 @@ tobit <- function( formula, left = 0, right = Inf,
 
 
       ## log likelihood function for panel data
-      if( vecIndGHQ ) {
-         # this version of the log likelihood function vectorizes over
-         # individuals and has a loop over time periods
-         tobitLogLik <- function( beta ) {
-            yMatHat <- matrix( matrix( xArr, ncol = ncol( xMat ) ) %*%
-               beta[ 1:( length( beta ) - 2 ) ], nrow = nInd, ncol = nTime )
-            sigmaMu <- exp( beta[ length( beta ) - 1 ] )
-            sigmaNu <- exp( beta[ length( beta ) ] )
-            likInd <- rep( 0, nInd )
-            for( h in 1:nGHQ ) {
-               likGhq <- matrix( 1, nrow = nInd, ncol = nTime )
-               likGhq[ obsMatBelow ] <-
-                  pnorm( ( left - yMatHat[ obsMatBelow ] - sqrt( 2 ) * sigmaMu *
-                     ghqPoints$zeros[ h ] ) / sigmaNu )
-               likGhq[ obsMatAbove ] <-
-                  pnorm( ( yMatHat[ obsMatAbove ] - right + sqrt( 2 ) * sigmaMu *
-                     ghqPoints$zeros[ h ] ) / sigmaNu )
-               likGhq[ obsMatBetween ] <-
-                  dnorm( ( yMat[ obsMatBetween ] - yMatHat[ obsMatBetween ] -
-                     sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
-                     sigmaNu
-               likInd <- likInd + ghqPoints$weights[ h ] * 
-                  apply( likGhq, 1, prod )
-            }
-            ll <- log( likInd / sqrt( pi ) )
-            return( ll )
+      tobitLogLik <- function( beta ) {
+         yMatHat <- matrix( matrix( xArr, ncol = ncol( xMat ) ) %*%
+            beta[ 1:( length( beta ) - 2 ) ], nrow = nInd, ncol = nTime )
+         sigmaMu <- exp( beta[ length( beta ) - 1 ] )
+         sigmaNu <- exp( beta[ length( beta ) ] )
+         likInd <- rep( 0, nInd )
+         for( h in 1:nGHQ ) {
+            likGhq <- matrix( 1, nrow = nInd, ncol = nTime )
+            likGhq[ obsMatBelow ] <-
+               pnorm( ( left - yMatHat[ obsMatBelow ] - sqrt( 2 ) * sigmaMu *
+                  ghqPoints$zeros[ h ] ) / sigmaNu )
+            likGhq[ obsMatAbove ] <-
+               pnorm( ( yMatHat[ obsMatAbove ] - right + sqrt( 2 ) * sigmaMu *
+                  ghqPoints$zeros[ h ] ) / sigmaNu )
+            likGhq[ obsMatBetween ] <-
+               dnorm( ( yMat[ obsMatBetween ] - yMatHat[ obsMatBetween ] -
+                  sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
+                  sigmaNu
+            likInd <- likInd + ghqPoints$weights[ h ] *
+               apply( likGhq, 1, prod )
          }
-      } else {
-         # this version of the log likelihood function vectorizes over time
-         # periods and has a loop over individuals
-         tobitLogLik <- function( beta ) {
-            yHat <- xMat %*% beta[ 1:( length( beta ) - 2 ) ]
-            sigmaMu <- exp( beta[ length( beta ) - 1 ] )
-            sigmaNu <- exp( beta[ length( beta ) ] )
-            ll <- rep( 0, nInd )
-            for( i in 1:nInd ) {
-               likInd <- 0
-               obsBelowInd <- pIndex[[ 1 ]] == indNames[ i ] & obsBelow
-               obsAboveInd <- pIndex[[ 1 ]] == indNames[ i ] & obsAbove
-               obsBetweenInd <- pIndex[[ 1 ]] == indNames[ i ] & obsBetween
-               for( h in 1:nGHQ ) {
-                  likInd <- likInd + ghqPoints$weights[ h ] *
-                     prod( 1, pnorm( ( left - yHat[ obsBelowInd ] -
-                        sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ),
-                     pnorm( ( yHat[ obsAboveInd ] - right +
-                        sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ),
-                     dnorm( ( yVec[ obsBetweenInd ] - yHat[ obsBetweenInd ] -
-                        sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
-                        sigmaNu )
-               }
-               ll[ i ] <- log( likInd / sqrt( pi ) )
-            }
-            return( ll )
-         }
+         ll <- log( likInd / sqrt( pi ) )
+         return( ll )
       }
    } else {
       ## naming coefficients

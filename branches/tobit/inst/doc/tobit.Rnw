@@ -15,14 +15,14 @@
 \author{Arne Henningsen\\University of Copenhagen}
 \Plainauthor{Arne Henningsen}
 
-\title{Estimating Censored Regression Models in \proglang{R} using the \pkg{sampleSelection} Package}
-\Plaintitle{Estimating Censored Regression Models Models in R using the sampleSelection Package}
+\title{Estimating Censored Regression Models in \proglang{R} using the \pkg{censReg} Package}
+\Plaintitle{Estimating Censored Regression Models Models in R using the censReg Package}
 
 \Abstract{
 We show how censored regression models
 (including standard Tobit models)
 can be estimated in \proglang{R}
-using the add-on package \pkg{sampleSelection}.
+using the add-on package \pkg{censReg}.
 }
 
 \Keywords{censored regression, Tobit, econometrics, \proglang{R}}
@@ -41,9 +41,9 @@ using the add-on package \pkg{sampleSelection}.
 % initialisation stuff
 \SweaveOpts{engine=R}
 %\VignetteIndexEntry{Censored Regression Models}
-%\VignetteDepends{sampleSelection,AER}
+%\VignetteDepends{censReg,AER}
 %\VignetteKeywords{censored regression, Tobit model, econometrics, R}
-%\VignettePackage{sampleSelection}
+%\VignettePackage{censReg}
 <<echo=FALSE>>=
 options( prompt = "R> ", ctinue = "+  " )
 @ 
@@ -70,7 +70,7 @@ and is a special case of the more general censored regression model.
 
 This paper briefly explains the censored regression model,
 describes function \code{tobit} of the \proglang{R} package
-\pkg{sampleSelection},
+\pkg{censReg},
 and demonstrates how this function can be used
 to estimate censored regression models.
 
@@ -178,8 +178,8 @@ using standard non-linear optimisation algorithms.
 
 Censored regression models can be estimated in \proglang{R}
 with function \code{tobit},
-which is available in the \pkg{sampleSelection} package
-\citep{toomet08}.
+which is available in the \pkg{censReg} package
+\citep{r-censreg-0.5}.
 The most important steps done by the \code{tobit} function are:
 \begin{enumerate}
 \item perform basic checks on the arguments provided by the user
@@ -205,10 +205,10 @@ The most important steps done by the \code{tobit} function are:
 \subsection[Using function tobit]{Using function \code{tobit}}
 
 Before function \code{tobit} can be used,
-the \pkg{sampleSelection} package \citep{toomet08}
+the \pkg{censReg} package \citep{r-censreg-0.5}
 must be loaded:
 <<>>=
-library( "sampleSelection" )
+library( "censReg" )
 @
 The first argument of function \code{tobit} is \code{formula}.
 It is the only mandatory argument and

@@ -140,17 +140,21 @@ tobit <- function( formula, left = 0, right = Inf,
          sigmaNu <- exp( beta[ length( beta ) ] )
          likInd <- rep( 0, nInd )
          for( h in 1:nGHQ ) {
+            likGhqInner <- matrix( NA, nrow = nInd, ncol = nTime )
+            likGhqInner[ obsMatBelow ] <-
+               ( left - yMatHat[ obsMatBelow ] - sqrt( 2 ) * sigmaMu *
+                  ghqPoints$zeros[ h ] ) / sigmaNu
+            likGhqInner[ obsMatAbove ] <-
+               ( yMatHat[ obsMatAbove ] - right + sqrt( 2 ) * sigmaMu *
+                  ghqPoints$zeros[ h ] ) / sigmaNu
+            likGhqInner[ obsMatBetween ] <-
+               ( yMat[ obsMatBetween ] - yMatHat[ obsMatBetween ] -
+                  sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu
             likGhq <- matrix( 1, nrow = nInd, ncol = nTime )
-            likGhq[ obsMatBelow ] <-
-               pnorm( ( left - yMatHat[ obsMatBelow ] - sqrt( 2 ) * sigmaMu *
-                  ghqPoints$zeros[ h ] ) / sigmaNu )
-            likGhq[ obsMatAbove ] <-
-               pnorm( ( yMatHat[ obsMatAbove ] - right + sqrt( 2 ) * sigmaMu *
-                  ghqPoints$zeros[ h ] ) / sigmaNu )
+            likGhq[ obsMatBelow | obsMatAbove ] <-
+               pnorm( likGhqInner[ obsMatBelow | obsMatAbove ] )
             likGhq[ obsMatBetween ] <-
-               dnorm( ( yMat[ obsMatBetween ] - yMatHat[ obsMatBetween ] -
-                  sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
-                  sigmaNu
+               dnorm( likGhqInner[ obsMatBetween ] ) / sigmaNu
             likGhqProd <- apply( likGhq, 1, prod )
             likInd <- likInd + ghqPoints$weights[ h ] * likGhqProd
          }

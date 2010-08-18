@@ -1,12 +1,12 @@
-\name{tobit}
-\alias{tobit}
+\name{censReg}
+\alias{censReg}
 \title{Censored Regression (Tobit) Model}
 \description{
    Fitting a model with a censored dependent variable.
 }
 
 \usage{
-tobit( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
+censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
    start = NULL, nGHQ = 4, ... )
 }
 
@@ -21,7 +21,7 @@ tobit( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
       not right-censored; defaults to \code{Inf} (classical Tobit model).}
    \item{data}{an optional data frame.
       If argument \code{data} is of class \code{"pdata.frame"},
-      a panel-tobit model is estimated.}
+      a panel-model is estimated.}
    \item{start}{an optional vector of initial parameters for the ML estimation
       (intercept, slope parameters, and logarithm of the standard deviation
       of the disturbance term);
@@ -35,7 +35,7 @@ tobit( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
 }
 
 \value{
-   \code{tobit} returns an object of class \code{"tobit"}
+   \code{censReg} returns an object of class \code{"censReg"}
    inheriting from class \code{"maxLik"}.
 }
 
@@ -76,14 +76,14 @@ tobit( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
 \examples{
 ## Kleiber & Zeileis ( 2008 ), page 142
 data( "Affairs", package = "AER" )
-tobitResult <- tobit( affairs ~ age + yearsmarried + religiousness +
+estResult <- censReg( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs )
-summary( tobitResult )
+summary( estResult )
 
 ## Kleiber & Zeileis ( 2008 ), page 143
-tobitResultBoth <- tobit( affairs ~ age + yearsmarried + religiousness +
+estResultBoth <- censReg( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs, right = 4 )
-summary( tobitResultBoth )
+summary( estResultBoth )
 }
 
 \keyword{models}

@@ -69,7 +69,7 @@ This approach is usually called §Tobit§ model
 and is a special case of the more general censored regression model.
 
 This paper briefly explains the censored regression model,
-describes function \code{tobit} of the \proglang{R} package
+describes function \code{censReg} of the \proglang{R} package
 \pkg{censReg},
 and demonstrates how this function can be used
 to estimate censored regression models.
@@ -174,13 +174,13 @@ can be maximised with respect to the parameter vector $( \beta' , \sigma )'$
 using standard non-linear optimisation algorithms.
 
 
-\subsection[Implementation in function tobit]{Implementation in function \code{tobit}}
+\subsection[Implementation in function censReg]{Implementation in function \code{censReg}}
 
 Censored regression models can be estimated in \proglang{R}
-with function \code{tobit},
+with function \code{censReg},
 which is available in the \pkg{censReg} package
 \citep{r-censreg-0.5}.
-The most important steps done by the \code{tobit} function are:
+The most important steps done by the \code{censReg} function are:
 \begin{enumerate}
 \item perform basic checks on the arguments provided by the user
 \item prepare the data for the estimation,
@@ -198,25 +198,25 @@ The most important steps done by the \code{tobit} function are:
       in appendix~\ref{sec:logLikGrad}.}
 \item call function \code{maxLik} of the \pkg{maxLik} package
    \citep{r-maxlik-0.7} for the maximisation of the likelihood function
-\item add class \code{"tobit"} to the returned object
+\item add class \code{"censReg"} to the returned object
 \end{enumerate}
 
 
-\subsection[Using function tobit]{Using function \code{tobit}}
+\subsection[Using function censReg]{Using function \code{censReg}}
 
-Before function \code{tobit} can be used,
+Before function \code{censReg} can be used,
 the \pkg{censReg} package \citep{r-censreg-0.5}
 must be loaded:
 <<>>=
 library( "censReg" )
 @
-The first argument of function \code{tobit} is \code{formula}.
+The first argument of function \code{censReg} is \code{formula}.
 It is the only mandatory argument and
 must provide a symbolic description of the model to be fitted.
 The optional argument \code{data} can be used to provide
 a data set (\code{data.frame})
 that contains the variables used in the estimation.
-We demonstrate the usage of \code{tobit} by replicating an example
+We demonstrate the usage of \code{censReg} by replicating an example
 given in \citet[p.~142]{kleiber08a}.
 The data used in this example are available in the data set \code{Affairs}
 that is included in the \proglang{R} package \pkg{AER}
@@ -234,12 +234,12 @@ The dependent variable is left-censored at zero and not right-censored.
 Hence, this is a standard Tobit model.
 It can be estimated by following command:
 <<>>=
-tobitResult <- tobit( affairs ~ age + yearsmarried + religiousness +
+estResult <- censReg( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs )
 @
 Detailed estimation results can be obtained by using the \code{summary} method.
 <<>>=
-summary( tobitResult )
+summary( estResult )
 @
 In case of a censored regression with left-censoring not at zero
 and/or right-censoring,
@@ -255,14 +255,14 @@ The same model as above
 but with the negative number of affairs as the dependent variable
 can be estimated by
 <<>>=
-tobitResultMinus <- tobit( I( - affairs ) ~ age + yearsmarried + religiousness +
+estResultMinus <- censReg( I( - affairs ) ~ age + yearsmarried + religiousness +
    occupation + rating, left = -Inf, right = 0, data = Affairs )
 @
 This estimation returns $\beta$ parameters that have the opposite sign
 of the $\beta$  parameters estimated in the original model,
 but the (logarithmised) standard error of the residuals remains unchanged.
 <<>>=
-cbind( coef( tobitResult ), coef( tobitResultMinus ) )
+cbind( coef( estResult ), coef( estResultMinus ) )
 @
 
 

@@ -18,27 +18,27 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 
 
 ## Newton-Raphson method
-system.time( randEff <- tobit( y ~ x1 + x2, data = pData ) )
+system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
 summary( randEff )
 print.default( randEff )
 
 
 ## BHHH method
-system.time( randEffBhhh <- tobit( y ~ x1 + x2, data = pData,
+system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
    method = "BHHH" ) )
 summary( randEffBhhh )
 print.default( randEffBhhh )
 
 
 ## BFGS method (optim)
-system.time( randEffBfgs <- tobit( y ~ x1 + x2, data = pData,
+system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
    method = "BFGS" ) )
 summary( randEffBfgs )
 print.default( randEffBfgs )
 
 
 ## BFGS method (R)
-system.time( randEffBfgsr <- tobit( y ~ x1 + x2, data = pData,
+system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
    method = "BFGSR" ) )
 summary( randEffBfgsr )
 print.default( randEffBfgsr )
@@ -46,14 +46,14 @@ print.default( randEffBfgsr )
 
 ## left-censoring at 5
 pData$yAdd <- pData$y + 5
-randEffAdd <- tobit( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
+randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
 summary( randEffAdd )
 print.default( randEffAdd )
 
 
 ## right-censoring
 pData$yNeg <- - pData$y
-randEffNeg <- tobit( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
+randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = 0 )
 summary( randEffNeg )
 print.default( randEffNeg )
@@ -61,7 +61,7 @@ print.default( randEffNeg )
 
 ## right-censoring at -5
 pData$yAddNeg <- - pData$yAdd
-randEffAddNeg <- tobit( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
+randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = -5 )
 summary( randEffAddNeg )
 print.default( randEffAddNeg )
@@ -69,7 +69,7 @@ print.default( randEffAddNeg )
 
 ## both right and left censoring
 pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
-randEffBoth <- tobit( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
+randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
    left = 0, right = 3 )
 summary( randEffBoth )
 print.default( randEffBoth )
@@ -85,7 +85,7 @@ for( i in 1:nId ) {
       paste( "G", perm[ i ], sep = "_" )
 }
 pData2 <- pdata.frame( nData2, c( "id", "time" ) )
-system.time( randEffBfgsr2 <- tobit( y ~ x1 + x2, data = pData2,
+system.time( randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2,
    method = "BFGSR" ) )
 all.equal( randEffBfgsr2[ -11 ], randEffBfgsr[ -11 ] )
 all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
@@ -94,7 +94,7 @@ all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
 ## unbalanced panel data
 nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
-system.time( randEffBfgsrUnb <- tobit( y ~ x1 + x2, data = pDataUnb,
+system.time( randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb,
    method = "BFGSR" ) )
 summary( randEffBfgsrUnb )
 print.default( randEffBfgsrUnb )
@@ -106,7 +106,7 @@ obsNa <- which( ! rownames( pData ) %in% rownames( pDataUnb ) )
 pDataNa$y[ obsNa[ 1:2 ] ] <- NA
 pDataNa$x1[ obsNa[ 3 ] ] <- NA
 pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
-system.time( randEffBfgsrNa <- tobit( y ~ x1 + x2, data = pDataNa,
+system.time( randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa,
    method = "BFGSR" ) )
 all.equal( randEffBfgsrNa, randEffBfgsrUnb )
 

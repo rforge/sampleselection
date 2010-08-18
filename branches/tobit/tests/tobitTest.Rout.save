@@ -24,8 +24,8 @@ Loading required package: miscTools
 +    occupation + rating
 > 
 > ## usual tobit estimation
-> tobitResult <- tobit( affairsFormula, data = Affairs )
-> print.default( tobitResult )
+> estResult <- censReg( affairsFormula, data = Affairs )
+> print.default( estResult )
 $maximum
 [1] -705.5762
 
@@ -1287,8 +1287,8 @@ $gradientObs
 [601,]  0.471208752 -0.395930181
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
-> summary( tobitResult )
+[1] "censReg" "maxLik"  "maxim"   "list"   
+> summary( estResult )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -1309,8 +1309,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## usual tobit estimation, BHHH method
-> tobitResultBhhh <- tobit( affairsFormula, data = Affairs, method = "BHHH" )
-> print.default( tobitResultBhhh )
+> estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
+> print.default( estResultBhhh )
 $maximum
 [1] -705.5762
 
@@ -2574,8 +2574,8 @@ $gradientObs
 [601,]  0.471197028 -0.395938071
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
-> summary( tobitResultBhhh )
+[1] "censReg" "maxLik"  "maxim"   "list"   
+> summary( estResultBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
 BHHH maximisation, 35 iterations
@@ -2596,8 +2596,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## usual tobit estimation, BFGS method
-> tobitResultBfgs <- tobit( affairsFormula, data = Affairs, method = "BFGS" )
-> print.default( tobitResultBfgs )
+> estResultBfgs <- censReg( affairsFormula, data = Affairs, method = "BFGS" )
+> print.default( estResultBfgs )
 $maximum
 [1] -705.5762
 
@@ -3863,8 +3863,8 @@ $gradientObs
 [601,]  0.471207114 -0.395934004
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim" 
-> summary( tobitResultBfgs )
+[1] "censReg" "maxLik"  "maxim"  
+> summary( estResultBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS maximisation, 65 iterations
@@ -3885,8 +3885,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## usual tobit estimation, NM method
-> tobitResultNm <- tobit( affairsFormula, data = Affairs, method = "NM" )
-> print.default( tobitResultNm )
+> estResultNm <- censReg( affairsFormula, data = Affairs, method = "NM" )
+> print.default( estResultNm )
 $maximum
 [1] -705.5956
 
@@ -5152,8 +5152,8 @@ $gradientObs
 [601,]  0.469446724 -0.3974152374
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim" 
-> summary( tobitResultNm )
+[1] "censReg" "maxLik"  "maxim"  
+> summary( estResultNm )
 --------------------------------------------
 Maximum Likelihood estimation
 Nelder-Mead maximisation, 502 iterations
@@ -5174,8 +5174,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## usual tobit estimation, SANN method
-> tobitResultSann <- tobit( affairsFormula, data = Affairs, method = "SANN" )
-> print.default( tobitResultSann )
+> estResultSann <- censReg( affairsFormula, data = Affairs, method = "SANN" )
+> print.default( estResultSann )
 $maximum
 [1] -706.9638
 
@@ -6441,8 +6441,8 @@ $gradientObs
 [601,]  0.480456160 -0.2899188737
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim" 
-> summary( tobitResultSann )
+[1] "censReg" "maxLik"  "maxim"  
+> summary( estResultSann )
 --------------------------------------------
 Maximum Likelihood estimation
 SANN maximisation, 10000 iterations
@@ -6463,9 +6463,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## usual tobit estimation with user-defined starting values
-> tobitResultStart <- tobit( affairsFormula, data = Affairs,
+> estResultStart <- censReg( affairsFormula, data = Affairs,
 +    start = c( 8.17, -0.18, 0.55, -1.69, 0.33, -2.3, 2.13 ) )
-> print.default( tobitResultStart )
+> print.default( estResultStart )
 $maximum
 [1] -705.5762
 
@@ -7727,8 +7727,8 @@ $gradientObs
 [601,]  0.471208752 -0.395930181
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
-> summary( tobitResultStart )
+[1] "censReg" "maxLik"  "maxim"   "list"   
+> summary( estResultStart )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 3 iterations
@@ -7748,11 +7748,11 @@ logSigma       2.109859   0.067098 31.4444 < 2.2e-16 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > 
-> ## tobit estimation with left-censoring at 5
+> ## estimation with left-censoring at 5
 > Affairs$affairsAdd <- Affairs$affairs + 5
-> tobitResultAdd <- tobit( affairsAdd ~ age + yearsmarried + religiousness +
+> estResultAdd <- censReg( affairsAdd ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs, left = 5 )
-> print.default( tobitResultAdd )
+> print.default( estResultAdd )
 $maximum
 [1] -705.5762
 
@@ -9014,8 +9014,8 @@ $gradientObs
 [601,]  0.471208752 -0.395930181
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
-> summary( tobitResultAdd )
+[1] "censReg" "maxLik"  "maxim"   "list"   
+> summary( estResultAdd )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -9035,11 +9035,11 @@ logSigma       2.109859   0.067098 31.4444 < 2.2e-16 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > 
-> ## tobit estimation with right-censoring
+> ## estimation with right-censoring
 > Affairs$affairsNeg <- - Affairs$affairs
-> tobitResultNeg <- tobit( affairsNeg ~ age + yearsmarried + religiousness +
+> estResultNeg <- censReg( affairsNeg ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs, left = -Inf, right = 0 )
-> print.default( tobitResultNeg )
+> print.default( estResultNeg )
 $maximum
 [1] -705.5762
 
@@ -10301,8 +10301,8 @@ $gradientObs
 [601,] -0.471208752 -0.395930181
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
-> summary( tobitResultNeg )
+[1] "censReg" "maxLik"  "maxim"   "list"   
+> summary( estResultNeg )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -10322,11 +10322,11 @@ logSigma       2.109859   0.067098 31.4444 < 2.2e-16 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > 
-> ## tobit estimation with right-censoring at -5
+> ## estimation with right-censoring at -5
 > Affairs$affairsAddNeg <- - Affairs$affairsAdd
-> tobitResultAddNeg <- tobit( affairsAddNeg ~ age + yearsmarried + religiousness +
+> estResultAddNeg <- censReg( affairsAddNeg ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs, left = -Inf, right = -5 )
-> print.default( tobitResultAddNeg )
+> print.default( estResultAddNeg )
 $maximum
 [1] -705.5762
 
@@ -11588,8 +11588,8 @@ $gradientObs
 [601,] -0.471208752 -0.395930181
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
-> summary( tobitResultAddNeg )
+[1] "censReg" "maxLik"  "maxim"   "list"   
+> summary( estResultAddNeg )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -11609,12 +11609,12 @@ logSigma        2.109859   0.067098 31.4444 < 2.2e-16 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > 
-> ## tobit estimation with left and right censoring
-> tobitResultBoth <- tobit( affairsFormula, data = Affairs, right = 4 )
+> ## estimation with left and right censoring
+> estResultBoth <- censReg( affairsFormula, data = Affairs, right = 4 )
 Warning message:
-In tobit(affairsFormula, data = Affairs, right = 4) :
+In censReg(affairsFormula, data = Affairs, right = 4) :
   at least one value of the endogenous variable is larger than the right limit
-> print.default( tobitResultBoth )
+> print.default( estResultBoth )
 $maximum
 [1] -500.0428
 
@@ -12876,8 +12876,8 @@ $gradientObs
 [601,]  0.503804978 -0.359413148
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
-> summary( tobitResultBoth )
+[1] "censReg" "maxLik"  "maxim"   "list"   
+> summary( estResultBoth )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations

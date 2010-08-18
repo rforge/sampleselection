@@ -1,4 +1,4 @@
-tobit <- function( formula, left = 0, right = Inf,
+censReg <- function( formula, left = 0, right = Inf,
       data = sys.frame( sys.parent() ), start = NULL,
       nGHQ = 4, ... ) {
 
@@ -59,7 +59,7 @@ tobit <- function( formula, left = 0, right = Inf,
       if( !identical( order( pIndex[[ 1 ]] ), 1:length( pIndex[[ 1 ]] ) ) ) {
          stop( "names of individuals in attributes(data)$index[[1]]",
             " must be in alphabetical order but they are not;",
-            " please fix this and re-run tobit()." )
+            " please fix this and re-run censReg()." )
       }
 
    }
@@ -133,7 +133,7 @@ tobit <- function( formula, left = 0, right = Inf,
       obsMatBetween <- !obsMatBelow & !obsMatAbove & !is.na( yMat )
 
       ## log likelihood function for panel data (incl. gradients)
-      tobitLogLik <- function( beta ) {
+      censRegLogLik <- function( beta ) {
          yMatHat <- matrix( matrix( xArr, ncol = ncol( xMat ) ) %*%
             beta[ 1:( length( beta ) - 2 ) ], nrow = nInd, ncol = nTime )
          sigmaMu <- exp( beta[ length( beta ) - 1 ] )
@@ -201,7 +201,7 @@ tobit <- function( formula, left = 0, right = Inf,
       obsBetween <- !obsBelow & !obsAbove
 
       ## log likelihood function for cross-sectional data
-      tobitLogLik <- function( beta ) {
+      censRegLogLik <- function( beta ) {
          yHat <- xMat %*% beta[ - length( beta ) ]
          sigma <- exp( beta[ length( beta ) ] )
          ll <- rep( NA, length( yVec ) )
@@ -233,9 +233,9 @@ tobit <- function( formula, left = 0, right = Inf,
          return( ll )
       }
    }
-   result <- maxLik( tobitLogLik, start = start, ... )
+   result <- maxLik( censRegLogLik, start = start, ... )
 
-   class( result ) <- c( "tobit", class( result ) )
+   class( result ) <- c( "censReg", class( result ) )
    return( result )
 }
 

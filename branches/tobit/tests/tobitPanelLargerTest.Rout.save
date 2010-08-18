@@ -46,14 +46,14 @@ Loading required package: zoo
 > 
 > 
 > # ## Newton-Raphson method
-> # system.time( randEff <- tobit( y ~ x1 + x2, data = pData ) )
+> # system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
 > # summary( randEff )
 > 
 > ## BHHH method
-> system.time( randEffBhhh <- tobit( y ~ x1 + x2, data = pData,
+> system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  0.620   0.004   0.627 
+  0.616   0.000   0.633 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -73,10 +73,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## BFGS method (optim)
-> system.time( randEffBfgs <- tobit( y ~ x1 + x2, data = pData,
+> system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  0.728   0.000   0.731 
+  0.716   0.000   0.723 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -96,10 +96,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## BFGS method (R)
-> system.time( randEffBfgsr <- tobit( y ~ x1 + x2, data = pData,
+> system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.468   0.004   0.476 
+  0.468   0.008   0.516 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation

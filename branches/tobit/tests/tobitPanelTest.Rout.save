@@ -47,9 +47,9 @@ Loading required package: zoo
 > 
 > 
 > ## Newton-Raphson method
-> system.time( randEff <- tobit( y ~ x1 + x2, data = pData ) )
+> system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
    user  system elapsed 
-  0.504   0.004   0.520 
+  0.488   0.000   0.512 
 > summary( randEff )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -125,14 +125,14 @@ $gradientObs
 [15,]  0.05768414  1.02443630 -0.35867363 -0.9532511  0.1484046
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
+[1] "censReg" "maxLik"  "maxim"   "list"   
 > 
 > 
 > ## BHHH method
-> system.time( randEffBhhh <- tobit( y ~ x1 + x2, data = pData,
+> system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  0.268   0.004   0.278 
+  0.260   0.000   0.279 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -210,14 +210,14 @@ $gradientObs
 [15,]  0.05780145  1.02457228 -0.35865852 -0.9532749  0.1486807
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
+[1] "censReg" "maxLik"  "maxim"   "list"   
 > 
 > 
 > ## BFGS method (optim)
-> system.time( randEffBfgs <- tobit( y ~ x1 + x2, data = pData,
+> system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  0.292   0.008   0.304 
+  0.284   0.004   0.308 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -297,14 +297,14 @@ $gradientObs
 [15,]  0.05768469  1.02443839 -0.35867410 -0.9532509  0.1484085
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim" 
+[1] "censReg" "maxLik"  "maxim"  
 > 
 > 
 > ## BFGS method (R)
-> system.time( randEffBfgsr <- tobit( y ~ x1 + x2, data = pData,
+> system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.220   0.000   0.223 
+  0.208   0.000   0.211 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -380,12 +380,12 @@ $gradientObs
 [15,]  0.05768213  1.02443731 -0.35867510 -0.9532476  0.1484039
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
+[1] "censReg" "maxLik"  "maxim"   "list"   
 > 
 > 
 > ## left-censoring at 5
 > pData$yAdd <- pData$y + 5
-> randEffAdd <- tobit( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
+> randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
 > summary( randEffAdd )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -461,12 +461,12 @@ $gradientObs
 [15,]  0.05768213  1.02443731 -0.35867510 -0.9532476  0.1484039
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
+[1] "censReg" "maxLik"  "maxim"   "list"   
 > 
 > 
 > ## right-censoring
 > pData$yNeg <- - pData$y
-> randEffNeg <- tobit( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
+> randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = -Inf, right = 0 )
 > summary( randEffNeg )
 --------------------------------------------
@@ -543,12 +543,12 @@ $gradientObs
 [15,] -0.05768213 -1.02443731  0.35867510 -0.9532476  0.1484039
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
+[1] "censReg" "maxLik"  "maxim"   "list"   
 > 
 > 
 > ## right-censoring at -5
 > pData$yAddNeg <- - pData$yAdd
-> randEffAddNeg <- tobit( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
+> randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = -Inf, right = -5 )
 > summary( randEffAddNeg )
 --------------------------------------------
@@ -625,12 +625,12 @@ $gradientObs
 [15,] -0.05768213 -1.02443731  0.35867510 -0.9532476  0.1484039
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
+[1] "censReg" "maxLik"  "maxim"   "list"   
 > 
 > 
 > ## both right and left censoring
 > pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
-> randEffBoth <- tobit( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
+> randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = 0, right = 3 )
 > summary( randEffBoth )
 --------------------------------------------
@@ -707,7 +707,7 @@ $gradientObs
 [15,]  0.30191997  0.69389209 -0.10266056 -1.0791477 -0.49710151
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
+[1] "censReg" "maxLik"  "maxim"   "list"   
 > 
 > 
 > ## re-order observations/individuals
@@ -720,10 +720,10 @@ attr(,"class")
 +       paste( "G", perm[ i ], sep = "_" )
 + }
 > pData2 <- pdata.frame( nData2, c( "id", "time" ) )
-> system.time( randEffBfgsr2 <- tobit( y ~ x1 + x2, data = pData2,
+> system.time( randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.224   0.000   0.225 
+  0.220   0.000   0.221 
 > all.equal( randEffBfgsr2[ -11 ], randEffBfgsr[ -11 ] )
 [1] TRUE
 > all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
@@ -733,10 +733,10 @@ attr(,"class")
 > ## unbalanced panel data
 > nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 > pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
-> system.time( randEffBfgsrUnb <- tobit( y ~ x1 + x2, data = pDataUnb,
+> system.time( randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.216   0.000   0.225 
+  0.228   0.000   0.240 
 > summary( randEffBfgsrUnb )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -812,7 +812,7 @@ $gradientObs
 [15,] -0.051309741  0.988147326 -0.405743358 -0.7591906 -0.0914206
 
 attr(,"class")
-[1] "tobit"  "maxLik" "maxim"  "list"  
+[1] "censReg" "maxLik"  "maxim"   "list"   
 > 
 > 
 > ## NAs in data
@@ -821,10 +821,10 @@ attr(,"class")
 > pDataNa$y[ obsNa[ 1:2 ] ] <- NA
 > pDataNa$x1[ obsNa[ 3 ] ] <- NA
 > pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
-> system.time( randEffBfgsrNa <- tobit( y ~ x1 + x2, data = pDataNa,
+> system.time( randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.232   0.000   0.237 
+  0.228   0.000   0.229 
 > all.equal( randEffBfgsrNa, randEffBfgsrUnb )
 [1] TRUE
 > 

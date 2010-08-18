@@ -151,8 +151,8 @@ tobit <- function( formula, left = 0, right = Inf,
                dnorm( ( yMat[ obsMatBetween ] - yMatHat[ obsMatBetween ] -
                   sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu ) /
                   sigmaNu
-            likInd <- likInd + ghqPoints$weights[ h ] *
-               apply( likGhq, 1, prod )
+            likGhqProd <- apply( likGhq, 1, prod )
+            likInd <- likInd + ghqPoints$weights[ h ] * likGhqProd
          }
          ll <- log( likInd / sqrt( pi ) )
          return( ll )

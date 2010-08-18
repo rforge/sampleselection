@@ -20,24 +20,28 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 ## Newton-Raphson method
 system.time( randEff <- tobit( y ~ x1 + x2, data = pData ) )
 summary( randEff )
+print.default( randEff )
 
 
 ## BHHH method
 system.time( randEffBhhh <- tobit( y ~ x1 + x2, data = pData,
    method = "BHHH" ) )
 summary( randEffBhhh )
+print.default( randEffBhhh )
 
 
 ## BFGS method (optim)
 system.time( randEffBfgs <- tobit( y ~ x1 + x2, data = pData,
    method = "BFGS" ) )
 summary( randEffBfgs )
+print.default( randEffBfgs )
 
 
 ## BFGS method (R)
 system.time( randEffBfgsr <- tobit( y ~ x1 + x2, data = pData,
    method = "BFGSR" ) )
 summary( randEffBfgsr )
+print.default( randEffBfgsr )
 
 
 ## re-order observations/individuals
@@ -62,6 +66,7 @@ pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
 system.time( randEffBfgsrUnb <- tobit( y ~ x1 + x2, data = pDataUnb,
    method = "BFGSR" ) )
 summary( randEffBfgsrUnb )
+print.default( randEffBfgsrUnb )
 
 
 ## NAs in data

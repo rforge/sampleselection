@@ -71,7 +71,7 @@ tobit( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
 
 \author{Arne Henningsen}
 
-\seealso{\code{\link[AER]{tobit}}, \code{\link{selection}}}
+\seealso{\code{\link[AER]{tobit}}, \code{\link[sampleSelection]{selection}}}
 
 \examples{
 ## Kleiber & Zeileis ( 2008 ), page 142

@@ -67,6 +67,14 @@ summary( randEffAddNeg )
 print.default( randEffAddNeg )
 
 
+## both right and left censoring
+pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
+randEffBoth <- tobit( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
+   left = 0, right = 3 )
+summary( randEffBoth )
+print.default( randEffBoth )
+
+
 ## re-order observations/individuals
 set.seed( 234 )
 perm <- sample( nId )

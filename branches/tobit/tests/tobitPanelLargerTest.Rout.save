@@ -72,7 +72,7 @@ Loading required package: sandwich
 > system.time( randEffBhhh <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  2.512   0.020   2.587 
+  0.616   0.008   0.638 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -95,7 +95,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBfgs <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  1.948   0.008   2.000 
+  0.724   0.004   0.743 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -105,11 +105,11 @@ Log-Likelihood: -331.5721
 5  free parameters
 Estimates:
              Estimate Std. error t value   Pr(> t)    
-(Intercept) -1.063466   0.230965 -4.6045 4.135e-06 ***
-x1           2.077659   0.098789 21.0312 < 2.2e-16 ***
-x2           3.053009   0.330163  9.2470 < 2.2e-16 ***
-logSigmaMu  -0.205557   0.115809 -1.7750    0.0759 .  
-logSigmaNu   0.051730   0.068167  0.7589    0.4479    
+(Intercept) -1.063466   0.231525 -4.5933 4.363e-06 ***
+x1           2.077659   0.098836 21.0213 < 2.2e-16 ***
+x2           3.053009   0.331343  9.2140 < 2.2e-16 ***
+logSigmaMu  -0.205557   0.115870 -1.7740   0.07606 .  
+logSigmaNu   0.051730   0.068175  0.7588   0.44798    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
@@ -118,7 +118,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBfgsr <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  1.788   0.000   1.823 
+  0.480   0.000   0.478 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -128,11 +128,11 @@ Log-Likelihood: -331.5721
 5  free parameters
 Estimates:
              Estimate Std. error t value   Pr(> t)    
-(Intercept) -1.063682   0.231124 -4.6022  4.18e-06 ***
-x1           2.077635   0.098860 21.0159 < 2.2e-16 ***
-x2           3.053382   0.330480  9.2392 < 2.2e-16 ***
-logSigmaMu  -0.205490   0.115848 -1.7738    0.0761 .  
-logSigmaNu   0.051725   0.068169  0.7588    0.4480    
+(Intercept) -1.063682   0.231542 -4.5939  4.35e-06 ***
+x1           2.077635   0.098836 21.0210 < 2.2e-16 ***
+x2           3.053382   0.331357  9.2148 < 2.2e-16 ***
+logSigmaMu  -0.205490   0.115857 -1.7736   0.07612 .  
+logSigmaNu   0.051725   0.068174  0.7587   0.44802    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------

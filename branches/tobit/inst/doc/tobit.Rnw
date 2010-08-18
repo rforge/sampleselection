@@ -426,7 +426,7 @@ $w_1, \ldots , w_H$ are the corresponding weights
 \subsection{Panel data with random effects}
 \label{sec:logLikGradRand}
 \begin{align}
-\frac{ \partial \ln L_i }{ \partial \beta_j } =
+\frac{ \partial \log L_i }{ \partial \beta_j } =
    & \frac{ 1 }{ \sqrt{\pi} \; L_i } \;
    \sum_{h=1}^H w_h
    \left\{
@@ -484,8 +484,8 @@ $w_1, \ldots , w_H$ are the corresponding weights
 \end{align}
 
 \begin{align}
-\frac{ \partial \ln L_i }{ \partial \sigma_\mu } =
-   & \frac{ 1 }{ \sqrt{\pi} \; L_i } \;
+\frac{ \partial \log L_i }{ \partial \log \sigma_\mu } =
+   & \frac{ \sigma_\mu }{ \sqrt{\pi} \; L_i } \;
    \sum_{h=1}^H w_h
    \left\{
       \left( \prod_{t=1}^{T_i}
@@ -542,8 +542,8 @@ $w_1, \ldots , w_H$ are the corresponding weights
 \end{align}
 
 \begin{align}
-\frac{ \partial \ln L_i }{ \partial \sigma_\nu } =
-   & \frac{ 1 }{ \sqrt{\pi} \; L_i } \;
+\frac{ \partial \log L_i }{ \partial \log \sigma_\nu } =
+   & \frac{ \sigma_\nu }{ \sqrt{\pi} \; L_i } \;
    \sum_{h=1}^H w_h
    \left\{
       \left( \prod_{t=1}^{T_i}

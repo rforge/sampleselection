@@ -1,4 +1,4 @@
-library( sampleSelection )
+library( censReg )
 library( plm )
 
 nId <- 15

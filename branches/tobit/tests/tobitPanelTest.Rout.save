@@ -15,39 +15,20 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library( sampleSelection )
+> library( censReg )
 Loading required package: maxLik
 Loading required package: miscTools
-Loading required package: systemfit
-Loading required package: Matrix
-Loading required package: lattice
-
-Attaching package: 'Matrix'
-
-The following object(s) are masked from 'package:base':
-
-    det
-
-Loading required package: car
-Loading required package: MASS
-Loading required package: nnet
-Loading required package: survival
-Loading required package: splines
-
-Attaching package: 'car'
-
-The following object(s) are masked from 'package:miscTools':
-
-    coefTable
-
-Loading required package: lmtest
-Loading required package: zoo
 > library( plm )
 Loading required package: kinship
+Loading required package: survival
+Loading required package: splines
 Loading required package: nlme
+Loading required package: lattice
 [1] "kinship is loaded"
 Loading required package: Formula
+Loading required package: MASS
 Loading required package: sandwich
+Loading required package: zoo
 > 
 > nId <- 15
 > nTime <- 4
@@ -68,7 +49,7 @@ Loading required package: sandwich
 > ## Newton-Raphson method
 > system.time( randEff <- tobit( y ~ x1 + x2, data = pData ) )
    user  system elapsed 
-  0.516   0.008   0.522 
+  0.500   0.000   0.507 
 > summary( randEff )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -151,7 +132,7 @@ attr(,"class")
 > system.time( randEffBhhh <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  0.276   0.000   0.282 
+  0.272   0.000   0.276 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -236,7 +217,7 @@ attr(,"class")
 > system.time( randEffBfgs <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  0.312   0.004   0.325 
+  0.296   0.000   0.307 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -323,7 +304,7 @@ attr(,"class")
 > system.time( randEffBfgsr <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.208   0.000   0.208 
+  0.204   0.000   0.210 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -660,7 +641,7 @@ attr(,"class")
 > system.time( randEffBfgsr2 <- tobit( y ~ x1 + x2, data = pData2,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.204   0.000   0.208 
+  0.208   0.000   0.216 
 > all.equal( randEffBfgsr2[ -11 ], randEffBfgsr[ -11 ] )
 [1] TRUE
 > all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
@@ -673,7 +654,7 @@ attr(,"class")
 > system.time( randEffBfgsrUnb <- tobit( y ~ x1 + x2, data = pDataUnb,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.228   0.004   0.238 
+  0.224   0.000   0.232 
 > summary( randEffBfgsrUnb )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -761,7 +742,7 @@ attr(,"class")
 > system.time( randEffBfgsrNa <- tobit( y ~ x1 + x2, data = pDataNa,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.224   0.000   0.228 
+  0.264   0.000   0.272 
 > all.equal( randEffBfgsrNa, randEffBfgsrUnb )
 [1] TRUE
 > 

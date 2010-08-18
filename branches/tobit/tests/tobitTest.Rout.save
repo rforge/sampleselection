@@ -15,33 +15,9 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library( sampleSelection )
+> library( censReg )
 Loading required package: maxLik
 Loading required package: miscTools
-Loading required package: systemfit
-Loading required package: Matrix
-Loading required package: lattice
-
-Attaching package: 'Matrix'
-
-The following object(s) are masked from 'package:base':
-
-    det
-
-Loading required package: car
-Loading required package: MASS
-Loading required package: nnet
-Loading required package: survival
-Loading required package: splines
-
-Attaching package: 'car'
-
-The following object(s) are masked from 'package:miscTools':
-
-    coefTable
-
-Loading required package: lmtest
-Loading required package: zoo
 > 
 > data( "Affairs", package = "AER" )
 > affairsFormula <- affairs ~ age + yearsmarried + religiousness +

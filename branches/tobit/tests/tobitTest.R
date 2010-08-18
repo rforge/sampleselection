@@ -1,4 +1,4 @@
-library( sampleSelection )
+library( censReg )
 
 data( "Affairs", package = "AER" )
 affairsFormula <- affairs ~ age + yearsmarried + religiousness +

@@ -68,7 +68,7 @@ Loading required package: sandwich
 > ## Newton-Raphson method
 > system.time( randEff <- tobit( y ~ x1 + x2, data = pData ) )
    user  system elapsed 
-  0.460   0.008   0.470 
+  0.516   0.008   0.522 
 > summary( randEff )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -151,7 +151,7 @@ attr(,"class")
 > system.time( randEffBhhh <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  0.264   0.000   0.266 
+  0.276   0.000   0.282 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -236,7 +236,7 @@ attr(,"class")
 > system.time( randEffBfgs <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  0.292   0.004   0.294 
+  0.312   0.004   0.325 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -323,7 +323,7 @@ attr(,"class")
 > system.time( randEffBfgsr <- tobit( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.212   0.000   0.213 
+  0.208   0.000   0.208 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -402,6 +402,251 @@ attr(,"class")
 [1] "tobit"  "maxLik" "maxim"  "list"  
 > 
 > 
+> ## left-censoring at 5
+> pData$yAdd <- pData$y + 5
+> randEffAdd <- tobit( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
+> summary( randEffAdd )
+--------------------------------------------
+Maximum Likelihood estimation
+BFGS-YC maximization, 10 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -73.72082 
+5  free parameters
+Estimates:
+             Estimate Std. error t value   Pr(> t)    
+(Intercept)  4.713916   0.464841 10.1409 < 2.2e-16 ***
+x1           1.668139   0.216208  7.7154 1.206e-14 ***
+x2           2.162099   0.695432  3.1090  0.001877 ** 
+logSigmaMu  -0.271721   0.245537 -1.1066  0.268450    
+logSigmaNu   0.021602   0.131454  0.1643  0.869469    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+--------------------------------------------
+> print.default( randEffAdd )
+$maximum
+[1] -73.72082
+
+$estimate
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+ 4.71391628  1.66813878  2.16209927 -0.27172103  0.02160228 
+
+$gradient
+  (Intercept)            x1            x2    logSigmaMu    logSigmaNu 
+-8.683662e-06  4.032177e-05 -1.073595e-06  9.248918e-06 -8.743042e-06 
+
+$hessian
+            (Intercept)         x1         x2  logSigmaMu  logSigmaNu
+(Intercept) -12.1094921  -2.411863 -6.2310710   0.5765159  -3.3028187
+x1           -2.4118628 -24.672882 -1.0676809   6.6539570   4.3002393
+x2           -6.2310710  -1.067681 -5.2841686   0.5312222  -1.2714149
+logSigmaMu    0.5765159   6.653957  0.5312222 -18.4774805   0.5815668
+logSigmaNu   -3.3028187   4.300239 -1.2714149   0.5815668 -60.0906900
+
+$code
+[1] 2
+
+$message
+[1] "successive function values within tolerance limit"
+
+$last.step
+NULL
+
+$fixed
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      FALSE       FALSE       FALSE       FALSE       FALSE 
+
+$iterations
+[1] 10
+
+$type
+[1] "BFGS-YC maximization"
+
+$gradientObs
+      (Intercept)          x1          x2 logSigmaMu logSigmaNu
+ [1,] -1.00325613  0.04699078 -0.15937371  0.2257328 -1.1722543
+ [2,] -1.99580777 -0.05333759 -1.38167201  1.5622945 -0.5713694
+ [3,]  1.80898428  0.51931864  1.75011868  1.1419658  2.4275399
+ [4,] -0.09996972 -0.16044247 -0.54137594 -0.8792970 -1.5255386
+ [5,]  0.02248116  0.99732429  0.62198406 -0.7848724 -0.5062557
+ [6,]  0.04934958 -0.45786447  0.20621700 -0.5670556 -1.7345638
+ [7,] -0.12072000 -2.92881651 -0.22854841 -0.7114796  5.4408513
+ [8,] -0.33429617  0.41774944  0.03058135 -0.4993677 -1.1667041
+ [9,]  1.58194713  0.42168251  0.46488166  0.5921542 -1.5568841
+[10,] -0.36903799 -0.34101033 -0.12018605 -0.3331566 -2.1362256
+[11,]  0.04684348  1.41144431 -0.57637054 -1.1027581  2.5894900
+[12,]  2.06116299  0.69188308  1.15347633  0.8212186 -1.3881495
+[13,]  0.32105170 -0.09985367  0.21426666 -0.3404795 -1.6828866
+[14,] -2.02642335 -1.48946500 -1.07532505  1.8283575  2.8345378
+[15,]  0.05768213  1.02443731 -0.35867510 -0.9532476  0.1484039
+
+attr(,"class")
+[1] "tobit"  "maxLik" "maxim"  "list"  
+> 
+> 
+> ## right-censoring
+> pData$yNeg <- - pData$y
+> randEffNeg <- tobit( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
++    left = -Inf, right = 0 )
+> summary( randEffNeg )
+--------------------------------------------
+Maximum Likelihood estimation
+BFGS-YC maximization, 10 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -73.72082 
+5  free parameters
+Estimates:
+             Estimate Std. error t value   Pr(> t)    
+(Intercept)  0.286084   0.464841  0.6154  0.538262    
+x1          -1.668139   0.216208 -7.7154 1.206e-14 ***
+x2          -2.162099   0.695432 -3.1090  0.001877 ** 
+logSigmaMu  -0.271721   0.245537 -1.1066  0.268450    
+logSigmaNu   0.021602   0.131454  0.1643  0.869469    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+--------------------------------------------
+> print.default( randEffNeg )
+$maximum
+[1] -73.72082
+
+$estimate
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+ 0.28608372 -1.66813878 -2.16209927 -0.27172103  0.02160228 
+
+$gradient
+  (Intercept)            x1            x2    logSigmaMu    logSigmaNu 
+ 8.683662e-06 -4.032177e-05  1.073595e-06  9.248918e-06 -8.743042e-06 
+
+$hessian
+            (Intercept)         x1         x2  logSigmaMu  logSigmaNu
+(Intercept) -12.1094921  -2.411863 -6.2310710  -0.5765159   3.3028187
+x1           -2.4118628 -24.672882 -1.0676809  -6.6539570  -4.3002393
+x2           -6.2310710  -1.067681 -5.2841686  -0.5312222   1.2714149
+logSigmaMu   -0.5765159  -6.653957 -0.5312222 -18.4774805   0.5815668
+logSigmaNu    3.3028187  -4.300239  1.2714149   0.5815668 -60.0906900
+
+$code
+[1] 2
+
+$message
+[1] "successive function values within tolerance limit"
+
+$last.step
+NULL
+
+$fixed
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      FALSE       FALSE       FALSE       FALSE       FALSE 
+
+$iterations
+[1] 10
+
+$type
+[1] "BFGS-YC maximization"
+
+$gradientObs
+      (Intercept)          x1          x2 logSigmaMu logSigmaNu
+ [1,]  1.00325613 -0.04699078  0.15937371  0.2257328 -1.1722543
+ [2,]  1.99580777  0.05333759  1.38167201  1.5622945 -0.5713694
+ [3,] -1.80898428 -0.51931864 -1.75011868  1.1419658  2.4275399
+ [4,]  0.09996972  0.16044247  0.54137594 -0.8792970 -1.5255386
+ [5,] -0.02248116 -0.99732429 -0.62198406 -0.7848724 -0.5062557
+ [6,] -0.04934958  0.45786447 -0.20621700 -0.5670556 -1.7345638
+ [7,]  0.12072000  2.92881651  0.22854841 -0.7114796  5.4408513
+ [8,]  0.33429617 -0.41774944 -0.03058135 -0.4993677 -1.1667041
+ [9,] -1.58194713 -0.42168251 -0.46488166  0.5921542 -1.5568841
+[10,]  0.36903799  0.34101033  0.12018605 -0.3331566 -2.1362256
+[11,] -0.04684348 -1.41144431  0.57637054 -1.1027581  2.5894900
+[12,] -2.06116299 -0.69188308 -1.15347633  0.8212186 -1.3881495
+[13,] -0.32105170  0.09985367 -0.21426666 -0.3404795 -1.6828866
+[14,]  2.02642335  1.48946500  1.07532505  1.8283575  2.8345378
+[15,] -0.05768213 -1.02443731  0.35867510 -0.9532476  0.1484039
+
+attr(,"class")
+[1] "tobit"  "maxLik" "maxim"  "list"  
+> 
+> 
+> ## right-censoring at -5
+> pData$yAddNeg <- - pData$yAdd
+> randEffAddNeg <- tobit( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
++    left = -Inf, right = -5 )
+> summary( randEffAddNeg )
+--------------------------------------------
+Maximum Likelihood estimation
+BFGS-YC maximization, 10 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -73.72082 
+5  free parameters
+Estimates:
+             Estimate Std. error  t value   Pr(> t)    
+(Intercept) -4.713916   0.464841 -10.1409 < 2.2e-16 ***
+x1          -1.668139   0.216208  -7.7154 1.206e-14 ***
+x2          -2.162099   0.695432  -3.1090  0.001877 ** 
+logSigmaMu  -0.271721   0.245537  -1.1066  0.268450    
+logSigmaNu   0.021602   0.131454   0.1643  0.869469    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+--------------------------------------------
+> print.default( randEffAddNeg )
+$maximum
+[1] -73.72082
+
+$estimate
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+-4.71391628 -1.66813878 -2.16209927 -0.27172103  0.02160228 
+
+$gradient
+  (Intercept)            x1            x2    logSigmaMu    logSigmaNu 
+ 8.683662e-06 -4.032177e-05  1.073595e-06  9.248918e-06 -8.743042e-06 
+
+$hessian
+            (Intercept)         x1         x2  logSigmaMu  logSigmaNu
+(Intercept) -12.1094921  -2.411863 -6.2310710  -0.5765159   3.3028187
+x1           -2.4118628 -24.672882 -1.0676809  -6.6539570  -4.3002393
+x2           -6.2310710  -1.067681 -5.2841686  -0.5312222   1.2714149
+logSigmaMu   -0.5765159  -6.653957 -0.5312222 -18.4774805   0.5815668
+logSigmaNu    3.3028187  -4.300239  1.2714149   0.5815668 -60.0906900
+
+$code
+[1] 2
+
+$message
+[1] "successive function values within tolerance limit"
+
+$last.step
+NULL
+
+$fixed
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      FALSE       FALSE       FALSE       FALSE       FALSE 
+
+$iterations
+[1] 10
+
+$type
+[1] "BFGS-YC maximization"
+
+$gradientObs
+      (Intercept)          x1          x2 logSigmaMu logSigmaNu
+ [1,]  1.00325613 -0.04699078  0.15937371  0.2257328 -1.1722543
+ [2,]  1.99580777  0.05333759  1.38167201  1.5622945 -0.5713694
+ [3,] -1.80898428 -0.51931864 -1.75011868  1.1419658  2.4275399
+ [4,]  0.09996972  0.16044247  0.54137594 -0.8792970 -1.5255386
+ [5,] -0.02248116 -0.99732429 -0.62198406 -0.7848724 -0.5062557
+ [6,] -0.04934958  0.45786447 -0.20621700 -0.5670556 -1.7345638
+ [7,]  0.12072000  2.92881651  0.22854841 -0.7114796  5.4408513
+ [8,]  0.33429617 -0.41774944 -0.03058135 -0.4993677 -1.1667041
+ [9,] -1.58194713 -0.42168251 -0.46488166  0.5921542 -1.5568841
+[10,]  0.36903799  0.34101033  0.12018605 -0.3331566 -2.1362256
+[11,] -0.04684348 -1.41144431  0.57637054 -1.1027581  2.5894900
+[12,] -2.06116299 -0.69188308 -1.15347633  0.8212186 -1.3881495
+[13,] -0.32105170  0.09985367 -0.21426666 -0.3404795 -1.6828866
+[14,]  2.02642335  1.48946500  1.07532505  1.8283575  2.8345378
+[15,] -0.05768213 -1.02443731  0.35867510 -0.9532476  0.1484039
+
+attr(,"class")
+[1] "tobit"  "maxLik" "maxim"  "list"  
+> 
+> 
 > ## re-order observations/individuals
 > set.seed( 234 )
 > perm <- sample( nId )
@@ -415,7 +660,7 @@ attr(,"class")
 > system.time( randEffBfgsr2 <- tobit( y ~ x1 + x2, data = pData2,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.204   0.000   0.205 
+  0.204   0.000   0.208 
 > all.equal( randEffBfgsr2[ -11 ], randEffBfgsr[ -11 ] )
 [1] TRUE
 > all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
@@ -428,7 +673,7 @@ attr(,"class")
 > system.time( randEffBfgsrUnb <- tobit( y ~ x1 + x2, data = pDataUnb,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.224   0.000   0.222 
+  0.228   0.004   0.238 
 > summary( randEffBfgsrUnb )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -516,7 +761,7 @@ attr(,"class")
 > system.time( randEffBfgsrNa <- tobit( y ~ x1 + x2, data = pDataNa,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.224   0.000   0.225 
+  0.224   0.000   0.228 
 > all.equal( randEffBfgsrNa, randEffBfgsrUnb )
 [1] TRUE
 > 

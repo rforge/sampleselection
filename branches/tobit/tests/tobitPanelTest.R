@@ -44,6 +44,29 @@ summary( randEffBfgsr )
 print.default( randEffBfgsr )
 
 
+## left-censoring at 5
+pData$yAdd <- pData$y + 5
+randEffAdd <- tobit( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
+summary( randEffAdd )
+print.default( randEffAdd )
+
+
+## right-censoring
+pData$yNeg <- - pData$y
+randEffNeg <- tobit( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
+   left = -Inf, right = 0 )
+summary( randEffNeg )
+print.default( randEffNeg )
+
+
+## right-censoring at -5
+pData$yAddNeg <- - pData$yAdd
+randEffAddNeg <- tobit( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
+   left = -Inf, right = -5 )
+summary( randEffAddNeg )
+print.default( randEffAddNeg )
+
+
 ## re-order observations/individuals
 set.seed( 234 )
 perm <- sample( nId )

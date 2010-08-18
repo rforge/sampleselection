@@ -601,7 +601,7 @@ $w_1, \ldots , w_H$ are the corresponding weights
 
 
 
-\bibliography{tobit}
+\bibliography{censReg}
 % \bibliography{agrarpol}
 
 \end{document}

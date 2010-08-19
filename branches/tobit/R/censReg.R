@@ -235,6 +235,9 @@ censReg <- function( formula, left = 0, right = Inf,
    }
    result <- maxLik( censRegLogLik, start = start, ... )
 
+   # save the call
+   result$call <- match.call()
+
    class( result ) <- c( "censReg", class( result ) )
    return( result )
 }

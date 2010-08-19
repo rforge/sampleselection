@@ -107,7 +107,7 @@ for( i in 1:nId ) {
 pData2 <- pdata.frame( nData2, c( "id", "time" ) )
 system.time( randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2,
    method = "BFGSR" ) )
-all.equal( randEffBfgsr2[ -11 ], randEffBfgsr[ -11 ] )
+all.equal( randEffBfgsr2[ -c(11,12) ], randEffBfgsr[ -c(11,12) ] )
 all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
 
 
@@ -128,6 +128,6 @@ pDataNa$x1[ obsNa[ 3 ] ] <- NA
 pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
 system.time( randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa,
    method = "BFGSR" ) )
-all.equal( randEffBfgsrNa, randEffBfgsrUnb )
+all.equal( randEffBfgsrNa[ -12 ], randEffBfgsrUnb[ -12 ] )
 
 

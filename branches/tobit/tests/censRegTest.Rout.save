@@ -1286,6 +1286,9 @@ $gradientObs
 [600,]  0.046002484 -0.964016532
 [601,]  0.471208752 -0.395930181
 
+$call
+censReg(formula = affairsFormula, data = Affairs)
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > summary( estResult )
@@ -2617,6 +2620,9 @@ $gradientObs
 [600,]  0.045999019 -0.964020631
 [601,]  0.471197028 -0.395938071
 
+$call
+censReg(formula = affairsFormula, data = Affairs, method = "BHHH")
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > summary( estResultBhhh )
@@ -3905,6 +3911,9 @@ $gradientObs
 [599,]  0.504600445 -0.307282804
 [600,]  0.046001937 -0.964017365
 [601,]  0.471207114 -0.395934004
+
+$call
+censReg(formula = affairsFormula, data = Affairs, method = "BFGS")
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
@@ -5195,6 +5204,9 @@ $gradientObs
 [600,]  0.045942912 -0.9639286354
 [601,]  0.469446724 -0.3974152374
 
+$call
+censReg(formula = affairsFormula, data = Affairs, method = "NM")
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > summary( estResultNm )
@@ -6484,6 +6496,9 @@ $gradientObs
 [600,]  0.063912787 -0.9214663174
 [601,]  0.480456160 -0.2899188737
 
+$call
+censReg(formula = affairsFormula, data = Affairs, method = "SANN")
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > summary( estResultSann )
@@ -7769,6 +7784,10 @@ $gradientObs
 [599,]  0.504600414 -0.307283319
 [600,]  0.046002484 -0.964016532
 [601,]  0.471208752 -0.395930181
+
+$call
+censReg(formula = affairsFormula, data = Affairs, start = c(8.17, 
+    -0.18, 0.55, -1.69, 0.33, -2.3, 2.13))
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -9056,6 +9075,10 @@ $gradientObs
 [599,]  0.504600414 -0.307283319
 [600,]  0.046002484 -0.964016532
 [601,]  0.471208752 -0.395930181
+
+$call
+censReg(formula = affairsAdd ~ age + yearsmarried + religiousness + 
+    occupation + rating, left = 5, data = Affairs)
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -10388,6 +10411,10 @@ $gradientObs
 [600,] -0.046002484 -0.964016532
 [601,] -0.471208752 -0.395930181
 
+$call
+censReg(formula = affairsNeg ~ age + yearsmarried + religiousness + 
+    occupation + rating, left = -Inf, right = 0, data = Affairs)
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > summary( estResultNeg )
@@ -11718,6 +11745,10 @@ $gradientObs
 [599,] -0.504600414 -0.307283319
 [600,] -0.046002484 -0.964016532
 [601,] -0.471208752 -0.395930181
+
+$call
+censReg(formula = affairsAddNeg ~ age + yearsmarried + religiousness + 
+    occupation + rating, left = -Inf, right = -5, data = Affairs)
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -13050,6 +13081,9 @@ $gradientObs
 [599,]  0.537424471 -0.271066369
 [600,]  0.050652990 -0.959529059
 [601,]  0.503804978 -0.359413148
+
+$call
+censReg(formula = affairsFormula, right = 4, data = Affairs)
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   

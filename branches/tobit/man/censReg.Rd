@@ -37,6 +37,10 @@ censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
 \value{
    \code{censReg} returns an object of class \code{"censReg"}
    inheriting from class \code{"maxLik"}.
+   The returned object contains the same components as objects
+   returned by \code{\link[maxLik]{maxLik}} and additionally
+   the following component:
+   \item{call}{the matched call.}
 }
 
 \details{

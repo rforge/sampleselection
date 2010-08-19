@@ -49,7 +49,7 @@ Loading required package: zoo
 > ## Newton-Raphson method
 > system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
    user  system elapsed 
-  0.892   0.000   0.917 
+  0.800   0.004   0.807 
 > summary( randEff )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -144,6 +144,9 @@ $gradientObs
 [14,] -1.81460674 -1.30608969 -0.91950989  1.9573174  2.5815580
 [15,] -0.07791875  1.08513351 -0.45707928 -0.8393922  0.2013187
 
+$call
+censReg(formula = y ~ x1 + x2, data = pData)
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -152,7 +155,7 @@ attr(,"class")
 > system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  0.484   0.004   0.546 
+  0.444   0.000   0.452 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -229,6 +232,9 @@ $gradientObs
 [14,] -1.81465694 -1.30619017 -0.91955280  1.9573642  2.5815611
 [15,] -0.07793866  1.08511138 -0.45708215 -0.8393671  0.2012520
 
+$call
+censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -237,7 +243,7 @@ attr(,"class")
 > system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  0.472   0.000   0.513 
+  0.400   0.000   0.401 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -316,6 +322,9 @@ $gradientObs
 [14,] -1.81461479 -1.30609804 -0.91951560  1.9573273  2.5815634
 [15,] -0.07792214  1.08513754 -0.45708262 -0.8393873  0.2013247
 
+$call
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > 
@@ -324,7 +333,7 @@ attr(,"class")
 > system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.304   0.004   0.325 
+  0.300   0.000   0.302 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -398,6 +407,9 @@ $gradientObs
 [13,]  0.53592708 -0.22523038  0.33117481 -0.3691167 -1.4082836
 [14,] -1.81460685 -1.30608988 -0.91951004  1.9573173  2.5815575
 [15,] -0.07791890  1.08513335 -0.45707930 -0.8393920  0.2013182
+
+$call
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -499,6 +511,9 @@ $gradientObs
 [13,]  0.53592708 -0.22523038  0.33117481 -0.3691167 -1.4082836
 [14,] -1.81460685 -1.30608988 -0.91951004  1.9573173  2.5815575
 [15,] -0.07791890  1.08513335 -0.45707930 -0.8393920  0.2013182
+
+$call
+censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -602,6 +617,10 @@ $gradientObs
 [14,]  1.81460685  1.30608988  0.91951004  1.9573173  2.5815575
 [15,]  0.07791890 -1.08513335  0.45707930 -0.8393920  0.2013182
 
+$call
+censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
+    method = "BFGSR")
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -703,6 +722,10 @@ $gradientObs
 [13,] -0.53592708  0.22523038 -0.33117481 -0.3691167 -1.4082836
 [14,]  1.81460685  1.30608988  0.91951004  1.9573173  2.5815575
 [15,]  0.07791890 -1.08513335  0.45707930 -0.8393920  0.2013182
+
+$call
+censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
+    data = pData, method = "BFGSR")
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -806,6 +829,10 @@ $gradientObs
 [14,] -1.63752640 -1.34696463 -0.8377496  2.11919025  2.7628210
 [15,] -0.02090079  0.73950577 -0.2994167 -0.89512731 -0.4801545
 
+$call
+censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
+    method = "BFGSR")
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -823,8 +850,8 @@ attr(,"class")
 > system.time( randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.304   0.000   0.318 
-> all.equal( randEffBfgsr2[ -11 ], randEffBfgsr[ -11 ] )
+  0.292   0.000   0.290 
+> all.equal( randEffBfgsr2[ -c(11,12) ], randEffBfgsr[ -c(11,12) ] )
 [1] TRUE
 > all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
 [1] TRUE
@@ -836,7 +863,7 @@ attr(,"class")
 > system.time( randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.336   0.000   0.375 
+  0.336   0.000   0.349 
 > summary( randEffBfgsrUnb )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -911,6 +938,9 @@ $gradientObs
 [14,] -1.89296358 -1.288373430 -0.96260700  1.98453208  2.67979864
 [15,] -0.17414520  1.044098000 -0.49521247 -0.72423245  0.03190577
 
+$call
+censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -924,8 +954,8 @@ attr(,"class")
 > system.time( randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.304   0.000   0.323 
-> all.equal( randEffBfgsrNa, randEffBfgsrUnb )
+  0.328   0.000   0.339 
+> all.equal( randEffBfgsrNa[ -12 ], randEffBfgsrUnb[ -12 ] )
 [1] TRUE
 > 
 > 

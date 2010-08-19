@@ -189,13 +189,11 @@ The most important steps done by the \code{censReg} function are:
 \item obtain initial values of the parameters $\beta$ and $\sigma$
    from an OLS estimation
    (if no initial values are provided by the user)
-\item define the log-likelihood function
-   (a function that returns the log-likelihood value
-   given the vector of parameters $( \beta' , \sigma )'$
-\item define a function that calculates the gradients
-   of the log-likelihood function given the vector of parameters\footnote{
+\item define a function that returns the log-likelihood value
+   and its gradients\footnote{
       The gradients of the log-likelihood function are presented
       in appendix~\ref{sec:logLikGrad}.}
+   given the vector of parameters $( \beta' , \sigma )'$
 \item call function \code{maxLik} of the \pkg{maxLik} package
    \citep{r-maxlik-0.7} for the maximisation of the likelihood function
 \item add class \code{"censReg"} to the returned object

@@ -175,6 +175,7 @@ using standard non-linear optimisation algorithms.
 
 
 \subsection[Implementation in function censReg]{Implementation in function \code{censReg}}
+\label{sec:implementCross}
 
 Censored regression models can be estimated in \proglang{R}
 with function \code{censReg},
@@ -187,9 +188,9 @@ The most important steps done by the \code{censReg} function are:
    i.e.\ the vector of the dependent variable $y = ( y_1 , \ldots , y_N )'$
    and the matrix of the regressors $X = ( x_1 ' , \ldots , x_N ' )'$
 \item obtain initial values of the parameters $\beta$ and $\sigma$
-   from an OLS estimation
+   from an OLS estimation using function \code{lm}
    (if no initial values are provided by the user)
-\item define a function that returns the log-likelihood value
+\item define a function that calculates and returns the log-likelihood value
    and its gradients\footnote{
       The gradients of the log-likelihood function are presented
       in appendix~\ref{sec:logLikGrad}.}
@@ -406,6 +407,40 @@ $\psi_1 , \ldots , \psi_H$ are the abscissae, and
 $w_1, \ldots , w_H$ are the corresponding weights
 \citep[p.~553]{greene08}
  
+
+\subsection[Implementation in function censReg]{Implementation in function \code{censReg}}
+
+Currently, only the random-effects model using the Gauss-Hermite quadrature
+is implemented in \pkg{censReg}.%
+\footnote{%
+Of course, also the ``pooled'' model can be estimated by \code{censReg}%
+---simply by ignoring the panel structure of the data set.
+}
+Most steps internally done by \code{censReg}
+in case of panel data are similar to the steps described in
+section~\ref{sec:implementCross}:
+\begin{enumerate}
+\item perform basic checks on the arguments provided by the user
+\item prepare the data for the estimation,
+   i.e.\ the matrix of the dependent variable $y = [ y_{it} ]$
+   and the 3-dimensional array the regressors $X = [ x_{itk} ]$
+\item obtain initial values of the parameters $\beta$,
+   $\sigma_\mu$ and $\sigma_\nu$ from a linear random-effects estimation
+   using function \code{plm} of the \pkg{plm} package \citep{croissant08}
+   (if no initial values are provided by the user)
+\item obtain the abscissae $\psi$ and the corresponding weights $w$
+   for the Gauss-Hermite quadrature using function \code{ghq}
+   of the \pkg{glmmML} package \citep{glmmml-0.81}
+\item define a function that calculates (using the Gauss-Hermite quadrature)
+   and returns the log-likelihood value and its gradients\footnote{
+      The gradients of the log-likelihood function are presented
+      in appendix~\ref{sec:logLikGradRand}.}
+   given the vector of parameters $( \beta' , \sigma_\mu , \sigma_\nu )'$
+\item call function \code{maxLik} of the \pkg{maxLik} package
+   \citep{r-maxlik-0.7} for the maximisation of the likelihood function
+\item add class \code{"censReg"} to the returned object
+\end{enumerate}
+
 
 
 % \section{Conclusions}

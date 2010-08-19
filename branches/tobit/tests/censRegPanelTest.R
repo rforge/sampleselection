@@ -19,6 +19,7 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 
 ## Newton-Raphson method
 system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
+print( randEff )
 summary( randEff )
 coef( randEff )
 coef( randEff, logSigma = FALSE )
@@ -30,6 +31,7 @@ print.default( randEff )
 ## BHHH method
 system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
    method = "BHHH" ) )
+print( randEffBhhh )
 summary( randEffBhhh )
 print.default( randEffBhhh )
 
@@ -37,6 +39,7 @@ print.default( randEffBhhh )
 ## BFGS method (optim)
 system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
    method = "BFGS" ) )
+print( randEffBfgs )
 summary( randEffBfgs )
 print.default( randEffBfgs )
 
@@ -44,6 +47,7 @@ print.default( randEffBfgs )
 ## BFGS method (R)
 system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
    method = "BFGSR" ) )
+print( randEffBfgsr )
 summary( randEffBfgsr )
 print.default( randEffBfgsr )
 
@@ -51,6 +55,7 @@ print.default( randEffBfgsr )
 ## left-censoring at 5
 pData$yAdd <- pData$y + 5
 randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
+print( randEffAdd )
 summary( randEffAdd )
 coef( randEffAdd )
 coef( randEffAdd, logSigma = FALSE )
@@ -63,6 +68,7 @@ print.default( randEffAdd )
 pData$yNeg <- - pData$y
 randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = 0 )
+print( randEffNeg )
 summary( randEffNeg )
 coef( randEffNeg )
 coef( randEffNeg, logSigma = FALSE )
@@ -75,6 +81,7 @@ print.default( randEffNeg )
 pData$yAddNeg <- - pData$yAdd
 randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = -5 )
+print( randEffAddNeg )
 summary( randEffAddNeg )
 coef( randEffAddNeg )
 coef( randEffAddNeg, logSigma = FALSE )
@@ -87,6 +94,7 @@ print.default( randEffAddNeg )
 pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
 randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
    left = 0, right = 3 )
+print( randEffBoth )
 summary( randEffBoth )
 coef( randEffBoth )
 coef( randEffBoth, logSigma = FALSE )
@@ -116,6 +124,7 @@ nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
 system.time( randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb,
    method = "BFGSR" ) )
+print( randEffBfgsrUnb )
 summary( randEffBfgsrUnb )
 print.default( randEffBfgsrUnb )
 

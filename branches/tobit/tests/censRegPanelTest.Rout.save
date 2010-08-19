@@ -49,7 +49,16 @@ Loading required package: zoo
 > ## Newton-Raphson method
 > system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
    user  system elapsed 
-  0.800   0.004   0.807 
+  0.936   0.004   0.996 
+> print( randEff )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData)
+
+Coefficients:
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+   -0.36562     1.68000     2.24054    -0.12955    -0.01241 
+
 > summary( randEff )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -155,7 +164,16 @@ attr(,"class")
 > system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  0.444   0.000   0.452 
+  0.512   0.012   0.528 
+> print( randEffBhhh )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
+
+Coefficients:
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+   -0.36563     1.68002     2.24056    -0.12957    -0.01240 
+
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -243,7 +261,16 @@ attr(,"class")
 > system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  0.400   0.000   0.401 
+  0.444   0.012   0.472 
+> print( randEffBfgs )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
+
+Coefficients:
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+   -0.36562     1.68000     2.24055    -0.12955    -0.01241 
+
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -333,7 +360,16 @@ attr(,"class")
 > system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.300   0.000   0.302 
+  0.288   0.000   0.295 
+> print( randEffBfgsr )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+   -0.36562     1.68000     2.24054    -0.12955    -0.01241 
+
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -418,6 +454,15 @@ attr(,"class")
 > ## left-censoring at 5
 > pData$yAdd <- pData$y + 5
 > randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
+> print( randEffAdd )
+
+Call:
+censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+    4.63438     1.68000     2.24054    -0.12955    -0.01241 
+
 > summary( randEffAdd )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -523,6 +568,16 @@ attr(,"class")
 > pData$yNeg <- - pData$y
 > randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = -Inf, right = 0 )
+> print( randEffNeg )
+
+Call:
+censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
+    method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+    0.36562    -1.68000    -2.24054    -0.12955    -0.01241 
+
 > summary( randEffNeg )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -629,6 +684,16 @@ attr(,"class")
 > pData$yAddNeg <- - pData$yAdd
 > randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = -Inf, right = -5 )
+> print( randEffAddNeg )
+
+Call:
+censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
+    data = pData, method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+   -4.63438    -1.68000    -2.24054    -0.12955    -0.01241 
+
 > summary( randEffAddNeg )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -735,6 +800,16 @@ attr(,"class")
 > pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
 > randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = 0, right = 3 )
+> print( randEffBoth )
+
+Call:
+censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
+    method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+  -0.235535    1.893305    1.972325    0.001777    0.052887 
+
 > summary( randEffBoth )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -850,7 +925,7 @@ attr(,"class")
 > system.time( randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.292   0.000   0.290 
+  0.332   0.000   0.330 
 > all.equal( randEffBfgsr2[ -c(11,12) ], randEffBfgsr[ -c(11,12) ] )
 [1] TRUE
 > all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
@@ -863,7 +938,16 @@ attr(,"class")
 > system.time( randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.336   0.000   0.349 
+  0.344   0.000   0.343 
+> print( randEffBfgsrUnb )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+  -0.225080    1.640577    2.112079   -0.167313   -0.001134 
+
 > summary( randEffBfgsrUnb )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -954,7 +1038,7 @@ attr(,"class")
 > system.time( randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.328   0.000   0.339 
+  0.384   0.000   0.389 
 > all.equal( randEffBfgsrNa[ -12 ], randEffBfgsrUnb[ -12 ] )
 [1] TRUE
 > 

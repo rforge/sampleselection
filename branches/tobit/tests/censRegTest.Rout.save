@@ -1291,6 +1291,17 @@ censReg(formula = affairsFormula, data = Affairs)
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
+> print( estResult )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs)
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+       8.1742       -0.1793        0.5541       -1.6862        0.3261 
+       rating      logSigma 
+      -2.2850        2.1099 
+
 > summary( estResult )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -2625,6 +2636,17 @@ censReg(formula = affairsFormula, data = Affairs, method = "BHHH")
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
+> print( estResultBhhh )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs, method = "BHHH")
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+       8.1745       -0.1793        0.5542       -1.6862        0.3261 
+       rating      logSigma 
+      -2.2850        2.1099 
+
 > summary( estResultBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -3917,6 +3939,17 @@ censReg(formula = affairsFormula, data = Affairs, method = "BFGS")
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
+> print( estResultBfgs )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs, method = "BFGS")
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+       8.1743       -0.1793        0.5541       -1.6862        0.3260 
+       rating      logSigma 
+      -2.2850        2.1099 
+
 > summary( estResultBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -5209,6 +5242,17 @@ censReg(formula = affairsFormula, data = Affairs, method = "NM")
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
+> print( estResultNm )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs, method = "NM")
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+       8.5600       -0.1833        0.5530       -1.7286        0.3046 
+       rating      logSigma 
+      -2.3051        2.1124 
+
 > summary( estResultNm )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -6501,6 +6545,17 @@ censReg(formula = affairsFormula, data = Affairs, method = "SANN")
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
+> print( estResultSann )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs, method = "SANN")
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+       4.9179       -0.1756        0.5747       -1.5999        0.5478 
+       rating      logSigma 
+      -2.0115        2.1713 
+
 > summary( estResultSann )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -7791,6 +7846,18 @@ censReg(formula = affairsFormula, data = Affairs, start = c(8.17,
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
+> print( estResultStart )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs, start = c(8.17, 
+    -0.18, 0.55, -1.69, 0.33, -2.3, 2.13))
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+       8.1742       -0.1793        0.5541       -1.6862        0.3261 
+       rating      logSigma 
+      -2.2850        2.1099 
+
 > summary( estResultStart )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -9082,6 +9149,18 @@ censReg(formula = affairsAdd ~ age + yearsmarried + religiousness +
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
+> print( estResultAdd )
+
+Call:
+censReg(formula = affairsAdd ~ age + yearsmarried + religiousness + 
+    occupation + rating, left = 5, data = Affairs)
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+      13.1742       -0.1793        0.5541       -1.6862        0.3261 
+       rating      logSigma 
+      -2.2850        2.1099 
+
 > summary( estResultAdd )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -10417,6 +10496,18 @@ censReg(formula = affairsNeg ~ age + yearsmarried + religiousness +
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
+> print( estResultNeg )
+
+Call:
+censReg(formula = affairsNeg ~ age + yearsmarried + religiousness + 
+    occupation + rating, left = -Inf, right = 0, data = Affairs)
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+      -8.1742        0.1793       -0.5541        1.6862       -0.3261 
+       rating      logSigma 
+       2.2850        2.1099 
+
 > summary( estResultNeg )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -11752,6 +11843,18 @@ censReg(formula = affairsAddNeg ~ age + yearsmarried + religiousness +
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
+> print( estResultAddNeg )
+
+Call:
+censReg(formula = affairsAddNeg ~ age + yearsmarried + religiousness + 
+    occupation + rating, left = -Inf, right = -5, data = Affairs)
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+     -13.1742        0.1793       -0.5541        1.6862       -0.3261 
+       rating      logSigma 
+       2.2850        2.1099 
+
 > summary( estResultAddNeg )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -13087,6 +13190,17 @@ censReg(formula = affairsFormula, right = 4, data = Affairs)
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
+> print( estResultBoth )
+
+Call:
+censReg(formula = affairsFormula, right = 4, data = Affairs)
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+       7.9010       -0.1776        0.5323       -1.6163        0.3242 
+       rating      logSigma 
+      -2.2070        2.0723 
+
 > summary( estResultBoth )
 --------------------------------------------
 Maximum Likelihood estimation

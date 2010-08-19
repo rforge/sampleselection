@@ -47,9 +47,7 @@ Loading required package: zoo
 > 
 > 
 > ## Newton-Raphson method
-> system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
-   user  system elapsed 
-  0.808   0.004   0.825 
+> randEff <- censReg( y ~ x1 + x2, data = pData )
 > print( randEff )
 
 Call:
@@ -165,10 +163,7 @@ attr(,"class")
 > 
 > 
 > ## BHHH method
-> system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
-+    method = "BHHH" ) )
-   user  system elapsed 
-  0.444   0.000   0.442 
+> randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
 > print( randEffBhhh )
 
 Call:
@@ -266,10 +261,7 @@ attr(,"class")
 > 
 > 
 > ## BFGS method (optim)
-> system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
-+    method = "BFGS" ) )
-   user  system elapsed 
-  0.396   0.004   0.404 
+> randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
 > print( randEffBfgs )
 
 Call:
@@ -369,10 +361,7 @@ attr(,"class")
 > 
 > 
 > ## BFGS method (R)
-> system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
-+    method = "BFGSR" ) )
-   user  system elapsed 
-  0.312   0.000   0.309 
+> randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
 > print( randEffBfgsr )
 
 Call:
@@ -954,10 +943,7 @@ attr(,"class")
 +       paste( "G", perm[ i ], sep = "_" )
 + }
 > pData2 <- pdata.frame( nData2, c( "id", "time" ) )
-> system.time( randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2,
-+    method = "BFGSR" ) )
-   user  system elapsed 
-    0.3     0.0     0.3 
+> randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR" )
 > all.equal( randEffBfgsr2[ -c(11,12) ], randEffBfgsr[ -c(11,12) ] )
 [1] TRUE
 > all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
@@ -967,10 +953,7 @@ attr(,"class")
 > ## unbalanced panel data
 > nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 > pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
-> system.time( randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb,
-+    method = "BFGSR" ) )
-   user  system elapsed 
-  0.328   0.000   0.327 
+> randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb, method = "BFGSR" )
 > print( randEffBfgsrUnb )
 
 Call:
@@ -1071,10 +1054,7 @@ attr(,"class")
 > pDataNa$y[ obsNa[ 1:2 ] ] <- NA
 > pDataNa$x1[ obsNa[ 3 ] ] <- NA
 > pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
-> system.time( randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa,
-+    method = "BFGSR" ) )
-   user  system elapsed 
-  0.300   0.000   0.315 
+> randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa, method = "BFGSR" )
 > all.equal( randEffBfgsrNa[ -12 ], randEffBfgsrUnb[ -12 ] )
 [1] TRUE
 > 

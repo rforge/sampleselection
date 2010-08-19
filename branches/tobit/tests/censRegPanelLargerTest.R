@@ -17,21 +17,18 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 
 
 # ## Newton-Raphson method
-# system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
+# randEff <- censReg( y ~ x1 + x2, data = pData )
 # summary( randEff )
 
 ## BHHH method
-system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
-   method = "BHHH" ) )
+randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
 summary( randEffBhhh )
 
 ## BFGS method (optim)
-system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
-   method = "BFGS" ) )
+randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
 summary( randEffBfgs )
 
 ## BFGS method (R)
-system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
-   method = "BFGSR" ) )
+randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
 summary( randEffBfgsr )
 

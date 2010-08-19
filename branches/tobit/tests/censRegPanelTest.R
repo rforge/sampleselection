@@ -18,7 +18,7 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 
 
 ## Newton-Raphson method
-system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
+randEff <- censReg( y ~ x1 + x2, data = pData )
 print( randEff )
 summary( randEff )
 coef( randEff )
@@ -29,24 +29,21 @@ print.default( randEff )
 
 
 ## BHHH method
-system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
-   method = "BHHH" ) )
+randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
 print( randEffBhhh )
 summary( randEffBhhh )
 print.default( randEffBhhh )
 
 
 ## BFGS method (optim)
-system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
-   method = "BFGS" ) )
+randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
 print( randEffBfgs )
 summary( randEffBfgs )
 print.default( randEffBfgs )
 
 
 ## BFGS method (R)
-system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
-   method = "BFGSR" ) )
+randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
 print( randEffBfgsr )
 summary( randEffBfgsr )
 print.default( randEffBfgsr )
@@ -113,8 +110,7 @@ for( i in 1:nId ) {
       paste( "G", perm[ i ], sep = "_" )
 }
 pData2 <- pdata.frame( nData2, c( "id", "time" ) )
-system.time( randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2,
-   method = "BFGSR" ) )
+randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR" )
 all.equal( randEffBfgsr2[ -c(11,12) ], randEffBfgsr[ -c(11,12) ] )
 all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
 
@@ -122,8 +118,7 @@ all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
 ## unbalanced panel data
 nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
-system.time( randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb,
-   method = "BFGSR" ) )
+randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb, method = "BFGSR" )
 print( randEffBfgsrUnb )
 summary( randEffBfgsrUnb )
 print.default( randEffBfgsrUnb )
@@ -135,8 +130,7 @@ obsNa <- which( ! rownames( pData ) %in% rownames( pDataUnb ) )
 pDataNa$y[ obsNa[ 1:2 ] ] <- NA
 pDataNa$x1[ obsNa[ 3 ] ] <- NA
 pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
-system.time( randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa,
-   method = "BFGSR" ) )
+randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa, method = "BFGSR" )
 all.equal( randEffBfgsrNa[ -12 ], randEffBfgsrUnb[ -12 ] )
 
 

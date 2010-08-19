@@ -442,6 +442,59 @@ section~\ref{sec:implementCross}:
 \end{enumerate}
 
 
+\subsection[Using function censReg]{Using function \code{censReg}}
+
+Function \code{censReg} automatically estimates a random effects
+censored regression model
+if argument \code{data} is of class \code{"pdata.frame"},
+i.e.\ created with function \code{pdata.frame}
+of package \pkg{plm} \citep{croissant08}.
+
+First, we prepare a small artificial panel data set
+with 15 individuals, 4 time periods and a censored dependent variable:
+<<>>=
+set.seed( 123 )
+pData <- data.frame(
+   id = rep( paste( "F", 1:15, sep = "_" ), each = 4 ),
+   time = rep( 1981:1984, 15 ) )
+pData$mu <- rep( rnorm( 15 ), each = 4 )
+pData$x1 <- rnorm( 60 )
+pData$x2 <- runif( 60 )
+pData$ys <- -1 + pData$mu + 2 * pData$x1 + 3 * pData$x2 + rnorm( 60 )
+pData$y <- ifelse( pData$ys > 0, pData$ys, 0 )
+library( plm )
+pData <- pdata.frame( pData, c( "id", "time" ) )
+@
+
+Now, we estimate the random-effects censored regression model
+using the BHHH method \citep{berndt74}
+and show summary results:
+<<>>=
+system.time( panelResult <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" ) )
+summary( panelResult )
+@
+
+Argument \code{nGHQ} can be used to specify the number of points
+for the Gauss-Hermite quadrature.
+It defaults to 8.
+Increasing the number of points increases the accuracy of the computation
+of the log-likelihood value but also increases the computation time.
+In the following,
+we re-estimate the model above with different numbers of points
+and compare the execution times (measured in seconds of user CPU time)
+and the estimated parameters.
+<<>>=
+nGHQ <- 2^(2:6)
+times <- numeric( length( nGHQ ) )
+results <- list()
+for( i in 1:length (nGHQ ) ) {
+   times[i] <- system.time( results[[i]] <- censReg( y ~ x1 + x2, data = pData,
+   method = "BHHH", nGHQ = nGHQ[i] ) )[1]
+}
+names(results)<-nGHQ
+round( rbind(sapply( results, coef ),times),4)
+@
+
 
 % \section{Conclusions}
 % \label{sec:conclusions}

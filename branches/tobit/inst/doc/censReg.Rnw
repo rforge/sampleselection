@@ -291,7 +291,40 @@ and $\nu_{it}$ is the remaining disturbance.
 \subsection{Fixed effects}
 
 In contrast to linear panel data models,
-we cannot get rid of the individual effects by the within transformation.
+we cannot get rid of the individual effects by the \emph{within transformation}.
+Theoretically, the fixed-effects panel Tobit model is affected by
+the \emph{incidental parameters problem} \citep{neyman48, lancaster00},
+i.e.\ the estimated coefficients are inconsistent
+unless the number of time periods ($T_i$) approaches infinity
+for each individual $i$.
+However, \citet{greene04b} showed with a Monte Carlo study
+that the slope parameters (but not the variance) of a fixed-effects Tobit model
+can be estimated consistently even if the number of time periods in small.
+
+Assuming that the error term $\nu$ follows a normal distribution
+with mean $0$ and variance $\sigma^2$,
+the log-likelihood function is
+\begin{align}
+\log L  =
+   \sum_{i = 1}^N \sum_{t = 1}^{T_i} \bigg[ \;&
+      I_{it}^a \log \pnorm \left( \frac{ a - x_{it} ' \beta - \mu_i }{ \sigma } \right)
+      + I_{it}^b \log \pnorm \left( \frac{ x_{it} ' \beta + \mu_i - b }{ \sigma } \right)
+      \label{eq:logLikFix}\\
+   & + \left( 1 - I_{it}^a - I_{it}^b \right)
+      \left(
+         \log \dnorm \left( \frac{ y_{it} - x_{it} ' \beta - \mu_i }{ \sigma } \right)
+         - \log \sigma
+      \right)
+   \bigg]. \nonumber
+\end{align}
+This log-likelihood function can be maximized with respect to
+the parameter vectors $\beta$ and $\mu = [ \mu_i ]$.
+However, the number of coefficients increases linearly with the number
+of individuals.
+As most empirical applications use data sets with large numbers of individuals,
+special maximization routines,
+e.g.\ as described in \citet{greene01} and \citet[p.~554-557]{greene08},
+are usually required.
 
 
 \subsection{Random effects}

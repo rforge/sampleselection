@@ -23,6 +23,7 @@ summary( randEff )
 coef( randEff )
 coef( randEff, logSigma = FALSE )
 vcov( randEff )
+vcov( randEff, logSigma = FALSE )
 print.default( randEff )
 
 
@@ -54,6 +55,7 @@ summary( randEffAdd )
 coef( randEffAdd )
 coef( randEffAdd, logSigma = FALSE )
 vcov( randEffAdd )
+vcov( randEffAdd, logSigma = FALSE )
 print.default( randEffAdd )
 
 
@@ -65,6 +67,7 @@ summary( randEffNeg )
 coef( randEffNeg )
 coef( randEffNeg, logSigma = FALSE )
 vcov( randEffNeg )
+vcov( randEffNeg, logSigma = FALSE )
 print.default( randEffNeg )
 
 
@@ -76,6 +79,7 @@ summary( randEffAddNeg )
 coef( randEffAddNeg )
 coef( randEffAddNeg, logSigma = FALSE )
 vcov( randEffAddNeg )
+vcov( randEffAddNeg, logSigma = FALSE )
 print.default( randEffAddNeg )
 
 
@@ -87,6 +91,7 @@ summary( randEffBoth )
 coef( randEffBoth )
 coef( randEffBoth, logSigma = FALSE )
 vcov( randEffBoth )
+vcov( randEffBoth, logSigma = FALSE )
 print.default( randEffBoth )
 
 

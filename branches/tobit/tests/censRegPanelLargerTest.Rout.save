@@ -53,21 +53,21 @@ Loading required package: zoo
 > system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  0.616   0.000   0.633 
+  0.812   0.004   0.841 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
-BHHH maximisation, 24 iterations
+BHHH maximisation, 15 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -331.5721 
+Log-Likelihood: -330.5222 
 5  free parameters
 Estimates:
              Estimate Std. error t value   Pr(> t)    
-(Intercept) -1.063672   0.231447 -4.5957 4.312e-06 ***
-x1           2.077633   0.095221 21.8191 < 2.2e-16 ***
-x2           3.053359   0.373044  8.1850 2.723e-16 ***
-logSigmaMu  -0.205500   0.139165 -1.4767    0.1398    
-logSigmaNu   0.051726   0.067912  0.7617    0.4463    
+(Intercept) -1.086693   0.234624 -4.6316 3.628e-06 ***
+x1           2.069550   0.092324 22.4161 < 2.2e-16 ***
+x2           3.115095   0.370082  8.4173 < 2.2e-16 ***
+logSigmaMu  -0.105561   0.128939 -0.8187    0.4130    
+logSigmaNu   0.025600   0.064679  0.3958    0.6922    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
@@ -76,21 +76,21 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  0.716   0.000   0.723 
+  1.040   0.008   1.083 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS maximisation, 42 iterations
+BFGS maximisation, 29 iterations
 Return code 0: successful convergence 
-Log-Likelihood: -331.5721 
+Log-Likelihood: -330.5222 
 5  free parameters
 Estimates:
              Estimate Std. error t value   Pr(> t)    
-(Intercept) -1.063466   0.231525 -4.5933 4.363e-06 ***
-x1           2.077659   0.098836 21.0213 < 2.2e-16 ***
-x2           3.053009   0.331343  9.2140 < 2.2e-16 ***
-logSigmaMu  -0.205557   0.115870 -1.7740   0.07606 .  
-logSigmaNu   0.051730   0.068175  0.7588   0.44798    
+(Intercept) -1.086729   0.226324 -4.8017 1.574e-06 ***
+x1           2.069572   0.096850 21.3689 < 2.2e-16 ***
+x2           3.115190   0.326639  9.5371 < 2.2e-16 ***
+logSigmaMu  -0.105506   0.130941 -0.8058    0.4204    
+logSigmaNu   0.025538   0.069589  0.3670    0.7136    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
@@ -99,21 +99,21 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.468   0.008   0.516 
+  0.708   0.008   0.716 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS-YC maximization, 14 iterations
+BFGS-YC maximization, 15 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -331.5721 
+Log-Likelihood: -330.5222 
 5  free parameters
 Estimates:
              Estimate Std. error t value   Pr(> t)    
-(Intercept) -1.063682   0.231542 -4.5939  4.35e-06 ***
-x1           2.077635   0.098836 21.0210 < 2.2e-16 ***
-x2           3.053382   0.331357  9.2148 < 2.2e-16 ***
-logSigmaMu  -0.205490   0.115857 -1.7736   0.07612 .  
-logSigmaNu   0.051725   0.068174  0.7587   0.44802    
+(Intercept) -1.086695   0.226326 -4.8015 1.575e-06 ***
+x1           2.069552   0.096853 21.3679 < 2.2e-16 ***
+x2           3.115097   0.326649  9.5365 < 2.2e-16 ***
+logSigmaMu  -0.105561   0.130954 -0.8061    0.4202    
+logSigmaNu   0.025601   0.069593  0.3679    0.7130    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------

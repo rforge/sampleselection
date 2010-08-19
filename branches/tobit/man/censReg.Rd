@@ -7,7 +7,7 @@
 
 \usage{
 censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
-   start = NULL, nGHQ = 4, ... )
+   start = NULL, nGHQ = 8, ... )
 }
 
 \arguments{

@@ -1,6 +1,6 @@
 censReg <- function( formula, left = 0, right = Inf,
       data = sys.frame( sys.parent() ), start = NULL,
-      nGHQ = 4, ... ) {
+      nGHQ = 8, ... ) {
 
    ## checking formula
    if( class( formula ) != "formula" ) {

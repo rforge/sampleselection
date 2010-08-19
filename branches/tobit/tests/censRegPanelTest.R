@@ -20,6 +20,7 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 ## Newton-Raphson method
 system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
 summary( randEff )
+coef( randEff )
 print.default( randEff )
 
 
@@ -48,6 +49,7 @@ print.default( randEffBfgsr )
 pData$yAdd <- pData$y + 5
 randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
 summary( randEffAdd )
+coef( randEffAdd )
 print.default( randEffAdd )
 
 
@@ -56,6 +58,7 @@ pData$yNeg <- - pData$y
 randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = 0 )
 summary( randEffNeg )
+coef( randEffNeg )
 print.default( randEffNeg )
 
 
@@ -64,6 +67,7 @@ pData$yAddNeg <- - pData$yAdd
 randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = -5 )
 summary( randEffAddNeg )
+coef( randEffAddNeg )
 print.default( randEffAddNeg )
 
 
@@ -72,6 +76,7 @@ pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
 randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
    left = 0, right = 3 )
 summary( randEffBoth )
+coef( randEffBoth )
 print.default( randEffBoth )
 
 

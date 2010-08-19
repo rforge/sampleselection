@@ -1307,6 +1307,11 @@ logSigma       2.109859   0.067098 31.4444 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> coef( estResult )
+  (Intercept)           age  yearsmarried religiousness    occupation 
+    8.1741974    -0.1793326     0.5541418    -1.6862205     0.3260532 
+       rating      logSigma 
+   -2.2849727     2.1098592 
 > 
 > ## usual tobit estimation, BHHH method
 > estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
@@ -9034,6 +9039,11 @@ logSigma       2.109859   0.067098 31.4444 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> coef( estResultAdd )
+  (Intercept)           age  yearsmarried religiousness    occupation 
+   13.1741974    -0.1793326     0.5541418    -1.6862205     0.3260532 
+       rating      logSigma 
+   -2.2849727     2.1098592 
 > 
 > ## estimation with right-censoring
 > Affairs$affairsNeg <- - Affairs$affairs
@@ -10321,6 +10331,11 @@ logSigma       2.109859   0.067098 31.4444 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> coef( estResultNeg )
+  (Intercept)           age  yearsmarried religiousness    occupation 
+   -8.1741974     0.1793326    -0.5541418     1.6862205    -0.3260532 
+       rating      logSigma 
+    2.2849727     2.1098592 
 > 
 > ## estimation with right-censoring at -5
 > Affairs$affairsAddNeg <- - Affairs$affairsAdd
@@ -11608,6 +11623,11 @@ logSigma        2.109859   0.067098 31.4444 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> coef( estResultAddNeg )
+  (Intercept)           age  yearsmarried religiousness    occupation 
+  -13.1741974     0.1793326    -0.5541418     1.6862205    -0.3260532 
+       rating      logSigma 
+    2.2849727     2.1098592 
 > 
 > ## estimation with left and right censoring
 > estResultBoth <- censReg( affairsFormula, data = Affairs, right = 4 )
@@ -12896,4 +12916,9 @@ logSigma       2.072319   0.110396 18.7717 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> coef( estResultBoth )
+  (Intercept)           age  yearsmarried religiousness    occupation 
+    7.9009804    -0.1775982     0.5323021    -1.6163357     0.3241865 
+       rating      logSigma 
+   -2.2070074     2.0723187 
 > 

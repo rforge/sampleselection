@@ -49,7 +49,7 @@ Loading required package: zoo
 > ## Newton-Raphson method
 > system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
    user  system elapsed 
-  0.820   0.000   0.822 
+  0.892   0.004   0.941 
 > summary( randEff )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -67,6 +67,9 @@ logSigmaNu  -0.012408   0.129690 -0.0957 0.9237786
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> coef( randEff )
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+-0.36562313  1.68000400  2.24054376 -0.12954703 -0.01240809 
 > print.default( randEff )
 $maximum
 [1] -73.19882
@@ -132,7 +135,7 @@ attr(,"class")
 > system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  0.440   0.004   0.445 
+  0.464   0.000   0.491 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -217,7 +220,7 @@ attr(,"class")
 > system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  0.412   0.004   0.418 
+  0.468   0.000   0.490 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -304,7 +307,7 @@ attr(,"class")
 > system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.304   0.004   0.307 
+  0.272   0.004   0.302 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -403,6 +406,9 @@ logSigmaNu  -0.012408   0.129690 -0.0957 0.9237792
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> coef( randEffAdd )
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+ 4.63437676  1.68000398  2.24054396 -0.12954711 -0.01240798 
 > print.default( randEffAdd )
 $maximum
 [1] -73.19882
@@ -485,6 +491,9 @@ logSigmaNu  -0.012408   0.129690 -0.0957 0.9237792
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> coef( randEffNeg )
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+ 0.36562324 -1.68000398 -2.24054396 -0.12954711 -0.01240798 
 > print.default( randEffNeg )
 $maximum
 [1] -73.19882
@@ -567,6 +576,9 @@ logSigmaNu  -0.012408   0.129690 -0.0957 0.9237792
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> coef( randEffAddNeg )
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+-4.63437676 -1.68000398 -2.24054396 -0.12954711 -0.01240798 
 > print.default( randEffAddNeg )
 $maximum
 [1] -73.19882
@@ -649,6 +661,9 @@ logSigmaNu   0.052887   0.163015  0.3244   0.74561
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> coef( randEffBoth )
+ (Intercept)           x1           x2   logSigmaMu   logSigmaNu 
+-0.235535467  1.893305460  1.972325289  0.001776973  0.052886968 
 > print.default( randEffBoth )
 $maximum
 [1] -64.31272
@@ -723,7 +738,7 @@ attr(,"class")
 > system.time( randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.296   0.000   0.299 
+  0.324   0.000   0.328 
 > all.equal( randEffBfgsr2[ -11 ], randEffBfgsr[ -11 ] )
 [1] TRUE
 > all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
@@ -736,7 +751,7 @@ attr(,"class")
 > system.time( randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.328   0.000   0.384 
+  0.336   0.004   0.394 
 > summary( randEffBfgsrUnb )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -824,7 +839,7 @@ attr(,"class")
 > system.time( randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.308   0.000   0.309 
+  0.316   0.000   0.326 
 > all.equal( randEffBfgsrNa, randEffBfgsrUnb )
 [1] TRUE
 > 

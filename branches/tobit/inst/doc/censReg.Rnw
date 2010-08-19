@@ -504,7 +504,12 @@ round( rbind(sapply( results, coef ),times),4)
 % \label{sec:conclusions}
 
 
-% \section*{Acknowledgments}
+\section*{Acknowledgments}
+
+The user interface of function \code{censReg} was inspired by
+function \code{tobit} from the \pkg{AER} package
+\citep{kleiber08a,r-aer-1.1}.
+
 
 \clearpage
 \appendix

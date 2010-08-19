@@ -50,8 +50,13 @@ censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
    inheriting from class \code{"maxLik"}.
    The returned object contains the same components as objects
    returned by \code{\link[maxLik]{maxLik}} and additionally
-   the following component:
+   the following components:
    \item{call}{the matched call.}
+   \item{nObs}{a vector containing 4 integer values:
+      the total number of observations,
+      the number of left-censored observations,
+      the number of uncensored observations, and
+      the number of right-censored observations.}
 }
 
 \details{

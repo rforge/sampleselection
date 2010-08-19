@@ -1289,6 +1289,10 @@ $gradientObs
 $call
 censReg(formula = affairsFormula, data = Affairs)
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResult )
@@ -2634,6 +2638,10 @@ $gradientObs
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "BHHH")
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultBhhh )
@@ -3936,6 +3944,10 @@ $gradientObs
 
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "BFGS")
+
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
@@ -5240,6 +5252,10 @@ $gradientObs
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "NM")
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > print( estResultNm )
@@ -6543,6 +6559,10 @@ $gradientObs
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "SANN")
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > print( estResultSann )
@@ -7843,6 +7863,10 @@ $gradientObs
 $call
 censReg(formula = affairsFormula, data = Affairs, start = c(8.17, 
     -0.18, 0.55, -1.69, 0.33, -2.3, 2.13))
+
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -9146,6 +9170,10 @@ $gradientObs
 $call
 censReg(formula = affairsAdd ~ age + yearsmarried + religiousness + 
     occupation + rating, left = 5, data = Affairs)
+
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -10494,6 +10522,10 @@ $call
 censReg(formula = affairsNeg ~ age + yearsmarried + religiousness + 
     occupation + rating, left = -Inf, right = 0, data = Affairs)
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+           601              0            150            451 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultNeg )
@@ -11841,6 +11873,10 @@ $call
 censReg(formula = affairsAddNeg ~ age + yearsmarried + religiousness + 
     occupation + rating, left = -Inf, right = -5, data = Affairs)
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+           601              0            150            451 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultAddNeg )
@@ -13187,6 +13223,10 @@ $gradientObs
 
 $call
 censReg(formula = affairsFormula, right = 4, data = Affairs)
+
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+           601            451             70             80 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   

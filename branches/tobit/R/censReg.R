@@ -235,8 +235,14 @@ censReg <- function( formula, left = 0, right = Inf,
    }
    result <- maxLik( censRegLogLik, start = start, ... )
 
-   # save the call
+   # save and return the call
    result$call <- match.call()
+
+   # save and return the number of oservations (in each category)
+   result$nObs <- c( sum( obsBelow ), sum( obsBetween ), sum( obsAbove ) )
+   result$nObs <- c( sum( result$nObs ), result$nObs )
+   names( result$nObs ) <- c( "Total", "Left-censored", "Uncensored",
+      "Right-censored" )
 
    class( result ) <- c( "censReg", class( result ) )
    return( result )

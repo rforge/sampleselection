@@ -49,7 +49,7 @@ Loading required package: zoo
 > ## Newton-Raphson method
 > system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
    user  system elapsed 
-  0.936   0.004   0.996 
+  0.808   0.004   0.825 
 > print( randEff )
 
 Call:
@@ -156,6 +156,10 @@ $gradientObs
 $call
 censReg(formula = y ~ x1 + x2, data = pData)
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -164,7 +168,7 @@ attr(,"class")
 > system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  0.512   0.012   0.528 
+  0.444   0.000   0.442 
 > print( randEffBhhh )
 
 Call:
@@ -253,6 +257,10 @@ $gradientObs
 $call
 censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -261,7 +269,7 @@ attr(,"class")
 > system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  0.444   0.012   0.472 
+  0.396   0.004   0.404 
 > print( randEffBfgs )
 
 Call:
@@ -352,6 +360,10 @@ $gradientObs
 $call
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > 
@@ -360,7 +372,7 @@ attr(,"class")
 > system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.288   0.000   0.295 
+  0.312   0.000   0.309 
 > print( randEffBfgsr )
 
 Call:
@@ -446,6 +458,10 @@ $gradientObs
 
 $call
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
+
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -559,6 +575,10 @@ $gradientObs
 
 $call
 censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
+
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -676,6 +696,10 @@ $call
 censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
     method = "BFGSR")
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+            60              0             40             20 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -791,6 +815,10 @@ $gradientObs
 $call
 censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
     data = pData, method = "BFGSR")
+
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+            60              0             40             20 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -908,6 +936,10 @@ $call
 censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
     method = "BFGSR")
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             28             12 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -925,7 +957,7 @@ attr(,"class")
 > system.time( randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.332   0.000   0.330 
+    0.3     0.0     0.3 
 > all.equal( randEffBfgsr2[ -c(11,12) ], randEffBfgsr[ -c(11,12) ] )
 [1] TRUE
 > all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
@@ -938,7 +970,7 @@ attr(,"class")
 > system.time( randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.344   0.000   0.343 
+  0.328   0.000   0.327 
 > print( randEffBfgsrUnb )
 
 Call:
@@ -1025,6 +1057,10 @@ $gradientObs
 $call
 censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
 
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+            56             17             39              0 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -1038,7 +1074,7 @@ attr(,"class")
 > system.time( randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.384   0.000   0.389 
+  0.300   0.000   0.315 
 > all.equal( randEffBfgsrNa[ -12 ], randEffBfgsrUnb[ -12 ] )
 [1] TRUE
 > 

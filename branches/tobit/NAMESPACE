@@ -3,4 +3,5 @@ export( "censReg" )
 importFrom( "glmmML", "ghq" )
 
 S3method( "coef", "censReg" )
+S3method( "print", "censReg" )
 S3method( "vcov", "censReg" )

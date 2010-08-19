@@ -1,5 +1,6 @@
 \name{censReg}
 \alias{censReg}
+\alias{print.censReg}
 \title{Censored Regression (Tobit) Model}
 \description{
    Fitting a model with a censored dependent variable.
@@ -8,6 +9,8 @@
 \usage{
 censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
    start = NULL, nGHQ = 8, ... )
+
+\method{print}{censReg}( x, logSigma = TRUE, digits = 4, ... )
 }
 
 \arguments{
@@ -29,9 +32,17 @@ censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
       estimation.}
    \item{nGHQ}{number of points used in the Gauss-Hermite quadrature,
       which is used to compute the log-likelihood value in case of the
-      random effects model for panel data.} 
-  \item{\dots}{additional arguments are passed to
-      \code{\link[maxLik]{maxLik}}.}
+      random effects model for panel data.}
+   \item{x}{object of class \code{censReg} (returned by \code{censReg}).}
+   \item{logSigma}{logical value indicating whether the variance(s)
+      of the model should be printed logarithmized
+      (see \code{\link{coef.censReg}}).}
+   \item{digits}{positive integer specifiying the minimum number of
+      significant digits to be printed
+      (see \code{\link[base]{print.default}}).}
+   \item{\dots}{additional arguments for \code{censReg} are passed to
+      \code{\link[maxLik]{maxLik}};
+      additional arguments for \code{print.censReg} are currently ignored.}
 }
 
 \value{
@@ -83,12 +94,12 @@ censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
 data( "Affairs", package = "AER" )
 estResult <- censReg( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs )
-summary( estResult )
+print( estResult )
 
 ## Kleiber & Zeileis ( 2008 ), page 143
 estResultBoth <- censReg( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs, right = 4 )
-summary( estResultBoth )
+print( estResultBoth )
 }
 
 \keyword{models}

@@ -19,10 +19,14 @@
 \Plaintitle{Estimating Censored Regression Models Models in R using the censReg Package}
 
 \Abstract{
-We show how censored regression models
+We demonstrate how censored regression models
 (including standard Tobit models)
 can be estimated in \proglang{R}
 using the add-on package \pkg{censReg}.
+This package provides not only the usual maximum likelihood (ML) procedure
+for cross-sectional data
+but also the random-effects maximum likelihood procedure
+for panel data using Gauss-Hermite quadrature.
 }
 
 \Keywords{censored regression, Tobit, econometrics, \proglang{R}}

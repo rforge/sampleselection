@@ -21,6 +21,7 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
 summary( randEff )
 coef( randEff )
+coef( randEff, logSigma = FALSE )
 print.default( randEff )
 
 
@@ -50,6 +51,7 @@ pData$yAdd <- pData$y + 5
 randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
 summary( randEffAdd )
 coef( randEffAdd )
+coef( randEffAdd, logSigma = FALSE )
 print.default( randEffAdd )
 
 
@@ -59,6 +61,7 @@ randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = 0 )
 summary( randEffNeg )
 coef( randEffNeg )
+coef( randEffNeg, logSigma = FALSE )
 print.default( randEffNeg )
 
 
@@ -68,6 +71,7 @@ randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = -5 )
 summary( randEffAddNeg )
 coef( randEffAddNeg )
+coef( randEffAddNeg, logSigma = FALSE )
 print.default( randEffAddNeg )
 
 
@@ -77,6 +81,7 @@ randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
    left = 0, right = 3 )
 summary( randEffBoth )
 coef( randEffBoth )
+coef( randEffBoth, logSigma = FALSE )
 print.default( randEffBoth )
 
 

@@ -9,6 +9,7 @@ estResult <- censReg( affairsFormula, data = Affairs )
 print.default( estResult )
 summary( estResult )
 coef( estResult )
+coef( estResult, logSigma = FALSE )
 
 ## usual tobit estimation, BHHH method
 estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
@@ -43,6 +44,7 @@ estResultAdd <- censReg( affairsAdd ~ age + yearsmarried + religiousness +
 print.default( estResultAdd )
 summary( estResultAdd )
 coef( estResultAdd )
+coef( estResultAdd, logSigma = FALSE )
 
 ## estimation with right-censoring
 Affairs$affairsNeg <- - Affairs$affairs
@@ -51,6 +53,7 @@ estResultNeg <- censReg( affairsNeg ~ age + yearsmarried + religiousness +
 print.default( estResultNeg )
 summary( estResultNeg )
 coef( estResultNeg )
+coef( estResultNeg, logSigma = FALSE )
 
 ## estimation with right-censoring at -5
 Affairs$affairsAddNeg <- - Affairs$affairsAdd
@@ -59,9 +62,11 @@ estResultAddNeg <- censReg( affairsAddNeg ~ age + yearsmarried + religiousness +
 print.default( estResultAddNeg )
 summary( estResultAddNeg )
 coef( estResultAddNeg )
+coef( estResultAddNeg, logSigma = FALSE )
 
 ## estimation with left and right censoring
 estResultBoth <- censReg( affairsFormula, data = Affairs, right = 4 )
 print.default( estResultBoth )
 summary( estResultBoth )
 coef( estResultBoth )
+coef( estResultBoth, logSigma = FALSE )

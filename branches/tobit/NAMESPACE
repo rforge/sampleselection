@@ -1,3 +1,5 @@
 export( "censReg" )
 
 importFrom( "glmmML", "ghq" )
+
+S3method( "coef", "censReg" )

@@ -22,6 +22,7 @@ system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
 summary( randEff )
 coef( randEff )
 coef( randEff, logSigma = FALSE )
+vcov( randEff )
 print.default( randEff )
 
 
@@ -52,6 +53,7 @@ randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 
 summary( randEffAdd )
 coef( randEffAdd )
 coef( randEffAdd, logSigma = FALSE )
+vcov( randEffAdd )
 print.default( randEffAdd )
 
 
@@ -62,6 +64,7 @@ randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
 summary( randEffNeg )
 coef( randEffNeg )
 coef( randEffNeg, logSigma = FALSE )
+vcov( randEffNeg )
 print.default( randEffNeg )
 
 
@@ -72,6 +75,7 @@ randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
 summary( randEffAddNeg )
 coef( randEffAddNeg )
 coef( randEffAddNeg, logSigma = FALSE )
+vcov( randEffAddNeg )
 print.default( randEffAddNeg )
 
 
@@ -82,6 +86,7 @@ randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
 summary( randEffBoth )
 coef( randEffBoth )
 coef( randEffBoth, logSigma = FALSE )
+vcov( randEffBoth )
 print.default( randEffBoth )
 
 

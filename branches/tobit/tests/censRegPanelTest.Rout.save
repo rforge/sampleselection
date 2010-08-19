@@ -49,7 +49,7 @@ Loading required package: zoo
 > ## Newton-Raphson method
 > system.time( randEff <- censReg( y ~ x1 + x2, data = pData ) )
    user  system elapsed 
-  0.840   0.016   0.862 
+  0.808   0.008   0.842 
 > summary( randEff )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -73,6 +73,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > coef( randEff, logSigma = FALSE )
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
  -0.3656231   1.6800040   2.2405438   0.8784933   0.9876686 
+> vcov( randEff )
+             (Intercept)           x1           x2   logSigmaMu   logSigmaNu
+(Intercept)  0.225109672 -0.020570168 -0.254602886 -0.023824162 -0.002973952
+x1          -0.020570168  0.043773972  0.008562225  0.013404079  0.002969957
+x2          -0.254602886  0.008562225  0.454125882  0.017179542  0.001505438
+logSigmaMu  -0.023824162  0.013404079  0.017179542  0.066600320 -0.002638871
+logSigmaNu  -0.002973952  0.002969957  0.001505438 -0.002638871  0.016819442
 > print.default( randEff )
 $maximum
 [1] -73.19882
@@ -138,7 +145,7 @@ attr(,"class")
 > system.time( randEffBhhh <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BHHH" ) )
    user  system elapsed 
-  0.444   0.000   0.447 
+  0.452   0.000   0.470 
 > summary( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -223,7 +230,7 @@ attr(,"class")
 > system.time( randEffBfgs <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGS" ) )
    user  system elapsed 
-  0.464   0.000   0.482 
+  0.408   0.004   0.423 
 > summary( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -310,7 +317,7 @@ attr(,"class")
 > system.time( randEffBfgsr <- censReg( y ~ x1 + x2, data = pData,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.304   0.000   0.305 
+  0.312   0.000   0.310 
 > summary( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -415,6 +422,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > coef( randEffAdd, logSigma = FALSE )
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
   4.6343768   1.6800040   2.2405440   0.8784932   0.9876687 
+> vcov( randEffAdd )
+             (Intercept)           x1           x2   logSigmaMu   logSigmaNu
+(Intercept)  0.225109676 -0.020570169 -0.254602918 -0.023824169 -0.002973956
+x1          -0.020570169  0.043773979  0.008562227  0.013404084  0.002969957
+x2          -0.254602918  0.008562227  0.454125958  0.017179555  0.001505443
+logSigmaMu  -0.023824169  0.013404084  0.017179555  0.066600343 -0.002638875
+logSigmaNu  -0.002973956  0.002969957  0.001505443 -0.002638875  0.016819446
 > print.default( randEffAdd )
 $maximum
 [1] -73.19882
@@ -503,6 +517,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > coef( randEffNeg, logSigma = FALSE )
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
   0.3656232  -1.6800040  -2.2405440   0.8784932   0.9876687 
+> vcov( randEffNeg )
+             (Intercept)           x1           x2   logSigmaMu   logSigmaNu
+(Intercept)  0.225109676 -0.020570169 -0.254602918  0.023824169  0.002973956
+x1          -0.020570169  0.043773979  0.008562227 -0.013404084 -0.002969957
+x2          -0.254602918  0.008562227  0.454125958 -0.017179555 -0.001505443
+logSigmaMu   0.023824169 -0.013404084 -0.017179554  0.066600343 -0.002638875
+logSigmaNu   0.002973956 -0.002969957 -0.001505443 -0.002638875  0.016819446
 > print.default( randEffNeg )
 $maximum
 [1] -73.19882
@@ -591,6 +612,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > coef( randEffAddNeg, logSigma = FALSE )
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
  -4.6343768  -1.6800040  -2.2405440   0.8784932   0.9876687 
+> vcov( randEffAddNeg )
+             (Intercept)           x1           x2   logSigmaMu   logSigmaNu
+(Intercept)  0.225109676 -0.020570169 -0.254602918  0.023824169  0.002973956
+x1          -0.020570169  0.043773979  0.008562227 -0.013404084 -0.002969957
+x2          -0.254602918  0.008562227  0.454125958 -0.017179555 -0.001505443
+logSigmaMu   0.023824170 -0.013404084 -0.017179555  0.066600343 -0.002638875
+logSigmaNu   0.002973956 -0.002969957 -0.001505443 -0.002638875  0.016819446
 > print.default( randEffAddNeg )
 $maximum
 [1] -73.19882
@@ -679,6 +707,13 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > coef( randEffBoth, logSigma = FALSE )
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
  -0.2355355   1.8933055   1.9723253   1.0017786   1.0543105 
+> vcov( randEffBoth )
+            (Intercept)          x1          x2   logSigmaMu   logSigmaNu
+(Intercept)  0.30096775 -0.03150689 -0.36439615 -0.016096679 -0.016446163
+x1          -0.03150689  0.09068516  0.03196988  0.035193435  0.015934669
+x2          -0.36439615  0.03196988  0.67094660  0.018772996  0.024627417
+logSigmaMu  -0.01609668  0.03519344  0.01877300  0.077169281  0.004356389
+logSigmaNu  -0.01644616  0.01593467  0.02462742  0.004356389  0.026573903
 > print.default( randEffBoth )
 $maximum
 [1] -64.31272
@@ -753,7 +788,7 @@ attr(,"class")
 > system.time( randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.320   0.000   0.324 
+  0.296   0.000   0.299 
 > all.equal( randEffBfgsr2[ -11 ], randEffBfgsr[ -11 ] )
 [1] TRUE
 > all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
@@ -766,7 +801,7 @@ attr(,"class")
 > system.time( randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.340   0.000   0.352 
+  0.312   0.000   0.318 
 > summary( randEffBfgsrUnb )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -854,7 +889,7 @@ attr(,"class")
 > system.time( randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa,
 +    method = "BFGSR" ) )
    user  system elapsed 
-  0.320   0.000   0.323 
+  0.288   0.004   0.313 
 > all.equal( randEffBfgsrNa, randEffBfgsrUnb )
 [1] TRUE
 > 

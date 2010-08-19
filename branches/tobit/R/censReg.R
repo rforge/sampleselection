@@ -128,9 +128,9 @@ censReg <- function( formula, left = 0, right = Inf,
       }
 
       ## classify observations
-      obsMatBelow <- yMat <= left & !is.na( yMat )
-      obsMatAbove <- yMat >= right & !is.na( yMat )
-      obsMatBetween <- !obsMatBelow & !obsMatAbove & !is.na( yMat )
+      obsBelow <- yMat <= left & !is.na( yMat )
+      obsAbove <- yMat >= right & !is.na( yMat )
+      obsBetween <- !obsBelow & !obsAbove & !is.na( yMat )
 
       ## log likelihood function for panel data (incl. gradients)
       censRegLogLik <- function( beta ) {
@@ -142,30 +142,30 @@ censReg <- function( formula, left = 0, right = Inf,
          gradInd <- matrix( 0, nrow = nInd, ncol = length( beta ) )
          for( h in 1:nGHQ ) {
             likGhqInner <- matrix( NA, nrow = nInd, ncol = nTime )
-            likGhqInner[ obsMatBelow ] <-
-               ( left - yMatHat[ obsMatBelow ] - sqrt( 2 ) * sigmaMu *
+            likGhqInner[ obsBelow ] <-
+               ( left - yMatHat[ obsBelow ] - sqrt( 2 ) * sigmaMu *
                   ghqPoints$zeros[ h ] ) / sigmaNu
-            likGhqInner[ obsMatAbove ] <-
-               ( yMatHat[ obsMatAbove ] - right + sqrt( 2 ) * sigmaMu *
+            likGhqInner[ obsAbove ] <-
+               ( yMatHat[ obsAbove ] - right + sqrt( 2 ) * sigmaMu *
                   ghqPoints$zeros[ h ] ) / sigmaNu
-            likGhqInner[ obsMatBetween ] <-
-               ( yMat[ obsMatBetween ] - yMatHat[ obsMatBetween ] -
+            likGhqInner[ obsBetween ] <-
+               ( yMat[ obsBetween ] - yMatHat[ obsBetween ] -
                   sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu
             likGhq <- matrix( 1, nrow = nInd, ncol = nTime )
-            likGhq[ obsMatBelow | obsMatAbove ] <-
-               pnorm( likGhqInner[ obsMatBelow | obsMatAbove ] )
-            likGhq[ obsMatBetween ] <-
-               dnorm( likGhqInner[ obsMatBetween ] ) / sigmaNu
+            likGhq[ obsBelow | obsAbove ] <-
+               pnorm( likGhqInner[ obsBelow | obsAbove ] )
+            likGhq[ obsBetween ] <-
+               dnorm( likGhqInner[ obsBetween ] ) / sigmaNu
             likGhqProd <- apply( likGhq, 1, prod )
             likInd <- likInd + ghqPoints$weights[ h ] * likGhqProd
             # gradients
             gradPartGhq <- matrix( 0, nrow = nInd, ncol = nTime )
-            gradPartGhq[ obsMatBelow ] <-
-               - dnorm( likGhqInner[ obsMatBelow ] ) / sigmaNu
-            gradPartGhq[ obsMatAbove ] <-
-               dnorm( likGhqInner[ obsMatAbove ] ) / sigmaNu
-            gradPartGhq[ obsMatBetween ] <-
-               - ddnorm( likGhqInner[ obsMatBetween ] ) / sigmaNu^2
+            gradPartGhq[ obsBelow ] <-
+               - dnorm( likGhqInner[ obsBelow ] ) / sigmaNu
+            gradPartGhq[ obsAbove ] <-
+               dnorm( likGhqInner[ obsAbove ] ) / sigmaNu
+            gradPartGhq[ obsBetween ] <-
+               - ddnorm( likGhqInner[ obsBetween ] ) / sigmaNu^2
             # part of gradients with respect to beta
             for( i in 1:( length( beta ) - 2 ) ) {
                gradInd[ , i ] <- gradInd[ , i ] + ghqPoints$weights[ h ] *
@@ -177,12 +177,12 @@ censReg <- function( formula, left = 0, right = Inf,
                sigmaMu * ghqPoints$weights[ h ] * likGhqProd *
                rowSums( gradPartGhq * sqrt( 2 ) * ghqPoints$zeros[ h ] / likGhq )
             # part of gradient with respect to log( sigma_nu )
-            gradPartGhq[ obsMatBelow ] <- gradPartGhq[ obsMatBelow ] *
-               likGhqInner[ obsMatBelow ]
-            gradPartGhq[ obsMatAbove ] <- - gradPartGhq[ obsMatAbove ] *
-               likGhqInner[ obsMatAbove ]
-            gradPartGhq[ obsMatBetween ] <- gradPartGhq[ obsMatBetween ] *
-               likGhqInner[ obsMatBetween ] - likGhq[ obsMatBetween ] / sigmaNu
+            gradPartGhq[ obsBelow ] <- gradPartGhq[ obsBelow ] *
+               likGhqInner[ obsBelow ]
+            gradPartGhq[ obsAbove ] <- - gradPartGhq[ obsAbove ] *
+               likGhqInner[ obsAbove ]
+            gradPartGhq[ obsBetween ] <- gradPartGhq[ obsBetween ] *
+               likGhqInner[ obsBetween ] - likGhq[ obsBetween ] / sigmaNu
             gradInd[ , length( beta ) ] <- gradInd[ , length( beta ) ] +
                sigmaNu * ghqPoints$weights[ h ] * likGhqProd *
                rowSums( gradPartGhq / likGhq )

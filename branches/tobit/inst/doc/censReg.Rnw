@@ -112,7 +112,7 @@ Here the subscript $i = 1, \ldots , N$ indicates the observation,
 $y_i^*$ is an unobserved (§latent§) variable,
 $x_i$ is a vector of explanatory variables,
 $\beta$ is a vector of unknown parameters, and
-$\varepsilon_i$ is an error term.
+$\varepsilon_i$ is an disturbance term.
 
 
 \subsection{Censored regression model}
@@ -141,7 +141,7 @@ respectively.
 
 Censored regression models (including the standard Tobit model)
 are usually estimated by the Maximum Likelihood (ML) method.
-Assuming that the error term $\varepsilon$ follows a normal distribution
+Assuming that the disturbance term $\varepsilon$ follows a normal distribution
 with mean $0$ and variance $\sigma^2$,
 the log-likelihood function is
 \begin{align}
@@ -244,7 +244,9 @@ It can be estimated by following command:
 estResult <- censReg( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs )
 @
-Detailed estimation results can be obtained by using the \code{summary} method.
+Function \code{censReg} returns an object of class \code{"censReg"}.
+The corresponding \code{summary} method can be used
+to obtain summarized estimation results:
 <<>>=
 summary( estResult )
 @
@@ -267,11 +269,44 @@ estResultMinus <- censReg( I( - affairs ) ~ age + yearsmarried + religiousness +
 @
 This estimation returns $\beta$ parameters that have the opposite sign
 of the $\beta$  parameters estimated in the original model,
-but the (logarithmised) standard error of the residuals remains unchanged.
+but the (logarithmised) standard deviation of the residuals remains unchanged.
 <<>>=
 cbind( coef( estResult ), coef( estResultMinus ) )
 @
 
+
+\subsection[Methods for objects of class "censReg"]{Methods for objects of class \code{"censReg"}}
+
+The \pkg{censReg} package provides several methods for objects
+of class \code{"censReg"}:
+the \code{print} method prints some basic information on the estimated model,
+the \code{coef} method returns the coefficient vector,
+the \code{vcov} method returns the variance-covariance matrix of the coefficients,
+the \code{logLik} method returns the log-likelihood value, and
+the \code{summary} method prepares summary results and returns an object
+of class \code{"summary.censReg"}.
+Furthermore, there are two methods for objects of
+class \code{"summary.censReg"}:
+the \code{print} method prints summarized estimation results and
+the \code{coef} method returns a matrix consisting of
+the estimated coefficients, their standard errors, $z$ statistics,
+and $P$ values.
+
+The \code{print}, \code{coef}, and \code{vcov} methods
+have an argument \code{logSigma}.
+This argument must be logical and determines
+whether the estimated standard deviation of the residuals ($\sigma$)
+should be printed or returned
+in logarithmic terms (if argument \code{logSigma} is \code{TRUE}) or
+in natural units (if it is \code{FALSE}).
+As the logarithm of the residuals' standard deviation ($\log \sigma$)
+is used during the estimation procedure,
+argument \code{logSigma} defaults to \code{TRUE}.
+If this argument is \code{FALSE},
+the (unlogarithmized) standard deviation ($\sigma$) is calculated
+by applying the exponential function
+and the covariance matrix of all parameters is calculated
+by the Delta method.
 
 
 \section{Censored regression model for panel data}
@@ -310,7 +345,7 @@ However, \citet{greene04b} showed with a Monte Carlo study
 that the slope parameters (but not the variance) of a fixed-effects Tobit model
 can be estimated consistently even if the number of time periods in small.
 
-Assuming that the error term $\nu$ follows a normal distribution
+Assuming that the disturbance term $\nu$ follows a normal distribution
 with mean $0$ and variance $\sigma^2$,
 the log-likelihood function is
 \begin{align}
@@ -380,7 +415,7 @@ using standard non-linear optimisation algorithms
 Alternatively, the log-likelihood function can be maximized
 using the method of Maximum Simulated Likelihood (MSL),
 which allows some flexibility in the specification
-of the error terms \citep[p.~799]{greene08}.
+of the disturbance terms \citep[p.~799]{greene08}.
 
 
 \subsubsection{Random effects estimation using the Gauss-Hermite quadrature}

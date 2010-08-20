@@ -1380,6 +1380,8 @@ religiousness -0.000025713 -0.040779761
 occupation    -0.006192755  0.007361278
 rating         0.166323611 -0.056722685
 sigma         -0.056722685  0.306211731
+> logLik( estResult )
+[1] -705.5762
 > 
 > ## usual tobit estimation, BHHH method
 > estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
@@ -7912,6 +7914,8 @@ logSigma       2.109859   0.067098 31.4444 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> logLik( estResultStart )
+[1] -705.5762
 > 
 > ## estimation with left-censoring at 5
 > Affairs$affairsAdd <- Affairs$affairs + 5
@@ -9263,6 +9267,8 @@ religiousness -2.571300e-05 -0.040779761
 occupation    -6.192755e-03  0.007361278
 rating         1.663236e-01 -0.056722685
 sigma         -5.672269e-02  0.306211731
+> logLik( estResultAdd )
+[1] -705.5762
 > 
 > ## estimation with right-censoring
 > Affairs$affairsNeg <- - Affairs$affairs
@@ -10614,6 +10620,8 @@ religiousness -0.000025713  0.040779761
 occupation    -0.006192755 -0.007361278
 rating         0.166323611  0.056722685
 sigma          0.056722685  0.306211731
+> logLik( estResultNeg )
+[1] -705.5762
 > 
 > ## estimation with right-censoring at -5
 > Affairs$affairsAddNeg <- - Affairs$affairsAdd
@@ -11965,6 +11973,8 @@ religiousness -2.571300e-05  0.040779761
 occupation    -6.192755e-03 -0.007361278
 rating         1.663236e-01  0.056722685
 sigma          5.672269e-02  0.306211731
+> logLik( estResultAddNeg )
+[1] -705.5762
 > 
 > ## estimation with left and right censoring
 > estResultBoth <- censReg( affairsFormula, data = Affairs, right = 4 )
@@ -13315,4 +13325,6 @@ religiousness  0.026298212 -0.13724124
 occupation    -0.010774117  0.02616513
 rating         0.202348740 -0.18765769
 sigma         -0.187657690  0.76895394
+> logLik( estResultBoth )
+[1] -500.0428
 > 

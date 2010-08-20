@@ -26,6 +26,7 @@ coef( randEff )
 coef( randEff, logSigma = FALSE )
 vcov( randEff )
 vcov( randEff, logSigma = FALSE )
+logLik( randEff )
 print.default( randEff )
 
 
@@ -59,6 +60,7 @@ coef( randEffAdd )
 coef( randEffAdd, logSigma = FALSE )
 vcov( randEffAdd )
 vcov( randEffAdd, logSigma = FALSE )
+logLik( randEffAdd )
 print.default( randEffAdd )
 
 
@@ -72,6 +74,7 @@ coef( randEffNeg )
 coef( randEffNeg, logSigma = FALSE )
 vcov( randEffNeg )
 vcov( randEffNeg, logSigma = FALSE )
+logLik( randEffNeg )
 print.default( randEffNeg )
 
 
@@ -85,6 +88,7 @@ coef( randEffAddNeg )
 coef( randEffAddNeg, logSigma = FALSE )
 vcov( randEffAddNeg )
 vcov( randEffAddNeg, logSigma = FALSE )
+logLik( randEffAddNeg )
 print.default( randEffAddNeg )
 
 
@@ -98,6 +102,7 @@ coef( randEffBoth )
 coef( randEffBoth, logSigma = FALSE )
 vcov( randEffBoth )
 vcov( randEffBoth, logSigma = FALSE )
+logLik( randEffBoth )
 print.default( randEffBoth )
 
 
@@ -122,6 +127,7 @@ pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
 randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb, method = "BFGSR" )
 print( randEffBfgsrUnb )
 summary( randEffBfgsrUnb )
+logLik( randEffBfgsrUnb )
 print.default( randEffBfgsrUnb )
 
 

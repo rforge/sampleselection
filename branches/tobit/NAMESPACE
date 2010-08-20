@@ -9,3 +9,4 @@ S3method( "summary", "censReg" )
 S3method( "vcov", "censReg" )
 
 S3method( "coef", "summary.censReg" )
+S3method( "print", "summary.censReg" )

@@ -1,20 +1,30 @@
 \name{summary.censReg}
 \alias{summary.censReg}
+\alias{print.summary.censReg}
 
 \title{Summary Results of Censored Regression Models}
 
 \description{
-   This function prepares summary results
+   These methods prepare and print summary results
    for censored regression models.
 }
 
 \usage{
 \method{summary}{censReg}( object, ... )
+
+\method{print}{summary.censReg}( x, logSigma = TRUE, digits = 4, ... )
 }
 
 \arguments{
    \item{object}{object of class \code{"censReg"}
       (returned by \code{\link{censReg}}).}
+   \item{x}{object of class \code{"summary.censReg"}
+      (returned by \code{\link{summary.censReg}}).}
+   \item{logSigma}{logical value indicating whether the variance(s)
+      of the model should be printed logarithmized.}
+   \item{digits}{positive integer specifiying the minimum number of
+      significant digits to be printed
+      (passed to \code{\link[stats]{printCoefmat}}).}
    \item{\dots}{currently not used.}
 }
 \value{

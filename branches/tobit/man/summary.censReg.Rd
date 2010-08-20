@@ -33,7 +33,8 @@
 
 \author{Arne Henningsen}
 
-\seealso{\code{\link{censReg}} and \code{\link{coef.censReg}}}
+\seealso{\code{\link{censReg}}, \code{\link{coef.summary.censReg}}, 
+   and \code{\link{coef.censReg}}}
 
 \examples{
 ## Kleiber & Zeileis ( 2008 ), page 142

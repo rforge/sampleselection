@@ -54,7 +54,8 @@
 
 \author{Arne Henningsen}
 
-\seealso{\code{\link{censReg}}, \code{\link{summary.censReg}}}
+\seealso{\code{\link{censReg}}, \code{\link{summary.censReg}}, 
+   and \code{\link{coef.summary.censReg}}}
 
 \examples{
 ## Kleiber & Zeileis ( 2008 ), page 142

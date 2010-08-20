@@ -1336,6 +1336,56 @@ logSigma       2.109859   0.067098 31.4444 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( estResult )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
+Coefficients:
+              Estimate Std. error t value  Pr(> t)    
+(Intercept)    8.17420    2.74145   2.982  0.00287 ** 
+age           -0.17933    0.07909  -2.267  0.02337 *  
+yearsmarried   0.55414    0.13452   4.119 3.80e-05 ***
+religiousness -1.68622    0.40375  -4.176 2.96e-05 ***
+occupation     0.32605    0.25442   1.282  0.20001    
+rating        -2.28497    0.40783  -5.603 2.11e-08 ***
+logSigma       2.10986    0.06710  31.444  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Newton-Raphson maximisation, 7 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -705.5762 on 7 Df
+
+> print( summary( estResult ), logSigma = FALSE )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
+Coefficients:
+              Estimate Std. error t value  Pr(> t)    
+(Intercept)    8.17420    2.74145   2.982  0.00287 ** 
+age           -0.17933    0.07909  -2.267  0.02337 *  
+yearsmarried   0.55414    0.13452   4.119 3.80e-05 ***
+religiousness -1.68622    0.40375  -4.176 2.96e-05 ***
+occupation     0.32605    0.25442   1.282  0.20001    
+rating        -2.28497    0.40783  -5.603 2.11e-08 ***
+sigma          8.24708    0.55336  14.904  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Newton-Raphson maximisation, 7 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -705.5762 on 7 Df
+
 > coef( estResult )
   (Intercept)           age  yearsmarried religiousness    occupation 
     8.1741974    -0.1793326     0.5541418    -1.6862205     0.3260532 
@@ -2705,6 +2755,31 @@ logSigma       2.109878   0.087436 24.1305 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( estResultBhhh )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs, method = "BHHH")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
+Coefficients:
+              Estimate Std. error t value  Pr(> t)    
+(Intercept)    8.17447    2.60917   3.133  0.00173 ** 
+age           -0.17934    0.07572  -2.368  0.01787 *  
+yearsmarried   0.55416    0.14071   3.938 8.21e-05 ***
+religiousness -1.68624    0.41398  -4.073 4.64e-05 ***
+occupation     0.32606    0.26473   1.232  0.21808    
+rating        -2.28503    0.44379  -5.149 2.62e-07 ***
+logSigma       2.10988    0.08744  24.131  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+BHHH maximisation, 35 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -705.5762 on 7 Df
+
 > 
 > ## usual tobit estimation, BFGS method
 > estResultBfgs <- censReg( affairsFormula, data = Affairs, method = "BFGS" )
@@ -4012,6 +4087,31 @@ logSigma       2.109860   0.067098 31.4444 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( estResultBfgs )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs, method = "BFGS")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
+Coefficients:
+              Estimate Std. error t value  Pr(> t)    
+(Intercept)    8.17428    2.74145   2.982  0.00287 ** 
+age           -0.17933    0.07909  -2.267  0.02337 *  
+yearsmarried   0.55414    0.13452   4.119 3.80e-05 ***
+religiousness -1.68623    0.40375  -4.176 2.96e-05 ***
+occupation     0.32605    0.25442   1.282  0.20001    
+rating        -2.28498    0.40783  -5.603 2.11e-08 ***
+logSigma       2.10986    0.06710  31.444  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+BFGS maximisation, 65 iterations
+Return code 0: successful convergence 
+Log-likelihood: -705.5762 on 7 Df
+
 > 
 > ## usual tobit estimation, NM method
 > estResultNm <- censReg( affairsFormula, data = Affairs, method = "NM" )
@@ -5319,6 +5419,31 @@ logSigma       2.112375   0.067454 31.3160 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( estResultNm )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs, method = "NM")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
+Coefficients:
+              Estimate Std. error t value  Pr(> t)    
+(Intercept)    8.55995    2.75591   3.106  0.00190 ** 
+age           -0.18331    0.07954  -2.305  0.02118 *  
+yearsmarried   0.55300    0.13500   4.096 4.20e-05 ***
+religiousness -1.72863    0.40644  -4.253 2.11e-05 ***
+occupation     0.30464    0.25500   1.195  0.23221    
+rating        -2.30514    0.40988  -5.624 1.87e-08 ***
+logSigma       2.11237    0.06745  31.316  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Nelder-Mead maximisation, 502 iterations
+Return code 1: 
+Log-likelihood: -705.5956 on 7 Df
+
 > 
 > ## usual tobit estimation, SANN method
 > estResultSann <- censReg( affairsFormula, data = Affairs, method = "SANN" )
@@ -6626,6 +6751,31 @@ logSigma       2.171269   0.072306 30.0290 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( estResultSann )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs, method = "SANN")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
+Coefficients:
+              Estimate Std. error t value  Pr(> t)    
+(Intercept)    4.91788    2.94508   1.670 0.094946 .  
+age           -0.17557    0.08417  -2.086 0.036999 *  
+yearsmarried   0.57466    0.14397   3.991 6.57e-05 ***
+religiousness -1.59988    0.42739  -3.743 0.000182 ***
+occupation     0.54785    0.27753   1.974 0.048378 *  
+rating        -2.01151    0.42657  -4.716 2.41e-06 ***
+logSigma       2.17127    0.07231  30.029  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+SANN maximisation, 10000 iterations
+Return code 0: successful convergence 
+Log-likelihood: -706.9638 on 7 Df
+
 > 
 > ## usual tobit estimation with user-defined starting values
 > estResultStart <- censReg( affairsFormula, data = Affairs,
@@ -7932,6 +8082,32 @@ logSigma       2.109859   0.067098 31.4444 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( estResultStart )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs, start = c(8.17, 
+    -0.18, 0.55, -1.69, 0.33, -2.3, 2.13))
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
+Coefficients:
+              Estimate Std. error t value  Pr(> t)    
+(Intercept)    8.17420    2.74145   2.982  0.00287 ** 
+age           -0.17933    0.07909  -2.267  0.02337 *  
+yearsmarried   0.55414    0.13452   4.119 3.80e-05 ***
+religiousness -1.68622    0.40375  -4.176 2.96e-05 ***
+occupation     0.32605    0.25442   1.282  0.20001    
+rating        -2.28497    0.40783  -5.603 2.11e-08 ***
+logSigma       2.10986    0.06710  31.444  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Newton-Raphson maximisation, 3 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -705.5762 on 7 Df
+
 > logLik( estResultStart )
 'log Lik.' -705.5762 (df=7)
 > 
@@ -9241,6 +9417,32 @@ logSigma       2.109859   0.067098 31.4444 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( estResultAdd )
+
+Call:
+censReg(formula = affairsAdd ~ age + yearsmarried + religiousness + 
+    occupation + rating, left = 5, data = Affairs)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601            451            150              0 
+
+Coefficients:
+              Estimate Std. error t value  Pr(> t)    
+(Intercept)   13.17420    2.74145   4.806 1.54e-06 ***
+age           -0.17933    0.07909  -2.267   0.0234 *  
+yearsmarried   0.55414    0.13452   4.119 3.80e-05 ***
+religiousness -1.68622    0.40375  -4.176 2.96e-05 ***
+occupation     0.32605    0.25442   1.282   0.2000    
+rating        -2.28497    0.40783  -5.603 2.11e-08 ***
+logSigma       2.10986    0.06710  31.444  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Newton-Raphson maximisation, 7 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -705.5762 on 7 Df
+
 > coef( estResultAdd )
   (Intercept)           age  yearsmarried religiousness    occupation 
    13.1741974    -0.1793326     0.5541418    -1.6862205     0.3260532 
@@ -10594,6 +10796,32 @@ logSigma       2.109859   0.067098 31.4444 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( estResultNeg )
+
+Call:
+censReg(formula = affairsNeg ~ age + yearsmarried + religiousness + 
+    occupation + rating, left = -Inf, right = 0, data = Affairs)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601              0            150            451 
+
+Coefficients:
+              Estimate Std. error t value  Pr(> t)    
+(Intercept)   -8.17420    2.74145  -2.982  0.00287 ** 
+age            0.17933    0.07909   2.267  0.02337 *  
+yearsmarried  -0.55414    0.13452  -4.119 3.80e-05 ***
+religiousness  1.68622    0.40375   4.176 2.96e-05 ***
+occupation    -0.32605    0.25442  -1.282  0.20001    
+rating         2.28497    0.40783   5.603 2.11e-08 ***
+logSigma       2.10986    0.06710  31.444  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Newton-Raphson maximisation, 7 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -705.5762 on 7 Df
+
 > coef( estResultNeg )
   (Intercept)           age  yearsmarried religiousness    occupation 
    -8.1741974     0.1793326    -0.5541418     1.6862205    -0.3260532 
@@ -11947,6 +12175,32 @@ logSigma        2.109859   0.067098 31.4444 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( estResultAddNeg )
+
+Call:
+censReg(formula = affairsAddNeg ~ age + yearsmarried + religiousness + 
+    occupation + rating, left = -Inf, right = -5, data = Affairs)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601              0            150            451 
+
+Coefficients:
+               Estimate Std. error t value  Pr(> t)    
+(Intercept)   -13.17420    2.74145  -4.806 1.54e-06 ***
+age             0.17933    0.07909   2.267   0.0234 *  
+yearsmarried   -0.55414    0.13452  -4.119 3.80e-05 ***
+religiousness   1.68622    0.40375   4.176 2.96e-05 ***
+occupation     -0.32605    0.25442  -1.282   0.2000    
+rating          2.28497    0.40783   5.603 2.11e-08 ***
+logSigma        2.10986    0.06710  31.444  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Newton-Raphson maximisation, 7 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -705.5762 on 7 Df
+
 > coef( estResultAddNeg )
   (Intercept)           age  yearsmarried religiousness    occupation 
   -13.1741974     0.1793326    -0.5541418     1.6862205    -0.3260532 
@@ -13299,6 +13553,56 @@ logSigma       2.072319   0.110396 18.7717 < 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( estResultBoth )
+
+Call:
+censReg(formula = affairsFormula, right = 4, data = Affairs)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601            451             70             80 
+
+Coefficients:
+              Estimate Std. error t value  Pr(> t)    
+(Intercept)    7.90098    2.80385   2.818 0.004834 ** 
+age           -0.17760    0.07991  -2.223 0.026244 *  
+yearsmarried   0.53230    0.14117   3.771 0.000163 ***
+religiousness -1.61634    0.42440  -3.809 0.000140 ***
+occupation     0.32419    0.25388   1.277 0.201624    
+rating        -2.20701    0.44983  -4.906 9.28e-07 ***
+logSigma       2.07232    0.11040  18.772  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Newton-Raphson maximisation, 7 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -500.0428 on 7 Df
+
+> print( summary( estResultBoth ), logSigma = FALSE )
+
+Call:
+censReg(formula = affairsFormula, right = 4, data = Affairs)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+           601            451             70             80 
+
+Coefficients:
+              Estimate Std. error t value  Pr(> t)    
+(Intercept)    7.90098    2.80385   2.818 0.004834 ** 
+age           -0.17760    0.07991  -2.223 0.026244 *  
+yearsmarried   0.53230    0.14117   3.771 0.000163 ***
+religiousness -1.61634    0.42440  -3.809 0.000140 ***
+occupation     0.32419    0.25388   1.277 0.201624    
+rating        -2.20701    0.44983  -4.906 9.28e-07 ***
+sigma          7.94322    0.87690   9.058  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Newton-Raphson maximisation, 7 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -500.0428 on 7 Df
+
 > coef( estResultBoth )
   (Intercept)           age  yearsmarried religiousness    occupation 
     7.9009804    -0.1775982     0.5323021    -1.6163357     0.3241865 

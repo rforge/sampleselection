@@ -83,6 +83,52 @@ logSigmaNu  -0.012408   0.129690 -0.0957 0.9237786
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( randEff )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value  Pr(> t)    
+(Intercept) -0.36562    0.47446  -0.771 0.440936    
+x1           1.68000    0.20922   8.030 9.77e-16 ***
+x2           2.24054    0.67389   3.325 0.000885 ***
+logSigmaMu  -0.12955    0.25807  -0.502 0.615679    
+logSigmaNu  -0.01241    0.12969  -0.096 0.923779    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Newton-Raphson maximisation, 5 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -73.19882 on 5 Df
+
+> print( summary( randEff ), logSigma = FALSE )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value  Pr(> t)    
+(Intercept)  -0.3656     0.4745  -0.771 0.440936    
+x1            1.6800     0.2092   8.030 9.77e-16 ***
+x2            2.2405     0.6739   3.325 0.000885 ***
+sigmaMu       0.8785     0.2267   3.875 0.000107 ***
+sigmaNu       0.9877     0.1281   7.711 1.25e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Newton-Raphson maximisation, 5 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -73.19882 on 5 Df
+
 > coef( randEff )
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
 -0.36562313  1.68000400  2.24054376 -0.12954703 -0.01240809 
@@ -215,6 +261,29 @@ logSigmaNu  -0.012402   0.140134 -0.0885  0.929481
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( randEffBhhh )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value  Pr(> t)    
+(Intercept)  -0.3656     0.5551  -0.659  0.51006    
+x1            1.6800     0.2938   5.719 1.07e-08 ***
+x2            2.2406     0.7295   3.071  0.00213 ** 
+logSigmaMu   -0.1296     0.2950  -0.439  0.66053    
+logSigmaNu   -0.0124     0.1401  -0.088  0.92948    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+BHHH maximisation, 18 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -73.19882 on 5 Df
+
 > print.default( randEffBhhh )
 $maximum
 [1] -73.19882
@@ -313,6 +382,29 @@ logSigmaNu  -0.012408   0.129690 -0.0957 0.9237762
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( randEffBfgs )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value  Pr(> t)    
+(Intercept) -0.36562    0.47446  -0.771 0.440934    
+x1           1.68000    0.20922   8.030 9.77e-16 ***
+x2           2.24055    0.67389   3.325 0.000885 ***
+logSigmaMu  -0.12955    0.25807  -0.502 0.615673    
+logSigmaNu  -0.01241    0.12969  -0.096 0.923776    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+BFGS maximisation, 25 iterations
+Return code 0: successful convergence 
+Log-likelihood: -73.19882 on 5 Df
+
 > print.default( randEffBfgs )
 $maximum
 [1] -73.19882
@@ -413,6 +505,29 @@ logSigmaNu  -0.012408   0.129690 -0.0957 0.9237792
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( randEffBfgsr )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value  Pr(> t)    
+(Intercept) -0.36562    0.47446  -0.771 0.440936    
+x1           1.68000    0.20922   8.030 9.77e-16 ***
+x2           2.24054    0.67389   3.325 0.000885 ***
+logSigmaMu  -0.12955    0.25807  -0.502 0.615679    
+logSigmaNu  -0.01241    0.12969  -0.096 0.923779    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+BFGS-YC maximization, 10 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -73.19882 on 5 Df
+
 > print.default( randEffBfgsr )
 $maximum
 [1] -73.19882
@@ -510,6 +625,29 @@ logSigmaNu  -0.012408   0.129690 -0.0957 0.9237792
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( randEffAdd )
+
+Call:
+censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value  Pr(> t)    
+(Intercept)  4.63438    0.47446   9.768  < 2e-16 ***
+x1           1.68000    0.20922   8.030 9.77e-16 ***
+x2           2.24054    0.67389   3.325 0.000885 ***
+logSigmaMu  -0.12955    0.25807  -0.502 0.615679    
+logSigmaNu  -0.01241    0.12969  -0.096 0.923779    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+BFGS-YC maximization, 10 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -73.19882 on 5 Df
+
 > coef( randEffAdd )
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
  4.63437676  1.68000398  2.24054396 -0.12954711 -0.01240798 
@@ -631,6 +769,30 @@ logSigmaNu  -0.012408   0.129690 -0.0957 0.9237792
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( randEffNeg )
+
+Call:
+censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
+    method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60              0             40             20 
+
+Coefficients:
+            Estimate Std. error t value  Pr(> t)    
+(Intercept)  0.36562    0.47446   0.771 0.440936    
+x1          -1.68000    0.20922  -8.030 9.77e-16 ***
+x2          -2.24054    0.67389  -3.325 0.000885 ***
+logSigmaMu  -0.12955    0.25807  -0.502 0.615679    
+logSigmaNu  -0.01241    0.12969  -0.096 0.923779    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+BFGS-YC maximization, 10 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -73.19882 on 5 Df
+
 > coef( randEffNeg )
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
  0.36562324 -1.68000398 -2.24054396 -0.12954711 -0.01240798 
@@ -753,6 +915,30 @@ logSigmaNu  -0.012408   0.129690 -0.0957 0.9237792
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( randEffAddNeg )
+
+Call:
+censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
+    data = pData, method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60              0             40             20 
+
+Coefficients:
+            Estimate Std. error t value  Pr(> t)    
+(Intercept) -4.63438    0.47446  -9.768  < 2e-16 ***
+x1          -1.68000    0.20922  -8.030 9.77e-16 ***
+x2          -2.24054    0.67389  -3.325 0.000885 ***
+logSigmaMu  -0.12955    0.25807  -0.502 0.615679    
+logSigmaNu  -0.01241    0.12969  -0.096 0.923779    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+BFGS-YC maximization, 10 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -73.19882 on 5 Df
+
 > coef( randEffAddNeg )
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
 -4.63437676 -1.68000398 -2.24054396 -0.12954711 -0.01240798 
@@ -875,6 +1061,54 @@ logSigmaNu   0.052887   0.163015  0.3244   0.74561
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( randEffBoth )
+
+Call:
+censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
+    method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             28             12 
+
+Coefficients:
+             Estimate Std. error t value  Pr(> t)    
+(Intercept) -0.235535   0.548605  -0.429   0.6677    
+x1           1.893305   0.301140   6.287 3.23e-10 ***
+x2           1.972325   0.819113   2.408   0.0160 *  
+logSigmaMu   0.001777   0.277794   0.006   0.9949    
+logSigmaNu   0.052887   0.163015   0.324   0.7456    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+BFGS-YC maximization, 16 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -64.31272 on 5 Df
+
+> print( summary( randEffBoth ), logSigma = FALSE )
+
+Call:
+censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
+    method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             28             12 
+
+Coefficients:
+            Estimate Std. error t value  Pr(> t)    
+(Intercept)  -0.2355     0.5486  -0.429 0.667679    
+x1            1.8933     0.3011   6.287 3.23e-10 ***
+x2            1.9723     0.8191   2.408 0.016046 *  
+sigmaMu       1.0018     0.2783   3.600 0.000318 ***
+sigmaNu       1.0543     0.1719   6.134 8.55e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+BFGS-YC maximization, 16 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -64.31272 on 5 Df
+
 > coef( randEffBoth )
  (Intercept)           x1           x2   logSigmaMu   logSigmaNu 
 -0.235535467  1.893305460  1.972325289  0.001776973  0.052886968 
@@ -1027,6 +1261,29 @@ logSigmaNu  -0.0011337  0.1322715 -0.0086  0.993162
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
+> summary( randEffBfgsrUnb )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            56             17             39              0 
+
+Coefficients:
+             Estimate Std. error t value  Pr(> t)    
+(Intercept) -0.225080   0.472696  -0.476  0.63396    
+x1           1.640577   0.211070   7.773 7.68e-15 ***
+x2           2.112079   0.684933   3.084  0.00204 ** 
+logSigmaMu  -0.167313   0.271458  -0.616  0.53767    
+logSigmaNu  -0.001134   0.132271  -0.009  0.99316    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+BFGS-YC maximization, 10 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -71.19256 on 5 Df
+
 > logLik( randEffBfgsrUnb )
 'log Lik.' -71.19256 (df=5)
 > print.default( randEffBfgsrUnb )

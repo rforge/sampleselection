@@ -10,6 +10,8 @@ print.default( estResult )
 print( estResult )
 print( estResult, logSigma = FALSE )
 maxLik:::summary.maxLik( estResult )
+summary( estResult )
+print( summary( estResult ), logSigma = FALSE )
 coef( estResult )
 coef( estResult, logSigma = FALSE )
 vcov( estResult )
@@ -23,24 +25,28 @@ estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
 print.default( estResultBhhh )
 print( estResultBhhh )
 maxLik:::summary.maxLik( estResultBhhh )
+summary( estResultBhhh )
 
 ## usual tobit estimation, BFGS method
 estResultBfgs <- censReg( affairsFormula, data = Affairs, method = "BFGS" )
 print.default( estResultBfgs )
 print( estResultBfgs )
 maxLik:::summary.maxLik( estResultBfgs )
+summary( estResultBfgs )
 
 ## usual tobit estimation, NM method
 estResultNm <- censReg( affairsFormula, data = Affairs, method = "NM" )
 print.default( estResultNm )
 print( estResultNm )
 maxLik:::summary.maxLik( estResultNm )
+summary( estResultNm )
 
 ## usual tobit estimation, SANN method
 estResultSann <- censReg( affairsFormula, data = Affairs, method = "SANN" )
 print.default( estResultSann )
 print( estResultSann )
 maxLik:::summary.maxLik( estResultSann )
+summary( estResultSann )
 
 ## usual tobit estimation with user-defined starting values
 estResultStart <- censReg( affairsFormula, data = Affairs,
@@ -48,6 +54,7 @@ estResultStart <- censReg( affairsFormula, data = Affairs,
 print.default( estResultStart )
 print( estResultStart )
 maxLik:::summary.maxLik( estResultStart )
+summary( estResultStart )
 logLik( estResultStart )
 
 ## estimation with left-censoring at 5
@@ -57,6 +64,7 @@ estResultAdd <- censReg( affairsAdd ~ age + yearsmarried + religiousness +
 print.default( estResultAdd )
 print( estResultAdd )
 maxLik:::summary.maxLik( estResultAdd )
+summary( estResultAdd )
 coef( estResultAdd )
 coef( estResultAdd, logSigma = FALSE )
 vcov( estResultAdd )
@@ -70,6 +78,7 @@ estResultNeg <- censReg( affairsNeg ~ age + yearsmarried + religiousness +
 print.default( estResultNeg )
 print( estResultNeg )
 maxLik:::summary.maxLik( estResultNeg )
+summary( estResultNeg )
 coef( estResultNeg )
 coef( estResultNeg, logSigma = FALSE )
 vcov( estResultNeg )
@@ -83,6 +92,7 @@ estResultAddNeg <- censReg( affairsAddNeg ~ age + yearsmarried + religiousness +
 print.default( estResultAddNeg )
 print( estResultAddNeg )
 maxLik:::summary.maxLik( estResultAddNeg )
+summary( estResultAddNeg )
 coef( estResultAddNeg )
 coef( estResultAddNeg, logSigma = FALSE )
 vcov( estResultAddNeg )
@@ -94,6 +104,8 @@ estResultBoth <- censReg( affairsFormula, data = Affairs, right = 4 )
 print.default( estResultBoth )
 print( estResultBoth )
 maxLik:::summary.maxLik( estResultBoth )
+summary( estResultBoth )
+print( summary( estResultBoth ), logSigma = FALSE )
 coef( estResultBoth )
 coef( estResultBoth, logSigma = FALSE )
 vcov( estResultBoth )

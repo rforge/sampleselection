@@ -1,22 +1,27 @@
 \name{coef.censReg}
 \alias{coef.censReg}
 \alias{vcov.censReg}
+\alias{logLik.censReg}
 
-\title{Coefficients and their Covariances of Censored Regression Models}
+\title{Coefficients, their Covariances, and Log-Likelihood Values of Censored Regression Models}
 
 \description{
-   These functions extract the coefficient vectors and
-   the corresponding covariance matrices
+   These functions extract the coefficient vectors,
+   the corresponding covariance matrices,
+   and log-likelihood values
    from censored regression models.
 }
 
 \usage{
 \method{coef}{censReg}( object, logSigma = TRUE, ... )
+
 \method{vcov}{censReg}( object, logSigma = TRUE, ... )
+
+\method{logLik}{censReg}( object, ... )
 }
 
 \arguments{
-   \item{object}{object of class \code{censReg}
+   \item{object}{object of class \code{"censReg"}
       (returned by \code{\link{censReg}}).}
    \item{logSigma}{logical value indicating whether the variance(s)
       of the model should be returned logarithmized.}
@@ -27,6 +32,12 @@
 
    \code{vcov.censReg} returns the covariance matrix
    of the estimated coefficients.
+
+   \code{logLik.censReg} returns an object of class \code{"logLik"}.
+   This object is the log-likelihood value of the estimated model
+   and has an attribute \code{"df"}
+   that gives the degrees of freedom,
+   i.e.\ the number of estimated parameters.
 }
 
 \note{
@@ -54,6 +65,7 @@ coef( estResult )
 coef( estResult, logSigma = FALSE )
 vcov( estResult )
 vcov( estResult, logSigma = FALSE )
+logLik( estResult )
 }
 
 \keyword{methods}

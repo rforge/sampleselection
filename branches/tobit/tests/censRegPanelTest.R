@@ -21,7 +21,7 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 randEff <- censReg( y ~ x1 + x2, data = pData )
 print( randEff )
 print( randEff, logSigma = FALSE )
-summary( randEff )
+maxLik:::summary.maxLik( randEff )
 coef( randEff )
 coef( randEff, logSigma = FALSE )
 vcov( randEff )
@@ -33,21 +33,21 @@ print.default( randEff )
 ## BHHH method
 randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
 print( randEffBhhh )
-summary( randEffBhhh )
+maxLik:::summary.maxLik( randEffBhhh )
 print.default( randEffBhhh )
 
 
 ## BFGS method (optim)
 randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
 print( randEffBfgs )
-summary( randEffBfgs )
+maxLik:::summary.maxLik( randEffBfgs )
 print.default( randEffBfgs )
 
 
 ## BFGS method (R)
 randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
 print( randEffBfgsr )
-summary( randEffBfgsr )
+maxLik:::summary.maxLik( randEffBfgsr )
 print.default( randEffBfgsr )
 
 
@@ -55,7 +55,7 @@ print.default( randEffBfgsr )
 pData$yAdd <- pData$y + 5
 randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
 print( randEffAdd )
-summary( randEffAdd )
+maxLik:::summary.maxLik( randEffAdd )
 coef( randEffAdd )
 coef( randEffAdd, logSigma = FALSE )
 vcov( randEffAdd )
@@ -69,7 +69,7 @@ pData$yNeg <- - pData$y
 randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = 0 )
 print( randEffNeg )
-summary( randEffNeg )
+maxLik:::summary.maxLik( randEffNeg )
 coef( randEffNeg )
 coef( randEffNeg, logSigma = FALSE )
 vcov( randEffNeg )
@@ -83,7 +83,7 @@ pData$yAddNeg <- - pData$yAdd
 randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = -5 )
 print( randEffAddNeg )
-summary( randEffAddNeg )
+maxLik:::summary.maxLik( randEffAddNeg )
 coef( randEffAddNeg )
 coef( randEffAddNeg, logSigma = FALSE )
 vcov( randEffAddNeg )
@@ -97,7 +97,7 @@ pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
 randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
    left = 0, right = 3 )
 print( randEffBoth )
-summary( randEffBoth )
+maxLik:::summary.maxLik( randEffBoth )
 coef( randEffBoth )
 coef( randEffBoth, logSigma = FALSE )
 vcov( randEffBoth )
@@ -126,7 +126,7 @@ nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
 randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb, method = "BFGSR" )
 print( randEffBfgsrUnb )
-summary( randEffBfgsrUnb )
+maxLik:::summary.maxLik( randEffBfgsrUnb )
 logLik( randEffBfgsrUnb )
 print.default( randEffBfgsrUnb )
 

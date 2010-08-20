@@ -47,11 +47,11 @@ Loading required package: zoo
 > 
 > # ## Newton-Raphson method
 > # randEff <- censReg( y ~ x1 + x2, data = pData )
-> # summary( randEff )
+> # maxLik:::summary.maxLik( randEff )
 > 
 > ## BHHH method
 > randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
-> summary( randEffBhhh )
+> maxLik:::summary.maxLik( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
 BHHH maximisation, 15 iterations
@@ -71,7 +71,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > ## BFGS method (optim)
 > randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
-> summary( randEffBfgs )
+> maxLik:::summary.maxLik( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS maximisation, 29 iterations
@@ -91,7 +91,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > ## BFGS method (R)
 > randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
-> summary( randEffBfgsr )
+> maxLik:::summary.maxLik( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS-YC maximization, 15 iterations

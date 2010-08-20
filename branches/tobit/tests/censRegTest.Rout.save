@@ -1317,7 +1317,7 @@ Coefficients:
        rating         sigma 
       -2.2850        8.2471 
 
-> summary( estResult )
+> maxLik:::summary.maxLik( estResult )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -2668,7 +2668,7 @@ Coefficients:
        rating      logSigma 
       -2.2850        2.1099 
 
-> summary( estResultBhhh )
+> maxLik:::summary.maxLik( estResultBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
 BHHH maximisation, 35 iterations
@@ -3975,7 +3975,7 @@ Coefficients:
        rating      logSigma 
       -2.2850        2.1099 
 
-> summary( estResultBfgs )
+> maxLik:::summary.maxLik( estResultBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS maximisation, 65 iterations
@@ -5282,7 +5282,7 @@ Coefficients:
        rating      logSigma 
       -2.3051        2.1124 
 
-> summary( estResultNm )
+> maxLik:::summary.maxLik( estResultNm )
 --------------------------------------------
 Maximum Likelihood estimation
 Nelder-Mead maximisation, 502 iterations
@@ -6589,7 +6589,7 @@ Coefficients:
        rating      logSigma 
       -2.0115        2.1713 
 
-> summary( estResultSann )
+> maxLik:::summary.maxLik( estResultSann )
 --------------------------------------------
 Maximum Likelihood estimation
 SANN maximisation, 10000 iterations
@@ -7895,7 +7895,7 @@ Coefficients:
        rating      logSigma 
       -2.2850        2.1099 
 
-> summary( estResultStart )
+> maxLik:::summary.maxLik( estResultStart )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 3 iterations
@@ -9204,7 +9204,7 @@ Coefficients:
        rating      logSigma 
       -2.2850        2.1099 
 
-> summary( estResultAdd )
+> maxLik:::summary.maxLik( estResultAdd )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -10557,7 +10557,7 @@ Coefficients:
        rating      logSigma 
        2.2850        2.1099 
 
-> summary( estResultNeg )
+> maxLik:::summary.maxLik( estResultNeg )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -11910,7 +11910,7 @@ Coefficients:
        rating      logSigma 
        2.2850        2.1099 
 
-> summary( estResultAddNeg )
+> maxLik:::summary.maxLik( estResultAddNeg )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -13262,7 +13262,7 @@ Coefficients:
        rating      logSigma 
       -2.2070        2.0723 
 
-> summary( estResultBoth )
+> maxLik:::summary.maxLik( estResultBoth )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations

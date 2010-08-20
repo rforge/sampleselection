@@ -66,7 +66,7 @@ Coefficients:
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
     -0.3656      1.6800      2.2405      0.8785      0.9877 
 
-> summary( randEff )
+> maxLik:::summary.maxLik( randEff )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 5 iterations
@@ -184,7 +184,7 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
    -0.36563     1.68002     2.24056    -0.12957    -0.01240 
 
-> summary( randEffBhhh )
+> maxLik:::summary.maxLik( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
 BHHH maximisation, 18 iterations
@@ -282,7 +282,7 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
    -0.36562     1.68000     2.24055    -0.12955    -0.01241 
 
-> summary( randEffBfgs )
+> maxLik:::summary.maxLik( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS maximisation, 25 iterations
@@ -382,7 +382,7 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
    -0.36562     1.68000     2.24054    -0.12955    -0.01241 
 
-> summary( randEffBfgsr )
+> maxLik:::summary.maxLik( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS-YC maximization, 10 iterations
@@ -479,7 +479,7 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
     4.63438     1.68000     2.24054    -0.12955    -0.01241 
 
-> summary( randEffAdd )
+> maxLik:::summary.maxLik( randEffAdd )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS-YC maximization, 10 iterations
@@ -600,7 +600,7 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
     0.36562    -1.68000    -2.24054    -0.12955    -0.01241 
 
-> summary( randEffNeg )
+> maxLik:::summary.maxLik( randEffNeg )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS-YC maximization, 10 iterations
@@ -722,7 +722,7 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
    -4.63438    -1.68000    -2.24054    -0.12955    -0.01241 
 
-> summary( randEffAddNeg )
+> maxLik:::summary.maxLik( randEffAddNeg )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS-YC maximization, 10 iterations
@@ -844,7 +844,7 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
   -0.235535    1.893305    1.972325    0.001777    0.052887 
 
-> summary( randEffBoth )
+> maxLik:::summary.maxLik( randEffBoth )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS-YC maximization, 16 iterations
@@ -982,7 +982,7 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
   -0.225080    1.640577    2.112079   -0.167313   -0.001134 
 
-> summary( randEffBfgsrUnb )
+> maxLik:::summary.maxLik( randEffBfgsrUnb )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS-YC maximization, 10 iterations

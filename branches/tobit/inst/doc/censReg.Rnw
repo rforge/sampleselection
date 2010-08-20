@@ -213,7 +213,11 @@ must be loaded:
 <<>>=
 library( "censReg" )
 @
-The first argument of function \code{censReg} is \code{formula}.
+The user interface (e.g.\ function arguments and printed output)
+of function \code{censReg} follows rather closely
+the user interface of function \code{tobit} from the \pkg{AER} package
+\citep{kleiber08a,r-aer-1.1}.
+The first argument of both functions is \code{formula}.
 It is the only mandatory argument and
 must provide a symbolic description of the model to be fitted.
 The optional argument \code{data} can be used to provide
@@ -504,11 +508,7 @@ round( rbind(sapply( results, coef ),times),4)
 % \label{sec:conclusions}
 
 
-\section*{Acknowledgments}
-
-The user interface of function \code{censReg} was inspired by
-function \code{tobit} from the \pkg{AER} package
-\citep{kleiber08a,r-aer-1.1}.
+% \section*{Acknowledgments}
 
 
 \clearpage

@@ -57,6 +57,15 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
    -0.36562     1.68000     2.24054    -0.12955    -0.01241 
 
+> print( randEff, logSigma = FALSE )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData)
+
+Coefficients:
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+    -0.3656      1.6800      2.2405      0.8785      0.9877 
+
 > summary( randEff )
 --------------------------------------------
 Maximum Likelihood estimation

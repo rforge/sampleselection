@@ -8,6 +8,7 @@ affairsFormula <- affairs ~ age + yearsmarried + religiousness +
 estResult <- censReg( affairsFormula, data = Affairs )
 print.default( estResult )
 print( estResult )
+print( estResult, logSigma = FALSE )
 summary( estResult )
 coef( estResult )
 coef( estResult, logSigma = FALSE )

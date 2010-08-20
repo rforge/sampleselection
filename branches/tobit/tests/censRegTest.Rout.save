@@ -1306,6 +1306,17 @@ Coefficients:
        rating      logSigma 
       -2.2850        2.1099 
 
+> print( estResult, logSigma = FALSE )
+
+Call:
+censReg(formula = affairsFormula, data = Affairs)
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+       8.1742       -0.1793        0.5541       -1.6862        0.3261 
+       rating         sigma 
+      -2.2850        8.2471 
+
 > summary( estResult )
 --------------------------------------------
 Maximum Likelihood estimation

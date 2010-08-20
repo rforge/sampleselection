@@ -20,6 +20,7 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 ## Newton-Raphson method
 randEff <- censReg( y ~ x1 + x2, data = pData )
 print( randEff )
+print( randEff, logSigma = FALSE )
 summary( randEff )
 coef( randEff )
 coef( randEff, logSigma = FALSE )

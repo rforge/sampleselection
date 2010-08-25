@@ -3,8 +3,8 @@
 \usepackage{amsmath,amssymb,bbm}
 %% need no \usepackage{Sweave.sty}
 
-\usepackage{csquotes}
-\MakeOuterQuote{§}
+% \usepackage{csquotes}
+% \MakeOuterQuote{§}
 
 \newcommand{\dnorm}{\phi}% normal density
 \newcommand{\loglik}{\ell}% log likelihood
@@ -69,7 +69,7 @@ parameter estimates obtained by conventional regression methods (e.g.\ OLS)
 are biased.
 Consistent estimates can be obtained by the method
 proposed by \citet{tobin58}.
-This approach is usually called §Tobit§ model
+This approach is usually called ``Tobit'' model
 and is a special case of the more general censored regression model.
 
 This paper briefly explains the censored regression model,
@@ -109,7 +109,7 @@ y_i &=
    \end{cases}
 \end{align}
 Here the subscript $i = 1, \ldots , N$ indicates the observation,
-$y_i^*$ is an unobserved (§latent§) variable,
+$y_i^*$ is an unobserved (``latent'') variable,
 $x_i$ is a vector of explanatory variables,
 $\beta$ is a vector of unknown parameters, and
 $\varepsilon_i$ is an disturbance term.
@@ -233,7 +233,7 @@ This data set can be loaded by the following command:
 data( "Affairs", package = "AER" )
 @
 In the example of \citet[p.~142]{kleiber08a},
-the number of a person's extramarital sexual intercourses (§affairs§)
+the number of a person's extramarital sexual intercourses (``affairs'')
 in the past year
 is regressed on the person's age, number of years married,
 religiousness, occupation, and own rating of the marriage.

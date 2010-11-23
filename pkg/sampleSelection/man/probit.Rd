@@ -69,6 +69,8 @@ probit(formula, subset, na.action, start = NULL, data = sys.frame(sys.parent()),
    response is represented internally as 0/1 integer vector.}
   \item{model}{the model frame, only if \code{model = TRUE} or
     \code{method = "model.frame"}.}
+  \item{na.action}{information returned by \code{\link{model.frame}} on
+    the special handling of  NA s.}
   Other components are inherited from \code{\link[maxLik]{maxLik}}.
 }
 \author{Ott Toomet \email{otoomet@ut.ee}}

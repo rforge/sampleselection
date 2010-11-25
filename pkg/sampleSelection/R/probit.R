@@ -159,7 +159,8 @@ probit <- function(formula, subset, na.action,
                x=switch(x, "1"=list(X), "0"=NULL),
                y=switch(y, "1"=list(Y), "0"=NULL),
                model=switch(model, "1"=list(mf), "0"=NULL),
-               na.action=list(attr(mf, "na.action"))
+               na.action=list(attr(mf, "na.action")),
+               family=list(binomial(link="probit"))
                            # NA action and the removed cases
                )
    class(result) <- c("probit", class(estimation))

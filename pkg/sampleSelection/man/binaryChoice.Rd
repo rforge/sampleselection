@@ -1,13 +1,18 @@
 \name{probit}
+\alias{binaryChoice}
 \alias{probit}
-\alias{print.probit}
-\title{Probit binary choice model}
+\title{Binary choice models.}
 \description{
-  This function calculates probit binary choice model
+  Binary Choice models.  These models are estimated by
+  \code{binaryChoice}, intended to be called by wrappers like
+  \code{probit}. 
 }
 \usage{
-probit(formula, subset, na.action, start = NULL, data = sys.frame(sys.parent()),
-       x=FALSE, y = FALSE, model = FALSE, method="ML", ... )
+probit(formula, ...)
+binaryChoice(formula, subset, na.action, start = NULL, data = sys.frame(sys.parent()),
+             x=FALSE, y = FALSE, model = FALSE, method="ML",
+             cdfLower, cdfUpper, pdf, gradPdf,
+             ... )
 }
 \arguments{
   \item{formula}{a symbolic description of the model to be fit, in the
@@ -32,23 +37,37 @@ probit(formula, subset, na.action, start = NULL, data = sys.frame(sys.parent()),
     currently only method = "ML" (Maximum Likelihood) is supported;
     method = "model.frame" returns the model frame (the same as
     with model = TRUE, see below).}
-  \item{\dots}{further arguments for \code{maxLik}.}
+  \item{cdfLower, cdfUpper, pdf, gradPdf}{function, lower and upper tail of the
+    cumulative distribution function of the disturbance term,
+    corresponding probability density function, and gradient of the
+    density function.  These
+    functions must take a numeric vector as the argument, and return
+    numeric vector of the probability/gradient values.}
+  \item{\dots}{further arguments for \code{binaryChoice} and
+    \code{\link[maxLik]{maxLik}}.
+  }
 }
 \details{
-  The model is estimated using Maximum Likelihood method.
-
-   The dependent variable must have exactly
+   The dependent variable for the binary choice models must have exactly
    two levels (e.g. '0' and '1', 'FALSE' and 'TRUE', or 'no' and 'yes').
-   \code{probit} always takes the first level as '0' and
-   the second level as '1' -- no matter the actual value.
-   However, by default levels are sorted in increasing order and thus,
-   the second level is generally, e.g., '1' (after '0'),
-   'TRUE' (after 'FALSE'), or 'yes' (after 'no').
+   Internally, the first level is always coded '0' ('failure') and
+   the second level as '1' ('success'), no matter of the actual value.
+   However, by default the levels are ordered alphabetically and this
+   makes puts '1' after '0', 'TRUE' after 'FALSE' nad 'yes' after 'no'.
+
+   Via the distribution function parameters, \code{binaryChoice}
+   supports generic latent linear index binary choice models with
+   additive disturbance terms.  It is intended to be called by wrappers
+   like \code{probit}.  However, it is also visible in the namespace as
+   the user may want to implement her own models using another
+   distribution of the disturbance term.
+   
+   The model is estimated using Maximum Likelihood.
 }
 \value{
-  An object of class "probit".  It is a list with following components:
+  An object of class "binaryChoice".  It is a list with following components:
   \item{LRT}{Likelihood ration test.  The full model is tested against
-    H0: the parameters have no effect on the result.  This is a list
+    H0: the parameters (besides constant) have no effect on the result.  This is a list
     with components
     \itemize{
     \item{LRT}{The LRT value}
@@ -72,6 +91,11 @@ probit(formula, subset, na.action, start = NULL, data = sys.frame(sys.parent()),
   \item{na.action}{information returned by \code{\link{model.frame}} on
     the special handling of  NA s.}
   Other components are inherited from \code{\link[maxLik]{maxLik}}.
+
+  \code{probit} adds class "probit" and following components to
+  the "binaryChoice" object:
+  \item{family}{the family object used (\code{\link{binomial}} with
+    \code{link="probit"})}
 }
 \author{Ott Toomet \email{otoomet@ut.ee}}
 \seealso{\code{\link[maxLik]{maxLik}} for ready-packaged likelihood maximisation

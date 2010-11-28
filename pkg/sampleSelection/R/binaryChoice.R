@@ -5,7 +5,10 @@ binaryChoice <- function(formula, subset, na.action,
                    data=sys.frame(sys.parent()),
                    x=FALSE, y=FALSE, model=FALSE,
                    method="ML",
-                         cdfLower, cdfUpper, pdf, gradPdf,
+                         cdfLower, cdfUpper,
+                         logCdfLower=NULL, logCdfUpper=NULL,
+                         pdf,logPdf=NULL,
+                         gradPdf,
                    ...) {
    ## formula: model formula, response must be either a logical or numeric vector containing only 0-s and
    ##          1-s
@@ -30,6 +33,8 @@ binaryChoice <- function(formula, subset, na.action,
   ##  na.action  na.action used
   ##  cdfLower   lower tail of the cdf of the disturbance terms
   ##  cdfUpper   upper
+   ##  logCdfLower, logCdfUpper  corresponding log functions, if available.  Increase precision
+   ##              in extreme tails
   ##  pdf        pdf
   ##  gradPdf    gradient of the pdf
    loglik <- function(beta) {
@@ -53,15 +58,31 @@ binaryChoice <- function(formula, subset, na.action,
       #
       F0 <- cdfUpper(xb0)
       F1 <- cdfLower(xb1)
+      if(!is.null(logCdfUpper)) {
+         logF0 <- logCdfUpper(xb0)
+         logF1 <- logCdfLower(xb1)
+      }
+      else {
+         logF0 <- log(F0)
+         logF1 <- log(F1)
+      }
       loglik <- numeric(length(Y))
-      loglik[Y == 0] <- log(F0)
-      loglik[Y == 1] <- log(F1)
+      loglik[Y == 0] <- logF0
+      loglik[Y == 1] <- logF1
       ##
       f0 <- pdf(xb0)
       f1 <- pdf(xb1)
       gradlik <- matrix(0, length(Y), length(beta))
-      gradlik[Y == 0,] <- - pdf(xb0)/F0 * x0
-      gradlik[Y == 1,] <- pdf(xb1)/F1 * x1
+      if(!is.null(logPdf)) {
+         r0 <- -exp(logPdf(xb0) - logF0)
+         r1 <- exp(logPdf(xb1) - logF1)
+      }
+      else {
+         r0 <- -pdf(xb0)/F0
+         r1 <- pdf(xb1)/F1
+      }         
+      gradlik[Y == 0,] <- r0*x0
+      gradlik[Y == 1,] <- r1*x1
       ##
       gradf0 <- gradPdf(xb0)
       gradf1 <- gradPdf(xb1)

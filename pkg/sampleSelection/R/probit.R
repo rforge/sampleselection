@@ -24,12 +24,17 @@ probit <- function(formula, ...) {
    ## we set the necessary function for binary choice gradient, and call it
    cdfLower <- pnorm
    cdfUpper <- function(x) pnorm(x, lower.tail=FALSE)
+   logCdfLower <- function(x) pnorm(x, log.p=TRUE)
+   logCdfUpper <- function(x) pnorm(x, lower.tail=FALSE, log.p=TRUE)
    pdf <- dnorm
+   logPdf <- function(x) dnorm(x, log=TRUE)
    gradPdf <- function(x) -dnorm(x)*x
                            # these are the probit-specific distribution functions
    result <- binaryChoice(formula, ...,
-                         cdfLower=cdfLower, cdfUpper=cdfUpper,
-                         pdf=pdf, gradPdf=gradPdf)
+                          cdfLower=cdfLower, cdfUpper=cdfUpper,
+                          logCdfLower=logCdfLower, logCdfUpper=logCdfUpper,
+                          pdf=pdf, logPdf=logPdf,
+                          gradPdf=gradPdf)
    cl <- class(result)
    result <- c(result,
                family=list(binomial(link="probit"))

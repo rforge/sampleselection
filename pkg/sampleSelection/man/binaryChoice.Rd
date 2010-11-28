@@ -11,7 +11,8 @@
 probit(formula, ...)
 binaryChoice(formula, subset, na.action, start = NULL, data = sys.frame(sys.parent()),
              x=FALSE, y = FALSE, model = FALSE, method="ML",
-             cdfLower, cdfUpper, pdf, gradPdf,
+             cdfLower, cdfUpper, logCdfLower=NULL, logCdfUpper=NULL,
+pdf, logPdf=NULL, gradPdf,
              ... )
 }
 \arguments{
@@ -43,6 +44,10 @@ binaryChoice(formula, subset, na.action, start = NULL, data = sys.frame(sys.pare
     density function.  These
     functions must take a numeric vector as the argument, and return
     numeric vector of the probability/gradient values.}
+  \item{logCdfLower, logCdfUpper, logPdf}{logs of the corresponding
+    functions.  Providing these may improve precision in extreme tail.
+    If not provided, simply logs are takes of the corresponding non-log
+    values.}
   \item{\dots}{further arguments for \code{binaryChoice} and
     \code{\link[maxLik]{maxLik}}.
   }

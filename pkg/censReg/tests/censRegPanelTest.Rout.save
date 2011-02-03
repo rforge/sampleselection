@@ -226,6 +226,31 @@ $gradientObs
 $call
 censReg(formula = y ~ x1 + x2, data = pData)
 
+$terms
+y ~ x1 + x2
+attr(,"variables")
+list(y, x1, x2)
+attr(,"factors")
+   x1 x2
+y   0  0
+x1  1  0
+x2  0  1
+attr(,"term.labels")
+[1] "x1" "x2"
+attr(,"order")
+[1] 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(y, x1, x2)
+attr(,"dataClasses")
+        y        x1        x2 
+"numeric" "numeric" "numeric" 
+
 $nObs
          Total  Left-censored     Uncensored Right-censored 
             60             20             40              0 
@@ -346,6 +371,31 @@ $gradientObs
 
 $call
 censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
+
+$terms
+y ~ x1 + x2
+attr(,"variables")
+list(y, x1, x2)
+attr(,"factors")
+   x1 x2
+y   0  0
+x1  1  0
+x2  0  1
+attr(,"term.labels")
+[1] "x1" "x2"
+attr(,"order")
+[1] 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(y, x1, x2)
+attr(,"dataClasses")
+        y        x1        x2 
+"numeric" "numeric" "numeric" 
 
 $nObs
          Total  Left-censored     Uncensored Right-censored 
@@ -470,6 +520,31 @@ $gradientObs
 $call
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
 
+$terms
+y ~ x1 + x2
+attr(,"variables")
+list(y, x1, x2)
+attr(,"factors")
+   x1 x2
+y   0  0
+x1  1  0
+x2  0  1
+attr(,"term.labels")
+[1] "x1" "x2"
+attr(,"order")
+[1] 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(y, x1, x2)
+attr(,"dataClasses")
+        y        x1        x2 
+"numeric" "numeric" "numeric" 
+
 $nObs
          Total  Left-censored     Uncensored Right-censored 
             60             20             40              0 
@@ -588,6 +663,31 @@ $gradientObs
 
 $call
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
+
+$terms
+y ~ x1 + x2
+attr(,"variables")
+list(y, x1, x2)
+attr(,"factors")
+   x1 x2
+y   0  0
+x1  1  0
+x2  0  1
+attr(,"term.labels")
+[1] "x1" "x2"
+attr(,"order")
+[1] 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(y, x1, x2)
+attr(,"dataClasses")
+        y        x1        x2 
+"numeric" "numeric" "numeric" 
 
 $nObs
          Total  Left-censored     Uncensored Right-censored 
@@ -730,6 +830,31 @@ $gradientObs
 
 $call
 censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
+
+$terms
+yAdd ~ x1 + x2
+attr(,"variables")
+list(yAdd, x1, x2)
+attr(,"factors")
+     x1 x2
+yAdd  0  0
+x1    1  0
+x2    0  1
+attr(,"term.labels")
+[1] "x1" "x2"
+attr(,"order")
+[1] 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(yAdd, x1, x2)
+attr(,"dataClasses")
+     yAdd        x1        x2 
+"numeric" "numeric" "numeric" 
 
 $nObs
          Total  Left-censored     Uncensored Right-censored 
@@ -877,6 +1002,31 @@ $call
 censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
     method = "BFGSR")
 
+$terms
+yNeg ~ x1 + x2
+attr(,"variables")
+list(yNeg, x1, x2)
+attr(,"factors")
+     x1 x2
+yNeg  0  0
+x1    1  0
+x2    0  1
+attr(,"term.labels")
+[1] "x1" "x2"
+attr(,"order")
+[1] 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(yNeg, x1, x2)
+attr(,"dataClasses")
+     yNeg        x1        x2 
+"numeric" "numeric" "numeric" 
+
 $nObs
          Total  Left-censored     Uncensored Right-censored 
             60              0             40             20 
@@ -1022,6 +1172,31 @@ $gradientObs
 $call
 censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
     data = pData, method = "BFGSR")
+
+$terms
+yAddNeg ~ x1 + x2
+attr(,"variables")
+list(yAddNeg, x1, x2)
+attr(,"factors")
+        x1 x2
+yAddNeg  0  0
+x1       1  0
+x2       0  1
+attr(,"term.labels")
+[1] "x1" "x2"
+attr(,"order")
+[1] 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(yAddNeg, x1, x2)
+attr(,"dataClasses")
+  yAddNeg        x1        x2 
+"numeric" "numeric" "numeric" 
 
 $nObs
          Total  Left-censored     Uncensored Right-censored 
@@ -1207,6 +1382,31 @@ $call
 censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
     method = "BFGSR")
 
+$terms
+yBoth ~ x1 + x2
+attr(,"variables")
+list(yBoth, x1, x2)
+attr(,"factors")
+      x1 x2
+yBoth  0  0
+x1     1  0
+x2     0  1
+attr(,"term.labels")
+[1] "x1" "x2"
+attr(,"order")
+[1] 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(yBoth, x1, x2)
+attr(,"dataClasses")
+    yBoth        x1        x2 
+"numeric" "numeric" "numeric" 
+
 $nObs
          Total  Left-censored     Uncensored Right-censored 
             60             20             28             12 
@@ -1346,6 +1546,31 @@ $gradientObs
 
 $call
 censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
+
+$terms
+y ~ x1 + x2
+attr(,"variables")
+list(y, x1, x2)
+attr(,"factors")
+   x1 x2
+y   0  0
+x1  1  0
+x2  0  1
+attr(,"term.labels")
+[1] "x1" "x2"
+attr(,"order")
+[1] 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(y, x1, x2)
+attr(,"dataClasses")
+        y        x1        x2 
+"numeric" "numeric" "numeric" 
 
 $nObs
          Total  Left-censored     Uncensored Right-censored 

@@ -238,6 +238,9 @@ censReg <- function( formula, left = 0, right = Inf,
    # save and return the call
    result$call <- match.call()
 
+   # save and return the model terms
+   result$terms <- mt
+
    # save and return the number of oservations (in each category)
    result$nObs <- c( sum( obsBelow ), sum( obsBetween ), sum( obsAbove ) )
    result$nObs <- c( sum( result$nObs ), result$nObs )

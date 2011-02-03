@@ -1290,6 +1290,37 @@ $gradientObs
 $call
 censReg(formula = affairsFormula, data = Affairs)
 
+$terms
+affairs ~ age + yearsmarried + religiousness + occupation + rating
+attr(,"variables")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"factors")
+              age yearsmarried religiousness occupation rating
+affairs         0            0             0          0      0
+age             1            0             0          0      0
+yearsmarried    0            1             0          0      0
+religiousness   0            0             1          0      0
+occupation      0            0             0          1      0
+rating          0            0             0          0      1
+attr(,"term.labels")
+[1] "age"           "yearsmarried"  "religiousness" "occupation"   
+[5] "rating"       
+attr(,"order")
+[1] 1 1 1 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"dataClasses")
+      affairs           age  yearsmarried religiousness    occupation 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+       rating 
+    "numeric" 
+
 $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451            150              0 
@@ -2720,6 +2751,37 @@ $gradientObs
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "BHHH")
 
+$terms
+affairs ~ age + yearsmarried + religiousness + occupation + rating
+attr(,"variables")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"factors")
+              age yearsmarried religiousness occupation rating
+affairs         0            0             0          0      0
+age             1            0             0          0      0
+yearsmarried    0            1             0          0      0
+religiousness   0            0             1          0      0
+occupation      0            0             0          1      0
+rating          0            0             0          0      1
+attr(,"term.labels")
+[1] "age"           "yearsmarried"  "religiousness" "occupation"   
+[5] "rating"       
+attr(,"order")
+[1] 1 1 1 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"dataClasses")
+      affairs           age  yearsmarried religiousness    occupation 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+       rating 
+    "numeric" 
+
 $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451            150              0 
@@ -4051,6 +4113,37 @@ $gradientObs
 
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "BFGS")
+
+$terms
+affairs ~ age + yearsmarried + religiousness + occupation + rating
+attr(,"variables")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"factors")
+              age yearsmarried religiousness occupation rating
+affairs         0            0             0          0      0
+age             1            0             0          0      0
+yearsmarried    0            1             0          0      0
+religiousness   0            0             1          0      0
+occupation      0            0             0          1      0
+rating          0            0             0          0      1
+attr(,"term.labels")
+[1] "age"           "yearsmarried"  "religiousness" "occupation"   
+[5] "rating"       
+attr(,"order")
+[1] 1 1 1 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"dataClasses")
+      affairs           age  yearsmarried religiousness    occupation 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+       rating 
+    "numeric" 
 
 $nObs
          Total  Left-censored     Uncensored Right-censored 
@@ -5384,6 +5477,37 @@ $gradientObs
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "NM")
 
+$terms
+affairs ~ age + yearsmarried + religiousness + occupation + rating
+attr(,"variables")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"factors")
+              age yearsmarried religiousness occupation rating
+affairs         0            0             0          0      0
+age             1            0             0          0      0
+yearsmarried    0            1             0          0      0
+religiousness   0            0             1          0      0
+occupation      0            0             0          1      0
+rating          0            0             0          0      1
+attr(,"term.labels")
+[1] "age"           "yearsmarried"  "religiousness" "occupation"   
+[5] "rating"       
+attr(,"order")
+[1] 1 1 1 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"dataClasses")
+      affairs           age  yearsmarried religiousness    occupation 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+       rating 
+    "numeric" 
+
 $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451            150              0 
@@ -6716,6 +6840,37 @@ $gradientObs
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "SANN")
 
+$terms
+affairs ~ age + yearsmarried + religiousness + occupation + rating
+attr(,"variables")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"factors")
+              age yearsmarried religiousness occupation rating
+affairs         0            0             0          0      0
+age             1            0             0          0      0
+yearsmarried    0            1             0          0      0
+religiousness   0            0             1          0      0
+occupation      0            0             0          1      0
+rating          0            0             0          0      1
+attr(,"term.labels")
+[1] "age"           "yearsmarried"  "religiousness" "occupation"   
+[5] "rating"       
+attr(,"order")
+[1] 1 1 1 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"dataClasses")
+      affairs           age  yearsmarried religiousness    occupation 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+       rating 
+    "numeric" 
+
 $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451            150              0 
@@ -8045,6 +8200,37 @@ $gradientObs
 $call
 censReg(formula = affairsFormula, data = Affairs, start = c(8.17, 
     -0.18, 0.55, -1.69, 0.33, -2.3, 2.13))
+
+$terms
+affairs ~ age + yearsmarried + religiousness + occupation + rating
+attr(,"variables")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"factors")
+              age yearsmarried religiousness occupation rating
+affairs         0            0             0          0      0
+age             1            0             0          0      0
+yearsmarried    0            1             0          0      0
+religiousness   0            0             1          0      0
+occupation      0            0             0          1      0
+rating          0            0             0          0      1
+attr(,"term.labels")
+[1] "age"           "yearsmarried"  "religiousness" "occupation"   
+[5] "rating"       
+attr(,"order")
+[1] 1 1 1 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"dataClasses")
+      affairs           age  yearsmarried religiousness    occupation 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+       rating 
+    "numeric" 
 
 $nObs
          Total  Left-censored     Uncensored Right-censored 
@@ -9380,6 +9566,40 @@ $gradientObs
 $call
 censReg(formula = affairsAdd ~ age + yearsmarried + religiousness + 
     occupation + rating, left = 5, data = Affairs)
+
+$terms
+affairsAdd ~ age + yearsmarried + religiousness + occupation + 
+    rating
+attr(,"variables")
+list(affairsAdd, age, yearsmarried, religiousness, occupation, 
+    rating)
+attr(,"factors")
+              age yearsmarried religiousness occupation rating
+affairsAdd      0            0             0          0      0
+age             1            0             0          0      0
+yearsmarried    0            1             0          0      0
+religiousness   0            0             1          0      0
+occupation      0            0             0          1      0
+rating          0            0             0          0      1
+attr(,"term.labels")
+[1] "age"           "yearsmarried"  "religiousness" "occupation"   
+[5] "rating"       
+attr(,"order")
+[1] 1 1 1 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(affairsAdd, age, yearsmarried, religiousness, occupation, 
+    rating)
+attr(,"dataClasses")
+   affairsAdd           age  yearsmarried religiousness    occupation 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+       rating 
+    "numeric" 
 
 $nObs
          Total  Left-censored     Uncensored Right-censored 
@@ -10760,6 +10980,40 @@ $call
 censReg(formula = affairsNeg ~ age + yearsmarried + religiousness + 
     occupation + rating, left = -Inf, right = 0, data = Affairs)
 
+$terms
+affairsNeg ~ age + yearsmarried + religiousness + occupation + 
+    rating
+attr(,"variables")
+list(affairsNeg, age, yearsmarried, religiousness, occupation, 
+    rating)
+attr(,"factors")
+              age yearsmarried religiousness occupation rating
+affairsNeg      0            0             0          0      0
+age             1            0             0          0      0
+yearsmarried    0            1             0          0      0
+religiousness   0            0             1          0      0
+occupation      0            0             0          1      0
+rating          0            0             0          0      1
+attr(,"term.labels")
+[1] "age"           "yearsmarried"  "religiousness" "occupation"   
+[5] "rating"       
+attr(,"order")
+[1] 1 1 1 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(affairsNeg, age, yearsmarried, religiousness, occupation, 
+    rating)
+attr(,"dataClasses")
+   affairsNeg           age  yearsmarried religiousness    occupation 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+       rating 
+    "numeric" 
+
 $nObs
          Total  Left-censored     Uncensored Right-censored 
            601              0            150            451 
@@ -12139,6 +12393,40 @@ $call
 censReg(formula = affairsAddNeg ~ age + yearsmarried + religiousness + 
     occupation + rating, left = -Inf, right = -5, data = Affairs)
 
+$terms
+affairsAddNeg ~ age + yearsmarried + religiousness + occupation + 
+    rating
+attr(,"variables")
+list(affairsAddNeg, age, yearsmarried, religiousness, occupation, 
+    rating)
+attr(,"factors")
+              age yearsmarried religiousness occupation rating
+affairsAddNeg   0            0             0          0      0
+age             1            0             0          0      0
+yearsmarried    0            1             0          0      0
+religiousness   0            0             1          0      0
+occupation      0            0             0          1      0
+rating          0            0             0          0      1
+attr(,"term.labels")
+[1] "age"           "yearsmarried"  "religiousness" "occupation"   
+[5] "rating"       
+attr(,"order")
+[1] 1 1 1 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(affairsAddNeg, age, yearsmarried, religiousness, occupation, 
+    rating)
+attr(,"dataClasses")
+affairsAddNeg           age  yearsmarried religiousness    occupation 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+       rating 
+    "numeric" 
+
 $nObs
          Total  Left-censored     Uncensored Right-censored 
            601              0            150            451 
@@ -13517,6 +13805,37 @@ $gradientObs
 
 $call
 censReg(formula = affairsFormula, right = 4, data = Affairs)
+
+$terms
+affairs ~ age + yearsmarried + religiousness + occupation + rating
+attr(,"variables")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"factors")
+              age yearsmarried religiousness occupation rating
+affairs         0            0             0          0      0
+age             1            0             0          0      0
+yearsmarried    0            1             0          0      0
+religiousness   0            0             1          0      0
+occupation      0            0             0          1      0
+rating          0            0             0          0      1
+attr(,"term.labels")
+[1] "age"           "yearsmarried"  "religiousness" "occupation"   
+[5] "rating"       
+attr(,"order")
+[1] 1 1 1 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(affairs, age, yearsmarried, religiousness, occupation, rating)
+attr(,"dataClasses")
+      affairs           age  yearsmarried religiousness    occupation 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+       rating 
+    "numeric" 
 
 $nObs
          Total  Left-censored     Uncensored Right-censored 

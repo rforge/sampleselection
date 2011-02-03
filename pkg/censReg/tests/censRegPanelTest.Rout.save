@@ -1,7 +1,8 @@
 
-R version 2.11.1 (2010-05-31)
+R version 2.12.1 (2010-12-16)
 Copyright (C) 2010 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
+Platform: i486-pc-linux-gnu (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -491,7 +492,7 @@ Coefficients:
 > maxLik:::summary.maxLik( randEffBfgsr )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS-YC maximization, 10 iterations
+BFGSR maximization, 10 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -73.19882 
 5  free parameters
@@ -524,7 +525,7 @@ logSigmaNu  -0.01241    0.12969  -0.096 0.923779
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 
-BFGS-YC maximization, 10 iterations
+BFGSR maximization, 10 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.19882 on 5 Df
 
@@ -565,7 +566,7 @@ $iterations
 [1] 10
 
 $type
-[1] "BFGS-YC maximization"
+[1] "BFGSR maximization"
 
 $gradientObs
       (Intercept)          x1          x2 logSigmaMu logSigmaNu
@@ -611,7 +612,7 @@ Coefficients:
 > maxLik:::summary.maxLik( randEffAdd )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS-YC maximization, 10 iterations
+BFGSR maximization, 10 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -73.19882 
 5  free parameters
@@ -644,7 +645,7 @@ logSigmaNu  -0.01241    0.12969  -0.096 0.923779
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 
-BFGS-YC maximization, 10 iterations
+BFGSR maximization, 10 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.19882 on 5 Df
 
@@ -707,7 +708,7 @@ $iterations
 [1] 10
 
 $type
-[1] "BFGS-YC maximization"
+[1] "BFGSR maximization"
 
 $gradientObs
       (Intercept)          x1          x2 logSigmaMu logSigmaNu
@@ -755,7 +756,7 @@ Coefficients:
 > maxLik:::summary.maxLik( randEffNeg )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS-YC maximization, 10 iterations
+BFGSR maximization, 10 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -73.19882 
 5  free parameters
@@ -789,7 +790,7 @@ logSigmaNu  -0.01241    0.12969  -0.096 0.923779
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 
-BFGS-YC maximization, 10 iterations
+BFGSR maximization, 10 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.19882 on 5 Df
 
@@ -852,7 +853,7 @@ $iterations
 [1] 10
 
 $type
-[1] "BFGS-YC maximization"
+[1] "BFGSR maximization"
 
 $gradientObs
       (Intercept)          x1          x2 logSigmaMu logSigmaNu
@@ -901,7 +902,7 @@ Coefficients:
 > maxLik:::summary.maxLik( randEffAddNeg )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS-YC maximization, 10 iterations
+BFGSR maximization, 10 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -73.19882 
 5  free parameters
@@ -935,7 +936,7 @@ logSigmaNu  -0.01241    0.12969  -0.096 0.923779
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 
-BFGS-YC maximization, 10 iterations
+BFGSR maximization, 10 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.19882 on 5 Df
 
@@ -998,7 +999,7 @@ $iterations
 [1] 10
 
 $type
-[1] "BFGS-YC maximization"
+[1] "BFGSR maximization"
 
 $gradientObs
       (Intercept)          x1          x2 logSigmaMu logSigmaNu
@@ -1047,7 +1048,7 @@ Coefficients:
 > maxLik:::summary.maxLik( randEffBoth )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS-YC maximization, 16 iterations
+BFGSR maximization, 16 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -64.31272 
 5  free parameters
@@ -1081,7 +1082,7 @@ logSigmaNu   0.052887   0.163015   0.324   0.7456
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 
-BFGS-YC maximization, 16 iterations
+BFGSR maximization, 16 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -64.31272 on 5 Df
 
@@ -1105,7 +1106,7 @@ sigmaNu       1.0543     0.1719   6.134 8.55e-10 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 
-BFGS-YC maximization, 16 iterations
+BFGSR maximization, 16 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -64.31272 on 5 Df
 
@@ -1182,7 +1183,7 @@ $iterations
 [1] 16
 
 $type
-[1] "BFGS-YC maximization"
+[1] "BFGSR maximization"
 
 $gradientObs
       (Intercept)          x1         x2  logSigmaMu logSigmaNu
@@ -1247,7 +1248,7 @@ Coefficients:
 > maxLik:::summary.maxLik( randEffBfgsrUnb )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS-YC maximization, 10 iterations
+BFGSR maximization, 10 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -71.19256 
 5  free parameters
@@ -1280,7 +1281,7 @@ logSigmaNu  -0.001134   0.132271  -0.009  0.99316
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 
-BFGS-YC maximization, 10 iterations
+BFGSR maximization, 10 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -71.19256 on 5 Df
 
@@ -1323,7 +1324,7 @@ $iterations
 [1] 10
 
 $type
-[1] "BFGS-YC maximization"
+[1] "BFGSR maximization"
 
 $gradientObs
       (Intercept)           x1          x2  logSigmaMu  logSigmaNu

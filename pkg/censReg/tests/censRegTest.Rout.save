@@ -1485,6 +1485,8 @@ rating        -2.2849727 0.40782792 -5.602786 2.109331e-08
 sigma          8.2470803 0.55336401 14.903536 3.125905e-50
 > logLik( estResult )
 'log Lik.' -705.5762 (df=7)
+> extractAIC( estResult )
+[1]    7.000 1425.152
 > 
 > ## usual tobit estimation, BHHH method
 > estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
@@ -9731,6 +9733,8 @@ rating         1.663236e-01 -0.056722685
 sigma         -5.672269e-02  0.306211731
 > logLik( estResultAdd )
 'log Lik.' -705.5762 (df=7)
+> extractAIC( estResultAdd )
+[1]    7.000 1425.152
 > 
 > ## estimation with right-censoring
 > Affairs$affairsNeg <- - Affairs$affairs
@@ -11147,6 +11151,8 @@ rating         0.166323611  0.056722685
 sigma          0.056722685  0.306211731
 > logLik( estResultNeg )
 'log Lik.' -705.5762 (df=7)
+> extractAIC( estResultNeg )
+[1]    7.000 1425.152
 > 
 > ## estimation with right-censoring at -5
 > Affairs$affairsAddNeg <- - Affairs$affairsAdd
@@ -12563,6 +12569,8 @@ rating         1.663236e-01  0.056722685
 sigma          5.672269e-02  0.306211731
 > logLik( estResultAddNeg )
 'log Lik.' -705.5762 (df=7)
+> extractAIC( estResultAddNeg )
+[1]    7.000 1425.152
 > 
 > ## estimation with left and right censoring
 > estResultBoth <- censReg( affairsFormula, data = Affairs, right = 4 )
@@ -14017,4 +14025,7 @@ rating        -2.2070074  0.4498319 -4.906294 9.281349e-07
 sigma          7.9432194  0.8769002  9.058294 1.325071e-19
 > logLik( estResultBoth )
 'log Lik.' -500.0428 (df=7)
+> extractAIC( estResultBoth )
+[1]    7.000 1014.086
+> 
 > 

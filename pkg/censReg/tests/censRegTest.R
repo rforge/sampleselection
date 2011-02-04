@@ -19,6 +19,7 @@ vcov( estResult, logSigma = FALSE )
 coef( summary( estResult ) )
 coef( summary( estResult ), logSigma = FALSE )
 logLik( estResult )
+extractAIC( estResult )
 
 ## usual tobit estimation, BHHH method
 estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
@@ -70,6 +71,7 @@ coef( estResultAdd, logSigma = FALSE )
 vcov( estResultAdd )
 vcov( estResultAdd, logSigma = FALSE )
 logLik( estResultAdd )
+extractAIC( estResultAdd )
 
 ## estimation with right-censoring
 Affairs$affairsNeg <- - Affairs$affairs
@@ -84,6 +86,7 @@ coef( estResultNeg, logSigma = FALSE )
 vcov( estResultNeg )
 vcov( estResultNeg, logSigma = FALSE )
 logLik( estResultNeg )
+extractAIC( estResultNeg )
 
 ## estimation with right-censoring at -5
 Affairs$affairsAddNeg <- - Affairs$affairsAdd
@@ -98,6 +101,7 @@ coef( estResultAddNeg, logSigma = FALSE )
 vcov( estResultAddNeg )
 vcov( estResultAddNeg, logSigma = FALSE )
 logLik( estResultAddNeg )
+extractAIC( estResultAddNeg )
 
 ## estimation with left and right censoring
 estResultBoth <- censReg( affairsFormula, data = Affairs, right = 4 )
@@ -113,3 +117,5 @@ vcov( estResultBoth, logSigma = FALSE )
 coef( summary( estResultBoth ) )
 coef( summary( estResultBoth ), logSigma = FALSE )
 logLik( estResultBoth )
+extractAIC( estResultBoth )
+

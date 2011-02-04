@@ -166,6 +166,8 @@ sigmaMu      0.8784933  0.2267131  3.8749120 1.066632e-04
 sigmaNu      0.9876686  0.1280905  7.7107072 1.251225e-14
 > logLik( randEff )
 'log Lik.' -73.19882 (df=5)
+> extractAIC( randEff )
+[1] -40.0000 156.3976
 > print.default( randEff )
 $maximum
 [1] -73.19882
@@ -783,6 +785,8 @@ sigmaMu     -0.020929371  0.011775397  0.015092122  0.051398836 -0.002289647
 sigmaNu     -0.002937284  0.002933333  0.001486879 -0.002289647  0.016407191
 > logLik( randEffAdd )
 'log Lik.' -73.19882 (df=5)
+> extractAIC( randEffAdd )
+[1] -40.0000 156.3976
 > print.default( randEffAdd )
 $maximum
 [1] -73.19882
@@ -956,6 +960,8 @@ sigmaMu      0.020929371 -0.011775397 -0.015092122  0.051398836 -0.002289647
 sigmaNu      0.002937284 -0.002933333 -0.001486879 -0.002289647  0.016407191
 > logLik( randEffNeg )
 'log Lik.' -73.19882 (df=5)
+> extractAIC( randEffNeg )
+[1] -40.0000 156.3976
 > print.default( randEffNeg )
 $maximum
 [1] -73.19882
@@ -1130,6 +1136,8 @@ sigmaMu      0.020929371 -0.011775397 -0.015092122  0.051398836 -0.002289647
 sigmaNu      0.002937284 -0.002933333 -0.001486879 -0.002289647  0.016407191
 > logLik( randEffAddNeg )
 'log Lik.' -73.19882 (df=5)
+> extractAIC( randEffAddNeg )
+[1] -40.0000 156.3976
 > print.default( randEffAddNeg )
 $maximum
 [1] -73.19882
@@ -1342,6 +1350,8 @@ sigmaMu      1.0017786  0.2782877  3.599795 3.184681e-04
 sigmaNu      1.0543105  0.1718685  6.134403 8.547939e-10
 > logLik( randEffBoth )
 'log Lik.' -64.31272 (df=5)
+> extractAIC( randEffBoth )
+[1] -40.0000 138.6254
 > print.default( randEffBoth )
 $maximum
 [1] -64.31272
@@ -1511,6 +1521,8 @@ Log-likelihood: -71.19256 on 5 Df
 
 > logLik( randEffBfgsrUnb )
 'log Lik.' -71.19256 (df=5)
+> extractAIC( randEffBfgsrUnb )
+[1] -36.0000 152.3851
 > print.default( randEffBfgsrUnb )
 $maximum
 [1] -71.19256

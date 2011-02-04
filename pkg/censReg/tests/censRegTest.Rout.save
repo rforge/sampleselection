@@ -1325,6 +1325,9 @@ $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451            150              0 
 
+$df.residual
+[1] 594
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResult )
@@ -2786,6 +2789,9 @@ $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451            150              0 
 
+$df.residual
+[1] 594
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultBhhh )
@@ -4148,6 +4154,9 @@ attr(,"dataClasses")
 $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451            150              0 
+
+$df.residual
+[1] 594
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
@@ -5512,6 +5521,9 @@ $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451            150              0 
 
+$df.residual
+[1] 594
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > print( estResultNm )
@@ -6875,6 +6887,9 @@ $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451            150              0 
 
+$df.residual
+[1] 594
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > print( estResultSann )
@@ -8235,6 +8250,9 @@ attr(,"dataClasses")
 $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451            150              0 
+
+$df.residual
+[1] 594
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -9604,6 +9622,9 @@ attr(,"dataClasses")
 $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451            150              0 
+
+$df.residual
+[1] 594
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -11018,6 +11039,9 @@ $nObs
          Total  Left-censored     Uncensored Right-censored 
            601              0            150            451 
 
+$df.residual
+[1] 594
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultNeg )
@@ -12431,6 +12455,9 @@ $nObs
          Total  Left-censored     Uncensored Right-censored 
            601              0            150            451 
 
+$df.residual
+[1] 594
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultAddNeg )
@@ -13840,6 +13867,9 @@ attr(,"dataClasses")
 $nObs
          Total  Left-censored     Uncensored Right-censored 
            601            451             70             80 
+
+$df.residual
+[1] 594
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   

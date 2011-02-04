@@ -255,6 +255,9 @@ $nObs
          Total  Left-censored     Uncensored Right-censored 
             60             20             40              0 
 
+$df.residual
+[1] 55
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -400,6 +403,9 @@ attr(,"dataClasses")
 $nObs
          Total  Left-censored     Uncensored Right-censored 
             60             20             40              0 
+
+$df.residual
+[1] 55
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -549,6 +555,9 @@ $nObs
          Total  Left-censored     Uncensored Right-censored 
             60             20             40              0 
 
+$df.residual
+[1] 55
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > 
@@ -692,6 +701,9 @@ attr(,"dataClasses")
 $nObs
          Total  Left-censored     Uncensored Right-censored 
             60             20             40              0 
+
+$df.residual
+[1] 55
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -859,6 +871,9 @@ attr(,"dataClasses")
 $nObs
          Total  Left-censored     Uncensored Right-censored 
             60             20             40              0 
+
+$df.residual
+[1] 55
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -1031,6 +1046,9 @@ $nObs
          Total  Left-censored     Uncensored Right-censored 
             60              0             40             20 
 
+$df.residual
+[1] 55
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -1201,6 +1219,9 @@ attr(,"dataClasses")
 $nObs
          Total  Left-censored     Uncensored Right-censored 
             60              0             40             20 
+
+$df.residual
+[1] 55
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -1411,6 +1432,9 @@ $nObs
          Total  Left-censored     Uncensored Right-censored 
             60             20             28             12 
 
+$df.residual
+[1] 55
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -1575,6 +1599,9 @@ attr(,"dataClasses")
 $nObs
          Total  Left-censored     Uncensored Right-censored 
             56             17             39              0 
+
+$df.residual
+[1] 51
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   

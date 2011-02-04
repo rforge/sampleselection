@@ -238,7 +238,7 @@ censReg <- function( formula, left = 0, right = Inf,
    # save and return the call
    result$call <- match.call()
 
-   # save and return the model terms
+   # return the model terms
    result$terms <- mt
 
    # save and return the number of oservations (in each category)
@@ -246,6 +246,9 @@ censReg <- function( formula, left = 0, right = Inf,
    result$nObs <- c( sum( result$nObs ), result$nObs )
    names( result$nObs ) <- c( "Total", "Left-censored", "Uncensored",
       "Right-censored" )
+
+   # return the degrees of freedom of the residuals
+   result$df.residual <- unname( result$nObs[ 1 ] - length( coef( result ) ) )
 
    class( result ) <- c( "censReg", class( result ) )
    return( result )

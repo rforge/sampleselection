@@ -21,20 +21,57 @@ probit <- function(formula, ...) {
    ##  call      call
    ##  terms     terms
    ##
-   ## we set the necessary function for binary choice gradient, and call it
-   cdfLower <- pnorm
-   cdfUpper <- function(x) pnorm(x, lower.tail=FALSE)
-   logCdfLower <- function(x) pnorm(x, log.p=TRUE)
-   logCdfUpper <- function(x) pnorm(x, lower.tail=FALSE, log.p=TRUE)
-   pdf <- dnorm
-   logPdf <- function(x) dnorm(x, log=TRUE)
-   gradPdf <- function(x) -dnorm(x)*x
-                           # these are the probit-specific distribution functions
-   result <- binaryChoice(formula, ...,
-                          cdfLower=cdfLower, cdfUpper=cdfUpper,
-                          logCdfLower=logCdfLower, logCdfUpper=logCdfUpper,
-                          pdf=pdf, logPdf=logPdf,
-                          gradPdf=gradPdf)
+   loglik <- function( beta) {
+      ## probit loglik, using Demidenko (2001) robust method
+      x0 <- get("x0", envir=probitFrame + 1)
+      x1 <- get("x1", envir=probitFrame + 1)
+      Y <- get("Y", envir=probitFrame + 1)
+      xb0 <- drop(x0 %*% beta)
+      xb1 <- drop(x1 %*% beta)
+      loglik <- numeric(length(Y))
+      loglik[Y == 0] <- pnorm(xb0, lower.tail=FALSE, log=TRUE)
+      loglik[Y == 1] <- pnorm(xb1, lower.tail=TRUE, log=TRUE)
+      ##
+      f0 <- dnorm(xb0)
+      f1 <- dnorm(xb1)
+      F0 <- pnorm(xb0, lower.tail=FALSE)
+      F1 <- pnorm(xb1, lower.tail=TRUE)
+      gradlik <- matrix(0, length(Y), length(beta))
+      theta3 <- ifelse(xb1 < -nCutoff, -xb1,
+                       ifelse(xb1 > nCutoff, f1, f1/F1))
+      theta4 <- -ifelse(xb0 < -nCutoff, f0,
+                       ifelse(xb0 > nCutoff, xb0, f0/F0))
+      gradlik[Y == 1,] <- theta3*x1
+      gradlik[Y == 0,] <- theta4*x0
+      ##
+      theta5 <- -ifelse(xb1 < -nCutoff, 1,
+                        ifelse(xb1 > nCutoff, xb1*f1 + f1^2,
+                               xb1*f1/F1 + f1^2/F1^2))
+      theta6 <- -ifelse(xb0 < -nCutoff, f0^2 - xb1*f0,
+                        ifelse(xb0 > nCutoff, 1,
+                               f0^2/F0^2 - xb0*f0/F0))
+      hesslik <- t( x1) %*% ( x1 * theta5) + t( x0) %*% ( x0 * theta6)
+                    # note that df/db' = -f (x'b) x'
+      ## The following code can be used to compute Fisher Scoring approximation for the Hessian
+      ## Note, it may be invertible in case of huge outliers where the Hessian is not.  However,
+      ## the value of those standard errors are negligible anyway, so we do not use it by default.
+      ## 
+      ## theta7 <- -ifelse(xb1 < -nCutoff, -xb1*f1,
+      ##                   ifelse(xb1 > nCutoff, xb1*f1,
+      ##                          f1^2/F1/pnorm(xb1, lower.tail=FALSE)))
+      ## theta8 <- -ifelse(xb0 < -nCutoff, -xb0*f0,
+      ##                   ifelse(xb0 > nCutoff, xb0*f0,
+      ##                          f0^2/F0/pnorm(xb0, lower.tail=TRUE)))
+      ## FScore <- t( x1) %*% ( x1 * theta7) + t( x0) %*% ( x0 * theta8)
+      attr(loglik, "gradient") <- gradlik
+      attr(loglik, "hessian") <- hesslik
+      loglik
+   }
+   nCutoff <- 5
+   probitFrame <- sys.nframe()
+                           # the binaryChoice would create a few necessary variables in the next
+                           # frame
+   result <- binaryChoice(formula, ..., userLogLik=loglik)
    cl <- class(result)
    result <- c(result,
                family=list(binomial(link="probit"))

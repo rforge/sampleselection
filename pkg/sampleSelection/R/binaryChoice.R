@@ -5,7 +5,8 @@ binaryChoice <- function(formula, subset, na.action,
                    data=sys.frame(sys.parent()),
                    x=FALSE, y=FALSE, model=FALSE,
                    method="ML",
-                         cdfLower, cdfUpper,
+                         userLogLik=NULL,
+                         cdfLower, cdfUpper=function(x) 1 - cdfLower(x),
                          logCdfLower=NULL, logCdfUpper=NULL,
                          pdf,logPdf=NULL,
                          gradPdf,
@@ -19,7 +20,10 @@ binaryChoice <- function(formula, subset, na.action,
    ## model                            frame
    ## method   method for evaluation:
    ##          ML            maximum likelihood
-   ##          model.frame   don't evaluate, only return the frame
+   ## userLogLik   user-supplied loglik function.  If supplied, that one will be used.  Note you might
+   ##          want the userLogLik to supply the gradient and Hessian as attributes (see maxNR).
+   ##          If not supplied, cdfLower, pdf and gradPdf are used instead.
+   ## model.frame   don't evaluate, only return the frame
    ## ...      further arguments for the maxLik algorithm
    ##
    ## return: a list with following components.
@@ -37,7 +41,7 @@ binaryChoice <- function(formula, subset, na.action,
    ##              in extreme tails
   ##  pdf        pdf
   ##  gradPdf    gradient of the pdf
-   loglik <- function(beta) {
+   genericLoglik <- function(beta) {
       ## A generic linear index parametric binary choice log-likelihood:
       ## F: disturbance terms cdf
       ## f:                   pdf
@@ -137,9 +141,23 @@ binaryChoice <- function(formula, subset, na.action,
    if(is.null(names(start))) {
       names(start) <- dimnames(X)[[2]]
    }
+   ## Use the following for testing analytic derivatives
+   ## 
+   ## compareDerivatives(#f=function(theta) sum(userLogLik(theta)),
+   ##                    f=function(theta) colSums(extractGrad(theta, userLogLik)),
+   ##                    grad=function(theta) extractHess(theta, userLogLik),
+   ##                    t0=start)
+   ## stop()
+   ##
    ## Main estimation
-   estimation <- maxLik(loglik, start=start,
-                        method="Newton-Raphson", ...)
+   if(is.null(userLogLik)) {
+      estimation <- maxLik(genericLoglik, start=start,
+                           method="Newton-Raphson", ...)
+   }
+   else {
+      estimation <- maxLik(userLogLik, start=start,
+                           method="Newton-Raphson", ...)
+   }
    ## compare.derivatives(gradlik, hesslik, t0=start)
                                         #
    ## Likelihood ratio test: H0 -- all the coefficients, except intercept
@@ -161,8 +179,7 @@ binaryChoice <- function(formula, subset, na.action,
                x=switch(x, "1"=list(X), "0"=NULL),
                y=switch(y, "1"=list(Y), "0"=NULL),
                model=switch(model, "1"=list(mf), "0"=NULL),
-               na.action=list(attr(mf, "na.action")),
-               family=list(binomial(link="probit"))
+               na.action=list(attr(mf, "na.action"))
                            # NA action and the removed cases
                )
    class(result) <- c("binaryChoice", class(estimation))

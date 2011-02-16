@@ -11,7 +11,9 @@
 probit(formula, ...)
 binaryChoice(formula, subset, na.action, start = NULL, data = sys.frame(sys.parent()),
              x=FALSE, y = FALSE, model = FALSE, method="ML",
-             cdfLower, cdfUpper, logCdfLower=NULL, logCdfUpper=NULL,
+userLogLik=NULL,
+             cdfLower, cdfUpper=function(x) 1 - cdfLower(x),
+logCdfLower=NULL, logCdfUpper=NULL,
 pdf, logPdf=NULL, gradPdf,
              ... )
 }
@@ -38,6 +40,14 @@ pdf, logPdf=NULL, gradPdf,
     currently only method = "ML" (Maximum Likelihood) is supported;
     method = "model.frame" returns the model frame (the same as
     with model = TRUE, see below).}
+  \item{userLogLik}{log-likelihood function.  A function of the
+    parameter to be estimated, which computes
+    the log likelihood.  If supplied, it will be used instead of
+    \code{cdfLower} and similar parameters.  This allows user to
+    fine-tune the likelihood function such as introducing robust
+    approximations.  It might return the corresponding gradient and
+    Hessian as approximations, see \code{\link[maxLik]{maxNR}}.
+  }
   \item{cdfLower, cdfUpper, pdf, gradPdf}{function, lower and upper tail of the
     cumulative distribution function of the disturbance term,
     corresponding probability density function, and gradient of the
@@ -67,7 +77,17 @@ pdf, logPdf=NULL, gradPdf,
    the user may want to implement her own models using another
    distribution of the disturbance term.
    
-   The model is estimated using Maximum Likelihood.
+   The model is estimated using Maximum Likelihood and Newton-Raphson
+   optimizer.
+
+   \code{probit} implements an outlier-robust log-likelihood (Demidenko,
+   2001).  In case of large outliers the analytic Hessian is
+   singular while Fisher scoring approximation (used, for instance, by
+   \code{\link[stats]{glm}}) is invertible.  Those values are not
+   reliable in case of outliers.
+
+   No attempt is made to establish the existence of the
+   estimator. 
 }
 \value{
   An object of class "binaryChoice".  It is a list with following components:
@@ -102,6 +122,10 @@ pdf, logPdf=NULL, gradPdf,
   \item{family}{the family object used (\code{\link{binomial}} with
     \code{link="probit"})}
 }
+\references{
+  Demidenko, Eugene (2001) \dQuote{Computational aspects of probit
+  model}, Mathematical Communications 6, 233-247
+  }
 \author{Ott Toomet \email{otoomet@ut.ee}}
 \seealso{\code{\link[maxLik]{maxLik}} for ready-packaged likelihood maximisation
   routines and methods, \code{\link{glm}} for generalised linear models,

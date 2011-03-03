@@ -285,7 +285,15 @@ Essentially, we describe the selection problem as an omitted variable
 problem, with $\lambda(\cdot)$ as the omitted variable.  Since the true
 $\lambda(\cdot)$s in equation \eqref{eq:tobit2_2step} are generally
 unknown, they are replaced by estimated values based on the probit
-estimation in the first step.
+estimation in the first step.  
+
+The relations \eqref{eq:correlation} and \eqref{eq:tobit2_2step} also
+reveal the interpretation of $\varrho$.  If $\varrho > 0$, the third
+term in the right hand side of \eqref{eq:tobit2_2step} is positive as
+the observable observations tend to have above average realizations of
+$\varepsilon^{O}$.  This is usually referred to as ``positive
+selection'' in a sense that the observed outcomes are ``better'' than
+the average.  In this case, the OLS estimates are upward biased.
 
 An estimator of the variance of $\varepsilon^O$ can be obtained by
 \begin{equation}
@@ -481,7 +489,20 @@ where $\E [ \eta^1 ] = \E [ \eta^2 ] = 0$ and $\lambda(\cdot) =
 \phi(\cdot)/\Phi(\cdot)$ is the inverse Mill's ratio which can be
 calculated using the probit estimate of~\eqref{eq:t5_selection_obs}.
 This system can be estimated as two independent linear models, one for
-the case $y^S = 0$ and another for $y^S = 1$.  The log-likelihood for
+the case $y^S = 0$ and another for $y^S = 1$.  
+
+Note that the inverse Mill's ratio enters \eqref{eq:tobit5_2step} with
+opposite signs.  If $\varrho_{2} > 0$, we find that those, for whom we
+observe the outcome 2, have more positive realizations of
+$\varepsilon^{O2}$ in average.  As the outcome 1 being observable is in
+the opposite end of the latent $y^{S*}$ scale, upward bias for
+$y^{O1}$ occurs when $\varrho_{1} < 0$.  This is what we expect to
+observe in case of endogenous selection, a situation where the
+individuals try to select the ``best'' one between two possible
+options, based on some private information about $y^{O1*}$ and
+$y^{O2*}$.
+
+The log-likelihood for
 this problem can be written as
 \begin{align}
   \loglik &= -\frac{N}{2}\log 2\pi + \notag\\

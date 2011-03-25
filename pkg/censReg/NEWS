@@ -5,12 +5,12 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
-            CHANGES IN VERSION 0.1-2 (2011-??-??)
+            CHANGES IN VERSION 0.5-4  (2011-??-??)
 
 * fixed bug that occured when a factor had "empty" levels
 (many thanks to Ulrich Morawetz for reporting this bug!)
 
 
-            CHANGES IN VERSION 0.1-0
+            CHANGES IN VERSION 0.5-2  (2010-08-25)
 
-* initial release of the censReg package
+* initial public release of the censReg package

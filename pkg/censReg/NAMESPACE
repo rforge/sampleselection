@@ -4,6 +4,7 @@ importFrom( "glmmML", "ghq" )
 
 S3method( "coef", "censReg" )
 S3method( "extractAIC", "censReg" )
+S3method( "formula", "censReg" )
 S3method( "logLik", "censReg" )
 S3method( "print", "censReg" )
 S3method( "summary", "censReg" )

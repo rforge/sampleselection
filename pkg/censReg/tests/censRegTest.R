@@ -20,6 +20,7 @@ coef( summary( estResult ) )
 coef( summary( estResult ), logSigma = FALSE )
 logLik( estResult )
 extractAIC( estResult )
+formula( estResult )
 
 ## usual tobit estimation, BHHH method
 estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
@@ -57,6 +58,7 @@ print( estResultStart )
 maxLik:::summary.maxLik( estResultStart )
 summary( estResultStart )
 logLik( estResultStart )
+formula( estResultStart )
 
 ## estimation with left-censoring at 5
 Affairs$affairsAdd <- Affairs$affairs + 5
@@ -129,4 +131,5 @@ print( estResultEmpty )
 summary( estResultEmpty )
 coef( estResultEmpty )
 vcov( estResultEmpty )
+formula( estResultEmpty )
 

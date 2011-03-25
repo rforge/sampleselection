@@ -1487,6 +1487,8 @@ sigma          8.2470803 0.55336401 14.903536 3.125905e-50
 'log Lik.' -705.5762 (df=7)
 > extractAIC( estResult )
 [1]    7.000 1425.152
+> formula( estResult )
+affairs ~ age + yearsmarried + religiousness + occupation + rating
 > 
 > ## usual tobit estimation, BHHH method
 > estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
@@ -8317,6 +8319,8 @@ Log-likelihood: -705.5762 on 7 Df
 
 > logLik( estResultStart )
 'log Lik.' -705.5762 (df=7)
+> formula( estResultStart )
+affairs ~ age + yearsmarried + religiousness + occupation + rating
 > 
 > ## estimation with left-censoring at 5
 > Affairs$affairsAdd <- Affairs$affairs + 5
@@ -15285,5 +15289,7 @@ religiousness4 -0.0245102359
 occupation      0.0012030043
 rating         -0.0078827546
 logSigma        0.0049058331
+> formula( estResultEmpty )
+affairs ~ age + yearsmarried + religiousness + occupation + rating
 > 
 > 

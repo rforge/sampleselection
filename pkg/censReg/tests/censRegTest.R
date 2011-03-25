@@ -119,3 +119,14 @@ coef( summary( estResultBoth ), logSigma = FALSE )
 logLik( estResultBoth )
 extractAIC( estResultBoth )
 
+## with empty levels
+Affairs2 <- Affairs
+Affairs2$religiousness <- as.factor( Affairs2$religiousness )
+Affairs2 <- Affairs2[ Affairs2$religiousness != "5", ]
+estResultEmpty <- censReg( affairsFormula, data = Affairs2 )
+print.default( estResultEmpty )
+print( estResultEmpty )
+summary( estResultEmpty )
+coef( estResultEmpty )
+vcov( estResultEmpty )
+

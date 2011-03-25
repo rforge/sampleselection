@@ -36,6 +36,12 @@ censReg <- function( formula, left = 0, right = Inf,
    mf$na.action <- na.pass
    mf[[ 1 ]] <- as.name( "model.frame" )
    mf <- eval( mf, parent.frame() )
+   # remove unused levels
+   for( i in 1:ncol( mf ) ) {
+      if( is.factor( mf[[ i ]] ) ) {
+         mf[[ i ]] <- factor( mf[[ i ]] )
+      }
+   }
    mt <- attr( mf, "terms" )
    xMat <- model.matrix( mt, mf )
    xNames <- colnames( xMat )

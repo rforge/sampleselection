@@ -10,6 +10,11 @@ on R-Forge.
 * fixed bug that occured when a factor had "empty" levels
 (many thanks to Ulrich Morawetz for reporting this bug!)
 
+* censReg() now additionally returns the model terms and 
+the degrees of freedom of the residuals
+
+* added extractAIC() method for objects of class "censReg"
+
 
             CHANGES IN VERSION 0.5-2  (2010-08-25)
 

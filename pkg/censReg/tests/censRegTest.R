@@ -1,4 +1,6 @@
 library( censReg )
+library( lmtest )
+library( sandwich )
 
 data( "Affairs", package = "AER" )
 affairsFormula <- affairs ~ age + yearsmarried + religiousness +
@@ -22,6 +24,8 @@ logLik( estResult )
 extractAIC( estResult )
 formula( estResult )
 model.frame( estResult )
+waldtest( estResult, . ~ . - age )
+waldtest( estResult, . ~ . - age, vcov = sandwich( estResult ) )
 
 ## usual tobit estimation, BHHH method
 estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
@@ -122,6 +126,8 @@ coef( summary( estResultBoth ) )
 coef( summary( estResultBoth ), logSigma = FALSE )
 logLik( estResultBoth )
 extractAIC( estResultBoth )
+waldtest( estResultBoth, . ~ . - age )
+waldtest( estResultBoth, . ~ . - age, vcov = sandwich( estResultBoth ) )
 
 ## with empty levels
 Affairs2 <- Affairs
@@ -135,4 +141,6 @@ coef( estResultEmpty )
 vcov( estResultEmpty )
 formula( estResultEmpty )
 model.frame( estResultEmpty )
+waldtest( estResultEmpty, . ~ . - age )
+waldtest( estResultEmpty, . ~ . - age, vcov = sandwich( estResultEmpty ) )
 

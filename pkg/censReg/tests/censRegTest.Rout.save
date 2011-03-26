@@ -19,6 +19,9 @@ Type 'q()' to quit R.
 > library( censReg )
 Loading required package: maxLik
 Loading required package: miscTools
+> library( lmtest )
+Loading required package: zoo
+> library( sandwich )
 > 
 > data( "Affairs", package = "AER" )
 > affairsFormula <- affairs ~ age + yearsmarried + religiousness +
@@ -2092,6 +2095,26 @@ affairs ~ age + yearsmarried + religiousness + occupation + rating
 1954       2 32.0       10.000             2          6      5
 1959       2 22.0        7.000             3          6      2
 9010       1 32.0       15.000             3          1      5
+> waldtest( estResult, . ~ . - age )
+Wald test
+
+Model 1: affairs ~ age + yearsmarried + religiousness + occupation + rating
+Model 2: affairs ~ yearsmarried + religiousness + occupation + rating
+  Res.Df Df  Chisq Pr(>Chisq)  
+1    594                       
+2    595 -1 5.1409    0.02337 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+> waldtest( estResult, . ~ . - age, vcov = sandwich( estResult ) )
+Wald test
+
+Model 1: affairs ~ age + yearsmarried + religiousness + occupation + rating
+Model 2: affairs ~ yearsmarried + religiousness + occupation + rating
+  Res.Df Df  Chisq Pr(>Chisq)  
+1    594                       
+2    595 -1 4.0679    0.04371 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 > 
 > ## usual tobit estimation, BHHH method
 > estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
@@ -15237,6 +15260,32 @@ sigma          7.9432194  0.8769002  9.058294 1.325071e-19
 'log Lik.' -500.0428 (df=7)
 > extractAIC( estResultBoth )
 [1]    7.000 1014.086
+> waldtest( estResultBoth, . ~ . - age )
+Wald test
+
+Model 1: affairs ~ age + yearsmarried + religiousness + occupation + rating
+Model 2: affairs ~ yearsmarried + religiousness + occupation + rating
+  Res.Df Df  Chisq Pr(>Chisq)  
+1    594                       
+2    595 -1 4.9399    0.02624 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Warning message:
+In censReg(formula = affairs ~ yearsmarried + religiousness + occupation +  :
+  at least one value of the endogenous variable is larger than the right limit
+> waldtest( estResultBoth, . ~ . - age, vcov = sandwich( estResultBoth ) )
+Wald test
+
+Model 1: affairs ~ age + yearsmarried + religiousness + occupation + rating
+Model 2: affairs ~ yearsmarried + religiousness + occupation + rating
+  Res.Df Df  Chisq Pr(>Chisq)  
+1    594                       
+2    595 -1 4.1825    0.04084 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Warning message:
+In censReg(formula = affairs ~ yearsmarried + religiousness + occupation +  :
+  at least one value of the endogenous variable is larger than the right limit
 > 
 > ## with empty levels
 > Affairs2 <- Affairs
@@ -17030,5 +17079,25 @@ affairs ~ age + yearsmarried + religiousness + occupation + rating
 1954       2 32.0       10.000             2          6      5
 1959       2 22.0        7.000             3          6      2
 9010       1 32.0       15.000             3          1      5
+> waldtest( estResultEmpty, . ~ . - age )
+Wald test
+
+Model 1: affairs ~ age + yearsmarried + religiousness + occupation + rating
+Model 2: affairs ~ yearsmarried + religiousness + occupation + rating
+  Res.Df Df  Chisq Pr(>Chisq)  
+1    522                       
+2    523 -1 3.4856     0.0619 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+> waldtest( estResultEmpty, . ~ . - age, vcov = sandwich( estResultEmpty ) )
+Wald test
+
+Model 1: affairs ~ age + yearsmarried + religiousness + occupation + rating
+Model 2: affairs ~ yearsmarried + religiousness + occupation + rating
+  Res.Df Df  Chisq Pr(>Chisq)  
+1    522                       
+2    523 -1 2.8451    0.09165 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 > 
 > 

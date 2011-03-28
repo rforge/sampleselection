@@ -24,6 +24,11 @@ logLik( estResult )
 extractAIC( estResult )
 formula( estResult )
 model.frame( estResult )
+estfun( estResult )[ 20 * c(1:30), ]
+meat( estResult )
+bread( estResult )
+sandwich( estResult )
+all.equal( sandwich( estResult ), vcov( estResult ) )
 waldtest( estResult, . ~ . - age )
 waldtest( estResult, . ~ . - age, vcov = sandwich( estResult ) )
 
@@ -33,6 +38,9 @@ print.default( estResultBhhh )
 print( estResultBhhh )
 maxLik:::summary.maxLik( estResultBhhh )
 summary( estResultBhhh )
+all.equal( -crossprod( estfun( estResultBhhh ) ), 
+   hessian( estResultBhhh ), check.attributes = FALSE )
+all.equal( sandwich( estResultBhhh ), vcov( estResultBhhh ) )
 
 ## usual tobit estimation, BFGS method
 estResultBfgs <- censReg( affairsFormula, data = Affairs, method = "BFGS" )
@@ -126,6 +134,11 @@ coef( summary( estResultBoth ) )
 coef( summary( estResultBoth ), logSigma = FALSE )
 logLik( estResultBoth )
 extractAIC( estResultBoth )
+estfun( estResultBoth )[ 20 * c(1:30), ]
+meat( estResultBoth )
+bread( estResultBoth )
+sandwich( estResultBoth )
+all.equal( sandwich( estResultBoth ), vcov( estResultBoth ) )
 waldtest( estResultBoth, . ~ . - age )
 waldtest( estResultBoth, . ~ . - age, vcov = sandwich( estResultBoth ) )
 
@@ -141,6 +154,11 @@ coef( estResultEmpty )
 vcov( estResultEmpty )
 formula( estResultEmpty )
 model.frame( estResultEmpty )
+estfun( estResultEmpty )[ 20 * c(1:26), ]
+meat( estResultEmpty )
+bread( estResultEmpty )
+sandwich( estResultEmpty )
+all.equal( sandwich( estResultEmpty ), vcov( estResultEmpty ) )
 waldtest( estResultEmpty, . ~ . - age )
 waldtest( estResultEmpty, . ~ . - age, vcov = sandwich( estResultEmpty ) )
 

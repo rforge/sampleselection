@@ -5,6 +5,15 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+            CHANGES IN VERSION 0.6-12
+
+* fixed a bug that occurred in the fitted( ..., part = "outcome" ), 
+model.matrix( ..., part = "outcome" ), and model.frame() methods as well as 
+in selection( ..., method = "model.frame" ) if all regressors of the outcome 
+equation are already included in the selection equation. Thanks to Timothée 
+Carayol for reporting this bug!
+
+
             CHANGES IN VERSION 0.6-10
 
 * added a NAMESPACE file

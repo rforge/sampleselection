@@ -1,0 +1,163 @@
+
+R version 2.13.1 (2011-07-08)
+Copyright (C) 2011 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: i686-pc-linux-gnu (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library( "mvProbit" )
+Loading required package: mvtnorm
+> library( "miscTools" )
+> 
+> ## generate a simulated data set
+> set.seed( 123 )
+> # number of observations
+> nObs <- 10
+> 
+> # generate explanatory variables
+> xMat <- cbind( 
++    const = rep( 1, nObs ),
++    x1 = as.numeric( rnorm( nObs ) > 0 ),
++    x2 = as.numeric( rnorm( nObs ) > 0 ),
++    x3 = rnorm( nObs ),
++    x4 = rnorm( nObs ) )
+> 
+> # coefficients
+> beta <- cbind( c(  0.8,  1.2, -1.0,  1.4, -0.8 ),
++                c( -0.6,  1.0,  0.6, -1.2, -1.6 ),
++                c(  0.5, -0.6, -0.7,  1.1,  1.2 ) )
+> 
+> # covariance matrix of error terms
+> sigma <- symMatrix( c( 1, 0.2, 0.4, 1, -0.1, 1 ) )
+> 
+> # generate dependent variables
+> yMatLin <- xMat %*% beta 
+> yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
+> colnames( yMat ) <- paste( "y", 1:3, sep = "" )
+> # (yMatLin > 0 )== yMat
+> 
+> # unconditional expectations of dependent variables
+> yExp <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ) )
+> print( yExp )
+           V1         V2         V3
+1  0.02086892 0.72542879 0.19411024
+2  0.39392340 0.76842941 0.21363900
+3  0.12455645 0.78785603 0.19642672
+4  0.23485392 0.68069956 0.29183903
+5  0.67999333 0.43467562 0.57861599
+6  0.02791996 0.97271018 0.03370023
+7  0.95816411 0.18630028 0.78414444
+8  0.85639266 0.24667543 0.72388317
+9  0.06073636 0.96822363 0.03444764
+10 0.99787991 0.06734972 0.92257845
+> yExp2 <- pnorm( yMatLin )
+> all.equal( yExp, as.data.frame( yExp2 ) )
+[1] TRUE
+> 
+> # conditional expectations of dependent variables
+> # (assuming that all other dependent variables are one)
+> yExpCond <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
+> print( yExpCond )
+           V1         V2        V3
+1  0.07187274 0.83440104 0.5236796
+2  0.66021013 0.77861393 0.3141928
+3  0.29719904 0.83865340 0.3997068
+4  0.44817817 0.72709064 0.4611764
+5  0.84689851 0.44240381 0.6175287
+6  0.13900849 0.98512770 0.1617006
+7  0.99077408 0.17881472 0.7487676
+8  0.95051365 0.24378103 0.7103468
+9  0.24434314 0.97852743 0.1330968
+10 0.99980019 0.06515321 0.8917043
+> set.seed( 123 )
+> yExpCond2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
+> for( i in 1:nObs ) {
++    for( k in 1:ncol( yMat ) ) {
++       yExpCond2[ i, k ] <- pmvnorm( upper = yMatLin[ i, ], sigma = sigma ) / 
++          pmvnorm( upper = yMatLin[ i, -k ], sigma = sigma[ -k, -k ] )
++    }
++ }
+> all.equal( yExpCond, as.data.frame( yExpCond2 ) )
+[1] TRUE
+> 
+> # conditional expectations of dependent variables
+> # (assuming that all other dependent variables are as observed)
+> yExpCondObs <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
++    yNames = paste( "y", 1:3, sep = "" ), cond = TRUE )
+> print( yExpCondObs )
+           y1         y2         y3
+1  0.01446330 0.73513032 0.17239173
+2  0.36397851 0.74437836 0.11902643
+3  0.10196733 0.78797271 0.15161026
+4  0.19746428 0.81300620 0.46117640
+5  0.46889017 0.54231448 0.70686035
+6  0.02469675 0.97282796 0.02935370
+7  0.97143356 0.17881472 0.80939021
+8  0.88969595 0.24378103 0.78333814
+9  0.05566704 0.96765476 0.02721669
+10 0.99862444 0.06515321 0.92560771
+> set.seed( 123 )
+> yExpCondObs2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
+> for( i in 1:nObs ){
++    for( k in 1:ncol( yMat ) ) {
++       ySign <- 2 * yMat[ i, ] - 1
++       ySign[ k ] <- 1
++       yLinTmp <- yMatLin[ i, ] * ySign
++       sigmaTmp <- diag( ySign ) %*% sigma %*% diag( ySign )
++       yExpCondObs2[ i, k ] <- pmvnorm( upper = yLinTmp, sigma = sigmaTmp ) / 
++          pmvnorm( upper = yLinTmp[ -k ], sigma = sigmaTmp[ -k, -k ] )
++    }
++ }
+> all.equal( yExpCondObs, as.data.frame( yExpCondObs2 ) )
+[1] "Names: 3 string mismatches"
+> 
+> # unconditional expectations of dependent variables by simulation
+> nSim <- 10000
+> ySim <- array( NA, c( nObs, ncol( yMat ), nSim ) )
+> for( s in 1:nSim ) {
++    ySim[ , , s ] <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
++ }
+> yExpSim <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
+> for( i in 1:nObs ) {
++    yExpSim[ i, ] <- rowSums( ySim[ i, , ] ) / nSim
++ }
+> print( yExpSim )
+        [,1]   [,2]   [,3]
+ [1,] 0.0192 0.7291 0.1973
+ [2,] 0.4002 0.7599 0.2150
+ [3,] 0.1184 0.7868 0.1980
+ [4,] 0.2376 0.6843 0.2992
+ [5,] 0.6817 0.4372 0.5780
+ [6,] 0.0275 0.9709 0.0357
+ [7,] 0.9580 0.1844 0.7874
+ [8,] 0.8550 0.2552 0.7153
+ [9,] 0.0624 0.9697 0.0333
+[10,] 0.9984 0.0637 0.9230
+> print( yExpSim - as.matrix( yExp ) )
+                 V1           V2            V3
+ [1,] -0.0016689243  0.003671207  0.0031897559
+ [2,]  0.0062765951 -0.008529406  0.0013610027
+ [3,] -0.0061564475 -0.001056035  0.0015732843
+ [4,]  0.0027460841  0.003600442  0.0073609724
+ [5,]  0.0017066657  0.002524382 -0.0006159879
+ [6,] -0.0004199629 -0.001810177  0.0019997717
+ [7,] -0.0001641098 -0.001900281  0.0032555602
+ [8,] -0.0013926616  0.008524570 -0.0085831712
+ [9,]  0.0016636425  0.001476372 -0.0011476431
+[10,]  0.0005200914 -0.003649723  0.0004215455
+> 
+> 

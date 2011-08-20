@@ -6,25 +6,18 @@
 }
 
 \usage{
-mvProbitExp( formula, coef, sigma, data, yNames = NULL, 
+mvProbitExp( formula, coef, sigma, data,
    cond = FALSE, random.seed = 123, ... )
 }
 
 \arguments{
-   \item{formula}{an object of class \code{"formula"}:
-      a symbolic description of the dependent variables of the model
+   \item{formula}{a one-sided or two-sided formula \code{"formula"}:
+      a symbolic description of the model
       (currently, all binary outcome variables must have the same regressors).}
    \item{coef}{a numeric vector of all coefficients.}
    \item{sigma}{the covariance/correlation matrix of the residuals
       (must be symmetric and have ones on its diagonal).}
    \item{data}{a \code{data.frame} containing the data.}
-   \item{yNames}{an optional vector of the names of the dependent variables
-      in data.frame specified by argument \code{data}
-      that indicates the values of the other dependent variables
-      for calculating conditional expectations.
-      If this argument is not specified,
-      conditional expectations are calculated based on the assumption
-      that all other dependent variables are one.}
    \item{cond}{logical values indicating 
       whether conditional expectations (if \code{TRUE})
       or unconditional expectations (if \code{FALSE}, default)
@@ -44,6 +37,14 @@ mvProbitExp( formula, coef, sigma, data, yNames = NULL,
 }
 
 \details{
+   When calculating unconditional expectations,
+   the left-hand side of argument \code{formula} is ignored.
+   When calculating unconditional expectations
+   and argument \code{formula} is a one-sided formula
+   (i.e. only the right-hand side is specified),
+   the conditional expectations are calculated based on the assumption
+   that all other dependent variables are one.
+
    The \sQuote{state} (or \sQuote{seed}) of R's random number generator 
    is saved at the beginning of the \code{mvProbitExp} function 
    and restored at the end of this function 
@@ -99,6 +100,15 @@ print( yExp )
 yExpCond <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = beta,
    sigma = sigma, data = xData, cond = TRUE )
 print( yExpCond )
+
+# conditional expectations of dependent variables
+# (assuming that all other dependent variables are zero)
+xData$y1 <- 0
+xData$y2 <- 0
+xData$y3 <- 0
+yExpCond0 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = beta, sigma = sigma, data = xData, cond = TRUE )
+print( yExpCond0 )
 }
 
 \keyword{models}

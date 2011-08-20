@@ -1,4 +1,4 @@
-mvProbitExp <- function( formula, coef, sigma, data, yNames = NULL, 
+mvProbitExp <- function( formula, coef, sigma, data,
    cond = FALSE, random.seed = 123, ... ) {
 
    # checking argument 'cond'
@@ -40,6 +40,16 @@ mvProbitExp <- function( formula, coef, sigma, data, yNames = NULL,
    mt <- attr( mf, "terms" )
    xMat <- model.matrix( mt, mf )
 
+   # preparing model response
+   yMat <- model.response( mf )
+   if( !is.null( yMat ) ) {
+      if( !is.matrix( yMat ) ) {
+         stop( "either zero or at least two dependent variables",
+            " must be specified in argument 'formula'",
+            " (e.g. by 'cbind( y1, y2 ) ~ ...')" )
+      }
+   }
+
    # checking argument 'sigma'
    if( !is.matrix( sigma ) ) {
       stop( "argument 'sigma' must be a matrix" )
@@ -47,6 +57,12 @@ mvProbitExp <- function( formula, coef, sigma, data, yNames = NULL,
       stop( "argument 'sigma' must be a quadratic matrix" )
    } else if( !isSymmetric( sigma ) ) {
       stop( "argument 'sigma' must be a symmetric matrix" )
+   } else if( !is.null( yMat ) ) {
+      if( ncol( sigma ) != ncol( yMat ) ) {
+         stop( "the number of dependent variables specified in argument",
+            " 'formula' must be equal to the number of rows and colums",
+            " of the matrix specified by argument 'sigma'" )
+      }
    }
 
    # number of dependent variables
@@ -74,23 +90,6 @@ mvProbitExp <- function( formula, coef, sigma, data, yNames = NULL,
       betaEq[[ i ]] <- coef[ ( ( i - 1 ) * nReg + 1 ):( i * nReg ) ]
    }
 
-   # checking argument 'yNames'
-   if( !is.null( yNames ) ) {
-      if( length( yNames ) != nDep ) {
-         stop( "argument 'yNames' must be either 'NULL'",
-            " or must have the same length as the number of rows and columns",
-            " of argument 'sigma'" )
-      }
-   }
-
-   # preparing matrix of responses
-   if( !is.null( yNames ) ) {
-      yMat <- matrix( NA, nrow = nObs, ncol = nDep )
-      for( k in 1:nDep ) {
-         yMat[ , k ] = data[[ yNames[ k ] ]]
-      }
-   }
-
    # calculating linear predictors
    xBeta <- matrix( NA, nrow = nObs, ncol = nDep )
    for( i in 1:nDep ) {
@@ -116,7 +115,7 @@ mvProbitExp <- function( formula, coef, sigma, data, yNames = NULL,
    if( cond ) {
       # conditional expectations
       result <- matrix( NA, nrow = nObs, ncol = nDep )
-      if( is.null( yNames ) ) {
+      if( is.null( yMat ) ) {
          # assuming that all other dependent variables are one
          for( i in 1:nObs ) {
             for( k in 1:nDep ) {
@@ -143,8 +142,8 @@ mvProbitExp <- function( formula, coef, sigma, data, yNames = NULL,
       result <- pnorm( xBeta )
    }
 
-   if( !is.null( yNames ) ) {
-      colnames( result ) <- yNames
+   if( !is.null( yMat ) ) {
+      colnames( result ) <- colnames( yMat )
    }
 
    result <- as.data.frame( result )

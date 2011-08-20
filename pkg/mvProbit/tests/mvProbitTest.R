@@ -52,9 +52,9 @@ all.equal( yExpCond, as.data.frame( yExpCond2 ) )
 
 # conditional expectations of dependent variables
 # (assuming that all other dependent variables are as observed)
-yExpCondObs <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
-   sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
-   yNames = paste( "y", 1:3, sep = "" ), cond = TRUE )
+yExpCondObs <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
+   cond = TRUE )
 print( yExpCondObs )
 set.seed( 123 )
 yExpCondObs2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )

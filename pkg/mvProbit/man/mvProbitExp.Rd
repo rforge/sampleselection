@@ -64,7 +64,7 @@ mvProbitExp( formula, coef, sigma, data,
 
 \author{Arne Henningsen}
 
-\seealso{\code{\link[sampleSelection]{probit}},
+\seealso{\code{\link{mvProbitLogLik}},\code{\link[sampleSelection]{probit}},
    \code{\link[stats]{glm}}}
 
 \examples{

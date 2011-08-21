@@ -83,3 +83,8 @@ for( i in 1:nObs ) {
 print( yExpSim )
 print( yExpSim - as.matrix( yExp ) )
 
+# calculating log likelihood value(s)
+logLikVal <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
+print( logLikVal )
+

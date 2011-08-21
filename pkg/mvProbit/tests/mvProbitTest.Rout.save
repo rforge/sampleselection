@@ -160,4 +160,11 @@ Loading required package: mvtnorm
  [9,]  0.0016636425  0.001476372 -0.0011476431
 [10,]  0.0005200914 -0.003649723  0.0004215455
 > 
+> # calculating log likelihood value(s)
+> logLikVal <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
+> print( logLikVal )
+ [1] -0.53540368 -0.94148045 -0.55154921 -2.32725660 -2.25846841 -0.08636705
+ [7] -0.46565779 -0.70380817 -0.12409393 -0.14925590
+> 
 > 

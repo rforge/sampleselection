@@ -160,12 +160,20 @@ Loading required package: mvtnorm
  [9,]  0.0016636425  0.001476372 -0.0011476431
 [10,]  0.0005200914 -0.003649723  0.0004215455
 > 
+> # for testing state of random number generator
+> rnorm( 4 )
+[1]  1.1641646  2.5887586  0.1506331 -0.7714334
+> 
 > # calculating log likelihood value(s)
 > logLikVal <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
 > print( logLikVal )
  [1] -0.53540368 -0.94148045 -0.55154921 -2.32725660 -2.25846841 -0.08636705
  [7] -0.46565779 -0.70380817 -0.12409393 -0.14925590
+> 
+> # for testing state of random number generator
+> rnorm( 4 )
+[1] -0.08360093  0.27982411  0.69434253  0.66820416
 > 
 > # calculating marginal effects, unconditional
 > margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
@@ -193,6 +201,10 @@ Loading required package: mvtnorm
 8  0.317022613 -0.37862010 0.36777139 -0.181155779 -0.5048268 0.40120515
 9  0.168371792 -0.08563215 0.08389399 -0.096212453 -0.1141762 0.09152071
 10 0.009358606 -0.15639629 0.15952285 -0.005347775 -0.2085284 0.17402492
+> 
+> # for testing state of random number generator
+> rnorm( 4 )
+[1] -0.89164314 -1.20772927  0.08188799 -1.63744615
 > 
 > # calculating marginal effects, conditional
 > # (assuming that all other dependent variables are one)
@@ -222,6 +234,10 @@ Loading required package: mvtnorm
 9  0.361294622 -0.07109233 0.1415322 -0.3929326391 -0.06625942 0.3344233
 10 0.001139143 -0.14919554 0.1853582 -0.0006184313 -0.19921227 0.1994600
 > 
+> # for testing state of random number generator
+> rnorm( 4 )
+[1] -1.0277916  1.4922674  0.2076360 -0.7877725
+> 
 > # calculating marginal effects, conditional
 > # (assuming that all other dependent variables are as observed)
 > margEffCondObs <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
@@ -250,5 +266,9 @@ Loading required package: mvtnorm
 8  0.252305734 -0.38616286 0.23663073 -0.184942054 -0.46690820 0.37910173
 9  0.152439840 -0.08917123 0.05745048 -0.100420041 -0.11276497 0.08248587
 10 0.005889161 -0.14919554 0.14820194 -0.004512567 -0.19921227 0.16554327
+> 
+> # for testing state of random number generator
+> rnorm( 4 )
+[1] -0.6406545  0.9398736 -0.4957825 -1.2047679
 > 
 > 

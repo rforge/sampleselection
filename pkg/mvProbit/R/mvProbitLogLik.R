@@ -48,6 +48,8 @@ mvProbitLogLik <- function( formula, coef, sigma, data,
       stop( "argument 'sigma' must be a quadratic matrix" )
    } else if( !isSymmetric( sigma ) ) {
       stop( "argument 'sigma' must be a symmetric matrix" )
+   } else if( any( abs( diag( sigma ) - 1 ) > 1e-7 ) ) {
+      stop( "argument 'sigma' must have ones on its diagonal" )
    } else if( ncol( sigma ) != ncol( yMat ) ) {
       stop( "the number of dependent variables specified in argument",
          " 'formula' must be equal to the number of rows and colums",

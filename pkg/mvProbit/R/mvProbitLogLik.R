@@ -39,6 +39,8 @@ mvProbitLogLik <- function( formula, coef, sigma, data,
       stop( "at least two dependent variables",
          " must be specified in argument 'formula'",
          " (e.g. by 'cbind( y1, y2 ) ~ ...')" )
+   } else if( !all( yMat %in% c( 0, 1,TRUE, FALSE ) ) ) {
+      stop( "all dependent variables must be either 0, 1, TRUE, or FALSE" )
    }
 
    # checking argument 'sigma'

@@ -83,11 +83,11 @@ mvProbitMargEff <- function( formula, coef, sigma, data,
          xMatL[ , i ] <- xMat[ , i ] - eps / 2
          xMatU[ , i ] <- xMat[ , i ] + eps / 2
       }
-      yMatL <- mvProbitExp( formula, coef = coef, sigma = sigma, 
-         data = as.data.frame( cbind( yMat, xMatL ) ),
+      yMatL <- mvProbitExpInternal( yMat = yMat, xMat = xMatL,
+         coef = coef, sigma = sigma, 
          cond = cond, random.seed = random.seed, ... )
-      yMatU <- mvProbitExp( formula, coef = coef, sigma = sigma, 
-         data = as.data.frame( cbind( yMat, xMatU ) ),
+      yMatU <- mvProbitExpInternal( yMat = yMat, xMat = xMatU, 
+         coef = coef, sigma = sigma, 
          cond = cond, random.seed = random.seed, ... )
       margEff <- yMatU - yMatL
       if( !isDummy ) {

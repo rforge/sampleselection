@@ -1,13 +1,6 @@
 mvProbitMargEff <- function( formula, coef, sigma, data,
    cond = FALSE, eps = 1e-06, random.seed = 123, ... ) {
 
-   # checking argument 'random.seed'
-   if( !is.numeric( random.seed ) ) {
-      stop( "argument 'random.seed' must be numerical" )
-   } else if( length( random.seed ) != 1 ) {
-      stop( "argument 'random.seed' must be a single numerical values" )
-   }
-
    # checking argument 'formula'
    if( is.list( formula ) ) {
       stop( "using different regressors for the dependent variables",
@@ -54,22 +47,6 @@ mvProbitMargEff <- function( formula, coef, sigma, data,
       yNames <- colnames( yMat )
    } else {
       yNames <- paste( "y", 1:ncol( sigma ), sep = "" )
-   }
-
-   # save seed of the random number generator
-   if( exists( ".Random.seed" ) ) {
-      savedSeed <- .Random.seed
-   }
-
-   # set seed for the random number generator (used by pmvnorm)
-   set.seed( random.seed )
-
-   # restore seed of the random number generator on exit
-   # (end of function or error)
-   if( exists( "savedSeed" ) ) {
-      on.exit( assign( ".Random.seed", savedSeed, envir = sys.frame() ) )
-   } else {
-      on.exit( rm( .Random.seed, envir = sys.frame() ) )
    }
 
    # calculate marginal effects

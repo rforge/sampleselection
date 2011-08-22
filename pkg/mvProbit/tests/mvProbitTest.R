@@ -88,3 +88,21 @@ logLikVal <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
 print( logLikVal )
 
+# calculating marginal effects, unconditional
+margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ) )
+print( margEffUnc )
+
+# calculating marginal effects, conditional
+# (assuming that all other dependent variables are one)
+margEffCond <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
+print( margEffCond )
+
+# calculating marginal effects, conditional
+# (assuming that all other dependent variables are as observed)
+margEffCondObs <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
+   cond = TRUE )
+print( margEffCondObs )
+

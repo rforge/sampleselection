@@ -51,7 +51,9 @@ mvProbitLogLik( formula, coef, sigma, data, random.seed = 123, ... )
 
 \author{Arne Henningsen}
 
-\seealso{\code{\link{mvProbitExp}}, \code{\link[sampleSelection]{probit}},
+\seealso{\code{\link{mvProbitExp}},
+   \code{\link{mvProbitMargEff}},
+   \code{\link[sampleSelection]{probit}},
    \code{\link[stats]{glm}}}
 
 \examples{

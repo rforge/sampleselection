@@ -1,27 +1,30 @@
-\name{mvProbitExp}
-\alias{mvProbitExp}
-\title{Expectations from Multivariate Probit Models}
+\name{mvProbitMargEff}
+\alias{mvProbitMargEff}
+\title{Marginal Effects based on Multivariate Probit Models}
 \description{
-   Calculating expected outcomes from multivariate probit models.
+   Calculating marginal effects based on multivariate probit models.
 }
 
 \usage{
-mvProbitExp( formula, coef, sigma, data,
-   cond = FALSE, random.seed = 123, ... )
+mvProbitMargEff( formula, coef, sigma, data,
+   cond = FALSE, eps = 1e-06, random.seed = 123, ... )
 }
 
 \arguments{
-   \item{formula}{a one-sided or two-sided formula \code{"formula"}:
+   \item{formula}{a one-sided or two-sided \code{"formula"}:
       a symbolic description of the model
       (currently, all binary outcome variables must have the same regressors).}
    \item{coef}{a numeric vector of all coefficients.}
    \item{sigma}{the covariance/correlation matrix of the residuals
       (must be symmetric and have ones on its diagonal).}
    \item{data}{a \code{data.frame} containing the data.}
-   \item{cond}{logical values indicating 
-      whether conditional expectations (if \code{TRUE})
-      or unconditional expectations (if \code{FALSE}, default)
+   \item{cond}{logical value indicating 
+      whether marginal effects on conditional expectations (if \code{TRUE})
+      or marginal effects on unconditional expectations (if \code{FALSE}, default)
       should be returned.}
+   \item{eps}{numeric, the difference between the two values 
+      of each (numerical) explanatory
+      variable that is used for the numerical differentiation.}
    \item{random.seed}{an integer used to seed R's random number generator;
       this is to ensure replicability 
       when computing the (cumulative) multivariate normal distribution
@@ -33,20 +36,28 @@ mvProbitExp( formula, coef, sigma, data,
 }
 
 \value{
-   A data frame containing the expectations of the dependent variables.
+   A data frame containing the marginal effects of the explanatory variables
+   on the expectations of the dependent variables.
 }
 
 \details{
-   When calculating unconditional expectations,
+   When calculating marginal effects on unconditional expectations,
    the left-hand side of argument \code{formula} is ignored.
-   When calculating unconditional expectations
+   When calculating marginal effects on unconditional expectations
    and argument \code{formula} is a one-sided formula
    (i.e. only the right-hand side is specified),
-   the conditional expectations are calculated based on the assumption
+   the marginal effects on the conditional expectations 
+   are calculated based on the assumption
    that all other dependent variables are one.
 
+   If a dependent variable contains only zeros and ones 
+   or only \code{TRUE} and \code{FALSE},
+   argument \code{eps} is ignored (for this variable) 
+   and the effect between this variable being zero and one
+   is returned.
+
    The \sQuote{state} (or \sQuote{seed}) of R's random number generator 
-   is saved at the beginning of the \code{mvProbitExp} function 
+   is saved at the beginning of the \code{mvProbitMargEff} function 
    and restored at the end of this function 
    so that this function does \emph{not} affect the generation 
    of random numbers outside this function
@@ -64,7 +75,7 @@ mvProbitExp( formula, coef, sigma, data,
 
 \author{Arne Henningsen}
 
-\seealso{\code{\link{mvProbitMargEff}},
+\seealso{\code{\link{mvProbitExp}},
    \code{\link{mvProbitLogLik}},
    \code{\link[sampleSelection]{probit}},
    \code{\link[stats]{glm}}}
@@ -92,25 +103,25 @@ beta <- c(  0.8,  1.2, -1.0,  1.4, -0.8,
 library( "miscTools" )
 sigma <- symMatrix( c( 1, 0.2, 0.4, 1, -0.1, 1 ) )
 
-# unconditional expectations of dependent variables
-yExp <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+# marginal effects on unconditional expectations of dependent variables
+margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = xData )
-print( yExp )
+print( margEffUnc )
 
-# conditional expectations of dependent variables
+# marginal effects on conditional expectations of dependent variables
 # (assuming that all other dependent variables are one)
-yExpCond <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = beta,
+margEffCond <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = beta,
    sigma = sigma, data = xData, cond = TRUE )
-print( yExpCond )
+print( margEffCond )
 
-# conditional expectations of dependent variables
+# marginal effects on conditional expectations of dependent variables
 # (assuming that all other dependent variables are zero)
 xData$y1 <- 0
 xData$y2 <- 0
 xData$y3 <- 0
-yExpCond0 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+margEffCond0 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = beta, sigma = sigma, data = xData, cond = TRUE )
-print( yExpCond0 )
+print( margEffCond0 )
 }
 
 \keyword{models}

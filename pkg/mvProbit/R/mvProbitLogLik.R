@@ -38,7 +38,7 @@ mvProbitLogLik <- function( formula, coef, sigma, data,
 
    # calculating log likelihood values
    result <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-      coef = coef, sigma = sigma, random.seed = random.seed, ... )
+      coef = coef, sigma = sigma, randomSeed = random.seed, ... )
 
    return( result )
 }

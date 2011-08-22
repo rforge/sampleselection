@@ -1,10 +1,10 @@
 mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
-   random.seed = 123, ... ) {
+   randomSeed = 123, ... ) {
 
-   # checking argument 'random.seed'
-   if( !is.numeric( random.seed ) ) {
+   # checking argument 'random.seed' / 'randomSeed'
+   if( !is.numeric( randomSeed ) ) {
       stop( "argument 'random.seed' must be numerical" )
-   } else if( length( random.seed ) != 1 ) {
+   } else if( length( randomSeed ) != 1 ) {
       stop( "argument 'random.seed' must be a single numerical values" )
    }
 
@@ -60,7 +60,7 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
    }
 
    # set seed for the random number generator (used by pmvnorm)
-   set.seed( random.seed )
+   set.seed( randomSeed )
 
    # restore seed of the random number generator on exit
    # (end of function or error)

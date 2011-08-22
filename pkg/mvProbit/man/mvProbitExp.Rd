@@ -11,14 +11,14 @@ mvProbitExp( formula, coef, sigma, data,
 }
 
 \arguments{
-   \item{formula}{a one-sided or two-sided formula \code{"formula"}:
+   \item{formula}{a one-sided or two-sided \code{"formula"}:
       a symbolic description of the model
       (currently, all binary outcome variables must have the same regressors).}
    \item{coef}{a numeric vector of all coefficients.}
    \item{sigma}{the covariance/correlation matrix of the residuals
       (must be symmetric and have ones on its diagonal).}
    \item{data}{a \code{data.frame} containing the data.}
-   \item{cond}{logical values indicating 
+   \item{cond}{logical value indicating 
       whether conditional expectations (if \code{TRUE})
       or unconditional expectations (if \code{FALSE}, default)
       should be returned.}

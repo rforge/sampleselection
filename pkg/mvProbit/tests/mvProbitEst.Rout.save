@@ -1,0 +1,132 @@
+
+R version 2.13.1 (2011-07-08)
+Copyright (C) 2011 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: i686-pc-linux-gnu (32-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library( "mvProbit" )
+Loading required package: mvtnorm
+Loading required package: maxLik
+Loading required package: miscTools
+> library( "miscTools" )
+> 
+> ## generate a simulated data set
+> set.seed( 123 )
+> # number of observations
+> nObs <- 25
+> 
+> # generate explanatory variables
+> xMat <- cbind( 
++    const = rep( 1, nObs ),
++    x1 = as.numeric( rnorm( nObs ) > 0 ),
++    x2 = rnorm( nObs ) )
+> 
+> # coefficients
+> beta <- cbind( c(  0.8,  1.2, -0.8 ),
++                c( -0.6,  1.0, -1.6 ),
++                c(  0.5, -0.6,  1.2 ) )
+> 
+> # covariance matrix of error terms
+> sigma <- symMatrix( c( 1, 0.2, 0.4, 1, -0.1, 1 ) )
+> 
+> # generate dependent variables
+> yMatLin <- xMat %*% beta 
+> yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
+> colnames( yMat ) <- paste( "y", 1:3, sep = "" )
+> 
+> # estimation with the BHHH algorithm
+> estResultBHHH <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
++    coef = c( beta ), sigma = sigma, 
++    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
+> summary( estResultBHHH )
+--------------------------------------------
+Maximum Likelihood estimation
+BHHH maximisation, 2 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -19.94913 
+12  free parameters
+Estimates:
+       Estimate Std. error t value Pr(> t)
+b_1_0  1.250509   2.981989  0.4194  0.6750
+b_1_1  1.532210   3.564560  0.4298  0.6673
+b_1_2 -1.084160   2.586456 -0.4192  0.6751
+b_2_0 -0.472448   3.302077 -0.1431  0.8862
+b_2_1  0.795738   4.088246  0.1946  0.8457
+b_2_2 -1.402084   3.539230 -0.3962  0.6920
+b_3_0  0.786942   4.407888  0.1785  0.8583
+b_3_1 -0.956811   4.745237 -0.2016  0.8402
+b_3_2  1.666213   4.329476  0.3849  0.7003
+R_1_2  0.022710  25.191520  0.0009  0.9993
+R_1_3  0.083321  28.493066  0.0029  0.9977
+R_2_3 -0.268641   1.491748 -0.1801  0.8571
+--------------------------------------------
+> 
+> # estimation with the BFGS algorithm
+> estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
++    coef = c( beta ), sigma = sigma, 
++    data = as.data.frame( cbind( xMat, yMat ) ), 
++    method = "BFGS", tol = 0.5 )
+> summary( estResultBFGS )
+--------------------------------------------
+Maximum Likelihood estimation
+BFGS maximisation, 3 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -17.7239 
+12  free parameters
+Estimates:
+       Estimate Std. error t value Pr(> t)
+b_1_0  1.513738   7.069306  0.2141  0.8304
+b_1_1  1.504512  83.941160  0.0179  0.9857
+b_1_2  0.162155   4.749811  0.0341  0.9728
+b_2_0 -0.087651   4.600077 -0.0191  0.9848
+b_2_1  1.130715   6.490006  0.1742  0.8617
+b_2_2 -2.073905   7.741349 -0.2679  0.7888
+b_3_0  0.037641   2.395421  0.0157  0.9875
+b_3_1 -1.037457   5.072755 -0.2045  0.8380
+b_3_2  1.845422   4.960435  0.3720  0.7099
+R_1_2 -0.053511  16.604035 -0.0032  0.9974
+R_1_3  0.687782  17.141300  0.0401  0.9680
+R_2_3 -0.281904   2.599376 -0.1085  0.9136
+--------------------------------------------
+> 
+> # estimation with the Nelder-Mead algorithm
+> estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
++    coef = c( beta ), sigma = sigma, 
++    data = as.data.frame( cbind( xMat, yMat ) ), 
++    method = "NM", reltol = 0.05 )
+> summary( estResultNM )
+--------------------------------------------
+Maximum Likelihood estimation
+Nelder-Mead maximisation, 81 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -16.04065 
+12  free parameters
+Estimates:
+      Estimate Std. error t value Pr(> t)
+b_1_0  0.79871    1.71734  0.4651  0.6419
+b_1_1  1.57992   13.83229  0.1142  0.9091
+b_1_2 -0.20764    1.06526 -0.1949  0.8455
+b_2_0 -0.21975    4.27571 -0.0514  0.9590
+b_2_1  1.29119    6.99280  0.1846  0.8535
+b_2_2 -3.12646    8.70609 -0.3591  0.7195
+b_3_0  0.03672    1.04264  0.0352  0.9719
+b_3_1 -0.63538    2.17128 -0.2926  0.7698
+b_3_2  1.55684    2.14461  0.7259  0.4679
+R_1_2  0.21991    7.77671  0.0283  0.9774
+R_1_3  0.69796    6.63074  0.1053  0.9162
+R_2_3  0.22466    3.15504  0.0712  0.9432
+--------------------------------------------
+> 
+> 

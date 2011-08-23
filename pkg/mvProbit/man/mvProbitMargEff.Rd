@@ -75,7 +75,8 @@ mvProbitMargEff( formula, coef, sigma, data,
 
 \author{Arne Henningsen}
 
-\seealso{\code{\link{mvProbitExp}},
+\seealso{\code{\link{mvProbit}},
+   \code{\link{mvProbitExp}},
    \code{\link{mvProbitLogLik}},
    \code{\link[sampleSelection]{probit}},
    \code{\link[stats]{glm}}}

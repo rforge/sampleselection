@@ -1,3 +1,4 @@
+export( "mvProbit" )
 export( "mvProbitExp" )
 export( "mvProbitLogLik" )
 export( "mvProbitMargEff" )

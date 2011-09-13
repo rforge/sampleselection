@@ -1,7 +1,7 @@
 ## log likelihood function for panel data (incl. gradients)
-censRegLogLikPanel <- function( beta, yMat, xMat, xArr, left, right, nInd, nTime,
+censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
       obsBelow, obsBetween, obsAbove, nGHQ = nGHQ, ghqPoints ) {
-   yMatHat <- matrix( matrix( xArr, ncol = ncol( xMat ) ) %*%
+   yMatHat <- matrix( matrix( xArr, ncol = dim( xArr )[3] ) %*%
       beta[ 1:( length( beta ) - 2 ) ], nrow = nInd, ncol = nTime )
    sigmaMu <- exp( beta[ length( beta ) - 1 ] )
    sigmaNu <- exp( beta[ length( beta ) ] )

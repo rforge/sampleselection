@@ -143,7 +143,7 @@ censReg <- function( formula, left = 0, right = Inf,
 
       ## log likelihood function for panel data (incl. gradients)
       result <- maxLik( censRegLogLikPanel, start = start,
-         yMat = yMat, xMat = xMat, xArr = xArr, left = left, right = right, 
+         yMat = yMat, xArr = xArr, left = left, right = right, 
          nInd = nInd, nTime = nTime,
          obsBelow = obsBelow, obsBetween = obsBetween, obsAbove = obsAbove,
          nGHQ = nGHQ, ghqPoints = ghqPoints, ... )

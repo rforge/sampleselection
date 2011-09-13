@@ -6,7 +6,7 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
    sigmaMu <- exp( beta[ length( beta ) - 1 ] )
    sigmaNu <- exp( beta[ length( beta ) ] )
    logLikIndMat <- matrix( NA, nrow = nInd, ncol = nGHQ )
-   gradInd <- matrix( 0, nrow = nInd, ncol = length( beta ) )
+   gradIndArr <- array( NA, c( nInd, length( beta ), nGHQ ) )
    for( h in 1:nGHQ ) {
       likGhqInner <- matrix( NA, nrow = nInd, ncol = nTime )
       likGhqInner[ obsBelow ] <-
@@ -35,12 +35,12 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
          - ddnorm( likGhqInner[ obsBetween ] ) / sigmaNu^2
       # part of gradients with respect to beta
       for( i in 1:( length( beta ) - 2 ) ) {
-         gradInd[ , i ] <- gradInd[ , i ] + ghqPoints$weights[ h ] *
+         gradIndArr[ , i, h ] <- ghqPoints$weights[ h ] *
             exp( logLikGhqSum ) * rowSums( gradPartGhq * xArr[ , , i ] / exp( logLikGhq ),
             na.rm = TRUE )
       }
       # part of gradient with respect to log( sigma_mu )
-      gradInd[ , length( beta ) - 1 ] <- gradInd[ , length( beta ) - 1 ] +
+      gradIndArr[ , length( beta ) - 1, h ] <-
          sigmaMu * ghqPoints$weights[ h ] * exp( logLikGhqSum ) *
          rowSums( gradPartGhq * sqrt( 2 ) * ghqPoints$zeros[ h ] / exp( logLikGhq ) )
       # part of gradient with respect to log( sigma_nu )
@@ -50,14 +50,18 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
          likGhqInner[ obsAbove ]
       gradPartGhq[ obsBetween ] <- gradPartGhq[ obsBetween ] *
          likGhqInner[ obsBetween ] - exp( logLikGhq[ obsBetween ] ) / sigmaNu
-      gradInd[ , length( beta ) ] <- gradInd[ , length( beta ) ] +
+      gradIndArr[ , length( beta ), h ] <-
          sigmaNu * ghqPoints$weights[ h ] * exp( logLikGhqSum ) *
          rowSums( gradPartGhq / exp( logLikGhq ) )
    }
    logLikInd <- rep( NA, nInd )
+   gradInd <- matrix( NA, nrow = nInd, ncol = length( beta ) )
    for( i in 1:nInd ) {
       val <- logLikIndMat[ i, ]
       logLikInd[ i ] <- log( sum( exp( val - max( val ) ) ) ) + max( val )
+      for( j in 1:length( beta ) ) {
+         gradInd[ i, j ] <- sum( gradIndArr[ i, j, ] )
+      }
    }
    ll <- logLikInd - 0.5 * log( pi )
    attr( ll, "gradient" ) <- gradInd / exp( logLikInd )

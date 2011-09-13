@@ -56,7 +56,11 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
          sigmaNu * ghqPoints$weights[ h ] * likGhqProd *
          rowSums( gradPartGhq / likGhq )
    }
-   logLikInd <- log( rowSums( exp( logLikIndMat ) ) )
+   logLikInd <- rep( NA, nInd )
+   for( i in 1:nInd ) {
+      val <- logLikIndMat[ i, ]
+      logLikInd[ i ] <- log( sum( exp( val - max( val ) ) ) ) + max( val )
+   }
    ll <- logLikInd - 0.5 * log( pi )
    attr( ll, "gradient" ) <- gradInd / exp( logLikInd )
    return( ll )

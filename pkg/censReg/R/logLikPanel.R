@@ -5,7 +5,7 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
       beta[ 1:( length( beta ) - 2 ) ], nrow = nInd, ncol = nTime )
    sigmaMu <- exp( beta[ length( beta ) - 1 ] )
    sigmaNu <- exp( beta[ length( beta ) ] )
-   likInd <- rep( 0, nInd )
+   logLikIndMat <- matrix( NA, nrow = nInd, ncol = nGHQ )
    gradInd <- matrix( 0, nrow = nInd, ncol = length( beta ) )
    for( h in 1:nGHQ ) {
       likGhqInner <- matrix( NA, nrow = nInd, ncol = nTime )
@@ -18,13 +18,15 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
       likGhqInner[ obsBetween ] <-
          ( yMat[ obsBetween ] - yMatHat[ obsBetween ] -
             sqrt( 2 ) * sigmaMu * ghqPoints$zeros[ h ] ) / sigmaNu
-      likGhq <- matrix( 1, nrow = nInd, ncol = nTime )
-      likGhq[ obsBelow | obsAbove ] <-
-         pnorm( likGhqInner[ obsBelow | obsAbove ] )
-      likGhq[ obsBetween ] <-
-         dnorm( likGhqInner[ obsBetween ] ) / sigmaNu
-      likGhqProd <- apply( likGhq, 1, prod )
-      likInd <- likInd + ghqPoints$weights[ h ] * likGhqProd
+      logLikGhq <- matrix( 0, nrow = nInd, ncol = nTime )
+      logLikGhq[ obsBelow | obsAbove ] <-
+         pnorm( likGhqInner[ obsBelow | obsAbove ], log.p = TRUE )
+      logLikGhq[ obsBetween ] <-
+         dnorm( likGhqInner[ obsBetween ], log = TRUE ) - log( sigmaNu )
+      logLikGhqSum <- apply( logLikGhq, 1, sum )
+      logLikIndMat[ , h ] <- log( ghqPoints$weights[ h ] ) + logLikGhqSum
+      likGhq <- exp( logLikGhq )
+      likGhqProd <- exp( logLikGhqSum )
       # gradients
       gradPartGhq <- matrix( 0, nrow = nInd, ncol = nTime )
       gradPartGhq[ obsBelow ] <-
@@ -54,6 +56,7 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
          sigmaNu * ghqPoints$weights[ h ] * likGhqProd *
          rowSums( gradPartGhq / likGhq )
    }
+   likInd <- rowSums( exp( logLikIndMat ) )
    ll <- log( likInd / sqrt( pi ) )
    attr( ll, "gradient" ) <- gradInd / likInd
    return( ll )

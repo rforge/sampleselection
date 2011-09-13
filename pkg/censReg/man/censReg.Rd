@@ -8,7 +8,7 @@
 
 \usage{
 censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
-   start = NULL, nGHQ = 8, ... )
+   start = NULL, nGHQ = 8, logLikOnly = FALSE, ... )
 
 \method{print}{censReg}( x, logSigma = TRUE, digits = 4, ... )
 }
@@ -34,6 +34,11 @@ censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
    \item{nGHQ}{number of points used in the Gauss-Hermite quadrature,
       which is used to compute the log-likelihood value in case of the
       random effects model for panel data.}
+   \item{logLikOnly}{logical. If \code{TRUE}, the model is not estimated
+      but the log-likelihood contributions of all observations/individuals
+      and the corresponding gradients 
+      calculated at the parameters specified by argument \code{start}
+      are returned.}
    \item{x}{object of class \code{censReg} (returned by \code{censReg}).}
    \item{logSigma}{logical value indicating whether the variance(s)
       of the model should be printed logarithmized
@@ -47,6 +52,7 @@ censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
 }
 
 \value{
+   If argument \code{logLikOnly} is \code{FALSE} (default),
    \code{censReg} returns an object of class \code{"censReg"}
    inheriting from class \code{"maxLik"}.
    The returned object contains the same components as objects
@@ -58,6 +64,14 @@ censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
       the number of left-censored observations,
       the number of uncensored observations, and
       the number of right-censored observations.}
+
+   In contrast, 
+   if argument \code{logLikOnly} is \code{TRUE},
+   \code{censReg} returns a vector 
+   of the log-likelihood contributions of all observations/individuals.
+   This vector has an attribute \code{"gradient"},
+   which is a matrix containing the gradients of the log-likelihood contributions
+   with respect to the parameters.
 }
 
 \details{

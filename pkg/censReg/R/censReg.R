@@ -1,6 +1,6 @@
 censReg <- function( formula, left = 0, right = Inf,
       data = sys.frame( sys.parent() ), start = NULL,
-      nGHQ = 8, ... ) {
+      nGHQ = 8, logLikOnly = FALSE, ... ) {
 
    ## checking formula
    if( class( formula ) != "formula" ) {
@@ -25,6 +25,17 @@ censReg <- function( formula, left = 0, right = Inf,
    # both
    if( left >= right ) {
       stop( "argument 'right' must be a larger number than argument 'left'" )
+   }
+
+   ## checking argument 'logLikOnly'
+   if( length( logLikOnly ) != 1 ) {
+      stop( "argument 'logLikOnly' must be a single logical value" )
+   } else if( !is.logical( logLikOnly ) ) {
+      stop( "argument 'logLikOnly' must be logical" )
+   }
+   if( logLikOnly && is.null( start ) ) {
+      stop( "if argument 'logLikOnly' is 'TRUE',",
+         " parameters must be specified by argument 'start'" )
    }
 
    ## preparing model matrix and model response
@@ -141,6 +152,16 @@ censReg <- function( formula, left = 0, right = Inf,
       obsAbove <- yMat >= right & !is.na( yMat )
       obsBetween <- !obsBelow & !obsAbove & !is.na( yMat )
 
+      ## stop and return log likelihood values
+      if( logLikOnly ) {
+         result <- censRegLogLikPanel( beta = start,
+            yMat = yMat, xArr = xArr, left = left, right = right, 
+            nInd = nInd, nTime = nTime,
+            obsBelow = obsBelow, obsBetween = obsBetween, obsAbove = obsAbove,
+            nGHQ = nGHQ, ghqPoints = ghqPoints )
+         return( result )
+      }
+
       ## log likelihood function for panel data (incl. gradients)
       result <- maxLik( censRegLogLikPanel, start = start,
          yMat = yMat, xArr = xArr, left = left, right = right, 
@@ -155,6 +176,14 @@ censReg <- function( formula, left = 0, right = Inf,
       obsBelow <- yVec <= left
       obsAbove <- yVec >= right
       obsBetween <- !obsBelow & !obsAbove
+
+      ## stop and return log likelihood values
+      if( logLikOnly ) {
+         result <- censRegLogLikCross( beta = start,
+            yVec = yVec, xMat = xMat, left = left, right = right, 
+            obsBelow = obsBelow, obsBetween = obsBetween, obsAbove = obsAbove )
+         return( result )
+      }
 
       ## log likelihood function for cross-sectional data
       result <- maxLik( censRegLogLikCross, start = start,

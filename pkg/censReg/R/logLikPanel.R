@@ -25,8 +25,6 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
          dnorm( likGhqInner[ obsBetween ], log = TRUE ) - log( sigmaNu )
       logLikGhqSum <- apply( logLikGhq, 1, sum )
       logLikIndMat[ , h ] <- log( ghqPoints$weights[ h ] ) + logLikGhqSum
-      likGhq <- exp( logLikGhq )
-      likGhqProd <- exp( logLikGhqSum )
       # gradients
       gradPartGhq <- matrix( 0, nrow = nInd, ncol = nTime )
       gradPartGhq[ obsBelow ] <-
@@ -38,23 +36,23 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
       # part of gradients with respect to beta
       for( i in 1:( length( beta ) - 2 ) ) {
          gradInd[ , i ] <- gradInd[ , i ] + ghqPoints$weights[ h ] *
-            likGhqProd * rowSums( gradPartGhq * xArr[ , , i ] / likGhq,
+            exp( logLikGhqSum ) * rowSums( gradPartGhq * xArr[ , , i ] / exp( logLikGhq ),
             na.rm = TRUE )
       }
       # part of gradient with respect to log( sigma_mu )
       gradInd[ , length( beta ) - 1 ] <- gradInd[ , length( beta ) - 1 ] +
-         sigmaMu * ghqPoints$weights[ h ] * likGhqProd *
-         rowSums( gradPartGhq * sqrt( 2 ) * ghqPoints$zeros[ h ] / likGhq )
+         sigmaMu * ghqPoints$weights[ h ] * exp( logLikGhqSum ) *
+         rowSums( gradPartGhq * sqrt( 2 ) * ghqPoints$zeros[ h ] / exp( logLikGhq ) )
       # part of gradient with respect to log( sigma_nu )
       gradPartGhq[ obsBelow ] <- gradPartGhq[ obsBelow ] *
          likGhqInner[ obsBelow ]
       gradPartGhq[ obsAbove ] <- - gradPartGhq[ obsAbove ] *
          likGhqInner[ obsAbove ]
       gradPartGhq[ obsBetween ] <- gradPartGhq[ obsBetween ] *
-         likGhqInner[ obsBetween ] - likGhq[ obsBetween ] / sigmaNu
+         likGhqInner[ obsBetween ] - exp( logLikGhq[ obsBetween ] ) / sigmaNu
       gradInd[ , length( beta ) ] <- gradInd[ , length( beta ) ] +
-         sigmaNu * ghqPoints$weights[ h ] * likGhqProd *
-         rowSums( gradPartGhq / likGhq )
+         sigmaNu * ghqPoints$weights[ h ] * exp( logLikGhqSum ) *
+         rowSums( gradPartGhq / exp( logLikGhq ) )
    }
    logLikInd <- rep( NA, nInd )
    for( i in 1:nInd ) {

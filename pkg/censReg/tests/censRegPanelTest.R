@@ -169,3 +169,14 @@ randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa, method = "BFGSR" )
 all.equal( randEffBfgsrNa[ -12 ], randEffBfgsrUnb[ -12 ] )
 
 
+# returning log-likelihood contributions only (no estimations)
+logLikRandEff <- censReg( y ~ x1 + x2, data = pData, start = coef( randEff ),
+   logLikOnly = TRUE )
+print( logLikRandEff )
+all.equal( sum( logLikRandEff ), c( logLik( randEff ) ) )
+logLikStart <- censReg( y ~ x1 + x2, data = pData, 
+   start = c( -0.4, 1.7, 2.2, -0.1, -0.01 ), logLikOnly = TRUE )
+print( logLikStart )
+
+
+

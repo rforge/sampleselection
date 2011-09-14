@@ -61,19 +61,17 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
    }
    logLikInd <- rep( NA, nInd )
    gradInd <- matrix( NA, nrow = nInd, ncol = length( beta ) )
-   gradIndFactor <- matrix( NA, nrow = nInd, ncol = length( beta ) )
    for( i in 1:nInd ) {
       val <- logLikIndMat[ i, ]
       logLikInd[ i ] <- log( sum( exp( val - max( val ) ) ) ) + max( val )
       for( j in 1:length( beta ) ) {
-         gradIndFactor[ i, j ] <- max( grad1LogIndArr[ i, j, ] )
          gradInd[ i, j ] <- sum( 
-            exp( grad1LogIndArr[ i, j, ] - gradIndFactor[ i, j ] ) * 
+            exp( grad1LogIndArr[ i, j, ] - logLikInd[ i ] ) * 
             grad2IndArr[ i, j, ] )
       }
    }
    ll <- logLikInd - 0.5 * log( pi )
-   attr( ll, "gradient" ) <- gradInd * exp( gradIndFactor - logLikInd )
+   attr( ll, "gradient" ) <- gradInd
    return( ll )
 }
 

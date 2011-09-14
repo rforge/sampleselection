@@ -73,7 +73,7 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
       }
    }
    ll <- logLikInd - 0.5 * log( pi )
-   attr( ll, "gradient" ) <- gradInd * exp( gradIndFactor ) / exp( logLikInd )
+   attr( ll, "gradient" ) <- gradInd * exp( gradIndFactor - logLikInd )
    return( ll )
 }
 

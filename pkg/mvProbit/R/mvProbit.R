@@ -95,6 +95,7 @@ mvProbit <- function( formula, coef, sigma, data,
    result <- maxLik( logLik = logLik, start = start, method = method, 
       finalHessian = finalHessian, 
       yMat = yMat, xMat = xMat, randomSeed = random.seed, 
+      oneSidedGrad = FALSE, eps = 1e-6,
       nCoef = nCoef, nDep = nDep, ... )
 
    class( result ) <- c( "mvProbit", class( result ) )

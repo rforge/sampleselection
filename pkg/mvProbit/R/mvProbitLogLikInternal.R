@@ -1,5 +1,5 @@
 mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
-   randomSeed = 123, ... ) {
+   randomSeed = 123, oneSidedGrad, eps = NULL, ... ) {
 
    # checking argument 'random.seed' / 'randomSeed'
    if( !is.numeric( randomSeed ) ) {
@@ -21,6 +21,22 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
       stop( "the number of dependent variables specified in argument",
          " 'formula' must be equal to the number of rows and colums",
          " of the matrix specified by argument 'sigma'" )
+   }
+
+   # checking argument 'oneSidedGrad'
+   if( length( oneSidedGrad ) != 1 ) {
+      stop( "argument 'oneSidedGrad' must be a single logical value" )
+   } else if( !is.logical( oneSidedGrad ) ) {
+      stop( "argument 'oneSidedGrad' must be logical" )
+   }
+
+   # checking argument 'eps'
+   if( oneSidedGrad ) {
+      if( length( eps ) != 1 ) {
+         stop( "argument 'eps' must be a single numeric value" )
+      } else if( !is.numeric( eps ) ) {
+         stop( "argument 'eps' must be numeric" )
+      }
    }
 
    # number of dependent variables
@@ -77,6 +93,33 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
       xBetaTmp <- xBeta[ i, ] * ySign
       sigmaTmp <- diag( ySign ) %*% sigma %*% diag( ySign )
       result[ i ] <- log( pmvnorm( upper = xBetaTmp, sigma = sigmaTmp, ... ) )
+   }
+
+   if( oneSidedGrad ) {
+      nDep <- ncol( sigma ) 
+      grad <- matrix( NA, nrow = length( result ), 
+         ncol = length( coef ) + nDep * ( nDep - 1 ) / 2 )
+      for( i in 1:length( coef ) ) {
+         coefTmp <- coef
+         coefTmp[ i ] <- coef[ i ] + eps
+         llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
+            coef = coefTmp, sigma = sigma, randomSeed = randomSeed, 
+            oneSidedGrad = FALSE, ... )
+         grad[ , i ] <- ( llTmp - result ) / eps
+      }
+      gradRow <- length( coef )
+      for( i in 1:(nDep-1) ) {
+         for( j in (i+1):nDep ) {
+            gradRow <- gradRow + 1
+            sigmaTmp <- sigma
+            sigmaTmp[ i, j ] <- sigmaTmp[ j, i ] <- sigma[ j, i ] + eps
+            llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
+               coef = coef, sigma = sigmaTmp, randomSeed = randomSeed, 
+               oneSidedGrad = FALSE, ... )
+            grad[ , gradRow ] <- ( llTmp - result ) / eps
+         }
+      }
+      attr( result, "gradient" ) <- grad
    }
 
    return( result )

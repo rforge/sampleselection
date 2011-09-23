@@ -1,5 +1,5 @@
 mvProbitLogLik <- function( formula, coef, sigma, data,
-   random.seed = 123, ... ) {
+   random.seed = 123, oneSidedGrad = FALSE, eps = 1e-6, ... ) {
 
    # checking argument 'formula'
    if( is.list( formula ) ) {
@@ -38,7 +38,8 @@ mvProbitLogLik <- function( formula, coef, sigma, data,
 
    # calculating log likelihood values
    result <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-      coef = coef, sigma = sigma, randomSeed = random.seed, ... )
+      coef = coef, sigma = sigma, randomSeed = random.seed, 
+      oneSidedGrad = oneSidedGrad, eps = eps, ... )
 
    return( result )
 }

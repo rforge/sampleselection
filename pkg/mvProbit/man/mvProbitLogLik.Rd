@@ -6,7 +6,8 @@
 }
 
 \usage{
-mvProbitLogLik( formula, coef, sigma, data, random.seed = 123, ... )
+mvProbitLogLik( formula, coef, sigma, data, random.seed = 123, 
+   oneSidedGrad = FALSE, eps = 1e-6, ... )
 }
 
 \arguments{
@@ -22,6 +23,16 @@ mvProbitLogLik( formula, coef, sigma, data, random.seed = 123, ... )
       when computing the (cumulative) multivariate normal distribution
       which is required to calculate the log likelihood values;
       defaults to 123.}
+   \item{oneSidedGrad}{logical. If \code{TRUE}, the returned object
+      has an attribute \code{"gradient"},
+      which is a matrix and provides 
+      the gradients of the log-likelihood function
+      with respect to all parameters 
+      (\code{coef} and upper triangle of \code{sigma})
+      evaluated at each observation
+      and obtained by one-sided numeric finit-difference differentiation.}
+   \item{eps}{numeric. The step size for the one-sided numeric
+      finit-distance differentiation.}
    \item{\dots}{additional arguments are passed
       to \code{\link[mvtnorm]{pmvnorm}}
       when calculating conditional expectations.}

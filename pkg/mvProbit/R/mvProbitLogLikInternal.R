@@ -1,5 +1,5 @@
 mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
-   randomSeed = 123, oneSidedGrad, eps = NULL, ... ) {
+   randomSeed = 123, oneSidedGrad, eps, ... ) {
 
    # checking argument 'random.seed' / 'randomSeed'
    if( !is.numeric( randomSeed ) ) {
@@ -104,7 +104,7 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
          coefTmp[ i ] <- coef[ i ] + eps
          llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
             coef = coefTmp, sigma = sigma, randomSeed = randomSeed, 
-            oneSidedGrad = FALSE, ... )
+            oneSidedGrad = FALSE, eps = eps, ... )
          grad[ , i ] <- ( llTmp - result ) / eps
       }
       gradRow <- length( coef )
@@ -115,7 +115,7 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
             sigmaTmp[ i, j ] <- sigmaTmp[ j, i ] <- sigma[ j, i ] + eps
             llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
                coef = coef, sigma = sigmaTmp, randomSeed = randomSeed, 
-               oneSidedGrad = FALSE, ... )
+               oneSidedGrad = FALSE, eps = eps, ... )
             grad[ , gradRow ] <- ( llTmp - result ) / eps
          }
       }

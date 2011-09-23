@@ -91,6 +91,31 @@ logLikVal <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
 print( logLikVal )
 
+# calculating log likelihood value(s) with one-sided gradients
+logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   oneSidedGrad = TRUE )
+print( logLikValGrad )
+
+# calculating log likelihood value(s) with two-sided gradients
+llTmp <- function( coef ) {
+   betaTmp <- coef[ 1:15 ]
+   sigmaTmp <- diag( 3 )
+   sigmaTmp[ upper.tri( sigmaTmp ) ] <- coef[ -(1:15) ]
+   sigmaTmp[ lower.tri( sigmaTmp ) ] <- t( sigmaTmp )[ lower.tri( sigmaTmp ) ]
+   result <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+      coef = betaTmp, sigma = sigmaTmp, 
+      data = as.data.frame( cbind( xMat, yMat ) ) )
+   return( result )
+}
+allCoef <- c( c( beta ), sigma[ upper.tri( sigma ) ] )
+logLikValGrad2 <- numericGradient( llTmp, allCoef )
+print( logLikValGrad2 )
+attr( logLikValGrad, "gradient" ) / logLikValGrad2 - 1
+range( attr( logLikValGrad, "gradient" ) / logLikValGrad2 - 1, na.rm = TRUE )
+attr( logLikValGrad, "gradient" ) - logLikValGrad2
+range( attr( logLikValGrad, "gradient" ) - logLikValGrad2 )
+
 # for testing state of random number generator
 rnorm( 4 )
 

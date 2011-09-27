@@ -1,5 +1,5 @@
 mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
-   randomSeed, oneSidedGrad, eps, ... ) {
+   oneSidedGrad, eps, randomSeed, ... ) {
 
    # checking argument 'random.seed' / 'randomSeed'
    if( !is.numeric( randomSeed ) ) {

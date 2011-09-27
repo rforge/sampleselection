@@ -92,7 +92,7 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
       ySign <- 2 * yMat[ i, ] - 1
       xBetaTmp <- xBeta[ i, ] * ySign
       sigmaTmp <- diag( ySign ) %*% sigma %*% diag( ySign )
-      result[ i ] <- log( pmvnorm( upper = xBetaTmp, sigma = sigmaTmp, algorithm = algorithm, ... ) )
+      result[ i ] <- log( pmvnormWrap( upper = xBetaTmp, sigma = sigmaTmp, algorithm = algorithm, ... ) )
    }
 
    if( oneSidedGrad ) {

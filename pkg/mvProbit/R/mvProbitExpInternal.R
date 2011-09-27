@@ -87,8 +87,8 @@ mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
          for( i in 1:nObs ) {
             for( k in 1:nDep ) {
                result[ i, k ] <- 
-                  pmvnorm( upper = xBeta[ i, ], sigma = sigma, algorithm = algorithm, ... ) / 
-                  pmvnorm( upper = xBeta[ i, -k ], sigma = sigma[ -k, -k ], algorithm = algorithm, ... )
+                  pmvnormWrap( upper = xBeta[ i, ], sigma = sigma, algorithm = algorithm, ... ) / 
+                  pmvnormWrap( upper = xBeta[ i, -k ], sigma = sigma[ -k, -k ], algorithm = algorithm, ... )
             }
          }
       } else {
@@ -100,8 +100,8 @@ mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
                xBetaTmp <- xBeta[ i, ] * ySign
                sigmaTmp <- diag( ySign ) %*% sigma %*% diag( ySign )
                result[ i, k ] <- 
-                  pmvnorm( upper = xBetaTmp, sigma = sigmaTmp, algorithm = algorithm, ... ) / 
-                  pmvnorm( upper = xBetaTmp[ -k ], sigma = sigmaTmp[ -k, -k ], algorithm = algorithm, ... )
+                  pmvnormWrap( upper = xBetaTmp, sigma = sigmaTmp, algorithm = algorithm, ... ) / 
+                  pmvnormWrap( upper = xBetaTmp[ -k ], sigma = sigmaTmp[ -k, -k ], algorithm = algorithm, ... )
             }
          }
       }

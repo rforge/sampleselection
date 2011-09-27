@@ -94,6 +94,47 @@ Loading required package: miscTools
 + }
 > all.equal( yExpCond, as.data.frame( yExpCond2 ) )
 [1] TRUE
+> # now with explicitly specifying the algorithm
+> yExpCond3 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = GenzBretz )
+> all.equal( yExpCond, yExpCond3 )
+[1] TRUE
+> identical( yExpCond, yExpCond3 )
+[1] TRUE
+> # now with integrals obtained by the Miwa algorithm
+> yExpCond4 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = Miwa )
+> all.equal( yExpCond, yExpCond4 )
+[1] "Component 1: Mean relative difference: 8.278438e-05"
+[2] "Component 2: Mean relative difference: 0.0001416339"
+[3] "Component 3: Mean relative difference: 0.0001360205"
+> # now with integrals obtained by the Miwa algorithm, less precise
+> yExpCond5 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = Miwa( steps = 32 ) )
+> all.equal( yExpCond4, yExpCond5 )
+[1] "Component 1: Mean relative difference: 1.014946e-05"
+[2] "Component 2: Mean relative difference: 1.070674e-05"
+[3] "Component 3: Mean relative difference: 9.286508e-06"
+> # now with integrals obtained by the TVPACK algorithm
+> yExpCond6 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = TVPACK )
+> all.equal( yExpCond, yExpCond6 )
+[1] "Component 1: Mean relative difference: 8.278407e-05"
+[2] "Component 2: Mean relative difference: 0.0001416447"
+[3] "Component 3: Mean relative difference: 0.0001360185"
+> # now with integrals obtained by the TVPACK algorithm, less precise
+> yExpCond7 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = TVPACK( abseps = 0.5 ) )
+> all.equal( yExpCond6, yExpCond7 )
+[1] "Component 1: Mean relative difference: 0.03017515"
+[2] "Component 2: Mean relative difference: 0.04273065"
+[3] "Component 3: Mean relative difference: 0.0424229" 
+> 
 > 
 > # conditional expectations of dependent variables
 > # (assuming that all other dependent variables are as observed)
@@ -126,6 +167,47 @@ Loading required package: miscTools
 + }
 > all.equal( yExpCondObs, as.data.frame( yExpCondObs2 ) )
 [1] "Names: 3 string mismatches"
+> # now with explicitly specifying the algorithm
+> yExpCondObs3 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    cond = TRUE, algorithm = GenzBretz )
+> all.equal( yExpCondObs, yExpCondObs3 )
+[1] TRUE
+> identical( yExpCondObs, yExpCondObs3 )
+[1] TRUE
+> # now with integrals obtained by the Miwa algorithm
+> yExpCondObs4 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    cond = TRUE, algorithm = Miwa )
+> all.equal( yExpCondObs, yExpCondObs4 )
+[1] "Component 1: Mean relative difference: 9.711614e-05"
+[2] "Component 2: Mean relative difference: 4.924862e-05"
+[3] "Component 3: Mean relative difference: 0.0001788714"
+> # now with integrals obtained by the Miwa algorithm, less precise
+> yExpCondObs5 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    cond = TRUE, algorithm = Miwa( steps = 32 ) )
+> all.equal( yExpCondObs4, yExpCondObs5 )
+[1] "Component 1: Mean relative difference: 4.471818e-06"
+[2] "Component 2: Mean relative difference: 3.954285e-06"
+[3] "Component 3: Mean relative difference: 4.758699e-06"
+> # now with integrals obtained by the TVPACK algorithm
+> yExpCondObs6 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    cond = TRUE, algorithm = TVPACK )
+> all.equal( yExpCondObs, yExpCondObs6 )
+[1] "Component 1: Mean relative difference: 9.711223e-05"
+[2] "Component 2: Mean relative difference: 4.92464e-05" 
+[3] "Component 3: Mean relative difference: 0.000178869" 
+> # now with integrals obtained by the TVPACK algorithm, less precise
+> yExpCondObs7 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    cond = TRUE, algorithm = TVPACK( abseps = 0.5 ) )
+> all.equal( yExpCondObs6, yExpCondObs7 )
+[1] "Component 1: Mean relative difference: 0.05130138"
+[2] "Component 2: Mean relative difference: 0.04744355"
+[3] "Component 3: Mean relative difference: 0.02586555"
+> 
 > 
 > # unconditional expectations of dependent variables by simulation
 > nSim <- 10000
@@ -441,6 +523,46 @@ attr(,"gradient")
 8  0.147282674 -0.38616286 0.2841424 -0.0911414585 -0.46690820 0.4071330
 9  0.361294622 -0.07109233 0.1415322 -0.3929326391 -0.06625942 0.3344233
 10 0.001139143 -0.14919554 0.1853582 -0.0006184313 -0.19921227 0.1994600
+> # now with integrals obtained by the Miwa algorithm, reduced precision
+> margEffCond1 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = Miwa( steps = 32 ) )
+> print( margEffCond1 )
+      d_y1_d_x1  d_y2_d_x1  d_y3_d_x1    d_y1_d_x2  d_y2_d_x2  d_y3_d_x2
+1  0.4118175441 0.11744761 -0.3604293 -0.229377392 0.24595064 -0.1258412
+2  0.3072778362 0.16499571 -0.2207798 -0.251230455 0.23600462 -0.1732307
+3  0.2668567540 0.22752895 -0.3835033 -0.358189399 0.23045343 -0.1481687
+4  0.3740368431 0.27590804 -0.3555998 -0.346792914 0.26395440 -0.1561463
+5  0.4391762270 0.27082379 -0.2615569 -0.320425619 0.26329930 -0.1629057
+6  0.1333669207 0.05068089 -0.3842359 -0.271497048 0.05975710 -0.1100381
+7  0.1186476441 0.14525164 -0.1602639 -0.008826922 0.11286814 -0.1545282
+8  0.0479957196 0.35027704 -0.2340019 -0.203276650 0.23960011 -0.1769520
+9  0.5485472106 0.01837404 -0.1161731 -0.323172242 0.07410392 -0.1034597
+10 0.0002125689 0.23197009 -0.1301010 -0.005696324 0.11099282 -0.1661532
+    d_y1_d_x3   d_y2_d_x3 d_y3_d_x3    d_y1_d_x4   d_y2_d_x4 d_y3_d_x4
+1  0.17654673 -0.35173836 0.2230884 -0.146853300 -0.32870549 0.6038590
+2  0.47050847 -0.39074154 0.2416959 -0.400881819 -0.40494388 0.4968085
+3  0.44064334 -0.33692357 0.2351269 -0.380357702 -0.32467070 0.5722886
+4  0.52019140 -0.45148369 0.2437674 -0.414487863 -0.44884522 0.5675156
+5  0.32993069 -0.50525720 0.2791793 -0.223886951 -0.56754997 0.4882992
+6  0.25354621 -0.05240628 0.1581628 -0.278296108 -0.04819657 0.3860753
+7  0.03601456 -0.30982678 0.2977379 -0.021751728 -0.39933488 0.3574964
+8  0.14729740 -0.38616972 0.2839504 -0.091117191 -0.46687210 0.4072593
+9  0.36130356 -0.07095788 0.1415239 -0.392920984 -0.06636947 0.3342959
+10 0.00107701 -0.14918942 0.1852891 -0.000689856 -0.19920415 0.1993821
+> all.equal( margEffCond, margEffCond1 )
+ [1] "Component 1: Mean relative difference: 0.000237661"  
+ [2] "Component 2: Mean relative difference: 0.0003847672" 
+ [3] "Component 3: Mean relative difference: 0.0002139846" 
+ [4] "Component 4: Mean relative difference: 0.0004022767" 
+ [5] "Component 5: Mean relative difference: 0.0003194454" 
+ [6] "Component 6: Mean relative difference: 0.0008139483" 
+ [7] "Component 7: Mean relative difference: 0.0003968111" 
+ [8] "Component 8: Mean relative difference: 0.0002513875" 
+ [9] "Component 9: Mean relative difference: 0.000289888"  
+[10] "Component 10: Mean relative difference: 0.0003297433"
+[11] "Component 11: Mean relative difference: 0.0003691966"
+[12] "Component 12: Mean relative difference: 0.0001734234"
 > 
 > # for testing state of random number generator
 > rnorm( 4 )
@@ -474,6 +596,46 @@ attr(,"gradient")
 8  0.252305734 -0.38616286 0.23663073 -0.184942054 -0.46690820 0.37910173
 9  0.152439840 -0.08917123 0.05745048 -0.100420041 -0.11276497 0.08248587
 10 0.005889161 -0.14919554 0.14820194 -0.004512567 -0.19921227 0.16554327
+> # now with integrals obtained by the Miwa algorithm, reduced precision
+> margEffCondObs1 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    cond = TRUE, algorithm = Miwa( steps = 32 ) )
+> print( margEffCondObs1 )
+     d_y1_d_x1  d_y2_d_x1   d_y3_d_x1   d_y1_d_x2  d_y2_d_x2   d_y3_d_x2
+1  0.171991465 0.20539502 -0.12685115 -0.09564462 0.22333831 -0.17480315
+2  0.453396083 0.18521403 -0.10371605 -0.37117815 0.26642177 -0.08535933
+3  0.097170705 0.34343671 -0.20609885 -0.27708251 0.23019994 -0.12833812
+4  0.182370489 0.22262642 -0.35559976 -0.34891097 0.24647789 -0.15614626
+5  0.396062172 0.26491181 -0.22410218 -0.32301776 0.25167518 -0.13429372
+6  0.024153542 0.14525555 -0.07342138 -0.13290025 0.06986832 -0.06174283
+7  0.247601640 0.14525164 -0.14353076 -0.02631610 0.11286814 -0.12516854
+8  0.105068348 0.35027704 -0.23771705 -0.28313433 0.23960011 -0.14830372
+9  0.305107739 0.02953581 -0.02469139 -0.21063612 0.08275916 -0.05170784
+10 0.001376583 0.23197009 -0.11610897 -0.01850896 0.11099282 -0.13777067
+     d_y1_d_x3   d_y2_d_x3  d_y3_d_x3    d_y1_d_x4  d_y2_d_x4  d_y3_d_x4
+1  0.049369062 -0.38498413 0.24424901 -0.035714021 -0.5042087 0.30197976
+2  0.517509460 -0.42554739 0.13203173 -0.342337487 -0.4682704 0.27407828
+3  0.240548424 -0.35790074 0.19257697 -0.169608457 -0.4355710 0.30284445
+4  0.378960324 -0.37343664 0.24376737 -0.263744039 -0.3558907 0.56751561
+5  0.538996584 -0.52376449 0.23212450 -0.395145033 -0.5387374 0.45544566
+6  0.077898816 -0.07584485 0.06505061 -0.052733734 -0.0983536 0.08502351
+7  0.086045011 -0.30982678 0.25307025 -0.065460222 -0.3993349 0.33273176
+8  0.252171647 -0.38616972 0.23688608 -0.184932693 -0.4668721 0.37861102
+9  0.152437895 -0.08917606 0.05745498 -0.100419092 -0.1127594 0.08249152
+10 0.005925195 -0.14918942 0.14818743 -0.004533174 -0.1992042 0.16558531
+> all.equal( margEffCondObs, margEffCondObs1 )
+ [1] "Component 1: Mean relative difference: 0.0001956088" 
+ [2] "Component 2: Mean relative difference: 0.0003314979" 
+ [3] "Component 3: Mean relative difference: 0.0004918162" 
+ [4] "Component 4: Mean relative difference: 0.0002456812" 
+ [5] "Component 5: Mean relative difference: 0.0003078003" 
+ [6] "Component 6: Mean relative difference: 0.0007446879" 
+ [7] "Component 7: Mean relative difference: 0.0003747985" 
+ [8] "Component 8: Mean relative difference: 0.0001806731" 
+ [9] "Component 9: Mean relative difference: 0.0002731877" 
+[10] "Component 10: Mean relative difference: 0.0002804479"
+[11] "Component 11: Mean relative difference: 0.0001981882"
+[12] "Component 12: Mean relative difference: 0.000309628" 
 > 
 > # for testing state of random number generator
 > rnorm( 4 )

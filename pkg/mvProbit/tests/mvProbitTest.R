@@ -49,6 +49,33 @@ for( i in 1:nObs ) {
    }
 }
 all.equal( yExpCond, as.data.frame( yExpCond2 ) )
+# now with explicitly specifying the algorithm
+yExpCond3 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = GenzBretz )
+all.equal( yExpCond, yExpCond3 )
+identical( yExpCond, yExpCond3 )
+# now with integrals obtained by the Miwa algorithm
+yExpCond4 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = Miwa )
+all.equal( yExpCond, yExpCond4 )
+# now with integrals obtained by the Miwa algorithm, less precise
+yExpCond5 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = Miwa( steps = 32 ) )
+all.equal( yExpCond4, yExpCond5 )
+# now with integrals obtained by the TVPACK algorithm
+yExpCond6 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = TVPACK )
+all.equal( yExpCond, yExpCond6 )
+# now with integrals obtained by the TVPACK algorithm, less precise
+yExpCond7 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = TVPACK( abseps = 0.5 ) )
+all.equal( yExpCond6, yExpCond7 )
+
 
 # conditional expectations of dependent variables
 # (assuming that all other dependent variables are as observed)
@@ -69,6 +96,33 @@ for( i in 1:nObs ){
    }
 }
 all.equal( yExpCondObs, as.data.frame( yExpCondObs2 ) )
+# now with explicitly specifying the algorithm
+yExpCondObs3 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   cond = TRUE, algorithm = GenzBretz )
+all.equal( yExpCondObs, yExpCondObs3 )
+identical( yExpCondObs, yExpCondObs3 )
+# now with integrals obtained by the Miwa algorithm
+yExpCondObs4 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   cond = TRUE, algorithm = Miwa )
+all.equal( yExpCondObs, yExpCondObs4 )
+# now with integrals obtained by the Miwa algorithm, less precise
+yExpCondObs5 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   cond = TRUE, algorithm = Miwa( steps = 32 ) )
+all.equal( yExpCondObs4, yExpCondObs5 )
+# now with integrals obtained by the TVPACK algorithm
+yExpCondObs6 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   cond = TRUE, algorithm = TVPACK )
+all.equal( yExpCondObs, yExpCondObs6 )
+# now with integrals obtained by the TVPACK algorithm, less precise
+yExpCondObs7 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   cond = TRUE, algorithm = TVPACK( abseps = 0.5 ) )
+all.equal( yExpCondObs6, yExpCondObs7 )
+
 
 # unconditional expectations of dependent variables by simulation
 nSim <- 10000
@@ -132,6 +186,12 @@ rnorm( 4 )
 margEffCond <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
 print( margEffCond )
+# now with integrals obtained by the Miwa algorithm, reduced precision
+margEffCond1 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = Miwa( steps = 32 ) )
+print( margEffCond1 )
+all.equal( margEffCond, margEffCond1 )
 
 # for testing state of random number generator
 rnorm( 4 )
@@ -142,6 +202,12 @@ margEffCondObs <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
    cond = TRUE )
 print( margEffCondObs )
+# now with integrals obtained by the Miwa algorithm, reduced precision
+margEffCondObs1 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   cond = TRUE, algorithm = Miwa( steps = 32 ) )
+print( margEffCondObs1 )
+all.equal( margEffCondObs, margEffCondObs1 )
 
 # for testing state of random number generator
 rnorm( 4 )

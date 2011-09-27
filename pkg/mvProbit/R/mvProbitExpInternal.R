@@ -1,5 +1,5 @@
 mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
-   cond = FALSE, random.seed = 123, ... ) {
+   cond = FALSE, random.seed, ... ) {
 
    # checking argument 'cond'
    if( !is.logical( cond ) ) {

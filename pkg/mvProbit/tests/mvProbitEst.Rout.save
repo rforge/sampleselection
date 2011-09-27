@@ -55,22 +55,22 @@ Loading required package: miscTools
 Maximum Likelihood estimation
 BHHH maximisation, 2 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -19.94913 
+Log-Likelihood: -19.97964 
 12  free parameters
 Estimates:
-       Estimate Std. error t value Pr(> t)
-b_1_0  1.250509   2.981989  0.4194  0.6750
-b_1_1  1.532210   3.564560  0.4298  0.6673
-b_1_2 -1.084160   2.586456 -0.4192  0.6751
-b_2_0 -0.472448   3.302077 -0.1431  0.8862
-b_2_1  0.795738   4.088246  0.1946  0.8457
-b_2_2 -1.402084   3.539230 -0.3962  0.6920
-b_3_0  0.786942   4.407888  0.1785  0.8583
-b_3_1 -0.956811   4.745237 -0.2016  0.8402
-b_3_2  1.666213   4.329476  0.3849  0.7003
-R_1_2  0.022710  25.191520  0.0009  0.9993
-R_1_3  0.083321  28.493066  0.0029  0.9977
-R_2_3 -0.268641   1.491748 -0.1801  0.8571
+        Estimate Std. error t value Pr(> t)
+b_1_0  1.2547465  3.5067451  0.3578  0.7205
+b_1_1  1.5368589  3.6627174  0.4196  0.6748
+b_1_2 -1.0881467  2.8615862 -0.3803  0.7038
+b_2_0 -0.4738229  3.5550383 -0.1333  0.8940
+b_2_1  0.8005299  4.2449545  0.1886  0.8504
+b_2_2 -1.4075614  3.5740127 -0.3938  0.6937
+b_3_0  0.7876993  4.5334506  0.1738  0.8621
+b_3_1 -0.9546325  4.8335966 -0.1975  0.8434
+b_3_2  1.6618026  4.3234450  0.3844  0.7007
+R_1_2  0.0086193 27.3230134  0.0003  0.9997
+R_1_3  0.0560172 29.5060335  0.0019  0.9985
+R_2_3 -0.2677454  1.5071049 -0.1777  0.8590
 --------------------------------------------
 > 
 > # estimation with the BHHH algorithm, one-sided gradients
@@ -83,29 +83,29 @@ R_2_3 -0.268641   1.491748 -0.1801  0.8571
 Maximum Likelihood estimation
 BHHH maximisation, 2 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -19.94913 
+Log-Likelihood: -19.97965 
 12  free parameters
 Estimates:
        Estimate Std. error t value Pr(> t)
-b_1_0  1.250510   2.982051  0.4193  0.6750
-b_1_1  1.532211   3.564568  0.4298  0.6673
-b_1_2 -1.084162   2.586486 -0.4192  0.6751
-b_2_0 -0.472448   3.302096 -0.1431  0.8862
-b_2_1  0.795738   4.088252  0.1946  0.8457
-b_2_2 -1.402085   3.539224 -0.3962  0.6920
-b_3_0  0.786942   4.407891  0.1785  0.8583
-b_3_1 -0.956811   4.745234 -0.2016  0.8402
-b_3_2  1.666213   4.329470  0.3849  0.7003
-R_1_2  0.022708  25.191754  0.0009  0.9993
-R_1_3  0.083317  28.493192  0.0029  0.9977
-R_2_3 -0.268641   1.491747 -0.1801  0.8571
+b_1_0  1.254748   3.506820  0.3578  0.7205
+b_1_1  1.536860   3.662734  0.4196  0.6748
+b_1_2 -1.088148   2.861629 -0.3803  0.7038
+b_2_0 -0.473823   3.555059 -0.1333  0.8940
+b_2_1  0.800531   4.244961  0.1886  0.8504
+b_2_2 -1.407562   3.574006 -0.3938  0.6937
+b_3_0  0.787700   4.533453  0.1738  0.8621
+b_3_1 -0.954632   4.833593 -0.1975  0.8434
+b_3_2  1.661803   4.323437  0.3844  0.7007
+R_1_2  0.008617  27.323258  0.0003  0.9997
+R_1_3  0.056014  29.506141  0.0019  0.9985
+R_2_3 -0.267745   1.507106 -0.1777  0.8590
 --------------------------------------------
 > all.equal( estResultBHHH, estResultBHHH1 )
-[1] "Component 1: Mean relative difference: 1.66381e-07"  
-[2] "Component 2: Mean relative difference: 1.184581e-06" 
-[3] "Component 3: Mean relative difference: 2.577658e-06" 
-[4] "Component 4: Mean relative difference: 3.172639e-06" 
-[5] "Component 11: Mean relative difference: 1.369805e-06"
+[1] "Component 1: Mean relative difference: 1.952806e-07" 
+[2] "Component 2: Mean relative difference: 1.227404e-06" 
+[3] "Component 3: Mean relative difference: 2.706587e-06" 
+[4] "Component 4: Mean relative difference: 3.431986e-06" 
+[5] "Component 11: Mean relative difference: 1.433839e-06"
 > 
 > # estimation with the BFGS algorithm, two-sided gradients
 > estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -117,22 +117,22 @@ R_2_3 -0.268641   1.491747 -0.1801  0.8571
 Maximum Likelihood estimation
 BFGS maximisation, 3 iterations
 Return code 0: successful convergence 
-Log-Likelihood: -17.7239 
+Log-Likelihood: -17.72458 
 12  free parameters
 Estimates:
        Estimate Std. error t value Pr(> t)
-b_1_0  1.513738   7.069306  0.2141  0.8304
-b_1_1  1.504512  83.941160  0.0179  0.9857
-b_1_2  0.162155   4.749811  0.0341  0.9728
-b_2_0 -0.087651   4.600077 -0.0191  0.9848
-b_2_1  1.130715   6.490006  0.1742  0.8617
-b_2_2 -2.073905   7.741349 -0.2679  0.7888
-b_3_0  0.037641   2.395421  0.0157  0.9875
-b_3_1 -1.037457   5.072755 -0.2045  0.8380
-b_3_2  1.845422   4.960435  0.3720  0.7099
-R_1_2 -0.053511  16.604035 -0.0032  0.9974
-R_1_3  0.687782  17.141300  0.0401  0.9680
-R_2_3 -0.281904   2.599376 -0.1085  0.9136
+b_1_0  1.513736   7.180880  0.2108  0.8330
+b_1_1  1.504511  85.242988  0.0176  0.9859
+b_1_2  0.162218   4.775285  0.0340  0.9729
+b_2_0 -0.087664   4.608074 -0.0190  0.9848
+b_2_1  1.130689   6.504530  0.1738  0.8620
+b_2_2 -2.073874   7.755823 -0.2674  0.7892
+b_3_0  0.037553   2.402632  0.0156  0.9875
+b_3_1 -1.037517   5.096585 -0.2036  0.8387
+b_3_2  1.845308   4.991954  0.3697  0.7116
+R_1_2 -0.054026  16.907755 -0.0032  0.9975
+R_1_3  0.687921  17.404842  0.0395  0.9685
+R_2_3 -0.282151   2.602573 -0.1084  0.9137
 --------------------------------------------
 > 
 > # estimation with the BFGS algorithm, one-sided gradients
@@ -145,29 +145,29 @@ R_2_3 -0.281904   2.599376 -0.1085  0.9136
 Maximum Likelihood estimation
 BFGS maximisation, 3 iterations
 Return code 0: successful convergence 
-Log-Likelihood: -17.7239 
+Log-Likelihood: -17.72458 
 12  free parameters
 Estimates:
        Estimate Std. error t value Pr(> t)
-b_1_0  1.513737   7.069303  0.2141  0.8304
-b_1_1  1.504512  83.941065  0.0179  0.9857
-b_1_2  0.162154   4.749800  0.0341  0.9728
-b_2_0 -0.087652   4.600092 -0.0191  0.9848
-b_2_1  1.130714   6.490023  0.1742  0.8617
-b_2_2 -2.073906   7.741369 -0.2679  0.7888
-b_3_0  0.037640   2.395425  0.0157  0.9875
-b_3_1 -1.037458   5.072764 -0.2045  0.8380
-b_3_2  1.845422   4.960439  0.3720  0.7099
-R_1_2 -0.053511  16.604006 -0.0032  0.9974
-R_1_3  0.687782  17.141242  0.0401  0.9680
-R_2_3 -0.281905   2.599383 -0.1085  0.9136
+b_1_0  1.513735   7.180876  0.2108  0.8330
+b_1_1  1.504510  85.242894  0.0176  0.9859
+b_1_2  0.162217   4.775274  0.0340  0.9729
+b_2_0 -0.087665   4.608089 -0.0190  0.9848
+b_2_1  1.130688   6.504546  0.1738  0.8620
+b_2_2 -2.073874   7.755843 -0.2674  0.7892
+b_3_0  0.037552   2.402636  0.0156  0.9875
+b_3_1 -1.037518   5.096594 -0.2036  0.8387
+b_3_2  1.845308   4.991959  0.3697  0.7116
+R_1_2 -0.054026  16.907725 -0.0032  0.9975
+R_1_3  0.687920  17.404783  0.0395  0.9685
+R_2_3 -0.282151   2.602580 -0.1084  0.9137
 --------------------------------------------
 > all.equal( estResultBFGS, estResultBFGS1 )
-[1] "Component 1: Mean relative difference: 2.560877e-08" 
-[2] "Component 2: Mean relative difference: 5.649424e-07" 
-[3] "Component 3: Mean relative difference: 1.685648e-06" 
-[4] "Component 4: Mean relative difference: 1.49226e-06"  
-[5] "Component 12: Mean relative difference: 1.034491e-06"
+[1] "Component 1: Mean relative difference: 2.570317e-08" 
+[2] "Component 2: Mean relative difference: 5.649916e-07" 
+[3] "Component 3: Mean relative difference: 1.685897e-06" 
+[4] "Component 4: Mean relative difference: 1.492822e-06" 
+[5] "Component 12: Mean relative difference: 1.033961e-06"
 > 
 > # estimation with the BFGS algorithm, Miwa algorithm for obtaining integrals
 > estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -197,11 +197,11 @@ R_1_3  0.687923  14.094734  0.0488  0.9611
 R_2_3 -0.282207   2.570677 -0.1098  0.9126
 --------------------------------------------
 > all.equal( estResultBFGS, estResultBFGSm )
-[1] "Component 1: Mean relative difference: 4.964495e-05"
-[2] "Component 2: Mean relative difference: 0.0001162492"
-[3] "Component 3: Mean relative difference: 0.003230716" 
-[4] "Component 4: Mean relative difference: 0.003973551" 
-[5] "Component 12: Mean relative difference: 0.007800276"
+[1] "Component 1: Mean relative difference: 1.114266e-05"
+[2] "Component 2: Mean relative difference: 3.027101e-05"
+[3] "Component 3: Mean relative difference: 0.002953254" 
+[4] "Component 4: Mean relative difference: 0.003871351" 
+[5] "Component 12: Mean relative difference: 0.007541031"
 > 
 > # estimation with the Nelder-Mead algorithm
 > estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -213,22 +213,22 @@ R_2_3 -0.282207   2.570677 -0.1098  0.9126
 Maximum Likelihood estimation
 Nelder-Mead maximisation, 81 iterations
 Return code 0: successful convergence 
-Log-Likelihood: -16.04065 
+Log-Likelihood: -16.04052 
 12  free parameters
 Estimates:
       Estimate Std. error t value Pr(> t)
-b_1_0  0.79871    1.71734  0.4651  0.6419
-b_1_1  1.57992   13.83229  0.1142  0.9091
-b_1_2 -0.20764    1.06526 -0.1949  0.8455
-b_2_0 -0.21975    4.27571 -0.0514  0.9590
-b_2_1  1.29119    6.99280  0.1846  0.8535
-b_2_2 -3.12646    8.70609 -0.3591  0.7195
-b_3_0  0.03672    1.04264  0.0352  0.9719
-b_3_1 -0.63538    2.17128 -0.2926  0.7698
-b_3_2  1.55684    2.14461  0.7259  0.4679
-R_1_2  0.21991    7.77671  0.0283  0.9774
-R_1_3  0.69796    6.63074  0.1053  0.9162
-R_2_3  0.22466    3.15504  0.0712  0.9432
+b_1_0  0.79871    1.72020  0.4643  0.6424
+b_1_1  1.57992   13.83938  0.1142  0.9091
+b_1_2 -0.20764    1.06511 -0.1949  0.8454
+b_2_0 -0.21975    4.28384 -0.0513  0.9591
+b_2_1  1.29119    7.00440  0.1843  0.8537
+b_2_2 -3.12646    8.71888 -0.3586  0.7199
+b_3_0  0.03672    1.04293  0.0352  0.9719
+b_3_1 -0.63538    2.17229 -0.2925  0.7699
+b_3_2  1.55684    2.14574  0.7255  0.4681
+R_1_2  0.21991    7.79025  0.0282  0.9775
+R_1_3  0.69796    6.63945  0.1051  0.9163
+R_2_3  0.22466    3.16030  0.0711  0.9433
 --------------------------------------------
 > 
 > 

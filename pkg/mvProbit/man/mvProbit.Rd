@@ -48,8 +48,11 @@ mvProbit( formula, coef, sigma, data, method = "BHHH", finalHessian = "BHHH",
       for the two-sided numeric finit-distance differentiation.}
    \item{random.seed}{an integer used to seed R's random number generator;
       this is to ensure replicability 
-      when computing the (cumulative) multivariate normal distribution
+      when computing (cumulative) probabilities of the multivariate normal distribution
       which is required to calculate the log likelihood values;
+      \code{set.seed( random.seed )} is called each time before
+      a (cumulative) probability of the multivariate normal distribution 
+      is computed;
       defaults to 123.}
    \item{\dots}{additional arguments are passed
       to \code{\link[maxLik]{maxLik}} and \code{\link[mvtnorm]{pmvnorm}}.}

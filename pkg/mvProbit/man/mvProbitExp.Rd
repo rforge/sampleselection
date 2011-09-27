@@ -28,8 +28,11 @@ mvProbitExp( formula, coef, sigma, data,
       (see documentation of \code{\link[mvtnorm]{pmvnorm}}).}
    \item{random.seed}{an integer used to seed R's random number generator;
       this is to ensure replicability 
-      when computing the (cumulative) multivariate normal distribution
+      when computing (cumulative) probabilities of the multivariate normal distribution
       which is required to calculate the conditional expectations;
+      \code{set.seed( random.seed )} is called each time before
+      a (cumulative) probability of the multivariate normal distribution 
+      is computed;
       defaults to 123.}
    \item{\dots}{additional arguments are passed
       to \code{\link[mvtnorm]{pmvnorm}}

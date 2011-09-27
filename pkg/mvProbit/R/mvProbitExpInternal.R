@@ -8,13 +8,6 @@ mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
       stop( "argument 'cond' must be a single logical values" )
    }
 
-   # checking argument 'random.seed'
-   if( !is.numeric( random.seed ) ) {
-      stop( "argument 'random.seed' must be numerical" )
-   } else if( length( random.seed ) != 1 ) {
-      stop( "argument 'random.seed' must be a single numerical values" )
-   }
-
    # checking argument 'sigma'
    if( !is.matrix( sigma ) ) {
       stop( "argument 'sigma' must be a matrix" )
@@ -63,22 +56,6 @@ mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
       xBeta[ , i ] <- xMat %*% betaEq[[ i ]]
    }
 
-   # save seed of the random number generator
-   if( exists( ".Random.seed" ) ) {
-      savedSeed <- .Random.seed
-   }
-
-   # set seed for the random number generator (used by pmvnorm)
-   set.seed( random.seed )
-
-   # restore seed of the random number generator on exit
-   # (end of function or error)
-   if( exists( "savedSeed" ) ) {
-      on.exit( assign( ".Random.seed", savedSeed, envir = sys.frame() ) )
-   } else {
-      on.exit( rm( .Random.seed, envir = sys.frame() ) )
-   }
-
    if( cond ) {
       # conditional expectations
       result <- matrix( NA, nrow = nObs, ncol = nDep )
@@ -87,8 +64,10 @@ mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
          for( i in 1:nObs ) {
             for( k in 1:nDep ) {
                result[ i, k ] <- 
-                  pmvnormWrap( upper = xBeta[ i, ], sigma = sigma, algorithm = algorithm, ... ) / 
-                  pmvnormWrap( upper = xBeta[ i, -k ], sigma = sigma[ -k, -k ], algorithm = algorithm, ... )
+                  pmvnormWrap( upper = xBeta[ i, ], sigma = sigma,
+                     algorithm = algorithm, random.seed = random.seed, ... ) /
+                  pmvnormWrap( upper = xBeta[ i, -k ], sigma = sigma[ -k, -k ],
+                     algorithm = algorithm, random.seed = random.seed, ... )
             }
          }
       } else {
@@ -100,8 +79,10 @@ mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
                xBetaTmp <- xBeta[ i, ] * ySign
                sigmaTmp <- diag( ySign ) %*% sigma %*% diag( ySign )
                result[ i, k ] <- 
-                  pmvnormWrap( upper = xBetaTmp, sigma = sigmaTmp, algorithm = algorithm, ... ) / 
-                  pmvnormWrap( upper = xBetaTmp[ -k ], sigma = sigmaTmp[ -k, -k ], algorithm = algorithm, ... )
+                  pmvnormWrap( upper = xBetaTmp, sigma = sigmaTmp,
+                     algorithm = algorithm, random.seed = random.seed, ... ) / 
+                  pmvnormWrap( upper = xBetaTmp[ -k ], sigma = sigmaTmp[ -k, -k ],
+                     algorithm = algorithm, random.seed = random.seed, ... )
             }
          }
       }

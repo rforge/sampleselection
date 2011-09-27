@@ -1,4 +1,5 @@
-pmvnormWrap <- function( lower = -Inf, upper = Inf, sigma, algorithm, ... ) {
+pmvnormWrap <- function( lower = -Inf, upper = Inf, sigma, algorithm, 
+   random.seed, ... ) {
 
    # check argument 'algorithm'
    algOkay <- TRUE
@@ -20,6 +21,31 @@ pmvnormWrap <- function( lower = -Inf, upper = Inf, sigma, algorithm, ... ) {
          " or one of the character strings",
          " \"GenzBretz\", \"Miwa\", or \"TVPACK\"" )
    }
+
+
+   # checking argument 'random.seed'
+   if( length( random.seed ) != 1 ) {
+      stop( "argument 'random.seed' must be a single numerical value" )
+   } else if( !is.numeric( random.seed ) ) {
+      stop( "argument 'random.seed' must be numerical" )
+   }
+
+   # save seed of the random number generator
+   if( exists( ".Random.seed" ) ) {
+      savedSeed <- .Random.seed
+   }
+
+   # set seed for the random number generator (used by pmvnorm)
+   set.seed( random.seed )
+
+   # restore seed of the random number generator on exit
+   # (end of function or error)
+   if( exists( "savedSeed" ) ) {
+      on.exit( assign( ".Random.seed", savedSeed, envir = sys.frame() ) )
+   } else {
+      on.exit( rm( .Random.seed, envir = sys.frame() ) )
+   }
+
 
    result <- pmvnorm( lower = lower, upper = upper, sigma = sigma,
       algorithm = algorithm, ... )

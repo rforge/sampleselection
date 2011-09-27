@@ -1,13 +1,6 @@
 mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
    algorithm, oneSidedGrad, eps, randomSeed, ... ) {
 
-   # checking argument 'random.seed' / 'randomSeed'
-   if( !is.numeric( randomSeed ) ) {
-      stop( "argument 'random.seed' must be numerical" )
-   } else if( length( randomSeed ) != 1 ) {
-      stop( "argument 'random.seed' must be a single numerical values" )
-   }
-
    # checking argument 'sigma'
    if( !is.matrix( sigma ) ) {
       stop( "argument 'sigma' must be a matrix" )
@@ -70,29 +63,14 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
       xBeta[ , i ] <- xMat %*% betaEq[[ i ]]
    }
 
-   # save seed of the random number generator
-   if( exists( ".Random.seed" ) ) {
-      savedSeed <- .Random.seed
-   }
-
-   # set seed for the random number generator (used by pmvnorm)
-   set.seed( randomSeed )
-
-   # restore seed of the random number generator on exit
-   # (end of function or error)
-   if( exists( "savedSeed" ) ) {
-      on.exit( assign( ".Random.seed", savedSeed, envir = sys.frame() ) )
-   } else {
-      on.exit( rm( .Random.seed, envir = sys.frame() ) )
-   }
-
    # calculate log likelihood values (for each observation)
    result <- rep( NA, nObs )
    for( i in 1:nObs ){
       ySign <- 2 * yMat[ i, ] - 1
       xBetaTmp <- xBeta[ i, ] * ySign
       sigmaTmp <- diag( ySign ) %*% sigma %*% diag( ySign )
-      result[ i ] <- log( pmvnormWrap( upper = xBetaTmp, sigma = sigmaTmp, algorithm = algorithm, ... ) )
+      result[ i ] <- log( pmvnormWrap( upper = xBetaTmp, sigma = sigmaTmp, 
+         algorithm = algorithm, random.seed = randomSeed, ... ) )
    }
 
    if( oneSidedGrad ) {

@@ -40,12 +40,14 @@ all.equal( yExp, as.data.frame( yExp2 ) )
 yExpCond <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
 print( yExpCond )
-set.seed( 123 )
 yExpCond2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 for( i in 1:nObs ) {
    for( k in 1:ncol( yMat ) ) {
-      yExpCond2[ i, k ] <- pmvnorm( upper = yMatLin[ i, ], sigma = sigma ) / 
-         pmvnorm( upper = yMatLin[ i, -k ], sigma = sigma[ -k, -k ] )
+      set.seed( 123 )
+      numerator <- pmvnorm( upper = yMatLin[ i, ], sigma = sigma )
+      set.seed( 123 )
+      denominator <- pmvnorm( upper = yMatLin[ i, -k ], sigma = sigma[ -k, -k ] )
+      yExpCond2[ i, k ] <- numerator / denominator
    }
 }
 all.equal( yExpCond, as.data.frame( yExpCond2 ) )
@@ -83,7 +85,6 @@ yExpCondObs <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
    cond = TRUE )
 print( yExpCondObs )
-set.seed( 123 )
 yExpCondObs2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 for( i in 1:nObs ){
    for( k in 1:ncol( yMat ) ) {
@@ -91,8 +92,11 @@ for( i in 1:nObs ){
       ySign[ k ] <- 1
       yLinTmp <- yMatLin[ i, ] * ySign
       sigmaTmp <- diag( ySign ) %*% sigma %*% diag( ySign )
-      yExpCondObs2[ i, k ] <- pmvnorm( upper = yLinTmp, sigma = sigmaTmp ) / 
-         pmvnorm( upper = yLinTmp[ -k ], sigma = sigmaTmp[ -k, -k ] )
+      set.seed( 123 )
+      numerator <- pmvnorm( upper = yLinTmp, sigma = sigmaTmp )
+      set.seed( 123 )
+      denominator <- pmvnorm( upper = yLinTmp[ -k ], sigma = sigmaTmp[ -k, -k ] )
+      yExpCondObs2[ i, k ] <- numerator / denominator
    }
 }
 all.equal( yExpCondObs, as.data.frame( yExpCondObs2 ) )

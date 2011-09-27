@@ -10,7 +10,7 @@
 
 \usage{
 mvProbit( formula, coef, sigma, data, method = "BHHH", finalHessian = "BHHH", 
-   random.seed = 123, ... )
+   oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... )
 }
 
 \arguments{
@@ -29,6 +29,18 @@ mvProbit( formula, coef, sigma, data, method = "BHHH", finalHessian = "BHHH",
       \code{TRUE} (finite-distance calculation of Hessian), or 
       \code{"BHHH"} (calculation based on information equality approach
          and finite-distance gradients, the default).}
+   \item{oneSidedGrad}{logical. If \code{TRUE}, 
+      the gradients of the log-likelihood function
+      with respect to the estimated parameters 
+      are obtained by one-sided numeric finit-difference differentiation,
+      which is faster but less precise 
+      than two-sided numeric finit-difference differentiation.
+      This argument should be set to \code{FALSE}
+      if an optimisation algorithm is used that is not based on gradients.}
+   \item{eps}{numeric. The step size for the one-sided numeric
+      finit-distance differentiation.
+      Unfortunately, it is currently not possible to set the step size
+      for the two-sided numeric finit-distance differentiation.}
    \item{random.seed}{an integer used to seed R's random number generator;
       this is to ensure replicability 
       when computing the (cumulative) multivariate normal distribution

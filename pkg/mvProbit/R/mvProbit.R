@@ -1,5 +1,6 @@
 mvProbit <- function( formula, coef, sigma, data,
-   method = "BHHH", finalHessian = "BHHH", random.seed = 123, ... ) {
+   method = "BHHH", finalHessian = "BHHH",
+   oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... ) {
 
    # checking argument 'formula'
    if( is.list( formula ) ) {
@@ -79,7 +80,8 @@ mvProbit <- function( formula, coef, sigma, data,
          sep = "_" ), nrow = nDep, byrow = TRUE )[ upper.tri( diag(nDep) ) ] )
 
    # wrapper function for maxLik for calling mvProbitLogLikInternal
-   logLik <- function( param, yMat, xMat, randomSeed, nCoef, nDep, ... ) {
+   logLik <- function( param, yMat, xMat, randomSeed, nCoef, nDep, 
+      llOneSidedGrad, llEps, ... ) {
 
       coef <- param[ 1:nCoef ]
       sigma <- diag( nDep )
@@ -87,7 +89,8 @@ mvProbit <- function( formula, coef, sigma, data,
       sigma[ lower.tri( sigma ) ] <- t( sigma )[ lower.tri( sigma ) ]
       
       logLikVal <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-         coef = coef, sigma = sigma, randomSeed = randomSeed, ... )
+         coef = coef, sigma = sigma, randomSeed = randomSeed, 
+         oneSidedGrad = llOneSidedGrad, eps = llEps, ... )
 
       return( logLikVal )
    }
@@ -95,7 +98,7 @@ mvProbit <- function( formula, coef, sigma, data,
    result <- maxLik( logLik = logLik, start = start, method = method, 
       finalHessian = finalHessian, 
       yMat = yMat, xMat = xMat, randomSeed = random.seed, 
-      oneSidedGrad = FALSE, eps = 1e-6,
+      llOneSidedGrad = oneSidedGrad, llEps = eps,
       nCoef = nCoef, nDep = nDep, ... )
 
    class( result ) <- c( "mvProbit", class( result ) )

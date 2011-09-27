@@ -25,18 +25,34 @@ yMatLin <- xMat %*% beta
 yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
 colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 
-# estimation with the BHHH algorithm
+# estimation with the BHHH algorithm, two-sided gradients
 estResultBHHH <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    coef = c( beta ), sigma = sigma, 
    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
 summary( estResultBHHH )
 
-# estimation with the BFGS algorithm
+# estimation with the BHHH algorithm, one-sided gradients
+estResultBHHH1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
+   coef = c( beta ), sigma = sigma, 
+   data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5,
+   oneSidedGrad = TRUE )
+summary( estResultBHHH1 )
+all.equal( estResultBHHH, estResultBHHH1 )
+
+# estimation with the BFGS algorithm, two-sided gradients
 estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    coef = c( beta ), sigma = sigma, 
    data = as.data.frame( cbind( xMat, yMat ) ), 
    method = "BFGS", tol = 0.5 )
 summary( estResultBFGS )
+
+# estimation with the BFGS algorithm, one-sided gradients
+estResultBFGS1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
+   coef = c( beta ), sigma = sigma, 
+   data = as.data.frame( cbind( xMat, yMat ) ), 
+   method = "BFGS", tol = 0.5, oneSidedGrad = TRUE )
+summary( estResultBFGS1 )
+all.equal( estResultBFGS, estResultBFGS1 )
 
 # estimation with the Nelder-Mead algorithm
 estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,

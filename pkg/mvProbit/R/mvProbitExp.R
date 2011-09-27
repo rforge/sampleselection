@@ -1,5 +1,5 @@
 mvProbitExp <- function( formula, coef, sigma, data,
-   cond = FALSE, random.seed = 123, ... ) {
+   cond = FALSE, algorithm = GenzBretz(), random.seed = 123, ... ) {
 
    # checking argument 'formula'
    if( is.list( formula ) ) {
@@ -41,7 +41,7 @@ mvProbitExp <- function( formula, coef, sigma, data,
    # calculate expectations
    result <- mvProbitExpInternal( yMat = yMat, xMat = xMat, 
       coef = coef, sigma = sigma, cond = cond, 
-      random.seed = random.seed, ... )
+      algorithm = algorithm, random.seed = random.seed, ... )
 
    return( result )
 }

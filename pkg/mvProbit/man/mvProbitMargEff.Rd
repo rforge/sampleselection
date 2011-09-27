@@ -7,7 +7,8 @@
 
 \usage{
 mvProbitMargEff( formula, coef, sigma, data,
-   cond = FALSE, eps = 1e-06, random.seed = 123, ... )
+   cond = FALSE, algorithm = GenzBretz(), eps = 1e-06, random.seed = 123,
+   ... )
 }
 
 \arguments{
@@ -22,6 +23,10 @@ mvProbitMargEff( formula, coef, sigma, data,
       whether marginal effects on conditional expectations (if \code{TRUE})
       or marginal effects on unconditional expectations (if \code{FALSE}, default)
       should be returned.}
+   \item{algorithm}{algorithm for computing integrals 
+      of the multivariate normal distribution,
+      either \code{GenzBretz()}, \code{Miwa()}, or \code{TVPACK()}
+      (see documentation of \code{\link[mvtnorm]{pmvnorm}}).}
    \item{eps}{numeric, the difference between the two values 
       of each (numerical) explanatory
       variable that is used for the numerical differentiation.}

@@ -7,7 +7,7 @@
 
 \usage{
 mvProbitExp( formula, coef, sigma, data,
-   cond = FALSE, random.seed = 123, ... )
+   cond = FALSE, algorithm = GenzBretz(), random.seed = 123, ... )
 }
 
 \arguments{
@@ -22,6 +22,10 @@ mvProbitExp( formula, coef, sigma, data,
       whether conditional expectations (if \code{TRUE})
       or unconditional expectations (if \code{FALSE}, default)
       should be returned.}
+   \item{algorithm}{algorithm for computing integrals 
+      of the multivariate normal distribution,
+      either \code{GenzBretz()}, \code{Miwa()}, or \code{TVPACK()}
+      (see documentation of \code{\link[mvtnorm]{pmvnorm}}).}
    \item{random.seed}{an integer used to seed R's random number generator;
       this is to ensure replicability 
       when computing the (cumulative) multivariate normal distribution

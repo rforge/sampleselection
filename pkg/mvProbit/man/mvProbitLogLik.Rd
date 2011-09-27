@@ -6,8 +6,8 @@
 }
 
 \usage{
-mvProbitLogLik( formula, coef, sigma, data, random.seed = 123, 
-   oneSidedGrad = FALSE, eps = 1e-6, ... )
+mvProbitLogLik( formula, coef, sigma, data,
+   oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... )
 }
 
 \arguments{
@@ -18,11 +18,6 @@ mvProbitLogLik( formula, coef, sigma, data, random.seed = 123,
    \item{sigma}{the covariance/correlation matrix of the residuals
       (must be symmetric and have ones on its diagonal).}
    \item{data}{a \code{data.frame} containing the data.}
-   \item{random.seed}{an integer used to seed R's random number generator;
-      this is to ensure replicability 
-      when computing the (cumulative) multivariate normal distribution
-      which is required to calculate the log likelihood values;
-      defaults to 123.}
    \item{oneSidedGrad}{logical. If \code{TRUE}, the returned object
       has an attribute \code{"gradient"},
       which is a matrix and provides 
@@ -33,6 +28,11 @@ mvProbitLogLik( formula, coef, sigma, data, random.seed = 123,
       and obtained by one-sided numeric finit-difference differentiation.}
    \item{eps}{numeric. The step size for the one-sided numeric
       finit-distance differentiation.}
+   \item{random.seed}{an integer used to seed R's random number generator;
+      this is to ensure replicability 
+      when computing the (cumulative) multivariate normal distribution
+      which is required to calculate the log likelihood values;
+      defaults to 123.}
    \item{\dots}{additional arguments are passed
       to \code{\link[mvtnorm]{pmvnorm}}
       when calculating conditional expectations.}

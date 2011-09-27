@@ -1,5 +1,5 @@
 mvProbitLogLik <- function( formula, coef, sigma, data,
-   random.seed = 123, oneSidedGrad = FALSE, eps = 1e-6, ... ) {
+   oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... ) {
 
    # checking argument 'formula'
    if( is.list( formula ) ) {

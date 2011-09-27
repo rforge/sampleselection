@@ -54,6 +54,14 @@ estResultBFGS1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 summary( estResultBFGS1 )
 all.equal( estResultBFGS, estResultBFGS1 )
 
+# estimation with the BFGS algorithm, Miwa algorithm for obtaining integrals
+estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
+   coef = c( beta ), sigma = sigma, 
+   data = as.data.frame( cbind( xMat, yMat ) ), 
+   method = "BFGS", tol = 0.5, algorithm = Miwa( steps = 64 ) )
+summary( estResultBFGSm )
+all.equal( estResultBFGS, estResultBFGSm )
+
 # estimation with the Nelder-Mead algorithm
 estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    coef = c( beta ), sigma = sigma, 

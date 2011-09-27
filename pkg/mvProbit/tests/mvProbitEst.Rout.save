@@ -169,6 +169,40 @@ R_2_3 -0.281905   2.599383 -0.1085  0.9136
 [4] "Component 4: Mean relative difference: 1.49226e-06"  
 [5] "Component 12: Mean relative difference: 1.034491e-06"
 > 
+> # estimation with the BFGS algorithm, Miwa algorithm for obtaining integrals
+> estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
++    coef = c( beta ), sigma = sigma, 
++    data = as.data.frame( cbind( xMat, yMat ) ), 
++    method = "BFGS", tol = 0.5, algorithm = Miwa( steps = 64 ) )
+> summary( estResultBFGSm )
+--------------------------------------------
+Maximum Likelihood estimation
+BFGS maximisation, 3 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -17.72478 
+12  free parameters
+Estimates:
+       Estimate Std. error t value Pr(> t)
+b_1_0  1.513769   5.783963  0.2617  0.7935
+b_1_1  1.504531  83.690401  0.0180  0.9857
+b_1_2  0.162182   3.872580  0.0419  0.9666
+b_2_0 -0.087648   4.641751 -0.0189  0.9849
+b_2_1  1.130697   6.551045  0.1726  0.8630
+b_2_2 -2.073903   7.730438 -0.2683  0.7885
+b_3_0  0.037566   2.345371  0.0160  0.9872
+b_3_1 -1.037508   5.002497 -0.2074  0.8357
+b_3_2  1.845349   4.905000  0.3762  0.7068
+R_1_2 -0.053977  13.935429 -0.0039  0.9969
+R_1_3  0.687923  14.094734  0.0488  0.9611
+R_2_3 -0.282207   2.570677 -0.1098  0.9126
+--------------------------------------------
+> all.equal( estResultBFGS, estResultBFGSm )
+[1] "Component 1: Mean relative difference: 4.964495e-05"
+[2] "Component 2: Mean relative difference: 0.0001162492"
+[3] "Component 3: Mean relative difference: 0.003230716" 
+[4] "Component 4: Mean relative difference: 0.003973551" 
+[5] "Component 12: Mean relative difference: 0.007800276"
+> 
 > # estimation with the Nelder-Mead algorithm
 > estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    coef = c( beta ), sigma = sigma, 

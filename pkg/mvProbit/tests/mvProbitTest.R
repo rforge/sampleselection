@@ -144,6 +144,32 @@ rnorm( 4 )
 logLikVal <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
 print( logLikVal )
+# now with explicitly specifying the algorithm
+logLikVal3 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   algorithm = GenzBretz )
+all.equal( logLikVal, logLikVal3 )
+identical( logLikVal, logLikVal3 )
+# now with integrals obtained by the Miwa algorithm
+logLikVal4 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   algorithm = Miwa )
+all.equal( logLikVal, logLikVal4 )
+# now with integrals obtained by the Miwa algorithm, less precise
+logLikVal5 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   algorithm = Miwa( steps = 32 ) )
+all.equal( logLikVal4, logLikVal5 )
+# now with integrals obtained by the TVPACK algorithm
+logLikVal6 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   algorithm = TVPACK )
+all.equal( logLikVal, logLikVal6 )
+# now with integrals obtained by the TVPACK algorithm, less precise
+logLikVal7 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   algorithm = TVPACK( abseps = 0.5 ) )
+all.equal( logLikVal6, logLikVal7 )
 
 # calculating log likelihood value(s) with one-sided gradients
 logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 

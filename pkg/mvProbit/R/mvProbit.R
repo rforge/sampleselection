@@ -81,7 +81,7 @@ mvProbit <- function( formula, coef, sigma, data,
 
    # wrapper function for maxLik for calling mvProbitLogLikInternal
    logLik <- function( param, yMat, xMat, nCoef, nDep, 
-      llAlgorithm, llOneSidedGrad, llEps, randomSeed, ... ) {
+      llAlgorithm, llOneSidedGrad, llEps, llRandom.seed, ... ) {
 
       coef <- param[ 1:nCoef ]
       sigma <- diag( nDep )
@@ -90,7 +90,7 @@ mvProbit <- function( formula, coef, sigma, data,
       
       logLikVal <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
          coef = coef, sigma = sigma, algorithm = llAlgorithm,
-         oneSidedGrad = llOneSidedGrad, eps = llEps, randomSeed = randomSeed, 
+         oneSidedGrad = llOneSidedGrad, eps = llEps, randomSeed = llRandom.seed, 
          ... )
 
       return( logLikVal )
@@ -99,7 +99,7 @@ mvProbit <- function( formula, coef, sigma, data,
    result <- maxLik( logLik = logLik, start = start, method = method, 
       finalHessian = finalHessian, 
       yMat = yMat, xMat = xMat, llAlgorithm = algorithm,
-      llOneSidedGrad = oneSidedGrad, llEps = eps, randomSeed = random.seed,
+      llOneSidedGrad = oneSidedGrad, llEps = eps, llRandom.seed = random.seed,
       nCoef = nCoef, nDep = nDep, ... )
 
    class( result ) <- c( "mvProbit", class( result ) )

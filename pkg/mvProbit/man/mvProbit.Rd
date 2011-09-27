@@ -10,7 +10,8 @@
 
 \usage{
 mvProbit( formula, coef, sigma, data, method = "BHHH", finalHessian = "BHHH", 
-   oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... )
+   algorithm = GenzBretz(), oneSidedGrad = FALSE, eps = 1e-6, 
+   random.seed = 123, ... )
 }
 
 \arguments{
@@ -29,6 +30,10 @@ mvProbit( formula, coef, sigma, data, method = "BHHH", finalHessian = "BHHH",
       \code{TRUE} (finite-distance calculation of Hessian), or 
       \code{"BHHH"} (calculation based on information equality approach
          and finite-distance gradients, the default).}
+   \item{algorithm}{algorithm for computing integrals 
+      of the multivariate normal distribution,
+      either \code{GenzBretz()}, \code{Miwa()}, or \code{TVPACK()}
+      (see documentation of \code{\link[mvtnorm]{pmvnorm}}).}
    \item{oneSidedGrad}{logical. If \code{TRUE}, 
       the gradients of the log-likelihood function
       with respect to the estimated parameters 

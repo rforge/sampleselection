@@ -7,7 +7,8 @@
 
 \usage{
 mvProbitLogLik( formula, coef, sigma, data,
-   oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... )
+   algorithm = GenzBretz(), oneSidedGrad = FALSE, eps = 1e-6, 
+   random.seed = 123, ... )
 }
 
 \arguments{
@@ -18,6 +19,10 @@ mvProbitLogLik( formula, coef, sigma, data,
    \item{sigma}{the covariance/correlation matrix of the residuals
       (must be symmetric and have ones on its diagonal).}
    \item{data}{a \code{data.frame} containing the data.}
+   \item{algorithm}{algorithm for computing integrals 
+      of the multivariate normal distribution,
+      either \code{GenzBretz()}, \code{Miwa()}, or \code{TVPACK()}
+      (see documentation of \code{\link[mvtnorm]{pmvnorm}}).}
    \item{oneSidedGrad}{logical. If \code{TRUE}, the returned object
       has an attribute \code{"gradient"},
       which is a matrix and provides 

@@ -1,5 +1,5 @@
 mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
-   oneSidedGrad, eps, randomSeed, ... ) {
+   algorithm, oneSidedGrad, eps, randomSeed, ... ) {
 
    # checking argument 'random.seed' / 'randomSeed'
    if( !is.numeric( randomSeed ) ) {
@@ -92,7 +92,7 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
       ySign <- 2 * yMat[ i, ] - 1
       xBetaTmp <- xBeta[ i, ] * ySign
       sigmaTmp <- diag( ySign ) %*% sigma %*% diag( ySign )
-      result[ i ] <- log( pmvnorm( upper = xBetaTmp, sigma = sigmaTmp, ... ) )
+      result[ i ] <- log( pmvnorm( upper = xBetaTmp, sigma = sigmaTmp, algorithm = algorithm, ... ) )
    }
 
    if( oneSidedGrad ) {
@@ -103,8 +103,8 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
          coefTmp <- coef
          coefTmp[ i ] <- coef[ i ] + eps
          llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-            coef = coefTmp, sigma = sigma, randomSeed = randomSeed, 
-            oneSidedGrad = FALSE, eps = eps, ... )
+            coef = coefTmp, sigma = sigma, algorithm = algorithm,
+            oneSidedGrad = FALSE, eps = eps, randomSeed = randomSeed, ... )
          grad[ , i ] <- ( llTmp - result ) / eps
       }
       gradRow <- length( coef )
@@ -114,8 +114,8 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
             sigmaTmp <- sigma
             sigmaTmp[ i, j ] <- sigmaTmp[ j, i ] <- sigma[ j, i ] + eps
             llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-               coef = coef, sigma = sigmaTmp, randomSeed = randomSeed, 
-               oneSidedGrad = FALSE, eps = eps, ... )
+               coef = coef, sigma = sigmaTmp, algorithm = algorithm,
+               oneSidedGrad = FALSE, eps = eps, randomSeed = randomSeed, ... )
             grad[ , gradRow ] <- ( llTmp - result ) / eps
          }
       }

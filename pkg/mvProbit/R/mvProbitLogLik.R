@@ -1,4 +1,5 @@
-mvProbitLogLik <- function( formula, coef, sigma, data,
+mvProbitLogLik <- function( formula, coef, sigma, data, 
+   algorithm = GenzBretz(),
    oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... ) {
 
    # checking argument 'formula'
@@ -38,8 +39,8 @@ mvProbitLogLik <- function( formula, coef, sigma, data,
 
    # calculating log likelihood values
    result <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-      coef = coef, sigma = sigma, randomSeed = random.seed, 
-      oneSidedGrad = oneSidedGrad, eps = eps, ... )
+      coef = coef, sigma = sigma, algorithm = algorithm, 
+      oneSidedGrad = oneSidedGrad, eps = eps, randomSeed = random.seed, ... )
 
    return( result )
 }

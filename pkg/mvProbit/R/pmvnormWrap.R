@@ -1,9 +1,43 @@
 pmvnormWrap <- function( lower = -Inf, upper = Inf, sigma, algorithm, 
    random.seed, ... ) {
 
+   # checking argument 'sigma'
+   if( !is.matrix( sigma ) ) {
+      stop( "argument 'sigma' must be a matrix" )
+   } else if( nrow( sigma ) != ncol( sigma ) ) {
+      stop( "argument 'sigma' must be a square matrix" )
+   } else if( !all( is.numeric( sigma ) ) ) {
+      stop( "argument 'sigma must be a numeric matrix" )
+   }
+
+   # checking argument 'lower'
+   if( !all( is.numeric( lower ) ) ) {
+      stop( "argument 'lower' must be numeric" )
+   } else if( length( lower ) == 1 ) {
+      lower <- rep( lower, nrow( sigma ) )
+   } else if( length( lower ) != nrow( sigma ) ) {
+      stop( "argument 'lower' must either be a single numeric value",
+         " or a vector with length equal to the number of rows/columns",
+         " of argument 'sigma'" )
+   }
+
+   # checking argument 'lower'
+   if( !all( is.numeric( upper ) ) ) {
+      stop( "argument 'upper' must be numeric" )
+   } else if( length( upper ) == 1 ) {
+      upper <- rep( upper, nrow( sigma ) )
+   } else if( length( upper ) != nrow( sigma ) ) {
+      stop( "argument 'upper' must either be a single numeric value",
+         " or a vector with length equal to the number of rows/columns",
+         " of argument 'sigma'" )
+   }
+
    # check argument 'algorithm'
    algOkay <- TRUE
-   if( is.function( algorithm ) ) {
+   if( !is.list( algorithm ) && length( algorithm ) != 1 ) {
+      stop( "argument 'algorithm' must be a single function",
+         " or a single character string" )
+   } else if( is.function( algorithm ) ) {
       algResult <- do.call( algorithm, list() )
       if( ! class( algResult )[ 1 ] %in% c( "GenzBretz", "Miwa", "TVPACK" ) ) {
          algOkay <- FALSE

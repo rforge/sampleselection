@@ -1,5 +1,5 @@
 mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
-   cond, algorithm, random.seed, ... ) {
+   cond, algorithm, nGHK, random.seed, ... ) {
 
    # checking argument 'cond'
    if( !is.logical( cond ) ) {
@@ -65,9 +65,11 @@ mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
             for( k in 1:nDep ) {
                result[ i, k ] <- 
                   pmvnormWrap( upper = xBeta[ i, ], sigma = sigma,
-                     algorithm = algorithm, random.seed = random.seed, ... ) /
+                     algorithm = algorithm, nGHK = nGHK, 
+                     random.seed = random.seed, ... ) /
                   pmvnormWrap( upper = xBeta[ i, -k ], sigma = sigma[ -k, -k ],
-                     algorithm = algorithm, random.seed = random.seed, ... )
+                     algorithm = algorithm, nGHK = nGHK, 
+                     random.seed = random.seed, ... )
             }
          }
       } else {
@@ -80,9 +82,11 @@ mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
                sigmaTmp <- diag( ySign ) %*% sigma %*% diag( ySign )
                result[ i, k ] <- 
                   pmvnormWrap( upper = xBetaTmp, sigma = sigmaTmp,
-                     algorithm = algorithm, random.seed = random.seed, ... ) / 
+                     algorithm = algorithm, nGHK = nGHK, 
+                     random.seed = random.seed, ... ) / 
                   pmvnormWrap( upper = xBetaTmp[ -k ], sigma = sigmaTmp[ -k, -k ],
-                     algorithm = algorithm, random.seed = random.seed, ... )
+                     algorithm = algorithm, nGHK = nGHK, 
+                     random.seed = random.seed, ... )
             }
          }
       }

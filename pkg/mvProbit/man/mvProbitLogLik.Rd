@@ -7,7 +7,7 @@
 
 \usage{
 mvProbitLogLik( formula, coef, sigma, data,
-   algorithm = GenzBretz(), oneSidedGrad = FALSE, eps = 1e-6, 
+   algorithm = GenzBretz(), nGHK = 1000, oneSidedGrad = FALSE, eps = 1e-6, 
    random.seed = 123, ... )
 }
 
@@ -21,8 +21,13 @@ mvProbitLogLik( formula, coef, sigma, data,
    \item{data}{a \code{data.frame} containing the data.}
    \item{algorithm}{algorithm for computing integrals 
       of the multivariate normal distribution,
-      either \code{GenzBretz()}, \code{Miwa()}, or \code{TVPACK()}
-      (see documentation of \code{\link[mvtnorm]{pmvnorm}}).}
+      either function \code{GenzBretz()}, \code{Miwa()}, or \code{TVPACK()}
+      (see documentation of \code{\link[mvtnorm]{pmvnorm}})
+      or character string \code{"GHK"} 
+      (see documentation of \code{\link[bayesm]{ghkvec}}).}
+   \item{nGHK}{numeric value specifying the number of simulation draws 
+      of the GHK algorithm for computing integrals 
+      of the multivariate normal distribution.}
    \item{oneSidedGrad}{logical. If \code{TRUE}, the returned object
       has an attribute \code{"gradient"},
       which is a matrix and provides 

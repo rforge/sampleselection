@@ -1,6 +1,6 @@
 mvProbitMargEff <- function( formula, coef, sigma, data,
-   cond = FALSE, algorithm = GenzBretz(), eps = 1e-06, random.seed = 123,
-   ... ) {
+   cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, eps = 1e-06, 
+   random.seed = 123, ... ) {
 
    # checking argument 'formula'
    if( is.list( formula ) ) {
@@ -65,10 +65,12 @@ mvProbitMargEff <- function( formula, coef, sigma, data,
       }
       yMatL <- mvProbitExpInternal( yMat = yMat, xMat = xMatL,
          coef = coef, sigma = sigma, 
-         cond = cond, algorithm = algorithm, random.seed = random.seed, ... )
+         cond = cond, algorithm = algorithm, nGHK = nGHK, 
+         random.seed = random.seed, ... )
       yMatU <- mvProbitExpInternal( yMat = yMat, xMat = xMatU, 
          coef = coef, sigma = sigma, 
-         cond = cond, algorithm = algorithm, random.seed = random.seed, ... )
+         cond = cond, algorithm = algorithm, nGHK = nGHK, 
+         random.seed = random.seed, ... )
       margEff <- yMatU - yMatL
       if( !isDummy ) {
          margEff <- margEff / eps

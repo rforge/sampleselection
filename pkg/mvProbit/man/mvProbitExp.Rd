@@ -7,7 +7,7 @@
 
 \usage{
 mvProbitExp( formula, coef, sigma, data,
-   cond = FALSE, algorithm = GenzBretz(), random.seed = 123, ... )
+   cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, random.seed = 123, ... )
 }
 
 \arguments{
@@ -24,8 +24,13 @@ mvProbitExp( formula, coef, sigma, data,
       should be returned.}
    \item{algorithm}{algorithm for computing integrals 
       of the multivariate normal distribution,
-      either \code{GenzBretz()}, \code{Miwa()}, or \code{TVPACK()}
-      (see documentation of \code{\link[mvtnorm]{pmvnorm}}).}
+      either function \code{GenzBretz()}, \code{Miwa()}, or \code{TVPACK()}
+      (see documentation of \code{\link[mvtnorm]{pmvnorm}})
+      or character string \code{"GHK"} 
+      (see documentation of \code{\link[bayesm]{ghkvec}}).}
+   \item{nGHK}{numeric value specifying the number of simulation draws 
+      of the GHK algorithm for computing integrals 
+      of the multivariate normal distribution.}
    \item{random.seed}{an integer used to seed R's random number generator;
       this is to ensure replicability 
       when computing (cumulative) probabilities of the multivariate normal distribution

@@ -7,7 +7,8 @@
 
 \usage{
 mvProbitMargEff( formula, coef, sigma, data,
-   cond = FALSE, algorithm = GenzBretz(), eps = 1e-06, random.seed = 123,
+   cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, 
+   eps = 1e-06, random.seed = 123,
    ... )
 }
 
@@ -25,8 +26,13 @@ mvProbitMargEff( formula, coef, sigma, data,
       should be returned.}
    \item{algorithm}{algorithm for computing integrals 
       of the multivariate normal distribution,
-      either \code{GenzBretz()}, \code{Miwa()}, or \code{TVPACK()}
-      (see documentation of \code{\link[mvtnorm]{pmvnorm}}).}
+      either function \code{GenzBretz()}, \code{Miwa()}, or \code{TVPACK()}
+      (see documentation of \code{\link[mvtnorm]{pmvnorm}})
+      or character string \code{"GHK"} 
+      (see documentation of \code{\link[bayesm]{ghkvec}}).}
+   \item{nGHK}{numeric value specifying the number of simulation draws 
+      of the GHK algorithm for computing integrals 
+      of the multivariate normal distribution.}
    \item{eps}{numeric, the difference between the two values 
       of each (numerical) explanatory
       variable that is used for the numerical differentiation.}

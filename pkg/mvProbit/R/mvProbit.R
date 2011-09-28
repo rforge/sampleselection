@@ -1,4 +1,4 @@
-mvProbit <- function( formula, coef, sigma, data,
+mvProbit <- function( formula, coef = NULL, sigma = NULL, data,
    method = "BHHH", finalHessian = "BHHH", algorithm = GenzBretz(), nGHK = 1000,
    oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... ) {
 

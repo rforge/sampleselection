@@ -176,6 +176,96 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [3] "Component 4: Mean relative difference: 4.568584e-07" 
 [4] "Component 12: Mean relative difference: 2.912419e-07"
 > 
+> # estimation with the BFGS algorithm, one-sided gradients, no starting values
+> estResultBFGS1a <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
++    coef = NULL, sigma = NULL, 
++    data = as.data.frame( cbind( xMat, yMat ) ), 
++    method = "BFGS", tol = 0.5, oneSidedGrad = TRUE )
+> summary( estResultBFGS1a )
+--------------------------------------------
+Maximum Likelihood estimation
+BFGS maximisation, 3 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -49.36404 
+12  free parameters
+Estimates:
+       Estimate Std. error t value Pr(> t)  
+b_1_0  0.793530   0.904117  0.8777 0.38011  
+b_1_1  1.883674   0.906682  2.0775 0.03775 *
+b_1_2 -1.749220   0.974002 -1.7959 0.07251 .
+b_2_0 -0.400356   0.690563 -0.5798 0.56208  
+b_2_1  0.915772   0.979979  0.9345 0.35006  
+b_2_2 -1.521057   0.720059 -2.1124 0.03465 *
+b_3_0  0.977899   0.644966  1.5162 0.12947  
+b_3_1 -1.694332   0.947881 -1.7875 0.07386 .
+b_3_2  1.576251   0.733988  2.1475 0.03175 *
+R_1_2  0.752701   4.327297  0.1739 0.86191  
+R_1_3  0.237212   0.905347  0.2620 0.79331  
+R_2_3 -0.034528   0.358894 -0.0962 0.92336  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+--------------------------------------------
+> 
+> # estimation with the BFGS algorithm, one-sided gradients, no starting values for beta
+> estResultBFGS1b <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
++    coef = NULL, sigma = sigma, 
++    data = as.data.frame( cbind( xMat, yMat ) ), 
++    method = "BFGS", tol = 0.5, oneSidedGrad = TRUE )
+> summary( estResultBFGS1b )
+--------------------------------------------
+Maximum Likelihood estimation
+BFGS maximisation, 3 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -49.57444 
+12  free parameters
+Estimates:
+      Estimate Std. error t value Pr(> t)  
+b_1_0  0.81103    0.92973  0.8723 0.38303  
+b_1_1  1.90600    0.91602  2.0807 0.03746 *
+b_1_2 -1.76267    1.01310 -1.7399 0.08188 .
+b_2_0 -0.37696    0.70486 -0.5348 0.59279  
+b_2_1  0.94406    1.03448  0.9126 0.36145  
+b_2_2 -1.53320    0.75169 -2.0397 0.04138 *
+b_3_0  0.93718    0.62914  1.4896 0.13632  
+b_3_1 -1.74978    0.99956 -1.7505 0.08002 .
+b_3_2  1.60242    0.78477  2.0419 0.04116 *
+R_1_2  0.68168    3.40943  0.1999 0.84153  
+R_1_3  0.40442    0.80239  0.5040 0.61425  
+R_2_3  0.16634    0.33886  0.4909 0.62351  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+--------------------------------------------
+> 
+> # estimation with the BFGS algorithm, one-sided gradients, no starting values for sigma
+> estResultBFGS1s <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
++    coef = c( beta ), sigma = NULL, 
++    data = as.data.frame( cbind( xMat, yMat ) ), 
++    method = "BFGS", tol = 0.5, oneSidedGrad = TRUE )
+> summary( estResultBFGS1s )
+--------------------------------------------
+Maximum Likelihood estimation
+BFGS maximisation, 4 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -52.78274 
+12  free parameters
+Estimates:
+       Estimate Std. error t value Pr(> t)  
+b_1_0  0.558139   0.866155  0.6444 0.51932  
+b_1_1  1.149579   0.906074  1.2687 0.20453  
+b_1_2 -1.127465   0.941915 -1.1970 0.23131  
+b_2_0 -0.444257   0.855255 -0.5194 0.60345  
+b_2_1  1.073250   0.993142  1.0807 0.27985  
+b_2_2 -1.572262   0.785571 -2.0014 0.04535 *
+b_3_0  0.372552   0.561719  0.6632 0.50718  
+b_3_1 -0.854698   0.952140 -0.8977 0.36937  
+b_3_2  1.230114   0.715057  1.7203 0.08538 .
+R_1_2  0.349810   2.022890  0.1729 0.86271  
+R_1_3 -0.011768   0.707759 -0.0166 0.98673  
+R_2_3  0.094353   0.339196  0.2782 0.78088  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+--------------------------------------------
+> 
 > # estimation with the BFGS algorithm, Miwa algorithm for obtaining integrals
 > estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    coef = c( beta ), sigma = sigma, 

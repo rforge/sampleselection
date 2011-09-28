@@ -37,23 +37,8 @@ mvProbit <- function( formula, coef, sigma, data,
       stop( "all dependent variables must be either 0, 1, TRUE, or FALSE" )
    }
 
-   # checking argument 'sigma'
-   if( !is.matrix( sigma ) ) {
-      stop( "argument 'sigma' must be a matrix" )
-   } else if( nrow( sigma ) != ncol( sigma ) ) {
-      stop( "argument 'sigma' must be a quadratic matrix" )
-   } else if( !isSymmetric( sigma ) ) {
-      stop( "argument 'sigma' must be a symmetric matrix" )
-   } else if( any( abs( diag( sigma ) - 1 ) > 1e-7 ) ) {
-      stop( "argument 'sigma' must have ones on its diagonal" )
-   } else if( ncol( sigma ) != ncol( yMat ) ) {
-      stop( "the number of dependent variables specified in argument",
-         " 'formula' must be equal to the number of rows and colums",
-         " of the matrix specified by argument 'sigma'" )
-   }
-
    # number of dependent variables
-   nDep <- ncol( sigma )
+   nDep <- ncol( yMat )
 
    # number of regressors
    nReg <- ncol( xMat )
@@ -64,11 +49,46 @@ mvProbit <- function( formula, coef, sigma, data,
    # number of observations
    nObs <- nrow( xMat )
 
+   # obtaining starting values for coefficients if they are not specified
+   if( is.null( coef ) ) {
+      uvProbit <- list()
+      for( i in 1:nDep ) {
+         uvProbit[[ i ]] <- glm( yMat[ , i ] ~ xMat - 1, 
+            family = binomial( link = "probit" ) )
+         coef <- c( coef, coef( uvProbit[[ i ]] ) )
+      }
+   }
+
    # checking argument 'coef'
    if( !is.vector( coef, mode = "numeric" ) ) {
       stop( "argument 'coef' must be a numeric vector" )
    } else if( length( coef ) != nCoef ) {
       stop( "argument coef must have ", nCoef, " elements" )
+   }
+
+   # obtaining starting values for correlations if they are not specified
+   if( is.null( sigma ) ) {
+      yHat <- matrix( NA, nrow = nObs, ncol = nDep )
+      for( i in 1:nDep ) {
+         yHat[ , i ] <- pnorm( xMat %*% 
+            coef[ ( ( i - 1 ) * nReg + 1 ):( i * nReg ) ] )
+      }
+      sigma <- cor( yMat - yHat )
+   }
+
+   # checking argument 'sigma'
+   if( !is.matrix( sigma ) ) {
+      stop( "argument 'sigma' must be a matrix" )
+   } else if( nrow( sigma ) != ncol( sigma ) ) {
+      stop( "argument 'sigma' must be a quadratic matrix" )
+   } else if( !isSymmetric( sigma ) ) {
+      stop( "argument 'sigma' must be a symmetric matrix" )
+   } else if( any( abs( diag( sigma ) - 1 ) > 1e-7 ) ) {
+      stop( "argument 'sigma' must have ones on its diagonal" )
+   } else if( ncol( sigma ) != nDep ) {
+      stop( "the number of dependent variables specified in argument",
+         " 'formula' must be equal to the number of rows and colums",
+         " of the matrix specified by argument 'sigma'" )
    }
 
    # starting values

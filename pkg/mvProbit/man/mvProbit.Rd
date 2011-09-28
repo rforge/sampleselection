@@ -9,7 +9,8 @@
 }
 
 \usage{
-mvProbit( formula, coef = NULL, sigma = NULL, data, method = "BHHH", finalHessian = "BHHH", 
+mvProbit( formula, data, coef = NULL, sigma = NULL, 
+   method = "BHHH", finalHessian = "BHHH", 
    algorithm = GenzBretz(), nGHK = 1000, oneSidedGrad = FALSE, eps = 1e-6, 
    random.seed = 123, ... )
 }
@@ -18,6 +19,7 @@ mvProbit( formula, coef = NULL, sigma = NULL, data, method = "BHHH", finalHessia
    \item{formula}{a \code{"formula"}:
       a symbolic description of the model
       (currently, all binary outcome variables must have the same regressors).}
+   \item{data}{a \code{data.frame} containing the data.}
    \item{coef}{an optional numeric vector specifying the starting values 
       of all coefficients; 
       if this argument is not specified,
@@ -29,7 +31,6 @@ mvProbit( formula, coef = NULL, sigma = NULL, data, method = "BHHH", finalHessia
       the correlation matrix of the \sQuote{response} residuals, 
       i.e. y - pnorm( X' beta ),
       is used as starting values for sigma.}
-   \item{data}{a \code{data.frame} containing the data.}
    \item{method}{maximisation method / algorithm 
       (see \code{\link[maxLik]{maxLik}}).}
    \item{finalHessian}{Calculation of the final Hessian:

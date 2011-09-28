@@ -20,6 +20,7 @@ Type 'q()' to quit R.
 Loading required package: mvtnorm
 Loading required package: maxLik
 Loading required package: miscTools
+Loading required package: bayesm
 > library( "miscTools" )
 > 
 > # covariance matrix

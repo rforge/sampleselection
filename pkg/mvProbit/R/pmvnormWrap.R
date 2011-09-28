@@ -34,6 +34,7 @@ pmvnormWrap <- function( lower = -Inf, upper = Inf, sigma, algorithm,
 
    # check argument 'algorithm'
    algOkay <- TRUE
+   ghk <- FALSE
    if( !is.list( algorithm ) && length( algorithm ) != 1 ) {
       stop( "argument 'algorithm' must be a single function",
          " or a single character string" )
@@ -43,7 +44,9 @@ pmvnormWrap <- function( lower = -Inf, upper = Inf, sigma, algorithm,
          algOkay <- FALSE
       }
    } else if( is.character( algorithm ) ) {
-      if( ! algorithm %in% c( "GenzBretz", "Miwa", "TVPACK" ) ) {
+      if( tolower( algorithm ) == "ghk" ) {
+         ghk <- TRUE
+      } else if( ! algorithm %in% c( "GenzBretz", "Miwa", "TVPACK" ) ) {
          algOkay <- FALSE
       }
    } else if( ! class( algorithm ) %in% c( "GenzBretz", "Miwa", "TVPACK" ) ) { 
@@ -80,9 +83,28 @@ pmvnormWrap <- function( lower = -Inf, upper = Inf, sigma, algorithm,
       on.exit( rm( .Random.seed, envir = sys.frame() ) )
    }
 
-
-   result <- pmvnorm( lower = lower, upper = upper, sigma = sigma,
-      algorithm = algorithm, ... )
+   if( ghk ) {
+      L <- t( chol( sigma ) )
+      trunpt <- rep( NA, length( lower ) )
+      above <- rep( NA, length( lower ) )
+      for( i in 1:length( lower ) ) {
+         if( lower[ i ] == -Inf ) {
+            trunpt[ i ] <- upper[ i ]
+            above[ i ] <- 1
+         } else if( upper[ i ] == Inf ) {
+            trunpt[ i ] <- lower[ i ]
+            above[ i ] <- 0
+         } else {
+            stop( "if algorithm 'ghk' is used,",
+               " either the lower truncation point must be '-Inf'",
+               " or the upper truncation point must be'Inf'" )
+         }
+      }
+      result <- ghkvec( L = L, trunpt = trunpt, above = above, ... )
+   } else {
+      result <- pmvnorm( lower = lower, upper = upper, sigma = sigma,
+         algorithm = algorithm, ... )
+   }
 
    return( result )
 }

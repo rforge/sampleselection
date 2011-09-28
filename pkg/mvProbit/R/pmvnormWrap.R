@@ -94,7 +94,11 @@ pmvnormWrap <- function( lower = -Inf, upper = Inf, sigma, algorithm,
       } else if( nGHK <= 0 ) {
          stop( "argument 'nGHK' must be positive" )
       }
-      L <- t( chol( sigma ) )
+      L <- try( t( chol( sigma ) ), silent = TRUE )
+      if( class( L ) == "try-error" ) {
+         warning( "the correlation matrix is not positive definite" )
+         return( NA )
+      }
       trunpt <- rep( NA, length( lower ) )
       above <- rep( NA, length( lower ) )
       for( i in 1:length( lower ) ) {

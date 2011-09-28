@@ -84,7 +84,7 @@ all.equal( estResultBFGS, estResultBFGSm )
 estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    coef = c( beta ), sigma = sigma, 
    data = as.data.frame( cbind( xMat, yMat ) ), 
-   method = "BFGS", tol = 0.5, algorithm = "GHK", nGHK = 1000 )
+   method = "BFGS", tol = 0.5, algorithm = "GHK" )
 summary( estResultBFGSg )
 all.equal( estResultBFGS, estResultBFGSg )
 all.equal( estResultBFGSm, estResultBFGSg )

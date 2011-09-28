@@ -140,7 +140,7 @@ Loading required package: bayesm
 > # now with integrals obtained by the GHK algorithm
 > yExpCond8 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
-+    algorithm = "GHK", nGHK = 1000 )
++    algorithm = "GHK" )
 > all.equal( yExpCond, yExpCond8 )
 [1] "Component 1: Mean relative difference: 0.002370084"
 [2] "Component 2: Mean relative difference: 0.005788364"
@@ -231,7 +231,7 @@ Loading required package: bayesm
 > # now with integrals obtained by the GHK algorithm
 > yExpCondObs8 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-+    cond = TRUE, algorithm = "GHK", nGHK = 1000 )
++    cond = TRUE, algorithm = "GHK" )
 > all.equal( yExpCondObs, yExpCondObs8 )
 [1] "Component 1: Mean relative difference: 0.002650961"
 [2] "Component 2: Mean relative difference: 0.002438056"
@@ -326,7 +326,7 @@ Loading required package: bayesm
 > # now with integrals obtained by the GHK algorithm
 > logLikVal8 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-+    algorithm = "GHK", nGHK = 1000 )
++    algorithm = "GHK" )
 > all.equal( logLikVal, logLikVal8 )
 [1] "Mean relative difference: 0.002220837"
 > # now with integrals obtained by the GHK algorithm, less precise
@@ -647,7 +647,7 @@ attr(,"gradient")
 > # now with integrals obtained by the GHK algorithm
 > margEffCond2 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
-+    algorithm = "GHK", nGHK = 1000 )
++    algorithm = "GHK" )
 > print( margEffCond2 )
       d_y1_d_x1  d_y2_d_x1  d_y3_d_x1    d_y1_d_x2  d_y2_d_x2  d_y3_d_x2
 1  0.4120204907 0.12496054 -0.3601937 -0.229275444 0.24656096 -0.1264859
@@ -826,7 +826,7 @@ attr(,"gradient")
 > # now with integrals obtained by the GHK algorithm
 > margEffCondObs2 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-+    cond = TRUE, algorithm = "GHK", nGHK = 1000 )
++    cond = TRUE, algorithm = "GHK" )
 > print( margEffCondObs2 )
      d_y1_d_x1  d_y2_d_x1   d_y3_d_x1   d_y1_d_x2  d_y2_d_x2   d_y3_d_x2
 1  0.171936166 0.20319620 -0.12385679 -0.09574408 0.22370224 -0.17465581

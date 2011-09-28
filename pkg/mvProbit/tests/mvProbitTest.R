@@ -77,6 +77,16 @@ yExpCond7 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ),
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
    algorithm = TVPACK( abseps = 0.5 ) )
 all.equal( yExpCond6, yExpCond7 )
+# now with integrals obtained by the GHK algorithm
+yExpCond8 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = "GHK", nGHK = 1000 )
+all.equal( yExpCond, yExpCond8 )
+# now with integrals obtained by the GHK algorithm, less precise
+yExpCond9 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = "GHK", nGHK = 100 )
+all.equal( yExpCond8, yExpCond9 )
 
 
 # conditional expectations of dependent variables
@@ -126,6 +136,16 @@ yExpCondObs7 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    cond = TRUE, algorithm = TVPACK( abseps = 0.5 ) )
 all.equal( yExpCondObs6, yExpCondObs7 )
+# now with integrals obtained by the GHK algorithm
+yExpCondObs8 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   cond = TRUE, algorithm = "GHK", nGHK = 1000 )
+all.equal( yExpCondObs, yExpCondObs8 )
+# now with integrals obtained by the GHK algorithm, less precise
+yExpCondObs9 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   cond = TRUE, algorithm = "GHK", nGHK = 100 )
+all.equal( yExpCondObs8, yExpCondObs9 )
 
 
 # unconditional expectations of dependent variables by simulation
@@ -174,6 +194,16 @@ logLikVal7 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    algorithm = TVPACK( abseps = 0.5 ) )
 all.equal( logLikVal6, logLikVal7 )
+# now with integrals obtained by the GHK algorithm
+logLikVal8 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   algorithm = "GHK", nGHK = 1000 )
+all.equal( logLikVal, logLikVal8 )
+# now with integrals obtained by the GHK algorithm, less precise
+logLikVal9 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   algorithm = "GHK", nGHK = 100 )
+all.equal( logLikVal8, logLikVal9 )
 
 # calculating log likelihood value(s) with one-sided gradients
 logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
@@ -222,6 +252,20 @@ margEffCond1 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ),
    algorithm = Miwa( steps = 32 ) )
 print( margEffCond1 )
 all.equal( margEffCond, margEffCond1 )
+# now with integrals obtained by the GHK algorithm
+margEffCond2 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = "GHK", nGHK = 1000 )
+print( margEffCond2 )
+all.equal( margEffCond, margEffCond2 )
+all.equal( margEffCond1, margEffCond2 )
+# now with integrals obtained by the GHK algorithm, reduced precision
+margEffCond3 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = "GHK", nGHK = 100 )
+print( margEffCond3 )
+all.equal( margEffCond, margEffCond3 )
+all.equal( margEffCond2, margEffCond3 )
 
 # for testing state of random number generator
 rnorm( 4 )
@@ -238,6 +282,13 @@ margEffCondObs1 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    cond = TRUE, algorithm = Miwa( steps = 32 ) )
 print( margEffCondObs1 )
 all.equal( margEffCondObs, margEffCondObs1 )
+# now with integrals obtained by the GHK algorithm
+margEffCondObs2 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   cond = TRUE, algorithm = "GHK", nGHK = 1000 )
+print( margEffCondObs2 )
+all.equal( margEffCondObs, margEffCondObs2 )
+all.equal( margEffCondObs1, margEffCondObs2 )
 
 # for testing state of random number generator
 rnorm( 4 )

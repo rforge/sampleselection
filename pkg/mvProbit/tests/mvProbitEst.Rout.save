@@ -204,6 +204,47 @@ R_2_3 -0.282207   2.570677 -0.1098  0.9126
 [4] "Component 4: Mean relative difference: 0.003871351" 
 [5] "Component 12: Mean relative difference: 0.007541031"
 > 
+> # estimation with the BFGS algorithm, GHK algorithm for obtaining integrals
+> estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
++    coef = c( beta ), sigma = sigma, 
++    data = as.data.frame( cbind( xMat, yMat ) ), 
++    method = "BFGS", tol = 0.5, algorithm = "GHK", nGHK = 1000 )
+There were 25 warnings (use warnings() to see them)
+> summary( estResultBFGSg )
+--------------------------------------------
+Maximum Likelihood estimation
+BFGS maximisation, 3 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -17.72996 
+12  free parameters
+Estimates:
+       Estimate Std. error t value Pr(> t)
+b_1_0  1.515554   6.185297  0.2450  0.8064
+b_1_1  1.505228  83.794696  0.0180  0.9857
+b_1_2  0.162604   4.418271  0.0368  0.9706
+b_2_0 -0.093417   4.708315 -0.0198  0.9842
+b_2_1  1.126166   6.625067  0.1700  0.8650
+b_2_2 -2.072191   7.836487 -0.2644  0.7914
+b_3_0  0.028887   2.422034  0.0119  0.9905
+b_3_1 -1.044468   5.098271 -0.2049  0.8377
+b_3_2  1.846090   4.943231  0.3735  0.7088
+R_1_2 -0.046035  13.929329 -0.0033  0.9974
+R_1_3  0.690172  14.841708  0.0465  0.9629
+R_2_3 -0.278189   2.611483 -0.1065  0.9152
+--------------------------------------------
+> all.equal( estResultBFGS, estResultBFGSg )
+[1] "Component 1: Mean relative difference: 0.0003035231"
+[2] "Component 2: Mean relative difference: 0.004366114" 
+[3] "Component 3: Mean relative difference: 0.02611223"  
+[4] "Component 4: Mean relative difference: 0.02883231"  
+[5] "Component 12: Mean relative difference: 0.01938866" 
+> all.equal( estResultBFGSm, estResultBFGSg )
+[1] "Component 1: Mean relative difference: 0.0002923772"
+[2] "Component 2: Mean relative difference: 0.004368296" 
+[3] "Component 3: Mean relative difference: 0.02572386"  
+[4] "Component 4: Mean relative difference: 0.0277166"   
+[5] "Component 12: Mean relative difference: 0.02264157" 
+> 
 > # estimation with the Nelder-Mead algorithm
 > estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    coef = c( beta ), sigma = sigma, 

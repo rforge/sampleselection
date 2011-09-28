@@ -137,6 +137,22 @@ Loading required package: bayesm
 [1] "Component 1: Mean relative difference: 0.03017515"
 [2] "Component 2: Mean relative difference: 0.04273065"
 [3] "Component 3: Mean relative difference: 0.0424229" 
+> # now with integrals obtained by the GHK algorithm
+> yExpCond8 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = "GHK", nGHK = 1000 )
+> all.equal( yExpCond, yExpCond8 )
+[1] "Component 1: Mean relative difference: 0.002370084"
+[2] "Component 2: Mean relative difference: 0.005788364"
+[3] "Component 3: Mean relative difference: 0.005552991"
+> # now with integrals obtained by the GHK algorithm, less precise
+> yExpCond9 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = "GHK", nGHK = 100 )
+> all.equal( yExpCond8, yExpCond9 )
+[1] "Component 1: Mean relative difference: 0.089207"  
+[2] "Component 2: Mean relative difference: 0.05716181"
+[3] "Component 3: Mean relative difference: 0.0646556" 
 > 
 > 
 > # conditional expectations of dependent variables
@@ -212,6 +228,22 @@ Loading required package: bayesm
 [1] "Component 1: Mean relative difference: 0.05130138"
 [2] "Component 2: Mean relative difference: 0.04744355"
 [3] "Component 3: Mean relative difference: 0.02586555"
+> # now with integrals obtained by the GHK algorithm
+> yExpCondObs8 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    cond = TRUE, algorithm = "GHK", nGHK = 1000 )
+> all.equal( yExpCondObs, yExpCondObs8 )
+[1] "Component 1: Mean relative difference: 0.002650961"
+[2] "Component 2: Mean relative difference: 0.002438056"
+[3] "Component 3: Mean relative difference: 0.00287644" 
+> # now with integrals obtained by the GHK algorithm, less precise
+> yExpCondObs9 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    cond = TRUE, algorithm = "GHK", nGHK = 100 )
+> all.equal( yExpCondObs8, yExpCondObs9 )
+[1] "Component 1: Mean relative difference: 0.01486969"
+[2] "Component 2: Mean relative difference: 0.0173985" 
+[3] "Component 3: Mean relative difference: 0.01629308"
 > 
 > 
 > # unconditional expectations of dependent variables by simulation
@@ -291,6 +323,18 @@ Loading required package: bayesm
 +    algorithm = TVPACK( abseps = 0.5 ) )
 > all.equal( logLikVal6, logLikVal7 )
 [1] "Mean relative difference: 0.05527167"
+> # now with integrals obtained by the GHK algorithm
+> logLikVal8 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    algorithm = "GHK", nGHK = 1000 )
+> all.equal( logLikVal, logLikVal8 )
+[1] "Mean relative difference: 0.002220837"
+> # now with integrals obtained by the GHK algorithm, less precise
+> logLikVal9 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    algorithm = "GHK", nGHK = 100 )
+> all.equal( logLikVal8, logLikVal9 )
+[1] "Mean relative difference: 0.01480876"
 > 
 > # calculating log likelihood value(s) with one-sided gradients
 > logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
@@ -600,6 +644,112 @@ attr(,"gradient")
 [10] "Component 10: Mean relative difference: 0.0001675277"
 [11] "Component 11: Mean relative difference: 0.0001336327"
 [12] "Component 12: Mean relative difference: 0.0001409385"
+> # now with integrals obtained by the GHK algorithm
+> margEffCond2 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = "GHK", nGHK = 1000 )
+> print( margEffCond2 )
+      d_y1_d_x1  d_y2_d_x1  d_y3_d_x1    d_y1_d_x2  d_y2_d_x2  d_y3_d_x2
+1  0.4120204907 0.12496054 -0.3601937 -0.229275444 0.24656096 -0.1264859
+2  0.3105789512 0.17860492 -0.2207353 -0.252699622 0.23756523 -0.1745610
+3  0.2665383992 0.23025645 -0.3837299 -0.358474059 0.23147649 -0.1489714
+4  0.3737016708 0.27812532 -0.3561175 -0.347728634 0.26481716 -0.1576515
+5  0.4399322754 0.27239142 -0.2624700 -0.321660167 0.26420615 -0.1646125
+6  0.1334041757 0.05757852 -0.3838745 -0.271187377 0.06238751 -0.1099318
+7  0.1211635205 0.14620921 -0.1616811 -0.009995845 0.11350228 -0.1592700
+8  0.0497739112 0.35482588 -0.2353584 -0.205476715 0.24033985 -0.1801000
+9  0.5582196873 0.04588147 -0.1163612 -0.322752953 0.07726908 -0.1033954
+10 0.0006320436 0.23387574 -0.1340470 -0.006734245 0.11167712 -0.1708361
+      d_y1_d_x3   d_y2_d_x3 d_y3_d_x3    d_y1_d_x4   d_y2_d_x4 d_y3_d_x4
+1  0.1763299124 -0.35336690 0.2233966 -0.146608979 -0.33322866 0.6039101
+2  0.4709427048 -0.39474822 0.2424568 -0.401220334 -0.41533126 0.4972206
+3  0.4403126676 -0.33958467 0.2354779 -0.380063996 -0.33216145 0.5723273
+4  0.5203984290 -0.45373956 0.2448886 -0.414046787 -0.45507118 0.5682299
+5  0.3330012417 -0.50703990 0.2835796 -0.224241436 -0.57213943 0.4910794
+6  0.2532455360 -0.05821538 0.1579588 -0.279259651 -0.06532844 0.3858571
+7  0.0390976682 -0.31144596 0.3059117 -0.022992332 -0.40247246 0.3630267
+8  0.1510299701 -0.38761700 0.2909536 -0.092205023 -0.47013102 0.4115833
+9  0.3606962506 -0.07810202 0.1413356 -0.395142890 -0.08668238 0.3341350
+10 0.0008025023 -0.15020695 0.1921428 -0.002065605 -0.20061813 0.2067482
+> all.equal( margEffCond, margEffCond2 )
+ [1] "Component 1: Mean relative difference: 0.007274846" 
+ [2] "Component 2: Mean relative difference: 0.03747971"  
+ [3] "Component 3: Mean relative difference: 0.003518855" 
+ [4] "Component 4: Mean relative difference: 0.003813365" 
+ [5] "Component 5: Mean relative difference: 0.007335713" 
+ [6] "Component 6: Mean relative difference: 0.01250843"  
+ [7] "Component 7: Mean relative difference: 0.004478868" 
+ [8] "Component 8: Mean relative difference: 0.009787095" 
+ [9] "Component 9: Mean relative difference: 0.01291233"  
+[10] "Component 10: Mean relative difference: 0.003706652"
+[11] "Component 11: Mean relative difference: 0.02416913" 
+[12] "Component 12: Mean relative difference: 0.004914305"
+> all.equal( margEffCond1, margEffCond2 )
+ [1] "Component 1: Mean relative difference: 0.007302638" 
+ [2] "Component 2: Mean relative difference: 0.03747545"  
+ [3] "Component 3: Mean relative difference: 0.003532005" 
+ [4] "Component 4: Mean relative difference: 0.00395168"  
+ [5] "Component 5: Mean relative difference: 0.006977384" 
+ [6] "Component 6: Mean relative difference: 0.01267949"  
+ [7] "Component 7: Mean relative difference: 0.004478342" 
+ [8] "Component 8: Mean relative difference: 0.009775401" 
+ [9] "Component 9: Mean relative difference: 0.01282563"  
+[10] "Component 10: Mean relative difference: 0.003641365"
+[11] "Component 11: Mean relative difference: 0.02411041" 
+[12] "Component 12: Mean relative difference: 0.004893426"
+> # now with integrals obtained by the GHK algorithm, reduced precision
+> margEffCond3 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = "GHK", nGHK = 100 )
+> print( margEffCond3 )
+    d_y1_d_x1   d_y2_d_x1  d_y3_d_x1    d_y1_d_x2  d_y2_d_x2   d_y3_d_x2
+1  0.35706025  0.07834237 -0.3573599 -0.217914737 0.24204995 -0.12187035
+2  0.17842058  0.10430154 -0.2112069 -0.232255861 0.22509394 -0.16275834
+3  0.24645348  0.20573628 -0.3913875 -0.333771538 0.22470462 -0.14101272
+4  0.34468065  0.25552160 -0.3654151 -0.321372456 0.25714440 -0.14868069
+5  0.39531390  0.25352172 -0.2730576 -0.296051054 0.25561012 -0.15513685
+6  0.11925400  0.01643885 -0.3810721 -0.247448071 0.05157318 -0.10229342
+7  0.10840916  0.13399605 -0.1617170 -0.005700740 0.10456385 -0.15496986
+8  0.02747604  0.32724239 -0.2326725 -0.183705309 0.22932867 -0.16951149
+9  0.37473790 -0.06742030 -0.1067990 -0.290665859 0.06543780 -0.09456364
+10 0.02095092  0.21903350 -0.1224342 -0.005313354 0.10231193 -0.16701680
+     d_y1_d_x3   d_y2_d_x3 d_y3_d_x3   d_y1_d_x4    d_y2_d_x4 d_y3_d_x4
+1   0.16817105 -0.34301441 0.2182270 -0.13517345 -0.296424705 0.6083034
+2   0.43073787 -0.37331845 0.2244791 -0.29583700 -0.345586212 0.4849186
+3   0.41205924 -0.32545153 0.2246944 -0.32971272 -0.279847270 0.5686308
+4   0.48497682 -0.43971853 0.2322381 -0.35294054 -0.406603074 0.5674606
+5   0.30018498 -0.48736224 0.2677792 -0.16964584 -0.530957962 0.4937718
+6   0.23046155 -0.03469404 0.1472323 -0.23448731  0.018303024 0.3692521
+7   0.02676862 -0.28930258 0.2928207 -0.02104248 -0.371619725 0.3545769
+8   0.12347183 -0.36592513 0.2741515 -0.06717796 -0.435908310 0.4095904
+9   0.32456657 -0.05199358 0.1296053 -0.31719931  0.008670741 0.3163796
+10 -0.02408396 -0.13771422 0.1783179 -0.04203884 -0.184218486 0.1853459
+> all.equal( margEffCond, margEffCond3 )
+ [1] "Component 1: Mean relative difference: 0.1950758"  
+ [2] "Component 2: Mean relative difference: 0.1761965"  
+ [3] "Component 3: Mean relative difference: 0.02485851" 
+ [4] "Component 4: Mean relative difference: 0.0796093"  
+ [5] "Component 5: Mean relative difference: 0.04275513" 
+ [6] "Component 6: Mean relative difference: 0.04227655" 
+ [7] "Component 7: Mean relative difference: 0.09482927" 
+ [8] "Component 8: Mean relative difference: 0.05197425" 
+ [9] "Component 9: Mean relative difference: 0.04356983" 
+[10] "Component 10: Mean relative difference: 0.19926"   
+[11] "Component 11: Mean relative difference: 0.1322209" 
+[12] "Component 12: Mean relative difference: 0.01804595"
+> all.equal( margEffCond2, margEffCond3 )
+ [1] "Component 1: Mean relative difference: 0.2002449"  
+ [2] "Component 2: Mean relative difference: 0.205957"   
+ [3] "Component 3: Mean relative difference: 0.02547425" 
+ [4] "Component 4: Mean relative difference: 0.0824537"  
+ [5] "Component 5: Mean relative difference: 0.04972607" 
+ [6] "Component 6: Mean relative difference: 0.05214635" 
+ [7] "Component 7: Mean relative difference: 0.0977991"  
+ [8] "Component 8: Mean relative difference: 0.06116274" 
+ [9] "Component 9: Mean relative difference: 0.05545767" 
+[10] "Component 10: Mean relative difference: 0.2004108" 
+[11] "Component 11: Mean relative difference: 0.1526995" 
+[12] "Component 12: Mean relative difference: 0.02031045"
 > 
 > # for testing state of random number generator
 > rnorm( 4 )
@@ -673,6 +823,59 @@ attr(,"gradient")
 [10] "Component 10: Mean relative difference: 0.0001883154"
 [11] "Component 11: Mean relative difference: 9.769836e-05"
 [12] "Component 12: Mean relative difference: 0.0002334694"
+> # now with integrals obtained by the GHK algorithm
+> margEffCondObs2 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    cond = TRUE, algorithm = "GHK", nGHK = 1000 )
+> print( margEffCondObs2 )
+     d_y1_d_x1  d_y2_d_x1   d_y3_d_x1   d_y1_d_x2  d_y2_d_x2   d_y3_d_x2
+1  0.171936166 0.20319620 -0.12385679 -0.09574408 0.22370224 -0.17465581
+2  0.453157362 0.18439423 -0.10283446 -0.37163716 0.26656087 -0.08523642
+3  0.097192904 0.34196383 -0.20081480 -0.27731868 0.23042466 -0.12837050
+4  0.182458672 0.22196631 -0.35611755 -0.34922234 0.24661637 -0.15765146
+5  0.393051825 0.26378595 -0.22398993 -0.32020864 0.25177381 -0.13460512
+6  0.024141688 0.14342864 -0.07114934 -0.13289707 0.06960894 -0.06155653
+7  0.250013279 0.14620921 -0.14248645 -0.02546471 0.11350228 -0.12521680
+8  0.108800624 0.35482588 -0.23693885 -0.28378378 0.24033985 -0.14898713
+9  0.305041489 0.02885883 -0.02407495 -0.21064980 0.08259898 -0.05162190
+10 0.002907119 0.23387574 -0.11614252 -0.01743434 0.11167712 -0.13772572
+     d_y1_d_x3   d_y2_d_x3  d_y3_d_x3    d_y1_d_x4   d_y2_d_x4  d_y3_d_x4
+1  0.049408838 -0.38510771 0.24239683 -0.035705096 -0.50160122 0.29597065
+2  0.518101828 -0.42562594 0.13175546 -0.342035096 -0.46653179 0.27157938
+3  0.240723824 -0.35806888 0.19221868 -0.169514598 -0.43268421 0.29865874
+4  0.379363635 -0.37358331 0.24488855 -0.263632734 -0.35576345 0.56822990
+5  0.531838523 -0.52280315 0.23325027 -0.392204564 -0.53736075 0.45497010
+6  0.077871052 -0.07506461 0.06422631 -0.052702503 -0.09572552 0.08269845
+7  0.085831917 -0.31144596 0.25442557 -0.069814273 -0.40247246 0.33165944
+8  0.252832306 -0.38761700 0.23844918 -0.188497670 -0.47013102 0.37789393
+9  0.152396701 -0.08874065 0.05695896 -0.100362821 -0.11068513 0.08053555
+10 0.003382784 -0.15020695 0.14718417 -0.007893238 -0.20061813 0.16419322
+> all.equal( margEffCondObs, margEffCondObs2 )
+ [1] "Component 1: Mean relative difference: 0.005543512" 
+ [2] "Component 2: Mean relative difference: 0.007674393" 
+ [3] "Component 3: Mean relative difference: 0.008961165" 
+ [4] "Component 4: Mean relative difference: 0.003050649" 
+ [5] "Component 5: Mean relative difference: 0.00184501"  
+ [6] "Component 6: Mean relative difference: 0.002549041" 
+ [7] "Component 7: Mean relative difference: 0.005124567" 
+ [8] "Component 8: Mean relative difference: 0.002339987" 
+ [9] "Component 9: Mean relative difference: 0.00553783"  
+[10] "Component 10: Mean relative difference: 0.008996774"
+[11] "Component 11: Mean relative difference: 0.005854874"
+[12] "Component 12: Mean relative difference: 0.007158026"
+> all.equal( margEffCondObs1, margEffCondObs2 )
+ [1] "Component 1: Mean relative difference: 0.005627834" 
+ [2] "Component 2: Mean relative difference: 0.007624478" 
+ [3] "Component 3: Mean relative difference: 0.009017387" 
+ [4] "Component 4: Mean relative difference: 0.003117591" 
+ [5] "Component 5: Mean relative difference: 0.001876911" 
+ [6] "Component 6: Mean relative difference: 0.002632088" 
+ [7] "Component 7: Mean relative difference: 0.005154238" 
+ [8] "Component 8: Mean relative difference: 0.002203599" 
+ [9] "Component 9: Mean relative difference: 0.005525474" 
+[10] "Component 10: Mean relative difference: 0.009180781"
+[11] "Component 11: Mean relative difference: 0.00593697" 
+[12] "Component 12: Mean relative difference: 0.007245035"
 > 
 > # for testing state of random number generator
 > rnorm( 4 )

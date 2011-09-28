@@ -1,5 +1,5 @@
 pmvnormWrap <- function( lower = -Inf, upper = Inf, sigma, algorithm, 
-   random.seed, ... ) {
+   random.seed, nGHK = NULL, ... ) {
 
    # checking argument 'sigma'
    if( !is.matrix( sigma ) ) {
@@ -84,6 +84,16 @@ pmvnormWrap <- function( lower = -Inf, upper = Inf, sigma, algorithm,
    }
 
    if( ghk ) {
+      if( is.null( nGHK ) ) {
+         stop( "if the GHK algorithm is used,",
+            " argument 'nGHK' must be specified" )
+      } else if( length( nGHK ) != 1 ) {
+         stop( "argument 'nGHK' must be a single integer value" )
+      } else if( !is.numeric( nGHK ) ) {
+         stop( "argument 'nGHK' must be numeric" )
+      } else if( nGHK <= 0 ) {
+         stop( "argument 'nGHK' must be positive" )
+      }
       L <- t( chol( sigma ) )
       trunpt <- rep( NA, length( lower ) )
       above <- rep( NA, length( lower ) )
@@ -95,12 +105,12 @@ pmvnormWrap <- function( lower = -Inf, upper = Inf, sigma, algorithm,
             trunpt[ i ] <- lower[ i ]
             above[ i ] <- 0
          } else {
-            stop( "if algorithm 'ghk' is used,",
+            stop( "if algorithm 'GHK' is used,",
                " either the lower truncation point must be '-Inf'",
-               " or the upper truncation point must be'Inf'" )
+               " or the upper truncation point must be 'Inf'" )
          }
       }
-      result <- ghkvec( L = L, trunpt = trunpt, above = above, ... )
+      result <- ghkvec( L = L, trunpt = trunpt, above = above, r = nGHK )
    } else {
       result <- pmvnorm( lower = lower, upper = upper, sigma = sigma,
          algorithm = algorithm, ... )

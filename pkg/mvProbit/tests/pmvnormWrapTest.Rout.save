@@ -78,7 +78,7 @@ attr(,"msg")
 > 
 > # GHK
 > pughk <- mvProbit:::pmvnormWrap( upper = upper, sigma = sigma, 
-+    algorithm = "ghk", random.seed = 123, r = 1000 )
++    algorithm = "ghk", random.seed = 123, nGHK = 1000 )
 > print( pughk )
 [1] 0.1361924
 > all.equal( pug, pughk, check.attributes = FALSE )
@@ -88,7 +88,7 @@ attr(,"msg")
 > 
 > # GHK, lower precision
 > pughk1 <- mvProbit:::pmvnormWrap( upper = upper, sigma = sigma, 
-+    algorithm = "ghk", random.seed = 123, r = 100 )
++    algorithm = "ghk", random.seed = 123, nGHK = 100 )
 > print( pughk1 )
 [1] 0.1266176
 > all.equal( pughk, pughk1, check.attributes = FALSE )
@@ -137,7 +137,7 @@ attr(,"msg")
 > 
 > # GHK
 > plghk <- mvProbit:::pmvnormWrap( lower = lower, sigma = sigma, 
-+    algorithm = "GHK", random.seed = 123, r = 1000 )
++    algorithm = "GHK", random.seed = 123, nGHK = 1000 )
 > print( plghk )
 [1] 0.2595157
 > all.equal( plg, plghk, check.attributes = FALSE )
@@ -173,7 +173,7 @@ attr(,"msg")
 > 
 > # GHK
 > pbghk <- mvProbit:::pmvnormWrap( lower = lower2, upper = upper2, sigma = sigma, 
-+    algorithm = "GHK", random.seed = 123, r = 1000 )
++    algorithm = "GHK", random.seed = 123, nGHK = 1000 )
 > print( pbghk )
 [1] 0.06256424
 > all.equal( pbg, pbghk, check.attributes = FALSE )

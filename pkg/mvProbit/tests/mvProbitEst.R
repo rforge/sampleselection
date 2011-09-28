@@ -56,22 +56,19 @@ all.equal( estResultBFGS, estResultBFGS1 )
 
 # estimation with the BFGS algorithm, one-sided gradients, no starting values
 estResultBFGS1a <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-   coef = NULL, sigma = NULL, 
    data = as.data.frame( cbind( xMat, yMat ) ), 
    method = "BFGS", tol = 0.5, oneSidedGrad = TRUE )
 summary( estResultBFGS1a )
 
 # estimation with the BFGS algorithm, one-sided gradients, no starting values for beta
 estResultBFGS1b <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-   coef = NULL, sigma = sigma, 
-   data = as.data.frame( cbind( xMat, yMat ) ), 
+   sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
    method = "BFGS", tol = 0.5, oneSidedGrad = TRUE )
 summary( estResultBFGS1b )
 
 # estimation with the BFGS algorithm, one-sided gradients, no starting values for sigma
 estResultBFGS1s <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-   coef = c( beta ), sigma = NULL, 
-   data = as.data.frame( cbind( xMat, yMat ) ), 
+   coef = c( beta ), data = as.data.frame( cbind( xMat, yMat ) ), 
    method = "BFGS", tol = 0.5, oneSidedGrad = TRUE )
 summary( estResultBFGS1s )
 

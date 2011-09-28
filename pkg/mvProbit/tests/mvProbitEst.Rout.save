@@ -26,7 +26,7 @@ Loading required package: bayesm
 > ## generate a simulated data set
 > set.seed( 123 )
 > # number of observations
-> nObs <- 25
+> nObs <- 50
 > 
 > # generate explanatory variables
 > xMat <- cbind( 
@@ -54,24 +54,26 @@ Loading required package: bayesm
 > summary( estResultBHHH )
 --------------------------------------------
 Maximum Likelihood estimation
-BHHH maximisation, 2 iterations
+BHHH maximisation, 1 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -19.97964 
+Log-Likelihood: -56.90544 
 12  free parameters
 Estimates:
-        Estimate Std. error t value Pr(> t)
-b_1_0  1.2547465  3.5067451  0.3578  0.7205
-b_1_1  1.5368589  3.6627174  0.4196  0.6748
-b_1_2 -1.0881467  2.8615862 -0.3803  0.7038
-b_2_0 -0.4738229  3.5550383 -0.1333  0.8940
-b_2_1  0.8005299  4.2449545  0.1886  0.8504
-b_2_2 -1.4075614  3.5740127 -0.3938  0.6937
-b_3_0  0.7876993  4.5334506  0.1738  0.8621
-b_3_1 -0.9546325  4.8335966 -0.1975  0.8434
-b_3_2  1.6618026  4.3234450  0.3844  0.7007
-R_1_2  0.0086193 27.3230134  0.0003  0.9997
-R_1_3  0.0560172 29.5060335  0.0019  0.9985
-R_2_3 -0.2677454  1.5071049 -0.1777  0.8590
+       Estimate Std. error t value Pr(> t)  
+b_1_0  1.025085   0.445480  2.3011 0.02139 *
+b_1_1  1.305364   0.735115  1.7757 0.07578 .
+b_1_2 -1.028087   0.688515 -1.4932 0.13539  
+b_2_0 -0.782477   0.387975 -2.0168 0.04371 *
+b_2_1  1.143185   0.530259  2.1559 0.03109 *
+b_2_2 -1.669378   0.813076 -2.0532 0.04006 *
+b_3_0  0.582290   0.641066  0.9083 0.36371  
+b_3_1 -0.696668   0.898180 -0.7756 0.43796  
+b_3_2  1.232833   0.624523  1.9740 0.04838 *
+R_1_2  0.863217  18.600710  0.0464 0.96299  
+R_1_3  0.360217   0.647118  0.5566 0.57777  
+R_2_3 -0.084062   0.349091 -0.2408 0.80971  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > 
 > # estimation with the BHHH algorithm, one-sided gradients
@@ -82,31 +84,32 @@ R_2_3 -0.2677454  1.5071049 -0.1777  0.8590
 > summary( estResultBHHH1 )
 --------------------------------------------
 Maximum Likelihood estimation
-BHHH maximisation, 2 iterations
+BHHH maximisation, 1 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -19.97965 
+Log-Likelihood: -56.90544 
 12  free parameters
 Estimates:
-       Estimate Std. error t value Pr(> t)
-b_1_0  1.254748   3.506820  0.3578  0.7205
-b_1_1  1.536860   3.662734  0.4196  0.6748
-b_1_2 -1.088148   2.861629 -0.3803  0.7038
-b_2_0 -0.473823   3.555059 -0.1333  0.8940
-b_2_1  0.800531   4.244961  0.1886  0.8504
-b_2_2 -1.407562   3.574006 -0.3938  0.6937
-b_3_0  0.787700   4.533453  0.1738  0.8621
-b_3_1 -0.954632   4.833593 -0.1975  0.8434
-b_3_2  1.661803   4.323437  0.3844  0.7007
-R_1_2  0.008617  27.323258  0.0003  0.9997
-R_1_3  0.056014  29.506141  0.0019  0.9985
-R_2_3 -0.267745   1.507106 -0.1777  0.8590
+       Estimate Std. error t value Pr(> t)  
+b_1_0  1.025085   0.445479  2.3011 0.02139 *
+b_1_1  1.305364   0.735114  1.7757 0.07578 .
+b_1_2 -1.028087   0.688514 -1.4932 0.13539  
+b_2_0 -0.782477   0.387972 -2.0168 0.04371 *
+b_2_1  1.143185   0.530259  2.1559 0.03109 *
+b_2_2 -1.669378   0.813066 -2.0532 0.04005 *
+b_3_0  0.582290   0.641063  0.9083 0.36371  
+b_3_1 -0.696668   0.898174 -0.7756 0.43796  
+b_3_2  1.232833   0.624522  1.9740 0.04838 *
+R_1_2  0.863217  18.600400  0.0464 0.96298  
+R_1_3  0.360217   0.647118  0.5566 0.57777  
+R_2_3 -0.084062   0.349090 -0.2408 0.80971  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > all.equal( estResultBHHH, estResultBHHH1 )
-[1] "Component 1: Mean relative difference: 1.952806e-07" 
-[2] "Component 2: Mean relative difference: 1.227404e-06" 
-[3] "Component 3: Mean relative difference: 2.706587e-06" 
-[4] "Component 4: Mean relative difference: 3.431986e-06" 
-[5] "Component 11: Mean relative difference: 1.433839e-06"
+[1] "Component 2: Mean relative difference: 1.181367e-07" 
+[2] "Component 3: Mean relative difference: 1.490048e-06" 
+[3] "Component 4: Mean relative difference: 4.756807e-07" 
+[4] "Component 11: Mean relative difference: 4.579023e-07"
 > 
 > # estimation with the BFGS algorithm, two-sided gradients
 > estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -116,24 +119,26 @@ R_2_3 -0.267745   1.507106 -0.1777  0.8590
 > summary( estResultBFGS )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS maximisation, 3 iterations
+BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
-Log-Likelihood: -17.72458 
+Log-Likelihood: -52.94456 
 12  free parameters
 Estimates:
-       Estimate Std. error t value Pr(> t)
-b_1_0  1.513736   7.180880  0.2108  0.8330
-b_1_1  1.504511  85.242988  0.0176  0.9859
-b_1_2  0.162218   4.775285  0.0340  0.9729
-b_2_0 -0.087664   4.608074 -0.0190  0.9848
-b_2_1  1.130689   6.504530  0.1738  0.8620
-b_2_2 -2.073874   7.755823 -0.2674  0.7892
-b_3_0  0.037553   2.402632  0.0156  0.9875
-b_3_1 -1.037517   5.096585 -0.2036  0.8387
-b_3_2  1.845308   4.991954  0.3697  0.7116
-R_1_2 -0.054026  16.907755 -0.0032  0.9975
-R_1_3  0.687921  17.404842  0.0395  0.9685
-R_2_3 -0.282151   2.602573 -0.1084  0.9137
+       Estimate Std. error t value Pr(> t)  
+b_1_0  0.536072   0.827086  0.6481 0.51689  
+b_1_1  1.161006   0.915152  1.2686 0.20457  
+b_1_2 -1.142125   0.938471 -1.2170 0.22360  
+b_2_0 -0.449522   0.792154 -0.5675 0.57040  
+b_2_1  1.054956   0.883984  1.1934 0.23271  
+b_2_2 -1.576239   0.731868 -2.1537 0.03126 *
+b_3_0  0.407511   0.488973  0.8334 0.40462  
+b_3_1 -0.854005   0.848706 -1.0062 0.31430  
+b_3_2  1.259584   0.680400  1.8512 0.06414 .
+R_1_2  0.294826   1.858166  0.1587 0.87393  
+R_1_3  0.328219   0.709232  0.4628 0.64352  
+R_2_3 -0.023818   0.344664 -0.0691 0.94491  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > 
 > # estimation with the BFGS algorithm, one-sided gradients
@@ -144,106 +149,114 @@ R_2_3 -0.282151   2.602573 -0.1084  0.9137
 > summary( estResultBFGS1 )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS maximisation, 3 iterations
+BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
-Log-Likelihood: -17.72458 
+Log-Likelihood: -52.94456 
 12  free parameters
 Estimates:
-       Estimate Std. error t value Pr(> t)
-b_1_0  1.513735   7.180876  0.2108  0.8330
-b_1_1  1.504510  85.242894  0.0176  0.9859
-b_1_2  0.162217   4.775274  0.0340  0.9729
-b_2_0 -0.087665   4.608089 -0.0190  0.9848
-b_2_1  1.130688   6.504546  0.1738  0.8620
-b_2_2 -2.073874   7.755843 -0.2674  0.7892
-b_3_0  0.037552   2.402636  0.0156  0.9875
-b_3_1 -1.037518   5.096594 -0.2036  0.8387
-b_3_2  1.845308   4.991959  0.3697  0.7116
-R_1_2 -0.054026  16.907725 -0.0032  0.9975
-R_1_3  0.687920  17.404783  0.0395  0.9685
-R_2_3 -0.282151   2.602580 -0.1084  0.9137
+       Estimate Std. error t value Pr(> t)  
+b_1_0  0.536071   0.827086  0.6481 0.51689  
+b_1_1  1.161006   0.915152  1.2686 0.20457  
+b_1_2 -1.142125   0.938471 -1.2170 0.22360  
+b_2_0 -0.449523   0.792154 -0.5675 0.57040  
+b_2_1  1.054956   0.883984  1.1934 0.23271  
+b_2_2 -1.576240   0.731868 -2.1537 0.03126 *
+b_3_0  0.407511   0.488973  0.8334 0.40462  
+b_3_1 -0.854005   0.848706 -1.0062 0.31430  
+b_3_2  1.259584   0.680400  1.8512 0.06414 .
+R_1_2  0.294826   1.858166  0.1587 0.87393  
+R_1_3  0.328219   0.709232  0.4628 0.64352  
+R_2_3 -0.023819   0.344664 -0.0691 0.94490  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > all.equal( estResultBFGS, estResultBFGS1 )
-[1] "Component 1: Mean relative difference: 2.570317e-08" 
-[2] "Component 2: Mean relative difference: 5.649916e-07" 
-[3] "Component 3: Mean relative difference: 1.685897e-06" 
-[4] "Component 4: Mean relative difference: 1.492822e-06" 
-[5] "Component 12: Mean relative difference: 1.033961e-06"
+[1] "Component 2: Mean relative difference: 3.039429e-07" 
+[2] "Component 3: Mean relative difference: 1.044097e-06" 
+[3] "Component 4: Mean relative difference: 4.568584e-07" 
+[4] "Component 12: Mean relative difference: 2.912419e-07"
 > 
 > # estimation with the BFGS algorithm, Miwa algorithm for obtaining integrals
 > estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    coef = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
 +    method = "BFGS", tol = 0.5, algorithm = Miwa( steps = 64 ) )
+Warning message:
+In log(pmvnormWrap(upper = xBetaTmp, sigma = sigmaTmp, algorithm = algorithm,  :
+  NaNs produced
 > summary( estResultBFGSm )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS maximisation, 3 iterations
+BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
-Log-Likelihood: -17.72478 
+Log-Likelihood: -52.94417 
 12  free parameters
 Estimates:
-       Estimate Std. error t value Pr(> t)
-b_1_0  1.513769   5.783963  0.2617  0.7935
-b_1_1  1.504531  83.690401  0.0180  0.9857
-b_1_2  0.162182   3.872580  0.0419  0.9666
-b_2_0 -0.087648   4.641751 -0.0189  0.9849
-b_2_1  1.130697   6.551045  0.1726  0.8630
-b_2_2 -2.073903   7.730438 -0.2683  0.7885
-b_3_0  0.037566   2.345371  0.0160  0.9872
-b_3_1 -1.037508   5.002497 -0.2074  0.8357
-b_3_2  1.845349   4.905000  0.3762  0.7068
-R_1_2 -0.053977  13.935429 -0.0039  0.9969
-R_1_3  0.687923  14.094734  0.0488  0.9611
-R_2_3 -0.282207   2.570677 -0.1098  0.9126
+       Estimate Std. error t value Pr(> t)  
+b_1_0  0.536085   0.827019  0.6482 0.51685  
+b_1_1  1.161016   0.915110  1.2687 0.20454  
+b_1_2 -1.142134   0.938373 -1.2171 0.22355  
+b_2_0 -0.449521   0.792153 -0.5675 0.57040  
+b_2_1  1.054959   0.883857  1.1936 0.23264  
+b_2_2 -1.576244   0.731730 -2.1541 0.03123 *
+b_3_0  0.407529   0.488936  0.8335 0.40456  
+b_3_1 -0.854000   0.848598 -1.0064 0.31424  
+b_3_2  1.259598   0.680236  1.8517 0.06407 .
+R_1_2  0.294913   1.857892  0.1587 0.87388  
+R_1_3  0.328185   0.709027  0.4629 0.64346  
+R_2_3 -0.023863   0.344684 -0.0692 0.94480  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > all.equal( estResultBFGS, estResultBFGSm )
-[1] "Component 1: Mean relative difference: 1.114266e-05"
-[2] "Component 2: Mean relative difference: 3.027101e-05"
-[3] "Component 3: Mean relative difference: 0.002953254" 
-[4] "Component 4: Mean relative difference: 0.003871351" 
-[5] "Component 12: Mean relative difference: 0.007541031"
+[1] "Component 1: Mean relative difference: 7.343945e-06"
+[2] "Component 2: Mean relative difference: 2.68304e-05" 
+[3] "Component 3: Mean relative difference: 0.0001800706"
+[4] "Component 4: Mean relative difference: 0.0001779414"
+[5] "Component 12: Mean relative difference: 0.000115282"
 > 
 > # estimation with the BFGS algorithm, GHK algorithm for obtaining integrals
 > estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    coef = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
 +    method = "BFGS", tol = 0.5, algorithm = "GHK", nGHK = 1000 )
-There were 25 warnings (use warnings() to see them)
+There were 50 or more warnings (use warnings() to see the first 50)
 > summary( estResultBFGSg )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS maximisation, 3 iterations
+BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
-Log-Likelihood: -17.72996 
+Log-Likelihood: -52.93771 
 12  free parameters
 Estimates:
-       Estimate Std. error t value Pr(> t)
-b_1_0  1.515554   6.185297  0.2450  0.8064
-b_1_1  1.505228  83.794696  0.0180  0.9857
-b_1_2  0.162604   4.418271  0.0368  0.9706
-b_2_0 -0.093417   4.708315 -0.0198  0.9842
-b_2_1  1.126166   6.625067  0.1700  0.8650
-b_2_2 -2.072191   7.836487 -0.2644  0.7914
-b_3_0  0.028887   2.422034  0.0119  0.9905
-b_3_1 -1.044468   5.098271 -0.2049  0.8377
-b_3_2  1.846090   4.943231  0.3735  0.7088
-R_1_2 -0.046035  13.929329 -0.0033  0.9974
-R_1_3  0.690172  14.841708  0.0465  0.9629
-R_2_3 -0.278189   2.611483 -0.1065  0.9152
+       Estimate Std. error t value Pr(> t)  
+b_1_0  0.535968   0.827294  0.6479 0.51708  
+b_1_1  1.160710   0.914403  1.2694 0.20431  
+b_1_2 -1.142391   0.938390 -1.2174 0.22345  
+b_2_0 -0.451755   0.806637 -0.5600 0.57545  
+b_2_1  1.053128   0.868607  1.2124 0.22535  
+b_2_2 -1.575703   0.706958 -2.2288 0.02582 *
+b_3_0  0.403853   0.487375  0.8286 0.40731  
+b_3_1 -0.857103   0.848213 -1.0105 0.31227  
+b_3_2  1.259769   0.678195  1.8575 0.06324 .
+R_1_2  0.295300   1.854909  0.1592 0.87351  
+R_1_3  0.324945   0.704493  0.4612 0.64462  
+R_2_3 -0.020848   0.346164 -0.0602 0.95198  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > all.equal( estResultBFGS, estResultBFGSg )
-[1] "Component 1: Mean relative difference: 0.0003035231"
-[2] "Component 2: Mean relative difference: 0.004366114" 
-[3] "Component 3: Mean relative difference: 0.02611223"  
-[4] "Component 4: Mean relative difference: 0.02883231"  
-[5] "Component 12: Mean relative difference: 0.01938866" 
+[1] "Component 1: Mean relative difference: 0.000129477"
+[2] "Component 2: Mean relative difference: 0.00208213" 
+[3] "Component 3: Mean relative difference: 0.01734211" 
+[4] "Component 4: Mean relative difference: 0.01316397" 
+[5] "Component 12: Mean relative difference: 0.00685237"
 > all.equal( estResultBFGSm, estResultBFGSg )
-[1] "Component 1: Mean relative difference: 0.0002923772"
-[2] "Component 2: Mean relative difference: 0.004368296" 
-[3] "Component 3: Mean relative difference: 0.02572386"  
-[4] "Component 4: Mean relative difference: 0.0277166"   
-[5] "Component 12: Mean relative difference: 0.02264157" 
+[1] "Component 1: Mean relative difference: 0.000122134" 
+[2] "Component 2: Mean relative difference: 0.002077232" 
+[3] "Component 3: Mean relative difference: 0.01738212"  
+[4] "Component 4: Mean relative difference: 0.01309901"  
+[5] "Component 12: Mean relative difference: 0.006838736"
 > 
 > # estimation with the Nelder-Mead algorithm
 > estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -253,24 +266,26 @@ R_2_3 -0.278189   2.611483 -0.1065  0.9152
 > summary( estResultNM )
 --------------------------------------------
 Maximum Likelihood estimation
-Nelder-Mead maximisation, 81 iterations
+Nelder-Mead maximisation, 13 iterations
 Return code 0: successful convergence 
-Log-Likelihood: -16.04052 
+Log-Likelihood: -56.94782 
 12  free parameters
 Estimates:
-      Estimate Std. error t value Pr(> t)
-b_1_0  0.79871    1.72020  0.4643  0.6424
-b_1_1  1.57992   13.83938  0.1142  0.9091
-b_1_2 -0.20764    1.06511 -0.1949  0.8454
-b_2_0 -0.21975    4.28384 -0.0513  0.9591
-b_2_1  1.29119    7.00440  0.1843  0.8537
-b_2_2 -3.12646    8.71888 -0.3586  0.7199
-b_3_0  0.03672    1.04293  0.0352  0.9719
-b_3_1 -0.63538    2.17229 -0.2925  0.7699
-b_3_2  1.55684    2.14574  0.7255  0.4681
-R_1_2  0.21991    7.79025  0.0282  0.9775
-R_1_3  0.69796    6.63945  0.1051  0.9163
-R_2_3  0.22466    3.16030  0.0711  0.9433
+      Estimate Std. error t value Pr(> t)  
+b_1_0  0.80000    1.05415  0.7589 0.44791  
+b_1_1  1.20000    0.74598  1.6086 0.10770  
+b_1_2 -0.80000    0.91854 -0.8710 0.38378  
+b_2_0 -0.44000    0.79679 -0.5522 0.58080  
+b_2_1  1.00000    0.87067  1.1485 0.25075  
+b_2_2 -1.60000    0.65779 -2.4324 0.01500 *
+b_3_0  0.50000    0.51509  0.9707 0.33170  
+b_3_1 -0.60000    0.77078 -0.7784 0.43631  
+b_3_2  1.20000    0.61086  1.9645 0.04948 *
+R_1_2  0.20000    2.41635  0.0828 0.93403  
+R_1_3  0.40000    0.73210  0.5464 0.58481  
+R_2_3 -0.10000    0.34158 -0.2928 0.76971  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > 
 > 

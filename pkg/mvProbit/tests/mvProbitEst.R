@@ -4,7 +4,7 @@ library( "miscTools" )
 ## generate a simulated data set
 set.seed( 123 )
 # number of observations
-nObs <- 25
+nObs <- 50
 
 # generate explanatory variables
 xMat <- cbind( 

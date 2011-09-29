@@ -21,6 +21,13 @@ Loading required package: maxLik
 Loading required package: miscTools
 > library( lmtest )
 Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following object(s) are masked from 'package:base':
+
+    as.Date
+
 > library( sandwich )
 > 
 > data( "Affairs", package = "AER" )

@@ -33,7 +33,7 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
       gradPartGhq[ obsAbove ] <-
          dnorm( likGhqInner[ obsAbove ] ) / sigmaNu
       gradPartGhq[ obsBetween ] <-
-         - ddnorm( likGhqInner[ obsBetween ] ) / sigmaNu^2
+         dnorm( likGhqInner[ obsBetween ] ) * likGhqInner[ obsBetween ] / sigmaNu^2
       # part of gradients with respect to beta
       for( i in 1:( length( beta ) - 2 ) ) {
          grad1LogIndArr[ , i, h ] <- log( ghqPoints$weights[ h ] ) +

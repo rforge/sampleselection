@@ -3,3 +3,7 @@ export( "mvProbitExp" )
 export( "mvProbitLogLik" )
 export( "mvProbitMargEff" )
 
+importFrom( "miscTools", "margEff" )
+
+S3method( "margEff", "mvProbit" )
+

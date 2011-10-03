@@ -1,8 +1,15 @@
 \name{mvProbitMargEff}
 \alias{mvProbitMargEff}
+\alias{margEff.mvProbit}
 \title{Marginal Effects based on Multivariate Probit Models}
 \description{
    Calculating marginal effects based on multivariate probit models.
+
+   The \code{margEff} method for objects of class \code{"mvProbit"}
+   is a wrapper function
+   that for the convenience of the user
+   extracts the relevant information from the estimation results
+   and then calls \code{mvProbitMargEff}.
 }
 
 \usage{
@@ -10,6 +17,9 @@ mvProbitMargEff( formula, coef, sigma, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, 
    eps = 1e-06, random.seed = 123,
    ... )
+
+\method{margEff}{mvProbit}( object, data = eval( object$call$data ),
+   othDepOne = FALSE, ... )
 }
 
 \arguments{
@@ -44,9 +54,18 @@ mvProbitMargEff( formula, coef, sigma, data,
       a (cumulative) probability of the multivariate normal distribution 
       is computed;
       defaults to 123.}
-   \item{\dots}{additional arguments are passed
+   \item{object}{an object of class \code{"mvProbit"}
+      (returned by \code{\link{mvProbit}}.}
+   \item{othDepOne}{logical. 
+      If \code{TRUE}, the marginal effects on the conditional expectations 
+      are calculated based on the assumption 
+      that all other dependent variables are one.}
+   \item{\dots}{additional arguments of \code{mvProbitMargEff} are passed
       to \code{\link[mvtnorm]{pmvnorm}}
-      when calculating conditional expectations.}
+      when calculating conditional expectations;
+      additional arguments of the \code{margEff} method are passed
+      to \code{mvProbitMargEff} 
+      (and possibly further to \code{\link[mvtnorm]{pmvnorm}}).}
 }
 
 \value{
@@ -59,7 +78,8 @@ mvProbitMargEff( formula, coef, sigma, data,
    the left-hand side of argument \code{formula} is ignored.
    When calculating marginal effects on unconditional expectations
    and argument \code{formula} is a one-sided formula
-   (i.e. only the right-hand side is specified),
+   (i.e. only the right-hand side is specified)
+   or argument \code{othDepOne} is \code{TRUE},
    the marginal effects on the conditional expectations 
    are calculated based on the assumption
    that all other dependent variables are one.

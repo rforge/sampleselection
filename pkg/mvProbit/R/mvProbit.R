@@ -122,8 +122,12 @@ mvProbit <- function( formula, data, coef = NULL, sigma = NULL,
       llOneSidedGrad = oneSidedGrad, llEps = eps, llRandom.seed = random.seed,
       nCoef = nCoef, nDep = nDep, ... )
 
-   # return also the call
+   # return also some other useful information
    result$call <- match.call()
+   result$start <- start
+   result$nDep <- nDep
+   result$nReg <- nReg
+   result$nObs <- nObs
 
    class( result ) <- c( "mvProbit", class( result ) )
 

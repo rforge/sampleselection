@@ -106,10 +106,11 @@ R_2_3 -0.084062   0.349090 -0.2408 0.80971
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > all.equal( estResultBHHH, estResultBHHH1 )
-[1] "Component 2: Mean relative difference: 1.181367e-07" 
-[2] "Component 3: Mean relative difference: 1.490048e-06" 
-[3] "Component 4: Mean relative difference: 4.756807e-07" 
-[4] "Component 11: Mean relative difference: 4.579023e-07"
+[1] "Component 2: Mean relative difference: 1.181367e-07"     
+[2] "Component 3: Mean relative difference: 1.490048e-06"     
+[3] "Component 4: Mean relative difference: 4.756807e-07"     
+[4] "Component 11: Mean relative difference: 4.579023e-07"    
+[5] "Component 12: target, current do not match when deparsed"
 > 
 > # estimation with the BFGS algorithm, two-sided gradients
 > estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -171,10 +172,11 @@ R_2_3 -0.023819   0.344664 -0.0691 0.94490
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > all.equal( estResultBFGS, estResultBFGS1 )
-[1] "Component 2: Mean relative difference: 3.039429e-07" 
-[2] "Component 3: Mean relative difference: 1.044097e-06" 
-[3] "Component 4: Mean relative difference: 4.568584e-07" 
-[4] "Component 12: Mean relative difference: 2.912419e-07"
+[1] "Component 2: Mean relative difference: 3.039429e-07"     
+[2] "Component 3: Mean relative difference: 1.044097e-06"     
+[3] "Component 4: Mean relative difference: 4.568584e-07"     
+[4] "Component 12: Mean relative difference: 2.912419e-07"    
+[5] "Component 13: target, current do not match when deparsed"
 > 
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values
 > estResultBFGS1a <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -296,11 +298,12 @@ R_2_3 -0.023863   0.344684 -0.0692 0.94480
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > all.equal( estResultBFGS, estResultBFGSm )
-[1] "Component 1: Mean relative difference: 7.343945e-06"
-[2] "Component 2: Mean relative difference: 2.68304e-05" 
-[3] "Component 3: Mean relative difference: 0.0001800706"
-[4] "Component 4: Mean relative difference: 0.0001779414"
-[5] "Component 12: Mean relative difference: 0.000115282"
+[1] "Component 1: Mean relative difference: 7.343945e-06"     
+[2] "Component 2: Mean relative difference: 2.68304e-05"      
+[3] "Component 3: Mean relative difference: 0.0001800706"     
+[4] "Component 4: Mean relative difference: 0.0001779414"     
+[5] "Component 12: Mean relative difference: 0.000115282"     
+[6] "Component 13: target, current do not match when deparsed"
 > 
 > # estimation with the BFGS algorithm, GHK algorithm for obtaining integrals
 > estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -333,17 +336,19 @@ R_2_3 -0.020848   0.346164 -0.0602 0.95198
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > all.equal( estResultBFGS, estResultBFGSg )
-[1] "Component 1: Mean relative difference: 0.000129477"
-[2] "Component 2: Mean relative difference: 0.00208213" 
-[3] "Component 3: Mean relative difference: 0.01734211" 
-[4] "Component 4: Mean relative difference: 0.01316397" 
-[5] "Component 12: Mean relative difference: 0.00685237"
+[1] "Component 1: Mean relative difference: 0.000129477"      
+[2] "Component 2: Mean relative difference: 0.00208213"       
+[3] "Component 3: Mean relative difference: 0.01734211"       
+[4] "Component 4: Mean relative difference: 0.01316397"       
+[5] "Component 12: Mean relative difference: 0.00685237"      
+[6] "Component 13: target, current do not match when deparsed"
 > all.equal( estResultBFGSm, estResultBFGSg )
-[1] "Component 1: Mean relative difference: 0.000122134" 
-[2] "Component 2: Mean relative difference: 0.002077232" 
-[3] "Component 3: Mean relative difference: 0.01738212"  
-[4] "Component 4: Mean relative difference: 0.01309901"  
-[5] "Component 12: Mean relative difference: 0.006838736"
+[1] "Component 1: Mean relative difference: 0.000122134"      
+[2] "Component 2: Mean relative difference: 0.002077232"      
+[3] "Component 3: Mean relative difference: 0.01738212"       
+[4] "Component 4: Mean relative difference: 0.01309901"       
+[5] "Component 12: Mean relative difference: 0.006838736"     
+[6] "Component 13: target, current do not match when deparsed"
 > 
 > # estimation with the Nelder-Mead algorithm
 > estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,

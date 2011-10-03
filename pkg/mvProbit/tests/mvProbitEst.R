@@ -1,5 +1,4 @@
 library( "mvProbit" )
-library( "miscTools" )
 
 ## generate a simulated data set
 set.seed( 123 )

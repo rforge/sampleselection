@@ -10,7 +10,7 @@
 
 \usage{
 mvProbit( formula, data, coef = NULL, sigma = NULL, 
-   method = "BHHH", finalHessian = "BHHH", 
+   method = "BFGS", finalHessian = "BHHH", 
    algorithm = GenzBretz(), nGHK = 1000, oneSidedGrad = FALSE, eps = 1e-6, 
    random.seed = 123, ... )
 }
@@ -105,7 +105,7 @@ mvProbit( formula, data, coef = NULL, sigma = NULL,
 ## generate a simulated data set
 set.seed( 123 )
 # number of observations
-nObs <- 25
+nObs <- 50
 
 # generate explanatory variables
 xMat <- cbind( 
@@ -127,12 +127,16 @@ yMatLin <- xMat \%*\% beta
 yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
 colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 
-# estimation with the BFGS algorithm
-estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
+# estimation (BFGS optimizer and Genz-Bretz algorithm)
+estResult <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
+   data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
+summary( estResult )
+
+# same estimation with user-defined starting values
+estResultStart <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    coef = c( beta ), sigma = sigma, 
-   data = as.data.frame( cbind( xMat, yMat ) ), 
-   method = "BFGS", tol = 0.5 )
-summary( estResultBFGS )
+   data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
+summary( estResultStart )
 }
 
 \keyword{models}

@@ -49,7 +49,7 @@ Loading required package: bayesm
 > 
 > # estimation with the BHHH algorithm, two-sided gradients
 > estResultBHHH <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    coef = c( beta ), sigma = sigma, 
++    coef = c( beta ), sigma = sigma, method = "BHHH",
 +    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
 > summary( estResultBHHH )
 --------------------------------------------
@@ -78,7 +78,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # estimation with the BHHH algorithm, one-sided gradients
 > estResultBHHH1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    coef = c( beta ), sigma = sigma, 
++    coef = c( beta ), sigma = sigma, method = "BHHH",
 +    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5,
 +    oneSidedGrad = TRUE )
 > summary( estResultBHHH1 )
@@ -115,7 +115,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    coef = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
-+    method = "BFGS", tol = 0.5 )
++    tol = 0.5 )
 > summary( estResultBFGS )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -145,7 +145,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > estResultBFGS1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    coef = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
-+    method = "BFGS", tol = 0.5, oneSidedGrad = TRUE )
++    tol = 0.5, oneSidedGrad = TRUE )
 > summary( estResultBFGS1 )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -179,7 +179,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values
 > estResultBFGS1a <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
-+    method = "BFGS", tol = 0.5, oneSidedGrad = TRUE )
++    tol = 0.5, oneSidedGrad = TRUE )
 > summary( estResultBFGS1a )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -208,7 +208,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values for beta
 > estResultBFGS1b <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
-+    method = "BFGS", tol = 0.5, oneSidedGrad = TRUE )
++    tol = 0.5, oneSidedGrad = TRUE )
 > summary( estResultBFGS1b )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -237,7 +237,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values for sigma
 > estResultBFGS1s <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    coef = c( beta ), data = as.data.frame( cbind( xMat, yMat ) ), 
-+    method = "BFGS", tol = 0.5, oneSidedGrad = TRUE )
++    tol = 0.5, oneSidedGrad = TRUE )
 > summary( estResultBFGS1s )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -267,7 +267,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    coef = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
-+    method = "BFGS", tol = 0.5, algorithm = Miwa( steps = 64 ) )
++    tol = 0.5, algorithm = Miwa( steps = 64 ) )
 Warning message:
 In log(pmvnormWrap(upper = xBetaTmp, sigma = sigmaTmp, algorithm = algorithm,  :
   NaNs produced
@@ -306,7 +306,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    coef = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
-+    method = "BFGS", tol = 0.5, algorithm = "GHK" )
++    tol = 0.5, algorithm = "GHK" )
 There were 50 or more warnings (use warnings() to see the first 50)
 > summary( estResultBFGSg )
 --------------------------------------------

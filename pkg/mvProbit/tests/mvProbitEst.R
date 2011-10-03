@@ -96,3 +96,16 @@ estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    method = "NM", reltol = 0.05 )
 summary( estResultNM )
 
+# marginal effects based on estimated coefficients
+# unconditional marginal effects
+margEff( estResultBFGS )
+
+# conditional marginal effects
+# (assuming that all other dependent variables are as observed)
+margEff( estResultBFGS, cond = TRUE )
+
+# conditional marginal effects
+# (assuming that all other dependent variables are one)
+margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE )
+
+

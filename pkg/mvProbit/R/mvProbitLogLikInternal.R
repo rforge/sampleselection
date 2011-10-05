@@ -97,6 +97,7 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
             grad[ , gradRow ] <- ( llTmp - result ) / eps
          }
       }
+      colnames( grad ) <- mvProbitCoefNames( nDep = nDep, nReg = nReg )
       attr( result, "gradient" ) <- grad
    }
 

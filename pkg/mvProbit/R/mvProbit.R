@@ -93,11 +93,7 @@ mvProbit <- function( formula, data, coef = NULL, sigma = NULL,
 
    # starting values
    start <- c( coef, sigma[ upper.tri( sigma ) ] )
-   names( start ) <- c( 
-      paste( "b", rep( 1:nDep, each = nReg ), rep( 0:(nReg-1), nDep ), 
-         sep = "_" ),
-      matrix( paste( "R", rep( 1:nDep, each = nDep ), rep( 1:nDep, nDep ),
-         sep = "_" ), nrow = nDep, byrow = TRUE )[ upper.tri( diag(nDep) ) ] )
+   names( start ) <- mvProbitCoefNames( nDep = nDep, nReg = nReg )
 
    # wrapper function for maxLik for calling mvProbitLogLikInternal
    logLik <- function( param, yMat, xMat, nCoef, nDep, 

@@ -3,6 +3,6 @@ mvProbitCoefNames <- function( nDep, nReg ) {
       paste( "b", rep( 1:nDep, each = nReg ), rep( 0:(nReg-1), nDep ), 
          sep = "_" ),
       matrix( paste( "R", rep( 1:nDep, each = nDep ), rep( 1:nDep, nDep ),
-         sep = "_" ), nrow = nDep, byrow = TRUE )[ upper.tri( diag(nDep) ) ] )
+         sep = "_" ), nrow = nDep )[ lower.tri( diag(nDep) ) ] )
    return( result )
 }

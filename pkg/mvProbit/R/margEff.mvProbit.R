@@ -4,8 +4,8 @@ margEff.mvProbit <- function( object, data = eval( object$call$data ),
    nCoef <- object$nDep * object$nReg
 
    sigma <- diag( object$nDep )
-   sigma[ upper.tri( sigma ) ] <- coef( object )[ -(1:nCoef) ]
-   sigma[ lower.tri( sigma ) ] <- t( sigma )[ lower.tri( sigma ) ]
+   sigma[ lower.tri( sigma ) ] <- coef( object )[ -(1:nCoef) ]
+   sigma[ upper.tri( sigma ) ] <- t( sigma )[ upper.tri( sigma ) ]
 
    formula <- eval( object$call$formula )
    if( othDepOne ) {

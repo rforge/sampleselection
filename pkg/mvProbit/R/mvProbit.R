@@ -92,7 +92,7 @@ mvProbit <- function( formula, data, coef = NULL, sigma = NULL,
    }
 
    # starting values
-   start <- c( coef, sigma[ upper.tri( sigma ) ] )
+   start <- c( coef, sigma[ lower.tri( sigma ) ] )
    names( start ) <- mvProbitCoefNames( nDep = nDep, nReg = nReg )
 
    # wrapper function for maxLik for calling mvProbitLogLikInternal
@@ -101,8 +101,8 @@ mvProbit <- function( formula, data, coef = NULL, sigma = NULL,
 
       coef <- param[ 1:nCoef ]
       sigma <- diag( nDep )
-      sigma[ upper.tri( sigma ) ] <- param[ -(1:nCoef) ]
-      sigma[ lower.tri( sigma ) ] <- t( sigma )[ lower.tri( sigma ) ]
+      sigma[ lower.tri( sigma ) ] <- param[ -(1:nCoef) ]
+      sigma[ upper.tri( sigma ) ] <- t( sigma )[ upper.tri( sigma ) ]
       
       logLikVal <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
          coef = coef, sigma = sigma, algorithm = llAlgorithm, nGHK = llNGHK,

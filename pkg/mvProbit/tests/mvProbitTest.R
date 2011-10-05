@@ -214,14 +214,14 @@ print( logLikValGrad )
 llTmp <- function( coef ) {
    betaTmp <- coef[ 1:15 ]
    sigmaTmp <- diag( 3 )
-   sigmaTmp[ upper.tri( sigmaTmp ) ] <- coef[ -(1:15) ]
-   sigmaTmp[ lower.tri( sigmaTmp ) ] <- t( sigmaTmp )[ lower.tri( sigmaTmp ) ]
+   sigmaTmp[ lower.tri( sigmaTmp ) ] <- coef[ -(1:15) ]
+   sigmaTmp[ upper.tri( sigmaTmp ) ] <- t( sigmaTmp )[ upper.tri( sigmaTmp ) ]
    result <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
       coef = betaTmp, sigma = sigmaTmp, 
       data = as.data.frame( cbind( xMat, yMat ) ) )
    return( result )
 }
-allCoef <- c( c( beta ), sigma[ upper.tri( sigma ) ] )
+allCoef <- c( c( beta ), sigma[ lower.tri( sigma ) ] )
 logLikValGrad2 <- numericGradient( llTmp, allCoef )
 print( logLikValGrad2 )
 attr( logLikValGrad, "gradient" ) / logLikValGrad2 - 1

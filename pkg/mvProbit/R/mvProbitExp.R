@@ -1,4 +1,4 @@
-mvProbitExp <- function( formula, coef, sigma, data,
+mvProbitExp <- function( formula, coef, sigma = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, random.seed = 123, ... ) {
 
    # checking argument 'formula'

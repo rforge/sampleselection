@@ -6,7 +6,7 @@
 }
 
 \usage{
-mvProbitExp( formula, coef, sigma, data,
+mvProbitExp( formula, coef, sigma = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, random.seed = 123, ... )
 }
 
@@ -14,9 +14,15 @@ mvProbitExp( formula, coef, sigma, data,
    \item{formula}{a one-sided or two-sided \code{"formula"}:
       a symbolic description of the model
       (currently, all binary outcome variables must have the same regressors).}
-   \item{coef}{a numeric vector of all coefficients.}
-   \item{sigma}{the covariance/correlation matrix of the residuals
-      (must be symmetric and have ones on its diagonal).}
+   \item{coef}{a numeric vector of all coefficients;
+      if argument \code{sigma} is not specified,
+      this vector must also include the correlation coefficients;
+      the order of elements is explained in the section \dQuote{details}.}
+   \item{sigma}{optional argument for specifying
+      the covariance/correlation matrix of the residuals
+      (must be symmetric and have ones on its diagonal);
+      if this argument is not specified, 
+      the correlation coefficients must be specified by argument \code{coef}.}
    \item{data}{a \code{data.frame} containing the data.}
    \item{cond}{logical value indicating 
       whether conditional expectations (if \code{TRUE})
@@ -56,6 +62,22 @@ mvProbitExp( formula, coef, sigma, data,
    (i.e. only the right-hand side is specified),
    the conditional expectations are calculated based on the assumption
    that all other dependent variables are one.
+
+   If the model has \eqn{n} dependent variables (equations)
+   and \eqn{k} regressors in each equation,
+   the order of the coefficients in argument \code{coef} must be as follows:
+   \eqn{b_{1,1}}, \ldots, \eqn{b_{1,k}}, 
+   \eqn{b_{2,1}}, \ldots, \eqn{b_{2,k}}, \ldots,
+   \eqn{b_{n,1}}, \ldots, \eqn{b_{n,k}},
+   where \eqn{b_{i,j}} is the coefficient
+   of the \eqn{j}th regressor in the \eqn{i}th equation.
+   If argument \code{sigma} is not specified,
+   argument \code{coef} must additionally include following elements:
+   \eqn{R_{1,2}}, \eqn{R_{1,3}}, \eqn{R_{1,4}}, \ldots, \eqn{R_{1,n}},
+   \eqn{R_{2,3}}, \eqn{R_{2,4}}, \ldots, \eqn{R_{2,n}}, \ldots,
+   \eqn{R_{n-1,n}},
+   where \eqn{R_{i,j}} is the correlation coefficient corresponding to
+   the \eqn{i}th and \eqn{j}th equation.
 
    The \sQuote{state} (or \sQuote{seed}) of R's random number generator 
    is saved at the beginning of the \code{mvProbitExp} function 

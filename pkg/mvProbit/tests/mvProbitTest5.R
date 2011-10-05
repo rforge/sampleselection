@@ -25,6 +25,9 @@ sigma[ upper.tri( sigma ) ] <-
    c( 0.5, 0.4, -0.7, 0.8, -0.5, 0.8, 0, 0.6, -0.2, 0.6 )
 sigma <- cov2cor( t( sigma ) %*% sigma )
 
+# all parameters in a vector
+allCoef <- c( c( beta ), sigma[ lower.tri( sigma ) ] )
+
 # generate dependent variables
 yMatLin <- xMat %*% beta 
 yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
@@ -35,14 +38,21 @@ colnames( yMat ) <- paste( "y", 1:5, sep = "" )
 yExp <- mvProbitExp( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ) )
 print( yExp )
+yExpA <- mvProbitExp( ~ x1 + x2 + x3, coef = allCoef,
+   data = as.data.frame( xMat ) )
+all.equal( yExp, yExpA )
 yExp2 <- pnorm( yMatLin )
 all.equal( yExp, as.data.frame( yExp2 ) )
+
 
 # conditional expectations of dependent variables
 # (assuming that all other dependent variables are one)
 yExpCond <- mvProbitExp( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
 print( yExpCond )
+yExpCondA <- mvProbitExp( ~ x1 + x2 + x3, coef = allCoef,
+   data = as.data.frame( xMat ), cond = TRUE )
+all.equal( yExpCond, yExpCondA )
 yExpCond2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 for( i in 1:nObs ) {
    for( k in 1:ncol( yMat ) ) {
@@ -55,12 +65,17 @@ for( i in 1:nObs ) {
 }
 all.equal( yExpCond, as.data.frame( yExpCond2 ) )
 
+
 # conditional expectations of dependent variables
 # (assuming that all other dependent variables are as observed)
 yExpCondObs <- mvProbitExp( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
    cond = TRUE )
 print( yExpCondObs )
+yExpCondObsA <- mvProbitExp( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
+   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), 
+   cond = TRUE )
+all.equal( yExpCond, yExpCondA )
 yExpCondObs2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 for( i in 1:nObs ){
    for( k in 1:ncol( yMat ) ) {
@@ -101,7 +116,6 @@ llTmp <- function( coef ) {
       data = as.data.frame( cbind( xMat, yMat ) ) )
    return( result )
 }
-allCoef <- c( c( beta ), sigma[ lower.tri( sigma ) ] )
 logLikValGrad2 <- numericGradient( llTmp, allCoef )
 print( logLikValGrad2 )
 attr( logLikValGrad, "gradient" ) / logLikValGrad2 - 1

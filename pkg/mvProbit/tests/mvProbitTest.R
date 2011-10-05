@@ -21,6 +21,9 @@ beta <- cbind( c(  0.8,  1.2, -1.0,  1.4, -0.8 ),
 # covariance matrix of error terms
 sigma <- symMatrix( c( 1, 0.2, 0.4, 1, -0.1, 1 ) )
 
+# all parameters in a vector
+allCoef <- c( c( beta ), sigma[ lower.tri( sigma ) ] )
+
 # generate dependent variables
 yMatLin <- xMat %*% beta 
 yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
@@ -31,14 +34,21 @@ colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 yExp <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ) )
 print( yExp )
+yExpA <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = allCoef,
+   data = as.data.frame( xMat ) )
+all.equal( yExp, yExpA )
 yExp2 <- pnorm( yMatLin )
 all.equal( yExp, as.data.frame( yExp2 ) )
+
 
 # conditional expectations of dependent variables
 # (assuming that all other dependent variables are one)
 yExpCond <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
 print( yExpCond )
+yExpCondA <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = allCoef,
+   data = as.data.frame( xMat ), cond = TRUE )
+all.equal( yExpCond, yExpCondA )
 yExpCond2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 for( i in 1:nObs ) {
    for( k in 1:ncol( yMat ) ) {
@@ -94,6 +104,10 @@ yExpCondObs <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
    cond = TRUE )
 print( yExpCondObs )
+yExpCondObsA <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), 
+   cond = TRUE )
+all.equal( yExpCondObs, yExpCondObsA )
 yExpCondObs2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 for( i in 1:nObs ){
    for( k in 1:ncol( yMat ) ) {
@@ -221,7 +235,6 @@ llTmp <- function( coef ) {
       data = as.data.frame( cbind( xMat, yMat ) ) )
    return( result )
 }
-allCoef <- c( c( beta ), sigma[ lower.tri( sigma ) ] )
 logLikValGrad2 <- numericGradient( llTmp, allCoef )
 print( logLikValGrad2 )
 attr( logLikValGrad, "gradient" ) / logLikValGrad2 - 1

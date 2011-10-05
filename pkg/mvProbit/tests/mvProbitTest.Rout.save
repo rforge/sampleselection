@@ -43,6 +43,9 @@ Loading required package: bayesm
 > # covariance matrix of error terms
 > sigma <- symMatrix( c( 1, 0.2, 0.4, 1, -0.1, 1 ) )
 > 
+> # all parameters in a vector
+> allCoef <- c( c( beta ), sigma[ lower.tri( sigma ) ] )
+> 
 > # generate dependent variables
 > yMatLin <- xMat %*% beta 
 > yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
@@ -64,9 +67,14 @@ Loading required package: bayesm
 8  0.85639266 0.24667543 0.72388317
 9  0.06073636 0.96822363 0.03444764
 10 0.99787991 0.06734972 0.92257845
+> yExpA <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = allCoef,
++    data = as.data.frame( xMat ) )
+> all.equal( yExp, yExpA )
+[1] TRUE
 > yExp2 <- pnorm( yMatLin )
 > all.equal( yExp, as.data.frame( yExp2 ) )
 [1] TRUE
+> 
 > 
 > # conditional expectations of dependent variables
 > # (assuming that all other dependent variables are one)
@@ -84,6 +92,10 @@ Loading required package: bayesm
 8  0.95048885 0.24377749 0.7104822
 9  0.24434181 0.97834900 0.1330594
 10 0.99980223 0.06515097 0.8917154
+> yExpCondA <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = allCoef,
++    data = as.data.frame( xMat ), cond = TRUE )
+> all.equal( yExpCond, yExpCondA )
+[1] TRUE
 > yExpCond2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 > for( i in 1:nObs ) {
 +    for( k in 1:ncol( yMat ) ) {
@@ -171,6 +183,11 @@ Loading required package: bayesm
 8  0.88954588 0.24377749 0.78280394
 9  0.05566761 0.96764681 0.02721613
 10 0.99859830 0.06515097 0.92560102
+> yExpCondObsA <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
++    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), 
++    cond = TRUE )
+> all.equal( yExpCondObs, yExpCondObsA )
+[1] TRUE
 > yExpCondObs2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 > for( i in 1:nObs ){
 +    for( k in 1:ncol( yMat ) ) {
@@ -399,7 +416,6 @@ attr(,"gradient")
 +       data = as.data.frame( cbind( xMat, yMat ) ) )
 +    return( result )
 + }
-> allCoef <- c( c( beta ), sigma[ lower.tri( sigma ) ] )
 > logLikValGrad2 <- numericGradient( llTmp, allCoef )
 > print( logLikValGrad2 )
               [,1]        [,2]        [,3]         [,4]         [,5]

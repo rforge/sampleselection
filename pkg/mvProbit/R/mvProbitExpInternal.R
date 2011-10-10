@@ -1,6 +1,13 @@
 mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
    cond, algorithm, nGHK, random.seed, ... ) {
 
+   # checking argument 'yMat'
+   if( !is.null( yMat ) ) {
+      if( !all( yMat %in% c( 0, 1,TRUE, FALSE ) ) ) {
+         stop( "all dependent variables must be either 0, 1, TRUE, or FALSE" )
+      }
+   }
+
    # checking argument 'cond'
    if( !is.logical( cond ) ) {
       stop( "argument 'cond' must be logical" )

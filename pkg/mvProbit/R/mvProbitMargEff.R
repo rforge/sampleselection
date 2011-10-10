@@ -45,13 +45,6 @@ mvProbitMargEff <- function( formula, coef, sigma, data,
    # names of regressors
    xNames <- colnames( xMat )
 
-   # names of dependent variables
-   if( !is.null( yMat ) ) {
-      yNames <- colnames( yMat )
-   } else {
-      yNames <- paste( "y", 1:ncol( sigma ), sep = "" )
-   }
-
    # calculate marginal effects
    for( i in 2:nReg ) {
       xMatL <- xMatU <- xMat
@@ -75,8 +68,19 @@ mvProbitMargEff <- function( formula, coef, sigma, data,
       if( !isDummy ) {
          margEff <- margEff / eps
       }
+
+      # names of dependent variables
+      if( i == 2 ) {
+         if( !is.null( yMat ) ) {
+            yNames <- colnames( yMat )
+         } else {
+            yNames <- paste( "y", 1:ncol( margEff ), sep = "" )
+         }
+      }
+
+      # label marginal effects
       names( margEff ) <- paste( "d", yNames, "d", xNames[ i ], sep = "_" )
-      
+
       if( i == 2 ) {
          result <- margEff
       } else {

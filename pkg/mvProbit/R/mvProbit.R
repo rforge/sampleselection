@@ -1,4 +1,4 @@
-mvProbit <- function( formula, data, coef = NULL, sigma = NULL,
+mvProbit <- function( formula, data, start = NULL, sigma = NULL,
    method = "BFGS", finalHessian = "BHHH", algorithm = GenzBretz(), nGHK = 1000,
    oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... ) {
 
@@ -50,27 +50,27 @@ mvProbit <- function( formula, data, coef = NULL, sigma = NULL,
    nObs <- nrow( xMat )
 
    # obtaining starting values for coefficients if they are not specified
-   if( is.null( coef ) ) {
+   if( is.null( start ) ) {
       uvProbit <- list()
       for( i in 1:nDep ) {
          uvProbit[[ i ]] <- glm( yMat[ , i ] ~ xMat - 1, 
             family = binomial( link = "probit" ) )
-         coef <- c( coef, coef( uvProbit[[ i ]] ) )
+         start <- c( start, coef( uvProbit[[ i ]] ) )
       }
    }
 
    # obtaining starting values for correlations if they are not specified
-   if( is.null( sigma ) && length( coef ) != nCoef + nDep * ( nDep - 1 ) / 2 ) {
+   if( is.null( sigma ) && length( start ) != nCoef + nDep * ( nDep - 1 ) / 2 ) {
       yHat <- matrix( NA, nrow = nObs, ncol = nDep )
       for( i in 1:nDep ) {
          yHat[ , i ] <- pnorm( xMat %*% 
-            coef[ ( ( i - 1 ) * nReg + 1 ):( i * nReg ) ] )
+            start[ ( ( i - 1 ) * nReg + 1 ):( i * nReg ) ] )
       }
       sigma <- cor( yMat - yHat )
    }
 
    # checking and preparing coefficients and correlation coefficients
-   coef <- mvProbitPrepareCoef( yMat = yMat, nReg = nReg, coef = coef, 
+   coef <- mvProbitPrepareCoef( yMat = yMat, nReg = nReg, coef = start, 
       sigma = sigma )
 
    # starting values

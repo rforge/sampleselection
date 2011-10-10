@@ -48,7 +48,7 @@ Loading required package: bayesm
 > 
 > # estimation with the BHHH algorithm, two-sided gradients
 > estResultBHHH <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    coef = c( beta ), sigma = sigma, method = "BHHH",
++    start = c( beta ), sigma = sigma, method = "BHHH",
 +    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
 > summary( estResultBHHH )
 --------------------------------------------
@@ -75,14 +75,14 @@ R_2_3 -0.084062   0.349091 -0.2408 0.80971
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
 > estResultBHHHA <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    coef = c( beta, sigma[ lower.tri( sigma ) ] ), method = "BHHH",
++    start = c( beta, sigma[ lower.tri( sigma ) ] ), method = "BHHH",
 +    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
 > all.equal( estResultBHHH, estResultBHHHA )
 [1] "Component 12: target, current do not match when deparsed"
 > 
 > # estimation with the BHHH algorithm, one-sided gradients
 > estResultBHHH1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    coef = c( beta ), sigma = sigma, method = "BHHH",
++    start = c( beta ), sigma = sigma, method = "BHHH",
 +    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5,
 +    oneSidedGrad = TRUE )
 > summary( estResultBHHH1 )
@@ -118,7 +118,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # estimation with the BFGS algorithm, two-sided gradients
 > estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    coef = c( beta ), sigma = sigma, 
++    start = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
 +    tol = 0.5 )
 > summary( estResultBFGS )
@@ -148,7 +148,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # estimation with the BFGS algorithm, one-sided gradients
 > estResultBFGS1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    coef = c( beta ), sigma = sigma, 
++    start = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
 +    tol = 0.5, oneSidedGrad = TRUE )
 > summary( estResultBFGS1 )
@@ -242,7 +242,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values for sigma
 > estResultBFGS1s <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    coef = c( beta ), data = as.data.frame( cbind( xMat, yMat ) ), 
++    start = c( beta ), data = as.data.frame( cbind( xMat, yMat ) ), 
 +    tol = 0.5, oneSidedGrad = TRUE )
 > summary( estResultBFGS1s )
 --------------------------------------------
@@ -271,7 +271,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # estimation with the BFGS algorithm, Miwa algorithm for obtaining integrals
 > estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    coef = c( beta ), sigma = sigma, 
++    start = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
 +    tol = 0.5, algorithm = Miwa( steps = 64 ) )
 Warning message:
@@ -311,7 +311,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # estimation with the BFGS algorithm, GHK algorithm for obtaining integrals
 > estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    coef = c( beta ), sigma = sigma, 
++    start = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
 +    tol = 0.5, algorithm = "GHK" )
 There were 50 or more warnings (use warnings() to see the first 50)
@@ -356,7 +356,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # estimation with the Nelder-Mead algorithm
 > estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    coef = c( beta ), sigma = sigma, 
++    start = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
 +    method = "NM", reltol = 0.05 )
 > summary( estResultNM )

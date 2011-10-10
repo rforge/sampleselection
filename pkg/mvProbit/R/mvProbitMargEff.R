@@ -1,4 +1,4 @@
-mvProbitMargEff <- function( formula, coef, sigma, data,
+mvProbitMargEff <- function( formula, coef, sigma = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, eps = 1e-06, 
    random.seed = 123, ... ) {
 

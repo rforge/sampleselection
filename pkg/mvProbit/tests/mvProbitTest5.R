@@ -128,12 +128,18 @@ range( attr( logLikValGrad, "gradient" ) - logLikValGrad2 )
 margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ) )
 print( margEffUnc )
+margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3, coef = allCoef,
+   data = as.data.frame( xMat ) )
+all.equal( margEffUnc, margEffUncA )
 
 # calculating marginal effects, conditional
 # (assuming that all other dependent variables are one)
 margEffCond <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
 print( margEffCond )
+margEffCondA <- mvProbitMargEff( ~ x1 + x2 + x3, coef = allCoef,
+   data = as.data.frame( xMat ), cond = TRUE )
+all.equal( margEffCond, margEffCondA )
 
 # calculating marginal effects, conditional
 # (assuming that all other dependent variables are as observed)
@@ -141,4 +147,7 @@ margEffCondObs <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
    cond = TRUE )
 print( margEffCondObs )
+margEffCondObsA <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
+   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), cond = TRUE )
+all.equal( margEffCondObs, margEffCondObsA )
 

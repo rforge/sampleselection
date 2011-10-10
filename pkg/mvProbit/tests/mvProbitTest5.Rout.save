@@ -493,6 +493,10 @@ attr(,"gradient")
 8  0.003771816 -0.11877670 0.010131753
 9  0.100184836 -0.20108596 0.378704740
 10 0.050750600 -0.09758499 0.006357526
+> margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3, coef = allCoef,
++    data = as.data.frame( xMat ) )
+> all.equal( margEffUnc, margEffUncA )
+[1] TRUE
 > 
 > # calculating marginal effects, conditional
 > # (assuming that all other dependent variables are one)
@@ -532,6 +536,10 @@ attr(,"gradient")
 8   9.812151e-07 -0.05810581 8.723688e-06 -1.066800e-01  1.091345e-04
 9  -1.744345e-01 -0.17772451 8.521228e-02  8.664247e-05  3.140598e-01
 10 -1.859217e-01 -0.04826082 3.932131e-04 -1.184161e-01 -6.966039e-05
+> margEffCondA <- mvProbitMargEff( ~ x1 + x2 + x3, coef = allCoef,
++    data = as.data.frame( xMat ), cond = TRUE )
+> all.equal( margEffCond, margEffCondA )
+[1] TRUE
 > 
 > # calculating marginal effects, conditional
 > # (assuming that all other dependent variables are as observed)
@@ -572,5 +580,9 @@ attr(,"gradient")
 8   0.0029102992 -0.11236499 0.011243764
 9   0.1997825314 -0.12718212 0.473423879
 10 -0.0002166247 -0.07032604 0.004095378
+> margEffCondObsA <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
++    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), cond = TRUE )
+> all.equal( margEffCondObs, margEffCondObsA )
+[1] TRUE
 > 
 > 

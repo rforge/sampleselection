@@ -47,28 +47,16 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
    }
 
    if( oneSidedGrad ) {
-      nDep <- ncol( coef$sigma ) 
+      allCoef <- c( coef$beta, coef$sigma[ lower.tri( coef$sigma ) ] )
       grad <- matrix( NA, nrow = length( result ), 
-         ncol = length( coef$beta ) + nDep * ( nDep - 1 ) / 2 )
-      for( i in 1:length( coef$beta ) ) {
-         coefTmp <- coef$beta
-         coefTmp[ i ] <- coef$beta[ i ] + eps
+         ncol = length( allCoef ) )
+      for( i in 1:length( allCoef ) ) {
+         coefTmp <- allCoef
+         coefTmp[ i ] <- allCoef[ i ] + eps
          llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-            coef = coefTmp, sigma = coef$sigma, algorithm = algorithm, nGHK = nGHK,
+            coef = coefTmp, sigma = NULL, algorithm = algorithm, nGHK = nGHK,
             oneSidedGrad = FALSE, eps = eps, randomSeed = randomSeed, ... )
          grad[ , i ] <- ( llTmp - result ) / eps
-      }
-      gradRow <- length( coef$beta )
-      for( i in 1:(nDep-1) ) {
-         for( j in (i+1):nDep ) {
-            gradRow <- gradRow + 1
-            sigmaTmp <- coef$sigma
-            sigmaTmp[ i, j ] <- sigmaTmp[ j, i ] <- coef$sigma[ j, i ] + eps
-            llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-               coef = coef$beta, sigma = sigmaTmp, algorithm = algorithm, nGHK = nGHK,
-               oneSidedGrad = FALSE, eps = eps, randomSeed = randomSeed, ... )
-            grad[ , gradRow ] <- ( llTmp - result ) / eps
-         }
       }
       colnames( grad ) <- mvProbitCoefNames( nDep = nDep, nReg = nReg )
       attr( result, "gradient" ) <- grad

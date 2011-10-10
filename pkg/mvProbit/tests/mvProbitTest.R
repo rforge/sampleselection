@@ -249,6 +249,9 @@ rnorm( 4 )
 margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ) )
 print( margEffUnc )
+margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
+   data = as.data.frame( xMat ) )
+all.equal( margEffUnc, margEffUncA )
 
 # for testing state of random number generator
 rnorm( 4 )
@@ -258,6 +261,9 @@ rnorm( 4 )
 margEffCond <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
 print( margEffCond )
+margEffCondA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
+   data = as.data.frame( xMat ), cond = TRUE )
+all.equal( margEffCond, margEffCondA )
 # now with integrals obtained by the Miwa algorithm, reduced precision
 margEffCond1 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
@@ -288,6 +294,10 @@ margEffCondObs <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
    cond = TRUE )
 print( margEffCondObs )
+margEffCondObsA <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), 
+   cond = TRUE )
+all.equal( margEffCondObs, margEffCondObsA )
 # now with integrals obtained by the Miwa algorithm, reduced precision
 margEffCondObs1 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),

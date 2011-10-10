@@ -98,12 +98,19 @@ all.equal( yExpCondObs, as.data.frame( yExpCondObs2 ) )
 logLikVal <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
 print( logLikVal )
+logLikValA <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
+   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ) )
+all.equal( logLikVal, logLikValA )
 
 # calculating log likelihood value(s) with one-sided gradients
 logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    oneSidedGrad = TRUE )
 print( logLikValGrad )
+logLikValGradA <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
+   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ),
+   oneSidedGrad = TRUE )
+all.equal( logLikValGrad, logLikValGradA )
 
 # calculating log likelihood value(s) with two-sided gradients
 llTmp <- function( coef ) {

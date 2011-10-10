@@ -161,6 +161,10 @@ Loading required package: bayesm
 > print( logLikVal )
  [1] -1.1306223 -2.8835781 -2.4997019 -2.3888511 -3.2388258 -0.3424105
  [7] -0.4303804 -0.2160646 -1.0259354 -3.0308173
+> logLikValA <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
++    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ) )
+> all.equal( logLikVal, logLikValA )
+[1] TRUE
 > 
 > # calculating log likelihood value(s) with one-sided gradients
 > logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
@@ -236,6 +240,11 @@ attr(,"gradient")
  [8,]  0.0079515947  3.547434e-04 -1.092084e-03  1.220149e-03 -0.002013191
  [9,]  0.0243839280 -4.164471e-02 -2.133552e-03  6.008647e-02 -0.113067605
 [10,] -0.0164988196  2.513079e-04  5.699752e-05 -3.418155e-06  0.008852964
+> logLikValGradA <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
++    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ),
++    oneSidedGrad = TRUE )
+> all.equal( logLikValGrad, logLikValGradA )
+[1] TRUE
 > 
 > # calculating log likelihood value(s) with two-sided gradients
 > llTmp <- function( coef ) {

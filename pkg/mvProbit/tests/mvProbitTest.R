@@ -181,6 +181,9 @@ rnorm( 4 )
 logLikVal <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
 print( logLikVal )
+logLikValA <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ) )
+all.equal( logLikVal, logLikValA )
 # now with explicitly specifying the algorithm
 logLikVal3 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
@@ -223,6 +226,10 @@ logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    oneSidedGrad = TRUE )
 print( logLikValGrad )
+logLikValGradA <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ),
+   oneSidedGrad = TRUE )
+all.equal( logLikValGrad, logLikValGradA )
 
 # calculating log likelihood value(s) with two-sided gradients
 llTmp <- function( coef ) {

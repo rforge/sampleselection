@@ -9,7 +9,7 @@
 }
 
 \usage{
-mvProbit( formula, data, start = NULL, sigma = NULL, 
+mvProbit( formula, data, start = NULL, startSigma = NULL, 
    method = "BFGS", finalHessian = "BHHH", 
    algorithm = GenzBretz(), nGHK = 1000, oneSidedGrad = FALSE, eps = 1e-6, 
    random.seed = 123, ... )
@@ -22,13 +22,13 @@ mvProbit( formula, data, start = NULL, sigma = NULL,
    \item{data}{a \code{data.frame} containing the data.}
    \item{start}{an optional numeric vector specifying the starting values 
       of all coefficients; 
-      if argument \code{sigma} is not specified,
+      if argument \code{startSigma} is not specified,
       this vector can also include the correlation coefficients;
       the order of elements is explained in the section \dQuote{details};
       if this argument is not specified,
       coefficients estimated by univariate probit models 
       are used as starting values for the coefficients.}
-   \item{sigma}{optional starting values for the covariance/correlation matrix 
+   \item{startSigma}{optional starting values for the covariance/correlation matrix 
       of the residuals (must be symmetric and have ones on its diagonal);
       if this argument is not specified
       and the starting values for the correlation coefficients
@@ -83,10 +83,10 @@ mvProbit( formula, data, start = NULL, sigma = NULL,
 \details{
    It is possible to specify starting values 
    (a) both for the model coefficients and the correlation coefficients
-   (using argument \code{start} alone or arguments \code{start} and \code{sigma}
+   (using argument \code{start} alone or arguments \code{start} and \code{startSigma}
    together),
    (b) only for the model coefficients (using argument \code{start} alone), or
-   (c) only for the correlation coefficients (using argument \code{sigma} alone).
+   (c) only for the correlation coefficients (using argument \code{startSigma} alone).
 
    If the model has \eqn{n} dependent variables (equations)
    and \eqn{k} explanatory variables in each equation,
@@ -96,7 +96,7 @@ mvProbit( formula, data, start = NULL, sigma = NULL,
    \eqn{b_{n,1}}, \ldots, \eqn{b_{n,k}},
    where \eqn{b_{i,j}} is the coefficient
    of the \eqn{j}th explanatory variable in the \eqn{i}th equation.
-   If argument \code{sigma} is not specified,
+   If argument \code{startSigma} is not specified,
    argument \code{start} can additionally include following elements:
    \eqn{R_{1,2}}, \eqn{R_{1,3}}, \eqn{R_{1,4}}, \ldots, \eqn{R_{1,n}},
    \eqn{R_{2,3}}, \eqn{R_{2,4}}, \ldots, \eqn{R_{2,n}}, \ldots,
@@ -160,7 +160,7 @@ summary( estResult )
 
 # same estimation with user-defined starting values
 estResultStart <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-   start = c( beta ), sigma = sigma, 
+   start = c( beta ), startSigma = sigma, 
    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
 summary( estResultStart )
 }

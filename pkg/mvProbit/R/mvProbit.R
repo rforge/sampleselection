@@ -1,4 +1,4 @@
-mvProbit <- function( formula, data, start = NULL, sigma = NULL,
+mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
    method = "BFGS", finalHessian = "BHHH", algorithm = GenzBretz(), nGHK = 1000,
    oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... ) {
 
@@ -60,18 +60,18 @@ mvProbit <- function( formula, data, start = NULL, sigma = NULL,
    }
 
    # obtaining starting values for correlations if they are not specified
-   if( is.null( sigma ) && length( start ) != nCoef + nDep * ( nDep - 1 ) / 2 ) {
+   if( is.null( startSigma ) && length( start ) != nCoef + nDep * ( nDep - 1 ) / 2 ) {
       yHat <- matrix( NA, nrow = nObs, ncol = nDep )
       for( i in 1:nDep ) {
          yHat[ , i ] <- pnorm( xMat %*% 
             start[ ( ( i - 1 ) * nReg + 1 ):( i * nReg ) ] )
       }
-      sigma <- cor( yMat - yHat )
+      startSigma <- cor( yMat - yHat )
    }
 
    # checking and preparing coefficients and correlation coefficients
    coef <- mvProbitPrepareCoef( yMat = yMat, nReg = nReg, coef = start, 
-      sigma = sigma )
+      sigma = startSigma )
 
    # starting values
    start <- c( coef$beta, coef$sigma[ lower.tri( coef$sigma ) ] )

@@ -59,15 +59,8 @@ mvProbit <- function( formula, data, coef = NULL, sigma = NULL,
       }
    }
 
-   # checking argument 'coef'
-   if( !is.vector( coef, mode = "numeric" ) ) {
-      stop( "argument 'coef' must be a numeric vector" )
-   } else if( length( coef ) != nCoef ) {
-      stop( "argument coef must have ", nCoef, " elements" )
-   }
-
    # obtaining starting values for correlations if they are not specified
-   if( is.null( sigma ) ) {
+   if( is.null( sigma ) && length( coef ) != nCoef + nDep * ( nDep - 1 ) / 2 ) {
       yHat <- matrix( NA, nrow = nObs, ncol = nDep )
       for( i in 1:nDep ) {
          yHat[ , i ] <- pnorm( xMat %*% 
@@ -76,23 +69,12 @@ mvProbit <- function( formula, data, coef = NULL, sigma = NULL,
       sigma <- cor( yMat - yHat )
    }
 
-   # checking argument 'sigma'
-   if( !is.matrix( sigma ) ) {
-      stop( "argument 'sigma' must be a matrix" )
-   } else if( nrow( sigma ) != ncol( sigma ) ) {
-      stop( "argument 'sigma' must be a quadratic matrix" )
-   } else if( !isSymmetric( sigma ) ) {
-      stop( "argument 'sigma' must be a symmetric matrix" )
-   } else if( any( abs( diag( sigma ) - 1 ) > 1e-7 ) ) {
-      stop( "argument 'sigma' must have ones on its diagonal" )
-   } else if( ncol( sigma ) != nDep ) {
-      stop( "the number of dependent variables specified in argument",
-         " 'formula' must be equal to the number of rows and colums",
-         " of the matrix specified by argument 'sigma'" )
-   }
+   # checking and preparing coefficients and correlation coefficients
+   coef <- mvProbitPrepareCoef( yMat = yMat, nReg = nReg, coef = coef, 
+      sigma = sigma )
 
    # starting values
-   start <- c( coef, sigma[ lower.tri( sigma ) ] )
+   start <- c( coef$beta, coef$sigma[ lower.tri( coef$sigma ) ] )
    names( start ) <- mvProbitCoefNames( nDep = nDep, nReg = nReg )
 
    # wrapper function for maxLik for calling mvProbitLogLikInternal

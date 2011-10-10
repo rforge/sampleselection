@@ -22,12 +22,17 @@ mvProbit( formula, data, coef = NULL, sigma = NULL,
    \item{data}{a \code{data.frame} containing the data.}
    \item{coef}{an optional numeric vector specifying the starting values 
       of all coefficients; 
+      if argument \code{sigma} is not specified,
+      this vector can also include the correlation coefficients;
+      the order of elements is explained in the section \dQuote{details};
       if this argument is not specified,
       coefficients estimated by univariate probit models 
       are used as starting values for the coefficients.}
    \item{sigma}{optional starting values for the covariance/correlation matrix 
       of the residuals (must be symmetric and have ones on its diagonal);
-      if this argument is not specified,
+      if this argument is not specified
+      and the starting values for the correlation coefficients
+      are not included in argument \code{coef},
       the correlation matrix of the \sQuote{response} residuals, 
       i.e. y - pnorm( X' beta ),
       is used as starting values for sigma.}
@@ -76,6 +81,29 @@ mvProbit( formula, data, coef = NULL, sigma = NULL,
 }
 
 \details{
+   It is possible to specify starting values 
+   (a) both for the model coefficients and the correlation coefficients
+   (using argument \code{coef} alone or arguments \code{coef} and \code{sigma}
+   together),
+   (b) only for the model coefficients (using argument \code{coef} alone), or
+   (c) only for the correlation coefficients (using argument \code{sigma} alone).
+
+   If the model has \eqn{n} dependent variables (equations)
+   and \eqn{k} explanatory variables in each equation,
+   the order of the starting values in argument \code{coef} must be as follows:
+   \eqn{b_{1,1}}, \ldots, \eqn{b_{1,k}}, 
+   \eqn{b_{2,1}}, \ldots, \eqn{b_{2,k}}, \ldots,
+   \eqn{b_{n,1}}, \ldots, \eqn{b_{n,k}},
+   where \eqn{b_{i,j}} is the coefficient
+   of the \eqn{j}th explanatory variable in the \eqn{i}th equation.
+   If argument \code{sigma} is not specified,
+   argument \code{coef} can additionally include following elements:
+   \eqn{R_{1,2}}, \eqn{R_{1,3}}, \eqn{R_{1,4}}, \ldots, \eqn{R_{1,n}},
+   \eqn{R_{2,3}}, \eqn{R_{2,4}}, \ldots, \eqn{R_{2,n}}, \ldots,
+   \eqn{R_{n-1,n}},
+   where \eqn{R_{i,j}} is the correlation coefficient corresponding to
+   the \eqn{i}th and \eqn{j}th equation.
+
    The \sQuote{state} (or \sQuote{seed}) of R's random number generator 
    is saved at the beginning of the \code{mvProbit} function 
    and restored at the end of this function 

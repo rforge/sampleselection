@@ -101,14 +101,15 @@ summary( estResultNM )
 
 # marginal effects based on estimated coefficients
 # unconditional marginal effects
-margEff( estResultBFGS )
+margEffUnc <- margEff( estResultBFGS )
+print( margEffUnc )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are as observed)
-margEff( estResultBFGS, cond = TRUE )
+margEffCondObs <- margEff( estResultBFGS, cond = TRUE )
+print( margEffCondObs )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are one)
-margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE )
-
-
+margEffCondOne <- margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE )
+print( margEffCondOne )

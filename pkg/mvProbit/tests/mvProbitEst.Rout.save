@@ -386,7 +386,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # marginal effects based on estimated coefficients
 > # unconditional marginal effects
-> margEff( estResultBFGS )
+> margEffUnc <- margEff( estResultBFGS )
+> print( margEffUnc )
       d_y1_d_x1    d_y2_d_x1    d_y3_d_x1    d_y1_d_x2     d_y2_d_x2
 1  0.3229491571 0.3836676992 -0.316955571 -0.441979916 -0.4386127078
 2  0.2429445847 0.3993797590 -0.330144619 -0.387614512 -0.5794260400
@@ -492,7 +493,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # conditional marginal effects
 > # (assuming that all other dependent variables are as observed)
-> margEff( estResultBFGS, cond = TRUE )
+> margEffCondObs <- margEff( estResultBFGS, cond = TRUE )
+> print( margEffCondObs )
       d_y1_d_x1    d_y2_d_x1    d_y3_d_x1    d_y1_d_x2     d_y2_d_x2
 1  0.3232361962 0.3432683006 -0.355048446 -0.459509098 -0.4313201490
 2  0.1153483935 0.3596761868 -0.361870523 -0.229189942 -0.5342318457
@@ -598,7 +600,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # conditional marginal effects
 > # (assuming that all other dependent variables are one)
-> margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE )
+> margEffCondOne <- margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE )
+> print( margEffCondOne )
       d_y1_d_x1    d_y2_d_x1    d_y3_d_x1     d_y1_d_x2    d_y2_d_x2
 1  1.766878e-01 0.3432683006 -0.349264084 -2.905192e-01 -0.431320149
 2  1.153484e-01 0.3596761868 -0.361870523 -2.291899e-01 -0.534231846
@@ -701,6 +704,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 48 0.0141168596
 49 0.3867950465
 50 0.3535086387
-> 
-> 
 > 

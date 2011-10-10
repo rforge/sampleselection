@@ -29,6 +29,10 @@ estResultBHHH <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    coef = c( beta ), sigma = sigma, method = "BHHH",
    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
 summary( estResultBHHH )
+estResultBHHHA <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
+   coef = c( beta, sigma[ lower.tri( sigma ) ] ), method = "BHHH",
+   data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
+all.equal( estResultBHHH, estResultBHHHA )
 
 # estimation with the BHHH algorithm, one-sided gradients
 estResultBHHH1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,

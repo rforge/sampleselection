@@ -1,20 +1,12 @@
 mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
    algorithm, nGHK, oneSidedGrad, eps, randomSeed, ... ) {
 
-   # checking argument 'sigma'
-   if( !is.matrix( sigma ) ) {
-      stop( "argument 'sigma' must be a matrix" )
-   } else if( nrow( sigma ) != ncol( sigma ) ) {
-      stop( "argument 'sigma' must be a quadratic matrix" )
-   } else if( !isSymmetric( sigma ) ) {
-      stop( "argument 'sigma' must be a symmetric matrix" )
-   } else if( any( abs( diag( sigma ) - 1 ) > 1e-7 ) ) {
-      stop( "argument 'sigma' must have ones on its diagonal" )
-   } else if( ncol( sigma ) != ncol( yMat ) ) {
-      stop( "the number of dependent variables specified in argument",
-         " 'formula' must be equal to the number of rows and colums",
-         " of the matrix specified by argument 'sigma'" )
-   }
+   # number of regressors
+   nReg <- ncol( xMat )
+
+   # checking and preparing coefficients and correlation coefficients
+   coef <- mvProbitPrepareCoef( yMat = yMat, nReg = nReg, coef = coef, 
+      sigma = sigma )
 
    # checking argument 'oneSidedGrad'
    if( length( oneSidedGrad ) != 1 ) {
@@ -33,34 +25,15 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
    }
 
    # number of dependent variables
-   nDep <- ncol( sigma )
-
-   # number of regressors
-   nReg <- ncol( xMat )
-
-   # number of coefficients
-   nCoef <- nDep * nReg
+   nDep <- ncol( coef$sigma )
 
    # number of observations
    nObs <- nrow( xMat )
 
-   # checking argument 'coef'
-   if( !is.vector( coef, mode = "numeric" ) ) {
-      stop( "argument 'coef' must be a numeric vector" )
-   } else if( length( coef ) != nCoef ) {
-      stop( "argument coef must have ", nCoef, " elements" )
-   }
-
-   # separating coefficients for different equations
-   betaEq <- list()
-   for( i in 1:nDep ) {
-      betaEq[[ i ]] <- coef[ ( ( i - 1 ) * nReg + 1 ):( i * nReg ) ]
-   }
-
    # calculating linear predictors
    xBeta <- matrix( NA, nrow = nObs, ncol = nDep )
    for( i in 1:nDep ) {
-      xBeta[ , i ] <- xMat %*% betaEq[[ i ]]
+      xBeta[ , i ] <- xMat %*% coef$betaEq[[ i ]]
    }
 
    # calculate log likelihood values (for each observation)
@@ -68,31 +41,31 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
    for( i in 1:nObs ){
       ySign <- 2 * yMat[ i, ] - 1
       xBetaTmp <- xBeta[ i, ] * ySign
-      sigmaTmp <- diag( ySign ) %*% sigma %*% diag( ySign )
+      sigmaTmp <- diag( ySign ) %*% coef$sigma %*% diag( ySign )
       result[ i ] <- log( pmvnormWrap( upper = xBetaTmp, sigma = sigmaTmp, 
          algorithm = algorithm, nGHK = nGHK, random.seed = randomSeed, ... ) )
    }
 
    if( oneSidedGrad ) {
-      nDep <- ncol( sigma ) 
+      nDep <- ncol( coef$sigma ) 
       grad <- matrix( NA, nrow = length( result ), 
-         ncol = length( coef ) + nDep * ( nDep - 1 ) / 2 )
-      for( i in 1:length( coef ) ) {
-         coefTmp <- coef
-         coefTmp[ i ] <- coef[ i ] + eps
+         ncol = length( coef$beta ) + nDep * ( nDep - 1 ) / 2 )
+      for( i in 1:length( coef$beta ) ) {
+         coefTmp <- coef$beta
+         coefTmp[ i ] <- coef$beta[ i ] + eps
          llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-            coef = coefTmp, sigma = sigma, algorithm = algorithm, nGHK = nGHK,
+            coef = coefTmp, sigma = coef$sigma, algorithm = algorithm, nGHK = nGHK,
             oneSidedGrad = FALSE, eps = eps, randomSeed = randomSeed, ... )
          grad[ , i ] <- ( llTmp - result ) / eps
       }
-      gradRow <- length( coef )
+      gradRow <- length( coef$beta )
       for( i in 1:(nDep-1) ) {
          for( j in (i+1):nDep ) {
             gradRow <- gradRow + 1
-            sigmaTmp <- sigma
-            sigmaTmp[ i, j ] <- sigmaTmp[ j, i ] <- sigma[ j, i ] + eps
+            sigmaTmp <- coef$sigma
+            sigmaTmp[ i, j ] <- sigmaTmp[ j, i ] <- coef$sigma[ j, i ] + eps
             llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-               coef = coef, sigma = sigmaTmp, algorithm = algorithm, nGHK = nGHK,
+               coef = coef$beta, sigma = sigmaTmp, algorithm = algorithm, nGHK = nGHK,
                oneSidedGrad = FALSE, eps = eps, randomSeed = randomSeed, ... )
             grad[ , gradRow ] <- ( llTmp - result ) / eps
          }

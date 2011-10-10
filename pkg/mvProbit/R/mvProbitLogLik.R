@@ -1,4 +1,4 @@
-mvProbitLogLik <- function( formula, coef, sigma, data, 
+mvProbitLogLik <- function( formula, coef, sigma = NULL, data, 
    algorithm = GenzBretz(), nGHK = 1000,
    oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... ) {
 

@@ -96,16 +96,11 @@ mvProbit <- function( formula, data, coef = NULL, sigma = NULL,
    names( start ) <- mvProbitCoefNames( nDep = nDep, nReg = nReg )
 
    # wrapper function for maxLik for calling mvProbitLogLikInternal
-   logLik <- function( param, yMat, xMat, nCoef, nDep, 
+   logLik <- function( param, yMat, xMat,
       llAlgorithm, llNGHK, llOneSidedGrad, llEps, llRandom.seed, ... ) {
 
-      coef <- param[ 1:nCoef ]
-      sigma <- diag( nDep )
-      sigma[ lower.tri( sigma ) ] <- param[ -(1:nCoef) ]
-      sigma[ upper.tri( sigma ) ] <- t( sigma )[ upper.tri( sigma ) ]
-      
       logLikVal <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-         coef = coef, sigma = sigma, algorithm = llAlgorithm, nGHK = llNGHK,
+         coef = param, sigma = NULL, algorithm = llAlgorithm, nGHK = llNGHK,
          oneSidedGrad = llOneSidedGrad, eps = llEps, randomSeed = llRandom.seed, 
          ... )
 
@@ -116,7 +111,7 @@ mvProbit <- function( formula, data, coef = NULL, sigma = NULL,
       finalHessian = finalHessian, 
       yMat = yMat, xMat = xMat, llAlgorithm = algorithm, llNGHK = nGHK,
       llOneSidedGrad = oneSidedGrad, llEps = eps, llRandom.seed = random.seed,
-      nCoef = nCoef, nDep = nDep, ... )
+      ... )
 
    # return also some other useful information
    result$call <- match.call()

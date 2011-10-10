@@ -40,7 +40,7 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, data,
    }
 
    result <- mvProbitMargEffInternal( yMat = yMat, xMat = xMat, 
-      coef = coef, sigma = sigma, data = data, cond = cond, 
+      coef = coef, sigma = sigma, cond = cond, 
       algorithm = algorithm, nGHK = nGHK, eps = eps, 
       random.seed = random.seed, ... )
 

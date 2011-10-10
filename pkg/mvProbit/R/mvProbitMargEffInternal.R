@@ -1,4 +1,4 @@
-mvProbitMargEffInternal <- function( yMat, xMat, coef, sigma, data,
+mvProbitMargEffInternal <- function( yMat, xMat, coef, sigma,
    cond, algorithm, nGHK, eps, 
    random.seed, ... ) {
 

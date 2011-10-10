@@ -21,13 +21,13 @@ mvProbit( formula, data, start = NULL, startSigma = NULL,
       (currently, all binary outcome variables must have the same regressors).}
    \item{data}{a \code{data.frame} containing the data.}
    \item{start}{an optional numeric vector specifying the starting values 
-      of all coefficients; 
+      for the model coefficients; 
       if argument \code{startSigma} is not specified,
       this vector can also include the correlation coefficients;
       the order of elements is explained in the section \dQuote{details};
       if this argument is not specified,
       coefficients estimated by univariate probit models 
-      are used as starting values for the coefficients.}
+      are used as starting values for the model coefficients.}
    \item{startSigma}{optional starting values for the covariance/correlation matrix 
       of the residuals (must be symmetric and have ones on its diagonal);
       if this argument is not specified
@@ -140,7 +140,7 @@ xMat <- cbind(
    x1 = as.numeric( rnorm( nObs ) > 0 ),
    x2 = rnorm( nObs ) )
 
-# coefficients
+# model coefficients
 beta <- cbind( c(  0.8,  1.2, -0.8 ),
                c( -0.6,  1.0, -1.6 ),
                c(  0.5, -0.6,  1.2 ) )

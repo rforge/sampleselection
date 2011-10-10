@@ -12,7 +12,7 @@ xMat <- cbind(
    x2 = rnorm( nObs ),
    x3 = rnorm( nObs ) )
 
-# coefficients
+# model coefficients
 beta <- cbind( c( -0.4,  0.8, -1.0, -1.4 ),
                c( -0.6, -0.5,  0.6, -1.2 ),
                c(  0.3,  0.9, -1.3,  0.8 ),

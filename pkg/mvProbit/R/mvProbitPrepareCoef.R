@@ -24,7 +24,7 @@ mvProbitPrepareCoef <- function( yMat, nReg, coef, sigma ) {
       }
       # number of dependent variables
       nDep <- ncol( sigma )
-      # number of coefficients
+      # number of model coefficients
       nCoef <- nDep * nReg
       if( length( coef ) != nCoef ) {
          stop( "given that argument 'sigma' has been specified",
@@ -34,7 +34,7 @@ mvProbitPrepareCoef <- function( yMat, nReg, coef, sigma ) {
       if( !is.null( yMat ) ) {
          # number of dependent variables
          nDep <- ncol( yMat )
-         # number of coefficients
+         # number of model coefficients
          nCoef <- nDep * nReg
          # number of parameters including sigma
          nCoefSigma <- nCoef + nDep * ( nDep - 1 ) / 2
@@ -46,7 +46,7 @@ mvProbitPrepareCoef <- function( yMat, nReg, coef, sigma ) {
          # number of dependent variables
          nDep <- round( - nReg + 0.5 + 
             sqrt( ( nReg - 0.5 )^2 + 2 * length( coef ) ) )
-         # number of coefficients
+         # number of model coefficients
          nCoef <- nDep * nReg
          # number of parameters including sigma
          nCoefSigma <- nCoef + nDep * ( nDep - 1 ) / 2
@@ -63,7 +63,7 @@ mvProbitPrepareCoef <- function( yMat, nReg, coef, sigma ) {
       coef <- coef[ 1:nCoef ]
    }
 
-   # separating coefficients for different equations
+   # separating model coefficients for different equations
    betaEq <- list()
    for( i in 1:nDep ) {
       betaEq[[ i ]] <- coef[ ( ( i - 1 ) * nReg + 1 ):( i * nReg ) ]

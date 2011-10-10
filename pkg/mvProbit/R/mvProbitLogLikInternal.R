@@ -4,7 +4,7 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
    # number of regressors
    nReg <- ncol( xMat )
 
-   # checking and preparing coefficients and correlation coefficients
+   # checking and preparing model coefficients and correlation coefficients
    coef <- mvProbitPrepareCoef( yMat = yMat, nReg = nReg, coef = coef, 
       sigma = sigma )
 

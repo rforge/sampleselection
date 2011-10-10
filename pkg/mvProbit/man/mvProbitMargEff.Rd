@@ -35,7 +35,7 @@ mvProbitMargEff( formula, coef, sigma = NULL, data,
       a symbolic description of the model
       (currently, all binary outcome variables must have 
       the same explanatory variables).}
-   \item{coef}{a numeric vector of all coefficients;
+   \item{coef}{a numeric vector of the model coefficients;
       if argument \code{sigma} is not specified,
       this vector must also include the correlation coefficients;
       the order of elements is explained in the section \dQuote{details}.}
@@ -115,7 +115,7 @@ mvProbitMargEff( formula, coef, sigma = NULL, data,
 
    If the model has \eqn{n} dependent variables (equations)
    and \eqn{k} explanatory variables in each equation,
-   the order of the coefficients in argument \code{coef} must be as follows:
+   the order of the model coefficients in argument \code{coef} must be as follows:
    \eqn{b_{1,1}}, \ldots, \eqn{b_{1,k}}, 
    \eqn{b_{2,1}}, \ldots, \eqn{b_{2,k}}, \ldots,
    \eqn{b_{n,1}}, \ldots, \eqn{b_{n,k}},
@@ -167,7 +167,7 @@ xData <- data.frame(
    x3 = rnorm( nObs ),
    x4 = rnorm( nObs ) )
 
-# coefficients
+# model coefficients
 beta <- c(  0.8,  1.2, -1.0,  1.4, -0.8,
            -0.6,  1.0,  0.6, -1.2, -1.6,
             0.5, -0.6, -0.7,  1.1,  1.2 )

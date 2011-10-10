@@ -14,6 +14,7 @@ mvProbitExpInternal <- function( yMat, xMat, coef, sigma,
    # number of observations
    nObs <- nrow( xMat )
 
+   # checking and preparing model coefficients and correlation coefficients
    coef <- mvProbitPrepareCoef( yMat = yMat, nReg = nReg, coef = coef, 
       sigma = sigma )
 

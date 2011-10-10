@@ -43,13 +43,13 @@ mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
    # number of regressors
    nReg <- ncol( xMat )
 
-   # number of coefficients
+   # number of model coefficients
    nCoef <- nDep * nReg
 
    # number of observations
    nObs <- nrow( xMat )
 
-   # obtaining starting values for coefficients if they are not specified
+   # obtaining starting values for model coefficients if they are not specified
    if( is.null( start ) ) {
       uvProbit <- list()
       for( i in 1:nDep ) {
@@ -69,7 +69,7 @@ mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
       startSigma <- cor( yMat - yHat )
    }
 
-   # checking and preparing coefficients and correlation coefficients
+   # checking and preparing model coefficients and correlation coefficients
    coef <- mvProbitPrepareCoef( yMat = yMat, nReg = nReg, coef = start, 
       sigma = startSigma )
 

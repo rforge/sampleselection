@@ -96,7 +96,6 @@ mvProbit( formula, data, coef = NULL, sigma = NULL,
 \author{Arne Henningsen}
 
 \seealso{\code{\link{mvProbitLogLik}},
-   \code{\link{mvProbitExp}},
    \code{\link{mvProbitMargEff}},
    \code{\link[sampleSelection]{probit}},
    \code{\link[stats]{glm}}}

@@ -1,18 +1,26 @@
 \name{mvProbitMargEff}
+\alias{mvProbitExp}
 \alias{mvProbitMargEff}
 \alias{margEff.mvProbit}
-\title{Marginal Effects based on Multivariate Probit Models}
+\title{Expectations and Marginal Effects from Multivariate Probit Models}
 \description{
-   Calculating marginal effects based on multivariate probit models.
+   \code{mvProbitExp} calculates expected outcomes 
+   from multivariate probit models.
+
+   \code{mvProbitMargEff} calculates marginal effects of the explanatory variables
+   on expected outcomes from multivariate probit models.
 
    The \code{margEff} method for objects of class \code{"mvProbit"}
    is a wrapper function
-   that for the convenience of the user
+   that (for the convenience of the user)
    extracts the relevant information from the estimation results
    and then calls \code{mvProbitMargEff}.
 }
 
 \usage{
+mvProbitExp( formula, coef, sigma = NULL, data,
+   cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, random.seed = 123, ... )
+
 mvProbitMargEff( formula, coef, sigma = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, 
    eps = 1e-06, random.seed = 123,
@@ -25,7 +33,8 @@ mvProbitMargEff( formula, coef, sigma = NULL, data,
 \arguments{
    \item{formula}{a one-sided or two-sided \code{"formula"}:
       a symbolic description of the model
-      (currently, all binary outcome variables must have the same regressors).}
+      (currently, all binary outcome variables must have 
+      the same explanatory variables).}
    \item{coef}{a numeric vector of all coefficients;
       if argument \code{sigma} is not specified,
       this vector must also include the correlation coefficients;
@@ -37,8 +46,8 @@ mvProbitMargEff( formula, coef, sigma = NULL, data,
       the correlation coefficients must be specified by argument \code{coef}.}
    \item{data}{a \code{data.frame} containing the data.}
    \item{cond}{logical value indicating 
-      whether marginal effects on conditional expectations (if \code{TRUE})
-      or marginal effects on unconditional expectations (if \code{FALSE}, default)
+      whether (marginal effects on) conditional expectations (if \code{TRUE})
+      or (marginal effects on) unconditional expectations (if \code{FALSE}, default)
       should be returned.}
    \item{algorithm}{algorithm for computing integrals 
       of the multivariate normal distribution,
@@ -66,44 +75,52 @@ mvProbitMargEff( formula, coef, sigma = NULL, data,
       If \code{TRUE}, the marginal effects on the conditional expectations 
       are calculated based on the assumption 
       that all other dependent variables are one.}
-   \item{\dots}{additional arguments of \code{mvProbitMargEff} are passed
+   \item{\dots}{additional arguments to \code{mvProbitExp} are passed
       to \code{\link[mvtnorm]{pmvnorm}}
       when calculating conditional expectations;
+      additional arguments of \code{mvProbitMargEff} are passed
+      to \code{mvProbitExp} and possibly further
+      to \code{\link[mvtnorm]{pmvnorm}};
       additional arguments of the \code{margEff} method are passed
-      to \code{mvProbitMargEff} 
-      (and possibly further to \code{\link[mvtnorm]{pmvnorm}}).}
+      to \code{mvProbitMargEff}
+      and possibly further to \code{mvProbitMargEff}
+      and \code{\link[mvtnorm]{pmvnorm}}.}
 }
 
 \value{
-   A data frame containing the marginal effects of the explanatory variables
+   \code{mvProbitExp} returns a data frame 
+   containing the expectations of the dependent variables.
+
+   \code{mvProbitMargEff} and the \code{margEff} method return a data frame 
+   containing the marginal effects of the explanatory variables
    on the expectations of the dependent variables.
 }
 
 \details{
-   When calculating marginal effects on unconditional expectations,
+   When calculating (marginal effects on) unconditional expectations,
    the left-hand side of argument \code{formula} is ignored.
-   When calculating marginal effects on unconditional expectations
+   When calculating (marginal effects on) conditional expectations
    and argument \code{formula} is a one-sided formula
    (i.e. only the right-hand side is specified)
    or argument \code{othDepOne} is \code{TRUE},
-   the marginal effects on the conditional expectations 
+   (the marginal effects on) the conditional expectations 
    are calculated based on the assumption
    that all other dependent variables are one.
 
-   If a dependent variable contains only zeros and ones 
+   If an explanatory variable contains only zeros and ones 
    or only \code{TRUE} and \code{FALSE},
-   argument \code{eps} is ignored (for this variable) 
-   and the effect between this variable being zero and one
-   is returned.
+   \code{mvProbitMargEff} and the \code{margEff} method
+   ignore argument \code{eps} (for this variable) 
+   and return the effect from increasing this variable from zero to one.
 
    If the model has \eqn{n} dependent variables (equations)
-   and \eqn{k} regressors in each equation,
+   and \eqn{k} explanatory variables in each equation,
    the order of the coefficients in argument \code{coef} must be as follows:
    \eqn{b_{1,1}}, \ldots, \eqn{b_{1,k}}, 
    \eqn{b_{2,1}}, \ldots, \eqn{b_{2,k}}, \ldots,
    \eqn{b_{n,1}}, \ldots, \eqn{b_{n,k}},
    where \eqn{b_{i,j}} is the coefficient
-   of the \eqn{j}th regressor in the \eqn{i}th equation.
+   of the \eqn{j}th explanatory variable in the \eqn{i}th equation.
    If argument \code{sigma} is not specified,
    argument \code{coef} must additionally include following elements:
    \eqn{R_{1,2}}, \eqn{R_{1,3}}, \eqn{R_{1,4}}, \ldots, \eqn{R_{1,n}},
@@ -113,9 +130,9 @@ mvProbitMargEff( formula, coef, sigma = NULL, data,
    the \eqn{i}th and \eqn{j}th equation.
 
    The \sQuote{state} (or \sQuote{seed}) of R's random number generator 
-   is saved at the beginning of the \code{mvProbitMargEff} function 
-   and restored at the end of this function 
-   so that this function does \emph{not} affect the generation 
+   is saved at the beginning of the call to these functions
+   and restored at the end
+   so that these functions do \emph{not} affect the generation 
    of random numbers outside this function
    although the random seed is set to argument \code{random.seed}
    and the calculation of the (cumulative) multivariate normal distribution
@@ -132,7 +149,6 @@ mvProbitMargEff( formula, coef, sigma = NULL, data,
 \author{Arne Henningsen}
 
 \seealso{\code{\link{mvProbit}},
-   \code{\link{mvProbitExp}},
    \code{\link{mvProbitLogLik}},
    \code{\link[sampleSelection]{probit}},
    \code{\link[stats]{glm}}}
@@ -159,10 +175,21 @@ beta <- c(  0.8,  1.2, -1.0,  1.4, -0.8,
 # covariance matrix of error terms
 sigma <- symMatrix( c( 1, 0.2, 0.4, 1, -0.1, 1 ) )
 
+# unconditional expectations of dependent variables
+yExp <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = xData )
+print( yExp )
+
 # marginal effects on unconditional expectations of dependent variables
 margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = xData )
 print( margEffUnc )
+
+# conditional expectations of dependent variables
+# (assuming that all other dependent variables are one)
+yExpCond <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = beta,
+   sigma = sigma, data = xData, cond = TRUE )
+print( yExpCond )
 
 # marginal effects on conditional expectations of dependent variables
 # (assuming that all other dependent variables are one)
@@ -170,11 +197,17 @@ margEffCond <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = beta,
    sigma = sigma, data = xData, cond = TRUE )
 print( margEffCond )
 
-# marginal effects on conditional expectations of dependent variables
+# conditional expectations of dependent variables
 # (assuming that all other dependent variables are zero)
 xData$y1 <- 0
 xData$y2 <- 0
 xData$y3 <- 0
+yExpCond0 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = beta, sigma = sigma, data = xData, cond = TRUE )
+print( yExpCond0 )
+
+# marginal effects on conditional expectations of dependent variables
+# (assuming that all other dependent variables are zero)
 margEffCond0 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = beta, sigma = sigma, data = xData, cond = TRUE )
 print( margEffCond0 )

@@ -28,6 +28,7 @@ colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 estResultBHHH <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, method = "BHHH",
    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
+print( estResultBHHH )
 summary( estResultBHHH )
 estResultBHHHA <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta, sigma[ lower.tri( sigma ) ] ), method = "BHHH",
@@ -39,6 +40,7 @@ estResultBHHH1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, method = "BHHH",
    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5,
    oneSidedGrad = TRUE )
+print( estResultBHHH1 )
 summary( estResultBHHH1 )
 all.equal( estResultBHHH, estResultBHHH1 )
 
@@ -47,6 +49,7 @@ estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, 
    data = as.data.frame( cbind( xMat, yMat ) ), 
    tol = 0.5 )
+print( estResultBFGS )
 summary( estResultBFGS )
 
 # estimation with the BFGS algorithm, one-sided gradients
@@ -54,6 +57,7 @@ estResultBFGS1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, 
    data = as.data.frame( cbind( xMat, yMat ) ), 
    tol = 0.5, oneSidedGrad = TRUE )
+print( estResultBFGS1 )
 summary( estResultBFGS1 )
 all.equal( estResultBFGS, estResultBFGS1 )
 
@@ -61,18 +65,21 @@ all.equal( estResultBFGS, estResultBFGS1 )
 estResultBFGS1a <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    data = as.data.frame( cbind( xMat, yMat ) ), 
    tol = 0.5, oneSidedGrad = TRUE )
+print( estResultBFGS1a )
 summary( estResultBFGS1a )
 
 # estimation with the BFGS algorithm, one-sided gradients, no starting values for beta
 estResultBFGS1b <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    startSigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
    tol = 0.5, oneSidedGrad = TRUE )
+print( estResultBFGS1b )
 summary( estResultBFGS1b )
 
 # estimation with the BFGS algorithm, one-sided gradients, no starting values for sigma
 estResultBFGS1s <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), data = as.data.frame( cbind( xMat, yMat ) ), 
    tol = 0.5, oneSidedGrad = TRUE )
+print( estResultBFGS1s )
 summary( estResultBFGS1s )
 
 # estimation with the BFGS algorithm, Miwa algorithm for obtaining integrals
@@ -80,6 +87,7 @@ estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, 
    data = as.data.frame( cbind( xMat, yMat ) ), 
    tol = 0.5, algorithm = Miwa( steps = 64 ) )
+print( estResultBFGSm )
 summary( estResultBFGSm )
 all.equal( estResultBFGS, estResultBFGSm )
 
@@ -88,6 +96,7 @@ estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, 
    data = as.data.frame( cbind( xMat, yMat ) ), 
    tol = 0.5, algorithm = "GHK" )
+print( estResultBFGSg )
 summary( estResultBFGSg )
 all.equal( estResultBFGS, estResultBFGSg )
 all.equal( estResultBFGSm, estResultBFGSg )
@@ -97,6 +106,7 @@ estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, 
    data = as.data.frame( cbind( xMat, yMat ) ), 
    method = "NM", reltol = 0.05 )
+print( estResultNM )
 summary( estResultNM )
 
 # marginal effects based on estimated coefficients with covariance matrix

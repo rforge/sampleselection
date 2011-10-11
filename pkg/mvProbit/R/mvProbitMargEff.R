@@ -90,5 +90,7 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
       attr( result, "vcov" ) <- margEffCov
    }
 
+   class( result ) <- c( "mvProbitMargEff", class( result ) )
+
    return( result )
 }

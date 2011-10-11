@@ -258,6 +258,7 @@ margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ),
 print( margEffUnc )
 print( attr( margEffUnc, "vcov" )[ 1:3, , ] )
 print( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ) )
+summary( margEffUnc )
 margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat ), vcov = diag( 18 ) )
 all.equal( margEffUnc, margEffUncA )
@@ -299,6 +300,7 @@ margEffCondV <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ),
    vcov = diag( 18 ) )
 print( attr( margEffCondV, "vcov" ) )
 print( drop( attr( margEffCondV, "vcov" )[ 1, , ] ) )
+summary( margEffCondV )
 margEffCondVA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
    vcov = diag( 18 ) )
@@ -337,6 +339,7 @@ margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    cond = TRUE, vcov = diag( 18 ) )
 print( attr( margEffCondObsV, "vcov" ) )
 print( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ) )
+summary( margEffCondObsV )
 margEffCondObsVA <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
    cond = TRUE, vcov = diag( 18 ) )

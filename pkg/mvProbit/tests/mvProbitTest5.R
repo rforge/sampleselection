@@ -137,6 +137,7 @@ margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ),
 print( margEffUnc )
 print( attr( margEffUnc, "vcov" )[ 1:3, , ] )
 print( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ) )
+summary( margEffUnc )
 margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3, coef = allCoef,
    data = as.data.frame( xMat ), vcov = diag( 30 ) )
 all.equal( margEffUnc, margEffUncA )
@@ -155,6 +156,7 @@ margEffCondV <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ),
    vcov = diag( 30 ) )
 print( attr( margEffCondV, "vcov" ) )
 print( drop( attr( margEffCondV, "vcov" )[ 1, , ] ) )
+summary( margEffCondV )
 
 # calculating marginal effects, conditional
 # (assuming that all other dependent variables are as observed)
@@ -171,4 +173,5 @@ margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    cond = TRUE, vcov = diag( 30 ) )
 print( attr( margEffCondObsV, "vcov" ) )
 print( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ) )
+summary( margEffCondObsV )
 

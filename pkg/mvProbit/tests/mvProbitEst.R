@@ -115,6 +115,7 @@ margEffUnc <- margEff( estResultBFGS, calcVCov = TRUE )
 print( margEffUnc )
 print( attr( margEffUnc, "vcov" )[ 1:5, , ] )
 print( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ) )
+summary( margEffUnc )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are as observed)
@@ -129,6 +130,7 @@ margEffCondObsCov <- margEff( estResultBFGS, cond = TRUE,
 print( margEffCondObsCov )
 print( attr( margEffCondObsCov, "vcov" ) )
 print( drop( attr( margEffCondObsCov, "vcov" ) ) )
+summary( margEffCondObsCov )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are one)
@@ -142,5 +144,6 @@ margEffCondOneCov <- margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE,
 print( margEffCondOneCov )
 print( attr( margEffCondOneCov, "vcov" ) )
 print( drop( attr( margEffCondOneCov, "vcov" ) ) )
+summary( margEffCondOneCov )
 
 

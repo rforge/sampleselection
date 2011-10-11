@@ -254,10 +254,12 @@ rnorm( 4 )
 
 # calculating marginal effects, unconditional
 margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
-   sigma = sigma, data = as.data.frame( xMat ) )
+   sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ) )
 print( margEffUnc )
+print( attr( margEffUnc, "vcov" )[ 1:3, , ] )
+print( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ) )
 margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
-   data = as.data.frame( xMat ) )
+   data = as.data.frame( xMat ), vcov = diag( 18 ) )
 all.equal( margEffUnc, margEffUncA )
 
 # for testing state of random number generator
@@ -291,6 +293,16 @@ margEffCond3 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ),
 print( margEffCond3 )
 all.equal( margEffCond, margEffCond3 )
 all.equal( margEffCond2, margEffCond3 )
+# now with variance covariance matrix
+margEffCondV <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
+   vcov = diag( 18 ) )
+print( attr( margEffCondV, "vcov" ) )
+print( drop( attr( margEffCondV, "vcov" )[ 1, , ] ) )
+margEffCondVA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
+   data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
+   vcov = diag( 18 ) )
+all.equal( margEffCondV, margEffCondVA )
 
 # for testing state of random number generator
 rnorm( 4 )
@@ -318,6 +330,17 @@ margEffCondObs2 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
 print( margEffCondObs2 )
 all.equal( margEffCondObs, margEffCondObs2 )
 all.equal( margEffCondObs1, margEffCondObs2 )
+# now with variance covariance matrix
+margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, 
+   data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
+   cond = TRUE, vcov = diag( 18 ) )
+print( attr( margEffCondObsV, "vcov" ) )
+print( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ) )
+margEffCondObsVA <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
+   cond = TRUE, vcov = diag( 18 ) )
+all.equal( margEffCondObs, margEffCondObsA )
 
 # for testing state of random number generator
 rnorm( 4 )

@@ -99,17 +99,38 @@ estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    method = "NM", reltol = 0.05 )
 summary( estResultNM )
 
-# marginal effects based on estimated coefficients
+# marginal effects based on estimated coefficients with covariance matrix
 # unconditional marginal effects
-margEffUnc <- margEff( estResultBFGS )
+margEffUnc <- margEff( estResultBFGS, calcVCov = TRUE )
 print( margEffUnc )
+print( attr( margEffUnc, "vcov" )[ 1:5, , ] )
+print( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ) )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are as observed)
 margEffCondObs <- margEff( estResultBFGS, cond = TRUE )
 print( margEffCondObs )
 
+# conditional marginal effects with covariance matrix at sample mean
+# (assuming that all other dependent variables are at there modal values)
+margEffCondObsCov <- margEff( estResultBFGS, cond = TRUE,
+   data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
+   calcVCov = TRUE )
+print( margEffCondObsCov )
+print( attr( margEffCondObsCov, "vcov" ) )
+print( drop( attr( margEffCondObsCov, "vcov" ) ) )
+
 # conditional marginal effects
 # (assuming that all other dependent variables are one)
 margEffCondOne <- margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE )
 print( margEffCondOne )
+
+# conditional marginal effects with covariance matrix at sample mean
+# (assuming that all other dependent variables are one)
+margEffCondOneCov <- margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE,
+   data = as.data.frame( t( colMeans( xMat ) ) ), calcVCov = TRUE )
+print( margEffCondOneCov )
+print( attr( margEffCondOneCov, "vcov" ) )
+print( drop( attr( margEffCondOneCov, "vcov" ) ) )
+
+

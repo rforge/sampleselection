@@ -6,7 +6,7 @@
 
 \description{
    These methods prepare and print summary results
-   for multivariate models.
+   for multivariate probit models.
 }
 
 \usage{

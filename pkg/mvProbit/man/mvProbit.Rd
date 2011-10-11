@@ -77,7 +77,16 @@ mvProbit( formula, data, start = NULL, startSigma = NULL,
 }
 
 \value{
-   The object returned by \code{\link[maxLik]{maxLik}}.
+   \code{mvProbit} returns an object of class \code{"mvProbit"}
+   inheriting from class \code{"maxLik"}.
+   The returned object contains the same components as objects
+   returned by \code{\link[maxLik]{maxLik}} and additionally
+   the following components:
+   \item{call}{the matched call.}
+   \item{start}{the vector of starting values.}
+   \item{nDep}{the number of dependent variables.}
+   \item{nReg}{the number of explanatory variables (regressors).}
+   \item{nObs}{the number of observations.}
 }
 
 \details{

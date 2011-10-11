@@ -1,4 +1,4 @@
-mvProbitMargEff <- function( formula, coef, sigma = NULL, data,
+mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, eps = 1e-06, 
    random.seed = 123, ... ) {
 
@@ -43,6 +43,52 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, data,
       coef = coef, sigma = sigma, cond = cond, 
       algorithm = algorithm, nGHK = nGHK, eps = eps, 
       random.seed = random.seed, ... )
+
+   if( !is.null( vcov ) ) {
+      # join all model coefficients and correlation coefficients
+      if( !is.null( sigma ) ) {
+         coef <- c( coef, sigma[ lower.tri( sigma ) ] )
+      }
+      # check argument 'vcov'
+      if( !is.matrix( vcov ) ) {
+         stop( "argument 'vcov' must be a matrix" )
+      } else if( nrow( vcov ) != ncol( vcov ) ) {
+         stop( "argument 'vcov' must be a quadratic matrix" )
+      } else if( !isSymmetric( vcov ) ) {
+         stop( "argument 'vcov' must be a symmetric matrix" )
+      } else if( nrow( vcov ) != length( coef ) ) {
+         stop( "argument 'vcov' must have as many rows and columns",
+            " as there are coefficients (model coefficients +",
+            " correlation coefficients, i.e. ", length( coef ), ")" )
+      }
+      # Jacobian matrix d margEff / d coef
+      jacobian <- array( NA, 
+         c( nrow( result ), ncol( result ), length( coef ) ) )
+      for( i in 1:length( coef ) ) {
+         coefL <- coefU <- coef
+         coefL[ i ] <- coef[ i ] - eps / 2
+         coefU[ i ] <- coef[ i ] + eps / 2
+         margEffL <- mvProbitMargEffInternal( yMat = yMat, xMat = xMat, 
+            coef = coefL, sigma = NULL, cond = cond, 
+            algorithm = algorithm, nGHK = nGHK, eps = eps,
+            random.seed = random.seed, ... )
+         margEffU <- mvProbitMargEffInternal( yMat = yMat, xMat = xMat, 
+            coef = coefU, sigma = NULL, cond = cond, 
+            algorithm = algorithm, nGHK = nGHK, eps = eps,
+            random.seed = random.seed, ... )
+         jacobian[ , , i ] <- as.matrix( ( margEffU - margEffL ) / eps )
+      }
+      margEffCov <- array( NA, 
+         c( nrow( result ), ncol( result ), ncol( result ) ) )
+      for( i in 1:nrow( result ) ) {
+         margEffCov[ i, , ] <- 
+            jacobian[ i, , ] %*% vcov %*% t( jacobian[ i, , ] )
+      }
+      dimnames( margEffCov ) <- 
+         list( rownames( data ), names( result ), names( result ) )
+
+      attr( result, "vcov" ) <- margEffCov
+   }
 
    return( result )
 }

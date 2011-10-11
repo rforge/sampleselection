@@ -21,13 +21,13 @@
 mvProbitExp( formula, coef, sigma = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, random.seed = 123, ... )
 
-mvProbitMargEff( formula, coef, sigma = NULL, data,
+mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, 
    eps = 1e-06, random.seed = 123,
    ... )
 
 \method{margEff}{mvProbit}( object, data = eval( object$call$data ),
-   othDepOne = FALSE, ... )
+   othDepOne = FALSE, calcVCov = FALSE, ... )
 }
 
 \arguments{
@@ -44,6 +44,12 @@ mvProbitMargEff( formula, coef, sigma = NULL, data,
       (must be symmetric and have ones on its diagonal);
       if this argument is not specified, 
       the correlation coefficients must be specified by argument \code{coef}.}
+   \item{vcov}{an optional symmetric matrix 
+      specifying the variance-covariance matrix of all coefficients 
+      (model coefficients and correlation coefficients);
+      if this argument is specified,
+      the approximate variance covariance matrices of the marginal effects
+      are calculated and returned as an attribute (see below).}
    \item{data}{a \code{data.frame} containing the data.}
    \item{cond}{logical value indicating 
       whether (marginal effects on) conditional expectations (if \code{TRUE})
@@ -75,6 +81,10 @@ mvProbitMargEff( formula, coef, sigma = NULL, data,
       If \code{TRUE}, the marginal effects on the conditional expectations 
       are calculated based on the assumption 
       that all other dependent variables are one.}
+   \item{calcVCov}{logical. 
+      If \code{TRUE}, 
+      the approximate variance covariance matrices of the marginal effects
+      are calculated and returned as an attribute (see below).}
    \item{\dots}{additional arguments to \code{mvProbitExp} are passed
       to \code{\link[mvtnorm]{pmvnorm}}
       when calculating conditional expectations;
@@ -94,6 +104,14 @@ mvProbitMargEff( formula, coef, sigma = NULL, data,
    \code{mvProbitMargEff} and the \code{margEff} method return a data frame 
    containing the marginal effects of the explanatory variables
    on the expectations of the dependent variables.
+
+   If argument \code{vcov} of function \code{mvProbitMargEff} is specified
+   or argument \code{calcVCov} of the \code{margEff} method is \code{TRUE},
+   the returned data frame has an attribute \code{vcov},
+   which is a three-dimensional array,
+   where the first dimension corresponds to the observation
+   and the latter two dimensions span the approximate variance covariance matrix
+   of the marginal effects calculated for each observation.
 }
 
 \details{
@@ -128,6 +146,13 @@ mvProbitMargEff( formula, coef, sigma = NULL, data,
    \eqn{R_{n-1,n}},
    where \eqn{R_{i,j}} is the correlation coefficient corresponding to
    the \eqn{i}th and \eqn{j}th equation.
+
+   If argument \code{vcov} of function \code{mvProbitMargEff} is specified
+   or argument \code{calcVCov} of the \code{margEff} method is \code{TRUE},
+   the approximate variance covariance matrices of the marginal effects
+   are calculated at each observation by using the \sQuote{delta method},
+   where the jacobian matrix of the marginal effects 
+   with respect to the coefficients is obtained by numerical differentiation.
 
    The \sQuote{state} (or \sQuote{seed}) of R's random number generator 
    is saved at the beginning of the call to these functions

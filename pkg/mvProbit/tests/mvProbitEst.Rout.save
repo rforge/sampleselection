@@ -51,11 +51,18 @@ Loading required package: bayesm
 +    start = c( beta ), startSigma = sigma, method = "BHHH",
 +    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
 > print( estResultBHHH )
-Maximum Likelihood estimation
-BHHH maximisation, 1 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -56.90544 (12 free parameter(s))
-Estimate(s): 1.025085 1.305364 -1.028087 -0.7824769 1.143185 -1.669378 0.58229 -0.6966678 1.232833 0.8632169 0.3602168 -0.08406184 
+
+Call:
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
+    yMat)), start = c(beta), startSigma = sigma, method = "BHHH", 
+    tol = 0.5)
+
+Coefficients:
+   b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
+ 1.02508  1.30536 -1.02809 -0.78248  1.14318 -1.66938  0.58229 -0.69667 
+   b_3_2    R_1_2    R_1_3    R_2_3 
+ 1.23283  0.86322  0.36022 -0.08406 
+
 > summary( estResultBHHH )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -92,11 +99,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5,
 +    oneSidedGrad = TRUE )
 > print( estResultBHHH1 )
-Maximum Likelihood estimation
-BHHH maximisation, 1 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -56.90544 (12 free parameter(s))
-Estimate(s): 1.025085 1.305364 -1.028087 -0.7824769 1.143185 -1.669378 0.58229 -0.6966679 1.232833 0.8632172 0.3602168 -0.08406182 
+
+Call:
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
+    yMat)), start = c(beta), startSigma = sigma, method = "BHHH", 
+    oneSidedGrad = TRUE, tol = 0.5)
+
+Coefficients:
+   b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
+ 1.02508  1.30536 -1.02809 -0.78248  1.14318 -1.66938  0.58229 -0.69667 
+   b_3_2    R_1_2    R_1_3    R_2_3 
+ 1.23283  0.86322  0.36022 -0.08406 
+
 > summary( estResultBHHH1 )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -134,11 +148,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
 +    tol = 0.5 )
 > print( estResultBFGS )
-Maximum Likelihood estimation
-BFGS maximisation, 4 iterations
-Return code 0: successful convergence 
-Log-Likelihood: -52.94456 (12 free parameter(s))
-Estimate(s): 0.5360716 1.161006 -1.142125 -0.4495225 1.054956 -1.576239 0.4075112 -0.8540047 1.259584 0.2948265 0.3282192 -0.02381835 
+
+Call:
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
+    yMat)), start = c(beta), startSigma = sigma, tol = 0.5)
+
+Coefficients:
+   b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
+ 0.53607  1.16101 -1.14212 -0.44952  1.05496 -1.57624  0.40751 -0.85400 
+   b_3_2    R_1_2    R_1_3    R_2_3 
+ 1.25958  0.29483  0.32822 -0.02382 
+
 > summary( estResultBFGS )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -170,11 +190,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
 +    tol = 0.5, oneSidedGrad = TRUE )
 > print( estResultBFGS1 )
-Maximum Likelihood estimation
-BFGS maximisation, 4 iterations
-Return code 0: successful convergence 
-Log-Likelihood: -52.94456 (12 free parameter(s))
-Estimate(s): 0.5360713 1.161006 -1.142125 -0.4495228 1.054956 -1.57624 0.4075108 -0.8540049 1.259584 0.2948264 0.3282191 -0.02381858 
+
+Call:
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
+    yMat)), start = c(beta), startSigma = sigma, oneSidedGrad = TRUE, 
+    tol = 0.5)
+
+Coefficients:
+   b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
+ 0.53607  1.16101 -1.14213 -0.44952  1.05496 -1.57624  0.40751 -0.85400 
+   b_3_2    R_1_2    R_1_3    R_2_3 
+ 1.25958  0.29483  0.32822 -0.02382 
+
 > summary( estResultBFGS1 )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -211,11 +238,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
 +    tol = 0.5, oneSidedGrad = TRUE )
 > print( estResultBFGS1a )
-Maximum Likelihood estimation
-BFGS maximisation, 3 iterations
-Return code 0: successful convergence 
-Log-Likelihood: -49.36404 (12 free parameter(s))
-Estimate(s): 0.7935305 1.883674 -1.74922 -0.4003562 0.9157721 -1.521057 0.9778985 -1.694332 1.576251 0.7527012 0.2372124 -0.03452763 
+
+Call:
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
+    yMat)), oneSidedGrad = TRUE, tol = 0.5)
+
+Coefficients:
+   b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
+ 0.79353  1.88367 -1.74922 -0.40036  0.91577 -1.52106  0.97790 -1.69433 
+   b_3_2    R_1_2    R_1_3    R_2_3 
+ 1.57625  0.75270  0.23721 -0.03453 
+
 > summary( estResultBFGS1a )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -246,11 +279,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    startSigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
 +    tol = 0.5, oneSidedGrad = TRUE )
 > print( estResultBFGS1b )
-Maximum Likelihood estimation
-BFGS maximisation, 3 iterations
-Return code 0: successful convergence 
-Log-Likelihood: -49.57444 (12 free parameter(s))
-Estimate(s): 0.8110293 1.905996 -1.762675 -0.37696 0.9440638 -1.533205 0.9371833 -1.749782 1.602423 0.681675 0.4044173 0.1663422 
+
+Call:
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
+    yMat)), startSigma = sigma, oneSidedGrad = TRUE, tol = 0.5)
+
+Coefficients:
+  b_1_0   b_1_1   b_1_2   b_2_0   b_2_1   b_2_2   b_3_0   b_3_1   b_3_2   R_1_2 
+ 0.8110  1.9060 -1.7627 -0.3770  0.9441 -1.5332  0.9372 -1.7498  1.6024  0.6817 
+  R_1_3   R_2_3 
+ 0.4044  0.1663 
+
 > summary( estResultBFGS1b )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -281,11 +320,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    start = c( beta ), data = as.data.frame( cbind( xMat, yMat ) ), 
 +    tol = 0.5, oneSidedGrad = TRUE )
 > print( estResultBFGS1s )
-Maximum Likelihood estimation
-BFGS maximisation, 4 iterations
-Return code 0: successful convergence 
-Log-Likelihood: -52.78274 (12 free parameter(s))
-Estimate(s): 0.5581394 1.149579 -1.127465 -0.4442571 1.07325 -1.572262 0.372552 -0.8546984 1.230114 0.3498103 -0.0117679 0.09435329 
+
+Call:
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
+    yMat)), start = c(beta), oneSidedGrad = TRUE, tol = 0.5)
+
+Coefficients:
+   b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
+ 0.55814  1.14958 -1.12747 -0.44426  1.07325 -1.57226  0.37255 -0.85470 
+   b_3_2    R_1_2    R_1_3    R_2_3 
+ 1.23011  0.34981 -0.01177  0.09435 
+
 > summary( estResultBFGS1s )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -320,11 +365,18 @@ Warning message:
 In log(pmvnormWrap(upper = xBetaTmp, sigma = sigmaTmp, algorithm = algorithm,  :
   NaNs produced
 > print( estResultBFGSm )
-Maximum Likelihood estimation
-BFGS maximisation, 4 iterations
-Return code 0: successful convergence 
-Log-Likelihood: -52.94417 (12 free parameter(s))
-Estimate(s): 0.5360853 1.161016 -1.142134 -0.4495214 1.054959 -1.576244 0.4075293 -0.8539999 1.259598 0.2949128 0.3281851 -0.02386316 
+
+Call:
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
+    yMat)), start = c(beta), startSigma = sigma, algorithm = Miwa(steps = 64), 
+    tol = 0.5)
+
+Coefficients:
+   b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
+ 0.53609  1.16102 -1.14213 -0.44952  1.05496 -1.57624  0.40753 -0.85400 
+   b_3_2    R_1_2    R_1_3    R_2_3 
+ 1.25960  0.29491  0.32819 -0.02386 
+
 > summary( estResultBFGSm )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -364,11 +416,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    tol = 0.5, algorithm = "GHK" )
 There were 50 or more warnings (use warnings() to see the first 50)
 > print( estResultBFGSg )
-Maximum Likelihood estimation
-BFGS maximisation, 4 iterations
-Return code 0: successful convergence 
-Log-Likelihood: -52.93771 (12 free parameter(s))
-Estimate(s): 0.5359677 1.16071 -1.142391 -0.4517554 1.053128 -1.575703 0.4038526 -0.8571025 1.259769 0.2952999 0.324945 -0.02084813 
+
+Call:
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
+    yMat)), start = c(beta), startSigma = sigma, algorithm = "GHK", 
+    tol = 0.5)
+
+Coefficients:
+   b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
+ 0.53597  1.16071 -1.14239 -0.45176  1.05313 -1.57570  0.40385 -0.85710 
+   b_3_2    R_1_2    R_1_3    R_2_3 
+ 1.25977  0.29530  0.32495 -0.02085 
+
 > summary( estResultBFGSg )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -414,11 +473,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    data = as.data.frame( cbind( xMat, yMat ) ), 
 +    method = "NM", reltol = 0.05 )
 > print( estResultNM )
-Maximum Likelihood estimation
-Nelder-Mead maximisation, 13 iterations
-Return code 0: successful convergence 
-Log-Likelihood: -56.94782 (12 free parameter(s))
-Estimate(s): 0.8 1.2 -0.8 -0.44 1 -1.6 0.5 -0.6 1.2 0.2 0.4 -0.1 
+
+Call:
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
+    yMat)), start = c(beta), startSigma = sigma, method = "NM", 
+    reltol = 0.05)
+
+Coefficients:
+b_1_0 b_1_1 b_1_2 b_2_0 b_2_1 b_2_2 b_3_0 b_3_1 b_3_2 R_1_2 R_1_3 R_2_3 
+ 0.80  1.20 -0.80 -0.44  1.00 -1.60  0.50 -0.60  1.20  0.20  0.40 -0.10 
+
 > summary( estResultNM )
 --------------------------------------------
 Maximum Likelihood estimation

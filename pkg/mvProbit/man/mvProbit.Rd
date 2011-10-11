@@ -1,5 +1,6 @@
 \name{mvProbit}
 \alias{mvProbit}
+\alias{print.mvProbit}
 \title{Estimation of Multivariate Probit Models}
 \description{
    Estimating multivariate probit models by the maximum likelihood method.
@@ -13,6 +14,8 @@ mvProbit( formula, data, start = NULL, startSigma = NULL,
    method = "BFGS", finalHessian = "BHHH", 
    algorithm = GenzBretz(), nGHK = 1000, oneSidedGrad = FALSE, eps = 1e-6, 
    random.seed = 123, ... )
+
+\method{print}{mvProbit}( x, digits = 4, ... )
 }
 
 \arguments{
@@ -72,8 +75,13 @@ mvProbit( formula, data, start = NULL, startSigma = NULL,
       a (cumulative) probability of the multivariate normal distribution 
       is computed;
       defaults to 123.}
-   \item{\dots}{additional arguments are passed
-      to \code{\link[maxLik]{maxLik}} and \code{\link[mvtnorm]{pmvnorm}}.}
+   \item{x}{object of class \code{mvProbit} (returned by \code{mvProbit}).}
+   \item{digits}{positive integer specifiying the minimum number of
+      significant digits to be printed
+      (see \code{\link[base]{print.default}}).}
+   \item{\dots}{additional arguments to \code{mvProbit} are passed
+      to \code{\link[maxLik]{maxLik}} and \code{\link[mvtnorm]{pmvnorm}};
+      additional arguments to \code{print.mvProbit} are currently ignored.}
 }
 
 \value{

@@ -7,4 +7,6 @@ importFrom( "miscTools", "margEff" )
 
 S3method( "margEff", "mvProbit" )
 S3method( "print", "mvProbit" )
+S3method( "print", "summary.mvProbit" )
+S3method( "summary", "mvProbit" )
 

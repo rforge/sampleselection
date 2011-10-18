@@ -27,7 +27,7 @@ mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
    ... )
 
 \method{margEff}{mvProbit}( object, data = eval( object$call$data ),
-   othDepOne = FALSE, calcVCov = FALSE, ... )
+   cond = FALSE, othDepOne = FALSE, calcVCov = FALSE, ... )
 }
 
 \arguments{

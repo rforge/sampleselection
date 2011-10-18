@@ -1,8 +1,8 @@
 margEff.mvProbit <- function( object, data = eval( object$call$data ),
-   othDepOne = FALSE, calcVCov = FALSE,... ) {
+   cond = FALSE, othDepOne = FALSE, calcVCov = FALSE,... ) {
 
    formula <- eval( object$call$formula )
-   if( othDepOne ) {
+   if( othDepOne || !cond ) {
       formula <- formula[ - 2 ]
    }
 
@@ -13,7 +13,7 @@ margEff.mvProbit <- function( object, data = eval( object$call$data ),
    }
 
    result <- mvProbitMargEff( formula = formula, 
-      coef = coef( object ), vcov = vcov, data = data, ... )
+      coef = coef( object ), vcov = vcov, data = data, cond = cond, ... )
 
    return( result )
 }

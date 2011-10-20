@@ -1,6 +1,6 @@
 mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, eps = 1e-06, 
-   random.seed = 123, ... ) {
+   returnJacobian = FALSE, random.seed = 123, ... ) {
 
    # checking argument 'formula'
    if( is.list( formula ) ) {
@@ -44,11 +44,12 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
       algorithm = algorithm, nGHK = nGHK, eps = eps, 
       random.seed = random.seed, ... )
 
+   # join all model coefficients and correlation coefficients
+   if( !is.null( sigma ) ) {
+      coef <- c( coef, sigma[ lower.tri( sigma ) ] )
+   }
+
    if( !is.null( vcov ) ) {
-      # join all model coefficients and correlation coefficients
-      if( !is.null( sigma ) ) {
-         coef <- c( coef, sigma[ lower.tri( sigma ) ] )
-      }
       # check argument 'vcov'
       if( !is.matrix( vcov ) ) {
          stop( "argument 'vcov' must be a matrix" )
@@ -61,7 +62,10 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
             " as there are coefficients (model coefficients +",
             " correlation coefficients, i.e. ", length( coef ), ")" )
       }
-      # Jacobian matrix d margEff / d coef
+   }
+
+   # Jacobian matrix d margEff / d coef
+   if( !is.null( vcov ) || returnJacobian ) {
       jacobian <- array( NA, 
          c( nrow( result ), ncol( result ), length( coef ) ) )
       for( i in 1:length( coef ) ) {
@@ -78,6 +82,12 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
             random.seed = random.seed, ... )
          jacobian[ , , i ] <- as.matrix( ( margEffU - margEffL ) / eps )
       }
+      if( returnJacobian ) {
+         attr( result, "jacobian" ) <- jacobian
+      }
+   }
+
+   if( !is.null( vcov ) ) {
       margEffCov <- array( NA, 
          c( nrow( result ), ncol( result ), ncol( result ) ) )
       for( i in 1:nrow( result ) ) {

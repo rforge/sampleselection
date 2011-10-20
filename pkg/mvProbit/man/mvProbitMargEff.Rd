@@ -23,7 +23,7 @@ mvProbitExp( formula, coef, sigma = NULL, data,
 
 mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, 
-   eps = 1e-06, random.seed = 123,
+   eps = 1e-06, returnJacobian = FALSE, random.seed = 123,
    ... )
 
 \method{margEff}{mvProbit}( object, data = eval( object$call$data ),
@@ -67,6 +67,9 @@ mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
    \item{eps}{numeric, the difference between the two values 
       of each (numerical) explanatory
       variable that is used for the numerical differentiation.}
+   \item{returnJacobian}{logical.
+      If \code{TRUE}, the Jacobian of the marginal effects 
+      with respect to the coefficients is returned.}
    \item{random.seed}{an integer used to seed R's random number generator;
       this is to ensure replicability 
       when computing (cumulative) probabilities of the multivariate normal distribution
@@ -112,6 +115,16 @@ mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
    where the first dimension corresponds to the observation
    and the latter two dimensions span the approximate variance covariance matrix
    of the marginal effects calculated for each observation.
+
+   If argument \code{returnJacobian} of function \code{mvProbitMargEff}
+   or method \code{margEff} is set to \code{TRUE},
+   the returned data frame has an attribute \code{jacobian},
+   which is a three-dimensional array
+   that contains the Jacobian matrices of the marginal effects 
+   with respect to the coefficients at each observation,
+   where the first dimension corresponds to the observations,
+   the second dimension corresponds to the marginal effects,
+   and the third dimension corresponds to the coefficients.
 }
 
 \details{

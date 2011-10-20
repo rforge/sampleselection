@@ -81,6 +81,14 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
             algorithm = algorithm, nGHK = nGHK, eps = eps,
             random.seed = random.seed, ... )
          jacobian[ , , i ] <- as.matrix( ( margEffU - margEffL ) / eps )
+         coefNames <- names( coef )
+         if( is.null( coefNames ) ) {
+            coefNames <- mvProbitCoefNames( 
+               nDep = round( ncol( result ) / ( ncol( xMat ) - 1 ) ), 
+               nReg = ncol( xMat ) )
+         }
+         dimnames( jacobian ) <- 
+            list( rownames( data ), names( result ), coefNames )
       }
       if( returnJacobian ) {
          attr( result, "jacobian" ) <- jacobian

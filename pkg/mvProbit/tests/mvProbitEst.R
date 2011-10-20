@@ -110,12 +110,17 @@ print( estResultNM )
 summary( estResultNM )
 
 # marginal effects based on estimated coefficients with covariance matrix
-# unconditional marginal effects
-margEffUnc <- margEff( estResultBFGS, calcVCov = TRUE )
+# unconditional marginal effects (with Jacobian)
+margEffUnc <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE )
 print( margEffUnc )
 print( attr( margEffUnc, "vcov" )[ 1:5, , ] )
 print( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ) )
+print( attr( margEffUnc, "jacobian" )[ 1:5, , ] )
+print( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ) )
 summary( margEffUnc )
+# now with returned Jacobian but without variance covariance matrix
+margEffUncJac <- margEff( estResultBFGS, returnJacobian = TRUE )
+all.equal( attr( margEffUncJac, "jacobian" ), attr( margEffUnc, "jacobian" ) )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are as observed)
@@ -124,12 +129,15 @@ print( margEffCondObs )
 
 # conditional marginal effects with covariance matrix at sample mean
 # (assuming that all other dependent variables are at there modal values)
+# (with Jacobian)
 margEffCondObsCov <- margEff( estResultBFGS, cond = TRUE,
    data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
-   calcVCov = TRUE )
+   calcVCov = TRUE, returnJacobian = TRUE )
 print( margEffCondObsCov )
 print( attr( margEffCondObsCov, "vcov" ) )
 print( drop( attr( margEffCondObsCov, "vcov" ) ) )
+print( attr( margEffCondObsCov, "jacobian" ) )
+print( drop( attr( margEffCondObsCov, "jacobian" ) ) )
 summary( margEffCondObsCov )
 
 # conditional marginal effects

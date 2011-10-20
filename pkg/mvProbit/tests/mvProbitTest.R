@@ -294,17 +294,24 @@ margEffCond3 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ),
 print( margEffCond3 )
 all.equal( margEffCond, margEffCond3 )
 all.equal( margEffCond2, margEffCond3 )
-# now with variance covariance matrix
+# now with variance covariance matrix and Jacobian
 margEffCondV <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
-   vcov = diag( 18 ) )
+   vcov = diag( 18 ), returnJacobian = TRUE )
 print( attr( margEffCondV, "vcov" ) )
 print( drop( attr( margEffCondV, "vcov" )[ 1, , ] ) )
+print( attr( margEffCondV, "jacobian" ) )
+print( drop( attr( margEffCondV, "jacobian" )[ 1, , ] ) )
 summary( margEffCondV )
 margEffCondVA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
-   vcov = diag( 18 ) )
+   vcov = diag( 18 ), returnJacobian = TRUE )
 all.equal( margEffCondV, margEffCondVA )
+# now with Jacobian but without variance covariance matrix
+margEffCondJac <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
+   data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
+   returnJacobian = TRUE )
+all.equal( attr( margEffCondJac, "jacobian" ), attr( margEffCondV, "jacobian" ) )
 
 # for testing state of random number generator
 rnorm( 4 )
@@ -332,18 +339,27 @@ margEffCondObs2 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
 print( margEffCondObs2 )
 all.equal( margEffCondObs, margEffCondObs2 )
 all.equal( margEffCondObs1, margEffCondObs2 )
-# now with variance covariance matrix
+# now with variance covariance matrix and Jacobian
 margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, 
    data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
-   cond = TRUE, vcov = diag( 18 ) )
+   cond = TRUE, vcov = diag( 18 ), returnJacobian = TRUE )
 print( attr( margEffCondObsV, "vcov" ) )
 print( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ) )
+print( attr( margEffCondObsV, "jacobian" ) )
+print( drop( attr( margEffCondObsV, "jacobian" )[ 1, , ] ) )
 summary( margEffCondObsV )
 margEffCondObsVA <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
-   cond = TRUE, vcov = diag( 18 ) )
+   cond = TRUE, vcov = diag( 18 ), returnJacobian = TRUE )
 all.equal( margEffCondObs, margEffCondObsA )
+# now with Jacobian but without variance covariance matrix
+margEffCondObsJac <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, 
+   data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
+   cond = TRUE, returnJacobian = TRUE )
+all.equal( attr( margEffCondObsJac, "jacobian" ), 
+   attr( margEffCondObsV, "jacobian" ) )
 
 # for testing state of random number generator
 rnorm( 4 )

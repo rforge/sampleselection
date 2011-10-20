@@ -133,13 +133,16 @@ range( attr( logLikValGrad, "gradient" ) - logLikValGrad2 )
 
 # calculating marginal effects, unconditional
 margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ), 
-   sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 30 ) )
+   sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 30 ),
+   returnJacobian = TRUE )
 print( margEffUnc )
 print( attr( margEffUnc, "vcov" )[ 1:3, , ] )
 print( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ) )
+print( attr( margEffUnc, "jacobian" )[ 1:3, , ] )
+print( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ) )
 summary( margEffUnc )
 margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3, coef = allCoef,
-   data = as.data.frame( xMat ), vcov = diag( 30 ) )
+   data = as.data.frame( xMat ), vcov = diag( 30 ), returnJacobian = TRUE )
 all.equal( margEffUnc, margEffUncA )
 
 # calculating marginal effects, conditional
@@ -153,9 +156,11 @@ all.equal( margEffCond, margEffCondA )
 # now with variance covariance matrix
 margEffCondV <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
-   vcov = diag( 30 ) )
+   vcov = diag( 30 ), returnJacobian = TRUE )
 print( attr( margEffCondV, "vcov" ) )
 print( drop( attr( margEffCondV, "vcov" )[ 1, , ] ) )
+print( attr( margEffCondV, "jacobian" ) )
+print( drop( attr( margEffCondV, "jacobian" )[ 1, , ] ) )
 summary( margEffCondV )
 
 # calculating marginal effects, conditional
@@ -170,8 +175,10 @@ all.equal( margEffCondObs, margEffCondObsA )
 # now with variance covariance matrix
 margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
-   cond = TRUE, vcov = diag( 30 ) )
+   cond = TRUE, vcov = diag( 30 ), returnJacobian = TRUE )
 print( attr( margEffCondObsV, "vcov" ) )
 print( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ) )
+print( attr( margEffCondObsV, "jacobian" ) )
+print( drop( attr( margEffCondObsV, "jacobian" )[ 1, , ] ) )
 summary( margEffCondObsV )
 

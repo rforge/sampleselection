@@ -21,6 +21,7 @@ Loading required package: mvtnorm
 Loading required package: maxLik
 Loading required package: miscTools
 Loading required package: bayesm
+Loading required package: abind
 > 
 > ## generate a simulated data set
 > set.seed( 123 )

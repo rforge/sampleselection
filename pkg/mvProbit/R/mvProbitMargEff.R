@@ -1,6 +1,6 @@
 mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, eps = 1e-06, 
-   returnJacobian = FALSE, random.seed = 123, ... ) {
+   addMean = FALSE, returnJacobian = FALSE, random.seed = 123, ... ) {
 
    # checking argument 'formula'
    if( is.list( formula ) ) {
@@ -13,6 +13,13 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
    # checking argument 'data'
    if( !is.data.frame( data ) ) {
       stop( "argument 'data' must be a data frame" )
+   }
+
+   # checking argument 'addMean'
+   if( length( addMean ) != 1 ) {
+      stop( "argument 'addMean' must be a single logical value" )
+   } else if( !is.logical( addMean ) ) {
+      stop( "argument 'addMean' must be a logical value" )
    }
 
    # preparing model matrix
@@ -90,9 +97,6 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
          dimnames( jacobian ) <- 
             list( rownames( data ), names( result ), coefNames )
       }
-      if( returnJacobian ) {
-         attr( result, "jacobian" ) <- jacobian
-      }
    }
 
    if( !is.null( vcov ) ) {
@@ -105,6 +109,33 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
       dimnames( margEffCov ) <- 
          list( rownames( data ), names( result ), names( result ) )
 
+      attr( result, "vcov" ) <- margEffCov
+   }
+
+   # add mean values of marginal effects if demanded by the user
+   if( addMean ) {
+      result <- rbind( result, mean = colMeans( result ) )
+      if( !is.null( vcov ) || returnJacobian ) {
+         mJacobian <- jacobian[ 1, , ]
+         if( nrow( xMat ) > 1 ) {
+            for( i in 2:nrow( xMat ) ){
+               mJacobian <- mJacobian + jacobian[ i, , ]
+            }
+            mJacobian <- mJacobian / nrow( xMat )
+            jacobian <- abind( jacobian, mean = mJacobian, along = 1 )
+         }
+      }
+      if( !is.null( vcov ) ) {
+         mVCov <- mJacobian %*% vcov %*% t( mJacobian )
+         margEffCov <- abind( margEffCov, mean = mVCov, along = 1 )
+      }      
+   }
+
+   if( returnJacobian ) {
+      attr( result, "jacobian" ) <- jacobian
+   }
+
+   if( !is.null( vcov ) ) {
       attr( result, "vcov" ) <- margEffCov
    }
 

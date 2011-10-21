@@ -23,7 +23,7 @@ mvProbitExp( formula, coef, sigma = NULL, data,
 
 mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, 
-   eps = 1e-06, returnJacobian = FALSE, random.seed = 123,
+   eps = 1e-06, addMean = FALSE, returnJacobian = FALSE, random.seed = 123,
    ... )
 
 \method{margEff}{mvProbit}( object, data = eval( object$call$data ),
@@ -67,6 +67,18 @@ mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
    \item{eps}{numeric, the difference between the two values 
       of each (numerical) explanatory
       variable that is used for the numerical differentiation.}
+   \item{addMean}{logical.
+      If \code{TRUE}, the mean of values of all marginal effects are added
+      in an additional row at the bottom of the returned data.frame.
+      If argument \code{returnJacobian} is \code{TRUE},
+      the Jacobian of the mean marginal effects with respect to the coefficients 
+      is included in the returned array of the Jacobians
+      (in an additional slot at the end of the first dimension).
+      If argument \code{vcov} of \code{mvProbitMargEff} is specified 
+      or argument \code{calcVCov} of the \code{margEff} method is \code{TRUE},
+      the variance covariance matrix of the mean marginal effects
+      is included in the returned array of the variance covariance matrices
+      (in an additional slot at the end of the first dimension).}
    \item{returnJacobian}{logical.
       If \code{TRUE}, the Jacobian of the marginal effects 
       with respect to the coefficients is returned.}

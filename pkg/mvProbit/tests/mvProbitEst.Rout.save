@@ -91,6 +91,8 @@ BHHH maximisation, 1 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -56.90544 on 12 Df
 
+> logLik( estResultBHHH )
+'log Lik.' -56.90544 (df=12)
 > estResultBHHHA <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    start = c( beta, sigma[ lower.tri( sigma ) ] ), method = "BHHH",
 +    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
@@ -143,6 +145,8 @@ BHHH maximisation, 1 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -56.90544 on 12 Df
 
+> logLik( estResultBHHH1 )
+'log Lik.' -56.90544 (df=12)
 > all.equal( estResultBHHH, estResultBHHH1 )
 [1] "Component 2: Mean relative difference: 1.181367e-07"     
 [2] "Component 3: Mean relative difference: 1.490048e-06"     
@@ -194,6 +198,8 @@ BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
 Log-likelihood: -52.94456 on 12 Df
 
+> logLik( estResultBFGS )
+'log Lik.' -52.94456 (df=12)
 > 
 > # estimation with the BFGS algorithm, one-sided gradients
 > estResultBFGS1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -241,6 +247,8 @@ BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
 Log-likelihood: -52.94456 on 12 Df
 
+> logLik( estResultBFGS1 )
+'log Lik.' -52.94456 (df=12)
 > all.equal( estResultBFGS, estResultBFGS1 )
 [1] "Component 2: Mean relative difference: 3.039429e-07"     
 [2] "Component 3: Mean relative difference: 1.044097e-06"     
@@ -291,6 +299,8 @@ BFGS maximisation, 3 iterations
 Return code 0: successful convergence 
 Log-likelihood: -49.36404 on 12 Df
 
+> logLik( estResultBFGS1a )
+'log Lik.' -49.36404 (df=12)
 > 
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values for beta
 > estResultBFGS1b <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -335,6 +345,8 @@ BFGS maximisation, 3 iterations
 Return code 0: successful convergence 
 Log-likelihood: -49.57444 on 12 Df
 
+> logLik( estResultBFGS1b )
+'log Lik.' -49.57444 (df=12)
 > 
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values for sigma
 > estResultBFGS1s <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -379,6 +391,8 @@ BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
 Log-likelihood: -52.78274 on 12 Df
 
+> logLik( estResultBFGS1s )
+'log Lik.' -52.78274 (df=12)
 > 
 > # estimation with the BFGS algorithm, Miwa algorithm for obtaining integrals
 > estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -429,6 +443,8 @@ BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
 Log-likelihood: -52.94417 on 12 Df
 
+> logLik( estResultBFGSm )
+'log Lik.' -52.94417 (df=12)
 > all.equal( estResultBFGS, estResultBFGSm )
 [1] "Component 1: Mean relative difference: 7.343945e-06"     
 [2] "Component 2: Mean relative difference: 2.68304e-05"      
@@ -484,6 +500,8 @@ BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
 Log-likelihood: -52.93771 on 12 Df
 
+> logLik( estResultBFGSg )
+'log Lik.' -52.93771 (df=12)
 > all.equal( estResultBFGS, estResultBFGSg )
 [1] "Component 1: Mean relative difference: 0.000129477"      
 [2] "Component 2: Mean relative difference: 0.00208213"       
@@ -543,6 +561,8 @@ Nelder-Mead maximisation, 13 iterations
 Return code 0: successful convergence 
 Log-likelihood: -56.94782 on 12 Df
 
+> logLik( estResultNM )
+'log Lik.' -56.94782 (df=12)
 > 
 > # marginal effects based on estimated coefficients with covariance matrix
 > # unconditional marginal effects (with Jacobian)

@@ -5,6 +5,7 @@ export( "mvProbitMargEff" )
 
 importFrom( "miscTools", "margEff" )
 
+S3method( "logLik", "mvProbit" )
 S3method( "margEff", "mvProbit" )
 S3method( "print", "mvProbit" )
 S3method( "print", "summary.mvProbit" )

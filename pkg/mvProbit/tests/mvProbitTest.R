@@ -262,6 +262,19 @@ summary( margEffUnc )
 margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat ), vcov = diag( 18 ) )
 all.equal( margEffUnc, margEffUncA )
+# now with mean values of the marginal effects
+margEffUncM <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ), 
+   addMean = TRUE )
+all.equal( margEffUnc, margEffUncM[ 1:nObs, ], check.attributes = FALSE )
+print( margEffUncM[ nObs:(nObs+1), ] )
+all.equal( attr( margEffUnc, "vcov" ), 
+   attr( margEffUncM, "vcov" )[ 1:nObs, , ] )
+print( attr( margEffUncM, "vcov" )[ nObs:(nObs+1), , ] )
+print( drop( attr( margEffUncM, "vcov" )[ nObs+1, , ] ) )
+all.equal( summary( margEffUnc )[ , ], 
+   summary( margEffUncM )[ 1:( 12 * nObs ), ], check.attributes = FALSE )
+printCoefmat( summary( margEffUncM )[ -( 1:( 12 * (nObs-1) ) ), ] )
 
 # for testing state of random number generator
 rnorm( 4 )
@@ -312,6 +325,23 @@ margEffCondJac <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
    returnJacobian = TRUE )
 all.equal( attr( margEffCondJac, "jacobian" ), attr( margEffCondV, "jacobian" ) )
+# now with mean values of marginal effects
+margEffCondM <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
+   vcov = diag( 18 ), addMean = TRUE, returnJacobian = TRUE )
+all.equal( margEffCondV, margEffCondM[ 1:3, ], check.attributes = FALSE )
+print( margEffCondM )
+all.equal( attr( margEffCondV, "vcov" ), 
+   attr( margEffCondM, "vcov" )[ 1:3, , ] )
+print( attr( margEffCondM, "vcov" ) )
+print( drop( attr( margEffCondM, "vcov" )[ 4, , ] ) )
+all.equal( attr( margEffCondV, "jacobian" ), 
+   attr( margEffCondM, "jacobian" )[ 1:3, , ] )
+print( attr( margEffCondM, "jacobian" ) )
+print( drop( attr( margEffCondM, "jacobian" )[ 4, , ] ) )
+all.equal( summary( margEffCondV )[ , ], summary( margEffCondM )[ 1:36, ],
+   check.attributes = FALSE ) 
+summary( margEffCondM )[ -( 1:24 ), ]
 
 # for testing state of random number generator
 rnorm( 4 )
@@ -360,6 +390,24 @@ margEffCondObsJac <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    cond = TRUE, returnJacobian = TRUE )
 all.equal( attr( margEffCondObsJac, "jacobian" ), 
    attr( margEffCondObsV, "jacobian" ) )
+# now with mean values of marginal effects
+margEffCondObsM <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, 
+   data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
+   cond = TRUE, vcov = diag( 18 ), addMean = TRUE, returnJacobian = TRUE )
+all.equal( margEffCondObsV, margEffCondObsM[ 1:3, ], check.attributes = FALSE )
+print( margEffCondObsM )
+all.equal( attr( margEffCondObsV, "vcov" ), 
+   attr( margEffCondObsM, "vcov" )[ 1:3, , ] )
+print( attr( margEffCondObsM, "vcov" ) )
+print( drop( attr( margEffCondObsM, "vcov" )[ 4, , ] ) )
+all.equal( attr( margEffCondObsV, "jacobian" ), 
+   attr( margEffCondObsM, "jacobian" )[ 1:3, , ] )
+print( attr( margEffCondObsM, "jacobian" ) )
+print( drop( attr( margEffCondObsM, "jacobian" )[ 4, , ] ) )
+all.equal( summary( margEffCondObsV )[ , ], summary( margEffCondObsM )[ 1:36, ],
+   check.attributes = FALSE )
+summary( margEffCondObsM )[ -( 1:24 ), ]
 
 # for testing state of random number generator
 rnorm( 4 )

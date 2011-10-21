@@ -131,6 +131,20 @@ summary( margEffUnc )
 # now with returned Jacobian but without variance covariance matrix
 margEffUncJac <- margEff( estResultBFGS, returnJacobian = TRUE )
 all.equal( attr( margEffUncJac, "jacobian" ), attr( margEffUnc, "jacobian" ) )
+# now including mean values of the marginal effects
+margEffUncM <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
+   addMean = TRUE )
+all.equal( margEffUnc, margEffUncM[ -(nObs+1), ], check.attributes = FALSE )
+print( margEffUncM[ nObs:(nObs+1), ] )
+all.equal( attr( margEffUnc, "vcov" ), attr( margEffUncM, "vcov" )[ 1:nObs, , ] )
+print( attr( margEffUncM, "vcov" )[ nObs:(nObs+1), , ] )
+print( drop( attr( margEffUncM, "vcov" )[ nObs+1, , ] ) )
+all.equal( attr( margEffUnc, "jacobian" ), attr( margEffUncM, "jacobian" )[ 1:nObs, , ] )
+print( attr( margEffUncM, "jacobian" )[ nObs:(nObs+1), , ] )
+print( drop( attr( margEffUncM, "jacobian" )[ nObs+1, , ] ) )
+all.equal( summary( margEffUnc )[ , ], 
+   summary( margEffUncM )[ 1:( 6 * nObs ), ], check.attributes = FALSE )
+printCoefmat( summary( margEffUncM )[ -( 1:( 6 * ( nObs - 1 ) ) ), ] )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are as observed)

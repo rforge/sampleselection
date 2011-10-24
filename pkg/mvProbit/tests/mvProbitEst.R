@@ -179,12 +179,12 @@ summary( margEffCondObsCov )
 margEffCondObsCovD <- margEff( estResultBFGS, cond = TRUE,
    data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
    calcVCov = TRUE, returnJacobian = TRUE, dummyVars = c( "x1" ) )
-summary( margEffCondObsCovD )
+all.equal( margEffCondObsCovD, margEffCondObsCov )
 # now with seemingly no dummy variables
 margEffCondObsCovD0 <- margEff( estResultBFGS, cond = TRUE,
    data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
    calcVCov = TRUE, returnJacobian = TRUE, dummyVars = NULL )
-all.equal( margEffCondObsCovD0, margEffCondObsCov )
+summary( margEffCondObsCovD0 )
 # now with seemingly only dummy variables
 margEffCondObsCovDA <- margEff( estResultBFGS, cond = TRUE,
    data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 

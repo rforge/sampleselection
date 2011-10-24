@@ -128,6 +128,18 @@ print( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ) )
 print( attr( margEffUnc, "jacobian" )[ 1:5, , ] )
 print( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ) )
 summary( margEffUnc )
+# now with explicitly specifying dummy variables
+margEffUncD <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
+   dummyVars = c( "x1" ) )
+all.equal( margEffUncD, margEffUnc )
+# now with seemingly no dummy variables
+margEffUncD0 <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
+   dummyVars = NULL )
+summary( margEffUncD0 )
+# now with seemingly only dummy variables
+margEffUncDA <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
+   dummyVars = c( "x1", "x2" ) )
+summary( margEffUncDA )
 # now with returned Jacobian but without variance covariance matrix
 margEffUncJac <- margEff( estResultBFGS, returnJacobian = TRUE )
 all.equal( attr( margEffUncJac, "jacobian" ), attr( margEffUnc, "jacobian" ) )
@@ -163,6 +175,21 @@ print( drop( attr( margEffCondObsCov, "vcov" ) ) )
 print( attr( margEffCondObsCov, "jacobian" ) )
 print( drop( attr( margEffCondObsCov, "jacobian" ) ) )
 summary( margEffCondObsCov )
+# now with explicitly specifying dummy variables
+margEffCondObsCovD <- margEff( estResultBFGS, cond = TRUE,
+   data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
+   calcVCov = TRUE, returnJacobian = TRUE, dummyVars = c( "x1" ) )
+summary( margEffCondObsCovD )
+# now with seemingly no dummy variables
+margEffCondObsCovD0 <- margEff( estResultBFGS, cond = TRUE,
+   data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
+   calcVCov = TRUE, returnJacobian = TRUE, dummyVars = NULL )
+all.equal( margEffCondObsCovD0, margEffCondObsCov )
+# now with seemingly only dummy variables
+margEffCondObsCovDA <- margEff( estResultBFGS, cond = TRUE,
+   data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
+   calcVCov = TRUE, returnJacobian = TRUE, dummyVars = c( "x1", "x2" ) )
+summary( margEffCondObsCovDA )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are one)

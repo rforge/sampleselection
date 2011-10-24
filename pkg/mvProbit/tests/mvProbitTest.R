@@ -262,6 +262,21 @@ summary( margEffUnc )
 margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat ), vcov = diag( 18 ) )
 all.equal( margEffUnc, margEffUncA )
+# now with explicitly specifying dummy variables
+margEffUncD <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ),
+   dummyVar = c( "x1", "x2" ) )
+all.equal( margEffUncD, margEffUnc )
+# now with seemingly no dummy variables
+margEffUncD0 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ),
+   dummyVar = NULL )
+summary( margEffUncD0 )
+# now with seemingly only dummy variables
+margEffUncDA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ),
+   dummyVar = c( "x1", "x2", "x3", "x4" ) )
+summary( margEffUncDA )
 # now with mean values of the marginal effects
 margEffUncM <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ), 
@@ -287,6 +302,21 @@ print( margEffCond )
 margEffCondA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat ), cond = TRUE )
 all.equal( margEffCond, margEffCondA )
+# now with dummy variables specified explicitly
+margEffCondD <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   dummyVars = c( "x1", "x2" ) )
+all.equal( margEffCondD, margEffCond )
+# now with seemingly no dummy variables
+margEffCondD0 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   dummyVars = NULL )
+print( margEffCondD0 )
+# now with seemingly only dummy variables
+margEffCondDA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   dummyVars = c( "x1", "x2", "x3", "x4" ) )
+print( margEffCondDA )
 # now with integrals obtained by the Miwa algorithm, reduced precision
 margEffCond1 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,

@@ -2,7 +2,7 @@ library( "mvProbit" )
 library( "miscTools" )
 
 # covariance matrix
-sigma <- symMatrix( c( 1, 0.2, 0.4, 1, -0.1, 1 ) )
+sigma <- miscTools::symMatrix( c( 1, 0.2, 0.4, 1, -0.1, 1 ) )
 
 ######## only upper ##########
 upper <- c( -0.3, 0.7, -0.5 )

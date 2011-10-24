@@ -122,6 +122,7 @@ beta <- cbind( c(  0.8,  1.2, -1.0,  1.4, -0.8 ),
                c(  0.5, -0.6, -0.7,  1.1,  1.2 ) )
 
 # covariance matrix of error terms
+library( miscTools )
 sigma <- symMatrix( c( 1, 0.2, 0.4, 1, -0.1, 1 ) )
 
 # generate dependent variables

@@ -49,6 +49,16 @@ mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
    # number of observations
    nObs <- nrow( xMat )
 
+   # determining dummy variables (to be returned, for computing marginal effects)
+   dummyVars <- NULL
+   if( nReg > 1 ) {
+      for( i in 2:nReg ) {
+         if( all( xMat[ , i ] %in% c( 0, 1, TRUE, FALSE ) ) ) {
+            dummyVars <- c( dummyVars, colnames( xMat )[ i ] )
+         }
+      }
+   }
+
    # obtaining starting values for model coefficients if they are not specified
    if( is.null( start ) ) {
       uvProbit <- list()
@@ -101,6 +111,7 @@ mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
    result$nDep <- nDep
    result$nReg <- nReg
    result$nObs <- nObs
+   result$dummyVars <- dummyVars
 
    class( result ) <- c( "mvProbit", class( result ) )
 

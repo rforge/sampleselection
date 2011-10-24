@@ -95,6 +95,11 @@ mvProbit( formula, data, start = NULL, startSigma = NULL,
    \item{nDep}{the number of dependent variables.}
    \item{nReg}{the number of explanatory variables (regressors).}
    \item{nObs}{the number of observations.}
+   \item{dummyVars}{vector of character strings
+      indicating the names of explanatory variables
+      that contain only zeros and ones or only \code{TRUE} and \code{FALSE}.
+      It is \code{NULL}, if no explanatory variable is indentified 
+      as a dummy variable.}
 }
 
 \details{

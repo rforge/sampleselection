@@ -135,7 +135,7 @@ b_2_2 -1.66938    0.81307  -2.053  0.0401 *
 b_3_0  0.58229    0.64106   0.908  0.3637  
 b_3_1 -0.69667    0.89817  -0.776  0.4380  
 b_3_2  1.23283    0.62452   1.974  0.0484 *
-R_1_2  0.86322   18.60040   0.046  0.9630  
+R_1_2  0.86322   18.60041   0.046  0.9630  
 R_1_3  0.36022    0.64712   0.557  0.5778  
 R_2_3 -0.08406    0.34909  -0.241  0.8097  
 ---
@@ -148,11 +148,12 @@ Log-likelihood: -56.90544 on 12 Df
 > logLik( estResultBHHH1 )
 'log Lik.' -56.90544 (df=12)
 > all.equal( estResultBHHH, estResultBHHH1 )
-[1] "Component 2: Mean relative difference: 1.181367e-07"     
-[2] "Component 3: Mean relative difference: 1.490048e-06"     
-[3] "Component 4: Mean relative difference: 4.756807e-07"     
-[4] "Component 11: Mean relative difference: 4.579023e-07"    
-[5] "Component 12: target, current do not match when deparsed"
+[1] "Component 1: Mean relative difference: 1.826276e-08"     
+[2] "Component 2: Mean relative difference: 1.179507e-07"     
+[3] "Component 3: Mean relative difference: 1.254692e-06"     
+[4] "Component 4: Mean relative difference: 4.702722e-07"     
+[5] "Component 11: Mean relative difference: 4.500036e-07"    
+[6] "Component 12: target, current do not match when deparsed"
 > 
 > # estimation with the BFGS algorithm, two-sided gradients
 > estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -250,10 +251,10 @@ Log-likelihood: -52.94456 on 12 Df
 > logLik( estResultBFGS1 )
 'log Lik.' -52.94456 (df=12)
 > all.equal( estResultBFGS, estResultBFGS1 )
-[1] "Component 2: Mean relative difference: 3.039429e-07"     
-[2] "Component 3: Mean relative difference: 1.044097e-06"     
-[3] "Component 4: Mean relative difference: 4.568584e-07"     
-[4] "Component 12: Mean relative difference: 2.912419e-07"    
+[1] "Component 2: Mean relative difference: 2.633493e-07"     
+[2] "Component 3: Mean relative difference: 8.517387e-07"     
+[3] "Component 4: Mean relative difference: 4.319226e-07"     
+[4] "Component 12: Mean relative difference: 2.45066e-07"     
 [5] "Component 13: target, current do not match when deparsed"
 > 
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values
@@ -289,7 +290,7 @@ b_2_2 -1.52106    0.72006  -2.112  0.0347 *
 b_3_0  0.97790    0.64497   1.516  0.1295  
 b_3_1 -1.69433    0.94788  -1.787  0.0739 .
 b_3_2  1.57625    0.73399   2.148  0.0318 *
-R_1_2  0.75270    4.32730   0.174  0.8619  
+R_1_2  0.75270    4.32729   0.174  0.8619  
 R_1_3  0.23721    0.90535   0.262  0.7933  
 R_2_3 -0.03453    0.35889  -0.096  0.9234  
 ---
@@ -375,7 +376,7 @@ Coefficients:
 b_1_0  0.55814    0.86615   0.644  0.5193  
 b_1_1  1.14958    0.90607   1.269  0.2045  
 b_1_2 -1.12747    0.94191  -1.197  0.2313  
-b_2_0 -0.44426    0.85525  -0.519  0.6035  
+b_2_0 -0.44426    0.85526  -0.519  0.6035  
 b_2_1  1.07325    0.99314   1.081  0.2798  
 b_2_2 -1.57226    0.78557  -2.001  0.0453 *
 b_3_0  0.37255    0.56172   0.663  0.5072  

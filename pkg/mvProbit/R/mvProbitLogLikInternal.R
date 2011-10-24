@@ -50,7 +50,24 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
       allCoef <- c( coef$beta, coef$sigma[ lower.tri( coef$sigma ) ] )
       grad <- matrix( NA, nrow = length( result ), 
          ncol = length( allCoef ) )
-      for( i in 1:length( allCoef ) ) {
+      for( i in 1:nDep ) {
+         # gradients of intercepts
+         coefTmp <- allCoef
+         InterceptNo <- ( i - 1 ) * nReg + 1
+         coefTmp[ InterceptNo ] <- allCoef[ InterceptNo ] + eps
+         llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
+            coef = coefTmp, sigma = NULL, algorithm = algorithm, nGHK = nGHK,
+            oneSidedGrad = FALSE, eps = eps, randomSeed = randomSeed, ... )
+         grad[ , InterceptNo ] <- ( llTmp - result ) / eps
+         # gradients of other variables
+         if( nReg > 1 ) {
+            for( j in 2:nReg ) {
+               grad[ , InterceptNo + j - 1 ] <- 
+                  grad[ , InterceptNo ] * xMat[ , j ] 
+            }
+         }
+      }
+      for( i in ( nDep * nReg + 1 ):length( allCoef ) ) {
          coefTmp <- allCoef
          coefTmp[ i ] <- allCoef[ i ] + eps
          llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 

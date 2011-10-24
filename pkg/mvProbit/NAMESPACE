@@ -3,6 +3,7 @@ export( "mvProbitExp" )
 export( "mvProbitLogLik" )
 export( "mvProbitMargEff" )
 
+importFrom( "bayesm", "ghkvec" )
 importFrom( "miscTools", "margEff" )
 
 S3method( "logLik", "mvProbit" )

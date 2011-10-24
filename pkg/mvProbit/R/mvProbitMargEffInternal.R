@@ -1,5 +1,5 @@
 mvProbitMargEffInternal <- function( yMat, xMat, coef, sigma,
-   cond, algorithm, nGHK, eps, 
+   cond, algorithm, nGHK, eps, dummyVars,
    random.seed, ... ) {
 
    # number of regressors
@@ -8,10 +8,31 @@ mvProbitMargEffInternal <- function( yMat, xMat, coef, sigma,
    # names of regressors
    xNames <- colnames( xMat )
 
+   # detect dummy variables if they should be determined automatically
+   if( !is.null( dummyVars ) && is.na( dummyVars[ 1 ] ) ) {
+      dummyVars <- NULL
+      for( i in 2:nReg ) {
+         if( all( xMat[ , i ] %in% c( 0, 1, FALSE, TRUE ) ) ) {
+            dummyVars <- c( dummyVars, xNames[ i ] )
+         }
+      }
+   }
+
+   # check dummy variables
+   if( !is.null( dummyVars ) ) {
+      foundDummyVars <- dummyVars %in% c( "", xNames[ - 1 ] )
+      if( ! all( foundDummyVars ) ) {
+         warning( "variable(s) '", 
+            paste( dummyVars[ !foundDummyVars ], collapse = "', '" ),
+            "' specified in argument 'dummyVars'",
+            " seem(s) to be no explanatory variable(s)" )
+      }
+   }
+
    # calculate marginal effects
    for( i in 2:nReg ) {
       xMatL <- xMatU <- xMat
-      isDummy <- all( xMat[ , i ] %in% c( 0, 1, FALSE, TRUE ) )
+      isDummy <- xNames[ i ] %in% dummyVars
       if( isDummy ) {
          xMatL[ , i ] <- 0
          xMatU[ , i ] <- 1

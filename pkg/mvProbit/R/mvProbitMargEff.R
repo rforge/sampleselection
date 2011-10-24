@@ -1,6 +1,7 @@
 mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, eps = 1e-06, 
-   addMean = FALSE, returnJacobian = FALSE, random.seed = 123, ... ) {
+   dummyVars = NA, addMean = FALSE, returnJacobian = FALSE, 
+   random.seed = 123, ... ) {
 
    # checking argument 'formula'
    if( is.list( formula ) ) {
@@ -49,7 +50,7 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
    result <- mvProbitMargEffInternal( yMat = yMat, xMat = xMat, 
       coef = coef, sigma = sigma, cond = cond, 
       algorithm = algorithm, nGHK = nGHK, eps = eps, 
-      random.seed = random.seed, ... )
+      dummyVars = dummyVars, random.seed = random.seed, ... )
 
    # join all model coefficients and correlation coefficients
    if( !is.null( sigma ) ) {
@@ -81,11 +82,11 @@ mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
          coefU[ i ] <- coef[ i ] + eps / 2
          margEffL <- mvProbitMargEffInternal( yMat = yMat, xMat = xMat, 
             coef = coefL, sigma = NULL, cond = cond, 
-            algorithm = algorithm, nGHK = nGHK, eps = eps,
+            algorithm = algorithm, nGHK = nGHK, eps = eps, dummyVars = dummyVars,
             random.seed = random.seed, ... )
          margEffU <- mvProbitMargEffInternal( yMat = yMat, xMat = xMat, 
             coef = coefU, sigma = NULL, cond = cond, 
-            algorithm = algorithm, nGHK = nGHK, eps = eps,
+            algorithm = algorithm, nGHK = nGHK, eps = eps, dummyVars = dummyVars,
             random.seed = random.seed, ... )
          jacobian[ , , i ] <- as.matrix( ( margEffU - margEffL ) / eps )
          coefNames <- names( coef )

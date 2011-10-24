@@ -23,7 +23,8 @@ mvProbitExp( formula, coef, sigma = NULL, data,
 
 mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
    cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, 
-   eps = 1e-06, addMean = FALSE, returnJacobian = FALSE, random.seed = 123,
+   eps = 1e-06, dummyVars = NA, addMean = FALSE, 
+   returnJacobian = FALSE, random.seed = 123,
    ... )
 
 \method{margEff}{mvProbit}( object, data = eval( object$call$data ),
@@ -67,6 +68,16 @@ mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
    \item{eps}{numeric, the difference between the two values 
       of each (numerical) explanatory
       variable that is used for the numerical differentiation.}
+   \item{dummyVars}{optional vector containing the names (character strings)
+      of explanatory variables
+      that should be treated as dummy variables (see section \sQuote{Details}).
+      If \code{NA} (the default), dummy variables are detected automatically,
+      i.e. all explanatory variables
+      which contain only zeros and ones or only \code{TRUE} and \code{FALSE}
+      in the data set specified by argument \code{data}
+      are treated as dummy variables.
+      If \code{NULL},
+      no variable is treated as dummy variable.}
    \item{addMean}{logical.
       If \code{TRUE}, the mean of values of all marginal effects are added
       in an additional row at the bottom of the returned data.frame.
@@ -150,11 +161,16 @@ mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
    are calculated based on the assumption
    that all other dependent variables are one.
 
-   If an explanatory variable contains only zeros and ones 
-   or only \code{TRUE} and \code{FALSE},
-   \code{mvProbitMargEff} and the \code{margEff} method
-   ignore argument \code{eps} (for this variable) 
-   and return the effect from increasing this variable from zero to one.
+   The computation of the marginal effects
+   of dummy variables 
+   (i.e. variables specified in argument \code{dummyVars})
+   ignores argument \code{eps} 
+   and evaluates the effect of increasing these variables from zero to one.
+   The marginal effects of (continuous) variables 
+   (i.e. variables not specified in argument \code{dummyVars})
+   are calculated by evaluating the effect 
+   of increasing these variables from their actual values minus \code{0.5 * eps} 
+   to their actual values plus \code{0.5 * eps} (divided by \code{eps}).
 
    If the model has \eqn{n} dependent variables (equations)
    and \eqn{k} explanatory variables in each equation,

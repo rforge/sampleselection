@@ -1,6 +1,7 @@
 mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
    method = "BFGS", finalHessian = "BHHH", algorithm = GenzBretz(), nGHK = 1000,
-   oneSidedGrad = FALSE, eps = 1e-6, random.seed = 123, ... ) {
+   intGrad = TRUE, oneSidedGrad = FALSE, eps = 1e-6, 
+   random.seed = 123, ... ) {
 
    # checking argument 'formula'
    if( is.list( formula ) ) {
@@ -8,6 +9,13 @@ mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
          " has not been implemented yet. Sorry!" )
    } else if( class( formula ) != "formula" ) {
       stop( "argument 'formula' must be a formula" )
+   }
+
+   # checking argument 'intGrad'
+   if( length( intGrad ) != 1 ) {
+      stop( "argument 'intGrad' must be a single logical value" )
+   } else if( !is.logical( intGrad ) ) {
+      stop( "argument 'intGrad' must be a logical value" )
    }
 
    # checking argument 'data'
@@ -89,11 +97,11 @@ mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
 
    # wrapper function for maxLik for calling mvProbitLogLikInternal
    logLik <- function( param, yMat, xMat,
-      llAlgorithm, llNGHK, llOneSidedGrad, llEps, llRandom.seed, ... ) {
+      llAlgorithm, llNGHK, llIntGrad, llOneSidedGrad, llEps, llRandom.seed, ... ) {
 
       logLikVal <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
          coef = param, sigma = NULL, algorithm = llAlgorithm, nGHK = llNGHK,
-         returnGrad = llOneSidedGrad, oneSidedGrad = llOneSidedGrad, eps = llEps, 
+         returnGrad = llIntGrad, oneSidedGrad = llOneSidedGrad, eps = llEps, 
          randomSeed = llRandom.seed, ... )
 
       return( logLikVal )
@@ -102,8 +110,8 @@ mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
    result <- maxLik( logLik = logLik, start = start, method = method, 
       finalHessian = finalHessian, 
       yMat = yMat, xMat = xMat, llAlgorithm = algorithm, llNGHK = nGHK,
-      llOneSidedGrad = oneSidedGrad, llEps = eps, llRandom.seed = random.seed,
-      ... )
+      llIntGrad = intGrad, llOneSidedGrad = oneSidedGrad, llEps = eps, 
+      llRandom.seed = random.seed, ... )
 
    # return also some other useful information
    result$call <- match.call()

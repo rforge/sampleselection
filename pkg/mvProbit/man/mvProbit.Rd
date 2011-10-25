@@ -12,7 +12,8 @@
 \usage{
 mvProbit( formula, data, start = NULL, startSigma = NULL, 
    method = "BFGS", finalHessian = "BHHH", 
-   algorithm = GenzBretz(), nGHK = 1000, oneSidedGrad = FALSE, eps = 1e-6, 
+   algorithm = GenzBretz(), nGHK = 1000, 
+   intGrad = TRUE, oneSidedGrad = FALSE, eps = 1e-6, 
    random.seed = 123, ... )
 
 \method{print}{mvProbit}( x, digits = 4, ... )
@@ -55,14 +56,26 @@ mvProbit( formula, data, start = NULL, startSigma = NULL,
    \item{nGHK}{numeric value specifying the number of simulation draws 
       of the GHK algorithm for computing integrals 
       of the multivariate normal distribution.}
-   \item{oneSidedGrad}{logical. If \code{TRUE}, 
+   \item{intGrad}{logical. If \code{TRUE}, 
+      the computation of the gradients
+      with respect to the estimated parameters
+      is done internally in function \code{\link{mvProbitLogLik}}
+      when it computes the log-likelihood values.
+      If the optimization method requires gradients 
+      and this argument is \code{FALSE},
+      \code{\link[maxLik]{maxLik}} computes the gradients
+      by \code{\link[maxLik]{numericGradient}},
+      which is usually slower 
+      than the calculation in function \code{\link{mvProbitLogLik}}.
+      This argument should be set to \code{FALSE}
+      if an optimisation algorithm is used that is not based on gradients.}
+   \item{oneSidedGrad}{logical. If this argument
+      and argument \code{intGrad} are both \code{TRUE}, 
       the gradients of the log-likelihood function
       with respect to the estimated parameters 
       are obtained by one-sided numeric finit-difference differentiation,
       which is faster but less precise 
-      than two-sided numeric finit-difference differentiation.
-      This argument should be set to \code{FALSE}
-      if an optimisation algorithm is used that is not based on gradients.}
+      than two-sided numeric finit-difference differentiation.}
    \item{eps}{numeric. The step size for the one-sided numeric
       finit-distance differentiation.
       Unfortunately, it is currently not possible to set the step size

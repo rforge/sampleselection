@@ -29,6 +29,10 @@ mvProbitMargEffInternal <- function( yMat, xMat, coef, sigma,
       }
    }
 
+   # checking and preparing model coefficients and correlation coefficients
+   coef <- mvProbitPrepareCoef( yMat = yMat, nReg = nReg, coef = coef, 
+      sigma = sigma )
+
    # calculate marginal effects
    for( i in 2:nReg ) {
       xMatL <- xMatU <- xMat
@@ -41,11 +45,11 @@ mvProbitMargEffInternal <- function( yMat, xMat, coef, sigma,
          xMatU[ , i ] <- xMat[ , i ] + eps / 2
       }
       yMatL <- mvProbitExpInternal( yMat = yMat, xMat = xMatL,
-         coef = coef, sigma = sigma, 
+         coef = coef$beta, sigma = coef$sigma, 
          cond = cond, algorithm = algorithm, nGHK = nGHK, 
          random.seed = random.seed, ... )
       yMatU <- mvProbitExpInternal( yMat = yMat, xMat = xMatU, 
-         coef = coef, sigma = sigma, 
+         coef = coef$beta, sigma = coef$sigma, 
          cond = cond, algorithm = algorithm, nGHK = nGHK, 
          random.seed = random.seed, ... )
       margEff <- yMatU - yMatL

@@ -29,7 +29,7 @@ mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
 
 \method{margEff}{mvProbit}( object, data = eval( object$call$data ),
    cond = FALSE, othDepOne = FALSE, dummyVars = object$dummyVars, 
-   calcVCov = FALSE, ... )
+   atMean = FALSE, calcVCov = FALSE, ... )
 }
 
 \arguments{
@@ -108,6 +108,11 @@ mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
       If \code{TRUE}, the marginal effects on the conditional expectations 
       are calculated based on the assumption 
       that all other dependent variables are one.}
+   \item{atMean}{logical. 
+      If \code{TRUE}, the marginal effects are calculated
+      not at each observation 
+      but at the mean values across all observations 
+      of the variables in the data set specified by argument \code{data}.}
    \item{calcVCov}{logical. 
       If \code{TRUE}, 
       the approximate variance covariance matrices of the marginal effects

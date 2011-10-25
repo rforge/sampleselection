@@ -1,6 +1,6 @@
 margEff.mvProbit <- function( object, data = eval( object$call$data ),
    cond = FALSE, othDepOne = FALSE, dummyVars = object$dummyVars,
-   calcVCov = FALSE,... ) {
+   atMean = FALSE, calcVCov = FALSE,... ) {
 
    # checking argument 'data'
    if( !is.data.frame( data ) ) {
@@ -21,11 +21,23 @@ margEff.mvProbit <- function( object, data = eval( object$call$data ),
       stop( "argument 'othDepOne' must be a logical value" )
    }
 
+   # checking argument 'atMean'
+   if( length( atMean ) != 1 ) {
+      stop( "argument 'atMean' must be a single logical value" )
+   } else if( !is.logical( atMean ) ) {
+      stop( "argument 'atMean' must be a logical value" )
+   }
+
    # checking argument 'calcVCov'
    if( length( calcVCov ) != 1 ) {
       stop( "argument 'calcVCov' must be a single logical value" )
    } else if( !is.logical( calcVCov ) ) {
       stop( "argument 'calcVCov' must be a logical value" )
+   }
+
+   # computing mean values of variables if requested by the user
+   if( atMean ) {
+      data <- as.data.frame( t( colMeans( data ) ) )
    }
 
    formula <- eval( object$call$formula )

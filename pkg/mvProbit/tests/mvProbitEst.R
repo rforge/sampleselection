@@ -200,18 +200,18 @@ summary( margEffCondObsCovDA )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are one)
-margEffCondOne <- margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE )
+margEffCondOne <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1 )
 print( margEffCondOne )
 
 # conditional marginal effects with covariance matrix at sample mean
 # (assuming that all other dependent variables are one)
-margEffCondOneCov <- margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE,
+margEffCondOneCov <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
    data = as.data.frame( t( colMeans( xMat ) ) ), calcVCov = TRUE )
 print( margEffCondOneCov )
 print( attr( margEffCondOneCov, "vcov" ) )
 print( drop( attr( margEffCondOneCov, "vcov" ) ) )
 summary( margEffCondOneCov )
 # now with using argument 'atMean'
-margEffCondOneCovA <- margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE,
+margEffCondOneCovA <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
    atMean = TRUE, calcVCov = TRUE )
 all.equal( margEffCondOneCovA, margEffCondOneCov )

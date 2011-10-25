@@ -1,5 +1,5 @@
 margEff.mvProbit <- function( object, data = eval( object$call$data ),
-   cond = FALSE, othDepOne = FALSE, dummyVars = object$dummyVars,
+   cond = FALSE, othDepVar = NULL, dummyVars = object$dummyVars,
    atMean = FALSE, calcVCov = FALSE,... ) {
 
    # checking argument 'data'
@@ -12,13 +12,6 @@ margEff.mvProbit <- function( object, data = eval( object$call$data ),
       stop( "argument 'cond' must be a single logical value" )
    } else if( !is.logical( cond ) ) {
       stop( "argument 'cond' must be a logical value" )
-   }
-
-   # checking argument 'othDepOne'
-   if( length( othDepOne ) != 1 ) {
-      stop( "argument 'othDepOne' must be a single logical value" )
-   } else if( !is.logical( othDepOne ) ) {
-      stop( "argument 'othDepOne' must be a logical value" )
    }
 
    # checking argument 'atMean'
@@ -40,9 +33,40 @@ margEff.mvProbit <- function( object, data = eval( object$call$data ),
       data <- as.data.frame( t( colMeans( data ) ) )
    }
 
+   # extract the model formula
    formula <- eval( object$call$formula )
-   if( othDepOne || !cond ) {
+
+   # remove (unused) dependent variables for unconditional marginal effects
+   if( !cond ) {
       formula <- formula[ - 2 ]
+      if( !is.null( othDepVar ) ) {
+         warning( "argument 'othDepVar' is ignored when calculating",
+            " marginal effects on unconditional expectations" )
+         othDepVar <- NULL
+      }
+   }
+
+   # manipulate dependent variables is requested by the user
+   if( !is.null( othDepVar ) ) {
+      depNames <- all.vars( formula[ -3 ] )
+      nDep <- length( depNames )
+      nObs <- nrow( data )
+      if( !is.vector( othDepVar ) || !length( othDepVar ) %in% c( 1, nDep ) ) {
+         stop( "argument 'othDepVar' must be 'NULL' or a vector",
+            " of length 1 or ", nDep )
+      } else if( ! all( othDepVar %in% c( 0, 1, TRUE, FALSE ) ) ) {
+         stop( "argument 'othDepVar' must be 'NULL' or a vector",
+            " of zeros and ones of length 1 or ", nDep )
+      }
+      # add dependent variables that are not in the data set
+      for( i in 1:nDep ) {
+         if( ! depNames[ i ] %in% names( data ) ) {
+            data[[ depNames[ i ] ]] <- NA
+         }
+      }
+      for( i in 1:nObs ) {
+         data[ i, depNames ] <- othDepVar
+      }
    }
 
    if( calcVCov ) {

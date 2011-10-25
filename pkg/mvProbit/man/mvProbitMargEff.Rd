@@ -28,7 +28,7 @@ mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
    ... )
 
 \method{margEff}{mvProbit}( object, data = eval( object$call$data ),
-   cond = FALSE, othDepOne = FALSE, dummyVars = object$dummyVars, 
+   cond = FALSE, othDepVar = NULL, dummyVars = object$dummyVars, 
    atMean = FALSE, calcVCov = FALSE, ... )
 }
 
@@ -104,10 +104,19 @@ mvProbitMargEff( formula, coef, sigma = NULL, vcov = NULL, data,
       defaults to 123.}
    \item{object}{an object of class \code{"mvProbit"}
       (returned by \code{\link{mvProbit}}.}
-   \item{othDepOne}{logical. 
-      If \code{TRUE}, the marginal effects on the conditional expectations 
-      are calculated based on the assumption 
-      that all other dependent variables are one.}
+   \item{othDepVar}{optional scalar or vector for specifying
+      the values of the (other) dependent variables
+      when calculating the marginal effects on the conditional expectations.
+      If this argument is a scalar (zero or one), 
+      it is assumed that all (other) dependent variables have this value
+      at all observations.
+      If this argument is a vector (filled with zeros or ones)
+      with length equal to the number of dependent variables, 
+      it is assumed that the vector of dependent variables has these values
+      at all observations.
+      If this argument is \code{NULL} (the default), 
+      the dependent variables are assumed to have the values 
+      that these variables have in the data set \code{data}.}
    \item{atMean}{logical. 
       If \code{TRUE}, the marginal effects are calculated
       not at each observation 

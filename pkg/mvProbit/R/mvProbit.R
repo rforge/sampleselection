@@ -93,8 +93,8 @@ mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
 
       logLikVal <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
          coef = param, sigma = NULL, algorithm = llAlgorithm, nGHK = llNGHK,
-         oneSidedGrad = llOneSidedGrad, eps = llEps, randomSeed = llRandom.seed, 
-         ... )
+         returnGrad = llOneSidedGrad, oneSidedGrad = llOneSidedGrad, eps = llEps, 
+         randomSeed = llRandom.seed, ... )
 
       return( logLikVal )
    }

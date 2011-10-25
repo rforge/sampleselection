@@ -7,7 +7,8 @@
 
 \usage{
 mvProbitLogLik( formula, coef, sigma = NULL, data,
-   algorithm = GenzBretz(), nGHK = 1000, oneSidedGrad = FALSE, eps = 1e-6, 
+   algorithm = GenzBretz(), nGHK = 1000, 
+   returnGrad = oneSidedGrad, oneSidedGrad = FALSE, eps = 1e-6, 
    random.seed = 123, ... )
 }
 
@@ -34,16 +35,19 @@ mvProbitLogLik( formula, coef, sigma = NULL, data,
    \item{nGHK}{numeric value specifying the number of simulation draws 
       of the GHK algorithm for computing integrals 
       of the multivariate normal distribution.}
-   \item{oneSidedGrad}{logical. If \code{TRUE}, the returned object
+   \item{returnGrad}{logical. If \code{TRUE}, the returned object
       has an attribute \code{"gradient"},
       which is a matrix and provides 
       the gradients of the log-likelihood function
       with respect to all parameters 
       (\code{coef} and upper triangle of \code{sigma})
       evaluated at each observation
-      and obtained by one-sided numeric finit-difference differentiation.}
-   \item{eps}{numeric. The step size for the one-sided numeric
-      finit-distance differentiation.}
+      and obtained by (two-sided) numeric finite-difference differentiation.}
+   \item{oneSidedGrad}{logical. If \code{TRUE},
+      attribute \code{"gradient"} of the returned object
+      is obtained by one-sided numeric finite-difference differentiation.}
+   \item{eps}{numeric. The step size for the numeric
+      finite-distance differentiation.}
    \item{random.seed}{an integer used to seed R's random number generator;
       this is to ensure replicability 
       when computing (cumulative) probabilities of the multivariate normal distribution
@@ -59,6 +63,15 @@ mvProbitLogLik( formula, coef, sigma = NULL, data,
 
 \value{
    A vector containing the log likelihood values for each observation.
+
+   If argument \code{returnGrad} is \code{TRUE},
+   this vector has an attribute \code{"gradient"},
+   which is a matrix and provides 
+   the gradients of the log-likelihood function
+   with respect to all parameters 
+   (\code{coef} and upper triangle of \code{sigma})
+   evaluated at each observation
+   and obtained by numeric finite-difference differentiation.
 }
 
 \details{

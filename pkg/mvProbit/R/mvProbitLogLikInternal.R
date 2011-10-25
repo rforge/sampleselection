@@ -1,5 +1,5 @@
 mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
-   algorithm, nGHK, oneSidedGrad, eps, randomSeed, ... ) {
+   algorithm, nGHK, returnGrad, oneSidedGrad, eps, randomSeed, ... ) {
 
    # number of regressors
    nReg <- ncol( xMat )
@@ -7,6 +7,13 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
    # checking and preparing model coefficients and correlation coefficients
    coef <- mvProbitPrepareCoef( yMat = yMat, nReg = nReg, coef = coef, 
       sigma = sigma )
+
+   # checking argument 'returnGrad'
+   if( length( returnGrad ) != 1 ) {
+      stop( "argument 'returnGrad' must be a single logical value" )
+   } else if( !is.logical( returnGrad ) ) {
+      stop( "argument 'returnGrad' must be logical" )
+   }
 
    # checking argument 'oneSidedGrad'
    if( length( oneSidedGrad ) != 1 ) {
@@ -46,20 +53,33 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
          algorithm = algorithm, nGHK = nGHK, random.seed = randomSeed, ... ) )
    }
 
-   if( oneSidedGrad ) {
+   if( returnGrad ) {
       allCoef <- c( coef$beta, coef$sigma[ lower.tri( coef$sigma ) ] )
       grad <- matrix( NA, nrow = length( result ), 
          ncol = length( allCoef ) )
       for( i in 1:nDep ) {
          # gradients of intercepts
-         coefTmp <- allCoef
+         coefLower <- coefUpper <- allCoef
          InterceptNo <- ( i - 1 ) * nReg + 1
-         coefTmp[ InterceptNo ] <- allCoef[ InterceptNo ] + eps
-         llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-            coef = coefTmp, sigma = NULL, algorithm = algorithm, nGHK = nGHK,
-            oneSidedGrad = FALSE, eps = eps, randomSeed = randomSeed, ... )
-         grad[ , InterceptNo ] <- ( llTmp - result ) / eps
-         # gradients of other variables
+         if( oneSidedGrad ) {
+            coefUpper[ InterceptNo ] <- allCoef[ InterceptNo ] + eps
+            llLower <- result
+         } else {
+            coefLower[ InterceptNo ] <- allCoef[ InterceptNo ] - eps / 2
+            coefUpper[ InterceptNo ] <- allCoef[ InterceptNo ] + eps / 2
+            llLower <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
+               coef = coefLower, sigma = NULL, 
+               algorithm = algorithm, nGHK = nGHK,
+               returnGrad = FALSE, oneSidedGrad = FALSE, eps = 0, 
+               randomSeed = randomSeed, ... )
+         }
+         llUpper <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
+            coef = coefUpper, sigma = NULL, 
+            algorithm = algorithm, nGHK = nGHK,
+            returnGrad = FALSE, oneSidedGrad = FALSE, eps = 0, 
+            randomSeed = randomSeed, ... )
+         grad[ , InterceptNo ] <- ( llUpper - llLower ) / eps
+         # gradients of coefficients of other explanatory variables
          if( nReg > 1 ) {
             for( j in 2:nReg ) {
                grad[ , InterceptNo + j - 1 ] <- 
@@ -67,13 +87,27 @@ mvProbitLogLikInternal <- function( yMat, xMat, coef, sigma,
             }
          }
       }
+      # gradients of correlation coefficients
       for( i in ( nDep * nReg + 1 ):length( allCoef ) ) {
-         coefTmp <- allCoef
-         coefTmp[ i ] <- allCoef[ i ] + eps
-         llTmp <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
-            coef = coefTmp, sigma = NULL, algorithm = algorithm, nGHK = nGHK,
-            oneSidedGrad = FALSE, eps = eps, randomSeed = randomSeed, ... )
-         grad[ , i ] <- ( llTmp - result ) / eps
+         coefLower <- coefUpper <- allCoef
+         if( oneSidedGrad ) {
+            coefUpper[ i ] <- allCoef[ i ] + eps
+            llLower <- result
+         } else {
+            coefLower[ i ] <- allCoef[ i ] - eps / 2
+            coefUpper[ i ] <- allCoef[ i ] + eps / 2
+            llLower <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
+               coef = coefLower, sigma = NULL, 
+               algorithm = algorithm, nGHK = nGHK,
+               returnGrad = FALSE, oneSidedGrad = FALSE, eps = 0, 
+               randomSeed = randomSeed, ... )
+         }
+         llUpper <- mvProbitLogLikInternal( yMat = yMat, xMat = xMat, 
+            coef = coefUpper, sigma = NULL, 
+            algorithm = algorithm, nGHK = nGHK,
+            returnGrad = FALSE, oneSidedGrad = FALSE, eps = 0, 
+            randomSeed = randomSeed, ... )
+         grad[ , i ] <- ( llUpper - llLower ) / eps
       }
       colnames( grad ) <- mvProbitCoefNames( nDep = nDep, nReg = nReg )
       attr( result, "gradient" ) <- grad

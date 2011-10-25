@@ -18,6 +18,18 @@ mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
       stop( "argument 'intGrad' must be a logical value" )
    }
 
+   # checking argument 'oneSidedGrad'
+   if( length( oneSidedGrad ) != 1 ) {
+      stop( "argument 'oneSidedGrad' must be a single logical value" )
+   } else if( !is.logical( oneSidedGrad ) ) {
+      stop( "argument 'oneSidedGrad' must be a logical value" )
+   }
+   if( oneSidedGrad && !intGrad ) {
+      warning( "ignoring argument 'oneSidedGrad' as argument 'intGrad'",
+         " is FALSE" )
+      oneSidedGrad <- FALSE
+   }
+
    # checking argument 'data'
    if( !is.data.frame( data ) ) {
       stop( "argument 'data' must be a data frame" )

@@ -157,6 +157,13 @@ print( drop( attr( margEffUncM, "jacobian" )[ nObs+1, , ] ) )
 all.equal( summary( margEffUnc )[ , ], 
    summary( margEffUncM )[ 1:( 6 * nObs ), ], check.attributes = FALSE )
 printCoefmat( summary( margEffUncM )[ -( 1:( 6 * ( nObs - 1 ) ) ), ] )
+# now at mean values of explanatory variables
+margEffUncMean <- margEff( estResultBFGS, calcVCov = TRUE, 
+   data = as.data.frame( t( colMeans( xMat ) ) ) )
+summary( margEffUncMean )
+# now with argument 'atMean'
+margEffUncMeanA <- margEff( estResultBFGS, calcVCov = TRUE, atMean = TRUE )
+all.equal( margEffUncMeanA, margEffUncMean )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are as observed)
@@ -204,5 +211,7 @@ print( margEffCondOneCov )
 print( attr( margEffCondOneCov, "vcov" ) )
 print( drop( attr( margEffCondOneCov, "vcov" ) ) )
 summary( margEffCondOneCov )
-
-
+# now with using argument 'atMean'
+margEffCondOneCovA <- margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE,
+   atMean = TRUE, calcVCov = TRUE )
+all.equal( margEffCondOneCovA, margEffCondOneCov )

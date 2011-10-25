@@ -1977,6 +1977,23 @@ mean: d_y2_d_x2 -0.337946   0.044603 -7.5768 3.542e-14 ***
 mean: d_y3_d_x2  0.314311   0.072355  4.3440 1.399e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+> # now at mean values of explanatory variables
+> margEffUncMean <- margEff( estResultBFGS, calcVCov = TRUE, 
++    data = as.data.frame( t( colMeans( xMat ) ) ) )
+> summary( margEffUncMean )
+             Estimate Std. error z value Pr(> z)  
+1: d_y1_d_x1   0.2931     0.1944   1.508  0.1315  
+1: d_y2_d_x1   0.3979     0.2886   1.379  0.1680  
+1: d_y3_d_x1  -0.3264     0.3052  -1.070  0.2848  
+1: d_y1_d_x2  -0.2967     0.1257  -2.361  0.0183 *
+1: d_y2_d_x2  -0.6194     0.2474  -2.504  0.0123 *
+1: d_y3_d_x2   0.4942     0.2616   1.890  0.0588 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+> # now with argument 'atMean'
+> margEffUncMeanA <- margEff( estResultBFGS, calcVCov = TRUE, atMean = TRUE )
+> all.equal( margEffUncMeanA, margEffUncMean )
+[1] TRUE
 > 
 > # conditional marginal effects
 > # (assuming that all other dependent variables are as observed)
@@ -2438,6 +2455,9 @@ d_y3_d_x2  0.132007915
 1: d_y3_d_x2   0.5247     0.3633   1.444  0.1487  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
-> 
-> 
+> # now with using argument 'atMean'
+> margEffCondOneCovA <- margEff( estResultBFGS, cond = TRUE, othDepOne = TRUE,
++    atMean = TRUE, calcVCov = TRUE )
+> all.equal( margEffCondOneCovA, margEffCondOneCov )
+[1] TRUE
 > 

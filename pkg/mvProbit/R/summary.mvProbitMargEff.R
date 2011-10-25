@@ -4,9 +4,13 @@ summary.mvProbitMargEff <- function( object, ... ) {
    nMargEff <- ncol( object )
 
    result <- matrix( NA, nrow = nObs * nMargEff, ncol = 4 )
-   rownames( result ) <- paste(
-      rep( rownames( object ), each = ncol( object ) ), ": ", 
-      rep( colnames( object ), nrow( object ) ), sep = "" )
+   if( nObs == 1 ) {
+      rownames( result ) <- colnames( object )
+   } else {
+      rownames( result ) <- paste(
+         rep( rownames( object ), each = nMargEff ), ": ", 
+         rep( colnames( object ), nObs ), sep = "" )
+   }
    colnames( result ) <- c( "Estimate", "Std. error", "z value", "Pr(> z)" )
 
    result[ , 1 ] <- c( t( as.matrix( object ) ) )

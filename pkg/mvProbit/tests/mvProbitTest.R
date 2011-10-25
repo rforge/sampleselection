@@ -222,16 +222,21 @@ logLikVal9 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
 all.equal( logLikVal8, logLikVal9 )
 
 # calculating log likelihood value(s) with one-sided gradients
-logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+logLikValGrad1 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    oneSidedGrad = TRUE )
-print( logLikValGrad )
-logLikValGradA <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+print( logLikValGrad1 )
+logLikValGrad1A <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ),
    oneSidedGrad = TRUE )
-all.equal( logLikValGrad, logLikValGradA )
+all.equal( logLikValGrad1, logLikValGrad1A )
 
 # calculating log likelihood value(s) with two-sided gradients
+logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   returnGrad = TRUE )
+print( logLikValGrad )
+# now manually
 llTmp <- function( coef ) {
    betaTmp <- coef[ 1:15 ]
    sigmaTmp <- diag( 3 )
@@ -244,7 +249,11 @@ llTmp <- function( coef ) {
 }
 logLikValGrad2 <- numericGradient( llTmp, allCoef )
 print( logLikValGrad2 )
-attr( logLikValGrad, "gradient" ) / logLikValGrad2 - 1
+attr( logLikValGrad1, "gradient" ) / logLikValGrad2 - 1
+range( attr( logLikValGrad1, "gradient" ) / logLikValGrad2 - 1, na.rm = TRUE )
+attr( logLikValGrad1, "gradient" ) - logLikValGrad2
+range( attr( logLikValGrad1, "gradient" ) - logLikValGrad2 )
+attr( logLikValGrad1, "gradient" ) / logLikValGrad2 - 1
 range( attr( logLikValGrad, "gradient" ) / logLikValGrad2 - 1, na.rm = TRUE )
 attr( logLikValGrad, "gradient" ) - logLikValGrad2
 range( attr( logLikValGrad, "gradient" ) - logLikValGrad2 )

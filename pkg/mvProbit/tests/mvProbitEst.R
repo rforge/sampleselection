@@ -174,7 +174,7 @@ print( margEffCondObs )
 # (assuming that all other dependent variables are at there modal values)
 # (with Jacobian)
 margEffCondObsCov <- margEff( estResultBFGS, cond = TRUE,
-   data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
+   atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
    calcVCov = TRUE, returnJacobian = TRUE )
 print( margEffCondObsCov )
 print( attr( margEffCondObsCov, "vcov" ) )
@@ -184,17 +184,17 @@ print( drop( attr( margEffCondObsCov, "jacobian" ) ) )
 summary( margEffCondObsCov )
 # now with explicitly specifying dummy variables
 margEffCondObsCovD <- margEff( estResultBFGS, cond = TRUE,
-   data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
+   atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ),
    calcVCov = TRUE, returnJacobian = TRUE, dummyVars = c( "x1" ) )
 all.equal( margEffCondObsCovD, margEffCondObsCov )
 # now with seemingly no dummy variables
 margEffCondObsCovD0 <- margEff( estResultBFGS, cond = TRUE,
-   data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
+   atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
    calcVCov = TRUE, returnJacobian = TRUE, dummyVars = NULL )
 summary( margEffCondObsCovD0 )
 # now with seemingly only dummy variables
 margEffCondObsCovDA <- margEff( estResultBFGS, cond = TRUE,
-   data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
+   atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
    calcVCov = TRUE, returnJacobian = TRUE, dummyVars = c( "x1", "x2" ) )
 summary( margEffCondObsCovDA )
 

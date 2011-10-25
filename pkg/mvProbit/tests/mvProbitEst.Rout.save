@@ -2106,7 +2106,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # (assuming that all other dependent variables are at there modal values)
 > # (with Jacobian)
 > margEffCondObsCov <- margEff( estResultBFGS, cond = TRUE,
-+    data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
++    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
 +    calcVCov = TRUE, returnJacobian = TRUE )
 > print( margEffCondObsCov )
   d_y1_d_x1 d_y2_d_x1  d_y3_d_x1  d_y1_d_x2 d_y2_d_x2 d_y3_d_x2
@@ -2252,13 +2252,13 @@ d_y3_d_x2   0.5331     0.3358   1.588  0.1123
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 > # now with explicitly specifying dummy variables
 > margEffCondObsCovD <- margEff( estResultBFGS, cond = TRUE,
-+    data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
++    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ),
 +    calcVCov = TRUE, returnJacobian = TRUE, dummyVars = c( "x1" ) )
 > all.equal( margEffCondObsCovD, margEffCondObsCov )
 [1] TRUE
 > # now with seemingly no dummy variables
 > margEffCondObsCovD0 <- margEff( estResultBFGS, cond = TRUE,
-+    data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
++    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
 +    calcVCov = TRUE, returnJacobian = TRUE, dummyVars = NULL )
 > summary( margEffCondObsCovD0 )
           Estimate Std. error z value Pr(> z)  
@@ -2272,7 +2272,7 @@ d_y3_d_x2   0.5331     0.3358   1.588  0.1123
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 > # now with seemingly only dummy variables
 > margEffCondObsCovDA <- margEff( estResultBFGS, cond = TRUE,
-+    data = as.data.frame( t( c( colMedians( yMat * 1 ), colMeans( xMat ) ) ) ), 
++    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
 +    calcVCov = TRUE, returnJacobian = TRUE, dummyVars = c( "x1", "x2" ) )
 > summary( margEffCondObsCovDA )
           Estimate Std. error z value Pr(> z)   

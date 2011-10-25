@@ -2,6 +2,9 @@ mvProbitMargEffInternal <- function( yMat, xMat, coef, sigma,
    cond, algorithm, nGHK, eps, dummyVars,
    random.seed, ... ) {
 
+   # number of observations
+   nObs <- nrow( xMat )
+
    # number of regressors
    nReg <- ncol( xMat )
 
@@ -33,6 +36,29 @@ mvProbitMargEffInternal <- function( yMat, xMat, coef, sigma,
    coef <- mvProbitPrepareCoef( yMat = yMat, nReg = nReg, coef = coef, 
       sigma = sigma )
 
+   # number of dependent variables
+   nDep <- ncol( coef$sigma )
+
+   # calculate marginal effects of X'beta
+   margEffXBeta <- array( NA, c( nObs, nDep, nDep ) )
+   if( !all( xNames %in% dummyVars ) ) {
+      for( i in 1:nDep ) {
+         betaLower <- betaUpper <- coef$beta
+         interceptNo <- ( i - 1 ) * nReg + 1
+         betaLower[ interceptNo ] <- coef$beta[ interceptNo ] - eps / 2
+         betaUpper[ interceptNo ] <- coef$beta[ interceptNo ] + eps / 2
+         yMatL <- mvProbitExpInternal( yMat = yMat, xMat = xMat,
+            coef = betaLower, sigma = coef$sigma, 
+            cond = cond, algorithm = algorithm, nGHK = nGHK, 
+            random.seed = random.seed, ... )
+         yMatU <- mvProbitExpInternal( yMat = yMat, xMat = xMat, 
+            coef = betaUpper, sigma = coef$sigma, 
+            cond = cond, algorithm = algorithm, nGHK = nGHK, 
+            random.seed = random.seed, ... )
+         margEffXBeta[ , , i ] <- as.matrix( yMatU - yMatL ) / eps
+      }
+   }
+
    # calculate marginal effects
    for( i in 2:nReg ) {
       xMatL <- xMatU <- xMat
@@ -40,21 +66,22 @@ mvProbitMargEffInternal <- function( yMat, xMat, coef, sigma,
       if( isDummy ) {
          xMatL[ , i ] <- 0
          xMatU[ , i ] <- 1
+         yMatL <- mvProbitExpInternal( yMat = yMat, xMat = xMatL,
+            coef = coef$beta, sigma = coef$sigma, 
+            cond = cond, algorithm = algorithm, nGHK = nGHK, 
+            random.seed = random.seed, ... )
+         yMatU <- mvProbitExpInternal( yMat = yMat, xMat = xMatU, 
+            coef = coef$beta, sigma = coef$sigma, 
+            cond = cond, algorithm = algorithm, nGHK = nGHK, 
+            random.seed = random.seed, ... )
+         margEff <- yMatU - yMatL
       } else {
-         xMatL[ , i ] <- xMat[ , i ] - eps / 2
-         xMatU[ , i ] <- xMat[ , i ] + eps / 2
-      }
-      yMatL <- mvProbitExpInternal( yMat = yMat, xMat = xMatL,
-         coef = coef$beta, sigma = coef$sigma, 
-         cond = cond, algorithm = algorithm, nGHK = nGHK, 
-         random.seed = random.seed, ... )
-      yMatU <- mvProbitExpInternal( yMat = yMat, xMat = xMatU, 
-         coef = coef$beta, sigma = coef$sigma, 
-         cond = cond, algorithm = algorithm, nGHK = nGHK, 
-         random.seed = random.seed, ... )
-      margEff <- yMatU - yMatL
-      if( !isDummy ) {
-         margEff <- margEff / eps
+         margEff <- matrix( 0, nrow = nObs, ncol = nDep )
+         for( j in 1:nDep ) {
+            coefNo <- ( j - 1 ) * nReg + i
+            margEff <- margEff + coef$beta[ coefNo ] * margEffXBeta[ , , j ]
+         }
+         margEff <- as.data.frame( margEff )
       }
 
       # names of dependent variables

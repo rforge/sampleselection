@@ -1,8 +1,13 @@
 \name{mvProbitLogLik}
 \alias{mvProbitLogLik}
+\alias{logLik.mvProbit}
 \title{Log Likelihood Values for Multivariate Probit Models}
 \description{
-   Calculating log likelihood values for multivariate probit models.
+   Function \code{mvProbitLogLik} calculates log likelihood values 
+   of multivariate probit models.
+
+   The \code{logLik} model returns or calculates log likelihood values 
+   of multivariate probit models estimated by \code{\link{mvProbit}}.
 }
 
 \usage{
@@ -10,6 +15,9 @@ mvProbitLogLik( formula, coef, sigma = NULL, data,
    algorithm = GenzBretz(), nGHK = 1000, 
    returnGrad = oneSidedGrad, oneSidedGrad = FALSE, eps = 1e-6, 
    random.seed = 123, ... )
+
+\method{logLik}{mvProbit}( object, coef = NULL, data = NULL, 
+   algorithm = NULL, nGHK = NULL, random.seed = NULL, ... )
 }
 
 \arguments{
@@ -56,25 +64,44 @@ mvProbitLogLik( formula, coef, sigma = NULL, data,
       a (cumulative) probability of the multivariate normal distribution 
       is computed;
       defaults to 123.}
+   \item{object}{an object of class \code{"mvProbit"}
+      (returned by \code{\link{mvProbit}}.}
    \item{\dots}{additional arguments are passed
       to \code{\link[mvtnorm]{pmvnorm}}
       when calculating conditional expectations.}
 }
 
 \value{
-   A vector containing the log likelihood values for each observation.
+   \code{mvProbitLogLik} returns a vector 
+   containing the log likelihood values for each observation.
 
    If argument \code{returnGrad} is \code{TRUE},
-   this vector has an attribute \code{"gradient"},
+   the vector returned by \code{mvProbitLogLik} 
+   has an attribute \code{"gradient"},
    which is a matrix and provides 
    the gradients of the log-likelihood function
    with respect to all parameters 
    (\code{coef} and upper triangle of \code{sigma})
    evaluated at each observation
    and obtained by numeric finite-difference differentiation.
+
+   The \code{logLik} method returns the total log likelihood value
+   (sum over all observations) 
+   with attribute \code{df} equal to the number of estimated parameters
+   (model coefficients and correlation coefficients).
 }
 
 \details{
+   If the \code{logLik} method is called with \code{object}
+   as the only argument,
+   it returns the log-likelihood value 
+   found in the maximum likelihood estimation.
+   If any other argument is not \code{NULL},
+   the \code{logLik} method calculates the log-likelihood value
+   by calling \code{mvProbitLogLik}.
+   All arguments that are \code{NULL},
+   are taken from argument \code{object}.
+
    If the model has \eqn{n} dependent variables (equations)
    and \eqn{k} explanatory variables in each equation,
    the order of the model coefficients in argument \code{coef} must be as follows:

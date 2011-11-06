@@ -563,6 +563,49 @@ Log-likelihood: -56.94782 on 12 Df
 > logLik( estResultNM )
 'log Lik.' -56.94782 (df=12)
 > 
+> 
+> ## testing the logLik method
+> # argument 'coef'
+> all.equal( logLik( estResultBHHH ), 
++    logLik( estResultBHHH, coef = coef( estResultBHHH ) ) )
+[1] TRUE
+> logLik( estResultBHHH ) -
++    logLik( estResultBHHH, coef = coef( estResultBHHH ) * 0.999 )
+'log Lik.' -0.004270927 (df=12)
+> 
+> # argument 'data'
+> all.equal( logLik( estResultBHHH ), 
++    logLik( estResultBHHH, data = as.data.frame( cbind( xMat, yMat ) ) ) )
+[1] TRUE
+> logLik( estResultBHHH ) -
++    logLik( estResultBHHH, data = as.data.frame( cbind( xMat * 0.999, yMat ) ) )
+'log Lik.' 0.01228506 (df=12)
+> 
+> # argument 'algorithm'
+> all.equal( logLik( estResultBHHH ), 
++    logLik( estResultBHHH, algorithm = GenzBretz() ) )
+[1] TRUE
+> logLik( estResultBHHH ) -
++    logLik( estResultBHHH, algorithm = Miwa() )
+'log Lik.' -0.001091556 (df=12)
+> 
+> # argument 'nGHK'
+> all.equal( logLik( estResultBHHH ), 
++    logLik( estResultBHHH, nGHK = 5555 ) )
+[1] TRUE
+> logLik( estResultBHHH, algorithm = "GHK" ) -
++    logLik( estResultBHHH, algorithm = "GHK", nGHK = 2000 )
+'log Lik.' -0.1316356 (df=12)
+> 
+> # argument 'random.seed'
+> all.equal( logLik( estResultBHHH ), 
++    logLik( estResultBHHH, random.seed = 123 ) )
+[1] TRUE
+> logLik( estResultBHHH ) -
++    logLik( estResultBHHH, random.seed = 1234 )
+'log Lik.' -0.006403428 (df=12)
+> 
+> 
 > # marginal effects based on estimated coefficients with covariance matrix
 > # unconditional marginal effects (with Jacobian)
 > margEffUnc <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE )

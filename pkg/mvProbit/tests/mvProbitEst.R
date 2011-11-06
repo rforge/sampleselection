@@ -119,6 +119,39 @@ print( estResultNM )
 summary( estResultNM )
 logLik( estResultNM )
 
+
+## testing the logLik method
+# argument 'coef'
+all.equal( logLik( estResultBHHH ), 
+   logLik( estResultBHHH, coef = coef( estResultBHHH ) ) )
+logLik( estResultBHHH ) -
+   logLik( estResultBHHH, coef = coef( estResultBHHH ) * 0.999 )
+
+# argument 'data'
+all.equal( logLik( estResultBHHH ), 
+   logLik( estResultBHHH, data = as.data.frame( cbind( xMat, yMat ) ) ) )
+logLik( estResultBHHH ) -
+   logLik( estResultBHHH, data = as.data.frame( cbind( xMat * 0.999, yMat ) ) )
+
+# argument 'algorithm'
+all.equal( logLik( estResultBHHH ), 
+   logLik( estResultBHHH, algorithm = GenzBretz() ) )
+logLik( estResultBHHH ) -
+   logLik( estResultBHHH, algorithm = Miwa() )
+
+# argument 'nGHK'
+all.equal( logLik( estResultBHHH ), 
+   logLik( estResultBHHH, nGHK = 5555 ) )
+logLik( estResultBHHH, algorithm = "GHK" ) -
+   logLik( estResultBHHH, algorithm = "GHK", nGHK = 2000 )
+
+# argument 'random.seed'
+all.equal( logLik( estResultBHHH ), 
+   logLik( estResultBHHH, random.seed = 123 ) )
+logLik( estResultBHHH ) -
+   logLik( estResultBHHH, random.seed = 1234 )
+
+
 # marginal effects based on estimated coefficients with covariance matrix
 # unconditional marginal effects (with Jacobian)
 margEffUnc <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE )

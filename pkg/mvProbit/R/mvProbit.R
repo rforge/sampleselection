@@ -1,5 +1,5 @@
 mvProbit <- function( formula, data, start = NULL, startSigma = NULL,
-   method = "BFGS", finalHessian = "BHHH", algorithm = GenzBretz(), nGHK = 1000,
+   method = "BHHH", finalHessian = "BHHH", algorithm = GenzBretz(), nGHK = 1000,
    intGrad = TRUE, oneSidedGrad = FALSE, eps = 1e-6, 
    random.seed = 123, ... ) {
 

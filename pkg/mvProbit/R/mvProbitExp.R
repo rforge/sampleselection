@@ -1,5 +1,5 @@
 mvProbitExp <- function( formula, coef, sigma = NULL, data,
-   cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, random.seed = 123, ... ) {
+   cond = FALSE, algorithm = "GHK", nGHK = 1000, random.seed = 123, ... ) {
 
    # checking argument 'formula'
    if( is.list( formula ) ) {

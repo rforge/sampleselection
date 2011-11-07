@@ -1,5 +1,5 @@
 mvProbitLogLik <- function( formula, coef, sigma = NULL, data, 
-   algorithm = GenzBretz(), nGHK = 1000,
+   algorithm = "GHK", nGHK = 1000,
    returnGrad = oneSidedGrad, oneSidedGrad = FALSE, eps = 1e-6, 
    random.seed = 123, ... ) {
 

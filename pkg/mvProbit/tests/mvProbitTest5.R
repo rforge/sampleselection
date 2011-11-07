@@ -48,10 +48,11 @@ all.equal( yExp, as.data.frame( yExp2 ) )
 # conditional expectations of dependent variables
 # (assuming that all other dependent variables are one)
 yExpCond <- mvProbitExp( ~ x1 + x2 + x3, coef = c( beta ), 
-   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = GenzBretz() )
 print( yExpCond )
 yExpCondA <- mvProbitExp( ~ x1 + x2 + x3, coef = allCoef,
-   data = as.data.frame( xMat ), cond = TRUE )
+   data = as.data.frame( xMat ), cond = TRUE, algorithm = GenzBretz() )
 all.equal( yExpCond, yExpCondA )
 yExpCond2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 for( i in 1:nObs ) {
@@ -70,11 +71,11 @@ all.equal( yExpCond, as.data.frame( yExpCond2 ) )
 # (assuming that all other dependent variables are as observed)
 yExpCondObs <- mvProbitExp( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
-   cond = TRUE )
+   cond = TRUE, algorithm = GenzBretz() )
 print( yExpCondObs )
 yExpCondObsA <- mvProbitExp( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), 
-   cond = TRUE )
+   cond = TRUE, algorithm = GenzBretz() )
 all.equal( yExpCond, yExpCondA )
 yExpCondObs2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 for( i in 1:nObs ){
@@ -96,26 +97,28 @@ all.equal( yExpCondObs, as.data.frame( yExpCondObs2 ) )
 
 # calculating log likelihood value(s)
 logLikVal <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
-   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
+   coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
+   algorithm = GenzBretz() )
 print( logLikVal )
 logLikValA <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
-   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ) )
+   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ),
+   algorithm = GenzBretz() )
 all.equal( logLikVal, logLikValA )
 
 # calculating log likelihood value(s) with one-sided gradients
 logLikValGrad1 <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-   oneSidedGrad = TRUE )
+   oneSidedGrad = TRUE, algorithm = GenzBretz() )
 print( logLikValGrad1 )
 logLikValGrad1A <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ),
-   oneSidedGrad = TRUE )
+   oneSidedGrad = TRUE, algorithm = GenzBretz() )
 all.equal( logLikValGrad1, logLikValGrad1A )
 
 # calculating log likelihood value(s) with two-sided gradients
 logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-   returnGrad = TRUE )
+   returnGrad = TRUE, algorithm = GenzBretz() )
 print( logLikValGrad )
 # now manually
 llTmp <- function( coef ) {
@@ -125,7 +128,7 @@ llTmp <- function( coef ) {
    sigmaTmp[ upper.tri( sigmaTmp ) ] <- t( sigmaTmp )[ upper.tri( sigmaTmp ) ]
    result <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
       coef = betaTmp, sigma = sigmaTmp, 
-      data = as.data.frame( cbind( xMat, yMat ) ) )
+      data = as.data.frame( cbind( xMat, yMat ) ), algorithm = GenzBretz() )
    return( result )
 }
 logLikValGrad2 <- numericGradient( llTmp, allCoef )
@@ -157,15 +160,17 @@ all.equal( margEffUnc, margEffUncA )
 # calculating marginal effects, conditional
 # (assuming that all other dependent variables are one)
 margEffCond <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ), 
-   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
+   sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = GenzBretz() )
 print( margEffCond )
 margEffCondA <- mvProbitMargEff( ~ x1 + x2 + x3, coef = allCoef,
-   data = as.data.frame( xMat ), cond = TRUE )
+   data = as.data.frame( xMat ), cond = TRUE,
+   algorithm = GenzBretz() )
 all.equal( margEffCond, margEffCondA )
 # now with variance covariance matrix
 margEffCondV <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
-   vcov = diag( 30 ), returnJacobian = TRUE )
+   vcov = diag( 30 ), returnJacobian = TRUE, algorithm = GenzBretz() )
 print( attr( margEffCondV, "vcov" ) )
 print( drop( attr( margEffCondV, "vcov" )[ 1, , ] ) )
 print( attr( margEffCondV, "jacobian" ) )
@@ -176,15 +181,16 @@ summary( margEffCondV )
 # (assuming that all other dependent variables are as observed)
 margEffCondObs <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
-   cond = TRUE )
+   cond = TRUE, algorithm = GenzBretz() )
 print( margEffCondObs )
 margEffCondObsA <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
-   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), cond = TRUE )
+   coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), cond = TRUE,
+   algorithm = GenzBretz() )
 all.equal( margEffCondObs, margEffCondObsA )
 # now with variance covariance matrix
 margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
-   cond = TRUE, vcov = diag( 30 ), returnJacobian = TRUE )
+   cond = TRUE, vcov = diag( 30 ), returnJacobian = TRUE, algorithm = GenzBretz() )
 print( attr( margEffCondObsV, "vcov" ) )
 print( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ) )
 print( attr( margEffCondObsV, "jacobian" ) )

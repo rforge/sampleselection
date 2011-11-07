@@ -12,7 +12,7 @@
 \usage{
 mvProbit( formula, data, start = NULL, startSigma = NULL, 
    method = "BHHH", finalHessian = "BHHH", 
-   algorithm = GenzBretz(), nGHK = 1000, 
+   algorithm = "GHK", nGHK = 1000, 
    intGrad = TRUE, oneSidedGrad = FALSE, eps = 1e-6, 
    random.seed = 123, ... )
 
@@ -189,7 +189,7 @@ yMatLin <- xMat \%*\% beta
 yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
 colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 
-# estimation (BHHH optimizer and Genz-Bretz algorithm)
+# estimation (BHHH optimizer and GHK algorithm)
 estResult <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5 )
 summary( estResult )

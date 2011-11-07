@@ -79,7 +79,8 @@ Loading required package: abind
 > # conditional expectations of dependent variables
 > # (assuming that all other dependent variables are one)
 > yExpCond <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
-+    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = GenzBretz() )
 > print( yExpCond )
            V1         V2        V3
 1  0.07187274 0.83441226 0.5236193
@@ -93,7 +94,8 @@ Loading required package: abind
 9  0.24434181 0.97834900 0.1330594
 10 0.99980223 0.06515097 0.8917154
 > yExpCondA <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = allCoef,
-+    data = as.data.frame( xMat ), cond = TRUE )
++    data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = GenzBretz() )
 > all.equal( yExpCond, yExpCondA )
 [1] TRUE
 > yExpCond2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
@@ -150,8 +152,7 @@ Loading required package: abind
 [3] "Component 3: Mean relative difference: 0.0424229" 
 > # now with integrals obtained by the GHK algorithm
 > yExpCond8 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
-+    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
-+    algorithm = "GHK" )
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
 > all.equal( yExpCond, yExpCond8 )
 [1] "Component 1: Mean relative difference: 0.002370084"
 [2] "Component 2: Mean relative difference: 0.005788364"
@@ -159,7 +160,7 @@ Loading required package: abind
 > # now with integrals obtained by the GHK algorithm, less precise
 > yExpCond9 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
-+    algorithm = "GHK", nGHK = 100 )
++    nGHK = 100 )
 > all.equal( yExpCond8, yExpCond9 )
 [1] "Component 1: Mean relative difference: 0.089207"  
 [2] "Component 2: Mean relative difference: 0.05716181"
@@ -170,7 +171,7 @@ Loading required package: abind
 > # (assuming that all other dependent variables are as observed)
 > yExpCondObs <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
-+    cond = TRUE )
++    cond = TRUE, algorithm = GenzBretz() )
 > print( yExpCondObs )
            y1         y2         y3
 1  0.01446330 0.73515489 0.17239140
@@ -185,7 +186,7 @@ Loading required package: abind
 10 0.99859830 0.06515097 0.92560102
 > yExpCondObsA <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), 
-+    cond = TRUE )
++    cond = TRUE, algorithm = GenzBretz() )
 > all.equal( yExpCondObs, yExpCondObsA )
 [1] TRUE
 > yExpCondObs2 <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
@@ -247,7 +248,7 @@ Loading required package: abind
 > # now with integrals obtained by the GHK algorithm
 > yExpCondObs8 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-+    cond = TRUE, algorithm = "GHK" )
++    cond = TRUE )
 > all.equal( yExpCondObs, yExpCondObs8 )
 [1] "Component 1: Mean relative difference: 0.002650961"
 [2] "Component 2: Mean relative difference: 0.002438056"
@@ -255,7 +256,7 @@ Loading required package: abind
 > # now with integrals obtained by the GHK algorithm, less precise
 > yExpCondObs9 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-+    cond = TRUE, algorithm = "GHK", nGHK = 100 )
++    cond = TRUE, nGHK = 100 )
 > all.equal( yExpCondObs8, yExpCondObs9 )
 [1] "Component 1: Mean relative difference: 0.01486969"
 [2] "Component 2: Mean relative difference: 0.0173985" 
@@ -303,12 +304,14 @@ Loading required package: abind
 > 
 > # calculating log likelihood value(s)
 > logLikVal <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
-+    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
++    algorithm = GenzBretz() )
 > print( logLikVal )
  [1] -0.53540368 -0.94155840 -0.55161623 -2.32656485 -2.25902218 -0.08645378
  [7] -0.46570791 -0.70386950 -0.12392314 -0.14927833
 > logLikValA <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
-+    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ) )
++    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ),
++    algorithm = GenzBretz() )
 > all.equal( logLikVal, logLikValA )
 [1] TRUE
 > # now with explicitly specifying the algorithm
@@ -345,21 +348,20 @@ Loading required package: abind
 [1] "Mean relative difference: 0.05527167"
 > # now with integrals obtained by the GHK algorithm
 > logLikVal8 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
-+    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-+    algorithm = "GHK" )
++    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
 > all.equal( logLikVal, logLikVal8 )
 [1] "Mean relative difference: 0.002220837"
 > # now with integrals obtained by the GHK algorithm, less precise
 > logLikVal9 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-+    algorithm = "GHK", nGHK = 100 )
++    nGHK = 100 )
 > all.equal( logLikVal8, logLikVal9 )
 [1] "Mean relative difference: 0.01480876"
 > 
 > # calculating log likelihood value(s) with one-sided gradients
 > logLikValGrad1 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-+    oneSidedGrad = TRUE )
++    oneSidedGrad = TRUE, algorithm = GenzBretz() )
 > print( logLikValGrad1 )
  [1] -0.53540368 -0.94155840 -0.55161623 -2.32656485 -2.25902218 -0.08645378
  [7] -0.46570791 -0.70386950 -0.12392314 -0.14927833
@@ -410,14 +412,14 @@ attr(,"gradient")
 [10,] -0.026654477
 > logLikValGrad1A <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ),
-+    oneSidedGrad = TRUE )
++    oneSidedGrad = TRUE, algorithm = GenzBretz() )
 > all.equal( logLikValGrad1, logLikValGrad1A )
 [1] TRUE
 > 
 > # calculating log likelihood value(s) with two-sided gradients
 > logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-+    returnGrad = TRUE )
++    returnGrad = TRUE, algorithm = GenzBretz() )
 > print( logLikValGrad )
  [1] -0.53540368 -0.94155840 -0.55161623 -2.32656485 -2.25902218 -0.08645378
  [7] -0.46570791 -0.70386950 -0.12392314 -0.14927833
@@ -474,7 +476,7 @@ attr(,"gradient")
 +    sigmaTmp[ upper.tri( sigmaTmp ) ] <- t( sigmaTmp )[ upper.tri( sigmaTmp ) ]
 +    result <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +       coef = betaTmp, sigma = sigmaTmp, 
-+       data = as.data.frame( cbind( xMat, yMat ) ) )
++       data = as.data.frame( cbind( xMat, yMat ) ), algorithm = GenzBretz() )
 +    return( result )
 + }
 > logLikValGrad2 <- numericGradient( llTmp, allCoef )
@@ -1498,7 +1500,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # calculating marginal effects, conditional
 > # (assuming that all other dependent variables are one)
 > margEffCond <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
-+    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = GenzBretz() )
 > print( margEffCond )
       d_y1_d_x1  d_y2_d_x1  d_y3_d_x1    d_y1_d_x2  d_y2_d_x2  d_y3_d_x2
 1  0.4118196285 0.11755425 -0.3603571 -0.229336023 0.24592945 -0.1258047
@@ -1523,19 +1526,20 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 9  0.361307538 -0.07085862 0.1415298 -0.3929185216 -0.06647694 0.3342594
 10 0.001136227 -0.14918719 0.1853440 -0.0006208183 -0.19920183 0.1994459
 > margEffCondA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
-+    data = as.data.frame( xMat ), cond = TRUE )
++    data = as.data.frame( xMat ), cond = TRUE,
++    algorithm = GenzBretz() )
 > all.equal( margEffCond, margEffCondA )
 [1] TRUE
 > # now with dummy variables specified explicitly
 > margEffCondD <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
-+    dummyVars = c( "x1", "x2" ) )
++    dummyVars = c( "x1", "x2" ), algorithm = GenzBretz() )
 > all.equal( margEffCondD, margEffCond )
 [1] TRUE
 > # now with seemingly no dummy variables
 > margEffCondD0 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
-+    dummyVars = NULL )
++    dummyVars = NULL, algorithm = GenzBretz() )
 > print( margEffCondD0 )
       d_y1_d_x1  d_y2_d_x1   d_y3_d_x1     d_y1_d_x2  d_y2_d_x2   d_y3_d_x2
 1  0.1884635650 0.17102712 -0.42316725 -0.1258011311 0.18806310 -0.12892375
@@ -1562,7 +1566,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # now with seemingly only dummy variables
 > margEffCondDA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
-+    dummyVars = c( "x1", "x2", "x3", "x4" ) )
++    dummyVars = c( "x1", "x2", "x3", "x4" ), algorithm = GenzBretz() )
 > print( margEffCondDA )
       d_y1_d_x1  d_y2_d_x1  d_y3_d_x1    d_y1_d_x2  d_y2_d_x2  d_y3_d_x2
 1  0.4118196285 0.11755425 -0.3603571 -0.229336023 0.24592945 -0.1258047
@@ -1628,8 +1632,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [12] "Component 12: Mean relative difference: 0.0001409384"
 > # now with integrals obtained by the GHK algorithm
 > margEffCond2 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
-+    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
-+    algorithm = "GHK" )
++    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
 > print( margEffCond2 )
       d_y1_d_x1  d_y2_d_x1  d_y3_d_x1    d_y1_d_x2  d_y2_d_x2  d_y3_d_x2
 1  0.4120204907 0.12496054 -0.3601937 -0.229275444 0.24656096 -0.1264859
@@ -1682,7 +1685,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # now with integrals obtained by the GHK algorithm, reduced precision
 > margEffCond3 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
-+    algorithm = "GHK", nGHK = 100 )
++    nGHK = 100 )
 > print( margEffCond3 )
     d_y1_d_x1   d_y2_d_x1  d_y3_d_x1    d_y1_d_x2  d_y2_d_x2   d_y3_d_x2
 1  0.35706025  0.07834237 -0.3573599 -0.217914737 0.24204995 -0.12187035
@@ -1735,7 +1738,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # now with variance covariance matrix and Jacobian
 > margEffCondV <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
-+    vcov = diag( 18 ), returnJacobian = TRUE )
++    vcov = diag( 18 ), returnJacobian = TRUE, algorithm = GenzBretz() )
 > print( attr( margEffCondV, "vcov" ) )
 , , d_y1_d_x1
 
@@ -2241,19 +2244,20 @@ d_y3_d_x4  0.018873791  0.45194959  0.170174985
 3: d_y3_d_x4  0.1994459  0.5345175   0.373   0.709
 > margEffCondVA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
 +    data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
-+    vcov = diag( 18 ), returnJacobian = TRUE )
++    vcov = diag( 18 ), returnJacobian = TRUE, algorithm = GenzBretz() )
 > all.equal( margEffCondV, margEffCondVA )
 [1] TRUE
 > # now with Jacobian but without variance covariance matrix
 > margEffCondJac <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
 +    data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
-+    returnJacobian = TRUE )
++    returnJacobian = TRUE, algorithm = GenzBretz() )
 > all.equal( attr( margEffCondJac, "jacobian" ), attr( margEffCondV, "jacobian" ) )
 [1] TRUE
 > # now with mean values of marginal effects
 > margEffCondM <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
-+    vcov = diag( 18 ), addMean = TRUE, returnJacobian = TRUE )
++    vcov = diag( 18 ), addMean = TRUE, returnJacobian = TRUE,
++    algorithm = GenzBretz() )
 > all.equal( margEffCondV, margEffCondM[ 1:3, ], check.attributes = FALSE )
 [1] TRUE
 > print( margEffCondM )
@@ -2911,7 +2915,7 @@ mean: d_y3_d_x4  0.4305024659 0.436721569  0.98575957 0.32425111
 > # (assuming that all other dependent variables are as observed)
 > margEffCondObs <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
-+    cond = TRUE )
++    cond = TRUE, algorithm = GenzBretz() )
 > print( margEffCondObs )
      d_y1_d_x1  d_y2_d_x1   d_y3_d_x1   d_y1_d_x2  d_y2_d_x2   d_y3_d_x2
 1  0.171996342 0.20541522 -0.12683723 -0.09565856 0.22331558 -0.17476430
@@ -2937,7 +2941,7 @@ mean: d_y3_d_x4  0.4305024659 0.436721569  0.98575957 0.32425111
 10 0.005969436 -0.14918719 0.14822613 -0.004569508 -0.19920183 0.16554889
 > margEffCondObsA <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), 
-+    cond = TRUE )
++    cond = TRUE, algorithm = GenzBretz() )
 > all.equal( margEffCondObs, margEffCondObsA )
 [1] TRUE
 > # now with integrals obtained by the Miwa algorithm, reduced precision
@@ -2983,7 +2987,7 @@ mean: d_y3_d_x4  0.4305024659 0.436721569  0.98575957 0.32425111
 > # now with integrals obtained by the GHK algorithm
 > margEffCondObs2 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
-+    cond = TRUE, algorithm = "GHK" )
++    cond = TRUE )
 > print( margEffCondObs2 )
      d_y1_d_x1  d_y2_d_x1   d_y3_d_x1   d_y1_d_x2  d_y2_d_x2   d_y3_d_x2
 1  0.171936166 0.20319620 -0.12385679 -0.09574408 0.22370224 -0.17465581
@@ -3037,7 +3041,8 @@ mean: d_y3_d_x4  0.4305024659 0.436721569  0.98575957 0.32425111
 > margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
-+    cond = TRUE, vcov = diag( 18 ), returnJacobian = TRUE )
++    cond = TRUE, vcov = diag( 18 ), returnJacobian = TRUE,
++    algorithm = GenzBretz() )
 > print( attr( margEffCondObsV, "vcov" ) )
 , , d_y1_d_x1
 
@@ -3535,14 +3540,15 @@ d_y3_d_x4 -0.008271162  0.030409009  0.3410050020
 3: d_y3_d_x4  0.165549   0.459594   0.360   0.719
 > margEffCondObsVA <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
-+    cond = TRUE, vcov = diag( 18 ), returnJacobian = TRUE )
++    cond = TRUE, vcov = diag( 18 ), returnJacobian = TRUE,
++    algorithm = GenzBretz() )
 > all.equal( margEffCondObs, margEffCondObsA )
 [1] TRUE
 > # now with Jacobian but without variance covariance matrix
 > margEffCondObsJac <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
-+    cond = TRUE, returnJacobian = TRUE )
++    cond = TRUE, returnJacobian = TRUE, algorithm = GenzBretz() )
 > all.equal( attr( margEffCondObsJac, "jacobian" ), 
 +    attr( margEffCondObsV, "jacobian" ) )
 [1] TRUE
@@ -3550,7 +3556,8 @@ d_y3_d_x4 -0.008271162  0.030409009  0.3410050020
 > margEffCondObsM <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, 
 +    data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
-+    cond = TRUE, vcov = diag( 18 ), addMean = TRUE, returnJacobian = TRUE )
++    cond = TRUE, vcov = diag( 18 ), addMean = TRUE, returnJacobian = TRUE,
++    algorithm = GenzBretz() )
 > all.equal( margEffCondObsV, margEffCondObsM[ 1:3, ], check.attributes = FALSE )
 [1] TRUE
 > print( margEffCondObsM )

@@ -1,5 +1,5 @@
 mvProbitMargEff <- function( formula, coef, sigma = NULL, vcov = NULL, data,
-   cond = FALSE, algorithm = GenzBretz(), nGHK = 1000, eps = 1e-06, 
+   cond = FALSE, algorithm = "GHK", nGHK = 1000, eps = 1e-06, 
    dummyVars = NA, addMean = FALSE, returnJacobian = FALSE, 
    random.seed = 123, ... ) {
 

@@ -29,8 +29,8 @@ probit <- function(formula, ...) {
       xb0 <- drop(x0 %*% beta)
       xb1 <- drop(x1 %*% beta)
       loglik <- numeric(length(Y))
-      loglik[Y == 0] <- pnorm(xb0, lower.tail=FALSE, log=TRUE)
-      loglik[Y == 1] <- pnorm(xb1, lower.tail=TRUE, log=TRUE)
+      loglik[Y == 0] <- pnorm(xb0, lower.tail=FALSE, log.p=TRUE)
+      loglik[Y == 1] <- pnorm(xb1, lower.tail=TRUE, log.p=TRUE)
       ##
       f0 <- dnorm(xb0)
       f1 <- dnorm(xb1)

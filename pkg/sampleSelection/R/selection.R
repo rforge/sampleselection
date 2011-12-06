@@ -63,6 +63,11 @@ selection <- function(selection, outcome,
    }
    else
        stop( "argument 'selection' must be either a formula or a list of two formulas" )
+   if(!missing(data)) {
+      if(!inherits(data, "environment") & !inherits(data, "data.frame") & !inherits(data, "list")) {
+         stop("'data' must be either environment, data.frame, or list (currently a ", class(data), ")")
+      }
+   }
    if(print.level > 0)
        cat("Tobit", type, "model\n")
    probitEndogenous <- model.frame( selection, data = data)[ , 1 ]

@@ -38155,6 +38155,7 @@ attr(,"assign")
 > mfTestTobit2MlMf <- model.frame( testTobit2MlMf )
 > all.equal( mfTestTobit2Ml, mfTestTobit2MlMf )
 [1] "Attributes: < Length mismatch: comparison on first 2 components >"
+>                            # attributes (terms) differ here, I don't exactly know how to improve that
 > 
 > # return just the model.frame
 > selection( ys~xs, yo ~xo, method = "model.frame" )

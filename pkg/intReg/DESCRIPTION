@@ -1,0 +1,12 @@
+Package: intReg
+Version: 0.1-1
+Date: 2011-12-23
+Title: Interval Regression
+Author: Ott Toomet <ott.toomet@gmail.com>
+Maintainer: Ott Toomet <ott.toomet@gmail.com>
+Depends: R (>= 2.7.0), maxLik (>= 1.0-0), sets
+Imports: sets
+Suggests: Ecdat
+Description: Estimating interval regression models
+License: GPL (>= 2)
+URL: http://CRAN.R-project.org, http://www.sampleSelection.org

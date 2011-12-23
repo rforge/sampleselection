@@ -1,7 +1,7 @@
-\name{intreg}
-\alias{intreg}
-\alias{print.summary.intreg}
-\alias{summary.intreg}
+\name{intReg}
+\alias{intReg}
+\alias{print.summary.intReg}
+\alias{summary.intReg}
 \title{Interval Regression}
 \description{
   This function estimates interval regression using either common
@@ -9,11 +9,11 @@
   Normal, logistic, log-log, and Cauchy disturbances are supported.
 }
 \usage{
-intreg(formula, data, weights, start, boundaries, ...,
+intReg(formula, data, weights, start, boundaries, ...,
 subset, na.action, contrasts = NULL, Hess = FALSE, model = TRUE,
 method = c("logistic", "probit", "cloglog", "cauchit"), print.level = 0)
 %
-print.summary.intreg(x, digits=max(3, getOption("digits") - 3), boundaries=FALSE, ...)
+\method{print}{summary.intReg}(x, digits=max(3, getOption("digits") - 3), boundaries=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,7 +28,7 @@ print.summary.intreg(x, digits=max(3, getOption("digits") - 3), boundaries=FALSE
           coercible by 'as.data.frame' to a data frame) containing the
           variables in the model.  If not found in 'data', the
           variables are taken from 'environment(formula)', typically
-          the environment from which \sQuote{intreg} is called.}
+          the environment from which \sQuote{intReg} is called.}
   \item{weights}{an optional vector of weights to be used in the fitting
           process.  Should be 'NULL' or a numeric vector. If non-NULL,
           weighted likelihood is maximized (that
@@ -54,7 +54,7 @@ print.summary.intreg(x, digits=max(3, getOption("digits") - 3), boundaries=FALSE
     \sQuote{logistic}, \sQuote{probit}, \sQuote{cloglog} or \sQuote{cauchit}.}
   \item{print.level}{output of run-time information: higher level prints
     more.}
-  \item{x}{object of class \sQuote{intreg}, an estimated model}
+  \item{x}{object of class \sQuote{intReg}, an estimated model}
   \item{digits}{numeric, how many digits to output}
 }
 \details{
@@ -76,7 +76,7 @@ print.summary.intreg(x, digits=max(3, getOption("digits") - 3), boundaries=FALSE
   generated automatically.
 }
 \value{
-  Object of class "intreg" which inherits from class "maxLik".
+  Object of class \sQuote{intReg} which inherits from class \sQuote{maxLik}.
 
   There are several methods, including \code{\link{summary}} and
   \code{\link{coef}}, partly inherited from "maxLik" class.
@@ -102,7 +102,7 @@ ub <- Kakadu$upper
 ub[ub > 998] <- Inf
 ub <- log(ub)
 y <- cbind(lb, ub)
-m <- intreg(y ~ sex + log(income) + age + schooling + 
+m <- intReg(y ~ sex + log(income) + age + schooling + 
               recparks + jobs + lowrisk + wildlife + future + aboriginal + finben +
               mineparks + moreparks + gov +
               envcon + vparks + tvenv + major, data=Kakadu)
@@ -115,7 +115,7 @@ print(summary(m))
 library(Ecdat)
 data(Bwages)
 ## calculate an ordinary Mincer-style wage regression.  First by OLS and
-## thereafter cut the wage to intervals and estimate with 'intreg'
+## thereafter cut the wage to intervals and estimate with 'intReg'
 ## Note: gross hourly wage rate in EUR
 ols <- lm(log(wage) ~ factor(educ) + poly(exper, 2), data=Bwages)
 cat("OLS estimate:\n")
@@ -123,7 +123,7 @@ print(summary(ols))
 ## Now we censor the wages to intervals
 intervals <- c(0, 5, 10, 15, 25, Inf)
 salary <- cut(Bwages$wage, intervals)
-int <- intreg(salary ~ factor(educ) + poly(exper, 2), data=Bwages, boundaries=log(intervals))
+int <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages, boundaries=log(intervals))
 ## Note: use logs for the intervals in Euros.  We do not have to
 ## transform salaris to log form as this does not change the intervals.
 ## Ignore any warnings

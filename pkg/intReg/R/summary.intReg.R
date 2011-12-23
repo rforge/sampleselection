@@ -1,15 +1,15 @@
-summary.intreg <- function(object, ...) {
+summary.intReg <- function(object, ...) {
    estimate <- coefTable(coef(object), stdEr(object), object$param$df)
    library(maxLik)
    s <- maxLik:::summary.maxLik(object)
    s$estimate <- estimate
    s$param <- object$param
                            # supply the additional parameters
-   class(s) <- c("summary.intreg", class(s))
+   class(s) <- c("summary.intReg", class(s))
    return(s)
 }
 
-print.summary.intreg <- function(x,
+print.summary.intReg <- function(x,
                                  digits=max(3, getOption("digits") - 3),
                                  boundaries=FALSE,
                                  ...) {

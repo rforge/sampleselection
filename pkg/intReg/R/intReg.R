@@ -1,6 +1,6 @@
 
 ### Based on polr() function in MASS (originally developed for categorical wage data in Social Capital Benchmark Survey)
-intreg <- function(formula, data, weights, start, boundaries,
+intReg <- function(formula, data, weights, start, boundaries,
                  ..., subset,
                  na.action, contrasts = NULL, Hess = FALSE,
                  model = TRUE,
@@ -248,6 +248,6 @@ intreg <- function(formula, data, weights, start, boundaries,
                       index=list(beta=iBeta, boundary=iBoundaries, std=iStd),
                       df=nObs - sum(activePar)
                       )
-    class(res) <- c("intreg", class(res))
+    class(res) <- c("intReg", class(res))
     return(res)
 }

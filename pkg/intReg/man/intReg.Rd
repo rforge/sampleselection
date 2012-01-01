@@ -12,8 +12,6 @@
 intReg(formula, data, weights, start, boundaries, ...,
 subset, na.action, contrasts = NULL, Hess = FALSE, model = TRUE,
 method = c("logistic", "probit", "cloglog", "cauchit"), print.level = 0)
-%
-\method{print}{summary.intReg}(x, digits=max(3, getOption("digits") - 3), boundaries=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -35,9 +33,7 @@ method = c("logistic", "probit", "cloglog", "cauchit"), print.level = 0)
           is, maximizing \sQuote{sum(w*loglik)}).}
   \item{start}{Initial values for the optimization algorithm.  if
     \sQuote{NULL}, initial values are calculated based on interval means.}
-  \item{boundaries}{Boundaries for intervals.  See details.  For
-    printing output, a logical value indicating whether output the
-    boundaries.}
+  \item{boundaries}{Boundaries for intervals.  See details.}
   \item{\dots}{further arguments to \code{\link[maxLik]{maxLik}}}
   \item{subset}{an optional logical vector specifying a subset of observations to be
           used in the fitting process.}
@@ -54,8 +50,6 @@ method = c("logistic", "probit", "cloglog", "cauchit"), print.level = 0)
     \sQuote{logistic}, \sQuote{probit}, \sQuote{cloglog} or \sQuote{cauchit}.}
   \item{print.level}{output of run-time information: higher level prints
     more.}
-  \item{x}{object of class \sQuote{intReg}, an estimated model}
-  \item{digits}{numeric, how many digits to output}
 }
 \details{
   Interval regression is a form of linear regression where only

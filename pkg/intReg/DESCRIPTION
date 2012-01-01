@@ -4,7 +4,7 @@ Date: 2011-12-23
 Title: Interval Regression
 Author: Ott Toomet <ott.toomet@gmail.com>
 Maintainer: Ott Toomet <ott.toomet@gmail.com>
-Depends: R (>= 2.7.0), maxLik (>= 1.0-0), sets
+Depends: R (>= 2.7.0), maxLik (>= 1.0-3), sets
 Imports: sets
 Suggests: Ecdat
 Description: Estimating interval regression models

@@ -1,11 +1,12 @@
 
 ### Based on polr() function in MASS (originally developed for categorical wage data in Social Capital Benchmark Survey)
-intReg <- function(formula, data, weights, start, boundaries,
-                 ..., subset,
-                 na.action, contrasts = NULL, Hess = FALSE,
+intReg <- function(formula, start, boundaries,
+                   ...,
+                 contrasts = NULL, Hess = FALSE,
                  model = TRUE,
-                 method = c("logistic", "probit", "cloglog", "cauchit"),
-                     print.level=0)
+                 method = c("logistic", "probit", "cloglog", "cauchit", "model.frame"),
+                     print.level=0,
+                   data, subset, weights, na.action)
 {
    ## beta     parameters for the x-s (linear model)
    ## nBeta    number of x-s (including constant)
@@ -70,19 +71,22 @@ intReg <- function(formula, data, weights, start, boundaries,
         grad
      }
     ## ---------- main function -------------
-    m <- match.call(expand.dots = FALSE)
+    cl <- match.call(expand.dots = FALSE)
     method <- match.arg(method)
+    if(is.matrix(eval.parent(cl$data)))
+        cl$data <- as.data.frame(data)
+    cl$start <- cl$Hess <- cl$method <- cl$model <- cl$boundaries <- cl$... <- cl$print.level <- NULL
+    cl[[1]] <- as.name("model.frame")
+    mf <- eval.parent(cl)
+    if (method == "model.frame")
+        return(mf)
+    mt <- attr(mf, "terms")
+    ## Select the correct model
     pfun <- switch(method, logistic = plogis, probit = pnorm,
                    cloglog = pgumbel, cauchit = pcauchy)
     dfun <- switch(method, logistic = dlogis, probit = dnorm,
                    cloglog = dgumbel, cauchit = dcauchy)
-    if(is.matrix(eval.parent(m$data)))
-        m$data <- as.data.frame(data)
-    m$start <- m$Hess <- m$method <- m$model <- m$boundaries <- m$... <- m$print.level <- NULL
-    m[[1]] <- as.name("model.frame")
-    m <- eval.parent(m)
-    Terms <- attr(m, "terms")
-    x <- model.matrix(Terms, m, contrasts)
+    x <- model.matrix(mt, mf, contrasts)
     xint <- match("(Intercept)", colnames(x), nomatch=0)
     nObs <- nrow(x)
     nBeta <- ncol(x)
@@ -92,11 +96,11 @@ intReg <- function(formula, data, weights, start, boundaries,
 ##     }
 ##     else
 ##         warning("an intercept is needed and assumed")
-    wt <- model.weights(m)
+    wt <- model.weights(mf)
     if(!length(wt)) wt <- rep(1, nObs)
-    offset <- model.offset(m)
+    offset <- model.offset(mf)
     if(length(offset) <= 1) offset <- rep(0, nObs)
-    y <- model.response(m)
+    y <- model.response(mf)
     if(is.matrix(y)) {
        ## Use the intervals, given for each observation.  We have interval regression and the interval boundaries are fixed.
        ## Save boundaries as a sequence of pairs of L,B boundaries
@@ -241,13 +245,19 @@ intReg <- function(formula, data, weights, start, boundaries,
     library(maxLik)
 ##     compareDerivatives(loglik, gradlik, t0=start)
 ##     stop()
-    res <- maxLik(loglik, gradlik, start=start,
+    estimation <- maxLik(loglik, gradlik, start=start,
                   method="BHHH", activePar=activePar, iterlim=500, ...)
-    res$param <- list(ordered=ordered,
+    res <- c(estimation,
+             param=list(list(ordered=ordered,
                       boundaries=boundaries,
                       index=list(beta=iBeta, boundary=iBoundaries, std=iStd),
                       df=nObs - sum(activePar)
-                      )
-    class(res) <- c("intReg", class(res))
+                      )),
+             call=cl,
+             terms=mt,
+             method=method,
+             na.action=list(attr(mf, "na.action"))
+             )
+    class(res) <- c("intReg", class(estimation))
     return(res)
 }

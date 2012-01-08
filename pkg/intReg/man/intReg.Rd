@@ -9,9 +9,10 @@
   Normal, logistic, log-log, and Cauchy disturbances are supported.
 }
 \usage{
-intReg(formula, data, weights, start, boundaries, ...,
-subset, na.action, contrasts = NULL, Hess = FALSE, model = TRUE,
-method = c("logistic", "probit", "cloglog", "cauchit"), print.level = 0)
+intReg(formula, start, boundaries, ...,
+contrasts = NULL, Hess = FALSE, model = TRUE,
+method = c("logistic", "probit", "cloglog", "cauchit", "model.frame"), print.level = 0,
+data, subset, weights, na.action)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

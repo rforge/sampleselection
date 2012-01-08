@@ -1,0 +1,128 @@
+
+R version 2.14.1 (2011-12-22)
+Copyright (C) 2011 The R Foundation for Statistical Computing
+ISBN 3-900051-07-0
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ## Example of observation-specific boundaries
+> ## Estimate the willingness to pay for the Kakadu National Park
+> ## Data given in intervals -- 'lower' for lower bound and 'upper' for upper bound.
+> ## Note that dichotomous-coice answers are already coded to 'lower' and 'upper'
+> set.seed(1)
+> library(intReg)
+Loading required package: maxLik
+Loading required package: miscTools
+Loading required package: sets
+> library(Ecdat)
+> data(Kakadu)
+> ## Estimate in log form, change 999 to Inf
+> lb <- log(Kakadu$lower)
+> ub <- Kakadu$upper
+> ub[ub > 998] <- Inf
+> ub <- log(ub)
+> y <- cbind(lb, ub)
+> m <- intReg(y ~ sex + log(income) + age + schooling + 
++               recparks + jobs + lowrisk + wildlife + future + aboriginal + finben +
++               mineparks + moreparks + gov +
++               envcon + vparks + tvenv + major, data=Kakadu)
+> ## You may want to compare the results to Werner (1999),
+> ## Journal of Business and Economics Statistics 17(4), pp 479-486
+> print(summary(m))
+--------------------------------------------
+Interval regression
+Maximum Likelihood estimation
+BHHH maximisation, 12 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -1490.001 
+ observations,  free parameters (df = 1807)
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2.251456   1.229421   1.831  0.06722 .  
+sexmale     -0.224983   0.215110  -1.046  0.29575    
+log(income)  0.373033   0.138094   2.701  0.00697 ** 
+age         -0.036044   0.006291  -5.730 1.17e-08 ***
+schooling   -0.031875   0.059142  -0.539  0.58998    
+recparks     0.083653   0.092305   0.906  0.36492    
+jobs        -0.429460   0.092846  -4.626 4.00e-06 ***
+lowrisk     -0.707362   0.088292  -8.012 2.01e-15 ***
+wildlife     0.298101   0.152295   1.957  0.05046 .  
+future       0.055519   0.122975   0.451  0.65171    
+aboriginal   0.139555   0.084549   1.651  0.09900 .  
+finben      -0.668251   0.094436  -7.076 2.11e-12 ***
+mineparks    0.852366   0.089965   9.474  < 2e-16 ***
+moreparks    0.389473   0.091789   4.243 2.32e-05 ***
+gov          0.004872   0.314989   0.015  0.98766    
+envconyes    0.425305   0.207333   2.051  0.04038 *  
+vparksyes    0.475308   0.227506   2.089  0.03683 *  
+tvenv       -0.084460   0.075837  -1.114  0.26556    
+majoryes     0.465652   0.199079   2.339  0.01944 *  
+sigma        1.810190   0.092769  19.513  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+--------------------------------------------
+> 
+> 
+> ##
+> ## Example of common intervals for all the observations
+> ##
+> library(Ecdat)
+> data(Bwages)
+> ## calculate an ordinary Mincer-style wage regression.  
+> ## Note: gross hourly wage rate in EUR
+> intervals <- c(0, 5, 10, 15, 25, Inf)
+> salary <- cut(Bwages$wage, intervals)
+> int <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages, boundaries=log(intervals))
+Warning message:
+In log(Pr) : NaNs produced
+> ## Note: use logs for the intervals in Euros.  We do not have to
+> ## transform salaris to log form as this does not change the intervals.
+> ## Ignore any warnings
+> cat("Interval regression:\n")
+Interval regression:
+> print(summary(int))
+--------------------------------------------
+Interval regression
+Maximum Likelihood estimation
+BHHH maximisation, 10 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -1346.845 
+ observations,  free parameters (df = 1464)
+                 Estimate Std. Error t value Pr(>|t|)    
+(Intercept)      1.904466   0.037724  50.484  < 2e-16 ***
+factor(educ)2    0.214884   0.042135   5.100 3.84e-07 ***
+factor(educ)3    0.362340   0.040597   8.925  < 2e-16 ***
+factor(educ)4    0.518962   0.041681  12.451  < 2e-16 ***
+factor(educ)5    0.712962   0.041017  17.382  < 2e-16 ***
+poly(exper, 2)1  6.443614   0.349152  18.455  < 2e-16 ***
+poly(exper, 2)2 -2.115632   0.301150  -7.025 3.26e-12 ***
+sigma            0.156298   0.004451  35.118  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+--------------------------------------------
+> 
+> ## Test model.frame
+> mf <- model.frame(int)
+> print(mf[sample(nrow(mf), 10),])
+      salary factor(educ) poly(exper, 2).1 poly(exper, 2).2
+391   (5,10]            3     -0.033896939      0.026534484
+548  (15,25]            3     -0.005686658     -0.020552217
+843   (5,10]            4     -0.028767797      0.013894869
+1335 (10,15]            5     -0.036461510      0.033534024
+297  (10,15]            2      0.002007056     -0.023877786
+1318  (5,10]            5     -0.036461510      0.033534024
+1385 (15,25]            5     -0.010815800     -0.016069395
+969  (15,25]            4      0.045604763      0.034313700
+922  (10,15]            4      0.004571627     -0.024079999
+91    (5,10]            1     -0.010815800     -0.016069395
+> 

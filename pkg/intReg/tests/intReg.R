@@ -2,6 +2,7 @@
 ## Estimate the willingness to pay for the Kakadu National Park
 ## Data given in intervals -- 'lower' for lower bound and 'upper' for upper bound.
 ## Note that dichotomous-coice answers are already coded to 'lower' and 'upper'
+set.seed(1)
 library(intReg)
 library(Ecdat)
 data(Kakadu)
@@ -35,3 +36,7 @@ int <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages, boundaries=lo
 ## Ignore any warnings
 cat("Interval regression:\n")
 print(summary(int))
+
+## Test model.frame
+mf <- model.frame(int)
+print(mf[sample(nrow(mf), 10),])

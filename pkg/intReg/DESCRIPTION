@@ -7,6 +7,6 @@ Maintainer: Ott Toomet <ott.toomet@gmail.com>
 Depends: R (>= 2.7.0), maxLik (>= 1.0-3), sets
 Imports: sets
 Suggests: Ecdat
-Description: Estimating interval regression models
+Description: Estimating interval regression models.  Both common and observation-specific boundaries may be specified.
 License: GPL (>= 2)
 URL: http://CRAN.R-project.org, http://www.sampleSelection.org

@@ -17,7 +17,11 @@
       (e.g. \code{\link{model.frame}}).}
 }
 \value{
-   A data.frame containing all variables used for the estimation.
+  A data.frame containing all variables used for the estimation.
+
+  The response variable is given as a factor (in case of common
+  boundaries) or as two numeric vectors, corresponding to the lower- and
+  upper boundary for each observation.
 }
 
 \author{Arne Henningsen,

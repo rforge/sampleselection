@@ -3,6 +3,7 @@
 ## Data given in intervals -- 'lower' for lower bound and 'upper' for upper bound.
 ## Note that dichotomous-coice answers are already coded to 'lower' and 'upper'
 set.seed(1)
+options(digits=5)
 library(intReg)
 library(Ecdat)
 data(Kakadu)
@@ -20,6 +21,9 @@ m <- intReg(y ~ sex + log(income) + age + schooling +
 ## Journal of Business and Economics Statistics 17(4), pp 479-486
 print(summary(m))
 
+## test model.matrix
+mm <- model.matrix(m)
+print(mm[i <- sample(nrow(mm), 10),])
 
 ##
 ## Example of common intervals for all the observations
@@ -39,4 +43,5 @@ print(summary(int))
 
 ## Test model.frame
 mf <- model.frame(int)
-print(mf[sample(nrow(mf), 10),])
+print(mf[i <- sample(nrow(mf), 10),])
+print(model.response(mf)[i])

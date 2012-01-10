@@ -14,7 +14,7 @@ heckit2fit <- function( selection, outcome,
                                         # it is multicollinear, but not (just) due to IMR
       return(TRUE)
    }
-   # What is the role of na.action here?  We cannot use na.omit -- we must not omit the observation
+   ## What is the role of na.action here?  We cannot use na.omit -- we must not omit the observation
    # where outcome is not observed.  na-s cannot be passed either.
    # However, we can (and should?) omit the na-s in explanatory and probit outcomes.  This needs
    # a bit of refinement.

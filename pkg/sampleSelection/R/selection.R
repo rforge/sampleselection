@@ -23,33 +23,33 @@ selection <- function(selection, outcome,
    ## First the consistency checks
    ## ...          additional arguments for tobit2fit and tobit5fit
    type <- 0
-   if( class( selection ) != "formula" ) {
+   if(!inherits( selection, "formula" )) {
       stop( "argument 'selection' must be a formula" )
    }
    if( length( selection ) != 3 ) {
       stop( "argument 'selection' must be a 2-sided formula" )
    }
                                         #
-   if("formula" %in% class( outcome )) {
+   if(inherits(outcome, "formula")) {
       if( length( outcome ) != 3 ) {
          stop( "argument 'outcome' must be a 2-sided formula" )
       }
       type <- 2
    }
-   else if("list" %in% class(outcome)) {
+   else if(inherits(outcome, "list")) {
       if(length(outcome) == 1) {
          outcome <- outcome[[1]]
          type <- 2
       }
       else if(length(outcome) == 2) {
-         if("formula" %in% class(outcome[[1]])) {
+         if(inherits(outcome[[1]], "formula")) {
             if( length( outcome[[1]] ) != 3 ) {
                stop( "argument 'outcome[[1]]' must be a 2-sided formula" )
             }
          }
          else
              stop( "argument 'outcome[[1]]' must be either a formula or a list of two formulas" )
-         if("formula" %in% class(outcome[[2]])) {
+         if(inherits(outcome[[2]], "formula")) {
             if( length( outcome[[2]] ) != 3 ) {
                stop( "argument 'outcome[[2]]' must be a 2-sided formula" )
             }

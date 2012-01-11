@@ -1,5 +1,6 @@
 \name{coef.intReg}
 \alias{coef.intReg}
+\alias{print.coef.intReg}
 \alias{stdEr.intReg}
 \alias{vcov.intReg}
 \title{

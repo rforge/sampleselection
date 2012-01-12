@@ -1,3 +1,8 @@
-News in version 0.1-1
+	PACKAGE intReg NEWS
 
-* Package assembled from the stuff, developed in econMisc.
+
+News in version 0.1-2
+
+* Package assembled from the stuff, developed in econMisc.  Interval
+  regression with 4 different distributions, common and
+  observation-specific boundaries.

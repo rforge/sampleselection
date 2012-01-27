@@ -10,119 +10,87 @@
   <body background="images/RLogoLight.jpg">
     <div align="center">
       <h1>
-         sampleSelection
+         The &quot;sampleSelection&quot; project
       </h1>
       <h2>
-         Tools for estimating sample selection models in <a href="http://www.r-project.org">R</a>
+         The &quot;sampleSelection&quot; project includes add-on packages
+         for the statistical software <a href="http://www.r-project.org">R</a>
+         for estimating models with limited dependent variables.
       </h2>
     </div>
     <h3>
-       News
+       Currently, the &quot;sampleSelection&quot; project includes 
+       four <a href="http://www.r-project.org">R</a> packages:
     </h3>
     <ul>
-    <li>September 22, 2008:<br />
-      The sampleSelection package is developed on <a href="http://R-Forge.R-Project.org/">R-Forge</a> now.
-      Its summary page is available <a href="http://r-forge.r-project.org/projects/sampleselection/">here</a>.</li>
+      <li><strong>censReg</strong>: censored regression ("Tobit") models</li>
+      <li><strong>intReg</strong>: interval regression models</li>
+      <li><strong>mvProbit</strong>: multivariate probit models</li>
+      <li><strong>sampleSelection</strong>: sample selection ("Heckman") models</li>
     </ul>
     <h3>
-       What is sampleSelection? 
+       Released versions
     </h3>
+    The officially released versions of these packages,
+    including documentation, source code, etc.,
+    are available from the Comprehensive R Archive Network (CRAN):
     <ul>
-      <li>
-        <strong>sampleSelection</strong> is an extension package for the &quot;language and environment for statistical computing and graphics&quot; called <a href="http://www.r-project.org">R</a>.
-      </li>
-      <li>
-        <strong>sampleSelection</strong> provides functions for estimating sample selection models
-        (also known as generalized tobit or Heckman selection models).
-      </li>
+      <li><strong>censReg</strong>: <a href="http://cran.r-project.org/package=censReg">
+        http://cran.r-project.org/package=censReg</a></li>
+      <li><strong>intReg</strong>: <a href="http://cran.r-project.org/package=intReg">
+        http://cran.r-project.org/package=intReg</a></li>
+      <li><strong>mvProbit</strong>: <a href="http://cran.r-project.org/package=mvProbit">
+        http://cran.r-project.org/package=mvProbit</a></li>
+      <li><strong>sampleSelection</strong>: <a href="http://cran.r-project.org/package=sampleSelection">
+        http://cran.r-project.org/package=sampleSelection</a></li>
+    </ul>
+    You can install theese packages by the <a href="http://www.r-project.org">R</a>
+    command:<br />
+    <pre> install.packages( "packageName" )</pre>
+    <h3>
+       Development versions
+    </h3>
+    The (potentially unstable) development versions of these packages are available
+    from <a href="http://r-forge.r-project.org">R-Forge</a>:
+    <ul>
+      <li><a href="http://r-forge.r-project.org/R/?group_id=256">
+        https://r-forge.r-project.org/R/?group_id=256</a></li>
+    </ul>
+    You can install theese packages by the <a href="http://www.r-project.org">R</a>
+    command:<br />
+    <pre> install.packages( "packageName", repos="http://R-Forge.R-project.org" )</pre>
+    <h3>
+       Questions, bug reports, feature requests, etc.
+    </h3>
+    Please ask questions, report bugs, and suggest new features
+    via a forum or &quot;tracker&quot; 
+    at the <a href="http://r-forge.r-project.org">R-Forge</a> site
+    of the &quot;sampleSelection&quot; project:
+    <ul>
+      <li><a href="http://r-forge.r-project.org/projects/sampleselection/">
+        http://r-forge.r-project.org/projects/sampleselection/</a></li>
     </ul>
     <h3>
-       What can sampleSelection do?
+       Authors
     </h3>
-        If a non-random (sub)sample is used for econometric estimation, Heckman selection models are required to obtain unbiased estimates. <strong>sampleSelection</strong> provides functions for:
-      <ul>
-        <li>
-           two-step Heckman estimation 
-        </li>
-        <li>
-           Maximum Likelihood estimation
-           (using package <a href="http://www.maxLik.org/">maxLik</a>)
-        </li>
-        <li>
-           variance-covariance matrices for Heckman-type estimations 
-        </li>
-        <li>
-           &quot;Inverse Mill's Ratios&quot; for standard selection models (from univariate probit estimations) 
-        </li>
-        <li>
-           &quot;Inverse Mill's Ratios&quot; for double-selection models (from bivariate probit estimations) 
-        </li>
-      </ul>
-    <h3>
-       Who has written sampleSelection?
-    </h3>
+    All packages within the &quot;sampleSelection&quot; project
+    have been written by:
     <ul>
       <li>
         <a href="http://www.arne-henningsen.name">Arne Henningsen</a>
       </li>
       <li>
-        <a href="http://www.obs.ee/~siim/english.html">Ott Toomet</a>
+        <a href="http://www.obs.ee/~siim/">Ott Toomet</a>
       </li>
     </ul>
     <h3>
-       Where can I get sampleSelection?
-    </h3>
-    <ul>
-      <li>The <strong>released</strong> version is available on
-        <a href="http://CRAN.R-Project.org/">CRAN</a>
-        <ul>
-          <li>You can <strong>download</strong> the source code,
-            binaries for MacOS X and MS-Windows, the reference manual,
-            and a vignette from
-            <a href="http://CRAN.R-Project.org/web/packages/sampleSelection/index.html">
-            http://cran.r-project.org/web/packages/sampleSelection/index.html</a>.
-          </li>
-          <li>You can <strong>install</strong> the package by typing
-            at the R prompt (if you have internet access):
-            <pre> install.packages( "sampleSelection" )</pre>
-          </li>
-        </ul>
-      </li>
-      <li>The current <strong>development</strong> version is available on
-        <a href="http://R-Forge.R-Project.org/">R-Forge</a>
-        <ul>
-          <li>You can <strong>download</strong> the source code
-            and binaries for MacOS X and MS-Windows from
-            <a href="http://r-forge.r-project.org/R/?group_id=256">
-            http://r-forge.r-project.org/R/?group_id=256</a>.
-          </li>
-          <li>You can <strong>install</strong> the package by typing
-            at the R prompt (if you have internet access):
-            <pre> install.packages( "sampleSelection", repos="http://R-Forge.R-project.org" )</pre>
-          </li>
-        </ul>
-      </li>
-    </ul>
-    <h3>
-       Under which license is sampleSelection released?
+       License
     </h3>
     <ul>
       <li>
-         Under the  <a href="http://www.gnu.org/licenses/gpl.html">
-            GNU General Public License (GPL)</a>
-      </li>
-    </ul>
-    <h3>
-       How can I contact you? 
-    </h3>
-    <ul>
-      <li>
-         Send an email to <a href="mailto:info(at)sampleSelection.org">info(at)sampleSelection.org</a>
-      </li>
-      <li>
-         Take a look at <a href="http://www.arne-henningsen.name">http://www.arne-henningsen.name</a>
-         or <a href="http://www.obs.ee/~siim/english.html">
-         http://www.obs.ee/~siim/english.html</a>
+         All packages in the &quot;sampleSelection&quot; project are
+         published under the  <a href="http://www.gnu.org/licenses/gpl.html">
+         GNU General Public License (GPL)</a>
       </li>
     </ul>
     <p>
@@ -135,7 +103,7 @@
        &nbsp; 
     </p>
     <div align="center">
-       Last Update: 05 October 2008
+       Last Update: 27 January 2012
     </div>
   </body>
 </html>

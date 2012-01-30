@@ -10,4 +10,4 @@ Imports: miscTools (>= 0.6-3)
 Suggests: VGAM, MASS, mvtnorm, plm
 Description: Estimation of Sample Selection Models
 License: GPL (>= 2)
-URL: http://CRAN.R-project.org, http://www.sampleSelection.org
+URL: http://www.sampleSelection.org

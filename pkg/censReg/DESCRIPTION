@@ -10,4 +10,4 @@ Suggests: plm, AER, lmtest (>= 0.9-27), sandwich (>= 2.2-6)
 Description: Estimation of censored regression (Tobit) models
    with cross-section and panel data
 License: GPL (>= 2)
-URL: http://CRAN.R-project.org, http://www.sampleSelection.org
+URL: http://www.sampleSelection.org

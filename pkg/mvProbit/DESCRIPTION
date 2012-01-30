@@ -9,4 +9,4 @@ Depends: R (>= 2.4.0), mvtnorm (>= 0.9-999), maxLik (>= 1.0-0),
 Imports: bayesm (>= 2.2-4), miscTools (>= 0.6-11)
 Description: Tools for multivariate probit models
 License: GPL (>= 2)
-URL: http://CRAN.R-project.org, http://www.sampleSelection.org
+URL: http://www.sampleSelection.org

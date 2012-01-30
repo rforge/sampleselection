@@ -9,4 +9,4 @@ Imports: sets
 Suggests: Ecdat
 Description: Estimating interval regression models.  Both common and observation-specific boundaries may be specified.
 License: GPL (>= 2)
-URL: http://CRAN.R-project.org, http://www.sampleSelection.org
+URL: http://www.sampleSelection.org

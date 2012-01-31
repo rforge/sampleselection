@@ -222,6 +222,11 @@ intReg <- function(formula, start, boundaries,
           yMean <- means[y]
           fit <- lm(yMean ~ x - 1)
           xCoefs <- coef(fit)
+          if(any(is.na(xCoefs))) {
+             cat("Suggested initial values:\n")
+             print(xCoefs)
+             stop("NA in the initial values")
+          }
           names(xCoefs) <- gsub("^x", "", names(xCoefs))
           activePar[iBeta] <- TRUE
           activePar[iBoundaries] <- FALSE

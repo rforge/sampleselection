@@ -62,7 +62,7 @@ selection <- function(selection, outcome,
           stop("argument 'outcome' must contain 1 or 2 components")
    }
    else
-       stop( "argument 'selection' must be either a formula or a list of two formulas" )
+       stop("argument 'selection' must be either a formula or a list of two formulas" )
    if(!missing(data)) {
       if(!inherits(data, "environment") & !inherits(data, "data.frame") & !inherits(data, "list")) {
          stop("'data' must be either environment, data.frame, or list (currently a ", class(data), ")")
@@ -82,7 +82,7 @@ selection <- function(selection, outcome,
    if(method == "2step") {
       if(type == 2)
           twoStep <- heckit2fit(selection, outcome, data=data,
-            print.level = print.level, ... )
+            print.level = print.level)
       else if(type == 5)
           twoStep <- heckit5fit(selection, outcome, data=data,
             print.level = print.level, ... )
@@ -121,6 +121,9 @@ selection <- function(selection, outcome,
    badRow <- is.na(YS)
    badRow <- badRow | apply(XS, 1, function(v) any(is.na(v)))
    ## YO (outcome equation)
+   ## Here we should include a possibility for the user to
+   ## specify the model.  Currently just a guess.
+   binaryOutcome <- FALSE
    if(type == 2) {
       oArg <- match("outcome", names(mf), 0)
                                         # find the outcome argument
@@ -140,7 +143,10 @@ selection <- function(selection, outcome,
                                         # We have to check it later
       mtO <- attr(mfO, "terms")
       XO <- model.matrix(mtO, mfO)
-      YO <- model.response(mfO, "numeric")
+      YO <- model.response(mfO)
+      if(is.factor(YO) & length(levels(YO)) == 2) {
+         binaryOutcome <- TRUE
+      }
       badRow <- badRow | (is.na(YO) & (!is.na(YS) & YS == 1))
       badRow <- badRow | (apply(XO, 1, function(v) any(is.na(v))) & (!is.na(YS) & YS == 1))
                                         # rows in outcome, which contain NA and are observable -> bad too
@@ -162,33 +168,55 @@ selection <- function(selection, outcome,
       NXO <- ncol(XO)
       iGamma <- 1:NXS
       iBeta <- max(iGamma) + seq(length=NXO)
-      iSigma <- max(iBeta) + 1
-      iRho <- max(iSigma) + 1
+      if(!binaryOutcome) {
+         iSigma <- max(iBeta) + 1
+         iRho <- max(iSigma) + 1
+      }
+      else
+          iRho <- max(iBeta) + 1
       nParam <- iRho
       twoStep <- NULL
       if(is.null(start)) {
                            # start values by Heckman 2-step method
          start <- numeric(nParam)
          twoStep <- heckit2fit(selection, outcome, data=data,
-            print.level = print.level, ... )
+            print.level = print.level)
          coefs <- coef(twoStep, part="full")
          start[iGamma] <- coefs[twoStep$param$index$betaS]
-         start[iBeta] <- coefs[twoStep$param$index$betaO]
-         start[iSigma] <- coefs[twoStep$param$index$sigma]
+         if(!binaryOutcome) {
+            start[iBeta] <- coefs[twoStep$param$index$betaO]
+            start[iSigma] <- coefs[twoStep$param$index$sigma]
+         }
+         else
+             start[iBeta] <- coefs[twoStep$param$index$betaO]/coefs[twoStep$param$index$sigma]
          start[iRho] <- coefs[twoStep$param$index$rho]
          if(start[iRho] > 0.99)
              start[iRho] <- 0.99
          else if(start[iRho] < -0.99)
              start[iRho] <- -0.99
       }
-      if(is.null(names(start)))
-          names(start) <- c(colnames(XS), colnames(XO), "sigma", "rho")
-                                        # add names to start values if not present
-      estimation <- tobit2fit(YS, XS, YO, XO, start,
-                              print.level=print.level, ...)
+      if(is.null(names(start))) {
+         if(!binaryOutcome) {
+            names(start) <- c(colnames(XS), colnames(XO), "sigma",
+                              "rho")
+         }
+         else
+            names(start) <- c(colnames(XS), colnames(XO), 
+                              "rho")
+      }                                        # add names to start values if not present
+      if(!binaryOutcome) {
+         estimation <- tobit2fit(YS, XS, YO, XO, start,
+                                 print.level=print.level, ...)
+         iErrTerms <- c(sigma=iSigma, rho=iRho )
+      }
+      else {
+         estimation <- tobit2Bfit(YS, XS, YO, XO, start,
+                                 print.level=print.level, ...)
+         iErrTerms <- c(rho=iRho)
+      }
       param <- list(index=list(betaS=iGamma,
-                    betaO=iBeta, sigma=iSigma, rho=iRho,
-                    errTerms = c( iSigma, iRho ),
+                    betaO=iBeta,
+                    errTerms=iErrTerms,
                     outcome = iBeta ),
                     NXS=ncol(XS), NXO=ncol(XO),
                     N0=sum(YS==0), N1=sum(YS==1),

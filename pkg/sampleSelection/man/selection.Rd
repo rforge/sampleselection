@@ -5,7 +5,8 @@
 \title{Heckman-style selection models}
 \description{
   This is the frontend for estimating Heckman-style selection models either with
-  one or two outcomes (also known as generalized tobit models).
+  one or two outcomes (also known as generalized tobit models).  It
+  supports binary outcomes in one outcome equation case.
 
   For model specification and more details, see Henningsen and Toomet
   (2008) and the included vignette \dQuote{Sample Selection Models}.
@@ -52,7 +53,9 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
    The endogenous variable of the argument 'selection' must have exactly
    two levels (e.g. 'FALSE' and 'TRUE', or '0' and '1').
    By default the levels are sorted in increasing order
-   ('FALSE' is before 'TRUE', and '0' is before '1').
+   ('FALSE' is before 'TRUE', and '0' is before '1').  This also applies
+   for the binary outcome equation.  For
+   continuous-oucome cases, the dependent variable(s) should be numeric. 
 
    For tobit-2 (sample selection) models,
    only those observations are included in the second step estimation

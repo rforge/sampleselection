@@ -5,6 +5,9 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+* Binary-outcome selection model
+
+
             CHANGES IN VERSION 0.6-12 (2011-11-13)
 
 * fixed a bug that occurred in the fitted( ..., part = "outcome" ), 

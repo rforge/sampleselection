@@ -1,7 +1,9 @@
 heckit2fit <- function( selection, outcome,
                    data=sys.frame(sys.parent()),
                    inst = NULL,
-                   print.level = 0, ... ) {
+                   print.level = 0) {
+   ## selection     formula, selection equation
+   ## 
    checkIMRcollinearity <- function(X, tol=1e6) {
       ## This small utility checks whether inverse Mills ratio is (virtually) collinear to the other explanatory
       ## variables.  IMR is in the last columns.
@@ -88,7 +90,9 @@ heckit2fit <- function( selection, outcome,
    XO <- model.matrix(mtO, mfO)
                                         # the explanatory variables in matrix form
    NXO <- ncol(XO)
-   YO <- model.response(mfO, "numeric")
+   YO <- model.response(mfO)
+   if(is.factor(YO))
+       YO <- as.integer(YO)
    ## Remove NA observations
    badRow <- badRow | (is.na(YO) & (!is.na(YS) & YS == 1))
    badRow <- badRow | (apply(XO, 1, function(v) any(is.na(v))) & (!is.na(YS) & YS == 1))

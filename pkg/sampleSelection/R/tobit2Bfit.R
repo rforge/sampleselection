@@ -30,27 +30,71 @@ tobit2Bfit <- function(YS, XS, YO, XO, start,
    ## twoStep   Results for Heckman two-step estimator, used for initial values
    ## 
    loglik <- function( beta) {
-      g <- beta[ibetaS]
-      b <- beta[ibetaO]
+      betaS <- beta[ibetaS]
+      betaO <- beta[ibetaO]
       rho <- beta[iRho]
       Sigma <- matrix(c(1,rho,rho,1), 2, 2)
       if( ( rho < -1) || ( rho > 1)) return(NA)
-      XS00.g <- XS[i00,] %*% g
-      XS10.g <- XS[i10,] %*% g
-      XS11.g <- XS[i11,] %*% g
-      XO10.b <- XO[i10,] %*% b
-      XO11.b <- XO[i11,] %*% b
-      loglik <- numeric(nObs)
-      loglik[i00] <- pnorm(-XS00.g, log=TRUE)
-      uppermat <- -cbind(XS10.g, XO10.b)
-      f2 <- apply(uppermat, 1,
+      XS00.b <- drop(XS[i00,] %*% betaS)
+      XS10.b <- drop(XS[i10,] %*% betaS)
+      XS11.b <- drop(XS[i11,] %*% betaS)
+      XO10.b <- drop(XO[i10,] %*% betaO)
+      XO11.b <- drop(XO[i11,] %*% betaO)
+      lik <- loglik <- numeric(nObs)
+                           # lik is needed for the gradient
+      ## YS == 0, YO == 0
+      loglik[i00] <- pnorm(-XS00.b, log.p=TRUE)
+      lik[i00] <- exp(loglik[i00])
+      ## YS == 1, YO == 0
+      lowermat <- -cbind(XS10.b, XO10.b)
+      f2 <- apply(lowermat, 1,
                   function(x) pmvnorm(lower=x, corr=Sigma))
-      loglik[i10] <- log(pnorm(-XS10.g, lower.tail=FALSE) - f2)
-      uppermat <- -cbind(XS11.g, XO11.b)
-      f2 <- apply(uppermat, 1,
+      lik[i10] <- pnorm(-XS10.b, lower.tail=FALSE) - f2
+      loglik[i10] <- log(lik[i10])
+      ## YS == 1, YO == 1
+      lowermat <- -cbind(XS11.b, XO11.b)
+      f2 <- apply(lowermat, 1,
                   function(x) pmvnorm(lower=x, corr=Sigma))
+      lik[i11] <- f2
       loglik[i11] <- log(f2)
-      loglik
+      if(is.null(attr(beta, "grad")))
+          return(loglik)
+      ## --- gradient ---
+      grad <- matrix(0, nObs, nParam)
+      r <- sqrt(1 - rho^2)
+      ## YS == 0, YO == 0
+      grad[i00,ibetaS] <- XS[i00,] * (-dnorm(-XS00.b)/lik[i00])
+      ## YS == 1, YO == 0
+      A <- dnorm(XS10.b)
+      B <- A*pnorm((XO10.b - rho*XS10.b)/r, lower.tail=FALSE)
+      grad[i10,ibetaS] <- XS[i10,]*B/lik[i10]
+      A <- dnorm(XO10.b)
+      B <- A*pnorm((XS10.b - rho*XO10.b)/r)
+      grad[i10,ibetaO] <- -XO[i10,]*B/lik[i10]
+      ## YS == 1, YO == 1
+      A <- dnorm(XS11.b)
+      B <- A*pnorm((XO11.b - rho*XS11.b)/r)
+      grad[i11,ibetaS] <- XS[i11,]*B/lik[i11]
+      A <- dnorm(XO11.b)
+      B <- A*pnorm((XS11.b - rho*XO11.b)/r)
+      grad[i11,ibetaO] <- XO[i11,]*B/lik[i11]
+      ##
+      ## iOut <- seq(length=nObs)
+      ## loglik <- loglik[iOut]
+      ## attr(loglik, "gradientB") <- grad[iOut,,drop=FALSE]
+      ## return(loglik)
+      return(grad)
+   }
+   gradlik <- function(beta) {
+      betaG <- beta
+      attr(betaG, "grad") <- TRUE
+      grad <- loglik(betaG)
+      eps <- 1e-6
+      beta2 <- beta1 <- beta
+      beta2[iRho] <- beta2[iRho] + eps/2
+      beta1[iRho] <- beta1[iRho] - eps/2
+      grad[,iRho] <- (loglik(beta2) - loglik(beta1))/eps
+      grad
    }
     ## ---------------
     NXS <- ncol( XS)
@@ -69,6 +113,7 @@ tobit2Bfit <- function(YS, XS, YO, XO, start,
    ibetaS <- 1:NXS
    ibetaO <- seq(tail(ibetaS, 1)+1, length=NXO)
    iRho <- tail(ibetaO, 1) + 1
+   nParam <- iRho
    ## output, if asked for it
    if( print.level > 0) {
       cat("YO observed:", NO, "times; not observed:", nObs - NO,
@@ -86,10 +131,12 @@ tobit2Bfit <- function(YS, XS, YO, XO, start,
    N0 <- sum(YS==0)
    N1 <- sum(YS==1)
    ## estimate
-##    compareDerivatives(loglik, gradlik, t0=start)
-##    stop()
    library(mvtnorm)
-   result <- maxLik(loglik,
+   ## compareDerivatives(loglik,
+   ##                    function(x) attr(loglik(x), "gradientB"),
+   ##                    t0=start)
+   ## stop()
+   result <- maxLik(loglik, gradlik,
                     start=start,
                     method=maxMethod,
                     print.level=print.level, ...)

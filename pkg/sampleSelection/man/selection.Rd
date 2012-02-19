@@ -226,6 +226,23 @@ summary( heckit( lfp ~ nwifeinc + educ + exper + I( exper^2 ) + age +
    kids5 + kids618, log( wage ) ~ educ + exper + I( exper^2 ), Mroz87,
    method = "2step" ) )
 
+## Example using binary outcome for selection model.
+## We estimate the probability of womens' education on their
+## chances to get high wage (> $5/hr in 1975 USD), using PSID data
+## We use education, age, experience as explanatory variables
+## and add kids, other family income, marginal tax rate, and parents
+## education as exclusion restrictions.
+## Note: this is slow
+data(Mroz87)
+m <- selection(lfp~educ + poly(age,3) + kids5 + kids618
+               + huseduc + mtr + motheduc + fatheduc
+               + poly(exper,2) + nwifeinc,
+               wage >= 5 ~ educ + poly(age,2)
+               + poly(exper,2),
+               data=Mroz87)
+print(summary(m))
+
+
 ## Cameron and Trivedi (2005): Section 16.6, page 553ff
 data( RandHIE )
 subsample <- RandHIE$year == 2 & !is.na( RandHIE$educdec )

@@ -144,7 +144,8 @@ selection <- function(selection, outcome,
       mtO <- attr(mfO, "terms")
       XO <- model.matrix(mtO, mfO)
       YO <- model.response(mfO)
-      if(is.factor(YO) & length(levels(YO)) == 2) {
+      if(is.logical(YO) |
+         (is.factor(YO) & length(levels(YO)) == 2)) {
          binaryOutcome <- TRUE
       }
       badRow <- badRow | (is.na(YO) & (!is.na(YS) & YS == 1))

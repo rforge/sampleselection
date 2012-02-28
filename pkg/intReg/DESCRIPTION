@@ -7,6 +7,6 @@ Maintainer: Ott Toomet <otoomet@gmail.com>
 Depends: R (>= 2.7.0), maxLik (>= 1.0-3), sets
 Imports: sets
 Suggests: Ecdat
-Description: Estimating interval regression models.  Both common and observation-specific boundaries may be specified.
+Description: Estimating interval regression models.  Supports both common and observation-specific boundaries.
 License: GPL (>= 2)
 URL: http://www.sampleSelection.org

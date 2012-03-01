@@ -38,27 +38,32 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
          dnorm( likGhqInner[ obsAbove ], log = TRUE ) - log( sigmaNu )
       gradPartGhqSign[ obsBetween ] <- sign( likGhqInner[ obsBetween ] )
       gradPartGhqLog[ obsBetween ] <-
-         dnorm( likGhqInner[ obsBetween ], log = TRUE ) + log( abs( likGhqInner[ obsBetween ] ) ) - 2*log(sigmaNu)
+         dnorm( likGhqInner[ obsBetween ], log = TRUE ) + 
+         log( abs( likGhqInner[ obsBetween ] ) ) - 2 * log(sigmaNu)
       # part of gradients with respect to beta
       for( i in 1:( length( beta ) - 2 ) ) {
          grad1LogIndArr[ , i, h ] <- log( ghqPoints$weights[ h ] ) +
             logLikGhqSum
          grad2IndArr[ , i, h ] <- 
-            rowSums( exp( gradPartGhqLog - logLikGhq ) * gradPartGhqSign * xArr[ , , i ], 
-            na.rm = TRUE )
+            rowSums( exp( gradPartGhqLog - logLikGhq ) * gradPartGhqSign * 
+               xArr[ , , i ], na.rm = TRUE )
       }
       # part of gradient with respect to log( sigma_mu )
       grad1LogIndArr[ , length( beta ) - 1, h ] <-
          log( sigmaMu ) + log( ghqPoints$weights[ h ] ) + logLikGhqSum
       grad2IndArr[ , length( beta ) - 1, h ] <-
-         rowSums( exp( gradPartGhqLog - logLikGhq ) * gradPartGhqSign * sqrt( 2 ) * ghqPoints$zeros[ h ] )
+         rowSums( exp( gradPartGhqLog - logLikGhq ) * gradPartGhqSign * 
+            sqrt( 2 ) * ghqPoints$zeros[ h ] )
       # part of gradient with respect to log( sigma_nu )
-      grad2PartGhq[ obsBelow ] <- exp( gradPartGhqLog[ obsBelow ] - logLikGhq[ obsBelow ] ) * gradPartGhqSign[ obsBelow ] *
-         likGhqInner[ obsBelow ]
-      grad2PartGhq[ obsAbove ] <- - exp( gradPartGhqLog[ obsAbove ] - logLikGhq[ obsAbove ] ) * gradPartGhqSign[ obsAbove ] *
-         likGhqInner[ obsAbove ]
-      grad2PartGhq[ obsBetween ] <- exp( gradPartGhqLog[ obsBetween ] - logLikGhq[ obsBetween ] ) * gradPartGhqSign[ obsBetween ] *
-         likGhqInner[ obsBetween ] - 1 / sigmaNu
+      grad2PartGhq[ obsBelow ] <- 
+         exp( gradPartGhqLog[ obsBelow ] - logLikGhq[ obsBelow ] ) *
+         gradPartGhqSign[ obsBelow ] * likGhqInner[ obsBelow ]
+      grad2PartGhq[ obsAbove ] <- 
+         - exp( gradPartGhqLog[ obsAbove ] - logLikGhq[ obsAbove ] ) *
+         gradPartGhqSign[ obsAbove ] * likGhqInner[ obsAbove ]
+      grad2PartGhq[ obsBetween ] <- 
+         exp( gradPartGhqLog[ obsBetween ] - logLikGhq[ obsBetween ] ) *
+         gradPartGhqSign[ obsBetween ] * likGhqInner[ obsBetween ] - 1 / sigmaNu
       grad1LogIndArr[ , length( beta ), h ] <-
          log( sigmaNu ) + log( ghqPoints$weights[ h ] ) + logLikGhqSum
       grad2IndArr[ , length( beta ), h ] <-

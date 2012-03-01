@@ -170,12 +170,12 @@ d1c1$gradient - d2c1$gradient
 d2c2$maximum - d2c1$maximum
 d1c1$maximum - d1c2$maximum
 
-d1c3 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", 
-   start = 0.95 * coef(randEffBfgsr), iterlim = 0 )
-d2c3 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", 
-   start = 0.95 * coef(randEffBfgsr), iterlim = 0 )
-d1c3$maximum - d2c3$maximum
-d1c3$gradient - d2c3$gradient
+d1cS <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", 
+   start = randEffBfgsr$start, iterlim = 0 )
+d2cS <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", 
+   start = randEffBfgsr$start, iterlim = 0 )
+d1cS$maximum - d2cS$maximum
+d1cS$gradient - d2cS$gradient
 
 
 ## unbalanced panel data

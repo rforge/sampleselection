@@ -146,6 +146,37 @@ randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR" )
 all.equal( randEffBfgsr2[ -c(11,12) ], randEffBfgsr[ -c(11,12) ] )
 all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
 
+# check if the order of observations/individuals influences the likelihood values
+d1c1 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", start = coef(randEffBfgsr),
+   iterlim = 0 )
+all.equal( d1c1[-c(5,6,9,12)], randEffBfgsr[-c(5,6,9,12)] )
+d1c1$maximum -  randEffBfgsr$maximum
+
+d2c2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", start = coef(randEffBfgsr2),
+   iterlim = 0 )
+all.equal( d2c2[-c(5,6,9,12)], randEffBfgsr2[-c(5,6,9,12)] )
+d2c2$maximum -  randEffBfgsr2$maximum
+
+d1c2 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", 
+   start = coef(randEffBfgsr2), iterlim = 0 )
+d2c2$maximum - d1c2$maximum
+d2c2$gradient - d1c2$gradient
+
+d2c1 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", 
+   start = coef(randEffBfgsr), iterlim = 0 )
+d1c1$maximum - d2c1$maximum
+d1c1$gradient - d2c1$gradient
+
+d2c2$maximum - d2c1$maximum
+d1c1$maximum - d1c2$maximum
+
+d1c3 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", 
+   start = 0.95 * coef(randEffBfgsr), iterlim = 0 )
+d2c3 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", 
+   start = 0.95 * coef(randEffBfgsr), iterlim = 0 )
+d1c3$maximum - d2c3$maximum
+d1c3$gradient - d2c3$gradient
+
 
 ## unbalanced panel data
 nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]

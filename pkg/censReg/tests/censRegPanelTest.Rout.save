@@ -270,6 +270,10 @@ $nObs
 $df.residual
 [1] 55
 
+$start
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+  0.4703506   1.0111600   1.6191826  -0.4962510  -0.0620962 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -418,6 +422,10 @@ $nObs
 
 $df.residual
 [1] 55
+
+$start
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+  0.4703506   1.0111600   1.6191826  -0.4962510  -0.0620962 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -570,6 +578,10 @@ $nObs
 $df.residual
 [1] 55
 
+$start
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+  0.4703506   1.0111600   1.6191826  -0.4962510  -0.0620962 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > 
@@ -716,6 +728,10 @@ $nObs
 
 $df.residual
 [1] 55
+
+$start
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+  0.4703506   1.0111600   1.6191826  -0.4962510  -0.0620962 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -928,6 +944,10 @@ $nObs
 $df.residual
 [1] 55
 
+$start
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+  5.4703506   1.0111600   1.6191826  -0.4962510  -0.0620962 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -1104,6 +1124,10 @@ $nObs
 $df.residual
 [1] 55
 
+$start
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+ -0.4703506  -1.0111600  -1.6191826  -0.4962510  -0.0620962 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -1279,6 +1303,10 @@ $nObs
 
 $df.residual
 [1] 55
+
+$start
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+ -5.4703506  -1.0111600  -1.6191826  -0.4962510  -0.0620962 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -1526,6 +1554,10 @@ $nObs
 $df.residual
 [1] 55
 
+$start
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+  0.6056357   0.8113032   1.0023997  -0.7545646  -0.2748137 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -1552,14 +1584,14 @@ attr(,"class")
 > # check if the order of observations/individuals influences the likelihood values
 > d1c1 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", start = coef(randEffBfgsr),
 +    iterlim = 0 )
-> all.equal( d1c1[-c(5,6,9,12)], randEffBfgsr[-c(5,6,9,12)] )
+> all.equal( d1c1[-c(5,6,9,12,16)], randEffBfgsr[-c(5,6,9,12,16)] )
 [1] TRUE
 > d1c1$maximum -  randEffBfgsr$maximum
 [1] 0
 > 
 > d2c2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", start = coef(randEffBfgsr2),
 +    iterlim = 0 )
-> all.equal( d2c2[-c(5,6,9,12)], randEffBfgsr2[-c(5,6,9,12)] )
+> all.equal( d2c2[-c(5,6,9,12,16)], randEffBfgsr2[-c(5,6,9,12,16)] )
 [1] TRUE
 > d2c2$maximum -  randEffBfgsr2$maximum
 [1] 0
@@ -1774,6 +1806,10 @@ $nObs
 
 $df.residual
 [1] 51
+
+$start
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+ 0.48299720  1.03002625  1.63470549 -0.47772116 -0.04988945 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   

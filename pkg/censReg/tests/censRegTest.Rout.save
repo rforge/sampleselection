@@ -1338,6 +1338,12 @@ $nObs
 $df.residual
 [1] 594
 
+$start
+  (Intercept)           age  yearsmarried religiousness    occupation 
+   5.60816061   -0.05034735    0.16185208   -0.47632388    0.10600594 
+       rating      logSigma 
+  -0.71224235    2.24454230 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResult )
@@ -3545,6 +3551,12 @@ $nObs
 $df.residual
 [1] 594
 
+$start
+  (Intercept)           age  yearsmarried religiousness    occupation 
+   5.60816061   -0.05034735    0.16185208   -0.47632388    0.10600594 
+       rating      logSigma 
+  -0.71224235    2.24454230 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultBhhh )
@@ -4916,6 +4928,12 @@ $nObs
 $df.residual
 [1] 594
 
+$start
+  (Intercept)           age  yearsmarried religiousness    occupation 
+   5.60816061   -0.05034735    0.16185208   -0.47632388    0.10600594 
+       rating      logSigma 
+  -0.71224235    2.24454230 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > print( estResultBfgs )
@@ -6281,6 +6299,12 @@ $nObs
 
 $df.residual
 [1] 594
+
+$start
+  (Intercept)           age  yearsmarried religiousness    occupation 
+   5.60816061   -0.05034735    0.16185208   -0.47632388    0.10600594 
+       rating      logSigma 
+  -0.71224235    2.24454230 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
@@ -7648,6 +7672,12 @@ $nObs
 $df.residual
 [1] 594
 
+$start
+  (Intercept)           age  yearsmarried religiousness    occupation 
+   5.60816061   -0.05034735    0.16185208   -0.47632388    0.10600594 
+       rating      logSigma 
+  -0.71224235    2.24454230 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > print( estResultSann )
@@ -9011,6 +9041,12 @@ $nObs
 
 $df.residual
 [1] 594
+
+$start
+  (Intercept)           age  yearsmarried religiousness    occupation 
+         8.17         -0.18          0.55         -1.69          0.33 
+       rating      logSigma 
+        -2.30          2.13 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -10385,6 +10421,12 @@ $nObs
 
 $df.residual
 [1] 594
+
+$start
+  (Intercept)           age  yearsmarried religiousness    occupation 
+  10.60816061   -0.05034735    0.16185208   -0.47632388    0.10600594 
+       rating      logSigma 
+  -0.71224235    2.24454230 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -11803,6 +11845,12 @@ $nObs
 
 $df.residual
 [1] 594
+
+$start
+  (Intercept)           age  yearsmarried religiousness    occupation 
+  -5.60816061    0.05034735   -0.16185208    0.47632388   -0.10600594 
+       rating      logSigma 
+   0.71224235    2.24454230 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -13825,6 +13873,12 @@ $nObs
 $df.residual
 [1] 594
 
+$start
+  (Intercept)           age  yearsmarried religiousness    occupation 
+ -10.60816061    0.05034735   -0.16185208    0.47632388   -0.10600594 
+       rating      logSigma 
+   0.71224235    2.24454230 
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultAddNeg )
@@ -15239,6 +15293,12 @@ $nObs
 
 $df.residual
 [1] 594
+
+$start
+  (Intercept)           age  yearsmarried religiousness    occupation 
+   5.60816061   -0.05034735    0.16185208   -0.47632388    0.10600594 
+       rating      logSigma 
+  -0.71224235    2.24454230 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -16711,6 +16771,12 @@ $nObs
 
 $df.residual
 [1] 522
+
+$start
+   (Intercept)            age   yearsmarried religiousness2 religiousness3 
+    5.36614124    -0.05173664     0.16507889    -1.11996252    -0.89685903 
+religiousness4     occupation         rating       logSigma 
+   -2.01842340     0.13712641    -0.70729852     2.28921341 
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   

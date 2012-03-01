@@ -59,11 +59,14 @@ censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
    returned by \code{\link[maxLik]{maxLik}} and additionally
    the following components:
    \item{call}{the matched call.}
+   \item{terms}{the model terms.}
    \item{nObs}{a vector containing 4 integer values:
       the total number of observations,
       the number of left-censored observations,
       the number of uncensored observations, and
       the number of right-censored observations.}
+   \item{df.residual}{degrees of freedom of the residuals.}
+   \item{start}{vector of starting values.}
 
    In contrast, 
    if argument \code{logLikOnly} is \code{TRUE},

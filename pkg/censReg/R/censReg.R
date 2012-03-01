@@ -206,6 +206,9 @@ censReg <- function( formula, left = 0, right = Inf,
 
    # return the degrees of freedom of the residuals
    result$df.residual <- unname( result$nObs[ 1 ] - length( coef( result ) ) )
+   
+   # return starting values
+   result$start <- start
 
    class( result ) <- c( "censReg", class( result ) )
    return( result )

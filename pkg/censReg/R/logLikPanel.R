@@ -39,26 +39,25 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
       gradPartGhqSign[ obsBetween ] <- sign( likGhqInner[ obsBetween ] )
       gradPartGhqLog[ obsBetween ] <-
          dnorm( likGhqInner[ obsBetween ], log = TRUE ) + log( abs( likGhqInner[ obsBetween ] ) ) - 2*log(sigmaNu)
-      gradPartGhq <- exp( gradPartGhqLog )
       # part of gradients with respect to beta
       for( i in 1:( length( beta ) - 2 ) ) {
          grad1LogIndArr[ , i, h ] <- log( ghqPoints$weights[ h ] ) +
             logLikGhqSum
          grad2IndArr[ , i, h ] <- 
-            rowSums( gradPartGhq * gradPartGhqSign * xArr[ , , i ] / exp( logLikGhq ), 
+            rowSums( exp( gradPartGhqLog ) * gradPartGhqSign * xArr[ , , i ] / exp( logLikGhq ), 
             na.rm = TRUE )
       }
       # part of gradient with respect to log( sigma_mu )
       grad1LogIndArr[ , length( beta ) - 1, h ] <-
          log( sigmaMu ) + log( ghqPoints$weights[ h ] ) + logLikGhqSum
       grad2IndArr[ , length( beta ) - 1, h ] <-
-         rowSums( gradPartGhq * gradPartGhqSign * sqrt( 2 ) * ghqPoints$zeros[ h ] / exp( logLikGhq ) )
+         rowSums( exp( gradPartGhqLog ) * gradPartGhqSign * sqrt( 2 ) * ghqPoints$zeros[ h ] / exp( logLikGhq ) )
       # part of gradient with respect to log( sigma_nu )
-      gradPartGhq[ obsBelow ] <- gradPartGhq[ obsBelow ] * gradPartGhqSign[ obsBelow ] *
+      gradPartGhq[ obsBelow ] <- exp( gradPartGhqLog[ obsBelow ] ) * gradPartGhqSign[ obsBelow ] *
          likGhqInner[ obsBelow ]
-      gradPartGhq[ obsAbove ] <- - gradPartGhq[ obsAbove ] * gradPartGhqSign[ obsAbove ] *
+      gradPartGhq[ obsAbove ] <- - exp( gradPartGhqLog[ obsAbove ] ) * gradPartGhqSign[ obsAbove ] *
          likGhqInner[ obsAbove ]
-      gradPartGhq[ obsBetween ] <- gradPartGhq[ obsBetween ] * gradPartGhqSign[ obsBetween ] *
+      gradPartGhq[ obsBetween ] <- exp( gradPartGhqLog[ obsBetween ] ) * gradPartGhqSign[ obsBetween ] *
          likGhqInner[ obsBetween ] - exp( logLikGhq[ obsBetween ] ) / sigmaNu
       grad1LogIndArr[ , length( beta ), h ] <-
          log( sigmaNu ) + log( ghqPoints$weights[ h ] ) + logLikGhqSum

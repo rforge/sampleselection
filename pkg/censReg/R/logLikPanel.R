@@ -58,7 +58,7 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
       grad2PartGhq[ obsAbove ] <- - exp( gradPartGhqLog[ obsAbove ] - logLikGhq[ obsAbove ] ) * gradPartGhqSign[ obsAbove ] *
          likGhqInner[ obsAbove ]
       grad2PartGhq[ obsBetween ] <- exp( gradPartGhqLog[ obsBetween ] - logLikGhq[ obsBetween ] ) * gradPartGhqSign[ obsBetween ] *
-         likGhqInner[ obsBetween ] - exp( logLikGhq[ obsBetween ] - logLikGhq[ obsBetween ] ) / sigmaNu
+         likGhqInner[ obsBetween ] - 1 / sigmaNu
       grad1LogIndArr[ , length( beta ), h ] <-
          log( sigmaNu ) + log( ghqPoints$weights[ h ] ) + logLikGhqSum
       grad2IndArr[ , length( beta ), h ] <-

@@ -28,16 +28,18 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
       logLikIndMat[ , h ] <- log( ghqPoints$weights[ h ] ) + logLikGhqSum
       # gradients
       gradPartGhq <- matrix( 0, nrow = nInd, ncol = nTime )
+      gradPartGhqLog <- gradPartGhq
       gradPartGhqSign <- gradPartGhq
       gradPartGhqSign[ obsBelow ] <- -1
-      gradPartGhq[ obsBelow ] <-
-         dnorm( likGhqInner[ obsBelow ] ) / sigmaNu
+      gradPartGhqLog[ obsBelow ] <-
+         dnorm( likGhqInner[ obsBelow ], log = TRUE ) - log( sigmaNu )
       gradPartGhqSign[ obsAbove ] <- 1
-      gradPartGhq[ obsAbove ] <-
-         dnorm( likGhqInner[ obsAbove ] ) / sigmaNu
+      gradPartGhqLog[ obsAbove ] <-
+         dnorm( likGhqInner[ obsAbove ], log = TRUE ) - log( sigmaNu )
       gradPartGhqSign[ obsBetween ] <- sign( likGhqInner[ obsBetween ] )
-      gradPartGhq[ obsBetween ] <-
-         dnorm( likGhqInner[ obsBetween ] ) * abs( likGhqInner[ obsBetween ] ) / sigmaNu^2
+      gradPartGhqLog[ obsBetween ] <-
+         dnorm( likGhqInner[ obsBetween ], log = TRUE ) + log( abs( likGhqInner[ obsBetween ] ) ) - 2*log(sigmaNu)
+      gradPartGhq <- exp( gradPartGhqLog )
       # part of gradients with respect to beta
       for( i in 1:( length( beta ) - 2 ) ) {
          grad1LogIndArr[ , i, h ] <- log( ghqPoints$weights[ h ] ) +

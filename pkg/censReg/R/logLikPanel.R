@@ -44,14 +44,14 @@ censRegLogLikPanel <- function( beta, yMat, xArr, left, right, nInd, nTime,
          grad1LogIndArr[ , i, h ] <- log( ghqPoints$weights[ h ] ) +
             logLikGhqSum
          grad2IndArr[ , i, h ] <- 
-            rowSums( exp( gradPartGhqLog ) * gradPartGhqSign * xArr[ , , i ] / exp( logLikGhq ), 
+            rowSums( exp( gradPartGhqLog - logLikGhq ) * gradPartGhqSign * xArr[ , , i ], 
             na.rm = TRUE )
       }
       # part of gradient with respect to log( sigma_mu )
       grad1LogIndArr[ , length( beta ) - 1, h ] <-
          log( sigmaMu ) + log( ghqPoints$weights[ h ] ) + logLikGhqSum
       grad2IndArr[ , length( beta ) - 1, h ] <-
-         rowSums( exp( gradPartGhqLog ) * gradPartGhqSign * sqrt( 2 ) * ghqPoints$zeros[ h ] / exp( logLikGhq ) )
+         rowSums( exp( gradPartGhqLog - logLikGhq ) * gradPartGhqSign * sqrt( 2 ) * ghqPoints$zeros[ h ] )
       # part of gradient with respect to log( sigma_nu )
       gradPartGhq[ obsBelow ] <- exp( gradPartGhqLog[ obsBelow ] ) * gradPartGhqSign[ obsBelow ] *
          likGhqInner[ obsBelow ]

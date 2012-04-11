@@ -1503,6 +1503,9 @@ religiousness -1.6862205 0.40375155 -4.176381 2.961830e-05
 occupation     0.3260532 0.25442475  1.281531 2.000072e-01
 rating        -2.2849727 0.40782792 -5.602786 2.109331e-08
 sigma          8.2470803 0.55336401 14.903536 3.125905e-50
+> margEff( estResult )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
 > logLik( estResult )
 'log Lik.' -705.5762 (df=7)
 > extractAIC( estResult )
@@ -3578,6 +3581,9 @@ Coefficients:
        rating      logSigma 
       -2.2850        2.1099 
 
+> margEff( estResultBhhh )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04192274    0.12953992   -0.39417546    0.07621915   -0.53414825 
 > maxLik:::summary.maxLik( estResultBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -4959,6 +4965,9 @@ Coefficients:
        rating      logSigma 
       -2.2850        2.1099 
 
+> margEff( estResultBfgs )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04192116    0.12953703   -0.39417321    0.07621758   -0.53413844 
 > maxLik:::summary.maxLik( estResultBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -6335,6 +6344,9 @@ Coefficients:
        rating      logSigma 
       -2.3051        2.1124 
 
+> margEff( estResultNm )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04258612    0.12846974   -0.40158622    0.07077242   -0.53551737 
 > maxLik:::summary.maxLik( estResultNm )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -7711,6 +7723,9 @@ Coefficients:
        rating      logSigma 
       -2.0115        2.1713 
 
+> margEff( estResultSann )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.03915112    0.12814928   -0.35677312    0.12216953   -0.44856615 
 > maxLik:::summary.maxLik( estResultSann )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -9086,6 +9101,9 @@ Coefficients:
        rating      logSigma 
       -2.2850        2.1099 
 
+> margEff( estResultStart )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
 > maxLik:::summary.maxLik( estResultStart )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -10470,6 +10488,9 @@ Coefficients:
        rating      logSigma 
       -2.2850        2.1099 
 
+> margEff( estResultAdd )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
 > maxLik:::summary.maxLik( estResultAdd )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -11898,6 +11919,9 @@ Coefficients:
        rating      logSigma 
        2.2850        2.1099 
 
+> margEff( estResultNeg )
+          age  yearsmarried religiousness    occupation        rating 
+   0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
 > maxLik:::summary.maxLik( estResultNeg )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -13929,6 +13953,9 @@ Coefficients:
        rating      logSigma 
        2.2850        2.1099 
 
+> margEff( estResultAddNeg )
+          age  yearsmarried religiousness    occupation        rating 
+   0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
 > maxLik:::summary.maxLik( estResultAddNeg )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -15353,6 +15380,9 @@ Coefficients:
        rating      logSigma 
       -2.2070        2.0723 
 
+> margEff( estResultBoth )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.02183258    0.06543718   -0.19870004    0.03985302   -0.27131275 
 > maxLik:::summary.maxLik( estResultBoth )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -16900,6 +16930,11 @@ religiousness4 -0.0245102359
 occupation      0.0012030043
 rating         -0.0078827546
 logSigma        0.0049058331
+> margEff( estResultEmpty )
+           age   yearsmarried religiousness2 religiousness3 religiousness4 
+   -0.03929670     0.12574754    -0.98985842    -0.72496393    -1.73438654 
+    occupation         rating 
+    0.09645167    -0.55930186 
 > formula( estResultEmpty )
 affairs ~ age + yearsmarried + religiousness + occupation + rating
 > model.frame( estResultEmpty )
@@ -20233,4 +20268,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 21.649   0.372  22.043 
+ 15.664   0.172  15.959 

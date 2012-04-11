@@ -1526,14 +1526,12 @@ attr(,"df.residual")
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > summary( margEff( estResult ) )
-               Marg. Eff. Std. Error     t value  Pr(>|t|)
-age           -0.04192089  0.5186399 -0.08082852 0.9356056
-yearsmarried   0.12953651  0.4045855  0.32017089 0.7489514
-religiousness -0.39417189  0.4900401 -0.80436663 0.4215071
-occupation     0.07621840  0.1224654  0.62236703 0.5339394
-rating        -0.53413656  0.8308386 -0.64288849 0.5205445
-attr(,"class")
-[1] "summary.margEff.censReg" "matrix"                 
+              Marg. Eff. Std. Error t value Pr(>|t|)
+age            -0.041921   0.518640 -0.0808   0.9356
+yearsmarried    0.129537   0.404586  0.3202   0.7490
+religiousness  -0.394172   0.490040 -0.8044   0.4215
+occupation      0.076218   0.122465  0.6224   0.5339
+rating         -0.534137   0.830839 -0.6429   0.5205
 > logLik( estResult )
 'log Lik.' -705.5762 (df=7)
 > extractAIC( estResult )
@@ -3645,14 +3643,12 @@ attr(,"df.residual")
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > summary( margEff( estResultBhhh ) )
-               Marg. Eff. Std. Error     t value  Pr(>|t|)
-age           -0.04192274  0.4755170 -0.08816245 0.9297773
-yearsmarried   0.12953992  0.3733676  0.34695012 0.7287517
-religiousness -0.39417546  0.4653903 -0.84697822 0.3973484
-occupation     0.07621915  0.1155864  0.65941301 0.5098862
-rating        -0.53414825  0.7882110 -0.67767162 0.4982438
-attr(,"class")
-[1] "summary.margEff.censReg" "matrix"                 
+              Marg. Eff. Std. Error t value Pr(>|t|)
+age            -0.041923   0.475517 -0.0882   0.9298
+yearsmarried    0.129540   0.373368  0.3470   0.7288
+religiousness  -0.394175   0.465390 -0.8470   0.3973
+occupation      0.076219   0.115586  0.6594   0.5099
+rating         -0.534148   0.788211 -0.6777   0.4982
 > maxLik:::summary.maxLik( estResultBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -5050,14 +5046,12 @@ attr(,"df.residual")
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > summary( margEff( estResultBfgs ) )
-               Marg. Eff. Std. Error     t value  Pr(>|t|)
-age           -0.04192116  0.5186431 -0.08082853 0.9356055
-yearsmarried   0.12953703  0.4045872  0.32017090 0.7489514
-religiousness -0.39417321  0.4900418 -0.80436658 0.4215071
-occupation     0.07621758  0.1224643  0.62236589 0.5339401
-rating        -0.53413844  0.8308415 -0.64288847 0.5205445
-attr(,"class")
-[1] "summary.margEff.censReg" "matrix"                 
+              Marg. Eff. Std. Error t value Pr(>|t|)
+age            -0.041921   0.518643 -0.0808   0.9356
+yearsmarried    0.129537   0.404587  0.3202   0.7490
+religiousness  -0.394173   0.490042 -0.8044   0.4215
+occupation      0.076218   0.122464  0.6224   0.5339
+rating         -0.534138   0.830842 -0.6429   0.5205
 > maxLik:::summary.maxLik( estResultBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -6457,14 +6451,12 @@ attr(,"df.residual")
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > summary( margEff( estResultNm ) )
-               Marg. Eff. Std. Error     t value  Pr(>|t|)
-age           -0.04258612  0.5290369 -0.08049744 0.9358687
-yearsmarried   0.12846974  0.4033302  0.31852250 0.7502006
-religiousness -0.40158622  0.5013469 -0.80101468 0.4234434
-occupation     0.07077242  0.1155477  0.61249527 0.5404445
-rating        -0.53551737  0.8372238 -0.63963463 0.5226568
-attr(,"class")
-[1] "summary.margEff.censReg" "matrix"                 
+              Marg. Eff. Std. Error t value Pr(>|t|)
+age            -0.042586   0.529037 -0.0805   0.9359
+yearsmarried    0.128470   0.403330  0.3185   0.7502
+religiousness  -0.401586   0.501347 -0.8010   0.4234
+occupation      0.070772   0.115548  0.6125   0.5404
+rating         -0.535517   0.837224 -0.6396   0.5227
 > maxLik:::summary.maxLik( estResultNm )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -7864,14 +7856,12 @@ attr(,"df.residual")
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > summary( margEff( estResultSann ) )
-               Marg. Eff. Std. Error     t value  Pr(>|t|)
-age           -0.03915112  0.5029631 -0.07784094 0.9379808
-yearsmarried   0.12814928  0.4131921  0.31014457 0.7565598
-religiousness -0.35677312  0.4575994 -0.77966249 0.4359001
-occupation     0.12216953  0.1931596  0.63247962 0.5273169
-rating        -0.44856615  0.7249477 -0.61875657 0.5363139
-attr(,"class")
-[1] "summary.margEff.censReg" "matrix"                 
+              Marg. Eff. Std. Error t value Pr(>|t|)
+age            -0.039151   0.502963 -0.0778   0.9380
+yearsmarried    0.128149   0.413192  0.3101   0.7566
+religiousness  -0.356773   0.457599 -0.7797   0.4359
+occupation      0.122170   0.193160  0.6325   0.5273
+rating         -0.448566   0.724948 -0.6188   0.5363
 > maxLik:::summary.maxLik( estResultSann )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -9270,14 +9260,12 @@ attr(,"df.residual")
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > summary( margEff( estResultStart, calcVCov = FALSE, returnJacobian = TRUE ) )
-               Marg. Eff. Std. Error t value Pr(>|t|)
-age           -0.04192089         NA      NA       NA
-yearsmarried   0.12953651         NA      NA       NA
-religiousness -0.39417189         NA      NA       NA
-occupation     0.07621840         NA      NA       NA
-rating        -0.53413656         NA      NA       NA
-attr(,"class")
-[1] "summary.margEff.censReg" "matrix"                 
+              Marg. Eff. Std. Error t value Pr(>|t|)
+age            -0.041921         NA      NA       NA
+yearsmarried    0.129537         NA      NA       NA
+religiousness  -0.394172         NA      NA       NA
+occupation      0.076218         NA      NA       NA
+rating         -0.534137         NA      NA       NA
 Warning message:
 In summary.margEff.censReg(margEff(estResultStart, calcVCov = FALSE,  :
   cannot calculate standard errors, t-values, and P-values, because the marginal effects do not have an attribute 'vcov': please set attribute 'calcVCov' of the 'margEff' method to 'TRUE'
@@ -10688,14 +10676,12 @@ attr(,"df.residual")
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > summary( margEff( estResultAdd, returnJacobian = TRUE ) )
-               Marg. Eff. Std. Error     t value  Pr(>|t|)
-age           -0.04192089  0.5186399 -0.08082852 0.9356056
-yearsmarried   0.12953651  0.4045855  0.32017089 0.7489514
-religiousness -0.39417189  0.4900401 -0.80436663 0.4215071
-occupation     0.07621840  0.1224654  0.62236703 0.5339394
-rating        -0.53413656  0.8308386 -0.64288849 0.5205445
-attr(,"class")
-[1] "summary.margEff.censReg" "matrix"                 
+              Marg. Eff. Std. Error t value Pr(>|t|)
+age            -0.041921   0.518640 -0.0808   0.9356
+yearsmarried    0.129537   0.404586  0.3202   0.7490
+religiousness  -0.394172   0.490040 -0.8044   0.4215
+occupation      0.076218   0.122465  0.6224   0.5339
+rating         -0.534137   0.830839 -0.6429   0.5205
 > maxLik:::summary.maxLik( estResultAdd )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -12153,14 +12139,12 @@ attr(,"df.residual")
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > summary( margEff( estResultNeg ) )
-               Marg. Eff. Std. Error     t value  Pr(>|t|)
-age            0.04192089  0.5186399  0.08082852 0.9356056
-yearsmarried  -0.12953651  0.4045855 -0.32017089 0.7489514
-religiousness  0.39417189  0.4900401  0.80436663 0.4215071
-occupation    -0.07621840  0.1224654 -0.62236703 0.5339394
-rating         0.53413656  0.8308386  0.64288849 0.5205445
-attr(,"class")
-[1] "summary.margEff.censReg" "matrix"                 
+              Marg. Eff. Std. Error t value Pr(>|t|)
+age             0.041921   0.518640  0.0808   0.9356
+yearsmarried   -0.129537   0.404586 -0.3202   0.7490
+religiousness   0.394172   0.490040  0.8044   0.4215
+occupation     -0.076218   0.122465 -0.6224   0.5339
+rating          0.534137   0.830839  0.6429   0.5205
 > maxLik:::summary.maxLik( estResultNeg )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -14215,14 +14199,12 @@ attr(,"df.residual")
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > summary( margEff( estResultAddNeg, calcVCov = FALSE ) )
-               Marg. Eff. Std. Error t value Pr(>|t|)
-age            0.04192089         NA      NA       NA
-yearsmarried  -0.12953651         NA      NA       NA
-religiousness  0.39417189         NA      NA       NA
-occupation    -0.07621840         NA      NA       NA
-rating         0.53413656         NA      NA       NA
-attr(,"class")
-[1] "summary.margEff.censReg" "matrix"                 
+              Marg. Eff. Std. Error t value Pr(>|t|)
+age             0.041921         NA      NA       NA
+yearsmarried   -0.129537         NA      NA       NA
+religiousness   0.394172         NA      NA       NA
+occupation     -0.076218         NA      NA       NA
+rating          0.534137         NA      NA       NA
 Warning message:
 In summary.margEff.censReg(margEff(estResultAddNeg, calcVCov = FALSE)) :
   cannot calculate standard errors, t-values, and P-values, because the marginal effects do not have an attribute 'vcov': please set attribute 'calcVCov' of the 'margEff' method to 'TRUE'
@@ -15673,14 +15655,12 @@ attr(,"df.residual")
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > summary( margEff( estResultBoth ) )
-               Marg. Eff. Std. Error    t value  Pr(>|t|)
-age           -0.02183258  0.2107594 -0.1035900 0.9175297
-yearsmarried   0.06543718  0.1607443  0.4070887 0.6840895
-religiousness -0.19870004  0.1992822 -0.9970786 0.3191323
-occupation     0.03985302  0.0527430  0.7556078 0.4501839
-rating        -0.27131275  0.3376101 -0.8036274 0.4219336
-attr(,"class")
-[1] "summary.margEff.censReg" "matrix"                 
+              Marg. Eff. Std. Error t value Pr(>|t|)
+age            -0.021833   0.210759 -0.1036   0.9175
+yearsmarried    0.065437   0.160744  0.4071   0.6841
+religiousness  -0.198700   0.199282 -0.9971   0.3191
+occupation      0.039853   0.052743  0.7556   0.4502
+rating         -0.271313   0.337610 -0.8036   0.4219
 > maxLik:::summary.maxLik( estResultBoth )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -17261,16 +17241,16 @@ attr(,"df.residual")
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > summary( margEff( estResultEmpty ) )
-                Marg. Eff. Std. Error     t value     Pr(>|t|)
-age            -0.03929670  0.7856663 -0.05001704 9.601279e-01
-yearsmarried    0.12574754  0.6184653  0.20332192 8.389627e-01
-religiousness2 -0.98985842  0.3061014 -3.23376002 1.299003e-03
-religiousness3 -0.72496393  0.3426569 -2.11571397 3.484207e-02
-religiousness4 -1.73438654  0.3160725 -5.48730557 6.374082e-08
-occupation      0.09645167  0.2518715  0.38293995 7.019202e-01
-rating         -0.55930186  1.3780468 -0.40586565 6.850076e-01
-attr(,"class")
-[1] "summary.margEff.censReg" "matrix"                 
+               Marg. Eff. Std. Error t value  Pr(>|t|)    
+age             -0.039297   0.785666 -0.0500  0.960128    
+yearsmarried     0.125748   0.618465  0.2033  0.838963    
+religiousness2  -0.989858   0.306101 -3.2338  0.001299 ** 
+religiousness3  -0.724964   0.342657 -2.1157  0.034842 *  
+religiousness4  -1.734387   0.316073 -5.4873 6.374e-08 ***
+occupation       0.096452   0.251872  0.3829  0.701920    
+rating          -0.559302   1.378047 -0.4059  0.685008    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 > formula( estResultEmpty )
 affairs ~ age + yearsmarried + religiousness + occupation + rating
 > model.frame( estResultEmpty )
@@ -20604,4 +20584,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 15.308   0.148  15.461 
+ 15.460   0.144  15.616 

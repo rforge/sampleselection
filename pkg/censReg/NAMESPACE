@@ -19,3 +19,5 @@ S3method( "summary", "margEff.censReg" )
 S3method( "coef", "summary.censReg" )
 S3method( "margEff", "censReg" )
 S3method( "print", "summary.censReg" )
+
+S3method( "print", "summary.margEff.censReg" )

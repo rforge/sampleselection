@@ -101,7 +101,7 @@ estResultNeg <- censReg( affairsNeg ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs, left = -Inf, right = 0 )
 print.default( estResultNeg )
 print( estResultNeg )
-margEff( estResultNeg )
+margEff( estResultNeg, calcVCov = FALSE, returnJacobian = TRUE )
 maxLik:::summary.maxLik( estResultNeg )
 summary( estResultNeg )
 coef( estResultNeg )

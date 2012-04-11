@@ -12052,16 +12052,9 @@ Coefficients:
        rating      logSigma 
        2.2850        2.1099 
 
-> margEff( estResultNeg )
+> margEff( estResultNeg, calcVCov = FALSE, returnJacobian = TRUE )
           age  yearsmarried religiousness    occupation        rating 
    0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
-attr(,"vcov")
-                      age yearsmarried religiousness  occupation      rating
-age            0.26898730  -0.20944964    0.24868749 -0.05607105  0.42736955
-yearsmarried  -0.20944964   0.16368946   -0.19433695  0.04371387 -0.33262559
-religiousness  0.24868749  -0.19433695    0.24013928 -0.05180838  0.39683238
-occupation    -0.05607105   0.04371387   -0.05180838  0.01499776 -0.08982951
-rating         0.42736955  -0.33262559    0.39683238 -0.08982951  0.69029275
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > maxLik:::summary.maxLik( estResultNeg )
@@ -20469,4 +20462,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 21.761   0.252  22.035 
+ 22.549   0.240  22.813 

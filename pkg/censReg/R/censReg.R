@@ -192,6 +192,29 @@ censReg <- function( formula, left = 0, right = Inf,
          ... )
    }
 
+   ## calculate marginal effects on E[y] at the mean explanatory variables
+   ## (not for panel data)
+   if( !isPanel ) {
+      xMean <- colMeans( xMat )
+      beta <- coef( result )
+      sigma <- exp( beta[ "logSigma" ] )
+      beta <- beta[ ! names(beta) %in% 
+         c( "logSigma", "logSigmaMu", "logSigmaNu" ) ]
+      if( length( xMean ) != length( beta ) ){
+         warning( "cannot calculate marginal effects due to an internal error:",
+            " please contact the maintainer of this package" )
+         print( beta )
+         print( xMean )
+      } else {
+         xBeta <- crossprod( xMean, beta )
+         result$margEff <- beta[ ! names( beta ) %in% c( "(Intercept)" ) ] * 
+            ( pnorm( ( right - xBeta ) / sigma ) - 
+               pnorm( ( left - xBeta ) / sigma ) )
+         names( result$margEff ) <- 
+            names( beta )[ ! names( beta ) %in% c( "(Intercept)" ) ]
+      }
+   }
+
    # save and return the call
    result$call <- match.call()
 

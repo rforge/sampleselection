@@ -67,6 +67,8 @@ censReg( formula, left = 0, right = Inf, data = sys.frame( sys.parent()),
       the number of right-censored observations.}
    \item{df.residual}{degrees of freedom of the residuals.}
    \item{start}{vector of starting values.}
+   \item{left}{left limit of the censored dependent variable.}
+   \item{right}{right limit of the censored dependent variable.}
    \item{xMean}{vector of mean values of the explanatory variables.}
    \item{margEff}{vector of marginal effects of the explanatory variables
       on the expected value of the dependent variable calculated

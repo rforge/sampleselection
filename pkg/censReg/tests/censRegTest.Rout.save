@@ -1354,6 +1354,12 @@ $start
        rating      logSigma 
   -0.71224235    2.24454230 
 
+$left
+[1] 0
+
+$right
+[1] Inf
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResult )
@@ -3580,6 +3586,12 @@ $start
        rating      logSigma 
   -0.71224235    2.24454230 
 
+$left
+[1] 0
+
+$right
+[1] Inf
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultBhhh )
@@ -4970,6 +4982,12 @@ $start
        rating      logSigma 
   -0.71224235    2.24454230 
 
+$left
+[1] 0
+
+$right
+[1] Inf
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > print( estResultBfgs )
@@ -6354,6 +6372,12 @@ $start
    5.60816061   -0.05034735    0.16185208   -0.47632388    0.10600594 
        rating      logSigma 
   -0.71224235    2.24454230 
+
+$left
+[1] 0
+
+$right
+[1] Inf
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
@@ -7740,6 +7764,12 @@ $start
        rating      logSigma 
   -0.71224235    2.24454230 
 
+$left
+[1] 0
+
+$right
+[1] Inf
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > print( estResultSann )
@@ -9122,6 +9152,12 @@ $start
          8.17         -0.18          0.55         -1.69          0.33 
        rating      logSigma 
         -2.30          2.13 
+
+$left
+[1] 0
+
+$right
+[1] Inf
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -10515,6 +10551,12 @@ $start
   10.60816061   -0.05034735    0.16185208   -0.47632388    0.10600594 
        rating      logSigma 
   -0.71224235    2.24454230 
+
+$left
+[1] 5
+
+$right
+[1] Inf
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -11952,6 +11994,12 @@ $start
   -5.60816061    0.05034735   -0.16185208    0.47632388   -0.10600594 
        rating      logSigma 
    0.71224235    2.24454230 
+
+$left
+[1] -Inf
+
+$right
+[1] 0
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -13993,6 +14041,12 @@ $start
        rating      logSigma 
    0.71224235    2.24454230 
 
+$left
+[1] -Inf
+
+$right
+[1] -5
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultAddNeg )
@@ -15426,6 +15480,12 @@ $start
    5.60816061   -0.05034735    0.16185208   -0.47632388    0.10600594 
        rating      logSigma 
   -0.71224235    2.24454230 
+
+$left
+[1] 0
+
+$right
+[1] 4
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -16919,6 +16979,12 @@ $start
     5.36614124    -0.05173664     0.16507889    -1.11996252    -0.89685903 
 religiousness4     occupation         rating       logSigma 
    -2.01842340     0.13712641    -0.70729852     2.28921341 
+
+$left
+[1] 0
+
+$right
+[1] Inf
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -20334,4 +20400,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 15.272   0.132  15.406 
+ 15.108   0.188  15.309 

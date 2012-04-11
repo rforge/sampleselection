@@ -280,6 +280,12 @@ $start
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
   0.4703506   1.0111600   1.6191826  -0.4962510  -0.0620962 
 
+$left
+[1] 0
+
+$right
+[1] Inf
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -436,6 +442,12 @@ $df.residual
 $start
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
   0.4703506   1.0111600   1.6191826  -0.4962510  -0.0620962 
+
+$left
+[1] 0
+
+$right
+[1] Inf
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -596,6 +608,12 @@ $start
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
   0.4703506   1.0111600   1.6191826  -0.4962510  -0.0620962 
 
+$left
+[1] 0
+
+$right
+[1] Inf
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"  
 > 
@@ -750,6 +768,12 @@ $df.residual
 $start
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
   0.4703506   1.0111600   1.6191826  -0.4962510  -0.0620962 
+
+$left
+[1] 0
+
+$right
+[1] Inf
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -970,6 +994,12 @@ $start
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
   5.4703506   1.0111600   1.6191826  -0.4962510  -0.0620962 
 
+$left
+[1] 5
+
+$right
+[1] Inf
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -1154,6 +1184,12 @@ $start
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
  -0.4703506  -1.0111600  -1.6191826  -0.4962510  -0.0620962 
 
+$left
+[1] -Inf
+
+$right
+[1] 0
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -1337,6 +1373,12 @@ $df.residual
 $start
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
  -5.4703506  -1.0111600  -1.6191826  -0.4962510  -0.0620962 
+
+$left
+[1] -Inf
+
+$right
+[1] -5
 
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
@@ -1592,6 +1634,12 @@ $start
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
   0.6056357   0.8113032   1.0023997  -0.7545646  -0.2748137 
 
+$left
+[1] 0
+
+$right
+[1] 3
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -1820,6 +1868,12 @@ $start
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
  0.48299720  1.03002625  1.63470549 -0.47772116 -0.04988945 
 
+$left
+[1] 0
+
+$right
+[1] Inf
+
 attr(,"class")
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > 
@@ -1890,4 +1944,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 41.330   0.052  41.429 
+ 41.086   0.092  41.230 

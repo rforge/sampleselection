@@ -235,6 +235,10 @@ censReg <- function( formula, left = 0, right = Inf,
    # return starting values
    result$start <- start
 
+   # censoring points
+   result$left <- left
+   result$right <- right
+
    class( result ) <- c( "censReg", class( result ) )
    return( result )
 }

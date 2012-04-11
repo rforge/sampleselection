@@ -174,8 +174,9 @@ x1           1.6800040  0.2092223  8.0297558 9.766687e-16
 x2           2.2405438  0.6738886  3.3247983 8.848252e-04
 sigmaMu      0.8784933  0.2267131  3.8749120 1.066632e-04
 sigmaNu      0.9876686  0.1280905  7.7107072 1.251225e-14
-> margEff( randEff )
-NULL
+> try( margEff( randEff ) )
+Error in margEff.censReg(randEff) : 
+  the margEff() method for objects of class 'censReg' can not yet be used for panel data models
 > logLik( randEff )
 'log Lik.' -73.19882 (df=5)
 > extractAIC( randEff )
@@ -1944,4 +1945,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 41.086   0.092  41.230 
+ 55.539   0.064  55.624 

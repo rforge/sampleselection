@@ -52,6 +52,7 @@ margEff.censReg <- function( object, calcVCov = TRUE, returnJacobian = FALSE,
             attr( result, "jacobian" ) <- jac
          }
       }
+      class( result ) <- c( "margEff.censReg", class( result ) )
    } else {
       result <- NULL
    }

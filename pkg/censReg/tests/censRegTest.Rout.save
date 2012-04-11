@@ -1303,10 +1303,6 @@ $xMean
        rating 
      3.931780 
 
-$margEff
-          age  yearsmarried religiousness    occupation        rating 
-  -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
-
 $call
 censReg(formula = affairsFormula, data = Affairs)
 
@@ -3535,10 +3531,6 @@ $xMean
        rating 
      3.931780 
 
-$margEff
-          age  yearsmarried religiousness    occupation        rating 
-  -0.04192274    0.12953992   -0.39417546    0.07621915   -0.53414825 
-
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "BHHH")
 
@@ -4931,10 +4923,6 @@ $xMean
        rating 
      3.931780 
 
-$margEff
-          age  yearsmarried religiousness    occupation        rating 
-  -0.04192116    0.12953703   -0.39417321    0.07621758   -0.53413844 
-
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "BFGS")
 
@@ -6321,10 +6309,6 @@ $xMean
      1.000000     32.487521      8.177696      3.116473      4.194676 
        rating 
      3.931780 
-
-$margEff
-          age  yearsmarried religiousness    occupation        rating 
-  -0.04258612    0.12846974   -0.40158622    0.07077242   -0.53551737 
 
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "NM")
@@ -7713,10 +7697,6 @@ $xMean
        rating 
      3.931780 
 
-$margEff
-          age  yearsmarried religiousness    occupation        rating 
-  -0.03915112    0.12814928   -0.35677312    0.12216953   -0.44856615 
-
 $call
 censReg(formula = affairsFormula, data = Affairs, method = "SANN")
 
@@ -9100,10 +9080,6 @@ $xMean
      1.000000     32.487521      8.177696      3.116473      4.194676 
        rating 
      3.931780 
-
-$margEff
-          age  yearsmarried religiousness    occupation        rating 
-  -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
 
 $call
 censReg(formula = affairsFormula, data = Affairs, start = c(8.17, 
@@ -10496,10 +10472,6 @@ $xMean
      1.000000     32.487521      8.177696      3.116473      4.194676 
        rating 
      3.931780 
-
-$margEff
-          age  yearsmarried religiousness    occupation        rating 
-  -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
 
 $call
 censReg(formula = affairsAdd ~ age + yearsmarried + religiousness + 
@@ -11939,10 +11911,6 @@ $xMean
      1.000000     32.487521      8.177696      3.116473      4.194676 
        rating 
      3.931780 
-
-$margEff
-          age  yearsmarried religiousness    occupation        rating 
-   0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
 
 $call
 censReg(formula = affairsNeg ~ age + yearsmarried + religiousness + 
@@ -13986,10 +13954,6 @@ $xMean
        rating 
      3.931780 
 
-$margEff
-          age  yearsmarried religiousness    occupation        rating 
-   0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
-
 $call
 censReg(formula = affairsAddNeg ~ age + yearsmarried + religiousness + 
     occupation + rating, left = -Inf, right = -5, data = Affairs)
@@ -15429,10 +15393,6 @@ $xMean
      1.000000     32.487521      8.177696      3.116473      4.194676 
        rating 
      3.931780 
-
-$margEff
-          age  yearsmarried religiousness    occupation        rating 
-  -0.02183258    0.06543718   -0.19870004    0.03985302   -0.27131275 
 
 $call
 censReg(formula = affairsFormula, right = 4, data = Affairs)
@@ -16926,12 +16886,6 @@ $xMean
      1.0000000     31.9293785      7.8951714      0.3088512      0.2429379 
 religiousness4     occupation         rating 
      0.3578154      4.1770245      3.9209040 
-
-$margEff
-           age   yearsmarried religiousness2 religiousness3 religiousness4 
-   -0.03929670     0.12574754    -0.98985842    -0.72496393    -1.73438654 
-    occupation         rating 
-    0.09645167    -0.55930186 
 
 $call
 censReg(formula = affairsFormula, data = Affairs2)
@@ -20400,4 +20354,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 15.108   0.188  15.309 
+ 15.124   0.164  15.296 

@@ -28,7 +28,7 @@ margEff.censReg <- function( object, calcVCov = TRUE, returnJacobian = FALSE,
    names( result ) <- 
       names( beta )[ ! names( beta ) %in% c( "(Intercept)" ) ]
 
-   if( calcVCov ){
+   if( calcVCov || returnJacobian ){
       # compute Jacobian matrix
       jac <- matrix( 0, nrow = length( result ), ncol = length( allPar ) )
       rownames( jac ) <- names( result )
@@ -50,8 +50,10 @@ margEff.censReg <- function( object, calcVCov = TRUE, returnJacobian = FALSE,
                dnorm( zLeft ) * zLeft
          }
       }
-      attr( result, "vcov" ) <- 
-         jac %*% vcov( object, logSigma = FALSE ) %*% t( jac )
+      if( calcVCov ) {
+         attr( result, "vcov" ) <- 
+            jac %*% vcov( object, logSigma = FALSE ) %*% t( jac )
+      }
       if( returnJacobian ) {
          attr( result, "jacobian" ) <- jac
       }

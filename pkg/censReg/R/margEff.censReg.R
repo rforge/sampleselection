@@ -1,15 +1,14 @@
 margEff.censReg <- function( object, ... ) {
    ## calculate marginal effects on E[y] at the mean explanatory variables
-   beta <- coef( object )
+   allPar <- coef( object, logSigma = FALSE )
 
    # check if the model was estimated with panel data
-   isPanel <- "logSigmaMu" %in% names( beta )
+   isPanel <- "sigmaMu" %in% names( allPar )
    
    ## (not for panel data)
    if( !isPanel ) {
-      sigma <- exp( beta[ "logSigma" ] )
-      beta <- beta[ ! names(beta) %in% 
-         c( "logSigma", "logSigmaMu", "logSigmaNu" ) ]
+      sigma <- allPar[ "sigma" ]
+      beta <- allPar[ ! names( allPar ) %in% c( "sigma" ) ]
       if( length( object$xMean ) != length( beta ) ){
          warning( "cannot calculate marginal effects due to an internal error:",
                   " please contact the maintainer of this package" )

@@ -11,19 +11,19 @@ margEff.censReg <- function( object, calcVCov = TRUE, returnJacobian = FALSE,
       sigma <- allPar[ "sigma" ]
       beta <- allPar[ ! names( allPar ) %in% c( "sigma" ) ]
       if( length( object$xMean ) != length( beta ) ){
-         warning( "cannot calculate marginal effects due to an internal error:",
-                  " please contact the maintainer of this package" )
          print( beta )
          print( object$xMean )
-      } else {
-         xBeta <- crossprod( object$xMean, beta )
-	 zRight <- ( object$right - xBeta ) / sigma
-	 zLeft <- ( object$left - xBeta ) / sigma
-         result <- beta[ ! names( beta ) %in% c( "(Intercept)" ) ] * 
-            ( pnorm( zRight ) - pnorm( zLeft ) )
-         names( result ) <- 
-            names( beta )[ ! names( beta ) %in% c( "(Intercept)" ) ]
+         stop( "cannot calculate marginal effects due to an internal error:",
+                  " please contact the maintainer of this package" )
       }
+      xBeta <- crossprod( object$xMean, beta )
+      zRight <- ( object$right - xBeta ) / sigma
+      zLeft <- ( object$left - xBeta ) / sigma
+      result <- beta[ ! names( beta ) %in% c( "(Intercept)" ) ] * 
+         ( pnorm( zRight ) - pnorm( zLeft ) )
+      names( result ) <- 
+         names( beta )[ ! names( beta ) %in% c( "(Intercept)" ) ]
+
       if( calcVCov ){
          # compute Jacobian matrix
          jac <- matrix( 0, nrow = length( result ), ncol = length( allPar ) )

@@ -235,6 +235,10 @@ $gradientObs
 [14,] -1.81460674 -1.30608969 -0.91950989  1.9573174  2.5815580
 [15,] -0.07791875  1.08513351 -0.45707928 -0.8393922  0.2013187
 
+$xMean
+ (Intercept)           x1           x2 
+ 1.000000000 -0.005159362  0.504140723 
+
 $call
 censReg(formula = y ~ x1 + x2, data = pData)
 
@@ -387,6 +391,10 @@ $gradientObs
 [13,]  0.53595825 -0.22524780  0.33119153 -0.3691112 -1.4082671
 [14,] -1.81465694 -1.30619017 -0.91955280  1.9573642  2.5815611
 [15,] -0.07793866  1.08511138 -0.45708215 -0.8393671  0.2012520
+
+$xMean
+ (Intercept)           x1           x2 
+ 1.000000000 -0.005159362  0.504140723 
 
 $call
 censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
@@ -543,6 +551,10 @@ $gradientObs
 [14,] -1.81461479 -1.30609804 -0.91951560  1.9573273  2.5815634
 [15,] -0.07792214  1.08513754 -0.45708262 -0.8393873  0.2013247
 
+$xMean
+ (Intercept)           x1           x2 
+ 1.000000000 -0.005159362  0.504140723 
+
 $call
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
 
@@ -693,6 +705,10 @@ $gradientObs
 [13,]  0.53592238 -0.2250517  0.33100094 -0.3690601 -1.4085335
 [14,] -1.81473915 -1.3068211 -0.91982779  1.9580283  2.5799493
 [15,] -0.07771403  1.0862084 -0.45735047 -0.8397008  0.2042601
+
+$xMean
+ (Intercept)           x1           x2 
+ 1.000000000 -0.005159362  0.504140723 
 
 $call
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
@@ -909,6 +925,10 @@ $gradientObs
 [14,] -1.81538737 -1.30822940 -0.92054812  1.9588064  2.5784263
 [15,] -0.07753252  1.08785999 -0.45784326 -0.8400504  0.2086192
 
+$xMean
+ (Intercept)           x1           x2 
+ 1.000000000 -0.005159362  0.504140723 
+
 $call
 censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
 
@@ -1087,6 +1107,10 @@ $gradientObs
 [13,] -0.53592238  0.2250517 -0.33100094 -0.3690601 -1.4085335
 [14,]  1.81473915  1.3068211  0.91982779  1.9580283  2.5799493
 [15,]  0.07771403 -1.0862084  0.45735047 -0.8397008  0.2042601
+
+$xMean
+ (Intercept)           x1           x2 
+ 1.000000000 -0.005159362  0.504140723 
 
 $call
 censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
@@ -1267,6 +1291,10 @@ $gradientObs
 [13,] -0.53600998  0.22524959 -0.33118372 -0.3690370 -1.4082862
 [14,]  1.81463246  1.30632858  0.91958449  1.9574877  2.5811938
 [15,]  0.07784490 -1.08535582  0.45711810 -0.8395052  0.2019637
+
+$xMean
+ (Intercept)           x1           x2 
+ 1.000000000 -0.005159362  0.504140723 
 
 $call
 censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
@@ -1518,6 +1546,10 @@ $gradientObs
 [14,] -1.63795687 -1.34717561 -0.83791582  2.11940059  2.7641334
 [15,] -0.02125898  0.73877872 -0.29935581 -0.89443186 -0.4821556
 
+$xMean
+ (Intercept)           x1           x2 
+ 1.000000000 -0.005159362  0.504140723 
+
 $call
 censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
     method = "BFGSR")
@@ -1573,7 +1605,7 @@ attr(,"class")
 + }
 > pData2 <- pdata.frame( nData2, c( "id", "time" ) )
 > randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR" )
-> all.equal( randEffBfgsr2[ -c(11,12) ], randEffBfgsr[ -c(11,12) ] )
+> all.equal( randEffBfgsr2[ -c(11,13) ], randEffBfgsr[ -c(11,13) ] )
 [1] "Component 1: Mean relative difference: 1.585932e-07"
 [2] "Component 2: Mean relative difference: 0.0009942645"
 [3] "Component 3: Mean relative difference: 5.267562"    
@@ -1585,14 +1617,14 @@ attr(,"class")
 > # check if the order of observations/individuals influences the likelihood values
 > d1c1 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", start = coef(randEffBfgsr),
 +    iterlim = 0 )
-> all.equal( d1c1[-c(5,6,9,12,16)], randEffBfgsr[-c(5,6,9,12,16)] )
+> all.equal( d1c1[-c(5,6,9,13,17)], randEffBfgsr[-c(5,6,9,13,17)] )
 [1] TRUE
 > d1c1$maximum -  randEffBfgsr$maximum
 [1] 0
 > 
 > d2c2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", start = coef(randEffBfgsr2),
 +    iterlim = 0 )
-> all.equal( d2c2[-c(5,6,9,12,16)], randEffBfgsr2[-c(5,6,9,12,16)] )
+> all.equal( d2c2[-c(5,6,9,13,17)], randEffBfgsr2[-c(5,6,9,13,17)] )
 [1] TRUE
 > d2c2$maximum -  randEffBfgsr2$maximum
 [1] 0
@@ -1743,6 +1775,10 @@ $gradientObs
 [14,] -1.89274932 -1.287262705 -0.96222366  1.98378247  2.6810702
 [15,] -0.17444065  1.043356443 -0.49511091 -0.72391258  0.0298645
 
+$xMean
+(Intercept)          x1          x2 
+ 1.00000000  0.03141442  0.51844522 
+
 $call
 censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
 
@@ -1793,7 +1829,7 @@ attr(,"class")
 > pDataNa$x1[ obsNa[ 3 ] ] <- NA
 > pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
 > randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa, method = "BFGSR" )
-> all.equal( randEffBfgsrNa[ -12 ], randEffBfgsrUnb[ -12 ] )
+> all.equal( randEffBfgsrNa[ -13 ], randEffBfgsrUnb[ -13 ] )
 [1] TRUE
 > 
 > 
@@ -1852,4 +1888,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 55.323   0.048  55.419 
+ 40.246   0.060  40.330 

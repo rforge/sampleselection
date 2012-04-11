@@ -1297,6 +1297,12 @@ $gradientObs
 [600,]  0.046002484 -0.964016532
 [601,]  0.471208752 -0.395930181
 
+$xMean
+  (Intercept)           age  yearsmarried religiousness    occupation 
+     1.000000     32.487521      8.177696      3.116473      4.194676 
+       rating 
+     3.931780 
+
 $margEff
           age  yearsmarried religiousness    occupation        rating 
   -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
@@ -3517,6 +3523,12 @@ $gradientObs
 [600,]  0.045999019 -0.964020631
 [601,]  0.471197028 -0.395938071
 
+$xMean
+  (Intercept)           age  yearsmarried religiousness    occupation 
+     1.000000     32.487521      8.177696      3.116473      4.194676 
+       rating 
+     3.931780 
+
 $margEff
           age  yearsmarried religiousness    occupation        rating 
   -0.04192274    0.12953992   -0.39417546    0.07621915   -0.53414825 
@@ -4901,6 +4913,12 @@ $gradientObs
 [600,]  0.046001937 -0.964017365
 [601,]  0.471207114 -0.395934004
 
+$xMean
+  (Intercept)           age  yearsmarried religiousness    occupation 
+     1.000000     32.487521      8.177696      3.116473      4.194676 
+       rating 
+     3.931780 
+
 $margEff
           age  yearsmarried religiousness    occupation        rating 
   -0.04192116    0.12953703   -0.39417321    0.07621758   -0.53413844 
@@ -6279,6 +6297,12 @@ $gradientObs
 [599,]  0.506981847 -0.2972022873
 [600,]  0.045942912 -0.9639286354
 [601,]  0.469446724 -0.3974152374
+
+$xMean
+  (Intercept)           age  yearsmarried religiousness    occupation 
+     1.000000     32.487521      8.177696      3.116473      4.194676 
+       rating 
+     3.931780 
 
 $margEff
           age  yearsmarried religiousness    occupation        rating 
@@ -7659,6 +7683,12 @@ $gradientObs
 [600,]  0.063912787 -0.9214663174
 [601,]  0.480456160 -0.2899188737
 
+$xMean
+  (Intercept)           age  yearsmarried religiousness    occupation 
+     1.000000     32.487521      8.177696      3.116473      4.194676 
+       rating 
+     3.931780 
+
 $margEff
           age  yearsmarried religiousness    occupation        rating 
   -0.03915112    0.12814928   -0.35677312    0.12216953   -0.44856615 
@@ -9034,6 +9064,12 @@ $gradientObs
 [599,]  0.504600414 -0.307283319
 [600,]  0.046002484 -0.964016532
 [601,]  0.471208752 -0.395930181
+
+$xMean
+  (Intercept)           age  yearsmarried religiousness    occupation 
+     1.000000     32.487521      8.177696      3.116473      4.194676 
+       rating 
+     3.931780 
 
 $margEff
           age  yearsmarried religiousness    occupation        rating 
@@ -10418,6 +10454,12 @@ $gradientObs
 [599,]  0.504600414 -0.307283319
 [600,]  0.046002484 -0.964016532
 [601,]  0.471208752 -0.395930181
+
+$xMean
+  (Intercept)           age  yearsmarried religiousness    occupation 
+     1.000000     32.487521      8.177696      3.116473      4.194676 
+       rating 
+     3.931780 
 
 $margEff
           age  yearsmarried religiousness    occupation        rating 
@@ -11849,6 +11891,12 @@ $gradientObs
 [599,] -0.504600414 -0.307283319
 [600,] -0.046002484 -0.964016532
 [601,] -0.471208752 -0.395930181
+
+$xMean
+  (Intercept)           age  yearsmarried religiousness    occupation 
+     1.000000     32.487521      8.177696      3.116473      4.194676 
+       rating 
+     3.931780 
 
 $margEff
           age  yearsmarried religiousness    occupation        rating 
@@ -13884,6 +13932,12 @@ $gradientObs
 [600,] -0.046002484 -0.964016532
 [601,] -0.471208752 -0.395930181
 
+$xMean
+  (Intercept)           age  yearsmarried religiousness    occupation 
+     1.000000     32.487521      8.177696      3.116473      4.194676 
+       rating 
+     3.931780 
+
 $margEff
           age  yearsmarried religiousness    occupation        rating 
    0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
@@ -15315,6 +15369,12 @@ $gradientObs
 [599,]  0.537424471 -0.271066369
 [600,]  0.050652990 -0.959529059
 [601,]  0.503804978 -0.359413148
+
+$xMean
+  (Intercept)           age  yearsmarried religiousness    occupation 
+     1.000000     32.487521      8.177696      3.116473      4.194676 
+       rating 
+     3.931780 
 
 $margEff
           age  yearsmarried religiousness    occupation        rating 
@@ -16800,6 +16860,12 @@ $gradientObs
 [529,]    0.000000000  0.709216963  0.591014136 -0.049773040
 [530,]    0.000000000 -0.009893867 -0.003297956 -0.999815073
 [531,]    0.000000000  0.078325064  0.391625322 -0.582772293
+
+$xMean
+   (Intercept)            age   yearsmarried religiousness2 religiousness3 
+     1.0000000     31.9293785      7.8951714      0.3088512      0.2429379 
+religiousness4     occupation         rating 
+     0.3578154      4.1770245      3.9209040 
 
 $margEff
            age   yearsmarried religiousness2 religiousness3 religiousness4 
@@ -20268,4 +20334,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 15.664   0.172  15.959 
+ 15.272   0.132  15.406 

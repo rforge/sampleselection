@@ -32,6 +32,8 @@
    the vector of the marginal effects of the explanatory variables
    on the expected value of the dependent variable calculated
    at the mean values of the explanatory variables.
+   The returned object has an attribute \code{df.residual}, 
+   which is equal to the degrees of freedom of the residuals. 
    
    If argument \code{calcVCov} is \code{TRUE}, 
    the returned object has an attribute \code{vcov}, 
@@ -43,10 +45,6 @@
    the returned object has an attribute \code{jacobian}, 
    which is the Jacobian of the marginal effects 
    with respect to the coefficients.
-
-   If argument \code{calcVCov} or argument \code{returnJacobian} is \code{TRUE}, 
-   the returned object has an attribute \code{df.residual}, 
-   which is equal to the degrees of freedom of the residuals. 
 }
 
 \author{Arne Henningsen}

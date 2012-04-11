@@ -5027,6 +5027,8 @@ Coefficients:
 > margEff( estResultBfgs, calcVCov = FALSE )
           age  yearsmarried religiousness    occupation        rating 
   -0.04192116    0.12953703   -0.39417321    0.07621758   -0.53413844 
+attr(,"df.residual")
+[1] 594
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
 > maxLik:::summary.maxLik( estResultBfgs )
@@ -20495,4 +20497,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 21.693   0.272  22.034 
+ 21.597   0.272  21.893 

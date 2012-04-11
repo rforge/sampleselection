@@ -57,8 +57,11 @@ margEff.censReg <- function( object, calcVCov = TRUE, returnJacobian = FALSE,
       if( returnJacobian ) {
          attr( result, "jacobian" ) <- jac
       }
-      attr( result, "df.residual" ) <- object$df.residual
    }
+
+   # degrees of freedom of the residuals
+   attr( result, "df.residual" ) <- object$df.residual
+
    class( result ) <- c( "margEff.censReg", class( result ) )
  
    return( result )

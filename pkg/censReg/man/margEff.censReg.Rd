@@ -43,6 +43,10 @@
    the returned object has an attribute \code{jacobian}, 
    which is the Jacobian of the marginal effects 
    with respect to the coefficients.
+
+   If argument \code{calcVCov} or argument \code{returnJacobian} is \code{TRUE}, 
+   the returned object has an attribute \code{df.residual}, 
+   which is equal to the degrees of freedom of the residuals. 
 }
 
 \author{Arne Henningsen}

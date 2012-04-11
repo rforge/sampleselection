@@ -1514,6 +1514,13 @@ sigma          8.2470803 0.55336401 14.903536 3.125905e-50
 > margEff( estResult )
           age  yearsmarried religiousness    occupation        rating 
   -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
+attr(,"vcov")
+                      age yearsmarried religiousness  occupation      rating
+age            0.26898730  -0.20944964    0.24868749 -0.05607105  0.42736955
+yearsmarried  -0.20944964   0.16368946   -0.19433695  0.04371387 -0.33262559
+religiousness  0.24868749  -0.19433695    0.24013928 -0.05180838  0.39683238
+occupation    -0.05607105   0.04371387   -0.05180838  0.01499776 -0.08982951
+rating         0.42736955  -0.33262559    0.39683238 -0.08982951  0.69029275
 > logLik( estResult )
 'log Lik.' -705.5762 (df=7)
 > extractAIC( estResult )
@@ -3600,6 +3607,13 @@ Coefficients:
 > margEff( estResultBhhh )
           age  yearsmarried religiousness    occupation        rating 
   -0.04192274    0.12953992   -0.39417546    0.07621915   -0.53414825 
+attr(,"vcov")
+                      age yearsmarried religiousness  occupation      rating
+age            0.22611644  -0.17705133    0.21554042 -0.04687774  0.37069115
+yearsmarried  -0.17705133   0.13940333   -0.16963746  0.03673658 -0.29050764
+religiousness  0.21554042  -0.16963746    0.21658814 -0.04464206  0.35675079
+occupation    -0.04687774   0.03673658   -0.04464206  0.01336021 -0.07850558
+rating         0.37069115  -0.29050764    0.35675079 -0.07850558  0.62127663
 > maxLik:::summary.maxLik( estResultBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -4992,6 +5006,13 @@ Coefficients:
 > margEff( estResultBfgs )
           age  yearsmarried religiousness    occupation        rating 
   -0.04192116    0.12953703   -0.39417321    0.07621758   -0.53413844 
+attr(,"vcov")
+                      age yearsmarried religiousness  occupation      rating
+age            0.26899070  -0.20945180    0.24868993 -0.05607076  0.42737378
+yearsmarried  -0.20945180   0.16369077   -0.19433841  0.04371354 -0.33262812
+religiousness  0.24868993  -0.19433841    0.24014092 -0.05180796  0.39683521
+occupation    -0.05607076   0.04371354   -0.05180796  0.01499750 -0.08982879
+rating         0.42737378  -0.33262812    0.39683521 -0.08982879  0.69029765
 > maxLik:::summary.maxLik( estResultBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -6379,6 +6400,13 @@ Coefficients:
 > margEff( estResultNm )
           age  yearsmarried religiousness    occupation        rating 
   -0.04258612    0.12846974   -0.40158622    0.07077242   -0.53551737 
+attr(,"vcov")
+                      age yearsmarried religiousness  occupation      rating
+age            0.27988007  -0.21298225    0.25973080 -0.05306377  0.43935263
+yearsmarried  -0.21298225   0.16267524   -0.19834701  0.04043479 -0.33417878
+religiousness  0.25973080  -0.19834701    0.25134871 -0.04918509  0.40954822
+occupation    -0.05306377   0.04043479   -0.04918509  0.01335127 -0.08399262
+rating         0.43935263  -0.33417878    0.40954822 -0.08399262  0.70094377
 > maxLik:::summary.maxLik( estResultNm )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -7766,6 +7794,13 @@ Coefficients:
 > margEff( estResultSann )
           age  yearsmarried religiousness    occupation        rating 
   -0.03915112    0.12814928   -0.35677312    0.12216953   -0.44856615 
+attr(,"vcov")
+                      age yearsmarried religiousness  occupation     rating
+age            0.25297190  -0.20743599    0.22435718 -0.09240915  0.3608726
+yearsmarried  -0.20743599   0.17072771   -0.18473903  0.07588781 -0.2957777
+religiousness  0.22435718  -0.18473903    0.20939725 -0.08231271  0.3213180
+occupation    -0.09240915   0.07588781   -0.08231271  0.03731064 -0.1331006
+rating         0.36087264  -0.29577766    0.32131802 -0.13310057  0.5255492
 > maxLik:::summary.maxLik( estResultSann )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -9152,6 +9187,13 @@ Coefficients:
 > margEff( estResultStart )
           age  yearsmarried religiousness    occupation        rating 
   -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
+attr(,"vcov")
+                      age yearsmarried religiousness  occupation      rating
+age            0.26898730  -0.20944964    0.24868749 -0.05607105  0.42736955
+yearsmarried  -0.20944964   0.16368946   -0.19433695  0.04371387 -0.33262559
+religiousness  0.24868749  -0.19433695    0.24013928 -0.05180838  0.39683239
+occupation    -0.05607105   0.04371387   -0.05180838  0.01499776 -0.08982951
+rating         0.42736955  -0.33262559    0.39683239 -0.08982951  0.69029275
 > maxLik:::summary.maxLik( estResultStart )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -10547,6 +10589,13 @@ Coefficients:
 > margEff( estResultAdd )
           age  yearsmarried religiousness    occupation        rating 
   -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
+attr(,"vcov")
+                      age yearsmarried religiousness  occupation      rating
+age            0.26898730  -0.20944964    0.24868749 -0.05607105  0.42736954
+yearsmarried  -0.20944964   0.16368946   -0.19433695  0.04371387 -0.33262559
+religiousness  0.24868749  -0.19433695    0.24013928 -0.05180838  0.39683238
+occupation    -0.05607105   0.04371387   -0.05180838  0.01499776 -0.08982951
+rating         0.42736954  -0.33262559    0.39683238 -0.08982951  0.69029275
 > maxLik:::summary.maxLik( estResultAdd )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -11986,6 +12035,13 @@ Coefficients:
 > margEff( estResultNeg )
           age  yearsmarried religiousness    occupation        rating 
    0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
+attr(,"vcov")
+                      age yearsmarried religiousness  occupation      rating
+age            0.26898730  -0.20944964    0.24868749 -0.05607105  0.42736955
+yearsmarried  -0.20944964   0.16368946   -0.19433695  0.04371387 -0.33262559
+religiousness  0.24868749  -0.19433695    0.24013928 -0.05180838  0.39683238
+occupation    -0.05607105   0.04371387   -0.05180838  0.01499776 -0.08982951
+rating         0.42736955  -0.33262559    0.39683238 -0.08982951  0.69029275
 > maxLik:::summary.maxLik( estResultNeg )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -14028,6 +14084,13 @@ Coefficients:
 > margEff( estResultAddNeg )
           age  yearsmarried religiousness    occupation        rating 
    0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
+attr(,"vcov")
+                      age yearsmarried religiousness  occupation      rating
+age            0.26898730  -0.20944964    0.24868749 -0.05607105  0.42736954
+yearsmarried  -0.20944964   0.16368946   -0.19433695  0.04371387 -0.33262559
+religiousness  0.24868749  -0.19433695    0.24013928 -0.05180838  0.39683238
+occupation    -0.05607105   0.04371387   -0.05180838  0.01499776 -0.08982951
+rating         0.42736954  -0.33262559    0.39683238 -0.08982951  0.69029275
 > maxLik:::summary.maxLik( estResultAddNeg )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -15463,6 +15526,13 @@ Coefficients:
 > margEff( estResultBoth )
           age  yearsmarried religiousness    occupation        rating 
   -0.02183258    0.06543718   -0.19870004    0.03985302   -0.27131275 
+attr(,"vcov")
+                       age yearsmarried religiousness   occupation      rating
+age            0.044419546 -0.033776441   0.040591293 -0.009126589  0.07028949
+yearsmarried  -0.033776441  0.025838724  -0.031017137  0.006956759 -0.05335442
+religiousness  0.040591293 -0.031017137   0.039713402 -0.008327681  0.06445561
+occupation    -0.009126589  0.006956759  -0.008327681  0.002781824 -0.01462211
+rating         0.070289495 -0.053354424   0.064455609 -0.014622109  0.11398059
 > maxLik:::summary.maxLik( estResultBoth )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -17021,6 +17091,23 @@ logSigma        0.0049058331
    -0.03929670     0.12574754    -0.98985842    -0.72496393    -1.73438654 
     occupation         rating 
     0.09645167    -0.55930186 
+attr(,"vcov")
+                       age yearsmarried religiousness2 religiousness3
+age             0.61727154  -0.48548280    -0.07580011    -0.13400753
+yearsmarried   -0.48548280   0.38249928     0.05975053     0.10511720
+religiousness2 -0.07580011   0.05975053     0.09369806     0.05744477
+religiousness3 -0.13400753   0.10511720     0.05744477     0.11741373
+religiousness4  0.05505591  -0.04521486     0.03542061     0.02754635
+occupation     -0.19134347   0.15053062     0.02443207     0.04407860
+rating          1.07848167  -0.84790590    -0.12171658    -0.22653597
+               religiousness4  occupation     rating
+age                0.05505591 -0.19134347  1.0784817
+yearsmarried      -0.04521486  0.15053062 -0.8479059
+religiousness2     0.03542061  0.02443207 -0.1217166
+religiousness3     0.02754635  0.04407860 -0.2265360
+religiousness4     0.09990184 -0.01465090  0.1083467
+occupation        -0.01465090  0.06343926 -0.3348130
+rating             0.10834668 -0.33481299  1.8990130
 > formula( estResultEmpty )
 affairs ~ age + yearsmarried + religiousness + occupation + rating
 > model.frame( estResultEmpty )
@@ -20354,4 +20441,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 15.124   0.164  15.296 
+  15.32    0.12   15.44 

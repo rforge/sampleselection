@@ -1,4 +1,5 @@
-margEff.censReg <- function( object, ... ) {
+margEff.censReg <- function( object, calcVCov = TRUE, returnJacobian = FALSE, 
+      ... ) {
    ## calculate marginal effects on E[y] at the mean explanatory variables
    allPar <- coef( object, logSigma = FALSE )
 
@@ -22,6 +23,34 @@ margEff.censReg <- function( object, ... ) {
             ( pnorm( zRight ) - pnorm( zLeft ) )
          names( result ) <- 
             names( beta )[ ! names( beta ) %in% c( "(Intercept)" ) ]
+      }
+      if( calcVCov ){
+         # compute Jacobian matrix
+         jac <- matrix( 0, nrow = length( result ), ncol = length( allPar ) )
+         rownames( jac ) <- names( result )
+         colnames( jac ) <- names( allPar )
+         for( j in names( result ) ) {
+            for( k in names( allPar )[ -length( allPar ) ] ) {
+               jac[ j, k ] <- 
+                  ( j == k ) * ( pnorm( zRight ) - pnorm( zLeft ) ) -
+                  ( beta[ j ] * object$xMean[ j ] / sigma ) *
+                  ( dnorm( zRight ) - dnorm( zLeft ) )
+            }
+            jac[ j, "sigma"] <- 0
+            if( is.finite( object$right ) ) {
+               jac[ j, "sigma"] <- jac[ j, "sigma"] - ( beta[ j ] / sigma ) *
+                  dnorm( zRight ) * zRight
+            }
+            if( is.finite( object$left ) ) {
+               jac[ j, "sigma"] <- jac[ j, "sigma"] + ( beta[ j ] / sigma ) *
+                  dnorm( zLeft ) * zLeft
+            }
+         }
+         attr( result, "vcov" ) <- 
+            jac %*% vcov( object, logSigma = FALSE ) %*% t( jac )
+         if( returnJacobian ) {
+            attr( result, "jacobian" ) <- jac
+         }
       }
    } else {
       result <- NULL

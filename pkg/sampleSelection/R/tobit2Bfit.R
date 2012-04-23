@@ -125,8 +125,6 @@ tobit2Bfit <- function(YS, XS, YO, XO, start,
    ## pre-calculate a few values:
    XS0 <- XS[YS==0,,drop=FALSE]
    XS1 <- XS[YS==1,,drop=FALSE]
-   YO[is.na(YO)] <- 0
-   YO1 <- YO[YS==1]
    XO1 <- XO[YS==1,,drop=FALSE]
    N0 <- sum(YS==0)
    N1 <- sum(YS==1)

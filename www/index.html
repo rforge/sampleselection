@@ -110,14 +110,31 @@
     <ul>
       <li><strong>Can the sampleSelection package estimate selection models,
         where the second stage is binary?</strong><br />
-        The sampleSelection package cannot estimate models, 
-        where the second stage is non-continuous (e.g. binary). 
-        As far as I know, there is currently no R package, 
-        which can do this. 
-        However, it should be not too difficult to write an R function 
-        that returns the log-likelihood value of such a model and then, 
-        you could use the <a href="http://www.maxLik.org/">maxLik</a> 
-        package to maximise it (i.e. estimate the parameters).
+        The latest versions of the sampleSelection package (>= 0.7) 
+        can estimate models, 
+        where the second stage is binary.<br />
+        <a href="http://thiloklein.de/">Thilo Klein</a> informed us 
+        that this model can be also estimated by the <tt>vglm</tt> function 
+        and the <tt>constraints</tt> option 
+        in the <a href="http://cran.R-Project.org/package=VGAM">VGAM</a>
+        package:
+        <pre>
+Selection: C = 1 if Xa + U > 0; else C = 0
+Outcome:   Y = 1 if Zb + V > 0; else Y = 0
+
+const &lt;- list()
+const$"(Intercept)" &lt;- diag(3)
+const$x &lt;- as.matrix(c(1,0,0))
+const$z &lt;- as.matrix(c(0,1,0))
+const$C &lt;- as.matrix(c(0,1,0))
+fit &lt;- vglm(cbind(C, y) ~ x + z + C,
+binom2.rho(zero=3),control=vglm.control(maxit=maxit),constraints=const)
+constraints(fit)
+        </pre>
+        Furthermore, he made us aware of 
+        that the <tt>SemiParBIVProbit</tt> function in the 
+        <a href="http://cran.R-Project.org/package=SemiParBIVProbit">SemiParBIVProbit</a>
+        package also can estimate such models.
       </li>
     </ul>
 
@@ -131,7 +148,7 @@
        &nbsp; 
     </p>
     <div align="center">
-       Last Update: 30 January 2012
+       Last Update: 23 April 2012
     </div>
   </body>
 </html>

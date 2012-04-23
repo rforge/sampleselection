@@ -122,12 +122,6 @@ tobit2Bfit <- function(YS, XS, YO, XO, start,
       cat( "Initial values:\n")
       print(start)
    }
-   ## pre-calculate a few values:
-   XS0 <- XS[YS==0,,drop=FALSE]
-   XS1 <- XS[YS==1,,drop=FALSE]
-   XO1 <- XO[YS==1,,drop=FALSE]
-   N0 <- sum(YS==0)
-   N1 <- sum(YS==1)
    ## estimate
    library(mvtnorm)
    ## compareDerivatives(loglik, gradlik,

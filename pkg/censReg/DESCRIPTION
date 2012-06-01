@@ -1,6 +1,6 @@
 Package: censReg
-Version: 0.5-9
-Date: 2012/03/04
+Version: 0.5-10
+Date: 2012/04/12
 Title: Censored Regression (Tobit) Models
 Author: Arne Henningsen <arne.henningsen@googlemail.com>
 Maintainer: Arne Henningsen <arne.henningsen@googlemail.com>

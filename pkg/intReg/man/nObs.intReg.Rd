@@ -1,36 +1,22 @@
-\name{coef.intReg}
-\alias{coef.intReg}
-\alias{print.coef.intReg}
-\alias{stdEr.intReg}
-\alias{vcov.intReg}
+\name{nObs.intReg}
+\alias{nObs.intReg}
 \title{
-  Extract (only informative) coefficients, standard errors, and
-  variance-covariance matrix from \sQuote{intReg} model.
+  Number of observations.
 }
 \description{
-  Internally, the interval boundaries are treated as fixed parameters.
-  These methods extract only the informative ones (by default),
-  i.e. they do not return the interval boundaries.
+  Extracts the number of observations in the intReg model
 }
 \usage{
-\method{coef}{intReg}(object, boundaries = FALSE, ...)
-\method{stdEr}{intReg}(x, boundaries = FALSE, ...)
-\method{vcov}{intReg}(object, boundaries = FALSE, ...)
+\method{nObs}{intReg}(x, ...)
 }
 \arguments{
-  \item{object,x}{
+  \item{x}{
     object of class \sQuote{intReg}, estimated interval regression model
-}
-  \item{boundaries}{
-    logical, whether to return (fixed) interval boundary parameters
-}
-  \item{\dots}{
-    arguments for other methods
-}
+  }
+  \item{\dots}{other parameters for different methods}
 }
 \value{
-  a named numeric vector or matrix, for the estimated coefficients and
-  standard errors, and variance-covariance matrix respectively.
+  Integer, number of observations
 }
 \author{
   Ott Toomet \email{otoomet@gmail.com}
@@ -57,8 +43,6 @@ m <- intReg(y ~ sex + log(income) + age + schooling +
               envcon + vparks + tvenv + major, data=Kakadu)
 ## You may want to compare the results to Werner (1999),
 ## Journal of Business and Economics Statistics 17(4), pp 479-486
-print(coef(m))
-print(coef(m, boundaries=TRUE))
 print(nObs(m))
 }
 \keyword{methods}

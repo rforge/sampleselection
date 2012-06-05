@@ -11,8 +11,8 @@ print.summary.intReg <- function(x,
       cat("Log-Likelihood:", logLik(x), "\n")
    }
    if(!is.null(x$estimate)) {
-      cat( x$param$nObs, "observations, " )
-      cat( x$param$nParam, "free parameters" )
+      cat( nObs(x), "observations, " )
+      cat( sum(activePar(x)), "free parameters" )
       cat( " (df = ", x$param$df, ")\n", sep="")
       printCoefmat( x$estimate, signif.legend = TRUE, digits = digits )
    }

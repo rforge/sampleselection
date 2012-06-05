@@ -1,6 +1,6 @@
 
-R version 2.14.1 (2011-12-22)
-Copyright (C) 2011 The R Foundation for Statistical Computing
+R version 2.15.0 (2012-03-30)
+Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -47,7 +47,7 @@ Maximum Likelihood estimation
 BHHH maximisation, 12 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -1490 
- observations,  free parameters (df = 1807)
+1827 observations, 20 free parameters (df = 1807)
             Estimate Std. Error t value Pr(>|t|)    
 (Intercept)  2.25146    1.22942    1.83    0.067 .  
 sexmale     -0.22498    0.21511   -1.05    0.296    
@@ -120,8 +120,6 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > intervals <- c(0, 5, 10, 15, 25, Inf)
 > salary <- cut(Bwages$wage, intervals)
 > int <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages, boundaries=log(intervals))
-Warning message:
-In log(Pr) : NaNs produced
 > ## Note: use logs for the intervals in Euros.  We do not have to
 > ## transform salaris to log form as this does not change the intervals.
 > ## Ignore any warnings
@@ -134,7 +132,7 @@ Maximum Likelihood estimation
 BHHH maximisation, 10 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -1346.8 
- observations,  free parameters (df = 1464)
+1472 observations, 8 free parameters (df = 1464)
                 Estimate Std. Error t value Pr(>|t|)    
 (Intercept)      1.90447    0.03772   50.48  < 2e-16 ***
 factor(educ)2    0.21488    0.04214    5.10  3.8e-07 ***
@@ -210,7 +208,7 @@ Maximum Likelihood estimation
 BHHH maximisation, 33 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -181.66 
- observations,  free parameters (df = 93)
+96 observations, 3 free parameters (df = 93)
              Estimate Std. Error t value Pr(>|t|)    
 (Intercept)  2.53e-03   7.58e-04    3.33   0.0012 ** 
 c           -7.04e-05   3.45e-04   -0.20   0.8387    
@@ -218,6 +216,7 @@ sigma        1.57e-03   1.11e-04   14.07   <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 --------------------------------------------
-Warning message:
-In log(Pr) : NaNs produced
 > 
+> proc.time()
+   user  system elapsed 
+  3.264   0.028   3.371 

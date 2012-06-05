@@ -19,7 +19,9 @@ intReg <- function(formula, start, boundaries,
         eta <- offset
         if (nBeta > 0)
             eta <- eta + drop(x %*% beta)
-        Pr <- pfun((zeta[boundaryInterval + 1] - eta)/sd) - pfun((zeta[boundaryInterval] - eta)/sd)
+       Pr <- pfun((zeta[boundaryInterval + 1] - eta)/sd) - pfun((zeta[boundaryInterval] - eta)/sd)
+       if(any(Pr <= 0))
+           return(NA)
        names(Pr) <- NULL
                                         # individual probability to be in interval (zeta[y+1], zeta[y]])
        ll <- wt * log(Pr)
@@ -256,7 +258,8 @@ intReg <- function(formula, start, boundaries,
              param=list(list(ordered=ordered,
                       boundaries=boundaries,
                       index=list(beta=iBeta, boundary=iBoundaries, std=iStd),
-                      df=nObs - sum(activePar)
+                      df=nObs - sum(activePar),
+                      nObs=nObs
                       )),
              call=cl,
              terms=mt,

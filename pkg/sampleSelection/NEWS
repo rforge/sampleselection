@@ -4,6 +4,13 @@ Please note that only the most significant changes are reported here.
 A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
+
+   CHANGES IN VERSION 0.7-2 (2012-XX-XX)
+
+* in Tobit 5 models, argument "outcome" can now be a pre-defined list 
+(bug reported by Jon K. Peck) 
+
+
 	CHANGES IN VERSION 0.7-0 (2012-03-04)
 
 * Binary-outcome selection models

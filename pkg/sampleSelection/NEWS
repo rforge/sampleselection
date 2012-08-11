@@ -7,6 +7,10 @@ on R-Forge.
 
    CHANGES IN VERSION 0.7-2 (2012-XX-XX)
 
+* fixed a bug in the calculation of the Hessian of the log likelihood function 
+for probit models that only occurred in specific circumstances
+(reported by Jon K. Peck) 
+
 * in Tobit 5 models, argument "outcome" can now be a pre-defined list 
 (bug reported by Jon K. Peck) 
 

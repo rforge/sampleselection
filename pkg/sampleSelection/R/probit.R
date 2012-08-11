@@ -47,7 +47,7 @@ probit <- function(formula, ...) {
       theta5 <- -ifelse(xb1 < -nCutoff, 1,
                         ifelse(xb1 > nCutoff, xb1*f1 + f1^2,
                                xb1*f1/F1 + f1^2/F1^2))
-      theta6 <- -ifelse(xb0 < -nCutoff, f0^2 - xb1*f0,
+      theta6 <- -ifelse(xb0 < -nCutoff, f0^2 - xb0*f0,
                         ifelse(xb0 > nCutoff, 1,
                                f0^2/F0^2 - xb0*f0/F0))
       hesslik <- t( x1) %*% ( x1 * theta5) + t( x0) %*% ( x0 * theta6)

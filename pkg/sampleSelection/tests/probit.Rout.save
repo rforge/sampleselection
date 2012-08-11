@@ -1,5 +1,5 @@
 
-R version 2.15.0 (2012-03-30)
+R version 2.15.1 (2012-06-22) -- "Roasted Marshmallows"
 Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: x86_64-pc-linux-gnu (64-bit)
@@ -2100,6 +2100,17 @@ Coefficients:
 [1] 20
 >                            # should be 20
 > 
+> # example, where the "cutoff" in the log likelihood function is used
+> # (inspired by an example from Jon K. Peck)
+> set.seed( 123 )
+> nObs <- 1000
+> dta2 <- data.frame( id = c( 1:nObs ) )
+> for( i in 1:3 ) {
++    dta2[[ paste( "x", i, sep = "" ) ]] <- rnorm( nObs, 5, 3 )
++ }
+> dta2$y <- with( dta2, -5.5 + 0.25 * x1 + 0.6 * x2 + 0.85 * x3 + rnorm( nObs ) ) > 0
+> p2 <- probit( y ~ x1 + x2 + x3, data=dta2 )
+> 
 > proc.time()
    user  system elapsed 
-  1.832   0.060   1.882 
+  1.928   0.072   1.989 

@@ -42,8 +42,8 @@ probit <- function(formula, ...) {
       gradlik[Y == 1,] <- theta3*x1
       gradlik[Y == 0,] <- theta4*x0
       ##
-      theta5 <- - xb1 * exp( f1 - F1 ) - exp( f1 - F1 )^2
-      theta6 <- - exp( f0 - F0 )^2 + xb0 * exp( f0 - F0 )
+      theta5 <- - xb1 * exp( f1 - F1 ) - exp(2*(f1 - F1 ))
+      theta6 <- - exp(2*(f0 - F0) ) + xb0 * exp( f0 - F0 )
       hesslik <- t( x1) %*% ( x1 * theta5) + t( x0) %*% ( x0 * theta6)
                     # note that df/db' = -f (x'b) x'
       ## The following code can be used to compute Fisher Scoring approximation for the Hessian

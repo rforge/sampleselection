@@ -2111,6 +2111,33 @@ Coefficients:
 > dta2$y <- with( dta2, -5.5 + 0.25 * x1 + 0.6 * x2 + 0.85 * x3 + rnorm( nObs ) ) > 0
 > p2 <- probit( y ~ x1 + x2 + x3, data=dta2 )
 > 
+> ## This test probes the extreme outliers.  We generate a normal
+> ## model, and add a positive and a negative extreme outlier.  The
+> ## likelihood code should be robust and not crash.  The estimates
+> ## (and standard errors) are probably of little value.
+> x <- runif(20) - 0.5
+> y <- x + rnorm(20) > 0
+> x[1] <- 1000
+> y[1] <- FALSE
+> x[2] <- -1000
+> y[2] <- TRUE
+> m <- probit(y ~ x)
+> print(summary(m))
+--------------------------------------------
+Probit binary choice model/Maximum Likelihood estimation
+Newton-Raphson maximisation, 10 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -11.4603 
+Model: Y == 'TRUE' in contrary to 'FALSE'
+20 observations (13 'negative' and 7 'positive') and 2 free parameters (df = 18)
+Estimates:
+             Estimate Std. error t value Pr(> t)
+(Intercept) -0.430723   0.305571  -1.410   0.159
+x           -0.003992   0.019584  -0.204   0.838
+Significance test:
+chi2(1) = 2.97719 (p=0.0844456)
+--------------------------------------------
+> 
 > proc.time()
    user  system elapsed 
-  1.928   0.072   1.989 
+  2.916   0.072   2.976 

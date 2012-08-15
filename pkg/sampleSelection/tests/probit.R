@@ -62,3 +62,16 @@ for( i in 1:3 ) {
 }
 dta2$y <- with( dta2, -5.5 + 0.25 * x1 + 0.6 * x2 + 0.85 * x3 + rnorm( nObs ) ) > 0
 p2 <- probit( y ~ x1 + x2 + x3, data=dta2 )
+
+## This test probes the extreme outliers.  We generate a normal
+## model, and add a positive and a negative extreme outlier.  The
+## likelihood code should be robust and not crash.  The estimates
+## (and standard errors) are probably of little value.
+x <- runif(20) - 0.5
+y <- x + rnorm(20) > 0
+x[1] <- 1000
+y[1] <- FALSE
+x[2] <- -1000
+y[2] <- TRUE
+m <- probit(y ~ x)
+print(summary(m))

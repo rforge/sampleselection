@@ -11,6 +11,8 @@ on R-Forge.
 effects: hence, all statistical tests for the marginal effects were wrong
 in previous versions of the censReg package
 
+* added print() method for objects that are returned by the margEff() method
+
 
             CHANGES IN VERSION 0.5-14 (2012-06-28)
 

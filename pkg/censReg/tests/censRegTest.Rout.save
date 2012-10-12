@@ -1514,6 +1514,9 @@ sigma          8.2470803 0.55336401 14.903536 3.125905e-50
 > margEff( estResult )
           age  yearsmarried religiousness    occupation        rating 
   -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
+> print.default( margEff( estResult ) )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
 attr(,"vcov")
                         age  yearsmarried religiousness    occupation
 age            3.401972e-04 -0.0004346802  1.167616e-05 -0.0002132758
@@ -3628,6 +3631,9 @@ Coefficients:
 > margEff( estResultBhhh, returnJacobian = TRUE )
           age  yearsmarried religiousness    occupation        rating 
   -0.04192274    0.12953992   -0.39417546    0.07621915   -0.53414825 
+> print.default( margEff( estResultBhhh, returnJacobian = TRUE ) )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04192274    0.12953992   -0.39417546    0.07621915   -0.53414825 
 attr(,"vcov")
                         age  yearsmarried religiousness    occupation
 age            3.179783e-04 -0.0004463775 -0.0001018963 -0.0002061228
@@ -5059,6 +5065,9 @@ Coefficients:
 > margEff( estResultBfgs, calcVCov = FALSE )
           age  yearsmarried religiousness    occupation        rating 
   -0.04192116    0.12953703   -0.39417321    0.07621758   -0.53413844 
+> print.default( margEff( estResultBfgs, calcVCov = FALSE ) )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04192116    0.12953703   -0.39417321    0.07621758   -0.53413844 
 attr(,"df.residual")
 [1] 594
 attr(,"class")
@@ -6457,6 +6466,9 @@ Coefficients:
       -2.3051        2.1124 
 
 > margEff( estResultNm )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04258612    0.12846974   -0.40158622    0.07077242   -0.53551737 
+> print.default( margEff( estResultNm ) )
           age  yearsmarried religiousness    occupation        rating 
   -0.04258612    0.12846974   -0.40158622    0.07077242   -0.53551737 
 attr(,"vcov")
@@ -7872,6 +7884,9 @@ Coefficients:
 > margEff( estResultSann )
           age  yearsmarried religiousness    occupation        rating 
   -0.03915112    0.12814928   -0.35677312    0.12216953   -0.44856615 
+> print.default( margEff( estResultSann ) )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.03915112    0.12814928   -0.35677312    0.12216953   -0.44856615 
 attr(,"vcov")
                         age  yearsmarried religiousness    occupation
 age            3.506439e-04 -0.0004488950  3.078707e-06 -0.0002287821
@@ -9282,6 +9297,9 @@ Coefficients:
       -2.2850        2.1099 
 
 > margEff( estResultStart )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
+> print.default( margEff( estResultStart ) )
           age  yearsmarried religiousness    occupation        rating 
   -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
 attr(,"vcov")
@@ -10706,6 +10724,9 @@ Coefficients:
       -2.2850        2.1099 
 
 > margEff( estResultAdd )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
+> print.default( margEff( estResultAdd ) )
           age  yearsmarried religiousness    occupation        rating 
   -0.04192089    0.12953651   -0.39417189    0.07621840   -0.53413656 
 attr(,"vcov")
@@ -12173,6 +12194,9 @@ Coefficients:
        2.2850        2.1099 
 
 > margEff( estResultNeg, calcVCov = FALSE, returnJacobian = TRUE )
+          age  yearsmarried religiousness    occupation        rating 
+   0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
+> print.default( margEff( estResultNeg, calcVCov = FALSE, returnJacobian = TRUE ) )
           age  yearsmarried religiousness    occupation        rating 
    0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
 attr(,"jacobian")
@@ -14245,6 +14269,9 @@ Coefficients:
 > margEff( estResultAddNeg )
           age  yearsmarried religiousness    occupation        rating 
    0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
+> print.default( margEff( estResultAddNeg ) )
+          age  yearsmarried religiousness    occupation        rating 
+   0.04192089   -0.12953651    0.39417189   -0.07621840    0.53413656 
 attr(,"vcov")
                         age  yearsmarried religiousness    occupation
 age            3.401972e-04 -0.0004346802  1.167616e-05 -0.0002132758
@@ -15707,6 +15734,9 @@ Coefficients:
       -2.2070        2.0723 
 
 > margEff( estResultBoth )
+          age  yearsmarried religiousness    occupation        rating 
+  -0.02183258    0.06543718   -0.19870004    0.03985302   -0.27131275 
+> print.default( margEff( estResultBoth ) )
           age  yearsmarried religiousness    occupation        rating 
   -0.02183258    0.06543718   -0.19870004    0.03985302   -0.27131275 
 attr(,"vcov")
@@ -17291,6 +17321,11 @@ occupation      0.0012030043
 rating         -0.0078827546
 logSigma        0.0049058331
 > margEff( estResultEmpty )
+           age   yearsmarried religiousness2 religiousness3 religiousness4 
+   -0.03929670     0.12574754    -0.98985842    -0.72496393    -1.73438654 
+    occupation         rating 
+    0.09645167    -0.55930186 
+> print.default( margEff( estResultEmpty ) )
            age   yearsmarried religiousness2 religiousness3 religiousness4 
    -0.03929670     0.12574754    -0.98985842    -0.72496393    -1.73438654 
     occupation         rating 
@@ -20660,4 +20695,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 15.524   0.088  15.611 
+ 15.764   0.148  15.927 

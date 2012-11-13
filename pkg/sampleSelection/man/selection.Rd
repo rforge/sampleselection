@@ -87,6 +87,13 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
   assumption for a particular problem.  Note also that standard errors
   tend to be large without a strong
   exclusion restriction.
+  
+  If argument \code{method} is equal to \code{"ml"} (the default),
+  the estimation is done by the maximum likelihood method,
+  where the Newton-Raphson algorithm is used by default.
+  Argument \code{maxMethod} (see \code{\link{tobit2fit}}) 
+  can be used to chose other algorithms for the maximisation 
+  of the (log) likelihood function.
 
   The (generic) function 'coef' ('\code{\link{coef.selection}}')
   can be used to extract the estimated coefficients.

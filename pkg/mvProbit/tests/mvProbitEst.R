@@ -157,12 +157,12 @@ logLik( estResultBHHH ) -
 # marginal effects based on estimated coefficients with covariance matrix
 # unconditional marginal effects (with Jacobian)
 margEffUnc <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE )
-print( margEffUnc )
-print( attr( margEffUnc, "vcov" )[ 1:5, , ] )
-print( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ) )
-print( attr( margEffUnc, "jacobian" )[ 1:5, , ] )
-print( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ) )
-summary( margEffUnc )
+round( margEffUnc, 4 )
+round( attr( margEffUnc, "vcov" )[ 1:5, , ], 5 )
+round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 5 )
+round( attr( margEffUnc, "jacobian" )[ 1:5, , ], 5 )
+round( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ), 5 )
+print( summary( margEffUnc ), digits = 3 )
 # now with explicitly specifying dummy variables
 margEffUncD <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
    dummyVars = c( "x1" ) )
@@ -170,11 +170,11 @@ all.equal( margEffUncD, margEffUnc )
 # now with seemingly no dummy variables
 margEffUncD0 <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
    dummyVars = NULL )
-summary( margEffUncD0 )
+print( summary( margEffUncD0 ), digits = 3 )
 # now with seemingly only dummy variables
 margEffUncDA <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
    dummyVars = c( "x1", "x2" ) )
-summary( margEffUncDA )
+print( summary( margEffUncDA ), digits = 3 )
 # now with returned Jacobian but without variance covariance matrix
 margEffUncJac <- margEff( estResultBFGS, returnJacobian = TRUE )
 all.equal( attr( margEffUncJac, "jacobian" ), attr( margEffUnc, "jacobian" ) )
@@ -182,16 +182,16 @@ all.equal( attr( margEffUncJac, "jacobian" ), attr( margEffUnc, "jacobian" ) )
 margEffUncM <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
    addMean = TRUE )
 all.equal( margEffUnc, margEffUncM[ -(nObs+1), ], check.attributes = FALSE )
-print( margEffUncM[ nObs:(nObs+1), ] )
+round( margEffUncM[ nObs:(nObs+1), ], 4 )
 all.equal( attr( margEffUnc, "vcov" ), attr( margEffUncM, "vcov" )[ 1:nObs, , ] )
-print( attr( margEffUncM, "vcov" )[ nObs:(nObs+1), , ] )
-print( drop( attr( margEffUncM, "vcov" )[ nObs+1, , ] ) )
+round( attr( margEffUncM, "vcov" )[ nObs:(nObs+1), , ], 5 )
+round( drop( attr( margEffUncM, "vcov" )[ nObs+1, , ] ), 5 )
 all.equal( attr( margEffUnc, "jacobian" ), attr( margEffUncM, "jacobian" )[ 1:nObs, , ] )
-print( attr( margEffUncM, "jacobian" )[ nObs:(nObs+1), , ] )
-print( drop( attr( margEffUncM, "jacobian" )[ nObs+1, , ] ) )
+round( attr( margEffUncM, "jacobian" )[ nObs:(nObs+1), , ], 5 )
+round( drop( attr( margEffUncM, "jacobian" )[ nObs+1, , ] ), 5 )
 all.equal( summary( margEffUnc )[ , ], 
    summary( margEffUncM )[ 1:( 6 * nObs ), ], check.attributes = FALSE )
-printCoefmat( summary( margEffUncM )[ -( 1:( 6 * ( nObs - 1 ) ) ), ] )
+printCoefmat( summary( margEffUncM )[ -( 1:( 6 * ( nObs - 1 ) ) ), ], digits = 3 )
 # now at mean values of explanatory variables
 margEffUncMean <- margEff( estResultBFGS, calcVCov = TRUE, 
    data = as.data.frame( t( colMeans( xMat ) ) ) )
@@ -203,7 +203,7 @@ all.equal( margEffUncMeanA, margEffUncMean )
 # conditional marginal effects
 # (assuming that all other dependent variables are as observed)
 margEffCondObs <- margEff( estResultBFGS, cond = TRUE, algorithm = GenzBretz() )
-print( margEffCondObs )
+round( margEffCondObs, 4 )
 
 # conditional marginal effects with covariance matrix at sample mean
 # (assuming that all other dependent variables are at there modal values)
@@ -211,11 +211,11 @@ print( margEffCondObs )
 margEffCondObsCov <- margEff( estResultBFGS, cond = TRUE,
    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
    algorithm = GenzBretz(), calcVCov = TRUE, returnJacobian = TRUE )
-print( margEffCondObsCov )
-print( attr( margEffCondObsCov, "vcov" ) )
-print( drop( attr( margEffCondObsCov, "vcov" ) ) )
-print( attr( margEffCondObsCov, "jacobian" ) )
-print( drop( attr( margEffCondObsCov, "jacobian" ) ) )
+round( margEffCondObsCov, 4 )
+round( attr( margEffCondObsCov, "vcov" ), 5 )
+round( drop( attr( margEffCondObsCov, "vcov" ) ), 5 )
+round( attr( margEffCondObsCov, "jacobian" ), 5 )
+round( drop( attr( margEffCondObsCov, "jacobian" ) ), 5 )
 summary( margEffCondObsCov )
 # now with explicitly specifying dummy variables
 margEffCondObsCovD <- margEff( estResultBFGS, cond = TRUE,
@@ -228,29 +228,29 @@ margEffCondObsCovD0 <- margEff( estResultBFGS, cond = TRUE,
    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
    algorithm = GenzBretz(),
    calcVCov = TRUE, returnJacobian = TRUE, dummyVars = NULL )
-summary( margEffCondObsCovD0 )
+print( summary( margEffCondObsCovD0 ), digits = 3 )
 # now with seemingly only dummy variables
 margEffCondObsCovDA <- margEff( estResultBFGS, cond = TRUE,
    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
    algorithm = GenzBretz(),
    calcVCov = TRUE, returnJacobian = TRUE, dummyVars = c( "x1", "x2" ) )
-summary( margEffCondObsCovDA )
+print( summary( margEffCondObsCovDA ), digits = 3 )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are one)
 margEffCondOne <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
    algorithm = GenzBretz() )
-print( margEffCondOne )
+round( margEffCondOne, 4 )
 
 # conditional marginal effects with covariance matrix at sample mean
 # (assuming that all other dependent variables are one)
 margEffCondOneCov <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
    data = as.data.frame( t( colMeans( xMat ) ) ), calcVCov = TRUE,
    algorithm = GenzBretz() )
-print( margEffCondOneCov )
-print( attr( margEffCondOneCov, "vcov" ) )
-print( drop( attr( margEffCondOneCov, "vcov" ) ) )
-summary( margEffCondOneCov )
+round( margEffCondOneCov, 4 )
+round( attr( margEffCondOneCov, "vcov" ), 5 )
+round( drop( attr( margEffCondOneCov, "vcov" ) ), 5 )
+print( summary( margEffCondOneCov ), digits = 3 )
 # now with using argument 'atMean'
 margEffCondOneCovA <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
    atMean = TRUE, algorithm = GenzBretz(), calcVCov = TRUE )

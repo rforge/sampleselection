@@ -1,8 +1,8 @@
 
-R version 2.13.2 (2011-09-30)
-Copyright (C) 2011 The R Foundation for Statistical Computing
+R version 2.15.2 (2012-10-26) -- "Trick or Treat"
+Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
-Platform: i686-pc-linux-gnu (32-bit)
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -133,7 +133,7 @@ attr(,"msg")
 > all.equal( plg, plt, check.attributes = FALSE )
 [1] "Mean relative difference: 1.695363e-05"
 > all.equal( plm, plt, check.attributes = FALSE, tolerance = 1e-10 )
-[1] "Mean relative difference: 9.988721e-10"
+[1] "Mean relative difference: 9.988719e-10"
 > 
 > # GHK
 > plghk <- mvProbit:::pmvnormWrap( lower = lower, sigma = sigma, 
@@ -184,3 +184,6 @@ attr(,"msg")
 > 
 > 
 > 
+> proc.time()
+   user  system elapsed 
+  0.208   0.016   0.213 

@@ -25,7 +25,7 @@ Type 'q()' to quit R.
 > N <- 500
 > rho <- 0.7
 > library(mvtnorm)
-> eps <- rmvnorm(N, c(0,0), matrix(c(1,rho,rho,1), 2, 2))
+> eps <- rmvnorm(N, c(0,0), matrix(c(1,rho,rho,1), 2, 2), pre0.9_9994 = TRUE )
 > xs <- runif(N)
 > ysX <- 3*xs + eps[,1]
 > ys <- ysX > 0
@@ -200,4 +200,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 12.088   0.032  12.132 
+ 11.164   0.072  11.247 

@@ -56,7 +56,7 @@ set.seed(0)
 vc <- diag(3)
 vc[lower.tri(vc)] <- c(0.9, 0.5, 0.1)
 vc[upper.tri(vc)] <- vc[lower.tri(vc)]
-eps <- rmvnorm(500, rep(0, 3), vc)
+eps <- rmvnorm(500, rep(0, 3), vc, pre0.9_9994 = TRUE )
 xs <- runif(500)
 ys <- xs + eps[,1] > 0
 xo1 <- runif(500)

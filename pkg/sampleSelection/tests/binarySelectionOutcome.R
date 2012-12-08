@@ -7,7 +7,7 @@ set.seed(0)
 N <- 500
 rho <- 0.7
 library(mvtnorm)
-eps <- rmvnorm(N, c(0,0), matrix(c(1,rho,rho,1), 2, 2))
+eps <- rmvnorm(N, c(0,0), matrix(c(1,rho,rho,1), 2, 2), pre0.9_9994 = TRUE )
 xs <- runif(N)
 ysX <- 3*xs + eps[,1]
 ys <- ysX > 0

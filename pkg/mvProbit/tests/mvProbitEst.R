@@ -21,7 +21,7 @@ sigma <- miscTools::symMatrix( c( 1, 0.2, 0.4, 1, -0.1, 1 ) )
 
 # generate dependent variables
 yMatLin <- xMat %*% beta 
-yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
+yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma, pre0.9_9994 = TRUE ) ) > 0
 colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 
 # estimation with the BHHH algorithm, two-sided gradients

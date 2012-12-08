@@ -48,7 +48,7 @@ Loading required package: abind
 > 
 > # generate dependent variables
 > yMatLin <- xMat %*% beta 
-> yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
+> yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma, pre0.9_9994 = TRUE ) ) > 0
 > colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 > # (yMatLin > 0 )== yMat
 > 
@@ -267,7 +267,7 @@ Loading required package: abind
 > nSim <- 10000
 > ySim <- array( NA, c( nObs, ncol( yMat ), nSim ) )
 > for( s in 1:nSim ) {
-+    ySim[ , , s ] <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
++    ySim[ , , s ] <- ( yMatLin + rmvnorm( nObs, sigma = sigma, pre0.9_9994 = TRUE ) ) > 0
 + }
 > yExpSim <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 > for( i in 1:nObs ) {
@@ -3551,4 +3551,4 @@ mean: d_y3_d_x4  0.30768    0.46437   0.663   0.508
 > 
 > proc.time()
    user  system elapsed 
- 46.394   0.036  46.468 
+ 46.250   0.040  46.322 

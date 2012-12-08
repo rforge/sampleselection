@@ -43,7 +43,7 @@ Loading required package: abind
 > 
 > # generate dependent variables
 > yMatLin <- xMat %*% beta 
-> yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
+> yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma, pre0.9_9994 = TRUE ) ) > 0
 > colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 > 
 > # estimation with the BHHH algorithm, two-sided gradients
@@ -2318,4 +2318,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 38.042   0.068  38.157 
+ 37.866   0.036  37.925 

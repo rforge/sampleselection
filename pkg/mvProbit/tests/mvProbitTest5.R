@@ -30,7 +30,7 @@ allCoef <- c( c( beta ), sigma[ lower.tri( sigma ) ] )
 
 # generate dependent variables
 yMatLin <- xMat %*% beta 
-yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
+yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma, pre0.9_9994 = TRUE ) ) > 0
 colnames( yMat ) <- paste( "y", 1:5, sep = "" )
 # (yMatLin > 0 )== yMat
 

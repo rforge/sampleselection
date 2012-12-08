@@ -26,7 +26,7 @@ allCoef <- c( c( beta ), sigma[ lower.tri( sigma ) ] )
 
 # generate dependent variables
 yMatLin <- xMat %*% beta 
-yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
+yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma, pre0.9_9994 = TRUE ) ) > 0
 colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 # (yMatLin > 0 )== yMat
 
@@ -166,7 +166,7 @@ all.equal( yExpCondObs8, yExpCondObs9 )
 nSim <- 10000
 ySim <- array( NA, c( nObs, ncol( yMat ), nSim ) )
 for( s in 1:nSim ) {
-   ySim[ , , s ] <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
+   ySim[ , , s ] <- ( yMatLin + rmvnorm( nObs, sigma = sigma, pre0.9_9994 = TRUE ) ) > 0
 }
 yExpSim <- matrix( NA, nrow = nObs, ncol = ncol( yMat ) )
 for( i in 1:nObs ) {

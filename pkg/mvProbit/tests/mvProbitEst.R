@@ -124,6 +124,72 @@ print( estResultNM )
 summary( estResultNM )
 logLik( estResultNM )
 
+# estimation with NA in an explanatory variable
+dat$x1Na <- dat$x1
+dat$x1Na[7] <- NA
+estResultNax <- try( mvProbit( cbind( y1, y2, y3 ) ~ x1Na + x2,
+   data = dat, method = "BFGS", tol = 0.5, algorithm = GenzBretz() ) )
+estResultNaxStart <- try( mvProbit( cbind( y1, y2, y3 ) ~ x1Na + x2,
+   start = c( beta ), startSigma = sigma,
+   data = dat, method = "BFGS", tol = 0.5, algorithm = GenzBretz() ) )
+
+# estimation with NA in a dependant variable
+dat$y2Na <- dat$y2
+dat$y2Na[9] <- NA
+estResultNay <- try( mvProbit( cbind( y1, y2Na, y3 ) ~ x1 + x2,
+   data = dat, method = "BFGS", tol = 0.5, algorithm = GenzBretz() ) )
+
+# estimation with NA both in a dependant variable and in an explanatory variable
+estResultNaxy <- try( mvProbit( cbind( y1, y2Na, y3 ) ~ x1Na + x2,
+   start = c( beta ), startSigma = sigma,
+   data = dat, method = "BFGS", tol = 0.5, algorithm = GenzBretz() ) )
+
+# estimation with infinity in an explanatory variable
+dat$x2Inf <- dat$x2
+dat$x2Inf[15] <- Inf
+estResultInf <- try( mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2Inf,
+   data = dat, method = "BFGS", tol = 0.5, algorithm = GenzBretz() ) )
+estResultInfStart <- try( mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2Inf,
+   start = c( beta ), startSigma = sigma,
+   data = dat, method = "BFGS", tol = 0.5, algorithm = GenzBretz() ) )
+
+# estimation with a factor as explanatory variable (x1 with 2 levels)
+dat$x1Fac <- as.factor( ifelse( dat$x1 == 0, "green", "red" ) )
+estResultFac <- mvProbit( cbind( y1, y2, y3 ) ~ x1Fac + x2,
+   start = c( beta ), startSigma = sigma,
+   data = dat, method = "BFGS", tol = 0.5, algorithm = GenzBretz() )
+print( estResultFac )
+summary( estResultFac )
+logLik( estResultFac )
+all.equal( estResultBFGS, estResultFac )
+
+# estimation with a factor as explanatory variable (x1 with 3 levels)
+dat$x1Fac3 <- as.factor(
+   ifelse( rnorm( nObs ) <= -0.5, "brown", as.character( dat$x1Fac ) ) )
+estResultFac13 <- mvProbit( cbind( y1, y2, y3 ) ~ x1Fac3 + x2,
+   data = dat, method = "BFGS", tol = 0.5, algorithm = GenzBretz() )
+print( estResultFac13 )
+summary( estResultFac13 )
+logLik( estResultFac13 )
+
+# estimation with a factor as explanatory variable (x2 with 3 levels)
+dat$x2Fac3 <- as.factor( ifelse( dat$x2 < -0.5, "low", 
+   ifelse( dat$x2 > 0.5, "high", "medium" ) ) )
+estResultFac23 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2Fac3,
+   data = dat, method = "BFGS", tol = 0.5, algorithm = GenzBretz() )
+print( estResultFac23 )
+summary( estResultFac23 )
+logLik( estResultFac23 )
+
+# estimation with a factor as explanatory variable (x3 with 3 levels)
+dat$x3Fac3 <- as.factor( ifelse( rnorm( nObs ) < -0.5, "low", 
+   ifelse( rnorm( nObs ) < 0, "medium", "high" ) ) )
+estResultFac33 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2 + x3Fac3,
+   data = dat, method = "BFGS", tol = 0.5, algorithm = GenzBretz() )
+print( estResultFac33 )
+summary( estResultFac33 )
+logLik( estResultFac33 )
+
 
 ## testing the logLik method
 # argument 'coef'
@@ -156,6 +222,11 @@ all.equal( logLik( estResultBHHH ),
 logLik( estResultBHHH ) -
    logLik( estResultBHHH, random.seed = 1234 )
 
+# restore original data frame without factors, 
+# because otherwise some of the following commands fail, 
+# as the mean of factor variables cannot be calculated
+datFac <- dat
+dat <- as.data.frame( cbind( xMat, yMat ) )
 
 # marginal effects based on estimated coefficients with covariance matrix
 # unconditional marginal effects (with Jacobian)
@@ -258,3 +329,39 @@ print( summary( margEffCondOneCov ), digits = 3 )
 margEffCondOneCovA <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
    atMean = TRUE, algorithm = GenzBretz(), calcVCov = TRUE )
 all.equal( margEffCondOneCovA, margEffCondOneCov )
+
+# marginal effects (with factor as explanatory variable, 2 levels)
+# unconditional marginal effects (with Jacobian)
+dat <- datFac
+margEffFacUnc <- margEff( estResultFac, calcVCov = TRUE, returnJacobian = TRUE )
+all.equal( margEffUnc, margEffFacUnc, check.attributes = FALSE )
+round( margEffFacUnc, 4 )
+# now at mean values
+margEffFacUncMean <- try( margEff( estResultFac, calcVCov = TRUE, atMean = TRUE ) )
+
+# conditional marginal effects
+# (assuming that all other dependent variables are as observed)
+margEffFacCondObs <- margEff( estResultFac, cond = TRUE,
+   algorithm = GenzBretz() )
+all.equal( margEffCondObs, margEffFacCondObs, check.attributes = FALSE )
+round( margEffFacCondObs, 4 )
+# now at mean values
+margEffFacCondObs <- try( margEff( estResultFac, cond = TRUE,
+   algorithm = GenzBretz(), atMean = TRUE ) )
+
+
+# marginal effects (with factor as explanatory variable, 3 levels)
+# unconditional marginal effects (with Jacobian)
+margEffFac13Unc <- margEff( estResultFac13, calcVCov = TRUE, returnJacobian = TRUE )
+round( margEffFac13Unc, 4 )
+# now at mean values
+margEffFac13UncMean <- try( margEff( estResultFac13, calcVCov = TRUE, atMean = TRUE ) )
+
+# conditional marginal effects
+# (assuming that all other dependent variables are as observed)
+margEffFac13CondObs <- margEff( estResultFac13, cond = TRUE,
+   algorithm = GenzBretz() )
+round( margEffFac13CondObs, 4 )
+# now at mean values
+margEffFac13CondObs <- try( margEff( estResultFac13, cond = TRUE,
+   algorithm = GenzBretz(), atMean = TRUE ) )

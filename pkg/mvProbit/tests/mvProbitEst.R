@@ -24,24 +24,27 @@ yMatLin <- xMat %*% beta
 yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma, pre0.9_9994 = TRUE ) ) > 0
 colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 
+# create data frame
+dat <- as.data.frame( cbind( xMat, yMat ) )
+
 # estimation with the BHHH algorithm, two-sided gradients
 estResultBHHH <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma,
-   data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5,
+   data = dat, tol = 0.5,
    algorithm = GenzBretz() )
 print( estResultBHHH )
 summary( estResultBHHH )
 logLik( estResultBHHH )
 estResultBHHHA <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta, sigma[ lower.tri( sigma ) ] ),
-   data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5,
+   data = dat, tol = 0.5,
    algorithm = GenzBretz() )
 all.equal( estResultBHHH, estResultBHHHA )
 
 # estimation with the BHHH algorithm, one-sided gradients
 estResultBHHH1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma,
-   data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5,
+   data = dat, tol = 0.5,
    algorithm = GenzBretz(), oneSidedGrad = TRUE )
 print( estResultBHHH1 )
 summary( estResultBHHH1 )
@@ -51,7 +54,7 @@ all.equal( estResultBHHH, estResultBHHH1 )
 # estimation with the BFGS algorithm, two-sided gradients
 estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, method = "BFGS",
-   data = as.data.frame( cbind( xMat, yMat ) ), 
+   data = dat, 
    tol = 0.5, algorithm = GenzBretz() )
 print( estResultBFGS )
 summary( estResultBFGS )
@@ -60,7 +63,7 @@ logLik( estResultBFGS )
 # estimation with the BFGS algorithm, one-sided gradients
 estResultBFGS1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, method = "BFGS", 
-   data = as.data.frame( cbind( xMat, yMat ) ), 
+   data = dat, 
    tol = 0.5, algorithm = GenzBretz(), oneSidedGrad = TRUE )
 print( estResultBFGS1 )
 summary( estResultBFGS1 )
@@ -69,7 +72,7 @@ all.equal( estResultBFGS, estResultBFGS1 )
 
 # estimation with the BFGS algorithm, one-sided gradients, no starting values
 estResultBFGS1a <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-   data = as.data.frame( cbind( xMat, yMat ) ), method = "BFGS",
+   data = dat, method = "BFGS",
    tol = 0.5, algorithm = GenzBretz(), oneSidedGrad = TRUE )
 print( estResultBFGS1a )
 summary( estResultBFGS1a )
@@ -77,7 +80,7 @@ logLik( estResultBFGS1a )
 
 # estimation with the BFGS algorithm, one-sided gradients, no starting values for beta
 estResultBFGS1b <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-   startSigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
+   startSigma = sigma, data = dat, 
    method = "BFGS", tol = 0.5, algorithm = GenzBretz(), oneSidedGrad = TRUE )
 print( estResultBFGS1b )
 summary( estResultBFGS1b )
@@ -85,7 +88,7 @@ logLik( estResultBFGS1b )
 
 # estimation with the BFGS algorithm, one-sided gradients, no starting values for sigma
 estResultBFGS1s <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-   start = c( beta ), data = as.data.frame( cbind( xMat, yMat ) ), 
+   start = c( beta ), data = dat, 
    method = "BFGS", tol = 0.5, algorithm = GenzBretz(), oneSidedGrad = TRUE )
 print( estResultBFGS1s )
 summary( estResultBFGS1s )
@@ -94,7 +97,7 @@ logLik( estResultBFGS1s )
 # estimation with the BFGS algorithm, Miwa algorithm for obtaining integrals
 estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, 
-   data = as.data.frame( cbind( xMat, yMat ) ), method = "BFGS",
+   data = dat, method = "BFGS",
    tol = 0.5, algorithm = Miwa( steps = 64 ) )
 print( estResultBFGSm )
 summary( estResultBFGSm )
@@ -104,7 +107,7 @@ all.equal( estResultBFGS, estResultBFGSm )
 # estimation with the BFGS algorithm, GHK algorithm for obtaining integrals
 estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, 
-   data = as.data.frame( cbind( xMat, yMat ) ), method = "BFGS",
+   data = dat, method = "BFGS",
    tol = 0.5 )
 print( estResultBFGSg )
 summary( estResultBFGSg )
@@ -115,7 +118,7 @@ all.equal( estResultBFGSm, estResultBFGSg )
 # estimation with the Nelder-Mead algorithm
 estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, 
-   data = as.data.frame( cbind( xMat, yMat ) ), 
+   data = dat, 
    method = "NM", reltol = 0.05, algorithm = GenzBretz() )
 print( estResultNM )
 summary( estResultNM )
@@ -131,7 +134,7 @@ logLik( estResultBHHH ) -
 
 # argument 'data'
 all.equal( logLik( estResultBHHH ), 
-   logLik( estResultBHHH, data = as.data.frame( cbind( xMat, yMat ) ) ) )
+   logLik( estResultBHHH, data = dat ) )
 logLik( estResultBHHH ) -
    logLik( estResultBHHH, data = as.data.frame( cbind( xMat * 0.999, yMat ) ) )
 

@@ -46,17 +46,19 @@ Loading required package: abind
 > yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma, pre0.9_9994 = TRUE ) ) > 0
 > colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 > 
+> # create data frame
+> dat <- as.data.frame( cbind( xMat, yMat ) )
+> 
 > # estimation with the BHHH algorithm, two-sided gradients
 > estResultBHHH <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    start = c( beta ), startSigma = sigma,
-+    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5,
++    data = dat, tol = 0.5,
 +    algorithm = GenzBretz() )
 > print( estResultBHHH )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, algorithm = GenzBretz(), 
-    tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, algorithm = GenzBretz(), tol = 0.5)
 
 Coefficients:
    b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
@@ -67,9 +69,8 @@ Coefficients:
 > summary( estResultBHHH )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, algorithm = GenzBretz(), 
-    tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, algorithm = GenzBretz(), tol = 0.5)
 
 Coefficients:
       Estimate Std. error t value Pr(> t)  
@@ -96,7 +97,7 @@ Log-likelihood: -56.90544 on 12 Df
 'log Lik.' -56.90544 (df=12)
 > estResultBHHHA <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    start = c( beta, sigma[ lower.tri( sigma ) ] ),
-+    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5,
++    data = dat, tol = 0.5,
 +    algorithm = GenzBretz() )
 > all.equal( estResultBHHH, estResultBHHHA )
 [1] "Component 12: target, current do not match when deparsed"
@@ -104,14 +105,14 @@ Log-likelihood: -56.90544 on 12 Df
 > # estimation with the BHHH algorithm, one-sided gradients
 > estResultBHHH1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    start = c( beta ), startSigma = sigma,
-+    data = as.data.frame( cbind( xMat, yMat ) ), tol = 0.5,
++    data = dat, tol = 0.5,
 +    algorithm = GenzBretz(), oneSidedGrad = TRUE )
 > print( estResultBHHH1 )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, algorithm = GenzBretz(), 
-    oneSidedGrad = TRUE, tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, algorithm = GenzBretz(), oneSidedGrad = TRUE, 
+    tol = 0.5)
 
 Coefficients:
    b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
@@ -122,9 +123,9 @@ Coefficients:
 > summary( estResultBHHH1 )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, algorithm = GenzBretz(), 
-    oneSidedGrad = TRUE, tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, algorithm = GenzBretz(), oneSidedGrad = TRUE, 
+    tol = 0.5)
 
 Coefficients:
       Estimate Std. error t value Pr(> t)  
@@ -160,14 +161,14 @@ Log-likelihood: -56.90544 on 12 Df
 > # estimation with the BFGS algorithm, two-sided gradients
 > estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    start = c( beta ), startSigma = sigma, method = "BFGS",
-+    data = as.data.frame( cbind( xMat, yMat ) ), 
++    data = dat, 
 +    tol = 0.5, algorithm = GenzBretz() )
 > print( estResultBFGS )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, method = "BFGS", 
-    algorithm = GenzBretz(), tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, method = "BFGS", algorithm = GenzBretz(), 
+    tol = 0.5)
 
 Coefficients:
    b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
@@ -178,9 +179,9 @@ Coefficients:
 > summary( estResultBFGS )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, method = "BFGS", 
-    algorithm = GenzBretz(), tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, method = "BFGS", algorithm = GenzBretz(), 
+    tol = 0.5)
 
 Coefficients:
       Estimate Std. error t value Pr(> t)  
@@ -209,14 +210,14 @@ Log-likelihood: -52.94456 on 12 Df
 > # estimation with the BFGS algorithm, one-sided gradients
 > estResultBFGS1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    start = c( beta ), startSigma = sigma, method = "BFGS", 
-+    data = as.data.frame( cbind( xMat, yMat ) ), 
++    data = dat, 
 +    tol = 0.5, algorithm = GenzBretz(), oneSidedGrad = TRUE )
 > print( estResultBFGS1 )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, method = "BFGS", 
-    algorithm = GenzBretz(), oneSidedGrad = TRUE, tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, method = "BFGS", algorithm = GenzBretz(), 
+    oneSidedGrad = TRUE, tol = 0.5)
 
 Coefficients:
    b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
@@ -227,9 +228,9 @@ Coefficients:
 > summary( estResultBFGS1 )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, method = "BFGS", 
-    algorithm = GenzBretz(), oneSidedGrad = TRUE, tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, method = "BFGS", algorithm = GenzBretz(), 
+    oneSidedGrad = TRUE, tol = 0.5)
 
 Coefficients:
       Estimate Std. error t value Pr(> t)  
@@ -263,14 +264,13 @@ Log-likelihood: -52.94456 on 12 Df
 > 
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values
 > estResultBFGS1a <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    data = as.data.frame( cbind( xMat, yMat ) ), method = "BFGS",
++    data = dat, method = "BFGS",
 +    tol = 0.5, algorithm = GenzBretz(), oneSidedGrad = TRUE )
 > print( estResultBFGS1a )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), method = "BFGS", algorithm = GenzBretz(), oneSidedGrad = TRUE, 
-    tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, method = "BFGS", 
+    algorithm = GenzBretz(), oneSidedGrad = TRUE, tol = 0.5)
 
 Coefficients:
    b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
@@ -281,9 +281,8 @@ Coefficients:
 > summary( estResultBFGS1a )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), method = "BFGS", algorithm = GenzBretz(), oneSidedGrad = TRUE, 
-    tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, method = "BFGS", 
+    algorithm = GenzBretz(), oneSidedGrad = TRUE, tol = 0.5)
 
 Coefficients:
       Estimate Std. error t value Pr(> t)  
@@ -311,14 +310,14 @@ Log-likelihood: -49.36404 on 12 Df
 > 
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values for beta
 > estResultBFGS1b <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    startSigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
++    startSigma = sigma, data = dat, 
 +    method = "BFGS", tol = 0.5, algorithm = GenzBretz(), oneSidedGrad = TRUE )
 > print( estResultBFGS1b )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), startSigma = sigma, method = "BFGS", algorithm = GenzBretz(), 
-    oneSidedGrad = TRUE, tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, startSigma = sigma, 
+    method = "BFGS", algorithm = GenzBretz(), oneSidedGrad = TRUE, 
+    tol = 0.5)
 
 Coefficients:
   b_1_0   b_1_1   b_1_2   b_2_0   b_2_1   b_2_2   b_3_0   b_3_1   b_3_2   R_1_2 
@@ -329,9 +328,9 @@ Coefficients:
 > summary( estResultBFGS1b )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), startSigma = sigma, method = "BFGS", algorithm = GenzBretz(), 
-    oneSidedGrad = TRUE, tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, startSigma = sigma, 
+    method = "BFGS", algorithm = GenzBretz(), oneSidedGrad = TRUE, 
+    tol = 0.5)
 
 Coefficients:
       Estimate Std. error t value Pr(> t)  
@@ -359,14 +358,14 @@ Log-likelihood: -49.57444 on 12 Df
 > 
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values for sigma
 > estResultBFGS1s <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-+    start = c( beta ), data = as.data.frame( cbind( xMat, yMat ) ), 
++    start = c( beta ), data = dat, 
 +    method = "BFGS", tol = 0.5, algorithm = GenzBretz(), oneSidedGrad = TRUE )
 > print( estResultBFGS1s )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), method = "BFGS", algorithm = GenzBretz(), 
-    oneSidedGrad = TRUE, tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    method = "BFGS", algorithm = GenzBretz(), oneSidedGrad = TRUE, 
+    tol = 0.5)
 
 Coefficients:
    b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
@@ -377,9 +376,9 @@ Coefficients:
 > summary( estResultBFGS1s )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), method = "BFGS", algorithm = GenzBretz(), 
-    oneSidedGrad = TRUE, tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    method = "BFGS", algorithm = GenzBretz(), oneSidedGrad = TRUE, 
+    tol = 0.5)
 
 Coefficients:
       Estimate Std. error t value Pr(> t)  
@@ -408,15 +407,15 @@ Log-likelihood: -52.78274 on 12 Df
 > # estimation with the BFGS algorithm, Miwa algorithm for obtaining integrals
 > estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    start = c( beta ), startSigma = sigma, 
-+    data = as.data.frame( cbind( xMat, yMat ) ), method = "BFGS",
++    data = dat, method = "BFGS",
 +    tol = 0.5, algorithm = Miwa( steps = 64 ) )
 There were 13 warnings (use warnings() to see them)
 > print( estResultBFGSm )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, method = "BFGS", 
-    algorithm = Miwa(steps = 64), tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, method = "BFGS", algorithm = Miwa(steps = 64), 
+    tol = 0.5)
 
 Coefficients:
    b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
@@ -427,9 +426,9 @@ Coefficients:
 > summary( estResultBFGSm )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, method = "BFGS", 
-    algorithm = Miwa(steps = 64), tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, method = "BFGS", algorithm = Miwa(steps = 64), 
+    tol = 0.5)
 
 Coefficients:
       Estimate Std. error t value Pr(> t)  
@@ -465,15 +464,14 @@ Log-likelihood: -52.94417 on 12 Df
 > # estimation with the BFGS algorithm, GHK algorithm for obtaining integrals
 > estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    start = c( beta ), startSigma = sigma, 
-+    data = as.data.frame( cbind( xMat, yMat ) ), method = "BFGS",
++    data = dat, method = "BFGS",
 +    tol = 0.5 )
 There were 50 or more warnings (use warnings() to see the first 50)
 > print( estResultBFGSg )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, method = "BFGS", 
-    tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, method = "BFGS", tol = 0.5)
 
 Coefficients:
    b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
@@ -484,9 +482,8 @@ Coefficients:
 > summary( estResultBFGSg )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, method = "BFGS", 
-    tol = 0.5)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, method = "BFGS", tol = 0.5)
 
 Coefficients:
       Estimate Std. error t value Pr(> t)  
@@ -529,14 +526,14 @@ Log-likelihood: -52.93771 on 12 Df
 > # estimation with the Nelder-Mead algorithm
 > estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 +    start = c( beta ), startSigma = sigma, 
-+    data = as.data.frame( cbind( xMat, yMat ) ), 
++    data = dat, 
 +    method = "NM", reltol = 0.05, algorithm = GenzBretz() )
 > print( estResultNM )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, method = "NM", 
-    algorithm = GenzBretz(), reltol = 0.05)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, method = "NM", algorithm = GenzBretz(), 
+    reltol = 0.05)
 
 Coefficients:
 b_1_0 b_1_1 b_1_2 b_2_0 b_2_1 b_2_2 b_3_0 b_3_1 b_3_2 R_1_2 R_1_3 R_2_3 
@@ -545,9 +542,9 @@ b_1_0 b_1_1 b_1_2 b_2_0 b_2_1 b_2_2 b_3_0 b_3_1 b_3_2 R_1_2 R_1_3 R_2_3
 > summary( estResultNM )
 
 Call:
-mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = as.data.frame(cbind(xMat, 
-    yMat)), start = c(beta), startSigma = sigma, method = "NM", 
-    algorithm = GenzBretz(), reltol = 0.05)
+mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta), 
+    startSigma = sigma, method = "NM", algorithm = GenzBretz(), 
+    reltol = 0.05)
 
 Coefficients:
       Estimate Std. error t value Pr(> t)  
@@ -585,7 +582,7 @@ Log-likelihood: -56.94782 on 12 Df
 > 
 > # argument 'data'
 > all.equal( logLik( estResultBHHH ), 
-+    logLik( estResultBHHH, data = as.data.frame( cbind( xMat, yMat ) ) ) )
++    logLik( estResultBHHH, data = dat ) )
 [1] TRUE
 > logLik( estResultBHHH ) -
 +    logLik( estResultBHHH, data = as.data.frame( cbind( xMat * 0.999, yMat ) ) )
@@ -2318,4 +2315,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 37.866   0.036  37.925 
+ 37.854   0.132  38.040 

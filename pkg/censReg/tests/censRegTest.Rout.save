@@ -31,13 +31,44 @@ The following object is masked from 'package:base':
 > 
 > options( digits = 5 )
 > 
+> printAll <- function( x ) {
++    for( n in names( x ) ) {
++       cat( "$", n, "\n", sep = "" )
++       if( n %in% c( "gradient" ) ) {
++          print( x[[ n ]], digits = 2 )
++       } else {
++          print( x[[ n ]] )
++       }
++       cat( "\n" )
++    }
++    cat( "class\n" )
++    print( class( x ) )
++ }
+> 
+> printME <- function( x ) {
++    print( round( x, 3 ) )
++    y <- attributes( x )
++    for( n in names( y ) ) {
++       if( ! n %in% c( "names" ) ) {
++          cat( "attr(,\"", n, "\")\n", sep = "" )
++          if( n %in% c( "vcov" ) ) {
++             print( round( y[[ n ]], 4 ) )
++          } else if( n %in% c( "jacobian" ) ) {
++             print( round( y[[ n ]], 3 ) )
++          } else {
++             print( y[[ n ]] )
++          }
++       }
++    }
++ }
+> 
 > data( "Affairs", package = "AER" )
 > affairsFormula <- affairs ~ age + yearsmarried + religiousness +
 +    occupation + rating
 > 
 > ## usual tobit estimation
 > estResult <- censReg( affairsFormula, data = Affairs )
-> print.default( estResult )
+> printAll( estResult )
 $maximum
 [1] -705.58
 
@@ -49,9 +80,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-  -3.6077e-12   -1.1083e-10   -2.5011e-11   -1.1958e-11   -1.4492e-11 
+     -3.6e-12      -1.1e-10      -2.5e-11      -1.2e-11      -1.4e-11 
        rating      logSigma 
-  -1.5423e-11   -3.5342e-12 
+     -1.5e-11      -3.5e-12 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -1357,7 +1388,7 @@ $left
 $right
 [1] Inf
 
-attr(,"class")
+class
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResult )
 
@@ -1460,40 +1491,40 @@ Log-likelihood: -705.58 on 7 Df
       8.17420      -0.17933       0.55414      -1.68622       0.32605 
        rating         sigma 
      -2.28497       8.24708 
-> vcov( estResult )
-              (Intercept)         age yearsmarried religiousness  occupation
-(Intercept)     7.5155237 -0.11967985    0.0893572   -3.9700e-01 -0.17656435
-age            -0.1196799  0.00625574   -0.0080526    5.3800e-04 -0.00393201
-yearsmarried    0.0893572 -0.00805262    0.0180951   -1.0064e-02  0.00358175
-religiousness  -0.3970038  0.00053800   -0.0100637    1.6302e-01  0.00521488
-occupation     -0.1765644 -0.00393201    0.0035818    5.2149e-03  0.06473195
-rating         -0.6164423  0.00111150    0.0047716   -2.5713e-05 -0.00619276
-logSigma        0.0069681 -0.00055613    0.0015949   -4.9448e-03  0.00089259
-                   rating    logSigma
-(Intercept)   -6.1644e-01  0.00696809
-age            1.1115e-03 -0.00055613
-yearsmarried   4.7716e-03  0.00159486
-religiousness -2.5713e-05 -0.00494475
-occupation    -6.1928e-03  0.00089259
-rating         1.6632e-01 -0.00687791
-logSigma      -6.8779e-03  0.00450216
-> vcov( estResult, logSigma = FALSE )
-              (Intercept)        age yearsmarried religiousness occupation
-(Intercept)      7.515524 -0.1196799    0.0893572   -3.9700e-01 -0.1765644
-age             -0.119680  0.0062557   -0.0080526    5.3800e-04 -0.0039320
-yearsmarried     0.089357 -0.0080526    0.0180951   -1.0064e-02  0.0035818
-religiousness   -0.397004  0.0005380   -0.0100637    1.6302e-01  0.0052149
-occupation      -0.176564 -0.0039320    0.0035818    5.2149e-03  0.0647320
-rating          -0.616442  0.0011115    0.0047716   -2.5713e-05 -0.0061928
-sigma            0.057466 -0.0045864    0.0131529   -4.0780e-02  0.0073613
-                   rating      sigma
-(Intercept)   -6.1644e-01  0.0574664
-age            1.1115e-03 -0.0045864
-yearsmarried   4.7716e-03  0.0131529
-religiousness -2.5713e-05 -0.0407798
-occupation    -6.1928e-03  0.0073613
-rating         1.6632e-01 -0.0567227
-sigma         -5.6723e-02  0.3062117
+> round( vcov( estResult ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        7.5155 -0.1197       0.0894       -0.3970    -0.1766 -0.6164
+age               -0.1197  0.0063      -0.0081        0.0005    -0.0039  0.0011
+yearsmarried       0.0894 -0.0081       0.0181       -0.0101     0.0036  0.0048
+religiousness     -0.3970  0.0005      -0.0101        0.1630     0.0052  0.0000
+occupation        -0.1766 -0.0039       0.0036        0.0052     0.0647 -0.0062
+rating            -0.6164  0.0011       0.0048        0.0000    -0.0062  0.1663
+logSigma           0.0070 -0.0006       0.0016       -0.0049     0.0009 -0.0069
+              logSigma
+(Intercept)     0.0070
+age            -0.0006
+yearsmarried    0.0016
+religiousness  -0.0049
+occupation      0.0009
+rating         -0.0069
+logSigma        0.0045
+> round( vcov( estResult, logSigma = FALSE ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        7.5155 -0.1197       0.0894       -0.3970    -0.1766 -0.6164
+age               -0.1197  0.0063      -0.0081        0.0005    -0.0039  0.0011
+yearsmarried       0.0894 -0.0081       0.0181       -0.0101     0.0036  0.0048
+religiousness     -0.3970  0.0005      -0.0101        0.1630     0.0052  0.0000
+occupation        -0.1766 -0.0039       0.0036        0.0052     0.0647 -0.0062
+rating            -0.6164  0.0011       0.0048        0.0000    -0.0062  0.1663
+sigma              0.0575 -0.0046       0.0132       -0.0408     0.0074 -0.0567
+                sigma
+(Intercept)    0.0575
+age           -0.0046
+yearsmarried   0.0132
+religiousness -0.0408
+occupation     0.0074
+rating        -0.0567
+sigma          0.3062
 > coef( summary( estResult ) )
               Estimate Std. error t value     Pr(> t)
 (Intercept)    8.17420   2.741446  2.9817  2.8664e-03
@@ -1515,16 +1546,16 @@ sigma          8.24708   0.553364 14.9035 3.1259e-50
 > margEff( estResult )
           age  yearsmarried religiousness    occupation        rating 
     -0.041921      0.129537     -0.394172      0.076218     -0.534137 
-> print.default( margEff( estResult ) )
+> printME( margEff( estResult ) )
           age  yearsmarried religiousness    occupation        rating 
-    -0.041921      0.129537     -0.394172      0.076218     -0.534137 
+       -0.042         0.130        -0.394         0.076        -0.534 
 attr(,"vcov")
-                      age yearsmarried religiousness  occupation      rating
-age            3.4020e-04  -0.00043468    1.1676e-05 -0.00021328  4.7009e-05
-yearsmarried  -4.3468e-04   0.00097142   -4.9258e-04  0.00019032  3.0666e-04
-religiousness  1.1676e-05  -0.00049258    8.7197e-03  0.00030403 -1.5962e-04
-occupation    -2.1328e-04   0.00019032    3.0403e-04  0.00353688 -3.3127e-04
-rating         4.7009e-05   0.00030666   -1.5962e-04 -0.00033127  9.0053e-03
+                 age yearsmarried religiousness occupation rating
+age            3e-04       -4e-04        0.0000    -0.0002  0e+00
+yearsmarried  -4e-04        1e-03       -0.0005     0.0002  3e-04
+religiousness  0e+00       -5e-04        0.0087     0.0003 -2e-04
+occupation    -2e-04        2e-04        0.0003     0.0035 -3e-04
+rating         0e+00        3e-04       -0.0002    -0.0003  9e-03
 attr(,"df.residual")
 [1] 594
 attr(,"class")
@@ -2229,40 +2260,40 @@ religiousness 0.092227 0.178062
 occupation    0.133517 0.236918
 rating        0.128390 0.240716
 logSigma      0.240716 0.737280
-> bread( estResult )
-              (Intercept)       age yearsmarried religiousness occupation
-(Intercept)     4516.8298 -71.92759     53.70365   -238.599277 -106.11517
-age              -71.9276   3.75970     -4.83962      0.323339   -2.36314
-yearsmarried      53.7036  -4.83962     10.87514     -6.048297    2.15263
-religiousness   -238.5993   0.32334     -6.04830     97.972204    3.13414
-occupation      -106.1152  -2.36314      2.15263      3.134145   38.90390
-rating          -370.4818   0.66801      2.86776     -0.015453   -3.72185
-logSigma           4.1878  -0.33423      0.95851     -2.971796    0.53645
-                   rating logSigma
-(Intercept)   -370.481817  4.18782
-age              0.668009 -0.33423
-yearsmarried     2.867760  0.95851
-religiousness   -0.015453 -2.97180
-occupation      -3.721846  0.53645
-rating          99.960490 -4.13362
-logSigma        -4.133625  2.70580
-> sandwich( estResult )
-              (Intercept)         age yearsmarried religiousness  occupation
-(Intercept)      9.473670 -0.18663137   0.16357333    -0.4189080 -0.15702919
-age             -0.186631  0.00790586  -0.00959186     0.0044281 -0.00466491
-yearsmarried     0.163573 -0.00959186   0.01881354    -0.0146830  0.00578446
-religiousness   -0.418908  0.00442806  -0.01468300     0.1598831 -0.00125619
-occupation      -0.157029 -0.00466491   0.00578446    -0.0012562  0.06050514
-rating          -0.665438  0.00422701   0.00124575    -0.0119720 -0.00082861
-logSigma        -0.040863  0.00079102  -0.00057384    -0.0024757  0.00058830
-                   rating    logSigma
-(Intercept)   -0.66543808 -0.04086345
-age            0.00422701  0.00079102
-yearsmarried   0.00124575 -0.00057384
-religiousness -0.01197201 -0.00247574
-occupation    -0.00082861  0.00058830
-rating         0.15482567 -0.00038794
-logSigma      -0.00038794  0.00300705
+> round( bread( estResult ), 4 )
+              (Intercept)      age yearsmarried religiousness occupation
+(Intercept)     4516.8298 -71.9276      53.7036     -238.5993  -106.1152
+age              -71.9276   3.7597      -4.8396        0.3233    -2.3631
+yearsmarried      53.7036  -4.8396      10.8751       -6.0483     2.1526
+religiousness   -238.5993   0.3233      -6.0483       97.9722     3.1341
+occupation      -106.1152  -2.3631       2.1526        3.1341    38.9039
+rating          -370.4818   0.6680       2.8678       -0.0155    -3.7218
+logSigma           4.1878  -0.3342       0.9585       -2.9718     0.5364
+                 rating logSigma
+(Intercept)   -370.4818   4.1878
+age              0.6680  -0.3342
+yearsmarried     2.8678   0.9585
+religiousness   -0.0155  -2.9718
+occupation      -3.7218   0.5364
+rating          99.9605  -4.1336
+logSigma        -4.1336   2.7058
+> round( sandwich( estResult ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        9.4737 -0.1866       0.1636       -0.4189    -0.1570 -0.6654
+age               -0.1866  0.0079      -0.0096        0.0044    -0.0047  0.0042
+yearsmarried       0.1636 -0.0096       0.0188       -0.0147     0.0058  0.0012
+religiousness     -0.4189  0.0044      -0.0147        0.1599    -0.0013 -0.0120
+occupation        -0.1570 -0.0047       0.0058       -0.0013     0.0605 -0.0008
+rating            -0.6654  0.0042       0.0012       -0.0120    -0.0008  0.1548
+logSigma          -0.0409  0.0008      -0.0006       -0.0025     0.0006 -0.0004
+              logSigma
+(Intercept)    -0.0409
+age             0.0008
+yearsmarried   -0.0006
+religiousness  -0.0025
+occupation      0.0006
+rating         -0.0004
+logSigma        0.0030
 > all.equal( sandwich( estResult ), vcov( estResult ) )
 [1] "Mean relative difference: 0.19985"
 > waldtest( estResult, . ~ . - age )
@@ -2288,7 +2319,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > ## usual tobit estimation, BHHH method
 > estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
-> print.default( estResultBhhh )
+> printAll( estResultBhhh )
 $maximum
 [1] -705.58
 
@@ -2300,9 +2331,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-  -0.00020425   -0.00624313   -0.00219999   -0.00063736   -0.00080308 
+     -0.00020      -0.00624      -0.00220      -0.00064      -0.00080 
        rating      logSigma 
-  -0.00057829   -0.00517586 
+     -0.00058      -0.00518 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -3610,7 +3641,7 @@ $left
 $right
 [1] Inf
 
-attr(,"class")
+class
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultBhhh )
 
@@ -3626,29 +3657,29 @@ Coefficients:
 > margEff( estResultBhhh, returnJacobian = TRUE )
           age  yearsmarried religiousness    occupation        rating 
     -0.041923      0.129540     -0.394175      0.076219     -0.534148 
-> print.default( margEff( estResultBhhh, returnJacobian = TRUE ) )
+> printME( margEff( estResultBhhh, returnJacobian = TRUE ) )
           age  yearsmarried religiousness    occupation        rating 
-    -0.041923      0.129540     -0.394175      0.076219     -0.534148 
+       -0.042         0.130        -0.394         0.076        -0.534 
 attr(,"vcov")
-                      age yearsmarried religiousness  occupation      rating
-age            3.1798e-04  -0.00044638   -0.00010190 -0.00020612  8.7439e-05
-yearsmarried  -4.4638e-04   0.00106304   -0.00032157  0.00010628  2.6031e-04
-religiousness -1.0190e-04  -0.00032157    0.00900088  0.00057256  7.3646e-04
-occupation    -2.0612e-04   0.00010628    0.00057256  0.00385607 -8.2151e-04
-rating         8.7439e-05   0.00026031    0.00073646 -0.00082151  1.0572e-02
+                 age yearsmarried religiousness occupation  rating
+age            3e-04      -0.0004        -1e-04    -0.0002  0.0001
+yearsmarried  -4e-04       0.0011        -3e-04     0.0001  0.0003
+religiousness -1e-04      -0.0003         9e-03     0.0006  0.0007
+occupation    -2e-04       0.0001         6e-04     0.0039 -0.0008
+rating         1e-04       0.0003         7e-04    -0.0008  0.0106
 attr(,"jacobian")
-              (Intercept)       age yearsmarried religiousness occupation
-age            -0.0066629  0.017299    -0.054487     -0.020765  -0.027949
-yearsmarried    0.0205882  0.668859     0.402124      0.064162   0.086361
-religiousness  -0.0626475 -2.035263    -0.512312      0.038521  -0.262786
-occupation      0.0121137  0.393545     0.099063      0.037752   0.284574
-rating         -0.0848938 -2.757990    -0.694236     -0.264569  -0.356102
-                 rating      sigma
-age           -0.026197 -0.0048407
-yearsmarried   0.080948  0.0149577
-religiousness -0.246316 -0.0455146
-occupation     0.047629  0.0088009
-rating        -0.100024 -0.0616770
+              (Intercept)    age yearsmarried religiousness occupation rating
+age                -0.007  0.017       -0.054        -0.021     -0.028 -0.026
+yearsmarried        0.021  0.669        0.402         0.064      0.086  0.081
+religiousness      -0.063 -2.035       -0.512         0.039     -0.263 -0.246
+occupation          0.012  0.394        0.099         0.038      0.285  0.048
+rating             -0.085 -2.758       -0.694        -0.265     -0.356 -0.100
+               sigma
+age           -0.005
+yearsmarried   0.015
+religiousness -0.046
+occupation     0.009
+rating        -0.062
 attr(,"df.residual")
 [1] 594
 attr(,"class")
@@ -3714,7 +3745,7 @@ Log-likelihood: -705.58 on 7 Df
 > 
 > ## usual tobit estimation, BFGS method
 > estResultBfgs <- censReg( affairsFormula, data = Affairs, method = "BFGS" )
-> print.default( estResultBfgs )
+> printAll( estResultBfgs )
 $maximum
 [1] -705.58
 
@@ -3726,9 +3757,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-  -2.6031e-05   -7.5989e-04   -3.2283e-04   -5.0895e-05   -4.2735e-05 
+     -2.6e-05      -7.6e-04      -3.2e-04      -5.1e-05      -4.3e-05 
        rating      logSigma 
-  -4.3425e-05   -1.2210e-04 
+     -4.3e-05      -1.2e-04 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -5038,7 +5069,7 @@ $left
 $right
 [1] Inf
 
-attr(,"class")
+class
 [1] "censReg" "maxLik"  "maxim"  
 > print( estResultBfgs )
 
@@ -5054,9 +5085,9 @@ Coefficients:
 > margEff( estResultBfgs, calcVCov = FALSE )
           age  yearsmarried religiousness    occupation        rating 
     -0.041921      0.129537     -0.394173      0.076218     -0.534138 
-> print.default( margEff( estResultBfgs, calcVCov = FALSE ) )
+> printME( margEff( estResultBfgs, calcVCov = FALSE ) )
           age  yearsmarried religiousness    occupation        rating 
-    -0.041921      0.129537     -0.394173      0.076218     -0.534138 
+       -0.042         0.130        -0.394         0.076        -0.534 
 attr(,"df.residual")
 [1] 594
 attr(,"class")
@@ -5117,7 +5148,7 @@ Log-likelihood: -705.58 on 7 Df
 > 
 > ## usual tobit estimation, NM method
 > estResultNm <- censReg( affairsFormula, data = Affairs, method = "NM" )
-> print.default( estResultNm )
+> printAll( estResultNm )
 $maximum
 [1] -705.6
 
@@ -5129,9 +5160,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-      0.14387       7.15472       2.52147       0.73073       1.00476 
+         0.14          7.15          2.52          0.73          1.00 
        rating      logSigma 
-      0.60111       0.77428 
+         0.60          0.77 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -6441,7 +6472,7 @@ $left
 $right
 [1] Inf
 
-attr(,"class")
+class
 [1] "censReg" "maxLik"  "maxim"  
 > print( estResultNm )
 
@@ -6457,16 +6488,16 @@ Coefficients:
 > margEff( estResultNm )
           age  yearsmarried religiousness    occupation        rating 
     -0.042586      0.128470     -0.401586      0.070772     -0.535517 
-> print.default( margEff( estResultNm ) )
+> printME( margEff( estResultNm ) )
           age  yearsmarried religiousness    occupation        rating 
-    -0.042586      0.128470     -0.401586      0.070772     -0.535517 
+       -0.043         0.128        -0.402         0.071        -0.536 
 attr(,"vcov")
-                      age yearsmarried religiousness  occupation      rating
-age            3.3953e-04  -0.00043335    1.5447e-05 -0.00021147  4.9655e-05
-yearsmarried  -4.3335e-04   0.00096605   -4.9380e-04  0.00018661  3.0486e-04
-religiousness  1.5447e-05  -0.00049380    8.7042e-03  0.00031078 -1.2486e-04
-occupation    -2.1147e-04   0.00018661    3.1078e-04  0.00351031 -3.1544e-04
-rating         4.9655e-05   0.00030486   -1.2486e-04 -0.00031544  8.9710e-03
+                 age yearsmarried religiousness occupation rating
+age            3e-04       -4e-04        0.0000    -0.0002  0e+00
+yearsmarried  -4e-04        1e-03       -0.0005     0.0002  3e-04
+religiousness  0e+00       -5e-04        0.0087     0.0003 -1e-04
+occupation    -2e-04        2e-04        0.0003     0.0035 -3e-04
+rating         0e+00        3e-04       -0.0001    -0.0003  9e-03
 attr(,"df.residual")
 [1] 594
 attr(,"class")
@@ -6527,7 +6558,7 @@ Log-likelihood: -705.6 on 7 Df
 > 
 > ## usual tobit estimation, SANN method
 > estResultSann <- censReg( affairsFormula, data = Affairs, method = "SANN" )
-> print.default( estResultSann )
+> printAll( estResultSann )
 $maximum
 [1] -706.96
 
@@ -6539,9 +6570,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-       1.1439       33.0963        9.2960        2.4857        1.7433 
+          1.1          33.1           9.3           2.5           1.7 
        rating      logSigma 
-       2.0501       -6.0855 
+          2.1          -6.1 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -7851,7 +7882,7 @@ $left
 $right
 [1] Inf
 
-attr(,"class")
+class
 [1] "censReg" "maxLik"  "maxim"  
 > print( estResultSann )
 
@@ -7867,16 +7898,16 @@ Coefficients:
 > margEff( estResultSann )
           age  yearsmarried religiousness    occupation        rating 
     -0.039151      0.128149     -0.356773      0.122170     -0.448566 
-> print.default( margEff( estResultSann ) )
+> printME( margEff( estResultSann ) )
           age  yearsmarried religiousness    occupation        rating 
-    -0.039151      0.128149     -0.356773      0.122170     -0.448566 
+       -0.039         0.128        -0.357         0.122        -0.449 
 attr(,"vcov")
-                      age yearsmarried religiousness  occupation      rating
-age            3.5064e-04  -0.00044890    3.0787e-06 -0.00022878  1.7312e-05
-yearsmarried  -4.4890e-04   0.00100834   -4.9231e-04  0.00022288  3.8628e-04
-religiousness  3.0787e-06  -0.00049231    8.9262e-03  0.00026289 -4.0257e-04
-occupation    -2.2878e-04   0.00022288    2.6289e-04  0.00379759 -3.7382e-04
-rating         1.7312e-05   0.00038628   -4.0257e-04 -0.00037382  9.0279e-03
+                 age yearsmarried religiousness occupation rating
+age            4e-04       -4e-04        0.0000    -0.0002  0e+00
+yearsmarried  -4e-04        1e-03       -0.0005     0.0002  4e-04
+religiousness  0e+00       -5e-04        0.0089     0.0003 -4e-04
+occupation    -2e-04        2e-04        0.0003     0.0038 -4e-04
+rating         0e+00        4e-04       -0.0004    -0.0004  9e-03
 attr(,"df.residual")
 [1] 594
 attr(,"class")
@@ -7938,7 +7969,7 @@ Log-likelihood: -706.96 on 7 Df
 > ## usual tobit estimation with user-defined starting values
 > estResultStart <- censReg( affairsFormula, data = Affairs,
 +    start = c( 8.17, -0.18, 0.55, -1.69, 0.33, -2.3, 2.13 ) )
-> print.default( estResultStart )
+> printAll( estResultStart )
 $maximum
 [1] -705.58
 
@@ -7950,9 +7981,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-  -8.7929e-13   -3.5189e-11   -1.3144e-11   -2.6684e-12   -3.6201e-12 
+     -8.8e-13      -3.5e-11      -1.3e-11      -2.7e-12      -3.6e-12 
        rating      logSigma 
-  -2.9625e-12    3.3714e-12 
+     -3.0e-12       3.4e-12 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -9259,7 +9290,7 @@ $left
 $right
 [1] Inf
 
-attr(,"class")
+class
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultStart )
 
@@ -9276,16 +9307,16 @@ Coefficients:
 > margEff( estResultStart )
           age  yearsmarried religiousness    occupation        rating 
     -0.041921      0.129537     -0.394172      0.076218     -0.534137 
-> print.default( margEff( estResultStart ) )
+> printME( margEff( estResultStart ) )
           age  yearsmarried religiousness    occupation        rating 
-    -0.041921      0.129537     -0.394172      0.076218     -0.534137 
+       -0.042         0.130        -0.394         0.076        -0.534 
 attr(,"vcov")
-                      age yearsmarried religiousness  occupation      rating
-age            3.4020e-04  -0.00043468    1.1676e-05 -0.00021328  4.7009e-05
-yearsmarried  -4.3468e-04   0.00097142   -4.9258e-04  0.00019032  3.0666e-04
-religiousness  1.1676e-05  -0.00049258    8.7197e-03  0.00030403 -1.5962e-04
-occupation    -2.1328e-04   0.00019032    3.0403e-04  0.00353688 -3.3127e-04
-rating         4.7009e-05   0.00030666   -1.5962e-04 -0.00033127  9.0053e-03
+                 age yearsmarried religiousness occupation rating
+age            3e-04       -4e-04        0.0000    -0.0002  0e+00
+yearsmarried  -4e-04        1e-03       -0.0005     0.0002  3e-04
+religiousness  0e+00       -5e-04        0.0087     0.0003 -2e-04
+occupation    -2e-04        2e-04        0.0003     0.0035 -3e-04
+rating         0e+00        3e-04       -0.0002    -0.0003  9e-03
 attr(,"df.residual")
 [1] 594
 attr(,"class")
@@ -9356,7 +9387,7 @@ affairs ~ age + yearsmarried + religiousness + occupation + rating
 > Affairs$affairsAdd <- Affairs$affairs + 5
 > estResultAdd <- censReg( affairsAdd ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs, left = 5 )
-> print.default( estResultAdd )
+> printAll( estResultAdd )
 $maximum
 [1] -705.58
 
@@ -9368,9 +9399,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-  -5.2531e-12   -1.6225e-10   -3.6873e-11   -1.7347e-11   -2.1197e-11 
+     -5.3e-12      -1.6e-10      -3.7e-11      -1.7e-11      -2.1e-11 
        rating      logSigma 
-  -2.2344e-11   -5.1936e-12 
+     -2.2e-11      -5.2e-12 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -10680,7 +10711,7 @@ $left
 $right
 [1] Inf
 
-attr(,"class")
+class
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultAdd )
 
@@ -10697,16 +10728,16 @@ Coefficients:
 > margEff( estResultAdd )
           age  yearsmarried religiousness    occupation        rating 
     -0.041921      0.129537     -0.394172      0.076218     -0.534137 
-> print.default( margEff( estResultAdd ) )
+> printME( margEff( estResultAdd ) )
           age  yearsmarried religiousness    occupation        rating 
-    -0.041921      0.129537     -0.394172      0.076218     -0.534137 
+       -0.042         0.130        -0.394         0.076        -0.534 
 attr(,"vcov")
-                      age yearsmarried religiousness  occupation      rating
-age            3.4020e-04  -0.00043468    1.1676e-05 -0.00021328  4.7009e-05
-yearsmarried  -4.3468e-04   0.00097142   -4.9258e-04  0.00019032  3.0666e-04
-religiousness  1.1676e-05  -0.00049258    8.7197e-03  0.00030403 -1.5962e-04
-occupation    -2.1328e-04   0.00019032    3.0403e-04  0.00353688 -3.3127e-04
-rating         4.7009e-05   0.00030666   -1.5962e-04 -0.00033127  9.0053e-03
+                 age yearsmarried religiousness occupation rating
+age            3e-04       -4e-04        0.0000    -0.0002  0e+00
+yearsmarried  -4e-04        1e-03       -0.0005     0.0002  3e-04
+religiousness  0e+00       -5e-04        0.0087     0.0003 -2e-04
+occupation    -2e-04        2e-04        0.0003     0.0035 -3e-04
+rating         0e+00        3e-04       -0.0002    -0.0003  9e-03
 attr(,"df.residual")
 [1] 594
 attr(,"class")
@@ -10775,40 +10806,40 @@ Log-likelihood: -705.58 on 7 Df
      13.17420      -0.17933       0.55414      -1.68622       0.32605 
        rating         sigma 
      -2.28497       8.24708 
-> vcov( estResultAdd )
-              (Intercept)         age yearsmarried religiousness  occupation
-(Intercept)     7.5155237 -0.11967985    0.0893572   -3.9700e-01 -0.17656435
-age            -0.1196798  0.00625574   -0.0080526    5.3800e-04 -0.00393201
-yearsmarried    0.0893572 -0.00805262    0.0180951   -1.0064e-02  0.00358175
-religiousness  -0.3970038  0.00053800   -0.0100637    1.6302e-01  0.00521488
-occupation     -0.1765644 -0.00393201    0.0035818    5.2149e-03  0.06473195
-rating         -0.6164423  0.00111150    0.0047716   -2.5713e-05 -0.00619276
-logSigma        0.0069681 -0.00055613    0.0015949   -4.9448e-03  0.00089259
-                   rating    logSigma
-(Intercept)   -6.1644e-01  0.00696809
-age            1.1115e-03 -0.00055613
-yearsmarried   4.7716e-03  0.00159486
-religiousness -2.5713e-05 -0.00494475
-occupation    -6.1928e-03  0.00089259
-rating         1.6632e-01 -0.00687791
-logSigma      -6.8779e-03  0.00450216
-> vcov( estResultAdd, logSigma = FALSE )
-              (Intercept)        age yearsmarried religiousness occupation
-(Intercept)      7.515524 -0.1196798    0.0893572   -3.9700e-01 -0.1765644
-age             -0.119680  0.0062557   -0.0080526    5.3800e-04 -0.0039320
-yearsmarried     0.089357 -0.0080526    0.0180951   -1.0064e-02  0.0035818
-religiousness   -0.397004  0.0005380   -0.0100637    1.6302e-01  0.0052149
-occupation      -0.176564 -0.0039320    0.0035818    5.2149e-03  0.0647320
-rating          -0.616442  0.0011115    0.0047716   -2.5713e-05 -0.0061928
-sigma            0.057466 -0.0045864    0.0131529   -4.0780e-02  0.0073613
-                   rating      sigma
-(Intercept)   -6.1644e-01  0.0574664
-age            1.1115e-03 -0.0045864
-yearsmarried   4.7716e-03  0.0131529
-religiousness -2.5713e-05 -0.0407798
-occupation    -6.1928e-03  0.0073613
-rating         1.6632e-01 -0.0567227
-sigma         -5.6723e-02  0.3062117
+> round( vcov( estResultAdd ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        7.5155 -0.1197       0.0894       -0.3970    -0.1766 -0.6164
+age               -0.1197  0.0063      -0.0081        0.0005    -0.0039  0.0011
+yearsmarried       0.0894 -0.0081       0.0181       -0.0101     0.0036  0.0048
+religiousness     -0.3970  0.0005      -0.0101        0.1630     0.0052  0.0000
+occupation        -0.1766 -0.0039       0.0036        0.0052     0.0647 -0.0062
+rating            -0.6164  0.0011       0.0048        0.0000    -0.0062  0.1663
+logSigma           0.0070 -0.0006       0.0016       -0.0049     0.0009 -0.0069
+              logSigma
+(Intercept)     0.0070
+age            -0.0006
+yearsmarried    0.0016
+religiousness  -0.0049
+occupation      0.0009
+rating         -0.0069
+logSigma        0.0045
+> round( vcov( estResultAdd, logSigma = FALSE ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        7.5155 -0.1197       0.0894       -0.3970    -0.1766 -0.6164
+age               -0.1197  0.0063      -0.0081        0.0005    -0.0039  0.0011
+yearsmarried       0.0894 -0.0081       0.0181       -0.0101     0.0036  0.0048
+religiousness     -0.3970  0.0005      -0.0101        0.1630     0.0052  0.0000
+occupation        -0.1766 -0.0039       0.0036        0.0052     0.0647 -0.0062
+rating            -0.6164  0.0011       0.0048        0.0000    -0.0062  0.1663
+sigma              0.0575 -0.0046       0.0132       -0.0408     0.0074 -0.0567
+                sigma
+(Intercept)    0.0575
+age           -0.0046
+yearsmarried   0.0132
+religiousness -0.0408
+occupation     0.0074
+rating        -0.0567
+sigma          0.3062
 > logLik( estResultAdd )
 'log Lik.' -705.58 (df=7)
 > nobs( estResultAdd )
@@ -10820,7 +10851,7 @@ sigma         -5.6723e-02  0.3062117
 > Affairs$affairsNeg <- - Affairs$affairs
 > estResultNeg <- censReg( affairsNeg ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs, left = -Inf, right = 0 )
-> print.default( estResultNeg )
+> printAll( estResultNeg )
 $maximum
 [1] -705.58
 
@@ -10832,9 +10863,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-   3.6077e-12    1.1083e-10    2.5011e-11    1.1958e-11    1.4492e-11 
+      3.6e-12       1.1e-10       2.5e-11       1.2e-11       1.4e-11 
        rating      logSigma 
-   1.5423e-11   -3.5342e-12 
+      1.5e-11      -3.5e-12 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -12144,7 +12175,7 @@ $left
 $right
 [1] 0
 
-attr(,"class")
+class
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultNeg )
 
@@ -12161,22 +12192,22 @@ Coefficients:
 > margEff( estResultNeg, calcVCov = FALSE, returnJacobian = TRUE )
           age  yearsmarried religiousness    occupation        rating 
      0.041921     -0.129537      0.394172     -0.076218      0.534137 
-> print.default( margEff( estResultNeg, calcVCov = FALSE, returnJacobian = TRUE ) )
+> printME( margEff( estResultNeg, calcVCov = FALSE, returnJacobian = TRUE ) )
           age  yearsmarried religiousness    occupation        rating 
-     0.041921     -0.129537      0.394172     -0.076218      0.534137 
+        0.042        -0.130         0.394        -0.076         0.534 
 attr(,"jacobian")
-              (Intercept)       age yearsmarried religiousness occupation
-age            -0.0066627  0.017305    -0.054486     -0.020764  -0.027948
-yearsmarried    0.0205880  0.668853     0.402123      0.064162   0.086360
-religiousness  -0.0626481 -2.035280    -0.512317      0.038520  -0.262788
-occupation      0.0121138  0.393549     0.099063      0.037752   0.284574
-rating         -0.0848935 -2.757979    -0.694233     -0.264568  -0.356101
-                 rating      sigma
-age           -0.026196  0.0048406
-yearsmarried   0.080948 -0.0149576
-religiousness -0.246318  0.0455150
-occupation     0.047629 -0.0088009
-rating        -0.100022  0.0616767
+              (Intercept)    age yearsmarried religiousness occupation rating
+age                -0.007  0.017       -0.054        -0.021     -0.028 -0.026
+yearsmarried        0.021  0.669        0.402         0.064      0.086  0.081
+religiousness      -0.063 -2.035       -0.512         0.039     -0.263 -0.246
+occupation          0.012  0.394        0.099         0.038      0.285  0.048
+rating             -0.085 -2.758       -0.694        -0.265     -0.356 -0.100
+               sigma
+age            0.005
+yearsmarried  -0.015
+religiousness  0.046
+occupation    -0.009
+rating         0.062
 attr(,"df.residual")
 [1] 594
 attr(,"class")
@@ -12245,40 +12276,40 @@ Log-likelihood: -705.58 on 7 Df
      -8.17420       0.17933      -0.55414       1.68622      -0.32605 
        rating         sigma 
       2.28497       8.24708 
-> vcov( estResultNeg )
-              (Intercept)         age yearsmarried religiousness  occupation
-(Intercept)     7.5155237 -0.11967985    0.0893572   -3.9700e-01 -0.17656435
-age            -0.1196799  0.00625574   -0.0080526    5.3800e-04 -0.00393201
-yearsmarried    0.0893572 -0.00805262    0.0180951   -1.0064e-02  0.00358175
-religiousness  -0.3970038  0.00053800   -0.0100637    1.6302e-01  0.00521488
-occupation     -0.1765644 -0.00393201    0.0035818    5.2149e-03  0.06473195
-rating         -0.6164423  0.00111150    0.0047716   -2.5713e-05 -0.00619276
-logSigma       -0.0069681  0.00055613   -0.0015949    4.9448e-03 -0.00089259
-                   rating    logSigma
-(Intercept)   -6.1644e-01 -0.00696809
-age            1.1115e-03  0.00055613
-yearsmarried   4.7716e-03 -0.00159486
-religiousness -2.5713e-05  0.00494475
-occupation    -6.1928e-03 -0.00089259
-rating         1.6632e-01  0.00687791
-logSigma       6.8779e-03  0.00450216
-> vcov( estResultNeg, logSigma = FALSE )
-              (Intercept)        age yearsmarried religiousness occupation
-(Intercept)      7.515524 -0.1196799    0.0893572   -3.9700e-01 -0.1765644
-age             -0.119680  0.0062557   -0.0080526    5.3800e-04 -0.0039320
-yearsmarried     0.089357 -0.0080526    0.0180951   -1.0064e-02  0.0035818
-religiousness   -0.397004  0.0005380   -0.0100637    1.6302e-01  0.0052149
-occupation      -0.176564 -0.0039320    0.0035818    5.2149e-03  0.0647320
-rating          -0.616442  0.0011115    0.0047716   -2.5713e-05 -0.0061928
-sigma           -0.057466  0.0045864   -0.0131529    4.0780e-02 -0.0073613
-                   rating      sigma
-(Intercept)   -6.1644e-01 -0.0574664
-age            1.1115e-03  0.0045864
-yearsmarried   4.7716e-03 -0.0131529
-religiousness -2.5713e-05  0.0407798
-occupation    -6.1928e-03 -0.0073613
-rating         1.6632e-01  0.0567227
-sigma          5.6723e-02  0.3062117
+> round( vcov( estResultNeg ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        7.5155 -0.1197       0.0894       -0.3970    -0.1766 -0.6164
+age               -0.1197  0.0063      -0.0081        0.0005    -0.0039  0.0011
+yearsmarried       0.0894 -0.0081       0.0181       -0.0101     0.0036  0.0048
+religiousness     -0.3970  0.0005      -0.0101        0.1630     0.0052  0.0000
+occupation        -0.1766 -0.0039       0.0036        0.0052     0.0647 -0.0062
+rating            -0.6164  0.0011       0.0048        0.0000    -0.0062  0.1663
+logSigma          -0.0070  0.0006      -0.0016        0.0049    -0.0009  0.0069
+              logSigma
+(Intercept)    -0.0070
+age             0.0006
+yearsmarried   -0.0016
+religiousness   0.0049
+occupation     -0.0009
+rating          0.0069
+logSigma        0.0045
+> round( vcov( estResultNeg, logSigma = FALSE ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        7.5155 -0.1197       0.0894       -0.3970    -0.1766 -0.6164
+age               -0.1197  0.0063      -0.0081        0.0005    -0.0039  0.0011
+yearsmarried       0.0894 -0.0081       0.0181       -0.0101     0.0036  0.0048
+religiousness     -0.3970  0.0005      -0.0101        0.1630     0.0052  0.0000
+occupation        -0.1766 -0.0039       0.0036        0.0052     0.0647 -0.0062
+rating            -0.6164  0.0011       0.0048        0.0000    -0.0062  0.1663
+sigma             -0.0575  0.0046      -0.0132        0.0408    -0.0074  0.0567
+                sigma
+(Intercept)   -0.0575
+age            0.0046
+yearsmarried  -0.0132
+religiousness  0.0408
+occupation    -0.0074
+rating         0.0567
+sigma          0.3062
 > logLik( estResultNeg )
 'log Lik.' -705.58 (df=7)
 > nobs( estResultNeg )
@@ -12893,7 +12924,7 @@ sigma          5.6723e-02  0.3062117
 > Affairs$affairsAddNeg <- - Affairs$affairsAdd
 > estResultAddNeg <- censReg( affairsAddNeg ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs, left = -Inf, right = -5 )
-> print.default( estResultAddNeg )
+> printAll( estResultAddNeg )
 $maximum
 [1] -705.58
 
@@ -12905,9 +12936,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-   5.2531e-12    1.6225e-10    3.6873e-11    1.7347e-11    2.1197e-11 
+      5.3e-12       1.6e-10       3.7e-11       1.7e-11       2.1e-11 
        rating      logSigma 
-   2.2344e-11   -5.1936e-12 
+      2.2e-11      -5.2e-12 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -14217,7 +14248,7 @@ $left
 $right
 [1] -5
 
-attr(,"class")
+class
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultAddNeg )
 
@@ -14234,16 +14265,16 @@ Coefficients:
 > margEff( estResultAddNeg )
           age  yearsmarried religiousness    occupation        rating 
      0.041921     -0.129537      0.394172     -0.076218      0.534137 
-> print.default( margEff( estResultAddNeg ) )
+> printME( margEff( estResultAddNeg ) )
           age  yearsmarried religiousness    occupation        rating 
-     0.041921     -0.129537      0.394172     -0.076218      0.534137 
+        0.042        -0.130         0.394        -0.076         0.534 
 attr(,"vcov")
-                      age yearsmarried religiousness  occupation      rating
-age            3.4020e-04  -0.00043468    1.1676e-05 -0.00021328  4.7009e-05
-yearsmarried  -4.3468e-04   0.00097142   -4.9258e-04  0.00019032  3.0666e-04
-religiousness  1.1676e-05  -0.00049258    8.7197e-03  0.00030403 -1.5962e-04
-occupation    -2.1328e-04   0.00019032    3.0403e-04  0.00353688 -3.3127e-04
-rating         4.7009e-05   0.00030666   -1.5962e-04 -0.00033127  9.0053e-03
+                 age yearsmarried religiousness occupation rating
+age            3e-04       -4e-04        0.0000    -0.0002  0e+00
+yearsmarried  -4e-04        1e-03       -0.0005     0.0002  3e-04
+religiousness  0e+00       -5e-04        0.0087     0.0003 -2e-04
+occupation    -2e-04        2e-04        0.0003     0.0035 -3e-04
+rating         0e+00        3e-04       -0.0002    -0.0003  9e-03
 attr(,"df.residual")
 [1] 594
 attr(,"class")
@@ -14313,40 +14344,40 @@ Log-likelihood: -705.58 on 7 Df
     -13.17420       0.17933      -0.55414       1.68622      -0.32605 
        rating         sigma 
       2.28497       8.24708 
-> vcov( estResultAddNeg )
-              (Intercept)         age yearsmarried religiousness  occupation
-(Intercept)     7.5155237 -0.11967985    0.0893572   -3.9700e-01 -0.17656435
-age            -0.1196798  0.00625574   -0.0080526    5.3800e-04 -0.00393201
-yearsmarried    0.0893572 -0.00805262    0.0180951   -1.0064e-02  0.00358175
-religiousness  -0.3970038  0.00053800   -0.0100637    1.6302e-01  0.00521488
-occupation     -0.1765644 -0.00393201    0.0035818    5.2149e-03  0.06473195
-rating         -0.6164423  0.00111150    0.0047716   -2.5713e-05 -0.00619276
-logSigma       -0.0069681  0.00055613   -0.0015949    4.9448e-03 -0.00089259
-                   rating    logSigma
-(Intercept)   -6.1644e-01 -0.00696809
-age            1.1115e-03  0.00055613
-yearsmarried   4.7716e-03 -0.00159486
-religiousness -2.5713e-05  0.00494475
-occupation    -6.1928e-03 -0.00089259
-rating         1.6632e-01  0.00687791
-logSigma       6.8779e-03  0.00450216
-> vcov( estResultAddNeg, logSigma = FALSE )
-              (Intercept)        age yearsmarried religiousness occupation
-(Intercept)      7.515524 -0.1196798    0.0893572   -3.9700e-01 -0.1765644
-age             -0.119680  0.0062557   -0.0080526    5.3800e-04 -0.0039320
-yearsmarried     0.089357 -0.0080526    0.0180951   -1.0064e-02  0.0035818
-religiousness   -0.397004  0.0005380   -0.0100637    1.6302e-01  0.0052149
-occupation      -0.176564 -0.0039320    0.0035818    5.2149e-03  0.0647320
-rating          -0.616442  0.0011115    0.0047716   -2.5713e-05 -0.0061928
-sigma           -0.057466  0.0045864   -0.0131529    4.0780e-02 -0.0073613
-                   rating      sigma
-(Intercept)   -6.1644e-01 -0.0574664
-age            1.1115e-03  0.0045864
-yearsmarried   4.7716e-03 -0.0131529
-religiousness -2.5713e-05  0.0407798
-occupation    -6.1928e-03 -0.0073613
-rating         1.6632e-01  0.0567227
-sigma          5.6723e-02  0.3062117
+> round( vcov( estResultAddNeg ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        7.5155 -0.1197       0.0894       -0.3970    -0.1766 -0.6164
+age               -0.1197  0.0063      -0.0081        0.0005    -0.0039  0.0011
+yearsmarried       0.0894 -0.0081       0.0181       -0.0101     0.0036  0.0048
+religiousness     -0.3970  0.0005      -0.0101        0.1630     0.0052  0.0000
+occupation        -0.1766 -0.0039       0.0036        0.0052     0.0647 -0.0062
+rating            -0.6164  0.0011       0.0048        0.0000    -0.0062  0.1663
+logSigma          -0.0070  0.0006      -0.0016        0.0049    -0.0009  0.0069
+              logSigma
+(Intercept)    -0.0070
+age             0.0006
+yearsmarried   -0.0016
+religiousness   0.0049
+occupation     -0.0009
+rating          0.0069
+logSigma        0.0045
+> round( vcov( estResultAddNeg, logSigma = FALSE ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        7.5155 -0.1197       0.0894       -0.3970    -0.1766 -0.6164
+age               -0.1197  0.0063      -0.0081        0.0005    -0.0039  0.0011
+yearsmarried       0.0894 -0.0081       0.0181       -0.0101     0.0036  0.0048
+religiousness     -0.3970  0.0005      -0.0101        0.1630     0.0052  0.0000
+occupation        -0.1766 -0.0039       0.0036        0.0052     0.0647 -0.0062
+rating            -0.6164  0.0011       0.0048        0.0000    -0.0062  0.1663
+sigma             -0.0575  0.0046      -0.0132        0.0408    -0.0074  0.0567
+                sigma
+(Intercept)   -0.0575
+age            0.0046
+yearsmarried  -0.0132
+religiousness  0.0408
+occupation    -0.0074
+rating         0.0567
+sigma          0.3062
 > logLik( estResultAddNeg )
 'log Lik.' -705.58 (df=7)
 > nobs( estResultAddNeg )
@@ -14359,7 +14390,7 @@ sigma          5.6723e-02  0.3062117
 Warning message:
 In censReg(affairsFormula, data = Affairs, right = 4) :
   at least one value of the endogenous variable is larger than the right limit
-> print.default( estResultBoth )
+> printAll( estResultBoth )
 $maximum
 [1] -500.04
 
@@ -14371,9 +14402,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-  -5.1875e-09   -1.6100e-07   -3.5299e-08   -1.7112e-08   -2.1094e-08 
+     -5.2e-09      -1.6e-07      -3.5e-08      -1.7e-08      -2.1e-08 
        rating      logSigma 
-  -2.2304e-08   -1.6270e-08 
+     -2.2e-08      -1.6e-08 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -15679,7 +15710,7 @@ $left
 $right
 [1] 4
 
-attr(,"class")
+class
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultBoth )
 
@@ -15695,16 +15726,16 @@ Coefficients:
 > margEff( estResultBoth )
           age  yearsmarried religiousness    occupation        rating 
     -0.021833      0.065437     -0.198700      0.039853     -0.271313 
-> print.default( margEff( estResultBoth ) )
+> printME( margEff( estResultBoth ) )
           age  yearsmarried religiousness    occupation        rating 
-    -0.021833      0.065437     -0.198700      0.039853     -0.271313 
+       -0.022         0.065        -0.199         0.040        -0.271 
 attr(,"vcov")
-                      age yearsmarried religiousness  occupation      rating
-age            9.1784e-05  -1.1675e-04    4.3285e-07 -5.8580e-05  1.1101e-05
-yearsmarried  -1.1675e-04   2.5926e-04   -1.2485e-04  5.0774e-05  9.3675e-05
-religiousness  4.3285e-07  -1.2485e-04    2.3318e-03  8.4921e-05 -1.1652e-04
-occupation    -5.8580e-05   5.0774e-05    8.4921e-05  9.6128e-04 -6.9694e-05
-rating         1.1101e-05   9.3675e-05   -1.1652e-04 -6.9694e-05  2.3818e-03
+                 age yearsmarried religiousness occupation  rating
+age            1e-04       -1e-04        0.0000     -1e-04  0.0000
+yearsmarried  -1e-04        3e-04       -0.0001      1e-04  0.0001
+religiousness  0e+00       -1e-04        0.0023      1e-04 -0.0001
+occupation    -1e-04        1e-04        0.0001      1e-03 -0.0001
+rating         0e+00        1e-04       -0.0001     -1e-04  0.0024
 attr(,"df.residual")
 [1] 594
 attr(,"class")
@@ -15797,40 +15828,40 @@ Log-likelihood: -500.04 on 7 Df
       7.90098      -0.17760       0.53230      -1.61634       0.32419 
        rating         sigma 
      -2.20701       7.94322 
-> vcov( estResultBoth )
-              (Intercept)        age yearsmarried religiousness  occupation
-(Intercept)      7.861602 -0.1289744    0.1221696   -0.48136362 -0.15464795
-age             -0.128974  0.0063850   -0.0086552    0.00286466 -0.00439208
-yearsmarried     0.122170 -0.0086552    0.0199285   -0.01672283  0.00489796
-religiousness   -0.481364  0.0028647   -0.0167228    0.18011257  0.00092419
-occupation      -0.154648 -0.0043921    0.0048980    0.00092419  0.06445393
-rating          -0.747441  0.0044709   -0.0049466    0.02629821 -0.01077412
-logSigma         0.064544 -0.0019240    0.0056952   -0.01727779  0.00329402
-                  rating   logSigma
-(Intercept)   -0.7474406  0.0645442
-age            0.0044709 -0.0019240
-yearsmarried  -0.0049466  0.0056952
-religiousness  0.0262982 -0.0172778
-occupation    -0.0107741  0.0032940
-rating         0.2023487 -0.0236249
-logSigma      -0.0236249  0.0121873
-> vcov( estResultBoth, logSigma = FALSE )
-              (Intercept)        age yearsmarried religiousness  occupation
-(Intercept)       7.86160 -0.1289744    0.1221696   -0.48136362 -0.15464795
-age              -0.12897  0.0063850   -0.0086552    0.00286466 -0.00439208
-yearsmarried      0.12217 -0.0086552    0.0199285   -0.01672283  0.00489796
-religiousness    -0.48136  0.0028647   -0.0167228    0.18011257  0.00092419
-occupation       -0.15465 -0.0043921    0.0048980    0.00092419  0.06445393
-rating           -0.74744  0.0044709   -0.0049466    0.02629821 -0.01077412
-sigma             0.51269 -0.0152829    0.0452378   -0.13724125  0.02616513
-                  rating     sigma
-(Intercept)   -0.7474406  0.512689
-age            0.0044709 -0.015283
-yearsmarried  -0.0049466  0.045238
-religiousness  0.0262982 -0.137241
-occupation    -0.0107741  0.026165
-rating         0.2023487 -0.187658
-sigma         -0.1876577  0.768954
+> round( vcov( estResultBoth ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        7.8616 -0.1290       0.1222       -0.4814    -0.1546 -0.7474
+age               -0.1290  0.0064      -0.0087        0.0029    -0.0044  0.0045
+yearsmarried       0.1222 -0.0087       0.0199       -0.0167     0.0049 -0.0049
+religiousness     -0.4814  0.0029      -0.0167        0.1801     0.0009  0.0263
+occupation        -0.1546 -0.0044       0.0049        0.0009     0.0645 -0.0108
+rating            -0.7474  0.0045      -0.0049        0.0263    -0.0108  0.2023
+logSigma           0.0645 -0.0019       0.0057       -0.0173     0.0033 -0.0236
+              logSigma
+(Intercept)     0.0645
+age            -0.0019
+yearsmarried    0.0057
+religiousness  -0.0173
+occupation      0.0033
+rating         -0.0236
+logSigma        0.0122
+> round( vcov( estResultBoth, logSigma = FALSE ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        7.8616 -0.1290       0.1222       -0.4814    -0.1546 -0.7474
+age               -0.1290  0.0064      -0.0087        0.0029    -0.0044  0.0045
+yearsmarried       0.1222 -0.0087       0.0199       -0.0167     0.0049 -0.0049
+religiousness     -0.4814  0.0029      -0.0167        0.1801     0.0009  0.0263
+occupation        -0.1546 -0.0044       0.0049        0.0009     0.0645 -0.0108
+rating            -0.7474  0.0045      -0.0049        0.0263    -0.0108  0.2023
+sigma              0.5127 -0.0153       0.0452       -0.1372     0.0262 -0.1877
+                sigma
+(Intercept)    0.5127
+age           -0.0153
+yearsmarried   0.0452
+religiousness -0.1372
+occupation     0.0262
+rating        -0.1877
+sigma          0.7690
 > coef( summary( estResultBoth ) )
               Estimate Std. error t value    Pr(> t)
 (Intercept)    7.90098   2.803855  2.8179 4.8339e-03
@@ -15935,15 +15966,15 @@ religiousness 0.094171 0.162230
 occupation    0.134544 0.209940
 rating        0.129380 0.213237
 logSigma      0.213237 0.532401
-> bread( estResultBoth )
+> round( bread( estResultBoth ), 4 )
               (Intercept)      age yearsmarried religiousness occupation
-(Intercept)      4724.823 -77.5136      73.4239    -289.29953  -92.94342
-age               -77.514   3.8374      -5.2018       1.72166   -2.63964
-yearsmarried       73.424  -5.2018      11.9770     -10.05042    2.94368
-religiousness    -289.300   1.7217     -10.0504     108.24766    0.55544
-occupation        -92.943  -2.6396       2.9437       0.55544   38.73681
-rating           -449.212   2.6870      -2.9729      15.80523   -6.47524
-logSigma           38.791  -1.1563       3.4228     -10.38395    1.97971
+(Intercept)      4724.823 -77.5136      73.4239     -289.2995   -92.9434
+age               -77.514   3.8374      -5.2018        1.7217    -2.6396
+yearsmarried       73.424  -5.2018      11.9770      -10.0504     2.9437
+religiousness    -289.300   1.7217     -10.0504      108.2477     0.5554
+occupation        -92.943  -2.6396       2.9437        0.5554    38.7368
+rating           -449.212   2.6870      -2.9729       15.8052    -6.4752
+logSigma           38.791  -1.1563       3.4228      -10.3839     1.9797
                  rating logSigma
 (Intercept)   -449.2118  38.7911
 age              2.6870  -1.1563
@@ -15952,23 +15983,23 @@ religiousness   15.8052 -10.3839
 occupation      -6.4752   1.9797
 rating         121.6116 -14.1986
 logSigma       -14.1986   7.3246
-> sandwich( estResultBoth )
-              (Intercept)         age yearsmarried religiousness occupation
-(Intercept)       9.05574 -0.17373882    0.1827955    -0.5431369 -0.1085863
-age              -0.17374  0.00754114   -0.0098187     0.0065355 -0.0060095
-yearsmarried      0.18280 -0.00981874    0.0208998    -0.0234743  0.0082516
-religiousness    -0.54314  0.00653550   -0.0234743     0.1907392 -0.0096263
-occupation       -0.10859 -0.00600948    0.0082516    -0.0096263  0.0641994
-rating           -0.78958  0.00693968   -0.0114236     0.0354241 -0.0110844
-logSigma          0.03618 -0.00093908    0.0053446    -0.0207380  0.0045785
-                  rating    logSigma
-(Intercept)   -0.7895757  0.03618028
-age            0.0069397 -0.00093908
-yearsmarried  -0.0114236  0.00534460
-religiousness  0.0354241 -0.02073798
-occupation    -0.0110844  0.00457854
-rating         0.2022388 -0.02367701
-logSigma      -0.0236770  0.01253589
+> round( sandwich( estResultBoth ), 4 )
+              (Intercept)     age yearsmarried religiousness occupation  rating
+(Intercept)        9.0557 -0.1737       0.1828       -0.5431    -0.1086 -0.7896
+age               -0.1737  0.0075      -0.0098        0.0065    -0.0060  0.0069
+yearsmarried       0.1828 -0.0098       0.0209       -0.0235     0.0083 -0.0114
+religiousness     -0.5431  0.0065      -0.0235        0.1907    -0.0096  0.0354
+occupation        -0.1086 -0.0060       0.0083       -0.0096     0.0642 -0.0111
+rating            -0.7896  0.0069      -0.0114        0.0354    -0.0111  0.2022
+logSigma           0.0362 -0.0009       0.0053       -0.0207     0.0046 -0.0237
+              logSigma
+(Intercept)     0.0362
+age            -0.0009
+yearsmarried    0.0053
+religiousness  -0.0207
+occupation      0.0046
+rating         -0.0237
+logSigma        0.0125
 > all.equal( sandwich( estResultBoth ), vcov( estResultBoth ) )
 [1] "Mean relative difference: 0.13822"
 > waldtest( estResultBoth, . ~ . - age )
@@ -16003,7 +16034,7 @@ In censReg(formula = affairs ~ yearsmarried + religiousness + occupation +  :
 > Affairs2$religiousness <- as.factor( Affairs2$religiousness )
 > Affairs2 <- Affairs2[ Affairs2$religiousness != "5", ]
 > estResultEmpty <- censReg( affairsFormula, data = Affairs2 )
-> print.default( estResultEmpty )
+> printAll( estResultEmpty )
 $maximum
 [1] -638.42
 
@@ -16015,9 +16046,9 @@ religiousness4     occupation         rating       logSigma
 
 $gradient
    (Intercept)            age   yearsmarried religiousness2 religiousness3 
-   -1.9961e-13    -5.7404e-12    -1.2053e-12    -5.7315e-14    -3.3861e-14 
+      -2.0e-13       -5.7e-12       -1.2e-12       -5.7e-14       -3.4e-14 
 religiousness4     occupation         rating       logSigma 
-   -1.0389e-13    -7.7159e-13    -8.8989e-13    -2.0808e-13 
+      -1.0e-13       -7.7e-13       -8.9e-13       -2.1e-13 
 
 $hessian
                (Intercept)       age yearsmarried religiousness2 religiousness3
@@ -17187,7 +17218,7 @@ $left
 $right
 [1] Inf
 
-attr(,"class")
+class
 [1] "censReg" "maxLik"  "maxim"   "list"   
 > print( estResultEmpty )
 
@@ -17232,54 +17263,54 @@ Log-likelihood: -638.42 on 9 Df
        7.31094       -0.16355        0.52334       -4.11965       -3.01720 
 religiousness4     occupation         rating       logSigma 
       -7.21827        0.40142       -2.32773        2.10983 
-> vcov( estResultEmpty )
-               (Intercept)         age yearsmarried religiousness2
-(Intercept)      9.7352306 -0.14735614    0.0897313     -2.2288744
-age             -0.1473561  0.00767384   -0.0096159      0.0018387
-yearsmarried     0.0897313 -0.00961586    0.0207497     -0.0022460
-religiousness2  -2.2288744  0.00183873   -0.0022460      2.7170346
-religiousness3  -2.3695169  0.00821012   -0.0183694      1.9837654
-religiousness4  -2.0543575  0.00515213   -0.0317266      2.0120843
-occupation      -0.1657331 -0.00556185    0.0054762     -0.0141478
-rating          -0.7788175  0.00096850    0.0065011      0.0998182
-logSigma         0.0059106 -0.00050564    0.0015690     -0.0152622
-               religiousness3 religiousness4 occupation     rating    logSigma
-(Intercept)        -2.3695169     -2.0543575 -0.1657331 -0.7788175  0.00591063
-age                 0.0082101      0.0051521 -0.0055619  0.0009685 -0.00050564
-yearsmarried       -0.0183694     -0.0317266  0.0054762  0.0065011  0.00156901
-religiousness2      1.9837654      2.0120843 -0.0141478  0.0998182 -0.01526216
-religiousness3      2.8066158      2.0186926  0.0087560  0.0836543 -0.01010421
-religiousness4      2.0186926      2.8811711  0.0151977  0.0654933 -0.02451024
-occupation          0.0087560      0.0151977  0.0744075 -0.0074129  0.00120300
-rating              0.0836543      0.0654933 -0.0074129  0.1916887 -0.00788275
-logSigma           -0.0101042     -0.0245102  0.0012030 -0.0078828  0.00490583
+> round( vcov( estResultEmpty ), 4 )
+               (Intercept)     age yearsmarried religiousness2 religiousness3
+(Intercept)         9.7352 -0.1474       0.0897        -2.2289        -2.3695
+age                -0.1474  0.0077      -0.0096         0.0018         0.0082
+yearsmarried        0.0897 -0.0096       0.0207        -0.0022        -0.0184
+religiousness2     -2.2289  0.0018      -0.0022         2.7170         1.9838
+religiousness3     -2.3695  0.0082      -0.0184         1.9838         2.8066
+religiousness4     -2.0544  0.0052      -0.0317         2.0121         2.0187
+occupation         -0.1657 -0.0056       0.0055        -0.0141         0.0088
+rating             -0.7788  0.0010       0.0065         0.0998         0.0837
+logSigma            0.0059 -0.0005       0.0016        -0.0153        -0.0101
+               religiousness4 occupation  rating logSigma
+(Intercept)           -2.0544    -0.1657 -0.7788   0.0059
+age                    0.0052    -0.0056  0.0010  -0.0005
+yearsmarried          -0.0317     0.0055  0.0065   0.0016
+religiousness2         2.0121    -0.0141  0.0998  -0.0153
+religiousness3         2.0187     0.0088  0.0837  -0.0101
+religiousness4         2.8812     0.0152  0.0655  -0.0245
+occupation             0.0152     0.0744 -0.0074   0.0012
+rating                 0.0655    -0.0074  0.1917  -0.0079
+logSigma              -0.0245     0.0012 -0.0079   0.0049
 > margEff( estResultEmpty )
            age   yearsmarried religiousness2 religiousness3 religiousness4 
      -0.039297       0.125748      -0.989858      -0.724964      -1.734387 
     occupation         rating 
       0.096452      -0.559302 
-> print.default( margEff( estResultEmpty ) )
+> printME( margEff( estResultEmpty ) )
            age   yearsmarried religiousness2 religiousness3 religiousness4 
-     -0.039297       0.125748      -0.989858      -0.724964      -1.734387 
+        -0.039          0.126         -0.990         -0.725         -1.734 
     occupation         rating 
-      0.096452      -0.559302 
+         0.096         -0.559 
 attr(,"vcov")
-                       age yearsmarried religiousness2 religiousness3
-age             4.4210e-04  -0.00055155     8.0283e-05     0.00045586
-yearsmarried   -5.5155e-04   0.00118448    -3.1610e-05    -0.00099131
-religiousness2  8.0283e-05  -0.00003161     1.5615e-01     0.11403024
-religiousness3  4.5586e-04  -0.00099131     1.1403e-01     0.16168453
-religiousness4  2.3612e-04  -0.00160868     1.1452e-01     0.11537638
-occupation     -3.2046e-04   0.00031260    -7.9487e-04     0.00051957
-rating          4.3987e-05   0.00042213     5.4299e-03     0.00459739
-               religiousness4  occupation      rating
-age                0.00023612 -0.00032046  4.3987e-05
-yearsmarried      -0.00160868  0.00031260  4.2213e-04
-religiousness2     0.11451864 -0.00079487  5.4299e-03
-religiousness3     0.11537638  0.00051957  4.5974e-03
-religiousness4     0.16275020  0.00095509  2.9702e-03
-occupation         0.00095509  0.00429824 -4.2219e-04
-rating             0.00297019 -0.00042219  1.0917e-02
+                  age yearsmarried religiousness2 religiousness3 religiousness4
+age             4e-04      -0.0006         0.0001         0.0005         0.0002
+yearsmarried   -6e-04       0.0012         0.0000        -0.0010        -0.0016
+religiousness2  1e-04       0.0000         0.1562         0.1140         0.1145
+religiousness3  5e-04      -0.0010         0.1140         0.1617         0.1154
+religiousness4  2e-04      -0.0016         0.1145         0.1154         0.1628
+occupation     -3e-04       0.0003        -0.0008         0.0005         0.0010
+rating          0e+00       0.0004         0.0054         0.0046         0.0030
+               occupation  rating
+age               -0.0003  0.0000
+yearsmarried       0.0003  0.0004
+religiousness2    -0.0008  0.0054
+religiousness3     0.0005  0.0046
+religiousness4     0.0010  0.0030
+occupation         0.0043 -0.0004
+rating            -0.0004  0.0109
 attr(,"df.residual")
 [1] 522
 attr(,"class")
@@ -17906,58 +17937,48 @@ religiousness4      0.0026105  0.0105726 0.0100350 0.0257822
 occupation          0.0105726  0.1773471 0.1362357 0.2477919
 rating              0.0100350  0.1362357 0.1313649 0.2549635
 logSigma            0.0257822  0.2477919 0.2549635 0.8352036
-> bread( estResultEmpty )
-               (Intercept)       age yearsmarried religiousness2 religiousness3
-(Intercept)      5169.4074 -78.24611     47.64732    -1183.53231     -1258.2135
-age               -78.2461   4.07481     -5.10602        0.97637         4.3596
-yearsmarried       47.6473  -5.10602     11.01811       -1.19263        -9.7542
-religiousness2  -1183.5323   0.97637     -1.19263     1442.74539      1053.3794
-religiousness3  -1258.2135   4.35957     -9.75415     1053.37943      1490.3130
-religiousness4  -1090.8638   2.73578    -16.84683     1068.41679      1071.9258
-occupation        -88.0043  -2.95334      2.90786       -7.51249         4.6494
-rating           -413.5521   0.51427      3.45210       53.00345        44.4204
-logSigma            3.1385  -0.26850      0.83314       -8.10421        -5.3653
-               religiousness4 occupation     rating  logSigma
-(Intercept)        -1090.8638   -88.0043 -413.55212   3.13855
-age                    2.7358    -2.9533    0.51427  -0.26850
-yearsmarried         -16.8468     2.9079    3.45210   0.83314
-religiousness2      1068.4168    -7.5125   53.00345  -8.10421
-religiousness3      1071.9258     4.6494   44.42045  -5.36534
-religiousness4      1529.9018     8.0700   34.77694 -13.01494
-occupation             8.0700    39.5104   -3.93627   0.63880
-rating                34.7769    -3.9363  101.78668  -4.18574
-logSigma             -13.0149     0.6388   -4.18574   2.60500
-> sandwich( estResultEmpty )
-               (Intercept)        age yearsmarried religiousness2
-(Intercept)      10.315381 -0.2006517   0.16868421    -1.13192770
-age              -0.200652  0.0094013  -0.01168623    -0.01268821
-yearsmarried      0.168684 -0.0116862   0.02221697     0.00209102
-religiousness2   -1.131928 -0.0126882   0.00209102     2.36774739
-religiousness3   -1.673915  0.0096801  -0.03358480     1.58160894
-religiousness4   -1.635206  0.0203560  -0.05713295     1.58342552
-occupation       -0.216630 -0.0047662   0.00717480    -0.01499926
-rating           -0.705253  0.0019907   0.00475583     0.00597942
-logSigma         -0.052057  0.0010010  -0.00092145     0.00075481
-               religiousness3 religiousness4  occupation      rating
-(Intercept)        -1.6739145     -1.6352065 -0.21663046 -0.70525290
-age                 0.0096801      0.0203560 -0.00476619  0.00199073
-yearsmarried       -0.0335848     -0.0571330  0.00717480  0.00475583
-religiousness2      1.5816089      1.5834255 -0.01499926  0.00597942
-religiousness3      2.3440521      1.6768592  0.00851456  0.00427204
-religiousness4      1.6768592      2.4907491 -0.00791959 -0.02741768
-occupation          0.0085146     -0.0079196  0.06986411  0.00259175
-rating              0.0042720     -0.0274177  0.00259175  0.16828420
-logSigma           -0.0020934     -0.0029853  0.00052674 -0.00045786
-                  logSigma
-(Intercept)    -0.05205719
-age             0.00100098
-yearsmarried   -0.00092145
-religiousness2  0.00075481
-religiousness3 -0.00209342
-religiousness4 -0.00298532
-occupation      0.00052674
-rating         -0.00045786
-logSigma        0.00346201
+> round( bread( estResultEmpty ), 4 )
+               (Intercept)      age yearsmarried religiousness2 religiousness3
+(Intercept)      5169.4074 -78.2461      47.6473     -1183.5323     -1258.2135
+age               -78.2461   4.0748      -5.1060         0.9764         4.3596
+yearsmarried       47.6473  -5.1060      11.0181        -1.1926        -9.7542
+religiousness2  -1183.5323   0.9764      -1.1926      1442.7454      1053.3794
+religiousness3  -1258.2135   4.3596      -9.7542      1053.3794      1490.3130
+religiousness4  -1090.8638   2.7358     -16.8468      1068.4168      1071.9258
+occupation        -88.0043  -2.9533       2.9079        -7.5125         4.6494
+rating           -413.5521   0.5143       3.4521        53.0034        44.4204
+logSigma            3.1385  -0.2685       0.8331        -8.1042        -5.3653
+               religiousness4 occupation    rating logSigma
+(Intercept)        -1090.8638   -88.0043 -413.5521   3.1385
+age                    2.7358    -2.9533    0.5143  -0.2685
+yearsmarried         -16.8468     2.9079    3.4521   0.8331
+religiousness2      1068.4168    -7.5125   53.0034  -8.1042
+religiousness3      1071.9258     4.6494   44.4204  -5.3653
+religiousness4      1529.9018     8.0700   34.7769 -13.0149
+occupation             8.0700    39.5104   -3.9363   0.6388
+rating                34.7769    -3.9363  101.7867  -4.1857
+logSigma             -13.0149     0.6388   -4.1857   2.6050
+> round( sandwich( estResultEmpty ), 4 )
+               (Intercept)     age yearsmarried religiousness2 religiousness3
+(Intercept)        10.3154 -0.2007       0.1687        -1.1319        -1.6739
+age                -0.2007  0.0094      -0.0117        -0.0127         0.0097
+yearsmarried        0.1687 -0.0117       0.0222         0.0021        -0.0336
+religiousness2     -1.1319 -0.0127       0.0021         2.3677         1.5816
+religiousness3     -1.6739  0.0097      -0.0336         1.5816         2.3441
+religiousness4     -1.6352  0.0204      -0.0571         1.5834         1.6769
+occupation         -0.2166 -0.0048       0.0072        -0.0150         0.0085
+rating             -0.7053  0.0020       0.0048         0.0060         0.0043
+logSigma           -0.0521  0.0010      -0.0009         0.0008        -0.0021
+               religiousness4 occupation  rating logSigma
+(Intercept)           -1.6352    -0.2166 -0.7053  -0.0521
+age                    0.0204    -0.0048  0.0020   0.0010
+yearsmarried          -0.0571     0.0072  0.0048  -0.0009
+religiousness2         1.5834    -0.0150  0.0060   0.0008
+religiousness3         1.6769     0.0085  0.0043  -0.0021
+religiousness4         2.4907    -0.0079 -0.0274  -0.0030
+occupation            -0.0079     0.0699  0.0026   0.0005
+rating                -0.0274     0.0026  0.1683  -0.0005
+logSigma              -0.0030     0.0005 -0.0005   0.0035
 > all.equal( sandwich( estResultEmpty ), vcov( estResultEmpty ) )
 [1] "Mean relative difference: 0.25536"
 > waldtest( estResultEmpty, . ~ . - age )
@@ -20578,4 +20599,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 19.852   0.160  20.058 
+ 20.120   0.156  20.292 

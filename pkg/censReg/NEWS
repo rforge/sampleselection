@@ -5,7 +5,7 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
-            CHANGES IN VERSION 0.5-18 (2013-08-20)
+            CHANGES IN VERSION 0.5-20 (2013-08-20)
 
 * fixed an internal problem so that this package can be used with R version 3.1
 

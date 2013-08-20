@@ -2,6 +2,8 @@ library( censReg )
 library( lmtest )
 library( sandwich )
 
+options( digits = 5 )
+
 data( "Affairs", package = "AER" )
 affairsFormula <- affairs ~ age + yearsmarried + religiousness +
    occupation + rating

@@ -1,7 +1,6 @@
 
-R version 2.15.2 (2012-10-26) -- "Trick or Treat"
-Copyright (C) 2012 The R Foundation for Statistical Computing
-ISBN 3-900051-07-0
+R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
+Copyright (C) 2013 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -19,25 +18,22 @@ Type 'q()' to quit R.
 > library( sampleSelection )
 Loading required package: maxLik
 Loading required package: miscTools
+
+Please cite the 'maxLik' package as:
+Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.
+
+If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
+https://r-forge.r-project.org/projects/maxlik/
 Loading required package: systemfit
 Loading required package: Matrix
 Loading required package: lattice
-
-Attaching package: 'Matrix'
-
-The following object(s) are masked from 'package:stats':
-
-    toeplitz
-
 Loading required package: car
-Loading required package: MASS
-Loading required package: nnet
 Loading required package: lmtest
 Loading required package: zoo
 
 Attaching package: 'zoo'
 
-The following object(s) are masked from 'package:base':
+The following objects are masked from 'package:base':
 
     as.Date, as.Date.numeric
 
@@ -107,11 +103,11 @@ XOeduc         0.417017   0.099003    4.21  3.1e-05 ***
 XOcity         0.443838   0.317921    1.40     0.16    
 imrData$IMR1  -1.097619   1.252900   -0.88     0.38    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 3.11 on 422 degrees of freedom
-Multiple R-squared: 0.664,	Adjusted R-squared: 0.659 
-F-statistic:  139 on 6 and 422 DF,  p-value: <2e-16 
+Multiple R-squared:  0.664,	Adjusted R-squared:  0.659 
+F-statistic:  139 on 6 and 422 DF,  p-value: <2e-16
 
 > print( summary( greene$probit ) )
 --------------------------------------------
@@ -130,7 +126,7 @@ XSfaminc       4.580e-06  4.206e-06   1.089 0.276190
 XSkidsTRUE    -4.490e-01  1.309e-01  -3.430 0.000604 ***
 XSeduc         9.818e-02  2.298e-02   4.272 1.94e-05 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Significance test:
 chi2(5) = 48.0507 (p=3.46824e-09)
 --------------------------------------------
@@ -4174,11 +4170,11 @@ XOexper        0.043887   0.016353    2.68   0.0076 **
 XOI(exper^2)  -0.000859   0.000441   -1.95   0.0523 .  
 imrData$IMR1   0.032262   0.134388    0.24   0.8104    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Residual standard error: 0.667 on 423 degrees of freedom
-Multiple R-squared: 0.773,	Adjusted R-squared: 0.77 
-F-statistic:  288 on 5 and 423 DF,  p-value: <2e-16 
+Multiple R-squared:  0.773,	Adjusted R-squared:  0.77 
+F-statistic:  288 on 5 and 423 DF,  p-value: <2e-16
 
 > print( summary( wooldridge$probit ) )
 --------------------------------------------
@@ -4199,7 +4195,7 @@ XSage         -0.052853   0.008477  -6.235 4.53e-10 ***
 XSkids5       -0.868328   0.118522  -7.326 2.37e-13 ***
 XSkids618      0.036005   0.043477   0.828  0.40759    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Significance test:
 chi2(7) = 227.142 (p=2.00867e-45)
 --------------------------------------------
@@ -12077,4 +12073,4 @@ attr(,"assign")
 > 
 > proc.time()
    user  system elapsed 
-  2.288   0.124   2.404 
+  3.028   0.196   3.219 

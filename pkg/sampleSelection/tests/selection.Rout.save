@@ -1,7 +1,6 @@
 
-R version 2.15.2 (2012-10-26) -- "Trick or Treat"
-Copyright (C) 2012 The R Foundation for Statistical Computing
-ISBN 3-900051-07-0
+R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
+Copyright (C) 2013 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -19,25 +18,22 @@ Type 'q()' to quit R.
 > library(sampleSelection)
 Loading required package: maxLik
 Loading required package: miscTools
+
+Please cite the 'maxLik' package as:
+Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.
+
+If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
+https://r-forge.r-project.org/projects/maxlik/
 Loading required package: systemfit
 Loading required package: Matrix
 Loading required package: lattice
-
-Attaching package: 'Matrix'
-
-The following object(s) are masked from 'package:stats':
-
-    toeplitz
-
 Loading required package: car
-Loading required package: MASS
-Loading required package: nnet
 Loading required package: lmtest
 Loading required package: zoo
 
 Attaching package: 'zoo'
 
-The following object(s) are masked from 'package:base':
+The following objects are masked from 'package:base':
 
     as.Date, as.Date.numeric
 
@@ -9289,7 +9285,7 @@ sigma2   0.9980     0.0480   20.81  <2e-16 ***
 rho1     0.9035     0.0263   34.35  <2e-16 ***
 rho2     0.4722     0.1599    2.95  0.0031 ** 
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > print( coef( testTobit5Ml ), digits = 5 )
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
@@ -25747,7 +25743,7 @@ invMillsRatio   -0.871      0.238   -3.66  0.00026 ***
 sigma            1.046         NA      NA       NA    
 rho             -0.833         NA      NA       NA    
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > print( coef( testTobit2TwoStep ), digits = 5 )
 S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio  
@@ -32247,7 +32243,7 @@ Error terms:
 sigma   1.0125     0.0367    27.6  <2e-16 ***
 rho    -0.7791     0.0453   -17.2  <2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > print( coef( testTobit2Ml ), digits = 5 )
 S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma  
@@ -45765,7 +45761,7 @@ Error terms:
 sigma   1.0150     0.0378    26.8  <2e-16 ***
 rho    -0.8275     0.0393   -21.1  <2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## Raphael Abiry: does 'start' argument work?
@@ -45793,7 +45789,7 @@ Error terms:
 sigma   1.0150     0.0378    26.8  <2e-16 ***
 rho    -0.8275     0.0393   -21.1  <2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 >                            # Note: should be only 1 iteration
 > 
@@ -45804,4 +45800,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  7.476   0.312   7.793 
+ 10.240   0.472  10.771 

@@ -53,7 +53,7 @@ Error in selection(~z1, y ~ x1) :
 > 
 > try( selection( s ~ z1, "y ~ x1" ) )
 Error in selection(s ~ z1, "y ~ x1") : 
-  argument 'selection' must be either a formula or a list of two formulas
+  argument 'outcome' must be either a formula or a list of two formulas
 > 
 > try( selection( s ~ z1, ~ x1 ) )
 Error in selection(s ~ z1, ~x1) : 
@@ -91,4 +91,4 @@ Error in selection(s ~ z1, list(y1 ~ x1, ~x1)) :
 > 
 > proc.time()
    user  system elapsed 
-  1.896   0.056   1.942 
+  1.868   0.044   1.904 

@@ -62,7 +62,7 @@ selection <- function(selection, outcome,
           stop("argument 'outcome' must contain 1 or 2 components")
    }
    else
-       stop("argument 'selection' must be either a formula or a list of two formulas" )
+       stop("argument 'outcome' must be either a formula or a list of two formulas" )
    if(!missing(data)) {
       if(!inherits(data, "environment") & !inherits(data, "data.frame") & !inherits(data, "list")) {
          stop("'data' must be either environment, data.frame, or list (currently a ", class(data), ")")

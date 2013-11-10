@@ -1,0 +1,45 @@
+THIS IS THE CHANGELOG OF THE "sampleSelection" PACKAGE
+
+Please note that only the most significant changes are reported here.
+A full ChangeLog is available in the log messages of the SVN repository
+on R-Forge.
+
+
+   CHANGES IN VERSION 0.7-2 (2012-08-14)
+
+* fixed a bug in the calculation of the Hessian of the log likelihood function 
+for probit models that only occurred in specific circumstances
+(reported by Jon K. Peck) 
+
+* in Tobit 5 models, argument "outcome" can now be a pre-defined list 
+(bug reported by Jon K. Peck) 
+
+
+	CHANGES IN VERSION 0.7-0 (2012-03-04)
+
+* Binary-outcome selection models
+
+
+            CHANGES IN VERSION 0.6-12 (2011-11-13)
+
+* fixed a bug that occurred in the fitted( ..., part = "outcome" ), 
+model.matrix( ..., part = "outcome" ), and model.frame() methods as well as 
+in selection( ..., method = "model.frame" ) if all regressors of the outcome 
+equation are already included in the selection equation. Thanks to Timothée 
+Carayol for reporting this bug!
+
+* fixed partial argument matching in invMillsRatio() and probit()
+
+
+            CHANGES IN VERSION 0.6-10
+
+* added a NAMESPACE file
+
+* minor modifications so that the sampleSelection package works with the
+versions >= 0.7-3 of the maxLik package 
+
+
+
+            CHANGES IN VERSION 0.6-8 AND BEFORE
+
+* please take a look at the log messages of the SVN repository on R-Forge

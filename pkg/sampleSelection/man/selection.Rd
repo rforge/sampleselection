@@ -281,7 +281,7 @@ myHeckit <- heckit( s ~ x1 + x2, y ~ x1, myData, print.level = 1 )
 summary( myHeckit )
 
 ## example using random numbers with IV/2SLS estimation
-library( MASS )
+library( "MASS" )
 nObs <- 1000
 sigma <- matrix( c( 1, 0.5, 0.1, 0.5, 1, -0.3, 0.1, -0.3, 1 ), ncol = 3 )
 errorTerms <- mvrnorm( nObs, c( 0, 0, 0 ), sigma )

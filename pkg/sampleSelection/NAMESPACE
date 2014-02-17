@@ -12,6 +12,7 @@ export( "linearPredictors" )
 
 importFrom( "miscTools", "coefTable" )
 importFrom( "miscTools", "nObs" )
+importFrom( "systemfit", "systemfit" )
 
 S3method( "coef", "selection" )
 S3method( "coef", "summary.selection" )

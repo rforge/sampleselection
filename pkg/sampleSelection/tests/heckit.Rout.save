@@ -24,19 +24,6 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
-Loading required package: systemfit
-Loading required package: Matrix
-Loading required package: lattice
-Loading required package: car
-Loading required package: lmtest
-Loading required package: zoo
-
-Attaching package: 'zoo'
-
-The following objects are masked from 'package:base':
-
-    as.Date, as.Date.numeric
-
 > data( Mroz87 )
 > options( digits = 6 )
 > 
@@ -12073,4 +12060,4 @@ attr(,"assign")
 > 
 > proc.time()
    user  system elapsed 
-  3.028   0.196   3.219 
+  2.283   0.181   2.440 

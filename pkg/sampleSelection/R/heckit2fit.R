@@ -156,7 +156,6 @@ heckit2fit <- function( selection, outcome,
                                         "+ invMillsRatio" ) )
       formulaList <- list( step2formula )
       instImr <- as.formula( paste( "~", inst[ 2 ], "+ invMillsRatio" ) )
-      library( systemfit )
       outcomeMod <- systemfit( formulaList, method = "2SLS", inst = instImr,
                              data = data[ YS == 1, ] )
       intercept = FALSE

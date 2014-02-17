@@ -16,7 +16,7 @@ invMillsRatio <- function( x, all = FALSE ) {
    } else if(inherits(x, "probit")) {
       # Note: 'probit' need not to be the first component in the class
       result <- data.frame( no = seq(length=nObs(x)),
-         row.names = rownames( model.frame( x ) ) )
+         row.names = rownames( model.matrix( x ) ) )
       result$IMR1 <- dnorm(linearPredictors(x))/pnorm(linearPredictors(x))
       result$delta1 <- result$IMR1 * ( result$IMR1 + linearPredictors(x))
       result$IMR0 <- dnorm(linearPredictors(x))/pnorm(-linearPredictors(x))

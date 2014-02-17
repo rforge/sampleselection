@@ -82,7 +82,7 @@ selection <- function(selection, outcome,
    if(method == "2step") {
       if(type == 2)
           twoStep <- heckit2fit(selection, outcome, data=data,
-            print.level = print.level)
+            print.level = print.level, ... )
       else if(type == 5)
           twoStep <- heckit5fit(selection, outcome, data=data,
             print.level = print.level, ... )

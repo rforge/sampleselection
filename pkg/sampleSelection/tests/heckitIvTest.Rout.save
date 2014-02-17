@@ -73,16 +73,18 @@ x1           1.96511    0.11964  16.425  < 2e-16 ***
 x2           1.08058    0.08279  13.053  < 2e-16 ***
 Outcome equation:
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  1.25259    0.09357   13.39   <2e-16 ***
-w            1.34766    0.03809   35.38   <2e-16 ***
-Multiple R-Squared:0.756,	Adjusted R-Squared:0.7549
+(Intercept)  2.11221    0.10585   19.95   <2e-16 ***
+w            0.92825    0.04299   21.59   <2e-16 ***
+Multiple R-Squared:0.6919,	Adjusted R-Squared:0.6906
 Error terms:
-               Estimate Std. Error t value Pr(>|t|)
-invMillsRatio -0.006035   0.097612  -0.062    0.951
-sigma          0.875321         NA      NA       NA
-rho           -0.006894         NA      NA       NA
+              Estimate Std. Error t value Pr(>|t|)    
+invMillsRatio  -0.3848     0.1086  -3.543 0.000414 ***
+sigma           1.0059         NA      NA       NA    
+rho            -0.3826         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > proc.time()
    user  system elapsed 
-  1.925   0.039   1.943 
+  2.069   0.073   2.131 

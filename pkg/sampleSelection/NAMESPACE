@@ -10,6 +10,7 @@ export( "tobit2fit" )
 export( "tobit5fit" )
 export( "linearPredictors" )
 
+import( "maxLik" )
 importFrom( "miscTools", "coefTable" )
 importFrom( "miscTools", "nObs" )
 importFrom( "systemfit", "systemfit" )

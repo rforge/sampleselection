@@ -1,7 +1,6 @@
 
-R version 2.15.2 (2012-10-26) -- "Trick or Treat"
-Copyright (C) 2012 The R Foundation for Statistical Computing
-ISBN 3-900051-07-0
+R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
+Copyright (C) 2013 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -20,6 +19,12 @@ Type 'q()' to quit R.
 Loading required package: mvtnorm
 Loading required package: maxLik
 Loading required package: miscTools
+
+Please cite the 'maxLik' package as:
+Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.
+
+If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
+https://r-forge.r-project.org/projects/maxlik/
 Loading required package: abind
 > 
 > ## generate a simulated data set
@@ -87,7 +92,7 @@ R_1_2  0.86322   18.60071   0.046  0.9630
 R_1_3  0.36022    0.64712   0.557  0.5778  
 R_2_3 -0.08406    0.34909  -0.241  0.8097  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BHHH maximisation, 1 iterations
 Return code 2: successive function values within tolerance limit
@@ -142,7 +147,7 @@ R_1_2  0.86322   18.60041   0.046  0.9630
 R_1_3  0.36022    0.64712   0.557  0.5778  
 R_2_3 -0.08406    0.34909  -0.241  0.8097  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BHHH maximisation, 1 iterations
 Return code 2: successive function values within tolerance limit
@@ -198,7 +203,7 @@ R_1_2  0.29483    1.85817   0.159  0.8739
 R_1_3  0.32822    0.70923   0.463  0.6435  
 R_2_3 -0.02382    0.34466  -0.069  0.9449  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
@@ -247,7 +252,7 @@ R_1_2  0.29483    1.85817   0.159  0.8739
 R_1_3  0.32822    0.70923   0.463  0.6435  
 R_2_3 -0.02382    0.34466  -0.069  0.9449  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
@@ -299,7 +304,7 @@ R_1_2  0.75270    4.32729   0.174  0.8619
 R_1_3  0.23721    0.90535   0.262  0.7933  
 R_2_3 -0.03453    0.35889  -0.096  0.9234  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BFGS maximisation, 3 iterations
 Return code 0: successful convergence 
@@ -347,7 +352,7 @@ R_1_2   0.6817     3.4094   0.200  0.8415
 R_1_3   0.4044     0.8024   0.504  0.6143  
 R_2_3   0.1663     0.3389   0.491  0.6235  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BFGS maximisation, 3 iterations
 Return code 0: successful convergence 
@@ -395,7 +400,7 @@ R_1_2  0.34981    2.02289   0.173  0.8627
 R_1_3 -0.01177    0.70776  -0.017  0.9867  
 R_2_3  0.09435    0.33920   0.278  0.7809  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
@@ -445,7 +450,7 @@ R_1_2  0.29491    1.85789   0.159  0.8739
 R_1_3  0.32819    0.70903   0.463  0.6435  
 R_2_3 -0.02386    0.34468  -0.069  0.9448  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
@@ -500,7 +505,7 @@ R_1_2  0.29530    1.85491   0.159  0.8735
 R_1_3  0.32495    0.70449   0.461  0.6446  
 R_2_3 -0.02085    0.34616  -0.060  0.9520  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
@@ -561,7 +566,7 @@ R_1_2   0.2000     2.4163   0.083  0.9340
 R_1_3   0.4000     0.7321   0.546  0.5848  
 R_2_3  -0.1000     0.3416  -0.293  0.7697  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 Nelder-Mead maximisation, 13 iterations
 Return code 0: successful convergence 
@@ -651,7 +656,7 @@ R_1_2  0.29483    1.85817   0.159  0.8739
 R_1_3  0.32822    0.70923   0.463  0.6435  
 R_2_3 -0.02382    0.34466  -0.069  0.9449  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
@@ -704,7 +709,7 @@ R_1_2  0.84707    5.17569   0.164  0.8700
 R_1_3  0.27999    1.61815   0.173  0.8626   
 R_2_3 -0.04633    0.48673  -0.095  0.9242   
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BFGS maximisation, 3 iterations
 Return code 0: successful convergence 
@@ -807,7 +812,7 @@ R_1_2  0.78195    4.86780   0.161  0.8724
 R_1_3  0.26630    1.17266   0.227  0.8204  
 R_2_3 -0.04226    0.44482  -0.095  0.9243  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BFGS maximisation, 3 iterations
 Return code 0: successful convergence 
@@ -1409,7 +1414,7 @@ d_y3_d_x2 -0.03894     0     0     0
 50: d_y2_d_x2 -0.317768   0.216518   -1.47  0.1422   
 50: d_y3_d_x2  0.339568   0.138744    2.45  0.0144 * 
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # now with explicitly specifying dummy variables
 > margEffUncD <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
 +    dummyVars = c( "x1" ) )
@@ -1721,7 +1726,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 50: d_y2_d_x2 -0.317768   0.216518   -1.47  0.1422   
 50: d_y3_d_x2  0.339568   0.138744    2.45  0.0144 * 
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # now with seemingly only dummy variables
 > margEffUncDA <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
 +    dummyVars = c( "x1", "x2" ) )
@@ -2028,7 +2033,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 50: d_y2_d_x2 -0.305133   0.218871   -1.39  0.1633   
 50: d_y3_d_x2  0.294069   0.121523    2.42  0.0155 * 
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # now with returned Jacobian but without variance covariance matrix
 > margEffUncJac <- margEff( estResultBFGS, returnJacobian = TRUE )
 > all.equal( attr( margEffUncJac, "jacobian" ), attr( margEffUnc, "jacobian" ) )
@@ -2197,7 +2202,7 @@ mean: d_y1_d_x2  -0.2385     0.0718   -3.32  0.0009 ***
 mean: d_y2_d_x2  -0.3379     0.0446   -7.58 3.5e-14 ***
 mean: d_y3_d_x2   0.3143     0.0724    4.34 1.4e-05 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # now at mean values of explanatory variables
 > margEffUncMean <- margEff( estResultBFGS, calcVCov = TRUE, 
 +    data = as.data.frame( t( colMeans( xMat ) ) ) )
@@ -2210,7 +2215,7 @@ d_y1_d_x2  -0.2967     0.1257  -2.360  0.0183 *
 d_y2_d_x2  -0.6194     0.2475  -2.503  0.0123 *
 d_y3_d_x2   0.4942     0.2615   1.890  0.0588 .
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # now with argument 'atMean'
 > margEffUncMeanA <- margEff( estResultBFGS, calcVCov = TRUE, atMean = TRUE )
 > all.equal( margEffUncMeanA, margEffUncMean )
@@ -2405,7 +2410,7 @@ d_y1_d_x2  -0.2927     0.1704  -1.718  0.0858 .
 d_y2_d_x2  -0.5708     0.2487  -2.295  0.0217 *
 d_y3_d_x2   0.5331     0.3357   1.588  0.1123  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # now with explicitly specifying dummy variables
 > margEffCondObsCovD <- margEff( estResultBFGS, cond = TRUE,
 +    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ),
@@ -2427,7 +2432,7 @@ d_y1_d_x2   -0.293      0.170   -1.72   0.086 .
 d_y2_d_x2   -0.571      0.249   -2.30   0.022 *
 d_y3_d_x2    0.533      0.336    1.59   0.112  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # now with seemingly only dummy variables
 > margEffCondObsCovDA <- margEff( estResultBFGS, cond = TRUE,
 +    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
@@ -2442,7 +2447,7 @@ d_y1_d_x2   -0.392      0.279   -1.40   0.160
 d_y2_d_x2   -0.442      0.149   -2.97   0.003 **
 d_y3_d_x2    0.393      0.162    2.42   0.015 * 
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # conditional marginal effects
 > # (assuming that all other dependent variables are one)
@@ -2557,7 +2562,7 @@ d_y1_d_x2   -0.144      0.897   -0.16   0.873
 d_y2_d_x2   -0.571      0.249   -2.30   0.022 *
 d_y3_d_x2    0.525      0.363    1.44   0.149  
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # now with using argument 'atMean'
 > margEffCondOneCovA <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
 +    atMean = TRUE, algorithm = GenzBretz(), calcVCov = TRUE )
@@ -3016,4 +3021,4 @@ Error in colMeans(data) : 'x' must be numeric
 > 
 > proc.time()
    user  system elapsed 
- 49.495   0.108  49.666 
+ 51.479   0.146  51.670 

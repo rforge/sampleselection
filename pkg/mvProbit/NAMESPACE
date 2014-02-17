@@ -3,6 +3,9 @@ export( "mvProbitExp" )
 export( "mvProbitLogLik" )
 export( "mvProbitMargEff" )
 
+import( "mvtnorm" )
+import( "maxLik" )
+import( "abind" )
 importFrom( "bayesm", "ghkvec" )
 importFrom( "miscTools", "margEff" )
 

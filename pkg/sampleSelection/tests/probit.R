@@ -19,6 +19,21 @@ fitted( probitResult )
 residuals( probitResult, type = "response" )
 residuals( probitResult, type = "pearson" )
 residuals( probitResult, type = "deviance" )
+all.equal( residuals( probitResult, type = "deviance" ),
+   residuals( probitResult ) )
+
+probitResult2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ) )
+all.equal( coef( probitResult ), coef( probitResult2 ), tol = 1e-4 )
+all.equal( stdEr( probitResult ), stdEr( probitResult2 ), tol = 1e-1 )
+all.equal( fitted( probitResult ), fitted( probitResult2 ), tol = 1e-4 )
+all.equal( residuals( probitResult, type = "response" ),
+   residuals( probitResult2, type = "response" ), tol = 1e-4 )
+all.equal( residuals( probitResult, type = "pearson" ),
+   residuals( probitResult2, type = "pearson" ), tol = 1e-4 )
+all.equal( residuals( probitResult, type = "deviance" ),
+   residuals( probitResult2, type = "deviance" ), tol = 1e-4 )
+all.equal( residuals( probitResult ), residuals( probitResult2 ), tol = 1e-4 )
+
 
 ## female labour force participation probability
 lfpResult <- probit( lfp ~ kids + age30.39 + age50.60 + educ + hushrs +
@@ -30,6 +45,21 @@ residuals( lfpResult, type = "response" )
 residuals( lfpResult, type = "pearson" )
 residuals( lfpResult, type = "deviance" )
 
+lfpResult2 <- glm( lfp ~ kids + age30.39 + age50.60 + educ + hushrs +
+      huseduc + huswage + mtr + motheduc, data = Mroz87, 
+   family = binomial( link = "probit" ) )
+all.equal( coef( lfpResult ), coef( lfpResult2 ), tol = 1e-3 )
+all.equal( stdEr( lfpResult ), stdEr( lfpResult2 ), tol = 1e-1 )
+all.equal( fitted( lfpResult ), fitted( lfpResult2 ), tol = 1e-4 )
+all.equal( residuals( lfpResult, type = "response" ),
+   residuals( lfpResult2, type = "response" ), tol = 1e-4 )
+all.equal( residuals( lfpResult, type = "pearson" ),
+   residuals( lfpResult2, type = "pearson" ), tol = 1e-4 )
+all.equal( residuals( lfpResult, type = "deviance" ),
+   residuals( lfpResult2, type = "deviance" ), tol = 1e-4 )
+all.equal( residuals( lfpResult ), residuals( lfpResult2 ), tol = 1e-4 )
+
+
 ## Greene( 2003 ): example 22.8, page 786 (only probit part )
 greene <- probit( lfp ~ age + I( age^2 ) + faminc + kids + educ, data = Mroz87 )
 print( greene )
@@ -38,6 +68,20 @@ fitted( greene )
 residuals( greene, type = "response" )
 residuals( greene, type = "pearson" )
 residuals( greene, type = "deviance" )
+
+greene2 <- glm( lfp ~ age + I( age^2 ) + faminc + kids + educ, 
+   data = Mroz87, family = binomial( link = "probit" ) )
+all.equal( coef( greene ), coef( greene2 ), tol = 1e-3 )
+all.equal( stdEr( greene ), stdEr( greene2 ), tol = 1e-1 )
+all.equal( fitted( greene ), fitted( greene2 ), tol = 1e-4 )
+all.equal( residuals( greene, type = "response" ),
+   residuals( greene2, type = "response" ), tol = 1e-4 )
+all.equal( residuals( greene, type = "pearson" ),
+   residuals( greene2, type = "pearson" ), tol = 1e-4 )
+all.equal( residuals( greene, type = "deviance" ),
+   residuals( greene2, type = "deviance" ), tol = 1e-4 )
+all.equal( residuals( greene ), residuals( greene2 ), tol = 1e-4 )
+
 
 ## factors as dependent variable (from Achim Zeileis)
 probit( lfp ~ exper, data = Mroz87 )

@@ -22,6 +22,7 @@ residuals( probitResult, type = "deviance" )
 all.equal( residuals( probitResult, type = "deviance" ),
    residuals( probitResult ) )
 
+# estimation with glm()
 probitResult2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ) )
 all.equal( coef( probitResult ), coef( probitResult2 ), tol = 1e-4 )
 all.equal( stdEr( probitResult ), stdEr( probitResult2 ), tol = 1e-1 )
@@ -34,6 +35,60 @@ all.equal( residuals( probitResult, type = "deviance" ),
    residuals( probitResult2, type = "deviance" ), tol = 1e-4 )
 all.equal( residuals( probitResult ), residuals( probitResult2 ), tol = 1e-4 )
 
+# estimation with equal weights
+we <- rep( 0.5, 100 )
+probitResultWe <- probit( (y > 0) ~ x, weights = we )
+summary( probitResultWe )
+all.equal( coef( probitResult ), coef( probitResultWe ), tol = 1e-4 )
+
+# estimation with equal weights with glm()
+probitResultWe2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ),
+   weights = we )
+all.equal( coef( probitResultWe ), coef( probitResultWe2 ), tol = 1e-4 )
+all.equal( stdEr( probitResultWe ), stdEr( probitResultWe2 ), tol = 1e-1 )
+all.equal( fitted( probitResultWe ), fitted( probitResultWe2 ), tol = 1e-4 )
+all.equal( residuals( probitResultWe, type = "response" ),
+   residuals( probitResultWe2, type = "response" ), tol = 1e-4 )
+all.equal( residuals( probitResultWe, type = "pearson" ),
+   residuals( probitResultWe2, type = "pearson" ), tol = 1e-4 )
+all.equal( residuals( probitResultWe, type = "deviance" ),
+   residuals( probitResultWe2, type = "deviance" ), tol = 1e-4 )
+
+# estimation with weights to account for stratified sampling
+# proportion in the "population"
+yProbPop <- sum( y > 0 ) / length( y )
+yProbPop
+# stratified sample with all observations with y = 0
+sampStrat <- y <= 0 | rnorm( length( y ) ) > 0.25
+sum( sampStrat )
+# stratified sample of y and x
+ySamp <- y[ sampStrat ]
+xSamp <- x[ sampStrat ]
+# proportion in the "sample"
+yProbSamp <- sum( ySamp > 0 ) / length( ySamp )
+yProbSamp
+# unweighted estimation (ignoring the stratification)
+probitResultStrat <- probit( (ySamp > 0) ~ xSamp )
+summary( probitResultStrat )
+# weights
+wStrat <- ifelse( ySamp > 0, yProbPop / yProbSamp,
+   ( 1 - yProbPop ) / ( 1 - yProbSamp ) )
+probitResultStratW <- probit( (ySamp > 0) ~ xSamp, weights = wStrat )
+summary( probitResultStratW )
+
+# estimation with weights to account for stratified sampling with glm()
+probitResultStratW2 <- glm( (ySamp > 0) ~ xSamp, 
+   family = binomial( link = "probit" ), weights = wStrat )
+all.equal( coef( probitResultStratW ), coef( probitResultStratW2 ), tol = 1e-4 )
+all.equal( stdEr( probitResultStratW ), stdEr( probitResultStratW2 ), tol = 1e-1 )
+all.equal( fitted( probitResultStratW ), fitted( probitResultStratW2 ), tol = 1e-4 )
+all.equal( residuals( probitResultStratW, type = "response" ),
+   residuals( probitResultStratW2, type = "response" ), tol = 1e-4 )
+all.equal( residuals( probitResultStratW, type = "pearson" ),
+   residuals( probitResultStratW2, type = "pearson" ), tol = 1e-4 )
+all.equal( residuals( probitResultStratW, type = "deviance" ),
+   residuals( probitResultStratW2, type = "deviance" ), tol = 1e-4 )
+
 
 ## female labour force participation probability
 lfpResult <- probit( lfp ~ kids + age30.39 + age50.60 + educ + hushrs +
@@ -45,6 +100,7 @@ residuals( lfpResult, type = "response" )
 residuals( lfpResult, type = "pearson" )
 residuals( lfpResult, type = "deviance" )
 
+# estimation with glm()
 lfpResult2 <- glm( lfp ~ kids + age30.39 + age50.60 + educ + hushrs +
       huseduc + huswage + mtr + motheduc, data = Mroz87, 
    family = binomial( link = "probit" ) )
@@ -69,6 +125,7 @@ residuals( greene, type = "response" )
 residuals( greene, type = "pearson" )
 residuals( greene, type = "deviance" )
 
+# estimation with glm()
 greene2 <- glm( lfp ~ age + I( age^2 ) + faminc + kids + educ, 
    data = Mroz87, family = binomial( link = "probit" ) )
 all.equal( coef( greene ), coef( greene2 ), tol = 1e-3 )

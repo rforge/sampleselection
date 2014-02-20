@@ -180,6 +180,7 @@ chi2(1) = 6.55241 (p=0.0104742)
 +    residuals( probitResult ) )
 [1] TRUE
 > 
+> # estimation with glm()
 > probitResult2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ) )
 > all.equal( coef( probitResult ), coef( probitResult2 ), tol = 1e-4 )
 [1] TRUE
@@ -197,6 +198,124 @@ chi2(1) = 6.55241 (p=0.0104742)
 +    residuals( probitResult2, type = "deviance" ), tol = 1e-4 )
 [1] TRUE
 > all.equal( residuals( probitResult ), residuals( probitResult2 ), tol = 1e-4 )
+[1] TRUE
+> 
+> # estimation with equal weights
+> we <- rep( 0.5, 100 )
+> probitResultWe <- probit( (y > 0) ~ x, weights = we )
+> summary( probitResultWe )
+--------------------------------------------
+Probit binary choice model/Maximum Likelihood estimation
+Newton-Raphson maximisation, 5 iterations
+Return code 1: gradient close to zero
+Log-Likelihood: -20.3454 
+Model: Y == 'TRUE' in contrary to 'FALSE'
+100 observations (16 'negative' and 84 'positive') and 2 free parameters (df = 98)
+Estimates:
+            Estimate Std. error t value Pr(> t)  
+(Intercept)   0.3202     0.4247   0.754  0.4509  
+x             1.4430     0.8259   1.747  0.0806 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+Significance test:
+chi2(1) = 47.2432 (p=6.27034e-12)
+--------------------------------------------
+> all.equal( coef( probitResult ), coef( probitResultWe ), tol = 1e-4 )
+[1] TRUE
+> 
+> # estimation with equal weights with glm()
+> probitResultWe2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ),
++    weights = we )
+Warning message:
+In eval(expr, envir, enclos) : non-integer #successes in a binomial glm!
+> all.equal( coef( probitResultWe ), coef( probitResultWe2 ), tol = 1e-4 )
+[1] TRUE
+> all.equal( stdEr( probitResultWe ), stdEr( probitResultWe2 ), tol = 1e-1 )
+[1] TRUE
+> all.equal( fitted( probitResultWe ), fitted( probitResultWe2 ), tol = 1e-4 )
+[1] TRUE
+> all.equal( residuals( probitResultWe, type = "response" ),
++    residuals( probitResultWe2, type = "response" ), tol = 1e-4 )
+[1] TRUE
+> all.equal( residuals( probitResultWe, type = "pearson" ),
++    residuals( probitResultWe2, type = "pearson" ), tol = 1e-4 )
+[1] TRUE
+> all.equal( residuals( probitResultWe, type = "deviance" ),
++    residuals( probitResultWe2, type = "deviance" ), tol = 1e-4 )
+[1] TRUE
+> 
+> # estimation with weights to account for stratified sampling
+> # proportion in the "population"
+> yProbPop <- sum( y > 0 ) / length( y )
+> yProbPop
+[1] 0.84
+> # stratified sample with all observations with y = 0
+> sampStrat <- y <= 0 | rnorm( length( y ) ) > 0.25
+> sum( sampStrat )
+[1] 54
+> # stratified sample of y and x
+> ySamp <- y[ sampStrat ]
+> xSamp <- x[ sampStrat ]
+> # proportion in the "sample"
+> yProbSamp <- sum( ySamp > 0 ) / length( ySamp )
+> yProbSamp
+[1] 0.703704
+> # unweighted estimation (ignoring the stratification)
+> probitResultStrat <- probit( (ySamp > 0) ~ xSamp )
+> summary( probitResultStrat )
+--------------------------------------------
+Probit binary choice model/Maximum Likelihood estimation
+Newton-Raphson maximisation, 4 iterations
+Return code 1: gradient close to zero
+Log-Likelihood: -31.5524 
+Model: Y == 'TRUE' in contrary to 'FALSE'
+54 observations (16 'negative' and 38 'positive') and 2 free parameters (df = 52)
+Estimates:
+            Estimate Std. error t value Pr(> t)
+(Intercept)  0.06212    0.34834   0.178   0.858
+xSamp        1.10741    0.70892   1.562   0.118
+Significance test:
+chi2(1) = 2.52616 (p=0.111972)
+--------------------------------------------
+> # weights
+> wStrat <- ifelse( ySamp > 0, yProbPop / yProbSamp,
++    ( 1 - yProbPop ) / ( 1 - yProbSamp ) )
+> probitResultStratW <- probit( (ySamp > 0) ~ xSamp, weights = wStrat )
+> summary( probitResultStratW )
+--------------------------------------------
+Probit binary choice model/Maximum Likelihood estimation
+Newton-Raphson maximisation, 4 iterations
+Return code 1: gradient close to zero
+Log-Likelihood: -22.9004 
+Model: Y == 'TRUE' in contrary to 'FALSE'
+54 observations (16 'negative' and 38 'positive') and 2 free parameters (df = 52)
+Estimates:
+            Estimate Std. error t value Pr(> t)
+(Intercept)   0.5415     0.4015   1.349   0.177
+xSamp         1.0539     0.8312   1.268   0.205
+Significance test:
+chi2(1) = 19.83 (p=8.46428e-06)
+--------------------------------------------
+> 
+> # estimation with weights to account for stratified sampling with glm()
+> probitResultStratW2 <- glm( (ySamp > 0) ~ xSamp, 
++    family = binomial( link = "probit" ), weights = wStrat )
+Warning message:
+In eval(expr, envir, enclos) : non-integer #successes in a binomial glm!
+> all.equal( coef( probitResultStratW ), coef( probitResultStratW2 ), tol = 1e-4 )
+[1] TRUE
+> all.equal( stdEr( probitResultStratW ), stdEr( probitResultStratW2 ), tol = 1e-1 )
+[1] TRUE
+> all.equal( fitted( probitResultStratW ), fitted( probitResultStratW2 ), tol = 1e-4 )
+[1] TRUE
+> all.equal( residuals( probitResultStratW, type = "response" ),
++    residuals( probitResultStratW2, type = "response" ), tol = 1e-4 )
+[1] TRUE
+> all.equal( residuals( probitResultStratW, type = "pearson" ),
++    residuals( probitResultStratW2, type = "pearson" ), tol = 1e-4 )
+[1] TRUE
+> all.equal( residuals( probitResultStratW, type = "deviance" ),
++    residuals( probitResultStratW2, type = "deviance" ), tol = 1e-4 )
 [1] TRUE
 > 
 > 
@@ -1252,6 +1371,7 @@ chi2(9) = 159.484 (p=9.50543e-30)
         751         752         753 
 -1.84452029 -1.13159588 -0.87182766 
 > 
+> # estimation with glm()
 > lfpResult2 <- glm( lfp ~ kids + age30.39 + age50.60 + educ + hushrs +
 +       huseduc + huswage + mtr + motheduc, data = Mroz87, 
 +    family = binomial( link = "probit" ) )
@@ -2097,6 +2217,7 @@ chi2(5) = 48.0507 (p=3.46824e-09)
       753 
 -1.142633 
 > 
+> # estimation with glm()
 > greene2 <- glm( lfp ~ age + I( age^2 ) + faminc + kids + educ, 
 +    data = Mroz87, family = binomial( link = "probit" ) )
 > all.equal( coef( greene ), coef( greene2 ), tol = 1e-3 )
@@ -2196,4 +2317,4 @@ chi2(1) = 2.97719 (p=0.0844456)
 > 
 > proc.time()
    user  system elapsed 
-  2.314   0.071   2.379 
+  2.435   0.062   2.473 

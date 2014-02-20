@@ -35,8 +35,8 @@ https://r-forge.r-project.org/projects/maxlik/
 > ## A simple single MC trial: note probit assumes normal errors
 > set.seed( 20080225 )
 > x <- runif( 100 )
-> e <- 0.5 * rnorm( 100 )
-> y <- x + e
+> e <- rnorm( 100 )
+> y <- 2 * x + e
 > probitResult <- probit( (y > 0) ~ x )
 > print( probitResult )
 
@@ -2317,4 +2317,4 @@ chi2(1) = 2.97719 (p=0.0844456)
 > 
 > proc.time()
    user  system elapsed 
-  2.435   0.062   2.473 
+  2.453   0.091   2.520 

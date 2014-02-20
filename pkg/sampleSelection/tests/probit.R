@@ -10,8 +10,8 @@ Mroz87$age50.60 <- Mroz87$age >= 50
 ## A simple single MC trial: note probit assumes normal errors
 set.seed( 20080225 )
 x <- runif( 100 )
-e <- 0.5 * rnorm( 100 )
-y <- x + e
+e <- rnorm( 100 )
+y <- 2 * x + e
 probitResult <- probit( (y > 0) ~ x )
 print( probitResult )
 summary( probitResult )

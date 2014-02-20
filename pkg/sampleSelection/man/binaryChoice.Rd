@@ -8,7 +8,7 @@
   \code{probit}. 
 }
 \usage{
-probit(formula, ...)
+probit(formula, weights = NULL, ...)
 binaryChoice(formula, subset, na.action, start = NULL, data = sys.frame(sys.parent()),
              x=FALSE, y = FALSE, model = FALSE, method="ML",
 userLogLik=NULL,
@@ -22,6 +22,8 @@ maxMethod="Newton-Raphson",
   \item{formula}{a symbolic description of the model to be fit, in the
     form \code{response ~ explanatory variables}
     (see also details).}
+  \item{weights}{an optional vector of \sQuote{prior weights} 
+    to be used in the fitting process. Should be NULL or a numeric vector.}
   \item{subset}{an optional vector specifying a subset of observations to be
     used in the fitting process.}
   \item{na.action}{a function which indicates what should happen when the data

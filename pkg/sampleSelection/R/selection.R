@@ -127,7 +127,7 @@ selection <- function(selection, outcome,
    if(type == 2) {
       oArg <- match("outcome", names(mf), 0)
                                         # find the outcome argument
-      m <- match(c("outcome", "data", "subset", "weights", 
+      m <- match(c("outcome", "data", "subset",
                    "offset"), names(mf), 0)
       ## replace the outcome list by the first equation and evaluate it
       mfO <- mf[c(1, m)]
@@ -241,7 +241,7 @@ selection <- function(selection, outcome,
       # if(!("formula" %in% class(formula2)))
           formula2 <- outcome[[2]]
                                         # Now we have extracted both formulas
-      m <- match(c("outcome", "data", "subset", "weights",
+      m <- match(c("outcome", "data", "subset",
                    "offset"), names(mf), 0)
       ## replace the outcome list by the first equation and evaluate it
       mf[[oArg]] <- formula1

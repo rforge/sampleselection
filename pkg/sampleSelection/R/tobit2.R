@@ -172,7 +172,7 @@ tobit2 <- function(selection, formula,
    ## Y1 (selection equation)
    cl <- match.call()
    mf <- match.call(expand.dots = FALSE)
-   m <- match(c("selection", "data", "subset", "weights", "na.action",
+   m <- match(c("selection", "data", "subset", "na.action",
                 "offset"), names(mf), 0)
    mf1 <- mf[c(1, m)]
    mf1$drop.unused.levels <- TRUE
@@ -184,7 +184,7 @@ tobit2 <- function(selection, formula,
    Z <- model.matrix(mt1, mf1)
    Y1 <- model.response(mf1, "numeric")
    ## Y2 (regression)
-   m <- match(c("formula", "data", "subset", "weights", "na.action",
+   m <- match(c("formula", "data", "subset", "na.action",
                 "offset"), names(mf), 0)
    mf2 <- mf[c(1, m)]
    mf2$drop.unused.levels <- TRUE

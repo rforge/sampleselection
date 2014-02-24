@@ -85,6 +85,37 @@ rho            -0.3826         NA      NA       NA
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
+> myHeckitIvWe <- heckit( s ~ x1 + x2, y ~ w, data = myData, inst = ~ x1,
++    weights = rep( 0.5, nObs ) )
+Warning message:
+In heckit2fit(selection, outcome, data = data, weights = weights,  :
+  weights are ignored in instrumental variable estimations
+> summary( myHeckitIvWe )
+--------------------------------------------
+Tobit 2 model (sample selection model)
+2-step Heckman / heckit estimation
+1000 observations (538 censored and 462 observed)
+8 free parameters (df = 993)
+Probit selection equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  -0.1765     0.0844  -2.092   0.0367 *  
+x1            1.9651     0.1692  11.614   <2e-16 ***
+x2            1.0806     0.1171   9.230   <2e-16 ***
+Outcome equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  2.11221    0.10638   19.86   <2e-16 ***
+w            0.92825    0.04307   21.55   <2e-16 ***
+Multiple R-Squared:0.6919,	Adjusted R-Squared:0.6906
+Error terms:
+              Estimate Std. Error t value Pr(>|t|)    
+invMillsRatio  -0.3848     0.1100    -3.5 0.000487 ***
+sigma           1.0059         NA      NA       NA    
+rho            -0.3826         NA      NA       NA    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
+> 
 > proc.time()
    user  system elapsed 
-  2.069   0.073   2.131 
+  2.176   0.071   2.223 

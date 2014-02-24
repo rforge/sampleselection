@@ -15,3 +15,8 @@ myHeckit <- heckit( s ~ x1 + x2, y ~ w, data = myData )
 summary( myHeckit )  # biased!
 myHeckitIv <- heckit( s ~ x1 + x2, y ~ w, data = myData, inst = ~ x1 )
 summary( myHeckitIv ) # unbiased
+
+myHeckitIvWe <- heckit( s ~ x1 + x2, y ~ w, data = myData, inst = ~ x1,
+   weights = rep( 0.5, nObs ) )
+summary( myHeckitIvWe )
+

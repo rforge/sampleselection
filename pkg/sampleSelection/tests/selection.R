@@ -180,6 +180,25 @@ all.equal( mfTestTobit2Ml, mfTestTobit2MlMf )
 # return just the model.frame
 selection( ys~xs, yo ~xo, method = "model.frame" )
 
+
+## two-step estimation with equal weights
+we <- rep( 0.7, N )
+testTobit2TwoStepWe <- selection( ys~xs, yo ~xo, method="2step", weights = we )
+summary( testTobit2TwoStepWe )
+all.equal( coef( testTobit2TwoStepWe ), coef( testTobit2TwoStep ) )
+
+## two-step estimation with unequal weights
+wu <- 2 * runif( N )
+testTobit2TwoStepWu <- selection( ys~xs, yo ~xo, method="2step", weights = wu )
+summary( testTobit2TwoStepWu )
+
+## estimation with weights that do not work
+testTobit2TwoStepWe <- selection( ys~xs, yo ~xo, weights = we )
+
+try( testTobit2TwoStepWe <- selection( ys~xs, yo ~xo, method="2step", 
+   weights = 1:99 ) )
+
+
 # factors as dependent variable (from Achim Zeileis)
 selection( ys ~ xs, yo ~ xo, method = "2step" )
 selection( factor( ys ) ~ xs, yo ~ xo, method = "2step" )

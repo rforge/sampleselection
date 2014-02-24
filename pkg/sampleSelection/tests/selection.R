@@ -197,16 +197,24 @@ testTobit2TwoStepWe <- selection( ys~xs, yo ~xo, method="2step", weights = we )
 summary( testTobit2TwoStepWe )
 all.equal( coef( testTobit2TwoStepWe ), coef( testTobit2TwoStep ) )
 
+## ML estimation with equal weights
+testTobit2MlWe <- selection( ys~xs, yo ~xo, weights = we )
+summary( testTobit2MlWe )
+all.equal( coef( testTobit2MlWe ), coef( testTobit2Ml ), tol = 1e-4 )
+
 ## two-step estimation with unequal weights
 wu <- 2 * runif( N )
 testTobit2TwoStepWu <- selection( ys~xs, yo ~xo, method="2step", weights = wu )
 summary( testTobit2TwoStepWu )
 
-## estimation with weights that do not work
-testTobit2TwoStepWe <- selection( ys~xs, yo ~xo, weights = we )
+## ML estimation with unequal weights
+testTobit2MlWu <- selection( ys~xs, yo ~xo, weights = wu )
+summary( testTobit2MlWu )
 
-try( testTobit2TwoStepWe <- selection( ys~xs, yo ~xo, method="2step", 
-   weights = 1:99 ) )
+## estimations with weights that do not work
+try( selection( ys~xs, yo ~xo, method = "2step", weights = 1:99 ) )
+
+try( selection( ys~xs, yo ~xo, method = "ml", weights = 4:14 ) )
 
 
 # factors as dependent variable (from Achim Zeileis)

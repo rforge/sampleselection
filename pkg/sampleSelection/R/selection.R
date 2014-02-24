@@ -1,5 +1,6 @@
 selection <- function(selection, outcome,
                       data=sys.frame(sys.parent()),
+                      weights = NULL,
                       subset,
                       method="ml",
                       start=NULL,
@@ -76,13 +77,19 @@ selection <- function(selection, outcome,
       stop( "the left hand side of 'selection' has to contain",
          " exactly two levels (e.g. FALSE and TRUE)" )
    }
+   
+   if( !is.null( weights ) && !( method == "2step" && type == 2 ) ) {
+      warning( "argument 'weights' is ignored except for in 2-step estimations",
+         " of type 2 models" )
+   }
+   
    # data$probitDummy <- probitEndogenous == probitLevels[ 2 ]
    ## now check whether two-step method was requested
    cl <- match.call()
    if(method == "2step") {
       if(type == 2)
           twoStep <- heckit2fit(selection, outcome, data=data,
-            print.level = print.level, ... )
+            weights = weights, print.level = print.level, ... )
       else if(type == 5)
           twoStep <- heckit5fit(selection, outcome, data=data,
             print.level = print.level, ... )

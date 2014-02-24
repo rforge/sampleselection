@@ -15,7 +15,7 @@
 
 \usage{
 heckit2fit( selection, outcome, data=sys.frame(sys.parent()),
-   inst = NULL, print.level = 0)
+   weights = NULL, inst = NULL, print.level = 0)
 
 heckit5fit( selection, outcome1, outcome2, data = sys.frame(sys.parent()),
    ys = FALSE, yo = FALSE, xs = FALSE, xo = FALSE, mfs = FALSE,
@@ -30,6 +30,9 @@ heckit5fit( selection, outcome1, outcome2, data = sys.frame(sys.parent()),
   \item{outcome1}{formula, the first outcome equation.}
   \item{outcome2}{formula, the second outcome equation.}
   \item{data}{a data frame containing the data.}
+  \item{weights}{an optional vector of \sQuote{prior weights} 
+    to be used in the fitting process. Should be NULL or a numeric vector.
+    Currently only type-2 models are supported.}
   \item{inst}{an optional one-sided formula specifying instrumental variables
     for a 2SLS/IV estimation on the 2nd step.}
   \item{ys, yo, xs, xo, mfs, mfo}{logicals.  If true, the response (\code{y}),

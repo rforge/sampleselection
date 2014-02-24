@@ -14,7 +14,7 @@
 
 \usage{
 selection(selection, outcome, data = sys.frame(sys.parent()),
-   subset, method = "ml", start = NULL, 
+   weights = NULL, subset, method = "ml", start = NULL, 
    ys = FALSE, xs = FALSE, yo = FALSE, xo = FALSE,
    mfs = FALSE, mfo = FALSE, print.level = 0, ...)
 
@@ -31,6 +31,9 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
           variables in the model.  If not found in \code{data}, the
           variables are taken from \code{environment(formula)}, typically
           the environment from which \code{selection} is called.}
+  \item{weights}{an optional vector of \sQuote{prior weights} 
+    to be used in the fitting process. Should be NULL or a numeric vector.
+    Currently only supported in 2-step estimations of type-2 models.}
   \item{subset}{an optional index vector specifying a subset of
     observations to be used in the fitting process.}
   \item{method}{how to estimate the model.  Either \code{"ml"} for Maximum

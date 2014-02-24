@@ -201,6 +201,7 @@ print(coef(selection( ys ~ xs - 1, yo ~ xo - 1)))
 selection( ys ~ xs - 1, yo ~ xo - 1, method = "model.frame" )
 
 # NA-s in data frames (Nelson Villoria)
+set.seed( 98765 )
 vc <- diag(2)
 vc[2,1] <- vc[1,2] <- -0.8
 eps <- rmvnorm(N, rep(0, 2), vc, pre0.9_9994 = TRUE )

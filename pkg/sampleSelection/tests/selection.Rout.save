@@ -45712,6 +45712,7 @@ Now run tobit2 without intercepts
 1500 FALSE 0.342000945  0.000000000 7.15973e-01
 > 
 > # NA-s in data frames (Nelson Villoria)
+> set.seed( 98765 )
 > vc <- diag(2)
 > vc[2,1] <- vc[1,2] <- -0.8
 > eps <- rmvnorm(N, rep(0, 2), vc, pre0.9_9994 = TRUE )
@@ -45730,23 +45731,23 @@ Now run tobit2 without intercepts
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-Newton-Raphson maximisation, 3 iterations
+Newton-Raphson maximisation, 4 iterations
 Return code 1: gradient close to zero
-Log-Likelihood: -2113.9 
-1482 observations (483 censored and 999 observed)
-6 free parameters (df = 1476)
+Log-Likelihood: -2124.04 
+1484 observations (475 censored and 1009 observed)
+6 free parameters (df = 1478)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)  0.00944    0.05802    0.16    0.87    
-xs           0.93158    0.10380    8.97  <2e-16 ***
+(Intercept) -0.00896    0.06018   -0.15    0.88    
+xs           0.97929    0.10613    9.23  <2e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   0.1071     0.0661    1.62     0.1    
-xo            0.8452     0.0879    9.62  <2e-16 ***
+(Intercept)   0.0470     0.0627    0.75    0.45    
+xo            0.9810     0.0866   11.33  <2e-16 ***
 Error terms:
       Estimate Std. error t value Pr(> t)    
-sigma   1.0150     0.0378    26.8  <2e-16 ***
-rho    -0.8275     0.0393   -21.1  <2e-16 ***
+sigma   1.0114     0.0379    26.6  <2e-16 ***
+rho    -0.8176     0.0425   -19.2  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -45760,21 +45761,21 @@ Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 1 iterations
 Return code 1: gradient close to zero
-Log-Likelihood: -2113.9 
-1482 observations (483 censored and 999 observed)
-6 free parameters (df = 1476)
+Log-Likelihood: -2124.04 
+1484 observations (475 censored and 1009 observed)
+6 free parameters (df = 1478)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)  0.00944    0.05802    0.16    0.87    
-xs           0.93158    0.10380    8.97  <2e-16 ***
+(Intercept) -0.00896    0.06018   -0.15    0.88    
+xs           0.97929    0.10613    9.23  <2e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   0.1071     0.0661    1.62     0.1    
-xo            0.8452     0.0879    9.62  <2e-16 ***
+(Intercept)   0.0470     0.0627    0.75    0.45    
+xo            0.9810     0.0866   11.33  <2e-16 ***
 Error terms:
       Estimate Std. error t value Pr(> t)    
-sigma   1.0150     0.0378    26.8  <2e-16 ***
-rho    -0.8275     0.0393   -21.1  <2e-16 ***
+sigma   1.0114     0.0379    26.6  <2e-16 ***
+rho    -0.8176     0.0425   -19.2  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -45787,4 +45788,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  7.365   0.379   7.727 
+  7.549   0.380   7.922 

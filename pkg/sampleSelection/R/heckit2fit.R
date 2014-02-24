@@ -44,7 +44,7 @@ heckit2fit <- function( selection, outcome,
    ## Now extract model frames etc.
    ## Selection equation
    mf <- match.call(expand.dots = FALSE)
-   m <- match(c("selection", "data", "subset", "weights", 
+   m <- match(c("selection", "data", "subset",
                 "offset"), names(mf), 0)
    mfS <- mf[c(1, m)]
    mfS$na.action <- na.pass
@@ -74,7 +74,7 @@ heckit2fit <- function( selection, outcome,
    names( YS ) <- ysNames
 
    ## Outcome equation
-   m <- match(c("outcome", "data", "subset", "weights",
+   m <- match(c("outcome", "data", "subset",
                 "offset"), names(mf), 0)
    mfO <- mf[c(1, m)]
    mfO$na.action <- na.pass

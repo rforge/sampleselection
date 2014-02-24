@@ -105,7 +105,7 @@ heckit5fit <- function(selection, outcome1, outcome2,
          formula1 <- outcome1[[1]]
          formula2 <- outcome1[[2]]
                                         # Now we have extracted both formulas
-         m <- match(c("outcome1", "data", "subset", "weights",
+         m <- match(c("outcome1", "data", "subset",
                       "offset"), names(mf), 0)
          ## replace the outcome list by the first equation and evaluate it
          oArg <- match("outcome1", names(mf), 0)

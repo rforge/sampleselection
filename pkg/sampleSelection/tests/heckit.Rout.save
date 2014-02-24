@@ -75,7 +75,7 @@ rho             -0.343         NA      NA       NA
 > print(summary( greene$lm ) )
 
 Call:
-lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = YS == 1, weights = weights)
+lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = YS == 1, weights = weightsNoNA)
 
 Residuals:
    Min     1Q Median     3Q    Max 
@@ -4143,7 +4143,7 @@ rho             0.0486         NA      NA       NA
 > print( summary( wooldridge$lm ) )
 
 Call:
-lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = YS == 1, weights = weights)
+lm(formula = YO ~ -1 + XO + imrData$IMR1, subset = YS == 1, weights = weightsNoNA)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
@@ -12060,4 +12060,4 @@ attr(,"assign")
 > 
 > proc.time()
    user  system elapsed 
-  2.774   0.273   3.022 
+  2.267   0.151   2.395 

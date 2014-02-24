@@ -113,7 +113,7 @@ heckit2fit <- function( selection, outcome,
    YS <- YS[!badRow]
    XO <- XO[!badRow,,drop=FALSE]
    YO <- YO[!badRow]
-   weights <- weights[ !badRow ]
+   weightsNoNA <- weights[ !badRow ]
    ## Now indices for packing the separate outcomes into full outcome vectors.  Note we treat
    ## invMillsRatio as a separate parameter
    iBetaS <- seq(length=NXS)
@@ -131,7 +131,7 @@ heckit2fit <- function( selection, outcome,
       cat ( "\nEstimating 1st step Probit model . . ." )
    }
    result$probit <- probit(YS ~ XS - 1, x=TRUE, 
-      weights = weights, print.level=print.level - 1, iterlim=30)
+      weights = weightsNoNA, print.level=print.level - 1, iterlim=30)
                                         # a large iterlim may help with weakly identified models
    if( print.level > 0 ) {
        cat( " OK\n" )
@@ -146,7 +146,7 @@ heckit2fit <- function( selection, outcome,
       if(checkIMRcollinearity(cbind(XO, imrData$IMR1))) {
          warning("Inverse Mills Ratio is (virtually) collinear to the rest of the explanatory variables")
       }
-      outcomeMod <- lm(YO ~ -1 + XO + imrData$IMR1, weights = weights,
+      outcomeMod <- lm(YO ~ -1 + XO + imrData$IMR1, weights = weightsNoNA,
                       subset = YS == 1 )
       intercept <- any(apply(model.matrix(outcomeMod), 2,
                              function(v) (v[1] > 0) & (all(v == v[1]))))

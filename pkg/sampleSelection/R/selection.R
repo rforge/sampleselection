@@ -81,6 +81,7 @@ selection <- function(selection, outcome,
    if( !is.null( weights ) && !( method == "2step" && type == 2 ) ) {
       warning( "argument 'weights' is ignored except for in 2-step estimations",
          " of type 2 models" )
+      weights <- NULL
    }
    
    # data$probitDummy <- probitEndogenous == probitLevels[ 2 ]

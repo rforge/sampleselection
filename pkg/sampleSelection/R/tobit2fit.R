@@ -1,5 +1,5 @@
 tobit2fit <- function(YS, XS, YO, XO, start,
-                      print.level=0,
+                      weights = NULL, print.level=0,
                       maxMethod="Newton-Raphson",
                       ...) {
 ### The model is as follows (Amemiya 1985):
@@ -38,7 +38,7 @@ tobit2fit <- function(YS, XS, YO, XO, start,
       u2 <- YO - XO.b
       r <- sqrt( 1 - rho^2)
       B <- (XS.g + rho/sigma*u2)/r
-      ll <- ifelse(YS == 0,
+      ll <- w * ifelse(YS == 0,
                    (pnorm(-XS.g, log.p=TRUE)),
                    -1/2*log(2*pi) - log(sigma) +
                    (pnorm(B, log.p=TRUE) - 0.5*(u2/sigma)^2)
@@ -63,11 +63,11 @@ tobit2fit <- function(YS, XS, YO, XO, start,
        lambdaB <- ifelse(B > -30, dnorm(B)/pnorm(B), -B)
                                         # This is a hack in order to avoid numeric problems
        gradient <- matrix(0, nObs, nParam)
-       gradient[YS == 0, ibetaS] <- XS0 * (-dnorm(-XS0.g)/pnorm(-XS0.g))
-       gradient[YS == 1, ibetaS] <- XS1 * lambdaB/r
-       gradient[YS == 1, ibetaO] <- XO1 * (u2/sigma^2 - lambdaB*rho/sigma/r)
-       gradient[YS == 1, isigma] <- (u2^2/sigma^3 - lambdaB*rho*u2/sigma^2/r) - 1/sigma
-       gradient[YS == 1, irho] <- (lambdaB*(u2/sigma + rho*XS1.g))/r^3
+       gradient[YS == 0, ibetaS] <- w0 * XS0 * (-dnorm(-XS0.g)/pnorm(-XS0.g))
+       gradient[YS == 1, ibetaS] <- w1 * XS1 * lambdaB/r
+       gradient[YS == 1, ibetaO] <- w1 * XO1 * (u2/sigma^2 - lambdaB*rho/sigma/r)
+       gradient[YS == 1, isigma] <- w1 * ( (u2^2/sigma^3 - lambdaB*rho*u2/sigma^2/r) - 1/sigma )
+       gradient[YS == 1, irho] <- w1 * (lambdaB*(u2/sigma + rho*XS1.g))/r^3
        gradient
     }
     hesslik <- function(beta) {
@@ -100,34 +100,34 @@ tobit2fit <- function(YS, XS, YO, XO, start,
                                         # it better?  How to prove the limit value?
        hess <- matrix(0, nParam, nParam)
        a <- (-fXS0.g*FXS0.g*XS0.g + fXS0.g^2)/FXS0.g^2
-       hess[ibetaS,ibetaS] <- -t(XS0) %*% (XS0*a) + t(XS1) %*% (XS1*C)/r^2
-       hess[ibetaS,ibetaO] <- -t(XS1) %*% (XO1*C)*rho/r^2/sigma
+       hess[ibetaS,ibetaS] <- -t(XS0) %*% (w0*XS0*a) + t(XS1) %*% (w1*XS1*C)/r^2
+       hess[ibetaS,ibetaO] <- -t(XS1) %*% (w1*XO1*C)*rho/r^2/sigma
        hess[ibetaO,ibetaS] <- t(hess[ibetaS,ibetaO])
-       hess[ibetaS,isigma] <- -rho/sigma^2/r^2*t(XS1) %*% (C*u2)
+       hess[ibetaS,isigma] <- -rho/sigma^2/r^2*t(XS1) %*% (w1*C*u2)
        hess[isigma,ibetaS] <- t(hess[ibetaS,isigma])
        hess[ibetaS,irho] <- t(XS1) %*%
-           (C*(u2/sigma + rho*XS1.g)/r^4 + lambdaB*rho/r^3)
+           (w1*(C*(u2/sigma + rho*XS1.g)/r^4 + lambdaB*rho/r^3))
        hess[irho,ibetaS] <- t(hess[ibetaS,irho])
        hess[ibetaO,ibetaO] <- t(XO1) %*%
-           (XO1 * ((rho/r)^2*C - 1))/sigma^2
+           (w1*(XO1 * ((rho/r)^2*C - 1)))/sigma^2
        hess[ibetaO,isigma] <- t(XO1) %*%
-           (C*rho^2/sigma^3*u2/r^2 +
-            rho/sigma^2*lambdaB/r - 2*u2/sigma^3)
+           (w1*(C*rho^2/sigma^3*u2/r^2 +
+            rho/sigma^2*lambdaB/r - 2*u2/sigma^3))
        hess[isigma,ibetaO] <- t(hess[ibetaO,isigma])
        hess[ibetaO,irho] <- t(XO1) %*%
-           (-C*(u2/sigma + rho*XS1.g)/r^4*rho -
-            lambdaB/r^3)/sigma
+           (w1*(-C*(u2/sigma + rho*XS1.g)/r^4*rho -
+            lambdaB/r^3))/sigma
        hess[irho,ibetaO] <- t(hess[ibetaO,irho])
-       hess[isigma,isigma] <- sum(
-                                  -3*u2*u2/sigma^4
+       hess[isigma,isigma] <- sum( w1 *
+                                  ( -3*u2*u2/sigma^4
                                   +2*lambdaB* u2/r *rho/sigma^3
-                                  +rho^2/sigma^4 *u2*u2/r^2 *C) +
-                                      N1/sigma^2
+                                  +rho^2/sigma^4 *u2*u2/r^2 *C) ) +
+                                      sum(w1) / sigma^2
        hess[isigma,irho] <- hess[irho,isigma] <-
-           -sum((C*rho*(u2/sigma + rho*XS1.g)/r + lambdaB)*
+           -sum(w1*(C*rho*(u2/sigma + rho*XS1.g)/r + lambdaB)*
                 u2/sigma^2)/r^3
        hess[irho,irho] <-
-           sum(C*((u2/sigma + rho*XS1.g)/r^3)^2 +
+           sum(w1*C*((u2/sigma + rho*XS1.g)/r^3)^2 +
                lambdaB*(XS1.g*(1 + 2*rho^2) + 3*rho*u2/sigma) / r^5 )
        return( hess )
     }
@@ -169,6 +169,18 @@ tobit2fit <- function(YS, XS, YO, XO, start,
    XO1 <- XO[YS==1,,drop=FALSE]
    N0 <- sum(YS==0)
    N1 <- sum(YS==1)
+   
+   if( !is.null( weights ) ) {
+      w  <- weights
+      w0 <- weights[ YS == 0 ]
+      w1 <- weights[ YS == 1 ]
+   } else {
+      w  <- rep( 1, N0 + N1 )
+      w0 <- rep( 1, N0 )
+      w1 <- rep( 1, N1 )
+   }
+   
+   
    ## estimate
 ##    compareDerivatives(loglik, gradlik, t0=start)
 ##    stop()

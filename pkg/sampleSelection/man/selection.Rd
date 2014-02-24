@@ -33,7 +33,7 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
           the environment from which \code{selection} is called.}
   \item{weights}{an optional vector of \sQuote{prior weights} 
     to be used in the fitting process. Should be NULL or a numeric vector.
-    Currently only supported in 2-step estimations of type-2 models.}
+    Weights are currently only supported in type-2 models.}
   \item{subset}{an optional index vector specifying a subset of
     observations to be used in the fitting process.}
   \item{method}{how to estimate the model.  Either \code{"ml"} for Maximum

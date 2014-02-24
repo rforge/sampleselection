@@ -32,7 +32,7 @@ heckit5fit( selection, outcome1, outcome2, data = sys.frame(sys.parent()),
   \item{data}{a data frame containing the data.}
   \item{weights}{an optional vector of \sQuote{prior weights} 
     to be used in the fitting process. Should be NULL or a numeric vector.
-    Currently only type-2 models are supported.}
+    Weights are currently only supported in type-2 models.}
   \item{inst}{an optional one-sided formula specifying instrumental variables
     for a 2SLS/IV estimation on the 2nd step.}
   \item{ys, yo, xs, xo, mfs, mfo}{logicals.  If true, the response (\code{y}),

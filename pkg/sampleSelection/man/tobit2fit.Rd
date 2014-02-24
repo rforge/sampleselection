@@ -15,7 +15,7 @@
 }
 
 \usage{
-tobit2fit(YS, XS, YO, XO, start, print.level = 0,
+tobit2fit(YS, XS, YO, XO, start, weights = NULL, print.level = 0,
 maxMethod="Newton-Raphson", ...)
 tobit5fit(YS, XS, YO1, XO1, YO2, XO2, start, print.level=0, maxMethod="Newton-Raphson", ...) 
 }
@@ -29,6 +29,9 @@ outcome equations.}
 outcomes are ignored (they may or may not be NA).}
   \item{start}{numeric vector of initial values.  The order is: betaS,
 betaO(1), sigma(1), rho(1), betaO2, sigma2, rho2.}
+  \item{weights}{an optional vector of \sQuote{prior weights} 
+    to be used in the fitting process. Should be NULL or a numeric vector.
+    Weights are currently only supported in type-2 models.}
   \item{print.level}{numeric, values greater than 0 will produce
 increasingly more debugging information.}
   \item{maxMethod}{character, a maximisation method supported by \code{\link[maxLik]{maxLik}}}

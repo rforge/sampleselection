@@ -25690,7 +25690,7 @@ Now run tobit5 without intercepts
 +    method = "2step", weights = rep( 0.5, N ) )
 Warning message:
 In selection(ys ~ xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "2step",  :
-  argument 'weights' is ignored except for in 2-step estimations of type 2 models
+  argument 'weights' is ignored in type-5 models
 > all.equal( testTobit5TwoStepWe[-8], testTobit5TwoStep[-8] )
 [1] TRUE
 > 
@@ -25698,7 +25698,7 @@ In selection(ys ~ xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "2step",  :
 +    method = "ml", weights = rep( 0.5, N ) )
 Warning message:
 In selection(ys ~ xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "ml",  :
-  argument 'weights' is ignored except for in 2-step estimations of type 2 models
+  argument 'weights' is ignored in type-5 models
 > all.equal( testTobit5MlWe[-17], testTobit5Ml[-17] )
 [1] TRUE
 > 
@@ -39750,30 +39750,27 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > ## ML estimation with equal weights
 > testTobit2MlWe <- selection( ys~xs, yo ~xo, weights = we )
-Warning message:
-In selection(ys ~ xs, yo ~ xo, weights = we) :
-  argument 'weights' is ignored except for in 2-step estimations of type 2 models
 > summary( testTobit2MlWe )
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-Newton-Raphson maximisation, 5 iterations
-Return code 1: gradient close to zero
-Log-Likelihood: -2159.85 
+Newton-Raphson maximisation, 7 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -1511.89 
 1481 observations (461 censored and 1020 observed)
 6 free parameters (df = 1475)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   0.0420     0.0604    0.70    0.49    
-xs            0.9313     0.1084    8.59  <2e-16 ***
+(Intercept)   0.0420     0.0729    0.58    0.56    
+xs            0.9313     0.1315    7.08 1.4e-12 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   0.0697     0.0617    1.13    0.26    
-xo            0.9503     0.0897   10.60  <2e-16 ***
+(Intercept)   0.0697     0.0831    0.84     0.4    
+xo            0.9503     0.1077    8.82  <2e-16 ***
 Error terms:
       Estimate Std. error t value Pr(> t)    
-sigma   1.0125     0.0367    27.6  <2e-16 ***
-rho    -0.7791     0.0453   -17.2  <2e-16 ***
+sigma   1.0125     0.0575   17.61  <2e-16 ***
+rho    -0.7791     0.0797   -9.78  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -39809,30 +39806,27 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > ## ML estimation with unequal weights
 > testTobit2MlWu <- selection( ys~xs, yo ~xo, weights = wu )
-Warning message:
-In selection(ys ~ xs, yo ~ xo, weights = wu) :
-  argument 'weights' is ignored except for in 2-step estimations of type 2 models
 > summary( testTobit2MlWu )
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-Newton-Raphson maximisation, 5 iterations
-Return code 1: gradient close to zero
-Log-Likelihood: -2159.85 
+Newton-Raphson maximisation, 9 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -2155.02 
 1481 observations (461 censored and 1020 observed)
 6 free parameters (df = 1475)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   0.0420     0.0604    0.70    0.49    
-xs            0.9313     0.1084    8.59  <2e-16 ***
+(Intercept)   0.0668     0.0609    1.10    0.27    
+xs            0.9311     0.1099    8.47  <2e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   0.0697     0.0617    1.13    0.26    
-xo            0.9503     0.0897   10.60  <2e-16 ***
+(Intercept)   0.0844     0.0625    1.35    0.18    
+xo            0.9001     0.0903    9.96  <2e-16 ***
 Error terms:
       Estimate Std. error t value Pr(> t)    
-sigma   1.0125     0.0367    27.6  <2e-16 ***
-rho    -0.7791     0.0453   -17.2  <2e-16 ***
+sigma   1.0116     0.0378    26.7  <2e-16 ***
+rho    -0.7713     0.0493   -15.6  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -39843,19 +39837,8 @@ Error in heckit2fit(selection, outcome, data = data, weights = weights,  :
   number of weights (99) is not equal to the number of observations (1500)
 > 
 > try( selection( ys~xs, yo ~xo, method = "ml", weights = 4:14 ) )
-
-Call:
- selection(selection = ys ~ xs, outcome = yo ~ xo, weights = 4:14,      method = "ml") 
-
-Coefficients:
-S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma  
-       0.0420         0.9313         0.0697         0.9503         1.0125  
-          rho  
-      -0.7791  
-
-Warning message:
-In selection(ys ~ xs, yo ~ xo, method = "ml", weights = 4:14) :
-  argument 'weights' is ignored except for in 2-step estimations of type 2 models
+Error in selection(ys ~ xs, yo ~ xo, method = "ml", weights = 4:14) : 
+  number of weights (11) is not equal to the number of observations (1500)
 > 
 > 
 > # factors as dependent variable (from Achim Zeileis)
@@ -45946,4 +45929,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  8.185   0.313   8.495 
+  8.013   0.354   8.370 

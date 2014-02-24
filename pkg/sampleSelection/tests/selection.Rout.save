@@ -25685,6 +25685,24 @@ Now run tobit5 without intercepts
 1499 FALSE 0.20362841 -1.93791498 0.601503073 -0.53583337 0.81762457
 1500 FALSE 0.45068464 -1.17807950 0.336863706 -0.48943604 0.57412509
 > 
+> ## estimations withs weights that do not work
+> testTobit5TwoStepWe <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2), 
++    method = "2step", weights = rep( 0.5, N ) )
+Warning message:
+In selection(ys ~ xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "2step",  :
+  argument 'weights' is ignored except for in 2-step estimations of type 2 models
+> all.equal( testTobit5TwoStepWe[-8], testTobit5TwoStep[-8] )
+[1] TRUE
+> 
+> testTobit5MlWe <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2), 
++    method = "ml", weights = rep( 0.5, N ) )
+Warning message:
+In selection(ys ~ xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "ml",  :
+  argument 'weights' is ignored except for in 2-step estimations of type 2 models
+> all.equal( testTobit5MlWe[-17], testTobit5Ml[-17] )
+[1] TRUE
+> 
+> 
 > ## ------- Tobit-2 exmple -----------
 > vc <- diag(2)
 > vc[2,1] <- vc[1,2] <- -0.7
@@ -45857,4 +45875,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  7.898   0.394   8.281 
+  8.239   0.358   8.606 

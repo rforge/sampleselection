@@ -112,6 +112,16 @@ print(coef(selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1))))
 selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1 ),
    method = "model.frame" )
 
+## estimations withs weights that do not work
+testTobit5TwoStepWe <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2), 
+   method = "2step", weights = rep( 0.5, N ) )
+all.equal( testTobit5TwoStepWe[-8], testTobit5TwoStep[-8] )
+
+testTobit5MlWe <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2), 
+   method = "ml", weights = rep( 0.5, N ) )
+all.equal( testTobit5MlWe[-17], testTobit5Ml[-17] )
+
+
 ## ------- Tobit-2 exmple -----------
 vc <- diag(2)
 vc[2,1] <- vc[1,2] <- -0.7

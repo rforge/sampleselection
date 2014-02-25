@@ -96,8 +96,9 @@ tobit2fit <- function(YS, XS, YO, XO, start,
                                         # This is a hack in order to avoid numerical problems.  How to do
                                         # it better?  How to prove the limit value?
        hess <- matrix(0, nParam, nParam)
-       a <- -exp(dnorm(-XS0.g, log=TRUE) - pnorm(-XS0.g, log.p=TRUE))*XS0.g +
-          ( exp( dnorm(-XS0.g, log=TRUE) - pnorm(-XS0.g, log.p=TRUE)))^2
+       a <- ifelse( XS0.g < 500,
+          -exp(dnorm(-XS0.g, log=TRUE) - pnorm(-XS0.g, log.p=TRUE))*XS0.g +
+          ( exp( dnorm(-XS0.g, log=TRUE) - pnorm(-XS0.g, log.p=TRUE)))^2, 1 )
        hess[ibetaS,ibetaS] <- -t(XS0) %*% (w0*XS0*a) + t(XS1) %*% (w1*XS1*C)/r^2
        hess[ibetaS,ibetaO] <- -t(XS1) %*% (w1*XO1*C)*rho/r^2/sigma
        hess[ibetaO,ibetaS] <- t(hess[ibetaS,ibetaO])

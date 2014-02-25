@@ -39754,23 +39754,23 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-Newton-Raphson maximisation, 7 iterations
-Return code 2: successive function values within tolerance limit
+Newton-Raphson maximisation, 5 iterations
+Return code 1: gradient close to zero
 Log-Likelihood: -1511.89 
 1481 observations (461 censored and 1020 observed)
 6 free parameters (df = 1475)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   0.0420     0.0729    0.58    0.56    
-xs            0.9313     0.1315    7.08 1.4e-12 ***
+(Intercept)   0.0420     0.0722    0.58    0.56    
+xs            0.9313     0.1296    7.18 6.7e-13 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   0.0697     0.0831    0.84     0.4    
-xo            0.9503     0.1077    8.82  <2e-16 ***
+(Intercept)   0.0697     0.0737    0.95    0.34    
+xo            0.9503     0.1072    8.87  <2e-16 ***
 Error terms:
       Estimate Std. error t value Pr(> t)    
-sigma   1.0125     0.0575   17.61  <2e-16 ***
-rho    -0.7791     0.0797   -9.78  <2e-16 ***
+sigma   1.0125     0.0439    23.1  <2e-16 ***
+rho    -0.7791     0.0542   -14.4  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -39810,23 +39810,23 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-Newton-Raphson maximisation, 9 iterations
-Return code 2: successive function values within tolerance limit
+Newton-Raphson maximisation, 8 iterations
+Return code 1: gradient close to zero
 Log-Likelihood: -2155.02 
 1481 observations (461 censored and 1020 observed)
 6 free parameters (df = 1475)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   0.0668     0.0609    1.10    0.27    
-xs            0.9311     0.1099    8.47  <2e-16 ***
+(Intercept)   0.0668     0.0608    1.10    0.27    
+xs            0.9311     0.1097    8.49  <2e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   0.0844     0.0625    1.35    0.18    
-xo            0.9001     0.0903    9.96  <2e-16 ***
+(Intercept)   0.0844     0.0613    1.38    0.17    
+xo            0.9001     0.0903    9.97  <2e-16 ***
 Error terms:
       Estimate Std. error t value Pr(> t)    
-sigma   1.0116     0.0378    26.7  <2e-16 ***
-rho    -0.7713     0.0493   -15.6  <2e-16 ***
+sigma   1.0116     0.0360    28.1  <2e-16 ***
+rho    -0.7713     0.0454   -17.0  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -45929,4 +45929,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  8.013   0.354   8.370 
+  8.154   0.378   8.521 

@@ -127,8 +127,8 @@ tobit2fit <- function(YS, XS, YO, XO, start,
            -sum(w1*(C*rho*(u2/sigma + rho*XS1.g)/r + lambdaB)*
                 u2/sigma^2)/r^3
        hess[irho,irho] <-
-           sum(w1*C*((u2/sigma + rho*XS1.g)/r^3)^2 +
-               lambdaB*(XS1.g*(1 + 2*rho^2) + 3*rho*u2/sigma) / r^5 )
+           sum(w1*(C*((u2/sigma + rho*XS1.g)/r^3)^2 +
+               lambdaB*(XS1.g*(1 + 2*rho^2) + 3*rho*u2/sigma) / r^5 ))
        return( hess )
     }
     ## ---------------
@@ -180,10 +180,13 @@ tobit2fit <- function(YS, XS, YO, XO, start,
       w1 <- rep( 1, N1 )
    }
    
-   
+   # browser()
+   # compareDerivatives(loglik, gradlik, t0=start )
+   # range(numericGradient(loglik, t0=start)-gradlik(start))
+   # compareDerivatives( function(k)sum(loglik(k)), function(k)colSums(gradlik(k)), hesslik, t0=start)
+   # hesslik( start ) - numericHessian( function(k)sum(loglik(k)), function(k)colSums(gradlik(k)), t0=start )
+ 
    ## estimate
-##    compareDerivatives(loglik, gradlik, t0=start)
-##    stop()
    result <- maxLik(loglik, grad=gradlik, hess=hesslik,
                     start=start,
                     method=maxMethod,

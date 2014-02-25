@@ -60,8 +60,7 @@ tobit2fit <- function(YS, XS, YO, XO, start,
        r <- sqrt( 1 - rho^2)
                                         #      B <- (XS1.g + rho/sigma*u2)/r
        B <- (XS1.g + rho/sigma*u2)/r
-       lambdaB <- ifelse(B > -30, dnorm(B)/pnorm(B), -B)
-                                        # This is a hack in order to avoid numeric problems
+       lambdaB <- exp( dnorm( B, log = TRUE ) - pnorm( B, log.p = TRUE ) )
        gradient <- matrix(0, nObs, nParam)
        gradient[YS == 0, ibetaS] <- - w0 * XS0 *
           exp( dnorm( -XS0.g, log = TRUE ) - pnorm( -XS0.g, log.p = TRUE ) )
@@ -88,8 +87,7 @@ tobit2fit <- function(YS, XS, YO, XO, start,
        u2 <- YO1 - XO1.b
        r <- sqrt( 1 - rho^2)
        B <- (XS1.g + rho/sigma*u2)/r
-       lambdaB <- ifelse(B > -30, dnorm(B)/pnorm(B), -B)
-                                        # This is a hack in order to avoid numeric problems
+       lambdaB <- exp( dnorm( B, log = TRUE ) - pnorm( B, log.p = TRUE ) )
        fXS0.g <- dnorm(-XS0.g)
        FXS0.g <- pnorm(-XS0.g)
        C <- ifelse(B > -500,

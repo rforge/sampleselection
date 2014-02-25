@@ -63,7 +63,8 @@ tobit2fit <- function(YS, XS, YO, XO, start,
        lambdaB <- ifelse(B > -30, dnorm(B)/pnorm(B), -B)
                                         # This is a hack in order to avoid numeric problems
        gradient <- matrix(0, nObs, nParam)
-       gradient[YS == 0, ibetaS] <- w0 * XS0 * (-dnorm(-XS0.g)/pnorm(-XS0.g))
+       gradient[YS == 0, ibetaS] <- - w0 * XS0 *
+          exp( dnorm( -XS0.g, log = TRUE ) - pnorm( -XS0.g, log.p = TRUE ) )
        gradient[YS == 1, ibetaS] <- w1 * XS1 * lambdaB/r
        gradient[YS == 1, ibetaO] <- w1 * XO1 * (u2/sigma^2 - lambdaB*rho/sigma/r)
        gradient[YS == 1, isigma] <- w1 * ( (u2^2/sigma^3 - lambdaB*rho*u2/sigma^2/r) - 1/sigma )

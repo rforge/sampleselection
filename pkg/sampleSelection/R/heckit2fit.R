@@ -1,7 +1,7 @@
 heckit2fit <- function( selection, outcome,
                    data=sys.frame(sys.parent()),
                    weights = NULL, inst = NULL,
-                   print.level = 0) {
+                   print.level = 0, maxMethod="Newton-Raphson" ) {
    ## selection     formula, selection equation
    ## 
    checkIMRcollinearity <- function(X, tol=1e6) {
@@ -131,7 +131,8 @@ heckit2fit <- function( selection, outcome,
       cat ( "\nEstimating 1st step Probit model . . ." )
    }
    result$probit <- probit(YS ~ XS - 1, x=TRUE, 
-      weights = weightsNoNA, print.level=print.level - 1, iterlim=30)
+      weights = weightsNoNA, print.level=print.level - 1, iterlim=30,
+      maxMethod = maxMethod )
                                         # a large iterlim may help with weakly identified models
    if( print.level > 0 ) {
        cat( " OK\n" )

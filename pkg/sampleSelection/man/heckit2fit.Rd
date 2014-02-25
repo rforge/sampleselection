@@ -15,11 +15,12 @@
 
 \usage{
 heckit2fit( selection, outcome, data=sys.frame(sys.parent()),
-   weights = NULL, inst = NULL, print.level = 0)
+   weights = NULL, inst = NULL, print.level = 0,
+   maxMethod = "Newton-Raphson" )
 
 heckit5fit( selection, outcome1, outcome2, data = sys.frame(sys.parent()),
    ys = FALSE, yo = FALSE, xs = FALSE, xo = FALSE, mfs = FALSE,
-   mfo = FALSE, print.level = 0, ... )
+   mfo = FALSE, print.level = 0, maxMethod = "Newton-Raphson", ... )
 }
 
 
@@ -41,6 +42,9 @@ heckit5fit( selection, outcome1, outcome2, data = sys.frame(sys.parent()),
     (\code{o}) equation(s) are returned.}
   \item{print.level}{numeric, values greater than 0 will produce
     increasingly more debugging information.}
+  \item{maxMethod}{character string,
+    a maximisation method supported by \code{\link[maxLik]{maxLik}}
+    that is used for estimating the probit model (1st stage).}
   \item{...}{currently not used.}
 }
 

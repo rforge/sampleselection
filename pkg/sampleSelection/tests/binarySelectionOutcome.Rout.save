@@ -72,6 +72,62 @@ rho    0.631      0.181    3.49 0.00049 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
+> # estimation with equal weights
+> we <- rep( 0.7, N )
+> ssWe <- selection( ys ~ xs, yo ~ xo, weights = we )
+> summary( ssWe )
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 21 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -296.65 
+500 observations (84 censored and 416 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.152      0.189   -0.80    0.42    
+xs             3.024      0.539    5.61   2e-08 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.973      0.180   -5.42 6.1e-08 ***
+xo             1.768      0.339    5.22 1.8e-07 ***
+Error terms:
+    Estimate Std. error t value Pr(> t)  
+rho    0.631      0.258    2.44   0.015 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal( coef( ssWe ), coef( ss ), tol = 1e-4 )
+[1] TRUE
+> 
+> # estimation with unequal weights
+> wu <- 2 * runif( N )
+> ssWu <- selection( ys ~ xs, yo ~ xo, weights = wu )
+> summary( ssWu )
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 17 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -430.7 
+500 observations (84 censored and 416 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.233      0.113   -2.06    0.04 *  
+xs             3.217      0.338    9.52  <2e-16 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.984      0.111   -8.84  <2e-16 ***
+xo             1.692      0.198    8.54  <2e-16 ***
+Error terms:
+    Estimate Std. error t value Pr(> t)    
+rho    0.600      0.159    3.78 0.00015 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
 > # binary outcome NA if unobserved
 > yo[ !ys ] <- NA
 > print(table(ys, yo, exclude=NULL))
@@ -183,4 +239,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 10.548   0.081  10.622 
+ 18.464   0.066  18.523 

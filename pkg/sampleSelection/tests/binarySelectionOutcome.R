@@ -20,6 +20,17 @@ library(sampleSelection)
 ss <- selection(ys~xs, yo ~xo)
 print(summary(ss))
 
+# estimation with equal weights
+we <- rep( 0.7, N )
+ssWe <- selection( ys ~ xs, yo ~ xo, weights = we )
+summary( ssWe )
+all.equal( coef( ssWe ), coef( ss ), tol = 1e-4 )
+
+# estimation with unequal weights
+wu <- 2 * runif( N )
+ssWu <- selection( ys ~ xs, yo ~ xo, weights = wu )
+summary( ssWu )
+
 # binary outcome NA if unobserved
 yo[ !ys ] <- NA
 print(table(ys, yo, exclude=NULL))

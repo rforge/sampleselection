@@ -1,5 +1,6 @@
 \name{tobit2fit}
 \alias{tobit2fit}
+\alias{tobit2Bfit}
 \alias{tobit5fit}
 
 \title{Fitting Parametric Sample Selection Models}
@@ -12,12 +13,20 @@
    initial value of parameters must be specified.
    These functions are called by \code{\link{selection}} and
    are intended for \code{sampleSelection} internal use.
+   The function \code{tobit2Bfit} does the actual fitting of tobit-2
+   (sample selection) models with a binary dependent variable
+   of the outcome model (\code{YO}) using a double-probit specification.
 }
 
 \usage{
-tobit2fit(YS, XS, YO, XO, start, weights = NULL, print.level = 0,
-maxMethod="Newton-Raphson", ...)
-tobit5fit(YS, XS, YO1, XO1, YO2, XO2, start, print.level=0, maxMethod="Newton-Raphson", ...) 
+tobit2fit( YS, XS, YO, XO, start, weights = NULL, print.level = 0,
+   maxMethod = "Newton-Raphson", ... )
+
+tobit2Bfit( YS, XS, YO, XO, start, weights = NULL, print.level = 0,
+   maxMethod = "BHHH", ... )
+
+tobit5fit( YS, XS, YO1, XO1, YO2, XO2, start, print.level = 0,
+   maxMethod = "Newton-Raphson", ... ) 
 }
 
 \arguments{
@@ -47,7 +56,7 @@ increasingly more debugging information.}
 \references{Amemiya, T. (1985) \emph{Advanced Econometrics}, Harvard
   University Press
   }
-\author{Ott Toomet \email{otoomet@ut.ee}}
+\author{Ott Toomet \email{otoomet@ut.ee}, Arne Henningsen}
 
 \seealso{\code{\link{selection}}, \code{\link[maxLik]{maxLik}}}
 

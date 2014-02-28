@@ -228,10 +228,7 @@ selection <- function(selection, outcome,
          iErrTerms <- c(sigma=iSigma, rho=iRho )
       }
       else {
-         if( !is.null( weights ) ) {
-            warning( "argument 'weights' is ignored in binary outcome models" )
-         }
-         estimation <- tobit2Bfit(YS, XS, YO, XO, start,
+         estimation <- tobit2Bfit(YS, XS, YO, XO, start, weights = weightsNoNA,
                                  print.level=print.level, ...)
          iErrTerms <- c(rho=iRho)
       }

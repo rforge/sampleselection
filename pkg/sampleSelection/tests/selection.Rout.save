@@ -9231,7 +9231,6 @@ attr(,"assign")
 1498 0.4415979        0.50546
 1499        NA             NA
 1500        NA             NA
-There were 14 warnings (use warnings() to see them)
 > 
 > testTobit5Ml <- selection(ys~xs, list(yo1 ~ xo1, yo2 ~ xo2), method="ml")
 > print( testTobit5Ml )
@@ -45930,4 +45929,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  7.421   0.406   7.850 
+  6.673   0.319   6.976 

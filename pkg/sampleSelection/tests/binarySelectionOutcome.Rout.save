@@ -23,8 +23,8 @@ Type 'q()' to quit R.
 > set.seed(0)
 > N <- 500
 > rho <- 0.7
-> library(mvtnorm)
-> eps <- rmvnorm(N, c(0,0), matrix(c(1,rho,rho,1), 2, 2), pre0.9_9994 = TRUE )
+> library( "mvtnorm" )
+> eps <- rmvnorm(N, c(0,0), matrix(c(1,rho,rho,1), 2, 2) )
 > xs <- runif(N)
 > ysX <- 3*xs + eps[,1]
 > ys <- ysX > 0
@@ -35,10 +35,10 @@ Type 'q()' to quit R.
 > print(table(ys, yo, exclude=NULL))
        yo
 ys        0   1 <NA>
-  FALSE  84   0    0
-  TRUE  204 212    0
+  FALSE  74   0    0
+  TRUE  202 224    0
   <NA>    0   0    0
-> library(sampleSelection)
+> library( "sampleSelection" )
 Loading required package: maxLik
 Loading required package: miscTools
 
@@ -56,20 +56,20 @@ BHHH maximisation, 5 iterations
 Return code 3: Last step could not find a value above the current.
 Boundary of parameter space?  
 Consider switching to a more robust optimisation method temporarily.
-Log-Likelihood: -423.84 
-500 observations (84 censored and 416 observed)
+Log-Likelihood: -398.2 
+500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.163      0.133   -1.23    0.22    
-xs             3.049      0.377    8.08 6.5e-16 ***
+(Intercept)   -0.130      0.130   -1.00    0.32    
+xs             3.347      0.392    8.54  <2e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.968      0.131   -7.38 1.6e-13 ***
-xo             1.793      0.231    7.77 8.0e-15 ***
+(Intercept)   -1.054      0.124   -8.47  <2e-16 ***
+xo             1.997      0.220    9.07  <2e-16 ***
 Error terms:
-    Estimate Std. error t value Pr(> t)   
-rho    0.559      0.200    2.79  0.0052 **
+    Estimate Std. error t value Pr(> t)    
+rho    0.803      0.158    5.07   4e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -81,29 +81,29 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-BHHH maximisation, 7 iterations
+BHHH maximisation, 8 iterations
 Return code 3: Last step could not find a value above the current.
 Boundary of parameter space?  
 Consider switching to a more robust optimisation method temporarily.
-Log-Likelihood: -296.7 
-500 observations (84 censored and 416 observed)
+Log-Likelihood: -278.74 
+500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.163      0.190   -0.86    0.39    
-xs             3.042      0.539    5.64 1.7e-08 ***
+(Intercept)   -0.127      0.186   -0.69    0.49    
+xs             3.342      0.561    5.96 2.5e-09 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.965      0.188   -5.14 2.8e-07 ***
-xo             1.789      0.330    5.42 5.9e-08 ***
+(Intercept)   -1.057      0.178   -5.93 3.0e-09 ***
+xo             2.000      0.315    6.35 2.2e-10 ***
 Error terms:
-    Estimate Std. error t value Pr(> t)  
-rho    0.553      0.288    1.92   0.055 .
+    Estimate Std. error t value Pr(> t)    
+rho    0.798      0.231    3.46 0.00055 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > all.equal( coef( ssWe ), coef( ss ), tol = 1e-4 )
-[1] "Mean relative difference: 0.0030537"
+[1] "Mean relative difference: 0.0021575"
 > 
 > # estimation with unequal weights
 > wu <- 2 * runif( N )
@@ -112,22 +112,22 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-BHHH maximisation, 19 iterations
+BHHH maximisation, 26 iterations
 Return code 1: gradient close to zero
-Log-Likelihood: -430.8 
-500 observations (84 censored and 416 observed)
+Log-Likelihood: -395.66 
+500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.245      0.114   -2.15   0.031 *  
-xs             3.237      0.339    9.55  <2e-16 ***
+(Intercept)   -0.111      0.102   -1.08    0.28    
+xs             3.355      0.275   12.20  <2e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.974      0.116   -8.36  <2e-16 ***
-xo             1.719      0.196    8.78  <2e-16 ***
+(Intercept)   -1.069      0.106   -10.1  <2e-16 ***
+xo             1.989      0.181    11.0  <2e-16 ***
 Error terms:
-    Estimate Std. error t value Pr(> t)   
-rho    0.499      0.177    2.81  0.0049 **
+    Estimate Std. error t value Pr(> t)    
+rho   0.9572     0.0666    14.4  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -137,8 +137,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > print(table(ys, yo, exclude=NULL))
        yo
 ys        0   1 <NA>
-  FALSE   0   0   84
-  TRUE  204 212    0
+  FALSE   0   0   74
+  TRUE  202 224    0
   <NA>    0   0    0
 > ssN <- selection(ys~xs, yo ~xo)
 > print(summary(ssN))
@@ -149,20 +149,20 @@ BHHH maximisation, 5 iterations
 Return code 3: Last step could not find a value above the current.
 Boundary of parameter space?  
 Consider switching to a more robust optimisation method temporarily.
-Log-Likelihood: -423.84 
-500 observations (84 censored and 416 observed)
+Log-Likelihood: -398.2 
+500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.163      0.133   -1.23    0.22    
-xs             3.049      0.377    8.08 6.5e-16 ***
+(Intercept)   -0.130      0.130   -1.00    0.32    
+xs             3.347      0.392    8.54  <2e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.968      0.131   -7.38 1.6e-13 ***
-xo             1.793      0.231    7.77 8.0e-15 ***
+(Intercept)   -1.054      0.124   -8.47  <2e-16 ***
+xo             1.997      0.220    9.07  <2e-16 ***
 Error terms:
-    Estimate Std. error t value Pr(> t)   
-rho    0.559      0.200    2.79  0.0052 **
+    Estimate Std. error t value Pr(> t)    
+rho    0.803      0.158    5.07   4e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -174,8 +174,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > print(table(ys, yo, exclude=NULL))
        yo
 ys      FALSE TRUE <NA>
-  FALSE    84    0    0
-  TRUE    204  212    0
+  FALSE    74    0    0
+  TRUE    202  224    0
   <NA>      0    0    0
 > ssL <- selection(ys~xs, yo ~xo)
 > print(summary(ssL))
@@ -186,20 +186,20 @@ BHHH maximisation, 5 iterations
 Return code 3: Last step could not find a value above the current.
 Boundary of parameter space?  
 Consider switching to a more robust optimisation method temporarily.
-Log-Likelihood: -423.84 
-500 observations (84 censored and 416 observed)
+Log-Likelihood: -398.2 
+500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.163      0.133   -1.23    0.22    
-xs             3.049      0.377    8.08 6.5e-16 ***
+(Intercept)   -0.130      0.130   -1.00    0.32    
+xs             3.347      0.392    8.54  <2e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.968      0.131   -7.38 1.6e-13 ***
-xo             1.793      0.231    7.77 8.0e-15 ***
+(Intercept)   -1.054      0.124   -8.47  <2e-16 ***
+xo             1.997      0.220    9.07  <2e-16 ***
 Error terms:
-    Estimate Std. error t value Pr(> t)   
-rho    0.559      0.200    2.79  0.0052 **
+    Estimate Std. error t value Pr(> t)    
+rho    0.803      0.158    5.07   4e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -215,8 +215,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > print(table(ys, yo, exclude=NULL))
        yo
 ys      FALSE TRUE <NA>
-  FALSE     0    0   84
-  TRUE    204  212    0
+  FALSE     0    0   74
+  TRUE    202  224    0
   <NA>      0    0    0
 > ssLN <- selection(ys~xs, yo ~xo)
 > print(summary(ssLN))
@@ -227,20 +227,20 @@ BHHH maximisation, 5 iterations
 Return code 3: Last step could not find a value above the current.
 Boundary of parameter space?  
 Consider switching to a more robust optimisation method temporarily.
-Log-Likelihood: -423.84 
-500 observations (84 censored and 416 observed)
+Log-Likelihood: -398.2 
+500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.163      0.133   -1.23    0.22    
-xs             3.049      0.377    8.08 6.5e-16 ***
+(Intercept)   -0.130      0.130   -1.00    0.32    
+xs             3.347      0.392    8.54  <2e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.968      0.131   -7.38 1.6e-13 ***
-xo             1.793      0.231    7.77 8.0e-15 ***
+(Intercept)   -1.054      0.124   -8.47  <2e-16 ***
+xo             1.997      0.220    9.07  <2e-16 ***
 Error terms:
-    Estimate Std. error t value Pr(> t)   
-rho    0.559      0.200    2.79  0.0052 **
+    Estimate Std. error t value Pr(> t)    
+rho    0.803      0.158    5.07   4e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -249,4 +249,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 34.573   0.098  34.705 
+ 36.240   0.084  36.349 

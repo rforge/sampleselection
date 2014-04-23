@@ -8,7 +8,7 @@ vc[lower.tri(vc)] <- c(0.9, 0.5, 0.6)
 vc[upper.tri(vc)] <- vc[lower.tri(vc)]
 set.seed(1)
 ## ------- Tobit-5 example ---------
-eps <- rmvnorm(N, rep(0, 3), vc, pre0.9_9994 = TRUE )
+eps <- rmvnorm( N, rep(0, 3), vc )
 xs <- runif(N)
 ys <- xs + eps[,1] > 0
 xo1 <- runif(N)
@@ -125,7 +125,7 @@ all.equal( testTobit5MlWe[-17], testTobit5Ml[-17] )
 ## ------- Tobit-2 exmple -----------
 vc <- diag(2)
 vc[2,1] <- vc[1,2] <- -0.7
-eps <- rmvnorm(N, rep(0, 2), vc, pre0.9_9994 = TRUE )
+eps <- rmvnorm( N, rep(0, 2), vc )
 xs <- runif(N)
 ys <- xs + eps[,1] > 0
 xo <- runif(N)
@@ -241,7 +241,7 @@ selection( ys ~ xs - 1, yo ~ xo - 1, method = "model.frame" )
 set.seed( 98765 )
 vc <- diag(2)
 vc[2,1] <- vc[1,2] <- -0.8
-eps <- rmvnorm(N, rep(0, 2), vc, pre0.9_9994 = TRUE )
+eps <- rmvnorm( N, rep(0, 2), vc )
 xs <- runif(N)
 ys <- xs + eps[,1] > 0
 xo <- runif(N)

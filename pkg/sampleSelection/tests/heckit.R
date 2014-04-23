@@ -51,12 +51,12 @@ print( model.matrix( wooldridge, part = "selection" ), digits = 5 )
 print( model.frame( wooldridge ), digits = 5 )
 
 ## Tobit 5 Example from the selection paper
-library(mvtnorm)
+library( "mvtnorm" )
 set.seed(0)
 vc <- diag(3)
 vc[lower.tri(vc)] <- c(0.9, 0.5, 0.1)
 vc[upper.tri(vc)] <- vc[lower.tri(vc)]
-eps <- rmvnorm(500, rep(0, 3), vc, pre0.9_9994 = TRUE )
+eps <- rmvnorm(500, rep(0, 3), vc )
 xs <- runif(500)
 ys <- xs + eps[,1] > 0
 xo1 <- runif(500)

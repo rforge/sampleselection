@@ -1,6 +1,6 @@
 
-R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R version 3.1.0 (2014-04-10) -- "Spring Dance"
+Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -12057,7 +12057,8 @@ attr(,"assign")
 498 0.3145181        0.59243
 499 0.8540528        0.65803
 500        NA             NA
+There were 14 warnings (use warnings() to see them)
 > 
 > proc.time()
    user  system elapsed 
-  2.267   0.151   2.395 
+  2.265   0.123   2.412 

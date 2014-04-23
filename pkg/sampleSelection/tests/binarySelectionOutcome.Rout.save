@@ -1,6 +1,6 @@
 
-R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R version 3.1.0 (2014-04-10) -- "Spring Dance"
+Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -52,22 +52,24 @@ https://r-forge.r-project.org/projects/maxlik/
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-BHHH maximisation, 9 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -423.78 
+BHHH maximisation, 5 iterations
+Return code 3: Last step could not find a value above the current.
+Boundary of parameter space?  
+Consider switching to a more robust optimisation method temporarily.
+Log-Likelihood: -423.84 
 500 observations (84 censored and 416 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.152      0.133   -1.15    0.25    
-xs             3.025      0.377    8.02 1.1e-15 ***
+(Intercept)   -0.163      0.133   -1.23    0.22    
+xs             3.049      0.377    8.08 6.5e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.973      0.126   -7.74 1.0e-14 ***
-xo             1.768      0.237    7.45 9.2e-14 ***
+(Intercept)   -0.968      0.131   -7.38 1.6e-13 ***
+xo             1.793      0.231    7.77 8.0e-15 ***
 Error terms:
-    Estimate Std. error t value Pr(> t)    
-rho    0.631      0.181    3.49 0.00049 ***
+    Estimate Std. error t value Pr(> t)   
+rho    0.559      0.200    2.79  0.0052 **
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -79,27 +81,29 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-BHHH maximisation, 21 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -296.65 
+BHHH maximisation, 7 iterations
+Return code 3: Last step could not find a value above the current.
+Boundary of parameter space?  
+Consider switching to a more robust optimisation method temporarily.
+Log-Likelihood: -296.7 
 500 observations (84 censored and 416 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.152      0.189   -0.80    0.42    
-xs             3.024      0.539    5.61   2e-08 ***
+(Intercept)   -0.163      0.190   -0.86    0.39    
+xs             3.042      0.539    5.64 1.7e-08 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.973      0.180   -5.42 6.1e-08 ***
-xo             1.768      0.339    5.22 1.8e-07 ***
+(Intercept)   -0.965      0.188   -5.14 2.8e-07 ***
+xo             1.789      0.330    5.42 5.9e-08 ***
 Error terms:
     Estimate Std. error t value Pr(> t)  
-rho    0.631      0.258    2.44   0.015 *
+rho    0.553      0.288    1.92   0.055 .
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > all.equal( coef( ssWe ), coef( ss ), tol = 1e-4 )
-[1] TRUE
+[1] "Mean relative difference: 0.0030537"
 > 
 > # estimation with unequal weights
 > wu <- 2 * runif( N )
@@ -108,22 +112,22 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-BHHH maximisation, 17 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -430.7 
+BHHH maximisation, 19 iterations
+Return code 1: gradient close to zero
+Log-Likelihood: -430.8 
 500 observations (84 censored and 416 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.233      0.113   -2.06    0.04 *  
-xs             3.217      0.338    9.52  <2e-16 ***
+(Intercept)   -0.245      0.114   -2.15   0.031 *  
+xs             3.237      0.339    9.55  <2e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.984      0.111   -8.84  <2e-16 ***
-xo             1.692      0.198    8.54  <2e-16 ***
+(Intercept)   -0.974      0.116   -8.36  <2e-16 ***
+xo             1.719      0.196    8.78  <2e-16 ***
 Error terms:
-    Estimate Std. error t value Pr(> t)    
-rho    0.600      0.159    3.78 0.00015 ***
+    Estimate Std. error t value Pr(> t)   
+rho    0.499      0.177    2.81  0.0049 **
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -141,22 +145,24 @@ ys        0   1 <NA>
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-BHHH maximisation, 9 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -423.78 
+BHHH maximisation, 5 iterations
+Return code 3: Last step could not find a value above the current.
+Boundary of parameter space?  
+Consider switching to a more robust optimisation method temporarily.
+Log-Likelihood: -423.84 
 500 observations (84 censored and 416 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.152      0.133   -1.15    0.25    
-xs             3.025      0.377    8.02 1.1e-15 ***
+(Intercept)   -0.163      0.133   -1.23    0.22    
+xs             3.049      0.377    8.08 6.5e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.973      0.126   -7.74 1.0e-14 ***
-xo             1.768      0.237    7.45 9.2e-14 ***
+(Intercept)   -0.968      0.131   -7.38 1.6e-13 ***
+xo             1.793      0.231    7.77 8.0e-15 ***
 Error terms:
-    Estimate Std. error t value Pr(> t)    
-rho    0.631      0.181    3.49 0.00049 ***
+    Estimate Std. error t value Pr(> t)   
+rho    0.559      0.200    2.79  0.0052 **
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -176,31 +182,33 @@ ys      FALSE TRUE <NA>
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-BHHH maximisation, 9 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -423.78 
+BHHH maximisation, 5 iterations
+Return code 3: Last step could not find a value above the current.
+Boundary of parameter space?  
+Consider switching to a more robust optimisation method temporarily.
+Log-Likelihood: -423.84 
 500 observations (84 censored and 416 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.152      0.133   -1.15    0.25    
-xs             3.025      0.377    8.02 1.1e-15 ***
+(Intercept)   -0.163      0.133   -1.23    0.22    
+xs             3.049      0.377    8.08 6.5e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.973      0.126   -7.74 1.0e-14 ***
-xo             1.768      0.237    7.45 9.2e-14 ***
+(Intercept)   -0.968      0.131   -7.38 1.6e-13 ***
+xo             1.793      0.231    7.77 8.0e-15 ***
 Error terms:
-    Estimate Std. error t value Pr(> t)    
-rho    0.631      0.181    3.49 0.00049 ***
+    Estimate Std. error t value Pr(> t)   
+rho    0.559      0.200    2.79  0.0052 **
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > all.equal(ss,ssL)
-[1] "Component 14: Component 10: Component 12: Attributes: < Component 2: Modes: numeric, character >"              
-[2] "Component 14: Component 10: Component 12: Attributes: < Component 2: target is numeric, current is character >"
-[3] "Component 14: Component 10: Component 12: Component 1: Modes: numeric, logical"                                
-[4] "Component 14: Component 10: Component 12: Component 1: names for current but not for target"                   
-[5] "Component 14: Component 10: Component 12: Component 1: target is numeric, current is logical"                  
+[1] "Component \"twoStep\": Component \"lm\": Component \"model\": Attributes: < Component \"row.names\": Modes: numeric, character >"              
+[2] "Component \"twoStep\": Component \"lm\": Component \"model\": Attributes: < Component \"row.names\": target is numeric, current is character >"
+[3] "Component \"twoStep\": Component \"lm\": Component \"model\": Component \"YO\": Modes: numeric, logical"                                       
+[4] "Component \"twoStep\": Component \"lm\": Component \"model\": Component \"YO\": names for current but not for target"                          
+[5] "Component \"twoStep\": Component \"lm\": Component \"model\": Component \"YO\": target is numeric, current is logical"                         
 > 
 > # binary outcome logical and NA if unobserved
 > yo[ !ys ] <- NA
@@ -215,22 +223,24 @@ ys      FALSE TRUE <NA>
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
-BHHH maximisation, 9 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -423.78 
+BHHH maximisation, 5 iterations
+Return code 3: Last step could not find a value above the current.
+Boundary of parameter space?  
+Consider switching to a more robust optimisation method temporarily.
+Log-Likelihood: -423.84 
 500 observations (84 censored and 416 observed)
 5 free parameters (df = 495)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.152      0.133   -1.15    0.25    
-xs             3.025      0.377    8.02 1.1e-15 ***
+(Intercept)   -0.163      0.133   -1.23    0.22    
+xs             3.049      0.377    8.08 6.5e-16 ***
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.973      0.126   -7.74 1.0e-14 ***
-xo             1.768      0.237    7.45 9.2e-14 ***
+(Intercept)   -0.968      0.131   -7.38 1.6e-13 ***
+xo             1.793      0.231    7.77 8.0e-15 ***
 Error terms:
-    Estimate Std. error t value Pr(> t)    
-rho    0.631      0.181    3.49 0.00049 ***
+    Estimate Std. error t value Pr(> t)   
+rho    0.559      0.200    2.79  0.0052 **
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -239,4 +249,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 18.464   0.066  18.523 
+ 34.573   0.098  34.705 

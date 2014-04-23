@@ -1,6 +1,6 @@
 
-R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R version 3.1.0 (2014-04-10) -- "Spring Dance"
+Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -9231,6 +9231,7 @@ attr(,"assign")
 1498 0.4415979        0.50546
 1499        NA             NA
 1500        NA             NA
+There were 14 warnings (use warnings() to see them)
 > 
 > testTobit5Ml <- selection(ys~xs, list(yo1 ~ xo1, yo2 ~ xo2), method="ml")
 > print( testTobit5Ml )
@@ -24200,7 +24201,7 @@ Coefficients:
 Now run tobit5 without intercepts
 > print(coef(selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1))))
     S:  O1:xo1  sigma1    rho1  O2:xo2  sigma2    rho2  
- 0.949   1.026   1.092   0.891   0.971   1.022   0.549  
+-0.856  -0.256   2.323   1.000   0.856   0.988   0.506  
 > # return just the model.frame
 > selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1 ),
 +    method = "model.frame" )
@@ -45929,4 +45930,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  8.154   0.378   8.521 
+  7.421   0.406   7.850 

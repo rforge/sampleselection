@@ -1,6 +1,6 @@
-library(sampleSelection)
-library(mvtnorm)
-options(digits=6)
+library( "sampleSelection" )
+library( "mvtnorm" )
+options( digits = 3 )
 N <- 1500
 NNA <- 5
 vc <- diag(3)

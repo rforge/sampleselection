@@ -1,6 +1,6 @@
-library( sampleSelection )
+library( "sampleSelection" )
 data( Mroz87 )
-options( digits = 6 )
+options( digits = 3 )
 
 ## Greene( 2003 ): example 22.8, page 786
 Mroz87$kids  <- ( Mroz87$kids5 + Mroz87$kids618 > 0 )

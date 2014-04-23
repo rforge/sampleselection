@@ -1,5 +1,6 @@
 library( "sampleSelection" )
 library( "MASS" )
+options( digits = 3 )
 set.seed( 123 )
 
 nObs <- 1000

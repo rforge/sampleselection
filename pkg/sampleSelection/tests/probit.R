@@ -1,5 +1,5 @@
-library( sampleSelection )
-options( digits = 6 )
+library( "sampleSelection" )
+options( digits = 3 )
 
 ## loading and preparing data
 data( Mroz87 )

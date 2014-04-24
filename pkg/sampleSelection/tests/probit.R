@@ -16,6 +16,7 @@ probitResult <- probit( (y > 0) ~ x )
 print( probitResult )
 summary( probitResult )
 nObs( probitResult )
+df.residual( probitResult )
 fitted( probitResult )
 residuals( probitResult, type = "response" )
 residuals( probitResult, type = "pearson" )
@@ -41,6 +42,7 @@ we <- rep( 0.5, 100 )
 probitResultWe <- probit( (y > 0) ~ x, weights = we )
 summary( probitResultWe )
 nObs( probitResultWe )
+df.residual( probitResultWe )
 all.equal( coef( probitResult ), coef( probitResultWe ), tol = 1e-4 )
 
 # estimation with equal weights with glm()
@@ -73,12 +75,14 @@ yProbSamp
 probitResultStrat <- probit( (ySamp > 0) ~ xSamp )
 summary( probitResultStrat )
 nObs( probitResultStrat )
+df.residual( probitResultStrat )
 # weights
 wStrat <- ifelse( ySamp > 0, yProbPop / yProbSamp,
    ( 1 - yProbPop ) / ( 1 - yProbSamp ) )
 probitResultStratW <- probit( (ySamp > 0) ~ xSamp, weights = wStrat )
 summary( probitResultStratW )
 nObs( probitResultStratW )
+df.residual( probitResultStratW )
 
 # estimation with weights to account for stratified sampling with glm()
 probitResultStratW2 <- glm( (ySamp > 0) ~ xSamp, 
@@ -100,6 +104,7 @@ lfpResult <- probit( lfp ~ kids + age30.39 + age50.60 + educ + hushrs +
 print( lfpResult )
 summary( lfpResult )
 nObs( lfpResult )
+df.residual( lfpResult )
 fitted( lfpResult )
 residuals( lfpResult, type = "response" )
 residuals( lfpResult, type = "pearson" )
@@ -126,6 +131,7 @@ greene <- probit( lfp ~ age + I( age^2 ) + faminc + kids + educ, data = Mroz87 )
 print( greene )
 summary( greene )
 nObs( greene )
+df.residual( greene )
 fitted( greene )
 residuals( greene, type = "response" )
 residuals( greene, type = "pearson" )
@@ -159,6 +165,7 @@ m <- probit(y ~ x, na.action = na.exclude)
 length(linearPredictors(m))
                            # should be 20
 nObs( m )
+df.residual( m )
 
 # example, where the "cutoff" in the log likelihood function is used
 # (inspired by an example from Jon K. Peck)
@@ -171,6 +178,7 @@ for( i in 1:3 ) {
 dta2$y <- with( dta2, -5.5 + 0.25 * x1 + 0.6 * x2 + 0.85 * x3 + rnorm( nObs ) ) > 0
 p2 <- probit( y ~ x1 + x2 + x3, data=dta2 )
 nObs( p2 )
+df.residual( p2 )
 
 ## This test probes the extreme outliers.  We generate a normal
 ## model, and add a positive and a negative extreme outlier.  The
@@ -185,3 +193,4 @@ y[2] <- TRUE
 m <- probit(y ~ x)
 print(summary(m))
 nObs( m )
+df.residual( m )

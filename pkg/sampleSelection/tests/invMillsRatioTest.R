@@ -19,6 +19,7 @@ all.equal( invMillsRatio( myProbit )$IMR1, invMillsRatio( myProbit2 )$IMR0 )
 # example for bivariate probit
 library( "mvtnorm" )
 library( "VGAM" )
+set.seed( 321 )
 
 nObs <- 10000
 

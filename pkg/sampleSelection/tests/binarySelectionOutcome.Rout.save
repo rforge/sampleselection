@@ -47,15 +47,15 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
-> ss <- selection(ys~xs, yo ~xo)
+> 
+> # estimation with BHHH method
+> ss <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
 > print(summary(ss))
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 5 iterations
-Return code 3: Last step could not find a value above the current.
-Boundary of parameter space?  
-Consider switching to a more robust optimisation method temporarily.
+Return code 2: successive function values within tolerance limit
 Log-Likelihood: -398.2 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -74,17 +74,43 @@ rho    0.803      0.158    5.07   4e-07 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
-> # estimation with equal weights
+> # estimation with BFGS method
+> ssBFGS <- selection( ys ~ xs, yo ~ xo, maxMethod = "BFGS" )
+> print( summary( ssBFGS ) )
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BFGS maximisation, 77 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -398.19 
+500 observations (74 censored and 426 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.127      0.133   -0.96    0.34    
+xs             3.339      0.397    8.40  <2e-16 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -1.053      0.121   -8.69  <2e-16 ***
+xo             1.987      0.225    8.83  <2e-16 ***
+Error terms:
+    Estimate Std. error t value Pr(> t)    
+rho    0.811      0.147    5.51 3.6e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal( coef( ssBFGS ), coef( ss ), tol = 1e-2 )
+[1] TRUE
+> 
+> # BHHH estimation with equal weights
 > we <- rep( 0.7, N )
-> ssWe <- selection( ys ~ xs, yo ~ xo, weights = we )
+> ssWe <- selection( ys ~ xs, yo ~ xo, weights = we, steptol = 1e-12 )
 > summary( ssWe )
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 8 iterations
-Return code 3: Last step could not find a value above the current.
-Boundary of parameter space?  
-Consider switching to a more robust optimisation method temporarily.
+Return code 2: successive function values within tolerance limit
 Log-Likelihood: -278.74 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -102,10 +128,38 @@ rho    0.798      0.231    3.46 0.00055 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> all.equal( coef( ssWe ), coef( ss ), tol = 1e-4 )
-[1] "Mean relative difference: 0.0021575"
+> all.equal( coef( ssWe ), coef( ss ), tol = 1e-2 )
+[1] TRUE
 > 
-> # estimation with unequal weights
+> # BHHH estimation with equal weights
+> ssWeBFGS <- selection( ys ~ xs, yo ~ xo, weights = we, maxMethod = "BFGS" )
+> summary( ssWeBFGS )
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BFGS maximisation, 68 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -278.74 
+500 observations (74 censored and 426 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.122      0.158   -0.77    0.44    
+xs             3.325      0.474    7.02 2.2e-12 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -1.049      0.145   -7.24 4.6e-13 ***
+xo             1.980      0.269    7.36 1.8e-13 ***
+Error terms:
+    Estimate Std. error t value Pr(> t)    
+rho    0.807      0.181    4.45 8.5e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal( coef( ssWeBFGS ), coef( ssBFGS ), tol = 1e-2 )
+[1] TRUE
+> 
+> # BHHH estimation with unequal weights
 > wu <- 2 * runif( N )
 > ssWu <- selection( ys ~ xs, yo ~ xo, weights = wu )
 > summary( ssWu )
@@ -132,6 +186,64 @@ rho   0.9572     0.0666    14.4  <2e-16 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
+> # BFGS estimation with unequal weights
+> ssWuBFGS <- selection( ys ~ xs, yo ~ xo, weights = wu, maxMethod = "BFGS" )
+> summary( ssWuBFGS )
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BFGS maximisation, 48 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -395.66 
+500 observations (74 censored and 426 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.110      0.129   -0.85    0.39    
+xs             3.355      0.387    8.66  <2e-16 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -1.070      0.120   -8.93  <2e-16 ***
+xo             1.992      0.215    9.27  <2e-16 ***
+Error terms:
+    Estimate Std. error t value Pr(> t)    
+rho   0.9568     0.0633    15.1  <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal( coef( ssWuBFGS ), coef( ssWu ), tol = 1e-2 )
+[1] TRUE
+> 
+> # comparison of estimated coefficients, standard errors, and logLik values
+> round( rbind( coef( ss ), coef( ssBFGS ), coef( ssWe ), coef( ssWeBFGS ),
++    coef( ssWu ), coef( ssWuBFGS ) ), 3 )
+     (Intercept)    xs (Intercept)    xo   rho
+[1,]      -0.130 3.347      -1.054 1.997 0.803
+[2,]      -0.127 3.339      -1.053 1.987 0.811
+[3,]      -0.127 3.342      -1.057 2.000 0.798
+[4,]      -0.122 3.325      -1.049 1.980 0.807
+[5,]      -0.111 3.355      -1.069 1.989 0.957
+[6,]      -0.110 3.355      -1.070 1.992 0.957
+> round( rbind( coef( summary( ss ) )[ , 2 ], coef( summary( ssBFGS ) )[ , 2 ],
++    coef( summary( ssWe ) )[ , 2 ], coef( summary( ssWeBFGS ) )[ , 2 ],
++    coef( summary( ssWu ) )[ , 2 ], coef( summary( ssWuBFGS ) )[ , 2 ] ), 3 )
+     (Intercept)    xs (Intercept)    xo   rho
+[1,]       0.130 0.392       0.124 0.220 0.158
+[2,]       0.133 0.397       0.121 0.225 0.147
+[3,]       0.186 0.561       0.178 0.315 0.231
+[4,]       0.158 0.474       0.145 0.269 0.181
+[5,]       0.102 0.275       0.106 0.181 0.067
+[6,]       0.129 0.387       0.120 0.215 0.063
+> print( rbind( logLik( ss ), logLik( ssBFGS ), logLik( ssWe ),
++    logLik( ssWeBFGS ), logLik( ssWu ), logLik( ssWuBFGS ) ), digits = 6 )
+         [,1]
+[1,] -398.197
+[2,] -398.192
+[3,] -278.739
+[4,] -278.737
+[5,] -395.660
+[6,] -395.660
+> 
 > # binary outcome NA if unobserved
 > yo[ !ys ] <- NA
 > print(table(ys, yo, exclude=NULL))
@@ -140,15 +252,13 @@ ys        0   1 <NA>
   FALSE   0   0   74
   TRUE  202 224    0
   <NA>    0   0    0
-> ssN <- selection(ys~xs, yo ~xo)
+> ssN <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
 > print(summary(ssN))
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 5 iterations
-Return code 3: Last step could not find a value above the current.
-Boundary of parameter space?  
-Consider switching to a more robust optimisation method temporarily.
+Return code 2: successive function values within tolerance limit
 Log-Likelihood: -398.2 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -177,15 +287,13 @@ ys      FALSE TRUE <NA>
   FALSE    74    0    0
   TRUE    202  224    0
   <NA>      0    0    0
-> ssL <- selection(ys~xs, yo ~xo)
+> ssL <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
 > print(summary(ssL))
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 5 iterations
-Return code 3: Last step could not find a value above the current.
-Boundary of parameter space?  
-Consider switching to a more robust optimisation method temporarily.
+Return code 2: successive function values within tolerance limit
 Log-Likelihood: -398.2 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -218,15 +326,13 @@ ys      FALSE TRUE <NA>
   FALSE     0    0   74
   TRUE    202  224    0
   <NA>      0    0    0
-> ssLN <- selection(ys~xs, yo ~xo)
+> ssLN <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
 > print(summary(ssLN))
 --------------------------------------------
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 5 iterations
-Return code 3: Last step could not find a value above the current.
-Boundary of parameter space?  
-Consider switching to a more robust optimisation method temporarily.
+Return code 2: successive function values within tolerance limit
 Log-Likelihood: -398.2 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -249,4 +355,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 36.240   0.084  36.349 
+ 65.184   0.135  65.369 

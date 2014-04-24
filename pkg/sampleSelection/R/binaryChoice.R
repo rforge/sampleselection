@@ -175,7 +175,7 @@ binaryChoice <- function(formula, subset, na.action,
                                levels=YLevels)),
                            # We estimate probability for Y == levels[2]
                            # as opposite of levels[1]
-               df=nObs - nParam,
+               df.residual = nObs - sum( activePar( estimation ) ),
                call=cl,
                terms=mt,
                x=switch(x, "1"=list(X), "0"=NULL),

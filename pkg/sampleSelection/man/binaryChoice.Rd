@@ -114,7 +114,7 @@ maxMethod="Newton-Raphson",
       \item{N0}{Number of observations with zero (false) response}
     }
   }
-  \item{df}{Number of free parameters}
+  \item{df.residual}{degrees of freedom of the residuals.}
   \item{x}{if requested, the model matrix used.}
   \item{y}{if requested, the model response used.  The
    response is represented internally as 0/1 integer vector.}

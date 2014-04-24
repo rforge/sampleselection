@@ -73,7 +73,6 @@ all.equal( invMillsRatio( myProbit )$IMR1, invMillsRatio( myProbit2 )$IMR0 )
    # should be true
 
 # example for bivariate probit
-\dontrun{
 library( "mvtnorm" )
 library( "VGAM" )
 
@@ -214,7 +213,6 @@ summary( olsX0 )
 heckitX0 <- lm( y0 ~ x1 + IMRX0, data = cbind( myData, imr ),
    subset = selection )
 summary( heckitX0 )
-}
 }
 
 \keyword{models}

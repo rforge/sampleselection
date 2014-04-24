@@ -74,14 +74,14 @@ all.equal( invMillsRatio( myProbit )$IMR1, invMillsRatio( myProbit2 )$IMR0 )
 
 # example for bivariate probit
 \dontrun{
-library( MASS )
-library( VGAM, pos = 1e7, warn.conflicts = FALSE )
+library( "mvtnorm" )
+library( "VGAM" )
 
 nObs <- 10000
 
 # error terms (trivariate normal)
 sigma <- symMatrix( c( 2, 0.7, 1.2, 1, 0.5, 1 ) )
-myData <- as.data.frame( mvrnorm( nObs, c( 0, 0, 0 ), sigma ) )
+myData <- as.data.frame( rmvnorm( nObs, c( 0, 0, 0 ), sigma ) )
 names( myData ) <- c( "e0", "e1", "e2" )
 
 # exogenous variables (indepently normal)

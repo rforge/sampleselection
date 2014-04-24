@@ -1,11 +1,11 @@
 library( "sampleSelection" )
-library( "MASS" )
+library( "mvtnorm" )
 options( digits = 3 )
 set.seed( 123 )
 
 nObs <- 1000
 sigma <- matrix( c( 1, 0.5, 0.1, 0.5, 1, -0.3, 0.1, -0.3, 1 ), ncol = 3 )
-errorTerms <- mvrnorm( nObs, c( 0, 0, 0 ), sigma )
+errorTerms <- rmvnorm( nObs, c( 0, 0, 0 ), sigma )
 myData <- data.frame( no = c( 1:nObs ), x1 = rnorm( nObs ), x2 = rnorm( nObs ),
    u1 = errorTerms[ , 1 ], u2 = errorTerms[ , 2 ], u3 = errorTerms[ , 3 ] )
 myData$w <- 1 + myData$x1 + myData$u1

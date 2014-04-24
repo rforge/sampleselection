@@ -64,6 +64,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Significance test:
 chi2(1) = 6.55 (p=0.0105)
 --------------------------------------------
+> nObs( probitResult )
+[1] 100
 > fitted( probitResult )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.940 0.733 0.914 0.809 0.923 0.662 0.742 0.795 0.805 0.769 0.900 0.946 0.822 
@@ -188,6 +190,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Significance test:
 chi2(1) = 47.2 (p=6.27e-12)
 --------------------------------------------
+> nObs( probitResultWe )
+[1] 100
 > all.equal( coef( probitResult ), coef( probitResultWe ), tol = 1e-4 )
 [1] TRUE
 > 
@@ -245,6 +249,8 @@ xSamp         1.1074     0.7089    1.56    0.12
 Significance test:
 chi2(1) = 2.53 (p=0.112)
 --------------------------------------------
+> nObs( probitResultStrat )
+[1] 54
 > # weights
 > wStrat <- ifelse( ySamp > 0, yProbPop / yProbSamp,
 +    ( 1 - yProbPop ) / ( 1 - yProbSamp ) )
@@ -264,6 +270,8 @@ xSamp          1.054      0.831    1.27    0.20
 Significance test:
 chi2(1) = 19.8 (p=8.46e-06)
 --------------------------------------------
+> nObs( probitResultStratW )
+[1] 54
 > 
 > # estimation with weights to account for stratified sampling with glm()
 > probitResultStratW2 <- glm( (ySamp > 0) ~ xSamp, 
@@ -326,6 +334,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Significance test:
 chi2(9) = 159 (p=9.51e-30)
 --------------------------------------------
+> nObs( lfpResult )
+[1] 753
 > fitted( lfpResult )
        1        2        3        4        5        6        7        8 
 6.13e-01 6.50e-01 6.67e-01 6.67e-01 7.94e-01 7.91e-01 8.91e-01 3.43e-01 
@@ -1146,6 +1156,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Significance test:
 chi2(5) = 48.1 (p=3.47e-09)
 --------------------------------------------
+> nObs( greene )
+[1] 753
 > fitted( greene )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.538 0.520 0.574 0.542 0.622 0.519 0.726 0.518 0.490 0.582 0.578 0.545 0.509 
@@ -1754,6 +1766,8 @@ Coefficients:
 > length(linearPredictors(m))
 [1] 20
 >                            # should be 20
+> nObs( m )
+[1] 18
 > 
 > # example, where the "cutoff" in the log likelihood function is used
 > # (inspired by an example from Jon K. Peck)
@@ -1765,6 +1779,8 @@ Coefficients:
 + }
 > dta2$y <- with( dta2, -5.5 + 0.25 * x1 + 0.6 * x2 + 0.85 * x3 + rnorm( nObs ) ) > 0
 > p2 <- probit( y ~ x1 + x2 + x3, data=dta2 )
+> nObs( p2 )
+[1] 1000
 > 
 > ## This test probes the extreme outliers.  We generate a normal
 > ## model, and add a positive and a negative extreme outlier.  The
@@ -1792,7 +1808,9 @@ x           -0.00399    0.01958   -0.20    0.84
 Significance test:
 chi2(1) = 2.98 (p=0.0844)
 --------------------------------------------
+> nObs( m )
+[1] 20
 > 
 > proc.time()
    user  system elapsed 
-  2.168   0.077   2.228 
+  2.175   0.063   2.231 

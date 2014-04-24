@@ -50,7 +50,8 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
     value gives more information.}
   \item{\dots}{additional parameters for the corresponding fitting
     functions \code{\link{tobit2fit}}, \code{\link{tobit5fit}},
-    \code{\link{heckit2fit}}, and \code{\link{heckit5fit}}.}
+    \code{\link{heckit2fit}}, \code{\link{heckit5fit}},
+    and \code{\link{tobit2Bfit}}.}
 }
 \details{
    The endogenous variable of the argument 'selection' must have exactly

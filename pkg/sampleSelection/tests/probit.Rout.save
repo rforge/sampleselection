@@ -24,6 +24,15 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
+> library( "lmtest" )
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
 > options( digits = 3 )
 > 
 > ## loading and preparing data
@@ -153,6 +162,21 @@ chi2(1) = 6.55 (p=0.0105)
 > all.equal( residuals( probitResult, type = "deviance" ),
 +    residuals( probitResult ) )
 [1] TRUE
+> lrtest( probitResult )
+Likelihood ratio test
+
+Model 1: (y > 0) ~ x
+Model 2: (y > 0) ~ 1
+  #Df LogLik Df Chisq Pr(>Chisq)  
+1   2  -40.7                      
+2   1  -44.0 -1  6.55       0.01 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+> all.equal( lrtest( probitResult, (y > 0) ~ 1 ), lrtest( probitResult ) )
+[1] TRUE
+> probitResult0 <- probit( (y > 0) ~ 1 )
+> all.equal( lrtest( probitResult, probitResult0 ), lrtest( probitResult ) )
+[1] TRUE
 > 
 > # estimation with glm()
 > probitResult2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ) )
@@ -174,6 +198,18 @@ chi2(1) = 6.55 (p=0.0105)
 +    residuals( probitResult2, type = "deviance" ), tol = 1e-4 )
 [1] TRUE
 > all.equal( residuals( probitResult ), residuals( probitResult2 ), tol = 1e-4 )
+[1] TRUE
+> lrtest( probitResult2 )
+Likelihood ratio test
+
+Model 1: (y > 0) ~ x
+Model 2: (y > 0) ~ 1
+  #Df LogLik Df Chisq Pr(>Chisq)  
+1   2  -40.7                      
+2   1  -44.0 -1  6.55       0.01 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+> all.equal( lrtest( probitResult2 ), lrtest( probitResult ) )
 [1] TRUE
 > 
 > # estimation with equal weights
@@ -206,6 +242,16 @@ chi2(1) = 47.2 (p=6.27e-12)
 [1] TRUE
 > all.equal( logLik( probitResult ) * 0.5, logLik( probitResultWe ) * 1 )
 [1] TRUE
+> lrtest( probitResultWe )
+Likelihood ratio test
+
+Model 1: (y > 0) ~ x
+Model 2: (y > 0) ~ 1
+  #Df LogLik Df Chisq Pr(>Chisq)  
+1   2  -20.4                      
+2   1  -22.0 -1  3.28       0.07 .
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # estimation with equal weights with glm()
 > probitResultWe2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ),
@@ -269,6 +315,14 @@ chi2(1) = 2.53 (p=0.112)
 [1] 52
 > logLik( probitResultStrat )
 'log Lik.' -31.6 (df=2)
+> lrtest( probitResultStrat )
+Likelihood ratio test
+
+Model 1: (ySamp > 0) ~ xSamp
+Model 2: (ySamp > 0) ~ 1
+  #Df LogLik Df Chisq Pr(>Chisq)
+1   2  -31.6                    
+2   1  -32.8 -1  2.53       0.11
 > # weights
 > wStrat <- ifelse( ySamp > 0, yProbPop / yProbSamp,
 +    ( 1 - yProbPop ) / ( 1 - yProbSamp ) )
@@ -294,6 +348,14 @@ chi2(1) = 19.8 (p=8.46e-06)
 [1] 52
 > logLik( probitResultStratW )
 'log Lik.' -22.9 (df=2)
+> lrtest( probitResultStratW )
+Likelihood ratio test
+
+Model 1: (ySamp > 0) ~ xSamp
+Model 2: (ySamp > 0) ~ 1
+  #Df LogLik Df Chisq Pr(>Chisq)
+1   2  -22.9                    
+2   1  -23.7 -1  1.68       0.19
 > 
 > # estimation with weights to account for stratified sampling with glm()
 > probitResultStratW2 <- glm( (ySamp > 0) ~ xSamp, 
@@ -364,6 +426,26 @@ chi2(9) = 159 (p=9.51e-30)
 [1] 743
 > logLik( lfpResult )
 'log Lik.' -435 (df=10)
+> lrtest( lfpResult )
+Likelihood ratio test
+
+Model 1: lfp ~ kids + age30.39 + age50.60 + educ + hushrs + huseduc + 
+    huswage + mtr + motheduc
+Model 2: lfp ~ 1
+  #Df LogLik Df Chisq Pr(>Chisq)    
+1  10   -435                        
+2   1   -515 -9   159     <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+> lrtest( lfpResult, lfp ~ age50.60 + educ + hushrs + huswage + mtr )
+Likelihood ratio test
+
+Model 1: lfp ~ kids + age30.39 + age50.60 + educ + hushrs + huseduc + 
+    huswage + mtr + motheduc
+Model 2: lfp ~ age50.60 + educ + hushrs + huswage + mtr
+  #Df LogLik Df Chisq Pr(>Chisq)
+1  10   -435                    
+2   6   -438 -4   6.1       0.19
 > fitted( lfpResult )
        1        2        3        4        5        6        7        8 
 6.13e-01 6.50e-01 6.67e-01 6.67e-01 7.94e-01 7.91e-01 8.91e-01 3.43e-01 
@@ -1139,6 +1221,12 @@ chi2(9) = 159 (p=9.51e-30)
 [1] TRUE
 > all.equal( logLik( lfpResult ), logLik( lfpResult2 ) )
 [1] TRUE
+> all.equal( lrtest( lfpResult ), lrtest( lfpResult2 ) )
+[1] TRUE
+> all.equal( lrtest( lfpResult, lfp ~ age50.60 + educ + hushrs + huswage + mtr ),
++    lrtest( lfpResult2, lfp ~ age50.60 + educ + hushrs + huswage + mtr ),
++    tol = 1e-7 )
+[1] TRUE
 > all.equal( fitted( lfpResult ), fitted( lfpResult2 ), tol = 1e-4 )
 [1] TRUE
 > all.equal( residuals( lfpResult, type = "response" ),
@@ -1192,6 +1280,26 @@ chi2(5) = 48.1 (p=3.47e-09)
 [1] 747
 > logLik( greene )
 'log Lik.' -491 (df=6)
+> lrtest( greene )
+Likelihood ratio test
+
+Model 1: lfp ~ age + I(age^2) + faminc + kids + educ
+Model 2: lfp ~ 1
+  #Df LogLik Df Chisq Pr(>Chisq)    
+1   6   -491                        
+2   1   -515 -5    48    3.5e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+> lrtest( greene, lfp ~ age + kids + educ )
+Likelihood ratio test
+
+Model 1: lfp ~ age + I(age^2) + faminc + kids + educ
+Model 2: lfp ~ age + kids + educ
+  #Df LogLik Df Chisq Pr(>Chisq)   
+1   6   -491                       
+2   4   -497 -2  11.7     0.0028 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > fitted( greene )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.538 0.520 0.574 0.542 0.622 0.519 0.726 0.518 0.490 0.582 0.578 0.545 0.509 
@@ -1750,6 +1858,11 @@ chi2(5) = 48.1 (p=3.47e-09)
 [1] TRUE
 > all.equal( logLik( greene ), logLik( greene2 ) )
 [1] TRUE
+> all.equal( lrtest( greene ), lrtest( greene2 ) )
+[1] TRUE
+> all.equal( lrtest( greene, lfp ~ age + kids + educ ),
++    lrtest( greene2, lfp ~ age + kids + educ ) )
+[1] TRUE
 > all.equal( fitted( greene ), fitted( greene2 ), tol = 1e-4 )
 [1] TRUE
 > all.equal( residuals( greene, type = "response" ),
@@ -1861,4 +1974,4 @@ chi2(1) = 2.98 (p=0.0844)
 > 
 > proc.time()
    user  system elapsed 
-  7.331   0.271   7.598 
+  3.366   0.147   3.524 

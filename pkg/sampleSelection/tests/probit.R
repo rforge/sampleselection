@@ -1,4 +1,5 @@
 library( "sampleSelection" )
+library( "lmtest" )
 options( digits = 3 )
 
 ## loading and preparing data
@@ -24,6 +25,10 @@ residuals( probitResult, type = "pearson" )
 residuals( probitResult, type = "deviance" )
 all.equal( residuals( probitResult, type = "deviance" ),
    residuals( probitResult ) )
+lrtest( probitResult )
+all.equal( lrtest( probitResult, (y > 0) ~ 1 ), lrtest( probitResult ) )
+probitResult0 <- probit( (y > 0) ~ 1 )
+all.equal( lrtest( probitResult, probitResult0 ), lrtest( probitResult ) )
 
 # estimation with glm()
 probitResult2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ) )
@@ -38,6 +43,8 @@ all.equal( residuals( probitResult, type = "pearson" ),
 all.equal( residuals( probitResult, type = "deviance" ),
    residuals( probitResult2, type = "deviance" ), tol = 1e-4 )
 all.equal( residuals( probitResult ), residuals( probitResult2 ), tol = 1e-4 )
+lrtest( probitResult2 )
+all.equal( lrtest( probitResult2 ), lrtest( probitResult ) )
 
 # estimation with equal weights
 we <- rep( 0.5, 100 )
@@ -48,6 +55,7 @@ df.residual( probitResultWe )
 logLik( probitResult )
 all.equal( coef( probitResult ), coef( probitResultWe ), tol = 1e-4 )
 all.equal( logLik( probitResult ) * 0.5, logLik( probitResultWe ) * 1 )
+lrtest( probitResultWe )
 
 # estimation with equal weights with glm()
 probitResultWe2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ),
@@ -82,6 +90,7 @@ summary( probitResultStrat )
 nObs( probitResultStrat )
 df.residual( probitResultStrat )
 logLik( probitResultStrat )
+lrtest( probitResultStrat )
 # weights
 wStrat <- ifelse( ySamp > 0, yProbPop / yProbSamp,
    ( 1 - yProbPop ) / ( 1 - yProbSamp ) )
@@ -90,6 +99,7 @@ summary( probitResultStratW )
 nObs( probitResultStratW )
 df.residual( probitResultStratW )
 logLik( probitResultStratW )
+lrtest( probitResultStratW )
 
 # estimation with weights to account for stratified sampling with glm()
 probitResultStratW2 <- glm( (ySamp > 0) ~ xSamp, 
@@ -114,6 +124,8 @@ summary( lfpResult )
 nObs( lfpResult )
 df.residual( lfpResult )
 logLik( lfpResult )
+lrtest( lfpResult )
+lrtest( lfpResult, lfp ~ age50.60 + educ + hushrs + huswage + mtr )
 fitted( lfpResult )
 residuals( lfpResult, type = "response" )
 residuals( lfpResult, type = "pearson" )
@@ -126,6 +138,10 @@ lfpResult2 <- glm( lfp ~ kids + age30.39 + age50.60 + educ + hushrs +
 all.equal( coef( lfpResult ), coef( lfpResult2 ), tol = 1e-3 )
 all.equal( stdEr( lfpResult ), stdEr( lfpResult2 ), tol = 1e-1 )
 all.equal( logLik( lfpResult ), logLik( lfpResult2 ) )
+all.equal( lrtest( lfpResult ), lrtest( lfpResult2 ) )
+all.equal( lrtest( lfpResult, lfp ~ age50.60 + educ + hushrs + huswage + mtr ),
+   lrtest( lfpResult2, lfp ~ age50.60 + educ + hushrs + huswage + mtr ),
+   tol = 1e-7 )
 all.equal( fitted( lfpResult ), fitted( lfpResult2 ), tol = 1e-4 )
 all.equal( residuals( lfpResult, type = "response" ),
    residuals( lfpResult2, type = "response" ), tol = 1e-4 )
@@ -143,6 +159,8 @@ summary( greene )
 nObs( greene )
 df.residual( greene )
 logLik( greene )
+lrtest( greene )
+lrtest( greene, lfp ~ age + kids + educ )
 fitted( greene )
 residuals( greene, type = "response" )
 residuals( greene, type = "pearson" )
@@ -154,6 +172,9 @@ greene2 <- glm( lfp ~ age + I( age^2 ) + faminc + kids + educ,
 all.equal( coef( greene ), coef( greene2 ), tol = 1e-3 )
 all.equal( stdEr( greene ), stdEr( greene2 ), tol = 1e-1 )
 all.equal( logLik( greene ), logLik( greene2 ) )
+all.equal( lrtest( greene ), lrtest( greene2 ) )
+all.equal( lrtest( greene, lfp ~ age + kids + educ ),
+   lrtest( greene2, lfp ~ age + kids + educ ) )
 all.equal( fitted( greene ), fitted( greene2 ), tol = 1e-4 )
 all.equal( residuals( greene, type = "response" ),
    residuals( greene2, type = "response" ), tol = 1e-4 )

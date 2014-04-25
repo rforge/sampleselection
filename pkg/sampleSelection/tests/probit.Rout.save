@@ -68,6 +68,8 @@ chi2(1) = 6.55 (p=0.0105)
 [1] 100
 > df.residual( probitResult )
 [1] 98
+> logLik( probitResult )
+'log Lik.' -40.7 (df=2)
 > fitted( probitResult )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.940 0.733 0.914 0.809 0.923 0.662 0.742 0.795 0.805 0.769 0.900 0.946 0.822 
@@ -158,6 +160,8 @@ chi2(1) = 6.55 (p=0.0105)
 [1] TRUE
 > all.equal( stdEr( probitResult ), stdEr( probitResult2 ), tol = 1e-1 )
 [1] TRUE
+> all.equal( logLik( probitResult ), logLik( probitResult2 ) )
+[1] TRUE
 > all.equal( fitted( probitResult ), fitted( probitResult2 ), tol = 1e-4 )
 [1] TRUE
 > all.equal( residuals( probitResult, type = "response" ),
@@ -196,7 +200,11 @@ chi2(1) = 47.2 (p=6.27e-12)
 [1] 100
 > df.residual( probitResultWe )
 [1] 98
+> logLik( probitResult )
+'log Lik.' -40.7 (df=2)
 > all.equal( coef( probitResult ), coef( probitResultWe ), tol = 1e-4 )
+[1] TRUE
+> all.equal( logLik( probitResult ) * 0.5, logLik( probitResultWe ) * 1 )
 [1] TRUE
 > 
 > # estimation with equal weights with glm()
@@ -208,6 +216,8 @@ In eval(expr, envir, enclos) : non-integer #successes in a binomial glm!
 [1] TRUE
 > all.equal( stdEr( probitResultWe ), stdEr( probitResultWe2 ), tol = 1e-1 )
 [1] TRUE
+> logLik( probitResultWe2 )
+'log Lik.' 0 (df=2)
 > all.equal( fitted( probitResultWe ), fitted( probitResultWe2 ), tol = 1e-4 )
 [1] TRUE
 > all.equal( residuals( probitResultWe, type = "response" ),
@@ -257,6 +267,8 @@ chi2(1) = 2.53 (p=0.112)
 [1] 54
 > df.residual( probitResultStrat )
 [1] 52
+> logLik( probitResultStrat )
+'log Lik.' -31.6 (df=2)
 > # weights
 > wStrat <- ifelse( ySamp > 0, yProbPop / yProbSamp,
 +    ( 1 - yProbPop ) / ( 1 - yProbSamp ) )
@@ -280,6 +292,8 @@ chi2(1) = 19.8 (p=8.46e-06)
 [1] 54
 > df.residual( probitResultStratW )
 [1] 52
+> logLik( probitResultStratW )
+'log Lik.' -22.9 (df=2)
 > 
 > # estimation with weights to account for stratified sampling with glm()
 > probitResultStratW2 <- glm( (ySamp > 0) ~ xSamp, 
@@ -290,6 +304,8 @@ In eval(expr, envir, enclos) : non-integer #successes in a binomial glm!
 [1] TRUE
 > all.equal( stdEr( probitResultStratW ), stdEr( probitResultStratW2 ), tol = 1e-1 )
 [1] TRUE
+> logLik( probitResultStratW2 )
+'log Lik.' -34.6 (df=2)
 > all.equal( fitted( probitResultStratW ), fitted( probitResultStratW2 ), tol = 1e-4 )
 [1] TRUE
 > all.equal( residuals( probitResultStratW, type = "response" ),
@@ -346,6 +362,8 @@ chi2(9) = 159 (p=9.51e-30)
 [1] 753
 > df.residual( lfpResult )
 [1] 743
+> logLik( lfpResult )
+'log Lik.' -435 (df=10)
 > fitted( lfpResult )
        1        2        3        4        5        6        7        8 
 6.13e-01 6.50e-01 6.67e-01 6.67e-01 7.94e-01 7.91e-01 8.91e-01 3.43e-01 
@@ -1119,6 +1137,8 @@ chi2(9) = 159 (p=9.51e-30)
 [1] TRUE
 > all.equal( stdEr( lfpResult ), stdEr( lfpResult2 ), tol = 1e-1 )
 [1] TRUE
+> all.equal( logLik( lfpResult ), logLik( lfpResult2 ) )
+[1] TRUE
 > all.equal( fitted( lfpResult ), fitted( lfpResult2 ), tol = 1e-4 )
 [1] TRUE
 > all.equal( residuals( lfpResult, type = "response" ),
@@ -1170,6 +1190,8 @@ chi2(5) = 48.1 (p=3.47e-09)
 [1] 753
 > df.residual( greene )
 [1] 747
+> logLik( greene )
+'log Lik.' -491 (df=6)
 > fitted( greene )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.538 0.520 0.574 0.542 0.622 0.519 0.726 0.518 0.490 0.582 0.578 0.545 0.509 
@@ -1726,6 +1748,8 @@ chi2(5) = 48.1 (p=3.47e-09)
 [1] TRUE
 > all.equal( stdEr( greene ), stdEr( greene2 ), tol = 1e-1 )
 [1] TRUE
+> all.equal( logLik( greene ), logLik( greene2 ) )
+[1] TRUE
 > all.equal( fitted( greene ), fitted( greene2 ), tol = 1e-4 )
 [1] TRUE
 > all.equal( residuals( greene, type = "response" ),
@@ -1782,6 +1806,8 @@ Coefficients:
 [1] 18
 > df.residual( m )
 [1] 16
+> logLik( m )
+'log Lik.' -10.1 (df=2)
 > 
 > # example, where the "cutoff" in the log likelihood function is used
 > # (inspired by an example from Jon K. Peck)
@@ -1797,6 +1823,8 @@ Coefficients:
 [1] 1000
 > df.residual( p2 )
 [1] 996
+> logLik( p2 )
+'log Lik.' -139 (df=4)
 > 
 > ## This test probes the extreme outliers.  We generate a normal
 > ## model, and add a positive and a negative extreme outlier.  The
@@ -1828,7 +1856,9 @@ chi2(1) = 2.98 (p=0.0844)
 [1] 20
 > df.residual( m )
 [1] 18
+> logLik( m )
+'log Lik.' -11.5 (df=2)
 > 
 > proc.time()
    user  system elapsed 
-   2.10    0.12    2.20 
+  7.331   0.271   7.598 

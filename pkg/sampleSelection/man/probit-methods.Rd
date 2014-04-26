@@ -46,6 +46,8 @@
    of the estimated coefficients.
    
    The methods \code{\link{linearPredictors.probit}},
+   \code{\link{model.frame.binaryChoice}},
+   \code{\link{model.matrix.binaryChoice}},
    \code{\link{residuals.probit}}, and \code{\link{summary.probit}}
    are described at seperate help pages.
 }

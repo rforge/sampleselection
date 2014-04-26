@@ -114,9 +114,12 @@ binaryChoice <- function(formula, subset, na.action,
                                         # model frame will be wrong if called from inside a function
                                         # inside a function (sorry, I can't understand it either :-(
    mf <- eval(mf, envir=parent.frame())
-   if (method == "model.frame")
+   if( method == "model.frame" ) {
+      if( !is.null( list(...)$weights ) ) {
+         mf[[ "(weights)" ]] <- list(...)$weights
+      }
        return(mf)
-   else if (method != "ML")
+   } else if (method != "ML")
        warning("method = ", method, " is not supported. Using \"ML\"")
    mt <- attr(mf, "terms")
    Y <- model.response( mf )

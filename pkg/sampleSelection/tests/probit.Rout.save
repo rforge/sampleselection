@@ -494,109 +494,109 @@ chi2(1) = 47.2 (p=6.27e-12)
 > all.equal( logLik( probitResult ) * 0.5, logLik( probitResultWe ) )
 [1] TRUE
 > model.frame( probitResultWe )
-    (y > 0)      x
-1     FALSE 0.8578
-2      TRUE 0.2095
-3      TRUE 0.7252
-4     FALSE 0.3852
-5      TRUE 0.7642
-6      TRUE 0.0670
-7      TRUE 0.2279
-8      TRUE 0.3479
-9      TRUE 0.3748
-10    FALSE 0.2885
-11    FALSE 0.6666
-12     TRUE 0.8908
-13     TRUE 0.4169
-14    FALSE 0.2805
-15     TRUE 0.4289
-16    FALSE 0.8123
-17     TRUE 0.4342
-18     TRUE 0.7219
-19     TRUE 0.5354
-20     TRUE 0.5088
-21     TRUE 0.6134
-22     TRUE 0.7772
-23     TRUE 0.2925
-24     TRUE 0.7707
-25    FALSE 0.0248
-26    FALSE 0.1183
-27     TRUE 0.8597
-28     TRUE 0.3348
-29     TRUE 0.6604
-30     TRUE 0.7982
-31     TRUE 0.6112
-32     TRUE 0.1323
-33     TRUE 0.2583
-34     TRUE 0.5948
-35     TRUE 0.0476
-36     TRUE 0.5141
-37     TRUE 0.9643
-38    FALSE 0.0373
-39     TRUE 0.5541
-40    FALSE 0.2473
-41     TRUE 0.6956
-42     TRUE 0.8097
-43     TRUE 0.6226
-44     TRUE 0.6547
-45     TRUE 0.9633
-46    FALSE 0.1897
-47     TRUE 0.7765
-48     TRUE 0.3945
-49     TRUE 0.9595
-50     TRUE 0.6937
-51     TRUE 0.9279
-52     TRUE 0.0729
-53     TRUE 0.4328
-54     TRUE 0.5375
-55     TRUE 0.8613
-56     TRUE 0.4234
-57     TRUE 0.0586
-58     TRUE 0.3954
-59     TRUE 0.6814
-60     TRUE 0.6555
-61     TRUE 0.4966
-62     TRUE 0.8711
-63     TRUE 0.5787
-64     TRUE 0.9142
-65     TRUE 0.3148
-66     TRUE 0.1275
-67     TRUE 0.5557
-68     TRUE 0.2103
-69     TRUE 0.5995
-70     TRUE 0.2221
-71    FALSE 0.2999
-72     TRUE 0.1047
-73     TRUE 0.3790
-74     TRUE 0.3345
-75     TRUE 0.1792
-76    FALSE 0.7925
-77     TRUE 0.0577
-78     TRUE 0.4821
-79     TRUE 0.8295
-80     TRUE 0.4637
-81     TRUE 0.4191
-82     TRUE 0.9267
-83    FALSE 0.0201
-84     TRUE 0.8520
-85     TRUE 0.7059
-86     TRUE 0.3428
-87     TRUE 0.4517
-88     TRUE 0.8549
-89     TRUE 0.3842
-90     TRUE 0.8773
-91     TRUE 0.2642
-92     TRUE 0.9297
-93     TRUE 0.9710
-94    FALSE 0.2346
-95     TRUE 0.4273
-96     TRUE 0.5949
-97     TRUE 0.7867
-98     TRUE 0.9336
-99     TRUE 0.7844
-100   FALSE 0.4848
+    (y > 0)      x (weights)
+1     FALSE 0.8578       0.5
+2      TRUE 0.2095       0.5
+3      TRUE 0.7252       0.5
+4     FALSE 0.3852       0.5
+5      TRUE 0.7642       0.5
+6      TRUE 0.0670       0.5
+7      TRUE 0.2279       0.5
+8      TRUE 0.3479       0.5
+9      TRUE 0.3748       0.5
+10    FALSE 0.2885       0.5
+11    FALSE 0.6666       0.5
+12     TRUE 0.8908       0.5
+13     TRUE 0.4169       0.5
+14    FALSE 0.2805       0.5
+15     TRUE 0.4289       0.5
+16    FALSE 0.8123       0.5
+17     TRUE 0.4342       0.5
+18     TRUE 0.7219       0.5
+19     TRUE 0.5354       0.5
+20     TRUE 0.5088       0.5
+21     TRUE 0.6134       0.5
+22     TRUE 0.7772       0.5
+23     TRUE 0.2925       0.5
+24     TRUE 0.7707       0.5
+25    FALSE 0.0248       0.5
+26    FALSE 0.1183       0.5
+27     TRUE 0.8597       0.5
+28     TRUE 0.3348       0.5
+29     TRUE 0.6604       0.5
+30     TRUE 0.7982       0.5
+31     TRUE 0.6112       0.5
+32     TRUE 0.1323       0.5
+33     TRUE 0.2583       0.5
+34     TRUE 0.5948       0.5
+35     TRUE 0.0476       0.5
+36     TRUE 0.5141       0.5
+37     TRUE 0.9643       0.5
+38    FALSE 0.0373       0.5
+39     TRUE 0.5541       0.5
+40    FALSE 0.2473       0.5
+41     TRUE 0.6956       0.5
+42     TRUE 0.8097       0.5
+43     TRUE 0.6226       0.5
+44     TRUE 0.6547       0.5
+45     TRUE 0.9633       0.5
+46    FALSE 0.1897       0.5
+47     TRUE 0.7765       0.5
+48     TRUE 0.3945       0.5
+49     TRUE 0.9595       0.5
+50     TRUE 0.6937       0.5
+51     TRUE 0.9279       0.5
+52     TRUE 0.0729       0.5
+53     TRUE 0.4328       0.5
+54     TRUE 0.5375       0.5
+55     TRUE 0.8613       0.5
+56     TRUE 0.4234       0.5
+57     TRUE 0.0586       0.5
+58     TRUE 0.3954       0.5
+59     TRUE 0.6814       0.5
+60     TRUE 0.6555       0.5
+61     TRUE 0.4966       0.5
+62     TRUE 0.8711       0.5
+63     TRUE 0.5787       0.5
+64     TRUE 0.9142       0.5
+65     TRUE 0.3148       0.5
+66     TRUE 0.1275       0.5
+67     TRUE 0.5557       0.5
+68     TRUE 0.2103       0.5
+69     TRUE 0.5995       0.5
+70     TRUE 0.2221       0.5
+71    FALSE 0.2999       0.5
+72     TRUE 0.1047       0.5
+73     TRUE 0.3790       0.5
+74     TRUE 0.3345       0.5
+75     TRUE 0.1792       0.5
+76    FALSE 0.7925       0.5
+77     TRUE 0.0577       0.5
+78     TRUE 0.4821       0.5
+79     TRUE 0.8295       0.5
+80     TRUE 0.4637       0.5
+81     TRUE 0.4191       0.5
+82     TRUE 0.9267       0.5
+83    FALSE 0.0201       0.5
+84     TRUE 0.8520       0.5
+85     TRUE 0.7059       0.5
+86     TRUE 0.3428       0.5
+87     TRUE 0.4517       0.5
+88     TRUE 0.8549       0.5
+89     TRUE 0.3842       0.5
+90     TRUE 0.8773       0.5
+91     TRUE 0.2642       0.5
+92     TRUE 0.9297       0.5
+93     TRUE 0.9710       0.5
+94    FALSE 0.2346       0.5
+95     TRUE 0.4273       0.5
+96     TRUE 0.5949       0.5
+97     TRUE 0.7867       0.5
+98     TRUE 0.9336       0.5
+99     TRUE 0.7844       0.5
+100   FALSE 0.4848       0.5
 > all.equal( model.frame( probitResult ), model.frame( probitResultWe ) )
-[1] TRUE
+[1] "Length mismatch: comparison on first 2 components"
 > all.equal( model.matrix( probitResult ), model.matrix( probitResultWe ) )
 [1] TRUE
 > all.equal( fitted( probitResult ), fitted( probitResultWe ) )
@@ -642,7 +642,7 @@ In eval(expr, envir, enclos) : non-integer #successes in a binomial glm!
 > logLik( probitResultWe2 )
 'log Lik.' 0 (df=2)
 > all.equal( model.frame( probitResultWe ), model.frame( probitResultWe2 ) )
-[1] "Length mismatch: comparison on first 2 components"
+[1] TRUE
 > model.frame( probitResultWe2 )
     (y > 0)      x (weights)
 1     FALSE 0.8578       0.5
@@ -851,61 +851,61 @@ xSamp            -0.285  0.691
 > logLik( probitResultStratW )
 'log Lik.' -22.9 (df=2)
 > model.frame( probitResultStratW )
-   (ySamp > 0)  xSamp
-1        FALSE 0.8578
-2         TRUE 0.2095
-3         TRUE 0.7252
-4        FALSE 0.3852
-5         TRUE 0.3479
-6         TRUE 0.3748
-7        FALSE 0.2885
-8        FALSE 0.6666
-9         TRUE 0.8908
-10        TRUE 0.4169
-11       FALSE 0.2805
-12        TRUE 0.4289
-13       FALSE 0.8123
-14        TRUE 0.7219
-15        TRUE 0.5354
-16        TRUE 0.5088
-17        TRUE 0.7772
-18        TRUE 0.2925
-19       FALSE 0.0248
-20       FALSE 0.1183
-21        TRUE 0.3348
-22        TRUE 0.6112
-23        TRUE 0.1323
-24        TRUE 0.2583
-25       FALSE 0.0373
-26        TRUE 0.5541
-27       FALSE 0.2473
-28        TRUE 0.6226
-29       FALSE 0.1897
-30        TRUE 0.7765
-31        TRUE 0.9595
-32        TRUE 0.9279
-33        TRUE 0.0729
-34        TRUE 0.3954
-35        TRUE 0.4966
-36        TRUE 0.3148
-37        TRUE 0.5557
-38        TRUE 0.2103
-39       FALSE 0.2999
-40        TRUE 0.1047
-41        TRUE 0.3790
-42        TRUE 0.1792
-43       FALSE 0.7925
-44        TRUE 0.0577
-45        TRUE 0.4637
-46       FALSE 0.0201
-47        TRUE 0.4517
-48        TRUE 0.3842
-49        TRUE 0.8773
-50       FALSE 0.2346
-51        TRUE 0.4273
-52        TRUE 0.7867
-53        TRUE 0.7844
-54       FALSE 0.4848
+   (ySamp > 0)  xSamp (weights)
+1        FALSE 0.8578      0.54
+2         TRUE 0.2095      1.19
+3         TRUE 0.7252      1.19
+4        FALSE 0.3852      0.54
+5         TRUE 0.3479      1.19
+6         TRUE 0.3748      1.19
+7        FALSE 0.2885      0.54
+8        FALSE 0.6666      0.54
+9         TRUE 0.8908      1.19
+10        TRUE 0.4169      1.19
+11       FALSE 0.2805      0.54
+12        TRUE 0.4289      1.19
+13       FALSE 0.8123      0.54
+14        TRUE 0.7219      1.19
+15        TRUE 0.5354      1.19
+16        TRUE 0.5088      1.19
+17        TRUE 0.7772      1.19
+18        TRUE 0.2925      1.19
+19       FALSE 0.0248      0.54
+20       FALSE 0.1183      0.54
+21        TRUE 0.3348      1.19
+22        TRUE 0.6112      1.19
+23        TRUE 0.1323      1.19
+24        TRUE 0.2583      1.19
+25       FALSE 0.0373      0.54
+26        TRUE 0.5541      1.19
+27       FALSE 0.2473      0.54
+28        TRUE 0.6226      1.19
+29       FALSE 0.1897      0.54
+30        TRUE 0.7765      1.19
+31        TRUE 0.9595      1.19
+32        TRUE 0.9279      1.19
+33        TRUE 0.0729      1.19
+34        TRUE 0.3954      1.19
+35        TRUE 0.4966      1.19
+36        TRUE 0.3148      1.19
+37        TRUE 0.5557      1.19
+38        TRUE 0.2103      1.19
+39       FALSE 0.2999      0.54
+40        TRUE 0.1047      1.19
+41        TRUE 0.3790      1.19
+42        TRUE 0.1792      1.19
+43       FALSE 0.7925      0.54
+44        TRUE 0.0577      1.19
+45        TRUE 0.4637      1.19
+46       FALSE 0.0201      0.54
+47        TRUE 0.4517      1.19
+48        TRUE 0.3842      1.19
+49        TRUE 0.8773      1.19
+50       FALSE 0.2346      0.54
+51        TRUE 0.4273      1.19
+52        TRUE 0.7867      1.19
+53        TRUE 0.7844      1.19
+54       FALSE 0.4848      0.54
 > model.matrix( probitResultStratW )
    (Intercept)  xSamp
 1            1 0.8578
@@ -1045,7 +1045,7 @@ In eval(expr, envir, enclos) : non-integer #successes in a binomial glm!
 > logLik( probitResultStratW2 )
 'log Lik.' -34.6 (df=2)
 > all.equal( model.frame( probitResultStratW ), model.frame( probitResultStratW2 ) )
-[1] "Length mismatch: comparison on first 2 components"
+[1] TRUE
 > model.frame( probitResultStratW2 )
    (ySamp > 0)  xSamp (weights)
 1        FALSE 0.8578      0.54
@@ -6939,4 +6939,4 @@ chi2(1) = 2.98 (p=0.0844)
 > 
 > proc.time()
    user  system elapsed 
-   2.83    0.09    2.90 
+  2.945   0.123   3.047 

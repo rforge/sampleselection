@@ -8842,6 +8842,9 @@ attr(,"assign")
 1498          0.487
 1499          0.677
 1500             NA
+> try( logLik( testTobit5TwoStep ) )
+Error in logLik.selection(testTobit5TwoStep) : 
+  the logLik() method currently only works for models estimated by maximum likelihood (ML) but it does not work for models estimated by the 2-step method.
 > 
 > testTobit5Ml <- selection(ys~xs, list(yo1 ~ xo1, yo2 ~ xo2), method="ml")
 > print( testTobit5Ml )
@@ -15982,6 +15985,8 @@ attr(,"assign")
 1498  TRUE 0.547224  1.60561 0.518295  1.733524 0.44160
 1499  TRUE 0.203628  2.00910 0.601503  1.558380 0.81762
 1500 FALSE 0.450685 -0.72721 0.336864 -0.330969 0.57413
+> logLik( testTobit5Ml )
+'log Lik.' -2777 (df=10)
 > 
 > # ML with model.matrices returned
 > testTobit5MlMm <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
@@ -31013,6 +31018,9 @@ attr(,"assign")
 1498  0           1 0.091045        NA      NA            NA
 1499  0           1 0.002380        NA      NA            NA
 1500  0           1 0.342001        NA      NA            NA
+> try( logLik( testTobit2TwoStep ) )
+Error in logLik.selection(testTobit2TwoStep) : 
+  the logLik() method currently only works for models estimated by maximum likelihood (ML) but it does not work for models estimated by the 2-step method.
 > 
 > testTobit2Ml <- selection(ys~xs, yo ~xo, method="ml")
 > print( testTobit2Ml )
@@ -36794,6 +36802,9 @@ attr(,"assign")
 1498 FALSE 0.091045  0.000000 7.18e-01
 1499 FALSE 0.002380  0.000000 5.65e-01
 1500 FALSE 0.342001  0.000000 7.16e-01
+> logLik( testTobit2Ml )
+'log Lik.' -2215 (df=6)
+> 
 > # ML with model.matrices returned
 > testTobit2MlMm <- selection( ys ~ xs, yo ~ xo, method = "ml", 
 +    xs = TRUE, xo = TRUE )
@@ -38330,6 +38341,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [1] TRUE
 > nObs( testTobit2TwoStepWe )
 [1] 1483
+> try( logLik( testTobit2TwoStepWe ) )
+Error in logLik.selection(testTobit2TwoStepWe) : 
+  the logLik() method currently only works for models estimated by maximum likelihood (ML) but it does not work for models estimated by the 2-step method.
 > 
 > ## ML estimation with equal weights
 > testTobit2MlWe <- selection( ys~xs, yo ~xo, weights = we )
@@ -38361,6 +38375,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [1] TRUE
 > nObs( testTobit2MlWe )
 [1] 1483
+> logLik( testTobit2MlWe )
+'log Lik.' -1550 (df=6)
 > 
 > ## two-step estimation with unequal weights
 > wu <- 2 * runif( N )
@@ -38390,6 +38406,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > nObs( testTobit2TwoStepWu )
 [1] 1483
+> try( logLik( testTobit2TwoStepWu ) )
+Error in logLik.selection(testTobit2TwoStepWu) : 
+  the logLik() method currently only works for models estimated by maximum likelihood (ML) but it does not work for models estimated by the 2-step method.
 > 
 > ## ML estimation with unequal weights
 > testTobit2MlWu <- selection( ys~xs, yo ~xo, weights = wu )
@@ -38419,6 +38438,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > nObs( testTobit2MlWu )
 [1] 1483
+> logLik( testTobit2MlWu )
+'log Lik.' -2186 (df=6)
 > 
 > ## estimations with weights that do not work
 > try( selection( ys~xs, yo ~xo, method = "2step", weights = 1:99 ) )
@@ -44491,6 +44512,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > nObs(testTobit2ML)
 [1] 1482
+> logLik(testTobit2ML)
+'log Lik.' -2158 (df=6)
 > 
 > ## Raphael Abiry: does 'start' argument work?
 > init <- coef(testTobit2ML)
@@ -44527,7 +44550,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > nObs( testComplex )
 [1] 1482
 > f <- fitted(testComplex, "selection")
+> logLik( testComplex )
+'log Lik.' -2157 (df=7)
 > 
 > proc.time()
    user  system elapsed 
-  6.655   0.292   6.933 
+  6.489   0.359   6.829 

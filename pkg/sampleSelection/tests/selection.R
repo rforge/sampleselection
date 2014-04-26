@@ -39,6 +39,7 @@ print( residuals( testTobit5TwoStep, part = "selection", type = "response" ) )
 print( model.matrix( testTobit5TwoStep, part = "outcome" ) )
 print( model.matrix( testTobit5TwoStep, part = "selection" ) )
 print( model.frame( testTobit5TwoStep ) )
+try( logLik( testTobit5TwoStep ) )
 
 testTobit5Ml <- selection(ys~xs, list(yo1 ~ xo1, yo2 ~ xo2), method="ml")
 print( testTobit5Ml )
@@ -60,6 +61,7 @@ mmoTestTobit5Ml <- model.matrix( testTobit5Ml, part = "outcome" )
 print( mmoTestTobit5Ml )
 mfTestTobit5Ml <- model.frame( testTobit5Ml )
 print( mfTestTobit5Ml )
+logLik( testTobit5Ml )
 
 # ML with model.matrices returned
 testTobit5MlMm <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
@@ -154,6 +156,7 @@ print( residuals( testTobit2TwoStep, part = "selection", type = "response" ) )
 print( model.matrix( testTobit2TwoStep, part = "outcome" ) )
 print( model.matrix( testTobit2TwoStep, part = "selection" ) )
 print( model.frame( testTobit2TwoStep ) )
+try( logLik( testTobit2TwoStep ) )
 
 testTobit2Ml <- selection(ys~xs, yo ~xo, method="ml")
 print( testTobit2Ml )
@@ -175,6 +178,8 @@ mmoTestTobit2Ml <- model.matrix( testTobit2Ml, part = "outcome" )
 print( mmsTestTobit2Ml )
 mfTestTobit2Ml <- model.frame( testTobit2Ml )
 print( mfTestTobit2Ml )
+logLik( testTobit2Ml )
+
 # ML with model.matrices returned
 testTobit2MlMm <- selection( ys ~ xs, yo ~ xo, method = "ml", 
    xs = TRUE, xo = TRUE )
@@ -200,23 +205,27 @@ testTobit2TwoStepWe <- selection( ys~xs, yo ~xo, method="2step", weights = we )
 summary( testTobit2TwoStepWe )
 all.equal( coef( testTobit2TwoStepWe ), coef( testTobit2TwoStep ) )
 nObs( testTobit2TwoStepWe )
+try( logLik( testTobit2TwoStepWe ) )
 
 ## ML estimation with equal weights
 testTobit2MlWe <- selection( ys~xs, yo ~xo, weights = we )
 summary( testTobit2MlWe )
 all.equal( coef( testTobit2MlWe ), coef( testTobit2Ml ), tol = 1e-4 )
 nObs( testTobit2MlWe )
+logLik( testTobit2MlWe )
 
 ## two-step estimation with unequal weights
 wu <- 2 * runif( N )
 testTobit2TwoStepWu <- selection( ys~xs, yo ~xo, method="2step", weights = wu )
 summary( testTobit2TwoStepWu )
 nObs( testTobit2TwoStepWu )
+try( logLik( testTobit2TwoStepWu ) )
 
 ## ML estimation with unequal weights
 testTobit2MlWu <- selection( ys~xs, yo ~xo, weights = wu )
 summary( testTobit2MlWu )
 nObs( testTobit2MlWu )
+logLik( testTobit2MlWu )
 
 ## estimations with weights that do not work
 try( selection( ys~xs, yo ~xo, method = "2step", weights = 1:99 ) )
@@ -262,6 +271,7 @@ rm(eps, xs, ys, xo, yo)
 testTobit2ML <- selection(ys~xs, yo ~xo, data=data, method="ml")
 print(summary(testTobit2ML))
 nObs(testTobit2ML)
+logLik(testTobit2ML)
 
 ## Raphael Abiry: does 'start' argument work?
 init <- coef(testTobit2ML)
@@ -274,3 +284,4 @@ data <- cbind(data, xF=rbinom(nrow(data), 1, 0.5))
 testComplex <- selection(ys~xs + factor(xF), yo ~xo, data=data, method="ml")
 nObs( testComplex )
 f <- fitted(testComplex, "selection")
+logLik( testComplex )

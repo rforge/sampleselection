@@ -7,13 +7,26 @@ on R-Forge.
 
    CHANGES IN VERSION 0.8-0 (2014-00-00)
 
+* bug fix: selection() did not pass some arguments to other functions, e.g.
+argument "inst" was ignored so that the second step of heckit-2 models was
+estimated by OLS rather than by IV estimation although argument "inst" was
+specified
+
 * observation-specific weights for probit models, tobit-2 models, and binary
 selection models
+
+* added a predict() method for probit models
+
+* added a logLik() method for probit models
+
+* the default df.residual() method works for probit models
 
 * this package no longer depends on package 'systemfit' but it imports function
 systemfit from package "systemfit"
 
 * improved documentation
+
+* removed the deprecated function tobit2()
 
 
    CHANGES IN VERSION 0.7-2 (2012-08-14)

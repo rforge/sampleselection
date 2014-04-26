@@ -1,4 +1,5 @@
 \name{probit-methods}
+\alias{probit-methods}
 \alias{fitted.probit}
 \alias{logLik.probit}
 \alias{nObs.probit}

@@ -133,10 +133,10 @@ maxMethod="Newton-Raphson",
   Demidenko, Eugene (2001) \dQuote{Computational aspects of probit
   model}, Mathematical Communications 6, 233-247
   }
-\author{Ott Toomet \email{otoomet@ut.ee}}
+\author{Ott Toomet \email{otoomet@ut.ee}, Arne Henningsen}
 \seealso{\code{\link[maxLik]{maxLik}} for ready-packaged likelihood maximisation
   routines and methods, \code{\link{glm}} for generalised linear models,
-  including probit, \code{\link{binomial}}.
+  including probit, \code{\link{binomial}}, and \code{\link{probit-methods}}.
 }
 \examples{
 ## A simple MC trial: note probit assumes normal errors

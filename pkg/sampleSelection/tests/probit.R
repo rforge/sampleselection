@@ -10,10 +10,10 @@ Mroz87$age50.60 <- Mroz87$age >= 50
 
 ## A simple single MC trial: note probit assumes normal errors
 set.seed( 20080225 )
-x <- runif( 100 )
-e <- rnorm( 100 )
-y <- 2 * x + e
-probitResult <- probit( (y > 0) ~ x )
+simDat <- data.frame( x = runif( 100 ) )
+simDat$e <- rnorm( 100 )
+simDat$y <- 2 * simDat$x + simDat$e
+probitResult <- probit( (y > 0) ~ x, data = simDat )
 print( probitResult )
 summary( probitResult )
 coef( probitResult )
@@ -32,14 +32,15 @@ residuals( probitResult, type = "deviance" )
 all.equal( residuals( probitResult, type = "deviance" ),
    residuals( probitResult ) )
 all.equal( residuals( probitResult, type = "response" ),
-   ( y > 0 ) - fitted( probitResult ) )
+   ( simDat$y > 0 ) - fitted( probitResult ) )
 lrtest( probitResult )
 all.equal( lrtest( probitResult, (y > 0) ~ 1 ), lrtest( probitResult ) )
-probitResult0 <- probit( (y > 0) ~ 1 )
+probitResult0 <- probit( (y > 0) ~ 1, data = simDat )
 all.equal( lrtest( probitResult, probitResult0 ), lrtest( probitResult ) )
 
 # estimation with glm()
-probitResult2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ) )
+probitResult2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ),
+   data = simDat )
 all.equal( coef( probitResult ), coef( probitResult2 ), tol = 1e-4 )
 all.equal( stdEr( probitResult ), stdEr( probitResult2 ), tol = 1e-1 )
 all.equal( logLik( probitResult ), logLik( probitResult2 ) )
@@ -57,8 +58,8 @@ lrtest( probitResult2 )
 all.equal( lrtest( probitResult2 ), lrtest( probitResult ) )
 
 # estimation with equal weights
-we <- rep( 0.5, 100 )
-probitResultWe <- probit( (y > 0) ~ x, weights = we )
+simDat$we <- rep( 0.5, 100 )
+probitResultWe <- probit( (y > 0) ~ x, weights = simDat$we, data = simDat )
 print( probitResultWe )
 summary( probitResultWe )
 all.equal( coef( probitResult ), coef( probitResultWe ) )
@@ -78,14 +79,14 @@ all.equal( residuals( probitResult, type = "pearson" ),
 all.equal( residuals( probitResult, type = "deviance" ),
    residuals( probitResultWe, type = "deviance" ) / sqrt( 0.5 ) )
 all.equal( residuals( probitResultWe, type = "response" ),
-   ( y > 0 ) - fitted( probitResultWe ) )
+   ( simDat$y > 0 ) - fitted( probitResultWe ) )
 all.equal( coef( probitResult ), coef( probitResultWe ), tol = 1e-4 )
 all.equal( logLik( probitResult ) * 0.5, logLik( probitResultWe ) * 1 )
 lrtest( probitResultWe )
 
 # estimation with equal weights with glm()
 probitResultWe2 <- glm( (y > 0) ~ x, family = binomial( link = "probit" ),
-   weights = we )
+   weights = simDat$we, data = simDat )
 all.equal( coef( probitResultWe ), coef( probitResultWe2 ), tol = 1e-4 )
 all.equal( stdEr( probitResultWe ), stdEr( probitResultWe2 ), tol = 1e-1 )
 logLik( probitResultWe2 )
@@ -101,28 +102,28 @@ all.equal( residuals( probitResultWe, type = "deviance" ),
 
 # estimation with weights to account for stratified sampling
 # proportion in the "population"
-yProbPop <- sum( y > 0 ) / length( y )
+yProbPop <- sum( simDat$y > 0 ) / nrow( simDat )
 yProbPop
 # stratified sample with all observations with y = 0
-sampStrat <- y <= 0 | rnorm( length( y ) ) > 0.25
-sum( sampStrat )
+simDat$sampStrat <- simDat$y <= 0 | rnorm( nrow( simDat ) ) > 0.25
+sum( simDat$sampStrat )
 # stratified sample of y and x
-ySamp <- y[ sampStrat ]
-xSamp <- x[ sampStrat ]
+simDatSamp <- simDat[ simDat$sampStrat, ]
 # proportion in the "sample"
-yProbSamp <- sum( ySamp > 0 ) / length( ySamp )
+yProbSamp <- sum( simDatSamp$y > 0 ) / nrow( simDatSamp )
 yProbSamp
 # unweighted estimation (ignoring the stratification)
-probitResultStrat <- probit( (ySamp > 0) ~ xSamp )
+probitResultStrat <- probit( (y > 0) ~ x, data = simDatSamp )
 summary( probitResultStrat )
 nObs( probitResultStrat )
 df.residual( probitResultStrat )
 logLik( probitResultStrat )
 lrtest( probitResultStrat )
 # weights
-wStrat <- ifelse( ySamp > 0, yProbPop / yProbSamp,
+simDatSamp$wStrat <- ifelse( simDatSamp$y > 0, yProbPop / yProbSamp,
    ( 1 - yProbPop ) / ( 1 - yProbSamp ) )
-probitResultStratW <- probit( (ySamp > 0) ~ xSamp, weights = wStrat )
+probitResultStratW <- probit( (y > 0) ~ x, weights = simDatSamp$wStrat,
+   data = simDatSamp )
 print( probitResultStratW )
 summary( probitResultStratW )
 coef( probitResultStratW )
@@ -139,12 +140,13 @@ residuals( probitResultStratW, type = "response" )
 residuals( probitResultStratW, type = "pearson" )
 residuals( probitResultStratW, type = "deviance" )
 all.equal( residuals( probitResultStratW, type = "response" ),
-   ( ySamp > 0 ) - fitted( probitResultStratW ) )
+   ( simDatSamp$y > 0 ) - fitted( probitResultStratW ) )
 lrtest( probitResultStratW )
 
 # estimation with weights to account for stratified sampling with glm()
-probitResultStratW2 <- glm( (ySamp > 0) ~ xSamp, 
-   family = binomial( link = "probit" ), weights = wStrat )
+probitResultStratW2 <- glm( (y > 0) ~ x, 
+   family = binomial( link = "probit" ), weights = simDatSamp$wStrat,
+   data = simDatSamp )
 all.equal( coef( probitResultStratW ), coef( probitResultStratW2 ), tol = 1e-4 )
 all.equal( stdEr( probitResultStratW ), stdEr( probitResultStratW2 ), tol = 1e-1 )
 logLik( probitResultStratW2 )

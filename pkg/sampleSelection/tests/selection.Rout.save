@@ -159,6 +159,8 @@ invMillsRatio1          NA  NA             NA          NA  NA             NA
 (Intercept)             NA  NA             NA          NA  NA             NA
 xo2                     NA  NA             NA          NA  NA             NA
 invMillsRatio2          NA  NA             NA          NA  NA             NA
+> nObs( testTobit5TwoStep )
+[1] 1483
 > print( fitted( testTobit5TwoStep, part = "outcome" ) )
         1         2         3         4         5         6         7         8 
  0.414168  0.234875  0.440662  1.143867 -0.163224  0.900343  0.786558  1.171608 
@@ -8938,6 +8940,8 @@ rho2          -0.012501 -9.38e-04  5.90e-03  0.022542
 xo1           -6.22e-03  1.10e-02    0.000110  1.31e-06
 (Intercept)   -6.29e-04  1.10e-04    0.010677 -4.94e-03
 xo2           -9.34e-06  1.31e-06   -0.004941  1.10e-02
+> nObs( testTobit5Ml )
+[1] 1483
 > print( fitted( testTobit5Ml, part = "outcome" ) )
    [1]  0.265985  0.097241  0.129566  0.805340  0.558618  0.709976  0.488796
    [8]  0.977663  0.397198  0.755702  0.708019  0.939849  0.286201  0.022253
@@ -15978,6 +15982,7 @@ attr(,"assign")
 1498  TRUE 0.547224  1.60561 0.518295  1.733524 0.44160
 1499  TRUE 0.203628  2.00910 0.601503  1.558380 0.81762
 1500 FALSE 0.450685 -0.72721 0.336864 -0.330969 0.57413
+> 
 > # ML with model.matrices returned
 > testTobit5MlMm <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
 +    method = "ml", xs = TRUE, xo = TRUE )
@@ -25299,6 +25304,8 @@ invMillsRatio    -0.02170 -0.00109       0.04525
 [1453] 0.449 0.278 0.367 0.482 0.626 0.563 0.384 0.423 0.753 0.681 0.688 0.691
 [1465] 0.358 0.514 0.696 0.278 0.346 0.702 0.309 0.463 0.718 0.295 0.448 0.706
 [1477] 0.405 0.719 0.749 0.591 0.734 0.792 0.581
+> nObs( testTobit2TwoStep )
+[1] 1483
 > print( fitted( testTobit2TwoStep, part = "outcome" ) )
        1        2        3        4        5        6        7        8 
       NA       NA -0.26804  0.56225  0.14953 -0.60848  0.15010  0.57541 
@@ -31075,6 +31082,8 @@ rho           -1.06e-03  0.002135   -0.003396 -1.11e-04 -2.51e-03  0.005174
             (Intercept)       xo
 (Intercept)     0.00541 -0.00436
 xo             -0.00436  0.00889
+> nObs( testTobit2Ml )
+[1] 1483
 > print( fitted( testTobit2Ml, part = "outcome" ) )
         1         2         3         4         5         6         7         8 
        NA        NA  0.019350  0.940119  0.427279 -0.054405  0.349143  0.741383 
@@ -38319,6 +38328,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > all.equal( coef( testTobit2TwoStepWe ), coef( testTobit2TwoStep ) )
 [1] TRUE
+> nObs( testTobit2TwoStepWe )
+[1] 1483
 > 
 > ## ML estimation with equal weights
 > testTobit2MlWe <- selection( ys~xs, yo ~xo, weights = we )
@@ -38348,6 +38359,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > all.equal( coef( testTobit2MlWe ), coef( testTobit2Ml ), tol = 1e-4 )
 [1] TRUE
+> nObs( testTobit2MlWe )
+[1] 1483
 > 
 > ## two-step estimation with unequal weights
 > wu <- 2 * runif( N )
@@ -38375,6 +38388,8 @@ rho             -0.696         NA      NA       NA
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
+> nObs( testTobit2TwoStepWu )
+[1] 1483
 > 
 > ## ML estimation with unequal weights
 > testTobit2MlWu <- selection( ys~xs, yo ~xo, weights = wu )
@@ -38402,6 +38417,8 @@ rho    -0.6133     0.0930   -6.59 4.3e-11 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
+> nObs( testTobit2MlWu )
+[1] 1483
 > 
 > ## estimations with weights that do not work
 > try( selection( ys~xs, yo ~xo, method = "2step", weights = 1:99 ) )
@@ -44472,6 +44489,8 @@ rho    -0.8685     0.0303   -28.7  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
+> nObs(testTobit2ML)
+[1] 1482
 > 
 > ## Raphael Abiry: does 'start' argument work?
 > init <- coef(testTobit2ML)
@@ -44505,8 +44524,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > ## Chris Hane: 'fitted' method and a little complex models
 > data <- cbind(data, xF=rbinom(nrow(data), 1, 0.5))
 > testComplex <- selection(ys~xs + factor(xF), yo ~xo, data=data, method="ml")
+> nObs( testComplex )
+[1] 1482
 > f <- fitted(testComplex, "selection")
 > 
 > proc.time()
    user  system elapsed 
-  6.836   0.395   7.230 
+  6.655   0.292   6.933 

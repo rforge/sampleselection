@@ -25,7 +25,13 @@ logLik( probitResult )
 model.frame( probitResult )
 model.matrix( probitResult )
 fitted( probitResult )
+all.equal( fitted( probitResult ), predict( probitResult, type = "response" ) )
+all.equal( fitted( probitResult )[ 11:22 ],
+   predict( probitResult, newdata = simDat[ 11:22, ], type = "response" ) )
 linearPredictors( probitResult )
+all.equal( linearPredictors( probitResult ), predict( probitResult ) )
+all.equal( linearPredictors( probitResult )[ 11:22 ],
+   predict( probitResult, newdata = simDat[ 11:22, ] ) )
 residuals( probitResult, type = "response" )
 residuals( probitResult, type = "pearson" )
 residuals( probitResult, type = "deviance" )
@@ -47,6 +53,15 @@ all.equal( logLik( probitResult ), logLik( probitResult2 ) )
 all.equal( model.frame( probitResult ), model.frame( probitResult2 ) )
 all.equal( model.matrix( probitResult ), model.matrix( probitResult2 ) )
 all.equal( fitted( probitResult ), fitted( probitResult2 ), tol = 1e-4 )
+all.equal( predict( probitResult, type = "response" ),
+   predict( probitResult2, type = "response" ), tol = 1e-4 )
+all.equal( predict( probitResult, newdata = simDat[ 5:55, ], type = "response" ),
+   predict( probitResult2, newdata = simDat[ 5:55, ], type = "response" ),
+   tol = 1e-4 )
+all.equal( predict( probitResult ), predict( probitResult2 ), tol = 1e-4 )
+all.equal( predict( probitResult, newdata = simDat[ 5:55, ] ),
+   predict( probitResult2, newdata = simDat[ 5:55, ] ),
+   tol = 1e-4 )
 all.equal( residuals( probitResult, type = "response" ),
    residuals( probitResult2, type = "response" ), tol = 1e-4 )
 all.equal( residuals( probitResult, type = "pearson" ),
@@ -71,6 +86,15 @@ all.equal( logLik( probitResult ) * 0.5, logLik( probitResultWe ) )
 model.frame( probitResultWe )
 all.equal( model.matrix( probitResult ), model.matrix( probitResultWe ) )
 all.equal( fitted( probitResult ), fitted( probitResultWe ) )
+all.equal( predict( probitResult, type = "response" ),
+   predict( probitResultWe, type = "response" ), tol = 1e-4 )
+all.equal( predict( probitResult, newdata = simDat[ 5:55, ], type = "response" ),
+   predict( probitResultWe, newdata = simDat[ 5:55, ], type = "response" ),
+   tol = 1e-4 )
+all.equal( predict( probitResult ), predict( probitResultWe ), tol = 1e-4 )
+all.equal( predict( probitResult, newdata = simDat[ 5:55, ] ),
+   predict( probitResultWe, newdata = simDat[ 5:55, ] ),
+   tol = 1e-4 )
 all.equal( linearPredictors( probitResult ), linearPredictors( probitResultWe ) )
 all.equal( residuals( probitResult, type = "response" ),
    residuals( probitResultWe, type = "response" ) )
@@ -93,6 +117,15 @@ logLik( probitResultWe2 )
 all.equal( model.frame( probitResultWe ), model.frame( probitResultWe2 ) )
 all.equal( model.matrix( probitResultWe ), model.matrix( probitResultWe2 ) )
 all.equal( fitted( probitResultWe ), fitted( probitResultWe2 ), tol = 1e-4 )
+all.equal( predict( probitResultWe, type = "response" ),
+   predict( probitResultWe2, type = "response" ), tol = 1e-4 )
+all.equal( predict( probitResultWe, newdata = simDat[ 5:55, ], type = "response" ),
+   predict( probitResultWe2, newdata = simDat[ 5:55, ], type = "response" ),
+   tol = 1e-4 )
+all.equal( predict( probitResultWe ), predict( probitResultWe2 ), tol = 1e-4 )
+all.equal( predict( probitResultWe, newdata = simDat[ 5:55, ] ),
+   predict( probitResultWe2, newdata = simDat[ 5:55, ] ),
+   tol = 1e-4 )
 all.equal( residuals( probitResultWe, type = "response" ),
    residuals( probitResultWe2, type = "response" ), tol = 1e-4 )
 all.equal( residuals( probitResultWe, type = "pearson" ),
@@ -135,7 +168,16 @@ logLik( probitResultStratW )
 model.frame( probitResultStratW )
 model.matrix( probitResultStratW )
 fitted( probitResultStratW )
+all.equal( fitted( probitResultStratW ), predict( probitResultStratW,
+   type = "response" ) )
+all.equal( fitted( probitResultStratW )[ 11:22 ],
+   predict( probitResultStratW, newdata = simDatSamp[ 11:22, ],
+      type = "response" ) )
 linearPredictors( probitResultStratW )
+all.equal( linearPredictors( probitResultStratW ),
+   predict( probitResultStratW ) )
+all.equal( linearPredictors( probitResultStratW )[ 11:22 ],
+   predict( probitResultStratW, newdata = simDatSamp[ 11:22, ] ) )
 residuals( probitResultStratW, type = "response" )
 residuals( probitResultStratW, type = "pearson" )
 residuals( probitResultStratW, type = "deviance" )
@@ -153,6 +195,17 @@ logLik( probitResultStratW2 )
 all.equal( model.frame( probitResultStratW ), model.frame( probitResultStratW2 ) )
 all.equal( model.matrix( probitResultStratW ), model.matrix( probitResultStratW2 ) )
 all.equal( fitted( probitResultStratW ), fitted( probitResultStratW2 ), tol = 1e-4 )
+all.equal( predict( probitResultStratW, type = "response" ),
+   predict( probitResultStratW2, type = "response" ), tol = 1e-4 )
+all.equal(
+   predict( probitResultStratW, newdata = simDat[ 5:55, ], type = "response" ),
+   predict( probitResultStratW2, newdata = simDat[ 5:55, ], type = "response" ),
+   tol = 1e-4 )
+all.equal( predict( probitResultStratW ), predict( probitResultStratW2 ),
+   tol = 1e-4 )
+all.equal( predict( probitResultStratW, newdata = simDatSamp[ 5:44, ] ),
+   predict( probitResultStratW2, newdata = simDatSamp[ 5:44, ] ),
+   tol = 1e-4 )
 all.equal( residuals( probitResultStratW, type = "response" ),
    residuals( probitResultStratW2, type = "response" ), tol = 1e-4 )
 all.equal( residuals( probitResultStratW, type = "pearson" ),
@@ -177,7 +230,13 @@ lrtest( lfpResult, lfp ~ age50.60 + educ + hushrs + huswage + mtr )
 model.frame( lfpResult )
 model.matrix( lfpResult )
 fitted( lfpResult )
+all.equal( fitted( lfpResult ), predict( lfpResult, type = "response" ) )
+all.equal( fitted( lfpResult )[ 11:222 ],
+   predict( lfpResult, newdata = Mroz87[ 11:222, ], type = "response" ) )
 linearPredictors( lfpResult )
+all.equal( linearPredictors( lfpResult ), predict( lfpResult ) )
+all.equal( linearPredictors( lfpResult )[ 11:222 ],
+   predict( lfpResult, newdata = Mroz87[ 11:222, ] ) )
 residuals( lfpResult, type = "response" )
 residuals( lfpResult, type = "pearson" )
 residuals( lfpResult, type = "deviance" )
@@ -196,6 +255,14 @@ all.equal( lrtest( lfpResult, lfp ~ age50.60 + educ + hushrs + huswage + mtr ),
 all.equal( model.frame( lfpResult ), model.frame( lfpResult2 ) )
 all.equal( model.matrix( lfpResult ), model.matrix( lfpResult2 ) )
 all.equal( fitted( lfpResult ), fitted( lfpResult2 ), tol = 1e-4 )
+all.equal( predict( lfpResult, type = "response" ),
+   predict( lfpResult2, type = "response" ), tol = 1e-4 )
+all.equal( predict( lfpResult, newdata = Mroz87[ 5:333, ], type = "response" ),
+   predict( lfpResult2, newdata = Mroz87[ 5:333, ], type = "response" ),
+   tol = 1e-4 )
+all.equal( predict( lfpResult ), predict( lfpResult2 ), tol = 1e-4 )
+all.equal( predict( lfpResult, newdata = Mroz87[ 2:444, ] ),
+   predict( lfpResult2, newdata = Mroz87[ 2:444, ] ), tol = 1e-4 )
 all.equal( residuals( lfpResult, type = "response" ),
    residuals( lfpResult2, type = "response" ), tol = 1e-4 )
 all.equal( residuals( lfpResult, type = "pearson" ),
@@ -220,7 +287,13 @@ lrtest( greene, lfp ~ age + kids + educ )
 model.frame( greene )
 model.matrix( greene )
 fitted( greene )
+all.equal( fitted( greene ), predict( greene, type = "response" ) )
+all.equal( fitted( greene )[ 11:222 ],
+   predict( greene, newdata = Mroz87[ 11:222, ], type = "response" ) )
 linearPredictors( greene )
+all.equal( linearPredictors( greene ), predict( greene ) )
+all.equal( linearPredictors( greene )[ 11:222 ],
+   predict( greene, newdata = Mroz87[ 11:222, ] ) )
 residuals( greene, type = "response" )
 residuals( greene, type = "pearson" )
 residuals( greene, type = "deviance" )
@@ -237,6 +310,14 @@ all.equal( lrtest( greene, lfp ~ age + kids + educ ),
 all.equal( model.frame( greene ), model.frame( greene2 ) )
 all.equal( model.matrix( greene ), model.matrix( greene2 ) )
 all.equal( fitted( greene ), fitted( greene2 ), tol = 1e-4 )
+all.equal( predict( greene, type = "response" ),
+   predict( greene2, type = "response" ), tol = 1e-4 )
+all.equal( predict( greene, newdata = Mroz87[ 5:333, ], type = "response" ),
+   predict( greene2, newdata = Mroz87[ 5:333, ], type = "response" ),
+   tol = 1e-4 )
+all.equal( predict( greene ), predict( greene2 ), tol = 1e-4 )
+all.equal( predict( greene, newdata = Mroz87[ 2:444, ] ),
+   predict( greene2, newdata = Mroz87[ 2:444, ] ), tol = 1e-4 )
 all.equal( residuals( greene, type = "response" ),
    residuals( greene2, type = "response" ), tol = 1e-4 )
 all.equal( residuals( greene, type = "pearson" ),

@@ -29,7 +29,7 @@ residuals.selection <- function( object, part = "outcome",
    } else if( object$method == "ml" ) {
       mf <- model.frame( object )
       sResponse <- mf[[
-         as.character( formula( object$termsS )[[ 2 ]] ) ]]
+         as.character( formula( object$termsS ) )[2] ]]
       if( part == "selection" ) {
          fitVal <- fitted( object, part = "selection" )
          if( type == "response" ) {
@@ -46,12 +46,12 @@ residuals.selection <- function( object, part = "outcome",
       } else if( part == "outcome" ) {
          if( object$tobitType == 2 ) {
             oResponse <- mf[[
-               as.character( formula( object$termsO )[[ 2 ]] ) ]]
+               as.character( formula( object$termsO ) )[2] ]]
          } else if( object$tobitType == 5 ) {
             o1Response <- mf[[
-               as.character( formula( object$termsO1 )[[ 2 ]] ) ]]
+               as.character( formula( object$termsO1 ) )[2] ]]
             o2Response <- mf[[
-               as.character( formula( object$termsO2 )[[ 2 ]] ) ]]
+               as.character( formula( object$termsO2 ) )[2] ]]
             oResponse <- rep( NA, length( sResponse ) )
             oResponse[ sResponse == 0 ] <- o1Response[ sResponse == 0 ]
             oResponse[ sResponse == 1 ] <- o2Response[ sResponse == 1 ]

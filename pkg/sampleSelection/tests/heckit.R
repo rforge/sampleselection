@@ -114,36 +114,3 @@ model.matrix( wooldridgeMl, part = "selection" )
 all.equal( model.frame( wooldridge )[,-c(2,11)], model.frame( wooldridgeMl ),
    check.attributes = FALSE )
 print( model.frame( wooldridgeMl ) )
-
-
-## Tobit 5 Example from the selection paper
-library( "mvtnorm" )
-set.seed(0)
-vc <- diag(3)
-vc[lower.tri(vc)] <- c(0.9, 0.5, 0.1)
-vc[upper.tri(vc)] <- vc[lower.tri(vc)]
-eps <- rmvnorm(500, rep(0, 3), vc )
-xs <- runif(500)
-ys <- xs + eps[,1] > 0
-xo1 <- runif(500)
-yo1 <- xo1 + eps[,2]
-xo2 <- runif(500)
-yo2 <- xo2 + eps[,3]
-heckit5test <- heckit( ys~xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
-print( heckit5test )
-print( summary( heckit5test ) )
-print( coef( heckit5test ) )
-print( coef( heckit5test, part = "outcome" ) )
-print( coef( summary( heckit5test ) ) )
-print( coef( summary( heckit5test ), part = "outcome" ) )
-print( vcov( heckit5test ) )
-print( vcov( heckit5test, part = "outcome" ) )
-nobs( heckit5test )
-nObs( heckit5test )
-fitted( heckit5test, part = "outcome" )
-fitted( heckit5test, part = "selection" )
-residuals( heckit5test, part = "outcome" )
-residuals( heckit5test, part = "selection", type = "response" )
-print( model.matrix( heckit5test, part = "outcome" ) )
-print( model.matrix( heckit5test, part = "selection" ) )
-print( model.frame( heckit5test ) )

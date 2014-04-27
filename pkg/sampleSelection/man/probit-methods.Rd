@@ -2,6 +2,7 @@
 \alias{probit-methods}
 \alias{fitted.probit}
 \alias{logLik.probit}
+\alias{nobs.probit}
 \alias{nObs.probit}
 \alias{print.probit}
 
@@ -16,6 +17,8 @@
 
 \method{logLik}{probit}(object, ... )
 
+\method{nobs}{probit}(object, ... )
+             
 \method{nObs}{probit}(x, ... )
              
 \method{print}{probit}( x, digits = max(3, getOption("digits") - 3), ... )
@@ -31,7 +34,7 @@
 \details{
    The \code{fitted} method returns a vector of fitted values (probabilities).
    The \code{logLik} method returns the log likelihood value of the model.
-   The \code{nObs} method returns the number of observations.
+   The \code{nobs} and \code{nObs} methods return the number of observations.
    The \code{print} method prints the call and the estimated coefficients.
    
    Furthermore, some standard methods can be applied to probit models:

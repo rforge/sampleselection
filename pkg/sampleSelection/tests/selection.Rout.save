@@ -34,24 +34,25 @@ https://r-forge.r-project.org/projects/maxlik/
 > set.seed(1)
 > ## ------- Tobit-5 example ---------
 > eps <- rmvnorm( N, rep(0, 3), vc )
-> xs <- runif(N)
-> ys <- xs + eps[,1] > 0
-> xo1 <- runif(N)
-> yo1 <- xo1 + eps[,2]
-> xo2 <- runif(N)
-> yo2 <- xo2 + eps[,3]
+> t5Dat <- data.frame( xs = runif(N) )
+> t5Dat$ys <- t5Dat$xs + eps[,1] > 0
+> t5Dat$xo1 <- runif(N)
+> t5Dat$yo1 <- t5Dat$xo1 + eps[,2]
+> t5Dat$xo2 <- runif(N)
+> t5Dat$yo2 <- t5Dat$xo2 + eps[,3]
 > ## Put some NA-s into the data
-> ys[sample(N, NNA)] <- NA
-> xs[sample(N, NNA)] <- NA
-> xo1[sample(N, NNA)] <- NA
-> xo2[sample(N, NNA)] <- NA
-> yo1[sample(N, NNA)] <- NA
-> yo2[sample(N, NNA)] <- NA
-> testTobit5TwoStep <- selection(ys~xs, list(yo1 ~ xo1, yo2 ~ xo2), method="2step")
+> t5Dat$ys[sample(N, NNA)] <- NA
+> t5Dat$xs[sample(N, NNA)] <- NA
+> t5Dat$xo1[sample(N, NNA)] <- NA
+> t5Dat$xo2[sample(N, NNA)] <- NA
+> t5Dat$yo1[sample(N, NNA)] <- NA
+> t5Dat$yo2[sample(N, NNA)] <- NA
+> testTobit5TwoStep <- selection(ys~xs, list(yo1 ~ xo1, yo2 ~ xo2), 
++    method = "2step", data = t5Dat )
 > print( testTobit5TwoStep )
 
 Call:
- selection(selection = ys ~ xs, outcome = list(yo1 ~ xo1, yo2 ~      xo2), method = "2step") 
+ selection(selection = ys ~ xs, outcome = list(yo1 ~ xo1, yo2 ~      xo2), data = t5Dat, method = "2step") 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  
@@ -8848,11 +8849,12 @@ attr(,"assign")
 Error in logLik.selection(testTobit5TwoStep) : 
   the logLik() method currently only works for models estimated by maximum likelihood (ML) but it does not work for models estimated by the 2-step method.
 > 
-> testTobit5Ml <- selection(ys~xs, list(yo1 ~ xo1, yo2 ~ xo2), method="ml")
+> testTobit5Ml <- selection(ys~xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "ml",
++    data = t5Dat )
 > print( testTobit5Ml )
 
 Call:
- selection(selection = ys ~ xs, outcome = list(yo1 ~ xo1, yo2 ~      xo2), method = "ml") 
+ selection(selection = ys ~ xs, outcome = list(yo1 ~ xo1, yo2 ~      xo2), data = t5Dat, method = "ml") 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
@@ -15994,7 +15996,7 @@ attr(,"assign")
 > 
 > # ML with model.matrices returned
 > testTobit5MlMm <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
-+    method = "ml", xs = TRUE, xo = TRUE )
++    method = "ml", xs = TRUE, xo = TRUE, data = t5Dat )
 > mmsTestTobit5MlMm <- model.matrix( testTobit5MlMm, part = "selection" )
 > attributes( mmsTestTobit5Ml )$assign <- NULL
 > all.equal( mmsTestTobit5Ml, mmsTestTobit5MlMm )
@@ -16006,13 +16008,14 @@ attr(,"assign")
 [1] TRUE
 > # ML with model.frames returned
 > testTobit5MlMf <- selection( ys~xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
-+    method = "ml", mfs = TRUE, mfo = TRUE )
++    method = "ml", mfs = TRUE, mfo = TRUE, data = t5Dat )
 > mfTestTobit5MlMf <- model.frame( testTobit5MlMf )
 > all.equal( mfTestTobit5Ml, mfTestTobit5MlMf )
 [1] "Attributes: < Length mismatch: comparison on first 2 components >"
 > 
 > # return just the model.frame
-> selection( ys~xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method="model.frame" )
+> selection( ys~xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "model.frame",
++    data = t5Dat )
         ys       xs      yo1      xo1       yo2     xo2
 1     TRUE 0.940378 -0.32981 0.080371 -0.588277 0.26802
 2     TRUE 0.996766  1.52444 0.673625 -0.254995 0.10178
@@ -17499,10 +17502,11 @@ attr(,"assign")
 1500 FALSE 0.450685 -0.72721 0.336864 -0.330969 0.57413
 > 
 > # factors as dependent variable (from Achim Zeileis)
-> selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step" )
+> selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step",
++    data = t5Dat )
 
 Call:
- selection(selection = ys ~ xs, outcome = list(yo1 ~ xo1, yo2 ~      xo2), method = "2step") 
+ selection(selection = ys ~ xs, outcome = list(yo1 ~ xo1, yo2 ~      xo2), data = t5Dat, method = "2step") 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  
@@ -17512,10 +17516,11 @@ Coefficients:
         sigma2            rho2  
        0.99607         0.46796  
 
-> selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step" )
+> selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step",
++    data = t5Dat )
 
 Call:
- selection(selection = factor(ys) ~ xs, outcome = list(yo1 ~ xo1,      yo2 ~ xo2), method = "2step") 
+ selection(selection = factor(ys) ~ xs, outcome = list(yo1 ~ xo1,      yo2 ~ xo2), data = t5Dat, method = "2step") 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  
@@ -17526,10 +17531,10 @@ Coefficients:
        0.99607         0.46796  
 
 > selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
-+    list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step" )
++    list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step", data = t5Dat )
 
 Call:
- selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = list(yo1 ~ xo1, yo2 ~ xo2), method = "2step") 
+ selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = list(yo1 ~ xo1, yo2 ~ xo2), data = t5Dat, method = "2step") 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  
@@ -17540,10 +17545,10 @@ Coefficients:
        0.99607         0.46796  
 
 > 
-> selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
+> selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), data = t5Dat )
 
 Call:
- selection(selection = ys ~ xs, outcome = list(yo1 ~ xo1, yo2 ~      xo2)) 
+ selection(selection = ys ~ xs, outcome = list(yo1 ~ xo1, yo2 ~      xo2), data = t5Dat) 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
@@ -17551,10 +17556,10 @@ Coefficients:
           rho1  O2:(Intercept)          O2:xo2          sigma2            rho2  
        0.87183        -0.00607         1.01509         1.02363         0.46491  
 
-> selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
+> selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), data = t5Dat )
 
 Call:
- selection(selection = factor(ys) ~ xs, outcome = list(yo1 ~ xo1,      yo2 ~ xo2)) 
+ selection(selection = factor(ys) ~ xs, outcome = list(yo1 ~ xo1,      yo2 ~ xo2), data = t5Dat) 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
@@ -17563,10 +17568,10 @@ Coefficients:
        0.87183        -0.00607         1.01509         1.02363         0.46491  
 
 > selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
-+    list( yo1 ~ xo1, yo2 ~ xo2 ) )
++    list( yo1 ~ xo1, yo2 ~ xo2 ), data = t5Dat )
 
 Call:
- selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = list(yo1 ~ xo1, yo2 ~ xo2)) 
+ selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = list(yo1 ~ xo1, yo2 ~ xo2), data = t5Dat) 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
@@ -17577,10 +17582,10 @@ Coefficients:
 > 
 > # with pre-defined list of outcome equations (works since revision 1420)
 > oList <- list( yo1 ~ xo1, yo2 ~ xo2 )
-> selection( ys ~ xs, oList, method = "2step" )
+> selection( ys ~ xs, oList, method = "2step", data = t5Dat )
 
 Call:
- selection(selection = ys ~ xs, outcome = oList, method = "2step") 
+ selection(selection = ys ~ xs, outcome = oList, data = t5Dat,      method = "2step") 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  
@@ -17590,10 +17595,10 @@ Coefficients:
         sigma2            rho2  
        0.99607         0.46796  
 
-> selection( factor( ys ) ~ xs, oList, method = "2step" )
+> selection( factor( ys ) ~ xs, oList, method = "2step", data = t5Dat )
 
 Call:
- selection(selection = factor(ys) ~ xs, outcome = oList, method = "2step") 
+ selection(selection = factor(ys) ~ xs, outcome = oList, data = t5Dat,      method = "2step") 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  
@@ -17603,10 +17608,11 @@ Coefficients:
         sigma2            rho2  
        0.99607         0.46796  
 
-> selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, oList, method = "2step" )
+> selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, oList,
++    method = "2step", data = t5Dat )
 
 Call:
- selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = oList, method = "2step") 
+ selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = oList, data = t5Dat, method = "2step") 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1  invMillsRatio1  
@@ -17617,10 +17623,10 @@ Coefficients:
        0.99607         0.46796  
 
 > 
-> selection( ys ~ xs, oList )
+> selection( ys ~ xs, oList, data = t5Dat )
 
 Call:
- selection(selection = ys ~ xs, outcome = oList) 
+ selection(selection = ys ~ xs, outcome = oList, data = t5Dat) 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
@@ -17628,10 +17634,10 @@ Coefficients:
           rho1  O2:(Intercept)          O2:xo2          sigma2            rho2  
        0.87183        -0.00607         1.01509         1.02363         0.46491  
 
-> selection( factor( ys ) ~ xs, oList )
+> selection( factor( ys ) ~ xs, oList, data = t5Dat )
 
 Call:
- selection(selection = factor(ys) ~ xs, outcome = oList) 
+ selection(selection = factor(ys) ~ xs, outcome = oList, data = t5Dat) 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
@@ -17639,10 +17645,10 @@ Coefficients:
           rho1  O2:(Intercept)          O2:xo2          sigma2            rho2  
        0.87183        -0.00607         1.01509         1.02363         0.46491  
 
-> selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, oList )
+> selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, oList, data = t5Dat )
 
 Call:
- selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = oList) 
+ selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = oList, data = t5Dat) 
 
 Coefficients:
  S:(Intercept)            S:xs  O1:(Intercept)          O1:xo1          sigma1  
@@ -17652,7 +17658,8 @@ Coefficients:
 
 > 
 > # return just the model.frame
-> selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method="model.frame" )
+> selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method = "model.frame",
++    data = t5Dat )
         ys       xs      yo1      xo1       yo2     xo2
 1     TRUE 0.940378 -0.32981 0.080371 -0.588277 0.26802
 2     TRUE 0.996766  1.52444 0.673625 -0.254995 0.10178
@@ -19137,7 +19144,8 @@ Coefficients:
 1498  TRUE 0.547224  1.60561 0.518295  1.733524 0.44160
 1499  TRUE 0.203628  2.00910 0.601503  1.558380 0.81762
 1500 FALSE 0.450685 -0.72721 0.336864 -0.330969 0.57413
-> selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), method="model.frame" )
+> selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
++    method = "model.frame", data = t5Dat )
      factor(ys)       xs      yo1      xo1       yo2     xo2
 1          TRUE 0.940378 -0.32981 0.080371 -0.588277 0.26802
 2          TRUE 0.996766  1.52444 0.673625 -0.254995 0.10178
@@ -20623,7 +20631,7 @@ Coefficients:
 1499       TRUE 0.203628  2.00910 0.601503  1.558380 0.81762
 1500      FALSE 0.450685 -0.72721 0.336864 -0.330969 0.57413
 > selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
-+    list( yo1 ~ xo1, yo2 ~ xo2 ), method="model.frame" )
++    list( yo1 ~ xo1, yo2 ~ xo2 ), method="model.frame", data = t5Dat )
      factor(ys, labels = c("no", "yes"))       xs      yo1      xo1       yo2
 1                                    yes 0.940378 -0.32981 0.080371 -0.588277
 2                                    yes 0.996766  1.52444 0.673625 -0.254995
@@ -23596,12 +23604,13 @@ Coefficients:
 > # the case without intercepts 
 > cat("Now run tobit5 without intercepts\n")
 Now run tobit5 without intercepts
-> print(coef(selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1))))
+> print(coef(selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1),
++    data = t5Dat ) ) )
     S:  O1:xo1  sigma1    rho1  O2:xo2  sigma2    rho2  
  1.002   0.983   1.024   0.878   1.011   1.022   0.460  
 > # return just the model.frame
 > selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1 ),
-+    method = "model.frame" )
++    method = "model.frame", data = t5Dat )
         ys       xs      yo1      xo1       yo2     xo2
 1     TRUE 0.940378 -0.32981 0.080371 -0.588277 0.26802
 2     TRUE 0.996766  1.52444 0.673625 -0.254995 0.10178
@@ -25089,7 +25098,7 @@ Now run tobit5 without intercepts
 > 
 > ## estimations withs weights that do not work
 > testTobit5TwoStepWe <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2), 
-+    method = "2step", weights = rep( 0.5, N ) )
++    method = "2step", weights = rep( 0.5, N ), data = t5Dat )
 Warning message:
 In selection(ys ~ xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "2step",  :
   argument 'weights' is ignored in type-5 models
@@ -25097,7 +25106,7 @@ In selection(ys ~ xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "2step",  :
 [1] TRUE
 > 
 > testTobit5MlWe <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2), 
-+    method = "ml", weights = rep( 0.5, N ) )
++    method = "ml", weights = rep( 0.5, N ), data = t5Dat )
 Warning message:
 In selection(ys ~ xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "ml",  :
   argument 'weights' is ignored in type-5 models
@@ -25109,19 +25118,20 @@ In selection(ys ~ xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "ml",  :
 > vc <- diag(2)
 > vc[2,1] <- vc[1,2] <- -0.7
 > eps <- rmvnorm( N, rep(0, 2), vc )
-> xs <- runif(N)
-> ys <- xs + eps[,1] > 0
-> xo <- runif(N)
-> yo <- (xo + eps[,2])*(ys > 0)
-> xs[sample(N, NNA)] <- NA
-> ys[sample(N, NNA)] <- NA
-> xo[sample(N, NNA)] <- NA
-> yo[sample(N, NNA)] <- NA
-> testTobit2TwoStep <- selection(ys~xs, yo ~xo, method="2step")
+> t2Dat <- data.frame( xs = runif(N) )
+> t2Dat$ys <- t2Dat$xs + eps[,1] > 0
+> t2Dat$xo <- runif(N)
+> t2Dat$yo <- ( t2Dat$xo + eps[,2])*(t2Dat$ys > 0)
+> t2Dat$xs[sample(N, NNA)] <- NA
+> t2Dat$ys[sample(N, NNA)] <- NA
+> t2Dat$xo[sample(N, NNA)] <- NA
+> t2Dat$yo[sample(N, NNA)] <- NA
+> testTobit2TwoStep <- selection( ys ~ xs, yo ~ xo, method = "2step",
++    data = t2Dat )
 > print( testTobit2TwoStep )
 
 Call:
- selection(selection = ys ~ xs, outcome = yo ~ xo, method = "2step") 
+ selection(selection = ys ~ xs, outcome = yo ~ xo, data = t2Dat,      method = "2step") 
 
 Coefficients:
 S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio  
@@ -31028,11 +31038,11 @@ attr(,"assign")
 Error in logLik.selection(testTobit2TwoStep) : 
   the logLik() method currently only works for models estimated by maximum likelihood (ML) but it does not work for models estimated by the 2-step method.
 > 
-> testTobit2Ml <- selection(ys~xs, yo ~xo, method="ml")
+> testTobit2Ml <- selection( ys ~ xs, yo ~ xo, method = "ml", data = t2Dat )
 > print( testTobit2Ml )
 
 Call:
- selection(selection = ys ~ xs, outcome = yo ~ xo, method = "ml") 
+ selection(selection = ys ~ xs, outcome = yo ~ xo, data = t2Dat,      method = "ml") 
 
 Coefficients:
 S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma  
@@ -36815,7 +36825,7 @@ attr(,"assign")
 > 
 > # ML with model.matrices returned
 > testTobit2MlMm <- selection( ys ~ xs, yo ~ xo, method = "ml", 
-+    xs = TRUE, xo = TRUE )
++    xs = TRUE, xo = TRUE, data = t2Dat )
 > mmsTestTobit2MlMm <- model.matrix( testTobit2MlMm, part = "selection" )
 > attributes( mmsTestTobit2Ml )$assign <- NULL
 > all.equal( mmsTestTobit2Ml, mmsTestTobit2MlMm )
@@ -36825,14 +36835,15 @@ attr(,"assign")
 > all.equal( mmoTestTobit2Ml, mmoTestTobit2MlMm )
 [1] TRUE
 > # ML with model.frames returned
-> testTobit2MlMf <- selection(ys~xs, yo ~xo, method="ml", mfs = TRUE, mfo = TRUE)
+> testTobit2MlMf <- selection( ys ~ xs, yo ~ xo, method = "ml",
++    mfs = TRUE, mfo = TRUE, data = t2Dat )
 > mfTestTobit2MlMf <- model.frame( testTobit2MlMf )
 > all.equal( mfTestTobit2Ml, mfTestTobit2MlMf )
 [1] "Attributes: < Length mismatch: comparison on first 2 components >"
 >                            # attributes (terms) differ here, I don't exactly know how to improve that
 > 
 > # return just the model.frame
-> selection( ys~xs, yo ~xo, method = "model.frame" )
+> selection( ys ~ xs, yo ~ xo, method = "model.frame", data = t2Dat )
         ys       xs        yo       xo
 1    FALSE 0.989783  0.000000 1.68e-01
 2    FALSE 0.505087  0.000000 6.69e-01
@@ -38320,8 +38331,9 @@ attr(,"assign")
 > 
 > 
 > ## two-step estimation with equal weights
-> we <- rep( 0.7, N )
-> testTobit2TwoStepWe <- selection( ys~xs, yo ~xo, method="2step", weights = we )
+> t2Dat$we <- rep( 0.7, N )
+> testTobit2TwoStepWe <- selection( ys ~ xs, yo ~ xo, method = "2step",
++    weights = t2Dat$we, data = t2Dat )
 > summary( testTobit2TwoStepWe )
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -38356,7 +38368,8 @@ Error in logLik.selection(testTobit2TwoStepWe) :
   the logLik() method currently only works for models estimated by maximum likelihood (ML) but it does not work for models estimated by the 2-step method.
 > 
 > ## ML estimation with equal weights
-> testTobit2MlWe <- selection( ys~xs, yo ~xo, weights = we )
+> testTobit2MlWe <- selection( ys ~ xs, yo ~ xo, weights = t2Dat$we,
++    data = t2Dat )
 > summary( testTobit2MlWe )
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -38391,8 +38404,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 'log Lik.' -1550 (df=6)
 > 
 > ## two-step estimation with unequal weights
-> wu <- 2 * runif( N )
-> testTobit2TwoStepWu <- selection( ys~xs, yo ~xo, method="2step", weights = wu )
+> t2Dat$wu <- 2 * runif( N )
+> testTobit2TwoStepWu <- selection( ys ~ xs, yo ~ xo, method = "2step",
++    weights = t2Dat$wu, data = t2Dat )
 > summary( testTobit2TwoStepWu )
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -38425,7 +38439,8 @@ Error in logLik.selection(testTobit2TwoStepWu) :
   the logLik() method currently only works for models estimated by maximum likelihood (ML) but it does not work for models estimated by the 2-step method.
 > 
 > ## ML estimation with unequal weights
-> testTobit2MlWu <- selection( ys~xs, yo ~xo, weights = wu )
+> testTobit2MlWu <- selection( ys ~ xs, yo ~ xo, weights = t2Dat$wu,
++    data = t2Dat )
 > summary( testTobit2MlWu )
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -38458,20 +38473,22 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 'log Lik.' -2186 (df=6)
 > 
 > ## estimations with weights that do not work
-> try( selection( ys~xs, yo ~xo, method = "2step", weights = 1:99 ) )
+> try( selection( ys ~ xs, yo ~ xo, method = "2step", weights = 1:99,
++    data = t2Dat ) )
 Error in heckit2fit(selection, outcome, data = data, weights = weights,  : 
   number of weights (99) is not equal to the number of observations (1500)
 > 
-> try( selection( ys~xs, yo ~xo, method = "ml", weights = 4:14 ) )
-Error in selection(ys ~ xs, yo ~ xo, method = "ml", weights = 4:14) : 
+> try( selection( ys ~ xs, yo ~ xo, method = "ml", weights = 4:14,
++    data = t2Dat ) )
+Error in selection(ys ~ xs, yo ~ xo, method = "ml", weights = 4:14, data = t2Dat) : 
   number of weights (11) is not equal to the number of observations (1500)
 > 
 > 
 > # factors as dependent variable (from Achim Zeileis)
-> selection( ys ~ xs, yo ~ xo, method = "2step" )
+> selection( ys ~ xs, yo ~ xo, method = "2step", data = t2Dat )
 
 Call:
- selection(selection = ys ~ xs, outcome = yo ~ xo, method = "2step") 
+ selection(selection = ys ~ xs, outcome = yo ~ xo, data = t2Dat,      method = "2step") 
 
 Coefficients:
 S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio  
@@ -38479,10 +38496,10 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio
         sigma            rho  
       1.07709       -0.80442  
 
-> selection( factor( ys ) ~ xs, yo ~ xo, method = "2step" )
+> selection( factor( ys ) ~ xs, yo ~ xo, method = "2step", data = t2Dat )
 
 Call:
- selection(selection = factor(ys) ~ xs, outcome = yo ~ xo, method = "2step") 
+ selection(selection = factor(ys) ~ xs, outcome = yo ~ xo, data = t2Dat,      method = "2step") 
 
 Coefficients:
 S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio  
@@ -38491,10 +38508,10 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio
       1.07709       -0.80442  
 
 > selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo,
-+    method = "2step" )
++    method = "2step", data = t2Dat )
 
 Call:
- selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = yo ~ xo, method = "2step") 
+ selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = yo ~ xo, data = t2Dat, method = "2step") 
 
 Coefficients:
 S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio  
@@ -38502,10 +38519,10 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo  invMillsRatio
         sigma            rho  
       1.07709       -0.80442  
 
-> selection( ys ~ xs, yo ~ xo )
+> selection( ys ~ xs, yo ~ xo, data = t2Dat )
 
 Call:
- selection(selection = ys ~ xs, outcome = yo ~ xo) 
+ selection(selection = ys ~ xs, outcome = yo ~ xo, data = t2Dat) 
 
 Coefficients:
 S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma  
@@ -38513,10 +38530,10 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma
           rho  
      -0.70099  
 
-> selection( factor( ys ) ~ xs, yo ~ xo )
+> selection( factor( ys ) ~ xs, yo ~ xo, data = t2Dat )
 
 Call:
- selection(selection = factor(ys) ~ xs, outcome = yo ~ xo) 
+ selection(selection = factor(ys) ~ xs, outcome = yo ~ xo, data = t2Dat) 
 
 Coefficients:
 S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma  
@@ -38524,10 +38541,10 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma
           rho  
      -0.70099  
 
-> selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo )
+> selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo, data = t2Dat )
 
 Call:
- selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = yo ~ xo) 
+ selection(selection = factor(ys, labels = c("no", "yes")) ~ xs,      outcome = yo ~ xo, data = t2Dat) 
 
 Coefficients:
 S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma  
@@ -38536,7 +38553,7 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma
      -0.70099  
 
 > # return just the model.frame
-> selection( ys ~ xs, yo ~ xo, method = "model.frame" )
+> selection( ys ~ xs, yo ~ xo, method = "model.frame", data = t2Dat )
         ys       xs        yo       xo
 1    FALSE 0.989783  0.000000 1.68e-01
 2    FALSE 0.505087  0.000000 6.69e-01
@@ -40021,7 +40038,7 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma
 1498 FALSE 0.091045  0.000000 7.18e-01
 1499 FALSE 0.002380  0.000000 5.65e-01
 1500 FALSE 0.342001  0.000000 7.16e-01
-> selection( factor( ys ) ~ xs, yo ~ xo, method = "model.frame" )
+> selection( factor( ys ) ~ xs, yo ~ xo, method = "model.frame", data = t2Dat )
      factor(ys)       xs        yo       xo
 1         FALSE 0.989783  0.000000 1.68e-01
 2         FALSE 0.505087  0.000000 6.69e-01
@@ -41507,7 +41524,7 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma
 1499      FALSE 0.002380  0.000000 5.65e-01
 1500      FALSE 0.342001  0.000000 7.16e-01
 > selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs, yo ~ xo,
-+    method = "model.frame" )
++    method = "model.frame", data = t2Dat )
      factor(ys, labels = c("no", "yes"))       xs        yo       xo
 1                                     no 0.989783  0.000000 1.68e-01
 2                                     no 0.505087  0.000000 6.69e-01
@@ -42996,11 +43013,11 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma
 > # the case without intercepts (by Lucas Salazar)
 > cat("Now run tobit2 without intercepts\n")
 Now run tobit2 without intercepts
-> print(coef(selection( ys ~ xs - 1, yo ~ xo - 1)))
+> print( coef( selection( ys ~ xs - 1, yo ~ xo - 1, data = t2Dat ) ) )
   S:xs    O:xo   sigma     rho  
  1.047   0.994   1.043  -0.734  
 > # return just the model.frame
-> selection( ys ~ xs - 1, yo ~ xo - 1, method = "model.frame" )
+> selection( ys ~ xs - 1, yo ~ xo - 1, method = "model.frame", data = t2Dat )
         ys       xs        yo       xo
 1    FALSE 0.989783  0.000000 1.68e-01
 2    FALSE 0.505087  0.000000 6.69e-01
@@ -44491,17 +44508,15 @@ Now run tobit2 without intercepts
 > vc <- diag(2)
 > vc[2,1] <- vc[1,2] <- -0.8
 > eps <- rmvnorm( N, rep(0, 2), vc )
-> xs <- runif(N)
-> ys <- xs + eps[,1] > 0
-> xo <- runif(N)
-> yo <- (xo + eps[,2])*(ys > 0)
-> xs[sample(N, NNA)] <- NA
-> ys[sample(N, NNA)] <- NA
-> xo[sample(N, NNA)] <- NA
-> yo[sample(N, NNA)] <- NA
-> data <- data.frame(ys, xs, yo, xo)
-> rm(eps, xs, ys, xo, yo)
-> testTobit2ML <- selection(ys~xs, yo ~xo, data=data, method="ml")
+> t2bDat <- data.frame( xs = runif(N) )
+> t2bDat$ys <- t2bDat$xs + eps[,1] > 0
+> t2bDat$xo <- runif(N)
+> t2bDat$yo <- ( t2bDat$xo + eps[,2])*(t2bDat$ys > 0)
+> t2bDat$xs[sample(N, NNA)] <- NA
+> t2bDat$ys[sample(N, NNA)] <- NA
+> t2bDat$xo[sample(N, NNA)] <- NA
+> t2bDat$yo[sample(N, NNA)] <- NA
+> testTobit2ML <- selection(ys~xs, yo ~xo, data = t2bDat, method="ml")
 > print(summary(testTobit2ML))
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -44535,7 +44550,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > ## Raphael Abiry: does 'start' argument work?
 > init <- coef(testTobit2ML)
-> testTobit2ML <- selection(ys~xs, yo ~xo, data=data, method="ml", start=init)
+> testTobit2ML <- selection(ys~xs, yo ~xo, data = t2bDat, method="ml", start=init)
 > print(summary(testTobit2ML))
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -44563,8 +44578,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 >                            # Note: should be only 1 iteration
 > 
 > ## Chris Hane: 'fitted' method and a little complex models
-> data <- cbind(data, xF=rbinom(nrow(data), 1, 0.5))
-> testComplex <- selection(ys~xs + factor(xF), yo ~xo, data=data, method="ml")
+> t2bDat <- cbind(t2bDat, xF=rbinom(nrow(t2bDat), 1, 0.5))
+> testComplex <- selection(ys~xs + factor(xF), yo ~xo, data = t2bDat, method="ml")
 > nobs( testComplex )
 [1] 1482
 > nObs( testComplex )
@@ -44575,4 +44590,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  8.869   0.517   9.386 
+  6.528   0.349   6.868 

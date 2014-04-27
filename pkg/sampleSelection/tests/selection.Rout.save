@@ -159,6 +159,8 @@ invMillsRatio1          NA  NA             NA          NA  NA             NA
 (Intercept)             NA  NA             NA          NA  NA             NA
 xo2                     NA  NA             NA          NA  NA             NA
 invMillsRatio2          NA  NA             NA          NA  NA             NA
+> nobs( testTobit5TwoStep )
+[1] 1483
 > nObs( testTobit5TwoStep )
 [1] 1483
 > print( fitted( testTobit5TwoStep, part = "outcome" ) )
@@ -8943,6 +8945,8 @@ rho2          -0.012501 -9.38e-04  5.90e-03  0.022542
 xo1           -6.22e-03  1.10e-02    0.000110  1.31e-06
 (Intercept)   -6.29e-04  1.10e-04    0.010677 -4.94e-03
 xo2           -9.34e-06  1.31e-06   -0.004941  1.10e-02
+> nobs( testTobit5Ml )
+[1] 1483
 > nObs( testTobit5Ml )
 [1] 1483
 > print( fitted( testTobit5Ml, part = "outcome" ) )
@@ -25309,6 +25313,8 @@ invMillsRatio    -0.02170 -0.00109       0.04525
 [1453] 0.449 0.278 0.367 0.482 0.626 0.563 0.384 0.423 0.753 0.681 0.688 0.691
 [1465] 0.358 0.514 0.696 0.278 0.346 0.702 0.309 0.463 0.718 0.295 0.448 0.706
 [1477] 0.405 0.719 0.749 0.591 0.734 0.792 0.581
+> nobs( testTobit2TwoStep )
+[1] 1483
 > nObs( testTobit2TwoStep )
 [1] 1483
 > print( fitted( testTobit2TwoStep, part = "outcome" ) )
@@ -31090,6 +31096,8 @@ rho           -1.06e-03  0.002135   -0.003396 -1.11e-04 -2.51e-03  0.005174
             (Intercept)       xo
 (Intercept)     0.00541 -0.00436
 xo             -0.00436  0.00889
+> nobs( testTobit2Ml )
+[1] 1483
 > nObs( testTobit2Ml )
 [1] 1483
 > print( fitted( testTobit2Ml, part = "outcome" ) )
@@ -38339,6 +38347,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > all.equal( coef( testTobit2TwoStepWe ), coef( testTobit2TwoStep ) )
 [1] TRUE
+> nobs( testTobit2TwoStepWe )
+[1] 1483
 > nObs( testTobit2TwoStepWe )
 [1] 1483
 > try( logLik( testTobit2TwoStepWe ) )
@@ -38373,6 +38383,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > all.equal( coef( testTobit2MlWe ), coef( testTobit2Ml ), tol = 1e-4 )
 [1] TRUE
+> nobs( testTobit2MlWe )
+[1] 1483
 > nObs( testTobit2MlWe )
 [1] 1483
 > logLik( testTobit2MlWe )
@@ -38404,6 +38416,8 @@ rho             -0.696         NA      NA       NA
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
+> nobs( testTobit2TwoStepWu )
+[1] 1483
 > nObs( testTobit2TwoStepWu )
 [1] 1483
 > try( logLik( testTobit2TwoStepWu ) )
@@ -38436,6 +38450,8 @@ rho    -0.6133     0.0930   -6.59 4.3e-11 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
+> nobs( testTobit2MlWu )
+[1] 1483
 > nObs( testTobit2MlWu )
 [1] 1483
 > logLik( testTobit2MlWu )
@@ -44510,6 +44526,8 @@ rho    -0.8685     0.0303   -28.7  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
+> nobs(testTobit2ML)
+[1] 1482
 > nObs(testTobit2ML)
 [1] 1482
 > logLik(testTobit2ML)
@@ -44547,6 +44565,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > ## Chris Hane: 'fitted' method and a little complex models
 > data <- cbind(data, xF=rbinom(nrow(data), 1, 0.5))
 > testComplex <- selection(ys~xs + factor(xF), yo ~xo, data=data, method="ml")
+> nobs( testComplex )
+[1] 1482
 > nObs( testComplex )
 [1] 1482
 > f <- fitted(testComplex, "selection")
@@ -44555,4 +44575,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  6.489   0.359   6.829 
+  8.869   0.517   9.386 

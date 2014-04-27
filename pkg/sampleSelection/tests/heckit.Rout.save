@@ -218,6 +218,8 @@ I(exper^2)         -0.00056
 educ                0.09358
 city                0.00779
 invMillsRatio       1.60272
+> nobs( greene )
+[1] 753
 > nObs( greene )
 [1] 753
 > fitted( greene, part = "outcome" )
@@ -4008,6 +4010,8 @@ educ            -3.97e-03  2.41e-04  5.15e-05  -9.18e-07      8.72e-04
 exper           -3.18e-03  5.15e-05  2.64e-04  -6.80e-06      1.28e-03
 I(exper^2)       6.91e-05 -9.18e-07 -6.80e-06   1.93e-07     -2.65e-05
 invMillsRatio   -3.10e-02  8.72e-04  1.28e-03  -2.65e-05      1.79e-02
+> nobs( wooldridge )
+[1] 753
 > nObs( wooldridge )
 [1] 753
 > round( fitted( wooldridge, part = "outcome" ), digits = 3 )
@@ -8425,6 +8429,8 @@ invMillsRatio1          NA  NA             NA          NA  NA             NA
 (Intercept)             NA  NA             NA          NA  NA             NA
 xo2                     NA  NA             NA          NA  NA             NA
 invMillsRatio2          NA  NA             NA          NA  NA             NA
+> nobs( heckit5test )
+[1] 500
 > nObs( heckit5test )
 [1] 500
 > fitted( heckit5test, part = "outcome" )
@@ -11374,4 +11380,4 @@ attr(,"assign")
 > 
 > proc.time()
    user  system elapsed 
-  2.066   0.125   2.174 
+  2.709   0.215   2.903 

@@ -83,6 +83,8 @@ chi2(1) = 6.55 (p=0.0105)
             (Intercept)      x
 (Intercept)      0.0902 -0.150
 x               -0.1496  0.341
+> nobs( probitResult )
+[1] 100
 > nObs( probitResult )
 [1] 100
 > df.residual( probitResult )
@@ -511,6 +513,8 @@ chi2(1) = 47.2 (p=6.27e-12)
 [1] TRUE
 > all.equal( vcov( probitResult ), vcov( probitResultWe ) * 0.5 )
 [1] TRUE
+> all.equal( nobs( probitResult ), nobs( probitResultWe ) )
+[1] TRUE
 > all.equal( nObs( probitResult ), nObs( probitResultWe ) )
 [1] TRUE
 > all.equal( df.residual( probitResult ), df.residual( probitResultWe ) )
@@ -737,6 +741,8 @@ x             1.1074     0.7089    1.56    0.12
 Significance test:
 chi2(1) = 2.53 (p=0.112)
 --------------------------------------------
+> nobs( probitResultStrat )
+[1] 54
 > nObs( probitResultStrat )
 [1] 54
 > df.residual( probitResultStrat )
@@ -790,6 +796,8 @@ chi2(1) = 19.8 (p=8.46e-06)
             (Intercept)      x
 (Intercept)       0.161 -0.285
 x                -0.285  0.691
+> nobs( probitResultStratW )
+[1] 54
 > nObs( probitResultStratW )
 [1] 54
 > df.residual( probitResultStratW )
@@ -1108,6 +1116,8 @@ huseduc      -3.25e-07  5.04e-04 -1.02e-04  1.00e-03 -2.28e-05
 huswage       1.44e-06 -1.02e-04  5.77e-04  2.14e-02  2.44e-05
 mtr           6.16e-05  1.00e-03  2.14e-02  1.33e+00  1.20e-03
 motheduc      9.26e-08 -2.28e-05  2.44e-05  1.20e-03  2.77e-04
+> nobs( lfpResult )
+[1] 753
 > nObs( lfpResult )
 [1] 753
 > df.residual( lfpResult )
@@ -4469,6 +4479,8 @@ I(age^2)       1.02e-03 -5.07e-05  5.98e-07  2.48e-10  2.95e-05 -1.24e-06
 faminc         6.41e-07 -2.51e-08  2.48e-10  1.77e-11 -4.14e-08 -3.38e-08
 kidsTRUE       1.89e-02 -2.00e-03  2.95e-05 -4.14e-08  1.71e-02 -2.44e-05
 educ          -8.61e-03  1.24e-04 -1.24e-06 -3.38e-08 -2.44e-05  5.28e-04
+> nobs( greene )
+[1] 753
 > nObs( greene )
 [1] 753
 > df.residual( greene )
@@ -6843,6 +6855,8 @@ Coefficients:
 > length(linearPredictors(m))
 [1] 20
 >                            # should be 20
+> nobs( m )
+[1] 18
 > nObs( m )
 [1] 18
 > df.residual( m )
@@ -6860,6 +6874,8 @@ Coefficients:
 + }
 > dta2$y <- with( dta2, -5.5 + 0.25 * x1 + 0.6 * x2 + 0.85 * x3 + rnorm( nObs ) ) > 0
 > p2 <- probit( y ~ x1 + x2 + x3, data=dta2 )
+> nobs( p2 )
+[1] 1000
 > nObs( p2 )
 [1] 1000
 > df.residual( p2 )
@@ -6893,6 +6909,8 @@ x           -0.00399    0.01958   -0.20    0.84
 Significance test:
 chi2(1) = 2.98 (p=0.0844)
 --------------------------------------------
+> nobs( m )
+[1] 20
 > nObs( m )
 [1] 20
 > df.residual( m )
@@ -6902,4 +6920,4 @@ chi2(1) = 2.98 (p=0.0844)
 > 
 > proc.time()
    user  system elapsed 
-  2.949   0.122   3.065 
+  3.592   0.165   3.736 

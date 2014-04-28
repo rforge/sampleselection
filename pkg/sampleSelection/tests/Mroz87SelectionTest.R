@@ -28,6 +28,7 @@ residuals( greene, part = "selection", type = "response" )
 print( model.matrix( greene, part = "outcome" ) )
 print( model.matrix( greene, part = "selection" ) )
 print( model.frame( greene ) )
+try( logLik( greene ) )
 
 # ML estimation
 greeneMl <- selection( lfp ~ age + I( age^2 ) + faminc + kids + educ,
@@ -57,7 +58,7 @@ model.matrix( greeneMl, part = "selection" )
 all.equal( model.frame( greene )[,-c(2,12)], model.frame( greeneMl ),
    check.attributes = FALSE )
 model.frame( greeneMl )
-
+logLik( greeneMl )
 
 ## Wooldridge( 2003 ): example 17.5, page 590
 ## 2-step estimation
@@ -85,6 +86,7 @@ round( residuals( wooldridge, part = "selection", type = "response" ), digits = 
 print( model.matrix( wooldridge, part = "outcome" ) )
 print( model.matrix( wooldridge, part = "selection" ) )
 print( model.frame( wooldridge ) )
+try( logLik( wooldridge ) )
 
 # ML estimation
 wooldridgeMl <- selection( lfp ~ nwifeinc + educ + exper + I( exper^2 ) + age +
@@ -114,3 +116,4 @@ model.matrix( wooldridgeMl, part = "selection" )
 all.equal( model.frame( wooldridge )[,-c(2,11)], model.frame( wooldridgeMl ),
    check.attributes = FALSE )
 print( model.frame( wooldridgeMl ) )
+logLik( wooldridgeMl )

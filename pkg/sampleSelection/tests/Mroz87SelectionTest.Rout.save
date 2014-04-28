@@ -3824,6 +3824,9 @@ attr(,"assign")
 751   NA            NA
 752   NA            NA
 753   NA            NA
+> try( logLik( greene ) )
+Error in logLik.selection(greene) : 
+  the logLik() method currently only works for models estimated by maximum likelihood (ML) but it does not work for models estimated by the 2-step method.
 > 
 > # ML estimation
 > greeneMl <- selection( lfp ~ age + I( age^2 ) + faminc + kids + educ,
@@ -6767,7 +6770,8 @@ attr(,"contrasts")$kids
 751   0  43     1849   9952 FALSE   12  0.000     4         16    0
 752   0  60     3600  24984 FALSE   12  0.000    15        225    1
 753   0  39     1521  28363  TRUE    9  0.000    12        144    1
-> 
+> logLik( greeneMl )
+'log Lik.' -1581 (df=13)
 > 
 > ## Wooldridge( 2003 ): example 17.5, page 590
 > ## 2-step estimation
@@ -11249,6 +11253,9 @@ attr(,"assign")
 751            NA
 752            NA
 753            NA
+> try( logLik( wooldridge ) )
+Error in logLik.selection(wooldridge) : 
+  the logLik() method currently only works for models estimated by maximum likelihood (ML) but it does not work for models estimated by the 2-step method.
 > 
 > # ML estimation
 > wooldridgeMl <- selection( lfp ~ nwifeinc + educ + exper + I( exper^2 ) + age +
@@ -14179,7 +14186,9 @@ attr(,"assign")
 751   0   9.9520   12     4         16  43     0       0      -Inf
 752   0  24.9840   12    15        225  60     0       0      -Inf
 753   0  28.3630    9    12        144  39     0       3      -Inf
+> logLik( wooldridgeMl )
+'log Lik.' -833 (df=14)
 > 
 > proc.time()
    user  system elapsed 
-  2.546   0.164   2.700 
+  3.462   0.246   3.688 

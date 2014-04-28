@@ -40,7 +40,9 @@
 
 \author{Arne Henningsen}
 
-\seealso{\code{\link{selection}}, \code{\link{residuals.selection}}
-   \code{\link{fitted}}, and \code{\link{fitted.probit}}}
+\seealso{
+   \code{\link{fitted}}, \code{\link{selection}},
+   \code{\link{residuals.selection}}, and \code{\link{selection-methods}}.
+}
 
 \keyword{methods}

@@ -1,7 +1,6 @@
 \name{selection}
 \alias{selection}
 \alias{heckit}
-\alias{print.selection}
 \title{Heckman-style selection models}
 \description{
   This is the frontend for estimating Heckman-style selection models either with
@@ -99,15 +98,8 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
   can be used to chose other algorithms for the maximisation 
   of the (log) likelihood function.
 
-  The (generic) function 'coef' ('\code{\link{coef.selection}}')
-  can be used to extract the estimated coefficients.
-  The (generic) function 'vcov' ('\code{\link{vcov.selection}}')
-  can be used to extract the estimated variance covariance matrix 
-  of the coefficients.
-  The (generic) function 'print' ('\code{print.selection}')
-  can be used to print a few results.
-  The (generic) function 'summary' ('\code{\link{summary.selection}}')
-  can be used to obtain and print detailed results.
+  Methods that can be applied to objects returned by \code{selection()}
+  are described on the help page \code{\link{selection-methods}}.
 }
 \value{
   'selection' returns an object of class "selection".
@@ -219,7 +211,10 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
 \author{Arne Henningsen,
    Ott Toomet \email{otoomet@ut.ee}}
 
-\seealso{\code{\link{lm}}, \code{\link{glm}}, \code{\link{binomial}}}
+\seealso{
+   \code{\link{summary.selection}}, \code{\link{selection-methods}},
+   \code{\link{probit}}, and \code{\link{lm}}.
+}
 
 \examples{
 ## Greene( 2003 ): example 22.8, page 786
@@ -253,7 +248,7 @@ m <- selection(lfp~educ + poly(age,3) + kids5 + kids618
                wage >= 5 ~ educ + poly(age,2)
                + poly(exper,2),
                data=Mroz87)
-print(summary(m))
+summary(m)
 
 
 ## Cameron and Trivedi (2005): Section 16.6, page 553ff

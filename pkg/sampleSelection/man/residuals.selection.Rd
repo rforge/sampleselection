@@ -37,7 +37,10 @@
 
 \author{Arne Henningsen}
 
-\seealso{\code{\link{selection}}, \code{\link{fitted.selection}},
-   \code{\link{residuals}}, and \code{\link{residuals.probit}}}
+\seealso{
+   \code{\link{residuals}}, \code{\link{selection}},
+   \code{\link{fitted.selection}}, \code{\link{residuals.probit}},
+   and \code{\link{selection-methods}}.
+}
 
 \keyword{methods}

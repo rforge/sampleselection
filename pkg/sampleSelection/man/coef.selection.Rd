@@ -42,8 +42,10 @@
 \author{Arne Henningsen,
    Ott Toomet (\email{otoomet@ut.ee})}
 
-\seealso{\code{\link{coefficients}}, \code{\link{selection}},
-   \code{\link{summary.selection}}, and \code{\link{vcov.selection}}}
+\seealso{
+   \code{\link{coef}}, \code{\link{selection}}, \code{\link{vcov.selection}},
+   and \code{\link{selection-methods}}.
+}
 
 \examples{
 ## Estimate a simple female wage model taking into account the labour

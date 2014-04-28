@@ -60,7 +60,7 @@
    Arne Henningsen
 }
 
-\seealso{\code{\link{probit}}, \code{\link{linearPredictors.probit}},
-   \code{\link{residuals.probit}}, and \code{\link{summary.probit}}.}
+\seealso{\code{\link{probit}}, \code{\link{summary.probit}},
+   and \code{\link{selection-methods}}.}
 
 \keyword{methods}

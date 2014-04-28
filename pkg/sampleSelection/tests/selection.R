@@ -1,5 +1,6 @@
 library( "sampleSelection" )
 library( "mvtnorm" )
+library( "lmtest" )
 options( digits = 3 )
 N <- 1500
 NNA <- 5
@@ -30,6 +31,7 @@ print( coef( testTobit5TwoStep ) )
 print( coef( testTobit5TwoStep, part = "outcome" ) )
 print( coef( summary( testTobit5TwoStep ) ) )
 print( coef( summary( testTobit5TwoStep ), part = "outcome" ) )
+stdEr( testTobit5TwoStep )
 print( vcov( testTobit5TwoStep ) )
 print( vcov( testTobit5TwoStep, part = "outcome" ) )
 nobs( testTobit5TwoStep )
@@ -51,6 +53,7 @@ print( coef( testTobit5Ml ) )
 print( coef( testTobit5Ml, part = "outcome" ) )
 print( coef( summary( testTobit5Ml ) ) )
 print( coef( summary( testTobit5Ml ), part = "outcome" ) )
+stdEr( testTobit5Ml )
 print( vcov( testTobit5Ml ) )
 print( vcov( testTobit5Ml, part = "outcome" ) )
 nobs( testTobit5Ml )
@@ -66,6 +69,18 @@ print( mmoTestTobit5Ml )
 mfTestTobit5Ml <- model.frame( testTobit5Ml )
 print( mfTestTobit5Ml )
 logLik( testTobit5Ml )
+
+# LR tests
+t5Samp <- rownames( t5Dat ) %in% names( residuals( testTobit5Ml ) )
+testTobit5Ml00 <- selection(ys~xs, list(yo1 ~ 1, yo2 ~ 1), method = "ml",
+   data = t5Dat[ t5Samp, ] )
+lrtest( testTobit5Ml00, testTobit5Ml )
+testTobit5Ml10 <- selection(ys~xs, list(yo1 ~ xo1, yo2 ~ 1), method = "ml",
+   data = t5Dat[ t5Samp, ] )
+lrtest( testTobit5Ml10, testTobit5Ml )
+testTobit5Ml01 <- selection(ys~xs, list(yo1 ~ 1, yo2 ~ xo2), method = "ml",
+   data = t5Dat[ t5Samp, ] )
+lrtest( testTobit5Ml01, testTobit5Ml )
 
 # ML with model.matrices returned
 testTobit5MlMm <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
@@ -157,6 +172,7 @@ print( coef( testTobit2TwoStep ) )
 print( coef( testTobit2TwoStep, part = "outcome" ) )
 print( coef( summary( testTobit2TwoStep ) ) )
 print( coef( summary( testTobit2TwoStep ), part = "outcome" ) )
+stdEr( testTobit2TwoStep )
 print( vcov( testTobit2TwoStep ) )
 print( vcov( testTobit2TwoStep, part = "outcome" ) )
 print( testTobit2TwoStep$invMillsRatio )
@@ -178,6 +194,7 @@ print( coef( testTobit2Ml ) )
 print( coef( testTobit2Ml, part = "outcome" ) )
 print( coef( summary( testTobit2Ml ) ) )
 print( coef( summary( testTobit2Ml ), part = "outcome" ) )
+stdEr( testTobit2Ml )
 print( vcov( testTobit2Ml ) )
 print( vcov( testTobit2Ml, part = "outcome" ) )
 nobs( testTobit2Ml )
@@ -193,6 +210,12 @@ print( mmsTestTobit2Ml )
 mfTestTobit2Ml <- model.frame( testTobit2Ml )
 print( mfTestTobit2Ml )
 logLik( testTobit2Ml )
+
+# LR test
+t2Samp <- rownames( t2Dat ) %in% names( residuals( testTobit2Ml ) )
+testTobit2Ml0 <- selection( ys ~ xs, yo ~ 1, method = "ml",
+   data = t2Dat[ t2Samp, ] )
+lrtest( testTobit2Ml0, testTobit2Ml )
 
 # ML with model.matrices returned
 testTobit2MlMm <- selection( ys ~ xs, yo ~ xo, method = "ml", 
@@ -233,6 +256,11 @@ nobs( testTobit2MlWe )
 nObs( testTobit2MlWe )
 logLik( testTobit2MlWe )
 
+# LR test
+testTobit2MlWe0 <- selection( ys ~ xs, yo ~ 1, weights = t2Dat$we[ t2Samp ],
+   method = "ml", data = t2Dat[ t2Samp, ] )
+lrtest( testTobit2MlWe0, testTobit2MlWe )
+
 ## two-step estimation with unequal weights
 t2Dat$wu <- 2 * runif( N )
 testTobit2TwoStepWu <- selection( ys ~ xs, yo ~ xo, method = "2step",
@@ -249,6 +277,11 @@ summary( testTobit2MlWu )
 nobs( testTobit2MlWu )
 nObs( testTobit2MlWu )
 logLik( testTobit2MlWu )
+
+# LR test
+testTobit2MlWu0 <- selection( ys ~ xs, yo ~ 1, weights = t2Dat$wu[ t2Samp ],
+   method = "ml", data = t2Dat[ t2Samp, ] )
+lrtest( testTobit2MlWu0, testTobit2MlWu )
 
 ## estimations with weights that do not work
 try( selection( ys ~ xs, yo ~ xo, method = "2step", weights = 1:99,

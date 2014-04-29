@@ -1,5 +1,5 @@
 
-options(digits=5)
+options( digits = 3 )
 
 ## Leeman Lucas (and many others): binary outcome
 

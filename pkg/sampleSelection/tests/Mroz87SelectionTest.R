@@ -1,4 +1,5 @@
 library( "sampleSelection" )
+library( "lmtest" )
 data( "Mroz87" )
 options( digits = 3 )
 
@@ -60,6 +61,17 @@ all.equal( model.frame( greene )[,-c(2,12)], model.frame( greeneMl ),
 model.frame( greeneMl )
 logLik( greeneMl )
 
+# LR tests
+greeneMl1 <- selection( lfp ~ age + I( age^2 ) + faminc + kids + educ,
+   wage ~ 1, Mroz87 )
+lrtest( greeneMl, greeneMl1 )
+greeneMl2 <- selection( lfp ~ age + I( age^2 ) + faminc + kids + educ,
+   wage ~ educ, Mroz87 )
+lrtest( greeneMl, greeneMl2 )
+greeneMl3 <- selection( lfp ~ faminc + kids + educ,
+   wage ~ exper + I( exper^2 ) + educ + city, Mroz87 )
+lrtest( greeneMl, greeneMl3 )
+
 ## Wooldridge( 2003 ): example 17.5, page 590
 ## 2-step estimation
 data( "Mroz87" )
@@ -117,3 +129,14 @@ all.equal( model.frame( wooldridge )[,-c(2,11)], model.frame( wooldridgeMl ),
    check.attributes = FALSE )
 print( model.frame( wooldridgeMl ) )
 logLik( wooldridgeMl )
+
+# LR tests
+wooldridgeMl1 <- selection( lfp ~ nwifeinc + educ + exper + I( exper^2 ) + age +
+      kids5 + kids618, log( wage ) ~ 1, Mroz87 )
+lrtest( wooldridgeMl1, wooldridgeMl )
+wooldridgeMl2 <- selection( lfp ~ nwifeinc + educ + exper + I( exper^2 ) + age +
+      kids5 + kids618, log( wage ) ~ educ, Mroz87 )
+lrtest( wooldridgeMl2, wooldridgeMl )
+wooldridgeMl3 <- selection( lfp ~ nwifeinc + educ + exper + I( exper^2 ) + age +
+      kids5, log( wage ) ~ educ + exper, Mroz87 )
+lrtest( wooldridgeMl3, wooldridgeMl )

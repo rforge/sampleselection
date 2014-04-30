@@ -8,18 +8,18 @@ N <- 500
 rho <- 0.7
 library( "mvtnorm" )
 eps <- rmvnorm(N, c(0,0), matrix(c(1,rho,rho,1), 2, 2) )
-xs <- runif(N)
-ysX <- 3*xs + eps[,1]
-ys <- ysX > 0
-xo <- runif(N)
-yoX <- -1 + 2*xo + eps[,2]
-yo <- factor((yoX > 0)*(ys > 0))
+simDat <- data.frame( xs = runif(N) )
+simDat$ysX <- 3 * simDat$xs + eps[,1]
+simDat$ys <- simDat$ysX > 0
+simDat$xo <- runif(N)
+simDat$yoX <- -1 + 2 * simDat$xo + eps[,2]
+simDat$yo <- factor( (simDat$yoX > 0) * (simDat$ys > 0))
                            # binary outcome, only observable if ys>0
-print(table(ys, yo, exclude=NULL))
+print(table(simDat$ys, simDat$yo, exclude=NULL))
 library( "sampleSelection" )
 
 # estimation with BHHH method
-ss <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
+ss <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 print( ss )
 summary( ss )
 coef( ss )
@@ -45,14 +45,14 @@ round( residuals( ss, type = "deviance" ), 3 )
 all.equal( residuals( ss, type = "deviance" ),
    residuals( ss, part = "outcome", type = "deviance" ) )
 all.equal( residuals( ss, part = "outcome", type = "response" ),
-   ( yo == 1 ) - fitted( ss, part = "outcome" ) )
+   ( simDat$yo == 1 ) - fitted( ss, part = "outcome" ) )
 round( residuals( ss, part = "selection" ), 3 )
 all.equal( residuals( ss, part = "selection" ),
    residuals( ss, part = "selection", type = "deviance" ) )
 round( residuals( ss, part = "selection", type = "pearson" ), digits = 3 )
 round( residuals( ss, part = "selection", type = "response" ), digits = 3 )
 all.equal( residuals( ss, part = "selection", type = "response" ),
-   ys - fitted( ss, part = "selection" ) )
+   simDat$ys - fitted( ss, part = "selection" ) )
 model.matrix( ss )
 all.equal( model.matrix( ss ), model.matrix( ss, part = "outcome" ) )
 model.matrix( ss, part = "selection" )
@@ -60,7 +60,7 @@ model.frame( ss )
 logLik( ss )
 
 # estimation with BFGS method
-ssBFGS <- selection( ys ~ xs, yo ~ xo, maxMethod = "BFGS" )
+ssBFGS <- selection( ys ~ xs, yo ~ xo, data = simDat, maxMethod = "BFGS" )
 print( ssBFGS )
 summary( ssBFGS )
 all.equal( coef( ssBFGS ), coef( ss ), tol = 1e-2 )
@@ -83,23 +83,26 @@ all.equal( model.matrix( ssBFGS ), model.matrix( ssBFGS, part = "outcome" ) )
 all.equal( logLik( ss ), logLik( ssBFGS ), tol = 1e-3 )
 
 # BHHH estimation with equal weights
-we <- rep( 0.7, N )
-ssWe <- selection( ys ~ xs, yo ~ xo, weights = we, steptol = 1e-12 )
+simDat$we <- rep( 0.7, N )
+ssWe <- selection( ys ~ xs, yo ~ xo, weights = simDat$we, data = simDat,
+   steptol = 1e-12 )
 summary( ssWe )
 all.equal( coef( ssWe ), coef( ss ), tol = 1e-2 )
 
 # BHHH estimation with equal weights
-ssWeBFGS <- selection( ys ~ xs, yo ~ xo, weights = we, maxMethod = "BFGS" )
+ssWeBFGS <- selection( ys ~ xs, yo ~ xo, weights = simDat$we,
+   data = simDat, maxMethod = "BFGS" )
 summary( ssWeBFGS )
 all.equal( coef( ssWeBFGS ), coef( ssBFGS ), tol = 1e-2 )
 
 # BHHH estimation with unequal weights
-wu <- 2 * runif( N )
-ssWu <- selection( ys ~ xs, yo ~ xo, weights = wu )
+simDat$wu <- 2 * runif( N )
+ssWu <- selection( ys ~ xs, yo ~ xo, weights = simDat$wu, data = simDat )
 summary( ssWu )
 
 # BFGS estimation with unequal weights
-ssWuBFGS <- selection( ys ~ xs, yo ~ xo, weights = wu, maxMethod = "BFGS" )
+ssWuBFGS <- selection( ys ~ xs, yo ~ xo, weights = simDat$wu,
+   data = simDat, maxMethod = "BFGS" )
 summary( ssWuBFGS )
 all.equal( coef( ssWuBFGS ), coef( ssWu ), tol = 1e-2 )
 
@@ -113,22 +116,22 @@ print( rbind( logLik( ss ), logLik( ssBFGS ), logLik( ssWe ),
    logLik( ssWeBFGS ), logLik( ssWu ), logLik( ssWuBFGS ) ), digits = 6 )
 
 # binary outcome NA if unobserved
-yo[ !ys ] <- NA
-print(table(ys, yo, exclude=NULL))
-ssN <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
+simDat$yo[ !simDat$ys ] <- NA
+print(table(simDat$ys, simDat$yo, exclude=NULL))
+ssN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 print(summary(ssN))
 all.equal(ss,ssN)
 
 # binary outcome logical
-yo <- yoX > 0 & ys
-print(table(ys, yo, exclude=NULL))
-ssL <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
+simDat$yo <- simDat$yoX > 0 & simDat$ys
+print(table(simDat$ys, simDat$yo, exclude=NULL))
+ssL <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 print(summary(ssL))
 all.equal(ss,ssL)
 
 # binary outcome logical and NA if unobserved
-yo[ !ys ] <- NA
-print(table(ys, yo, exclude=NULL))
-ssLN <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
+simDat$yo[ !simDat$ys ] <- NA
+print(table(simDat$ys, simDat$yo, exclude=NULL))
+ssLN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 print(summary(ssLN))
 all.equal(ssL,ssLN)

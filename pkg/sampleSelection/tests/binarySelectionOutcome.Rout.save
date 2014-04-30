@@ -25,16 +25,16 @@ Type 'q()' to quit R.
 > rho <- 0.7
 > library( "mvtnorm" )
 > eps <- rmvnorm(N, c(0,0), matrix(c(1,rho,rho,1), 2, 2) )
-> xs <- runif(N)
-> ysX <- 3*xs + eps[,1]
-> ys <- ysX > 0
-> xo <- runif(N)
-> yoX <- -1 + 2*xo + eps[,2]
-> yo <- factor((yoX > 0)*(ys > 0))
+> simDat <- data.frame( xs = runif(N) )
+> simDat$ysX <- 3 * simDat$xs + eps[,1]
+> simDat$ys <- simDat$ysX > 0
+> simDat$xo <- runif(N)
+> simDat$yoX <- -1 + 2 * simDat$xo + eps[,2]
+> simDat$yo <- factor( (simDat$yoX > 0) * (simDat$ys > 0))
 >                            # binary outcome, only observable if ys>0
-> print(table(ys, yo, exclude=NULL))
-       yo
-ys        0   1 <NA>
+> print(table(simDat$ys, simDat$yo, exclude=NULL))
+       
+          0   1 <NA>
   FALSE  74   0    0
   TRUE  202 224    0
   <NA>    0   0    0
@@ -49,11 +49,11 @@ If you have questions, suggestions, or comments regarding the 'maxLik' package, 
 https://r-forge.r-project.org/projects/maxlik/
 > 
 > # estimation with BHHH method
-> ss <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
+> ss <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 > print( ss )
 
 Call:
- selection(selection = ys ~ xs, outcome = yo ~ xo, steptol = 1e-12) 
+ selection(selection = ys ~ xs, outcome = yo ~ xo, data = simDat,      steptol = 1e-12) 
 
 Coefficients:
 S:(Intercept)           S:xs  O:(Intercept)           O:xo            rho  
@@ -568,7 +568,7 @@ xo              -0.0227  0.0519
 +    residuals( ss, part = "outcome", type = "deviance" ) )
 [1] TRUE
 > all.equal( residuals( ss, part = "outcome", type = "response" ),
-+    ( yo == 1 ) - fitted( ss, part = "outcome" ) )
++    ( simDat$yo == 1 ) - fitted( ss, part = "outcome" ) )
 [1] TRUE
 > round( residuals( ss, part = "selection" ), 3 )
      1      2      3      4      5      6      7      8      9     10     11 
@@ -861,7 +861,7 @@ xo              -0.0227  0.0519
    496    497    498    499    500 
  0.090  0.001  0.105  0.002  0.418 
 > all.equal( residuals( ss, part = "selection", type = "response" ),
-+    ys - fitted( ss, part = "selection" ) )
++    simDat$ys - fitted( ss, part = "selection" ) )
 [1] TRUE
 > model.matrix( ss )
     (Intercept)      xo
@@ -2379,13 +2379,13 @@ attr(,"assign")
 'log Lik.' -398 (df=5)
 > 
 > # estimation with BFGS method
-> ssBFGS <- selection( ys ~ xs, yo ~ xo, maxMethod = "BFGS" )
+> ssBFGS <- selection( ys ~ xs, yo ~ xo, data = simDat, maxMethod = "BFGS" )
 Warning message:
 In log(lik[i10]) : NaNs produced
 > print( ssBFGS )
 
 Call:
- selection(selection = ys ~ xs, outcome = yo ~ xo, maxMethod = "BFGS") 
+ selection(selection = ys ~ xs, outcome = yo ~ xo, data = simDat,      maxMethod = "BFGS") 
 
 Coefficients:
 S:(Intercept)           S:xs  O:(Intercept)           O:xo            rho  
@@ -2449,8 +2449,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [1] TRUE
 > 
 > # BHHH estimation with equal weights
-> we <- rep( 0.7, N )
-> ssWe <- selection( ys ~ xs, yo ~ xo, weights = we, steptol = 1e-12 )
+> simDat$we <- rep( 0.7, N )
+> ssWe <- selection( ys ~ xs, yo ~ xo, weights = simDat$we, data = simDat,
++    steptol = 1e-12 )
 > summary( ssWe )
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -2478,7 +2479,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [1] TRUE
 > 
 > # BHHH estimation with equal weights
-> ssWeBFGS <- selection( ys ~ xs, yo ~ xo, weights = we, maxMethod = "BFGS" )
+> ssWeBFGS <- selection( ys ~ xs, yo ~ xo, weights = simDat$we,
++    data = simDat, maxMethod = "BFGS" )
 > summary( ssWeBFGS )
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -2506,8 +2508,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [1] TRUE
 > 
 > # BHHH estimation with unequal weights
-> wu <- 2 * runif( N )
-> ssWu <- selection( ys ~ xs, yo ~ xo, weights = wu )
+> simDat$wu <- 2 * runif( N )
+> ssWu <- selection( ys ~ xs, yo ~ xo, weights = simDat$wu, data = simDat )
 > summary( ssWu )
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -2533,7 +2535,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > # BFGS estimation with unequal weights
-> ssWuBFGS <- selection( ys ~ xs, yo ~ xo, weights = wu, maxMethod = "BFGS" )
+> ssWuBFGS <- selection( ys ~ xs, yo ~ xo, weights = simDat$wu,
++    data = simDat, maxMethod = "BFGS" )
 > summary( ssWuBFGS )
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -2591,14 +2594,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [6,] -395.657
 > 
 > # binary outcome NA if unobserved
-> yo[ !ys ] <- NA
-> print(table(ys, yo, exclude=NULL))
-       yo
-ys        0   1 <NA>
+> simDat$yo[ !simDat$ys ] <- NA
+> print(table(simDat$ys, simDat$yo, exclude=NULL))
+       
+          0   1 <NA>
   FALSE   0   0   74
   TRUE  202 224    0
   <NA>    0   0    0
-> ssN <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
+> ssN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 > print(summary(ssN))
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -2626,14 +2629,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [1] TRUE
 > 
 > # binary outcome logical
-> yo <- yoX > 0 & ys
-> print(table(ys, yo, exclude=NULL))
-       yo
-ys      FALSE TRUE <NA>
+> simDat$yo <- simDat$yoX > 0 & simDat$ys
+> print(table(simDat$ys, simDat$yo, exclude=NULL))
+       
+        FALSE TRUE <NA>
   FALSE    74    0    0
   TRUE    202  224    0
   <NA>      0    0    0
-> ssL <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
+> ssL <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 > print(summary(ssL))
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -2665,14 +2668,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [5] "Component \"twoStep\": Component \"lm\": Component \"model\": Component \"YO\": target is numeric, current is logical"                         
 > 
 > # binary outcome logical and NA if unobserved
-> yo[ !ys ] <- NA
-> print(table(ys, yo, exclude=NULL))
-       yo
-ys      FALSE TRUE <NA>
+> simDat$yo[ !simDat$ys ] <- NA
+> print(table(simDat$ys, simDat$yo, exclude=NULL))
+       
+        FALSE TRUE <NA>
   FALSE     0    0   74
   TRUE    202  224    0
   <NA>      0    0    0
-> ssLN <- selection( ys ~ xs, yo ~ xo, steptol = 1e-12 )
+> ssLN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 > print(summary(ssLN))
 --------------------------------------------
 Tobit 2 model (sample selection model)
@@ -2701,4 +2704,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 32.505   0.093  32.607 
+ 32.352   0.115  32.478 

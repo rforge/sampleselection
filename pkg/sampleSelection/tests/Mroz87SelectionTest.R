@@ -25,7 +25,18 @@ nObs( greene )
 fitted( greene, part = "outcome" )
 fitted( greene, part = "selection" )
 residuals( greene, part = "outcome" )
+all.equal( residuals( greene ), residuals( greene, part = "outcome" ) )
+residuals( greene, part = "selection" )
+all.equal( residuals( greene, part = "selection" ),
+   residuals( greene, part = "selection", type = "deviance" ) )
+all.equal( residuals( greene$probit ),
+   residuals( greene, part = "selection" ) )
+residuals( greene, part = "selection", type = "pearson" )
+all.equal( residuals( greene$probit, type = "pearson" ),
+   residuals( greene, part = "selection", type = "pearson" ) )
 residuals( greene, part = "selection", type = "response" )
+all.equal( residuals( greene$probit, type = "response" ),
+   residuals( greene, part = "selection", type = "response" ) )
 print( model.matrix( greene, part = "outcome" ) )
 print( model.matrix( greene, part = "selection" ) )
 print( model.frame( greene ) )
@@ -47,7 +58,18 @@ all.equal( nObs( greene ), nObs( greeneMl ) )
 fitted( greeneMl, part = "outcome" )
 fitted( greeneMl, part = "selection" )
 residuals( greeneMl, part = "outcome" )
+all.equal( residuals( greeneMl ), residuals( greeneMl, part = "outcome" ) )
+residuals( greeneMl, part = "selection" )
+all.equal( residuals( greeneMl, part = "selection" ),
+   residuals( greeneMl, part = "selection", type = "deviance" ) )
+!isTRUE( all.equal( residuals( greene, part = "selection" ),
+   residuals( greeneMl, part = "selection" ) ) )
+residuals( greeneMl, part = "selection", type = "pearson" )
+!isTRUE( all.equal( residuals( greene, part = "selection", type = "pearson" ),
+   residuals( greeneMl, part = "selection", type = "pearson" ) ) )
 residuals( greeneMl, part = "selection", type = "response" )
+!isTRUE( all.equal( residuals( greene, part = "selection", type = "response" ),
+   residuals( greeneMl, part = "selection", type = "response" ) ) )
 all.equal( model.matrix( greene, part = "outcome" )[,-6],
    model.matrix( greeneMl, part = "outcome" ),
    check.attributes = FALSE )
@@ -94,7 +116,18 @@ nObs( wooldridge )
 round( fitted( wooldridge, part = "outcome" ), digits = 3 )
 round( fitted( wooldridge, part = "selection" ), digits = 3 )
 round( residuals( wooldridge, part = "outcome" ), digits = 3 )
+all.equal( residuals( wooldridge ), residuals( wooldridge, part = "outcome" ) )
+round( residuals( wooldridge, part = "selection" ), digits = 3 )
+all.equal( residuals( wooldridge, part = "selection" ),
+   residuals( wooldridge, part = "selection", type = "deviance" ) )
+all.equal( residuals( wooldridge$probit ),
+   residuals( wooldridge, part = "selection" ) )
+round( residuals( wooldridge, part = "selection", type = "pearson" ), digits = 3 )
+all.equal( residuals( wooldridge$probit, type = "pearson" ),
+   residuals( wooldridge, part = "selection", type = "pearson" ) )
 round( residuals( wooldridge, part = "selection", type = "response" ), digits = 3 )
+all.equal( residuals( wooldridge$probit, type = "response" ),
+   residuals( wooldridge, part = "selection", type = "response" ) )
 print( model.matrix( wooldridge, part = "outcome" ) )
 print( model.matrix( wooldridge, part = "selection" ) )
 print( model.frame( wooldridge ) )
@@ -116,7 +149,19 @@ nObs( wooldridgeMl )
 round( fitted( wooldridgeMl, part = "outcome" ), digits = 3 )
 round( fitted( wooldridgeMl, part = "selection" ), digits = 3 )
 round( residuals( wooldridgeMl, part = "outcome" ), digits = 3 )
+all.equal( residuals( wooldridgeMl ),
+   residuals( wooldridgeMl, part = "outcome" ) )
+round( residuals( wooldridgeMl, part = "selection" ), digits = 3 )
+all.equal( residuals( wooldridgeMl, part = "selection" ),
+   residuals( wooldridgeMl, part = "selection", type = "deviance" ) )
+!isTRUE( all.equal( residuals( wooldridge, part = "selection" ),
+   residuals( wooldridgeMl, part = "selection" ) ) )
+round( residuals( wooldridgeMl, part = "selection", type = "pearson" ), digits = 3 )
+!isTRUE( all.equal( residuals( wooldridge, part = "selection", type = "pearson" ),
+   residuals( wooldridgeMl, part = "selection", type = "pearson" ) ) )
 round( residuals( wooldridgeMl, part = "selection", type = "response" ), digits = 3 )
+!isTRUE( all.equal( residuals( wooldridge, part = "selection", type = "response" ),
+   residuals( wooldridgeMl, part = "selection", type = "response" ) ) )
 all.equal( model.matrix( wooldridge, part = "outcome" )[,-5],
    model.matrix( wooldridgeMl, part = "outcome" ),
    check.attributes = FALSE )

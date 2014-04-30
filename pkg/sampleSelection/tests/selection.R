@@ -39,7 +39,19 @@ nObs( testTobit5TwoStep )
 print( fitted( testTobit5TwoStep, part = "outcome" ) )
 print( fitted( testTobit5TwoStep, part = "selection" ) )
 print( residuals( testTobit5TwoStep, part = "outcome" ) )
+all.equal( residuals( testTobit5TwoStep ),
+   residuals( testTobit5TwoStep, part = "outcome" ) )
+print( residuals( testTobit5TwoStep, part = "selection" ) )
+all.equal( residuals( testTobit5TwoStep, part = "selection" ),
+   residuals( testTobit5TwoStep, part = "selection", type = "deviance" ) )
+all.equal( residuals( testTobit5TwoStep$probit ),
+   residuals( testTobit5TwoStep, part = "selection" ) )
+print( residuals( testTobit5TwoStep, part = "selection", type = "pearson" ) )
+all.equal( residuals( testTobit5TwoStep$probit, type = "pearson" ),
+   residuals( testTobit5TwoStep, part = "selection", type = "pearson" ) )
 print( residuals( testTobit5TwoStep, part = "selection", type = "response" ) )
+all.equal( residuals( testTobit5TwoStep$probit, type = "response" ),
+   residuals( testTobit5TwoStep, part = "selection", type = "response" ) )
 print( model.matrix( testTobit5TwoStep, part = "outcome" ) )
 print( model.matrix( testTobit5TwoStep, part = "selection" ) )
 print( model.frame( testTobit5TwoStep ) )
@@ -61,7 +73,21 @@ nObs( testTobit5Ml )
 print( fitted( testTobit5Ml, part = "outcome" ) )
 print( fitted( testTobit5Ml, part = "selection" ) )
 print( residuals( testTobit5Ml, part = "outcome" ) )
+all.equal( residuals( testTobit5Ml ),
+   residuals( testTobit5Ml, part = "outcome" ) )
 print( residuals( testTobit5Ml, part = "selection" ) )
+all.equal( residuals( testTobit5Ml, part = "selection" ),
+   residuals( testTobit5Ml, part = "selection", type = "deviance" ) )
+!isTRUE( all.equal( residuals( testTobit5TwoStep, part = "selection" ),
+   residuals( testTobit5Ml, part = "selection" ) ) )
+print( residuals( testTobit5Ml, part = "selection", type = "pearson" ) )
+!isTRUE( all.equal(
+   residuals( testTobit5TwoStep, part = "selection", type = "pearson" ),
+   residuals( testTobit5Ml, part = "selection", type = "pearson" ) ) )
+print( residuals( testTobit5Ml, part = "selection", type = "response" ) )
+!isTRUE( all.equal(
+   residuals( testTobit5TwoStep, part = "selection", type = "response" ),
+   residuals( testTobit5Ml, part = "selection", type = "response" ) ) )
 mmsTestTobit5Ml <- model.matrix( testTobit5Ml, part = "selection" )
 print( mmsTestTobit5Ml )
 mmoTestTobit5Ml <- model.matrix( testTobit5Ml, part = "outcome" )
@@ -179,9 +205,21 @@ print( testTobit2TwoStep$invMillsRatio )
 nobs( testTobit2TwoStep )
 nObs( testTobit2TwoStep )
 print( fitted( testTobit2TwoStep, part = "outcome" ) )
+all.equal( residuals( testTobit2TwoStep ),
+   residuals( testTobit2TwoStep, part = "outcome" ) )
 print( fitted( testTobit2TwoStep, part = "selection" ) )
 print( residuals( testTobit2TwoStep, part = "outcome" ) )
+print( residuals( testTobit2TwoStep, part = "selection" ) )
+all.equal( residuals( testTobit2TwoStep, part = "selection" ),
+   residuals( testTobit2TwoStep, part = "selection", type = "deviance" ) )
+all.equal( residuals( testTobit2TwoStep$probit ),
+   residuals( testTobit2TwoStep, part = "selection" ) )
+print( residuals( testTobit2TwoStep, part = "selection", type = "pearson" ) )
+all.equal( residuals( testTobit2TwoStep$probit, type = "pearson" ),
+   residuals( testTobit2TwoStep, part = "selection", type = "pearson" ) )
 print( residuals( testTobit2TwoStep, part = "selection", type = "response" ) )
+all.equal( residuals( testTobit2TwoStep$probit, type = "response" ),
+   residuals( testTobit2TwoStep, part = "selection", type = "response" ) )
 print( model.matrix( testTobit2TwoStep, part = "outcome" ) )
 print( model.matrix( testTobit2TwoStep, part = "selection" ) )
 print( model.frame( testTobit2TwoStep ) )
@@ -202,7 +240,21 @@ nObs( testTobit2Ml )
 print( fitted( testTobit2Ml, part = "outcome" ) )
 print( fitted( testTobit2Ml, part = "selection" ) )
 print( residuals( testTobit2Ml, part = "outcome" ) )
+all.equal( residuals( testTobit2Ml ),
+   residuals( testTobit2Ml, part = "outcome" ) )
 print( residuals( testTobit2Ml, part = "selection" ) )
+all.equal( residuals( testTobit2Ml, part = "selection" ),
+   residuals( testTobit2Ml, part = "selection", type = "deviance" ) )
+!isTRUE( all.equal( residuals( testTobit2TwoStep, part = "selection" ),
+   residuals( testTobit2Ml, part = "selection" ) ) )
+print( residuals( testTobit2Ml, part = "selection", type = "pearson" ) )
+!isTRUE( all.equal(
+   residuals( testTobit2TwoStep, part = "selection", type = "pearson" ),
+   residuals( testTobit2Ml, part = "selection", type = "pearson" ) ) )
+print( residuals( testTobit2Ml, part = "selection", type = "response" ) )
+!isTRUE( all.equal(
+   residuals( testTobit2TwoStep, part = "selection", type = "response" ),
+   residuals( testTobit2Ml, part = "selection", type = "response" ) ) )
 mmsTestTobit2Ml <- model.matrix( testTobit2Ml, part = "selection" )
 print( mmsTestTobit2Ml )
 mmoTestTobit2Ml <- model.matrix( testTobit2Ml, part = "outcome" )

@@ -36,7 +36,19 @@ all.equal( fitted( ss ), fitted( ss, part = "outcome" ) )
 round( fitted( ss, part = "selection" ), 3 )
 round( residuals( ss ), 3 )
 all.equal( residuals( ss ), residuals( ss, part = "outcome" ) )
+all.equal( residuals( ss ),
+   residuals( ss, part = "outcome", type = "deviance"  ) )
+round( residuals( ss, type = "pearson" ), 3 )
+all.equal( residuals( ss, type = "pearson" ),
+   residuals( ss, part = "outcome", type = "pearson" ) )
+round( residuals( ss, type = "deviance" ), 3 )
+all.equal( residuals( ss, type = "deviance" ),
+   residuals( ss, part = "outcome", type = "deviance" ) )
 round( residuals( ss, part = "selection" ), 3 )
+all.equal( residuals( ss, part = "selection" ),
+   residuals( ss, part = "selection", type = "deviance" ) )
+round( residuals( ss, part = "selection", type = "pearson" ), digits = 3 )
+round( residuals( ss, part = "selection", type = "response" ), digits = 3 )
 model.matrix( ss )
 all.equal( model.matrix( ss ), model.matrix( ss, part = "outcome" ) )
 model.matrix( ss, part = "selection" )

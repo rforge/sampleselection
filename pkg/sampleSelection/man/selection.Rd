@@ -104,17 +104,17 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
 \value{
   'selection' returns an object of class "selection".
   If the model estimated by Maximum Likelihood (argument method = "ml"),
-  this object is a list, which has all the components of 'maxLik', and in
-  addition the elements 'twoStep', 'start, 'param', termS, termO,
-  and if requested 'ys', 'xs', 'yo', 'xo', 'mfs', and 'mfo'.
+  this object is a list, which has all the components of a 'maxLik' object, and in
+  addition the elements 'twoStep', 'start, 'param', 'termS', 'termO',
+  'binaryOutcome', and if requested 'ys', 'xs', 'yo', 'xo', 'mfs', and 'mfo'.
   If a tobit-2 (sample selection) model is estimated by the
   two-step method (argument method = "2step"),
-  the returned object is list with components
+  the returned object is a list with components
   'probit', 'coefficients', 'param', 'vcov', 'lm', 'sigma', 'rho',
   'invMillsRatio', and 'imrDelta'.
-  If a tobit-2 (sample selection) model is estimated by the
+  If a tobit-5 (switching regression) model is estimated by the
   two-step method (argument method = "2step"),
-  the returned object is list with components
+  the returned object is a list with components
   'coefficients', 'vcov', 'probit', 'lm1', 'lm2', 'rho1', 'rho2',
   'sigma1', 'sigma2', 'termsS', 'termsO', 'param',
   and if requested 'ys', 'xs', 'yo', 'xo', 'mfs', and 'mfo'.
@@ -168,6 +168,8 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
     the 1st step probit estimation.}
   \item{imrDelta}{the \eqn{\delta}s calculated from the inverse Mills Ratios and
     the results of the 1st step probit estimation.}
+  \item{binaryOutcome}{logical value indicating whether the dependent variable
+    of the outcome equation is binary.}
 }
 
 \references{

@@ -370,6 +370,9 @@ selection <- function(selection, outcome,
                "TRUE"=switch(as.character(type), "2"=list(mfO[!badRow,]),
                   "5"=list(mf1[!badRow,], mf2[!badRow,]), "FALSE"=NULL))
                )
+
+   result$binaryOutcome <- binaryOutcome
+
    class( result ) <- class( estimation ) 
    return(result)
 }

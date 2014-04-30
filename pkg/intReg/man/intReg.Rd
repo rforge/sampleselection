@@ -34,7 +34,11 @@ data, subset, weights, na.action)
           weighted likelihood is maximized (that
           is, maximizing \sQuote{sum(w*loglik)}).}
   \item{start}{Initial values for the optimization algorithm.  if
-    \sQuote{NULL}, initial values are calculated based on interval means.}
+    \sQuote{NULL}, initial values are calculated based on interval
+    means.  Note that \code{intReg} expects the full-length inital
+    values, including the parameter boundaries and the standard
+    deviation of the error term.  See the example below.
+  }
   \item{boundaries}{Boundaries for intervals.  See details.}
   \item{\dots}{further arguments to \code{\link[maxLik]{maxLik}}}
   \item{subset}{an optional logical vector specifying a subset of observations to be
@@ -105,6 +109,19 @@ m <- intReg(y ~ sex + log(income) + age + schooling +
 ## You may want to compare the results to Werner (1999),
 ## Journal of Business and Economics Statistics 17(4), pp 479-486
 print(summary(m))
+##
+## Example of setting initial values
+##
+st <- coef(m, boundaries=TRUE)
+st[1:19] <- 1     # set all coefficients to 1
+st["sigma"] <- 1  # set standard deviation to 1
+m <- intReg(y ~ sex + log(income) + age + schooling + 
+              recparks + jobs + lowrisk + wildlife + future + aboriginal + finben +
+              mineparks + moreparks + gov +
+              envcon + vparks + tvenv + major,
+              start=st,
+              data=Kakadu)
+## Note: the results will be the same as above
 ##
 ## Example of common intervals for all the observations
 ##

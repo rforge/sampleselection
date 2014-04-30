@@ -230,9 +230,6 @@ intReg <- function(formula, start, boundaries,
              stop("NA in the initial values")
           }
           names(xCoefs) <- gsub("^x", "", names(xCoefs))
-          activePar[iBeta] <- TRUE
-          activePar[iBoundaries] <- FALSE
-          activePar[iStd] <- TRUE
           sigma <- sqrt(var(fit$residuals))
        }
        start[iBeta] <- xCoefs
@@ -243,11 +240,25 @@ intReg <- function(formula, start, boundaries,
        names(start)[iStd] <- "sigma"
     }
     else
-        if(length(start) != nBeta + nInterval)
-            stop("'start' is not of the correct length")
+        if(length(start) != iStd)
+            stop("'start' is not of the correct length:\n",
+                 "The current model includes ", nBeta,
+                 " explanatory variables plus\n",
+                 length(iBeta), " interval boundaries ",
+                 "plus 1 disturbance standard deviation\n",
+                 "(", iStd, " in total).\n",
+                 "However, 'start' is of length ",
+                 length(start))
     if(print.level > 0) {
        cat("Initial values:\n")
        print(start)
+    }
+    if(!ordered) {
+       ## Not ordered model: fix the fixed parameters
+       activePar <- logical(length(start))
+       activePar[iBeta] <- TRUE
+       activePar[iBoundaries] <- FALSE
+       activePar[iStd] <- TRUE
     }
     library(maxLik)
 ##     compareDerivatives(loglik, gradlik, t0=start)

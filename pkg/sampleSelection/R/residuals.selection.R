@@ -59,7 +59,31 @@ residuals.selection <- function( object, part = "outcome",
             stop( "unknown tobit type '",  object$tobitType,
                "' in object$tobitType" )
          }
-         result <- oResponse - fitted( object )
+         fitVal <- fitted( object, part = "outcome" )
+         if( object$binaryOutcome ) {
+            oResponseLevels <- levels( as.factor( oResponse ) )
+            if( length( oResponseLevels ) != 2 ) {
+               stop( "internal error: the dependent variable of the 'outcome'",
+                  " must have exactly two levels but it has ", 
+                  length( oResponseLevels ), " levels.",
+                  " Please send a reproducible example to the maintainer",
+                  " of the 'sampleSelection' package" )
+            }
+            oResponse <- as.integer( oResponse == oResponseLevels[ 2 ] )
+            if( type == "response" ) {
+               result <- oResponse - fitVal
+            } else if( type == "deviance" ) {
+               result <- ifelse( oResponse == 1,
+                  sqrt( -2 * log( fitVal ) ), -sqrt( -2 * log( 1 - fitVal ) ) )
+            } else if( type == "pearson" ) {
+               result <- ( oResponse - fitVal ) / sqrt( fitVal * ( 1 - fitVal ) )
+            } else {
+               stop( "argument 'type' must be either 'deviance', 'pearson',",
+                  " or 'response'" )
+            }
+         } else {
+            result <- oResponse - fitVal
+         }
       } else {
          stop( "argument 'part' must be either 'outcome' or 'selection'" )
       }

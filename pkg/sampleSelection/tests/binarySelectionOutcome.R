@@ -44,11 +44,15 @@ all.equal( residuals( ss, type = "pearson" ),
 round( residuals( ss, type = "deviance" ), 3 )
 all.equal( residuals( ss, type = "deviance" ),
    residuals( ss, part = "outcome", type = "deviance" ) )
+all.equal( residuals( ss, part = "outcome", type = "response" ),
+   ( yo == 1 ) - fitted( ss, part = "outcome" ) )
 round( residuals( ss, part = "selection" ), 3 )
 all.equal( residuals( ss, part = "selection" ),
    residuals( ss, part = "selection", type = "deviance" ) )
 round( residuals( ss, part = "selection", type = "pearson" ), digits = 3 )
 round( residuals( ss, part = "selection", type = "response" ), digits = 3 )
+all.equal( residuals( ss, part = "selection", type = "response" ),
+   ys - fitted( ss, part = "selection" ) )
 model.matrix( ss )
 all.equal( model.matrix( ss ), model.matrix( ss, part = "outcome" ) )
 model.matrix( ss, part = "selection" )

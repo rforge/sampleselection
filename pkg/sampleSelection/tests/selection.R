@@ -52,6 +52,9 @@ all.equal( residuals( testTobit5TwoStep$probit, type = "pearson" ),
 print( residuals( testTobit5TwoStep, part = "selection", type = "response" ) )
 all.equal( residuals( testTobit5TwoStep$probit, type = "response" ),
    residuals( testTobit5TwoStep, part = "selection", type = "response" ) )
+t5Samp <- rownames( t5Dat ) %in% names( residuals( testTobit5TwoStep ) )
+all.equal( residuals( testTobit5TwoStep, part = "selection", type = "response" ),
+   t5Dat$ys[ t5Samp ] - fitted( testTobit5TwoStep, part = "selection" ) )
 print( model.matrix( testTobit5TwoStep, part = "outcome" ) )
 print( model.matrix( testTobit5TwoStep, part = "selection" ) )
 print( model.frame( testTobit5TwoStep ) )
@@ -88,6 +91,8 @@ print( residuals( testTobit5Ml, part = "selection", type = "response" ) )
 !isTRUE( all.equal(
    residuals( testTobit5TwoStep, part = "selection", type = "response" ),
    residuals( testTobit5Ml, part = "selection", type = "response" ) ) )
+all.equal( residuals( testTobit5Ml, part = "selection", type = "response" ),
+   t5Dat$ys[ t5Samp ] - fitted( testTobit5Ml, part = "selection" ) )
 mmsTestTobit5Ml <- model.matrix( testTobit5Ml, part = "selection" )
 print( mmsTestTobit5Ml )
 mmoTestTobit5Ml <- model.matrix( testTobit5Ml, part = "outcome" )
@@ -97,7 +102,6 @@ print( mfTestTobit5Ml )
 logLik( testTobit5Ml )
 
 # LR tests
-t5Samp <- rownames( t5Dat ) %in% names( residuals( testTobit5Ml ) )
 testTobit5Ml00 <- selection(ys~xs, list(yo1 ~ 1, yo2 ~ 1), method = "ml",
    data = t5Dat[ t5Samp, ] )
 lrtest( testTobit5Ml00, testTobit5Ml )
@@ -220,6 +224,9 @@ all.equal( residuals( testTobit2TwoStep$probit, type = "pearson" ),
 print( residuals( testTobit2TwoStep, part = "selection", type = "response" ) )
 all.equal( residuals( testTobit2TwoStep$probit, type = "response" ),
    residuals( testTobit2TwoStep, part = "selection", type = "response" ) )
+t2Samp <- rownames( t2Dat ) %in% names( residuals( testTobit2TwoStep ) )
+all.equal( residuals( testTobit2TwoStep, part = "selection", type = "response" ),
+   t2Dat$ys[ t2Samp ] - fitted( testTobit2TwoStep, part = "selection" ) )
 print( model.matrix( testTobit2TwoStep, part = "outcome" ) )
 print( model.matrix( testTobit2TwoStep, part = "selection" ) )
 print( model.frame( testTobit2TwoStep ) )
@@ -255,6 +262,8 @@ print( residuals( testTobit2Ml, part = "selection", type = "response" ) )
 !isTRUE( all.equal(
    residuals( testTobit2TwoStep, part = "selection", type = "response" ),
    residuals( testTobit2Ml, part = "selection", type = "response" ) ) )
+all.equal( residuals( testTobit2Ml, part = "selection", type = "response" ),
+   t2Dat$ys[ t2Samp ] - fitted( testTobit2Ml, part = "selection" ) )
 mmsTestTobit2Ml <- model.matrix( testTobit2Ml, part = "selection" )
 print( mmsTestTobit2Ml )
 mmoTestTobit2Ml <- model.matrix( testTobit2Ml, part = "outcome" )
@@ -264,7 +273,6 @@ print( mfTestTobit2Ml )
 logLik( testTobit2Ml )
 
 # LR test
-t2Samp <- rownames( t2Dat ) %in% names( residuals( testTobit2Ml ) )
 testTobit2Ml0 <- selection( ys ~ xs, yo ~ 1, method = "ml",
    data = t2Dat[ t2Samp, ] )
 lrtest( testTobit2Ml0, testTobit2Ml )

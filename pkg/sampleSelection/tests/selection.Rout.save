@@ -1985,6 +1985,10 @@ invMillsRatio2          NA  NA             NA          NA  NA             NA
 > all.equal( residuals( testTobit5TwoStep$probit, type = "response" ),
 +    residuals( testTobit5TwoStep, part = "selection", type = "response" ) )
 [1] TRUE
+> t5Samp <- rownames( t5Dat ) %in% names( residuals( testTobit5TwoStep ) )
+> all.equal( residuals( testTobit5TwoStep, part = "selection", type = "response" ),
++    t5Dat$ys[ t5Samp ] - fitted( testTobit5TwoStep, part = "selection" ) )
+[1] TRUE
 > print( model.matrix( testTobit5TwoStep, part = "outcome" ) )
 [[1]]
      XO1(Intercept)   XO1xo1 XO1invMillsRatio
@@ -11176,6 +11180,9 @@ xo2           -9.34e-06  1.31e-06   -0.004941  1.10e-02
 +    residuals( testTobit5TwoStep, part = "selection", type = "response" ),
 +    residuals( testTobit5Ml, part = "selection", type = "response" ) ) )
 [1] TRUE
+> all.equal( residuals( testTobit5Ml, part = "selection", type = "response" ),
++    t5Dat$ys[ t5Samp ] - fitted( testTobit5Ml, part = "selection" ) )
+[1] TRUE
 > mmsTestTobit5Ml <- model.matrix( testTobit5Ml, part = "selection" )
 > print( mmsTestTobit5Ml )
      (Intercept)       xs
@@ -17132,7 +17139,6 @@ attr(,"assign")
 'log Lik.' -2777 (df=10)
 > 
 > # LR tests
-> t5Samp <- rownames( t5Dat ) %in% names( residuals( testTobit5Ml ) )
 > testTobit5Ml00 <- selection(ys~xs, list(yo1 ~ 1, yo2 ~ 1), method = "ml",
 +    data = t5Dat[ t5Samp, ] )
 > lrtest( testTobit5Ml00, testTobit5Ml )
@@ -28319,6 +28325,10 @@ invMillsRatio    -0.02170 -0.00109       0.04525
 > all.equal( residuals( testTobit2TwoStep$probit, type = "response" ),
 +    residuals( testTobit2TwoStep, part = "selection", type = "response" ) )
 [1] TRUE
+> t2Samp <- rownames( t2Dat ) %in% names( residuals( testTobit2TwoStep ) )
+> all.equal( residuals( testTobit2TwoStep, part = "selection", type = "response" ),
++    t2Dat$ys[ t2Samp ] - fitted( testTobit2TwoStep, part = "selection" ) )
+[1] TRUE
 > print( model.matrix( testTobit2TwoStep, part = "outcome" ) )
      XO(Intercept)    XOxo imrData$IMR1
 1               NA      NA           NA
@@ -34664,6 +34674,9 @@ xo             -0.00436  0.00889
 +    residuals( testTobit2TwoStep, part = "selection", type = "response" ),
 +    residuals( testTobit2Ml, part = "selection", type = "response" ) ) )
 [1] TRUE
+> all.equal( residuals( testTobit2Ml, part = "selection", type = "response" ),
++    t2Dat$ys[ t2Samp ] - fitted( testTobit2Ml, part = "selection" ) )
+[1] TRUE
 > mmsTestTobit2Ml <- model.matrix( testTobit2Ml, part = "selection" )
 > print( mmsTestTobit2Ml )
      (Intercept)       xs
@@ -39130,7 +39143,6 @@ attr(,"assign")
 'log Lik.' -2215 (df=6)
 > 
 > # LR test
-> t2Samp <- rownames( t2Dat ) %in% names( residuals( testTobit2Ml ) )
 > testTobit2Ml0 <- selection( ys ~ xs, yo ~ 1, method = "ml",
 +    data = t2Dat[ t2Samp, ] )
 > lrtest( testTobit2Ml0, testTobit2Ml )
@@ -46945,4 +46957,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  8.580   0.412   8.979 
+  8.485   0.333   8.822 

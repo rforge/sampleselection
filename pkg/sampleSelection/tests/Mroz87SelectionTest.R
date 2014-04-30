@@ -37,6 +37,8 @@ all.equal( residuals( greene$probit, type = "pearson" ),
 residuals( greene, part = "selection", type = "response" )
 all.equal( residuals( greene$probit, type = "response" ),
    residuals( greene, part = "selection", type = "response" ) )
+all.equal( residuals( greene, part = "selection", type = "response" ),
+   Mroz87$lfp - fitted( greene, part = "selection" ) )
 print( model.matrix( greene, part = "outcome" ) )
 print( model.matrix( greene, part = "selection" ) )
 print( model.frame( greene ) )
@@ -70,6 +72,8 @@ residuals( greeneMl, part = "selection", type = "pearson" )
 residuals( greeneMl, part = "selection", type = "response" )
 !isTRUE( all.equal( residuals( greene, part = "selection", type = "response" ),
    residuals( greeneMl, part = "selection", type = "response" ) ) )
+all.equal( residuals( greeneMl, part = "selection", type = "response" ),
+   Mroz87$lfp - fitted( greeneMl, part = "selection" ) )
 all.equal( model.matrix( greene, part = "outcome" )[,-6],
    model.matrix( greeneMl, part = "outcome" ),
    check.attributes = FALSE )
@@ -128,6 +132,8 @@ all.equal( residuals( wooldridge$probit, type = "pearson" ),
 round( residuals( wooldridge, part = "selection", type = "response" ), digits = 3 )
 all.equal( residuals( wooldridge$probit, type = "response" ),
    residuals( wooldridge, part = "selection", type = "response" ) )
+all.equal( residuals( wooldridge, part = "selection", type = "response" ),
+   Mroz87$lfp - fitted( wooldridge, part = "selection" ) )
 print( model.matrix( wooldridge, part = "outcome" ) )
 print( model.matrix( wooldridge, part = "selection" ) )
 print( model.frame( wooldridge ) )
@@ -162,6 +168,8 @@ round( residuals( wooldridgeMl, part = "selection", type = "pearson" ), digits =
 round( residuals( wooldridgeMl, part = "selection", type = "response" ), digits = 3 )
 !isTRUE( all.equal( residuals( wooldridge, part = "selection", type = "response" ),
    residuals( wooldridgeMl, part = "selection", type = "response" ) ) )
+all.equal( residuals( wooldridgeMl, part = "selection", type = "response" ),
+   Mroz87$lfp - fitted( wooldridgeMl, part = "selection" ) )
 all.equal( model.matrix( wooldridge, part = "outcome" )[,-5],
    model.matrix( wooldridgeMl, part = "outcome" ),
    check.attributes = FALSE )

@@ -1102,6 +1102,9 @@ invMillsRatio       1.60272
 > all.equal( residuals( greene$probit, type = "response" ),
 +    residuals( greene, part = "selection", type = "response" ) )
 [1] TRUE
+> all.equal( residuals( greene, part = "selection", type = "response" ),
++    Mroz87$lfp - fitted( greene, part = "selection" ) )
+[1] TRUE
 > print( model.matrix( greene, part = "outcome" ) )
     XO(Intercept) XOexper XOI(exper^2) XOeduc XOcity imrData$IMR1
 1               1      14          196     12      0        0.738
@@ -5074,6 +5077,9 @@ city          -0.019088 -9.11e-04   2.47e-05 -3.16e-03  9.98e-02
 > !isTRUE( all.equal( residuals( greene, part = "selection", type = "response" ),
 +    residuals( greeneMl, part = "selection", type = "response" ) ) )
 [1] TRUE
+> all.equal( residuals( greeneMl, part = "selection", type = "response" ),
++    Mroz87$lfp - fitted( greeneMl, part = "selection" ) )
+[1] TRUE
 > all.equal( model.matrix( greene, part = "outcome" )[,-6],
 +    model.matrix( greeneMl, part = "outcome" ),
 +    check.attributes = FALSE )
@@ -8405,6 +8411,9 @@ invMillsRatio   -3.10e-02  8.72e-04  1.28e-03  -2.65e-05      1.79e-02
 -0.564 -0.425 -0.465 -0.419 -0.641 
 > all.equal( residuals( wooldridge$probit, type = "response" ),
 +    residuals( wooldridge, part = "selection", type = "response" ) )
+[1] TRUE
+> all.equal( residuals( wooldridge, part = "selection", type = "response" ),
++    Mroz87$lfp - fitted( wooldridge, part = "selection" ) )
 [1] TRUE
 > print( model.matrix( wooldridge, part = "outcome" ) )
     XO(Intercept) XOeduc XOexper XOI(exper^2) imrData$IMR1
@@ -13128,6 +13137,9 @@ I(exper^2)     4.76e-05 -3.12e-07 -5.91e-06   1.74e-07
 > !isTRUE( all.equal( residuals( wooldridge, part = "selection", type = "response" ),
 +    residuals( wooldridgeMl, part = "selection", type = "response" ) ) )
 [1] TRUE
+> all.equal( residuals( wooldridgeMl, part = "selection", type = "response" ),
++    Mroz87$lfp - fitted( wooldridgeMl, part = "selection" ) )
+[1] TRUE
 > all.equal( model.matrix( wooldridge, part = "outcome" )[,-5],
 +    model.matrix( wooldridgeMl, part = "outcome" ),
 +    check.attributes = FALSE )
@@ -15461,4 +15473,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  3.482   0.181   3.647 
+  3.575   0.198   3.765 

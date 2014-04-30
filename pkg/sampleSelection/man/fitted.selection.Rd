@@ -32,6 +32,10 @@
    In the future, we might add the option to
    include expectations of the error term
    based on the regressors of the other (selection/outcome) equation.
+   
+   The fitted values of the selection equation are probabilities.
+   If the dependent variable of the outcome equation is binary,
+   also the fitted values of the outcome equation are probabilities.
 }
 
 \value{

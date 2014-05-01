@@ -393,34 +393,17 @@ print( coef( selection( ys ~ xs - 1, yo ~ xo - 1, data = t2Dat ) ) )
 # return just the model.frame
 selection( ys ~ xs - 1, yo ~ xo - 1, method = "model.frame", data = t2Dat )
 
-# NA-s in data frames (Nelson Villoria)
-set.seed( 98765 )
-vc <- diag(2)
-vc[2,1] <- vc[1,2] <- -0.8
-eps <- rmvnorm( N, rep(0, 2), vc )
-t2bDat <- data.frame( xs = runif(N) )
-t2bDat$ys <- t2bDat$xs + eps[,1] > 0
-t2bDat$xo <- runif(N)
-t2bDat$yo <- ( t2bDat$xo + eps[,2])*(t2bDat$ys > 0)
-t2bDat$xs[sample(N, NNA)] <- NA
-t2bDat$ys[sample(N, NNA)] <- NA
-t2bDat$xo[sample(N, NNA)] <- NA
-t2bDat$yo[sample(N, NNA)] <- NA
-testTobit2ML <- selection(ys~xs, yo ~xo, data = t2bDat, method="ml")
-print(summary(testTobit2ML))
-nobs(testTobit2ML)
-nObs(testTobit2ML)
-logLik(testTobit2ML)
-
 ## Raphael Abiry: does 'start' argument work?
-init <- coef(testTobit2ML)
-testTobit2ML <- selection(ys~xs, yo ~xo, data = t2bDat, method="ml", start=init)
-print(summary(testTobit2ML))
+init <- coef(testTobit2Ml)
+testTobit2MlStart <- selection( ys ~ xs, yo ~ xo, data = t2Dat, method = "ml",
+   start = init )
+print( summary( testTobit2MlStart ) )
                            # Note: should be only 1 iteration
+all.equal( testTobit2Ml[ -c(2,9,14,15,17)], testTobit2MlStart[ -c(2,9,14,15,17)] )
 
 ## Chris Hane: 'fitted' method and a little complex models
-t2bDat <- cbind(t2bDat, xF=rbinom(nrow(t2bDat), 1, 0.5))
-testComplex <- selection(ys~xs + factor(xF), yo ~xo, data = t2bDat, method="ml")
+t2Dat <- cbind(t2Dat, xF=rbinom(nrow(t2Dat), 1, 0.5))
+testComplex <- selection(ys~xs + factor(xF), yo ~xo, data = t2Dat, method="ml")
 nobs( testComplex )
 nObs( testComplex )
 f <- fitted(testComplex, "selection")

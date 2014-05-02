@@ -36390,20 +36390,15 @@ Error in selection(ys ~ xs, yo ~ xo, method = "ml", weights = 4:14, data = t2Dat
 > all.equal(
 +    residuals( testTobit2FacMl, part = "selection", type = "deviance" ),
 +    residuals( testTobit2Ml, part = "selection", type = "deviance" ) )
-[1] "Mean relative difference: 1.52"
+[1] TRUE
 > all.equal(
 +    residuals( testTobit2FacMl, part = "selection", type = "pearson" ),
 +    residuals( testTobit2Ml, part = "selection", type = "pearson" ) )
-[1] "'is.NA' value mismatch: 0 in current 1483 in target"
-Warning message:
-In Ops.factor(sResponse, fitVal) : - not meaningful for factors
+[1] TRUE
 > all.equal(
 +    residuals( testTobit2FacMl, part = "selection", type = "response" ),
 +    residuals( testTobit2Ml, part = "selection", type = "response" ) )
-[1] "Modes: logical, numeric"              
-[2] "target is logical, current is numeric"
-Warning message:
-In Ops.factor(sResponse, fitVal) : - not meaningful for factors
+[1] TRUE
 > 
 > testTobit2YesMl <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
 +    yo ~ xo, data = t2Dat )
@@ -36417,20 +36412,15 @@ In Ops.factor(sResponse, fitVal) : - not meaningful for factors
 > all.equal(
 +    residuals( testTobit2YesMl, part = "selection", type = "deviance" ),
 +    residuals( testTobit2Ml, part = "selection", type = "deviance" ) )
-[1] "Mean relative difference: 1.52"
+[1] TRUE
 > all.equal(
 +    residuals( testTobit2YesMl, part = "selection", type = "pearson" ),
 +    residuals( testTobit2Ml, part = "selection", type = "pearson" ) )
-[1] "'is.NA' value mismatch: 0 in current 1483 in target"
-Warning message:
-In Ops.factor(sResponse, fitVal) : - not meaningful for factors
+[1] TRUE
 > all.equal(
 +    residuals( testTobit2YesMl, part = "selection", type = "response" ),
 +    residuals( testTobit2Ml, part = "selection", type = "response" ) )
-[1] "Modes: logical, numeric"              
-[2] "target is logical, current is numeric"
-Warning message:
-In Ops.factor(sResponse, fitVal) : - not meaningful for factors
+[1] TRUE
 > 
 > # return just the model.frame
 > selection( factor( ys ) ~ xs, yo ~ xo, method = "model.frame", data = t2Dat )
@@ -41972,4 +41962,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 13.212   0.605  13.823 
+  9.542   0.416  10.070 

@@ -31,6 +31,15 @@ residuals.selection <- function( object, part = "outcome",
       sResponse <- mf[[
          as.character( formula( object$termsS ) )[2] ]]
       if( part == "selection" ) {
+         sResponseLevels <- levels( as.factor( sResponse ) )
+         if( length( sResponseLevels ) != 2 ) {
+            stop( "internal error: the dependent variable of the 'selection'",
+               " model must have exactly two levels but it has ", 
+               length( sResponseLevels ), " levels.",
+               " Please send a reproducible example to the maintainer",
+               " of the 'sampleSelection' package" )
+         }
+         sResponse <- as.integer( sResponse == sResponseLevels[ 2 ] )
          fitVal <- fitted( object, part = "selection" )
          if( type == "response" ) {
             result <- sResponse - fitVal
@@ -64,7 +73,7 @@ residuals.selection <- function( object, part = "outcome",
             oResponseLevels <- levels( as.factor( oResponse ) )
             if( length( oResponseLevels ) != 2 ) {
                stop( "internal error: the dependent variable of the 'outcome'",
-                  " must have exactly two levels but it has ", 
+                  " model must have exactly two levels but it has ", 
                   length( oResponseLevels ), " levels.",
                   " Please send a reproducible example to the maintainer",
                   " of the 'sampleSelection' package" )

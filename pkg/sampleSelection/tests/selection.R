@@ -317,7 +317,7 @@ all.equal( residuals( testTobit2Ml, part = "selection", type = "response" ),
 mmsTestTobit2Ml <- model.matrix( testTobit2Ml, part = "selection" )
 print( mmsTestTobit2Ml )
 mmoTestTobit2Ml <- model.matrix( testTobit2Ml, part = "outcome" )
-print( mmsTestTobit2Ml )
+print( mmoTestTobit2Ml )
 mfTestTobit2Ml <- model.frame( testTobit2Ml )
 print( mfTestTobit2Ml )
 logLik( testTobit2Ml )

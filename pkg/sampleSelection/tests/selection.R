@@ -436,13 +436,29 @@ print( summary( testTobit2MlStart ) )
                            # Note: should be only 1 iteration
 all.equal( testTobit2Ml[ -c(2,9,14,15,17)], testTobit2MlStart[ -c(2,9,14,15,17)] )
 
-## Chris Hane: 'fitted' method and a little complex models
-t2Dat <- cbind(t2Dat, xF=rbinom(nrow(t2Dat), 1, 0.5))
-testComplex <- selection(ys~xs + factor(xF), yo ~xo, data = t2Dat, method="ml")
-nobs( testComplex )
-nObs( testComplex )
-f <- fitted(testComplex, "selection")
-logLik( testComplex )
+## Chris Hane: dummy variable (factor) as explanatory variable
+t2Dat$xF <- rbinom( nrow( t2Dat ), 1, 0.5 )
+testTobit2XsFacTwoStep <- selection( ys ~ xs + factor(xF), yo ~ xo,
+   data = t2Dat, method = "2step" )
+print( testTobit2XsFacTwoStep )
+fitted( testTobit2XsFacTwoStep, part = "selection" )
+
+testTobit2XsFacMl <- selection( ys ~ xs + factor(xF), yo ~ xo, data = t2Dat )
+print( testTobit2XsFacMl )
+fitted( testTobit2XsFacMl, part = "selection" )
+logLik( testTobit2XsFacMl )
+lrtest( testTobit2XsFacMl, testTobit2Ml )
+
+testTobit2XoFacTwoStep <- selection( ys ~ xs, yo ~ xo + factor(xF),
+   data = t2Dat, method = "2step" )
+print( testTobit2XoFacTwoStep )
+fitted( testTobit2XoFacTwoStep, part = "selection" )
+
+testTobit2XoFacMl <- selection( ys ~ xs, yo ~ xo + factor(xF), data = t2Dat )
+print( testTobit2XoFacMl )
+fitted( testTobit2XoFacMl, part = "selection" )
+logLik( testTobit2XoFacMl )
+lrtest( testTobit2XoFacMl, testTobit2Ml )
 
 ## data directly in the workspace
 ys <- t2Dat$ys

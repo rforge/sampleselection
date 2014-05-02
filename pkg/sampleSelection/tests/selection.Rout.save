@@ -36345,20 +36345,92 @@ Error in selection(ys ~ xs, yo ~ xo, method = "ml", weights = 4:14, data = t2Dat
 +    method = "2step", data = t2Dat )
 > all.equal( testTobit2FacTwoStep[-1], testTobit2TwoStep[-1] )
 [1] TRUE
+> all.equal( fitted( testTobit2FacTwoStep, part = "selection" ),
++    fitted( testTobit2TwoStep, part = "selection" ) )
+[1] TRUE
+> all.equal(
++    residuals( testTobit2FacTwoStep, part = "selection", type = "deviance" ),
++    residuals( testTobit2TwoStep, part = "selection", type = "deviance" ) )
+[1] TRUE
+> all.equal(
++    residuals( testTobit2FacTwoStep, part = "selection", type = "pearson" ),
++    residuals( testTobit2TwoStep, part = "selection", type = "pearson" ) )
+[1] TRUE
+> all.equal(
++    residuals( testTobit2FacTwoStep, part = "selection", type = "response" ),
++    residuals( testTobit2TwoStep, part = "selection", type = "response" ) )
+[1] TRUE
+> 
 > testTobit2YesTwoStep <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
 +    yo ~ xo, method = "2step", data = t2Dat )
 > all.equal( testTobit2YesTwoStep[-1], testTobit2TwoStep[-1] )
+[1] TRUE
+> all.equal( fitted( testTobit2YesTwoStep, part = "selection" ),
++    fitted( testTobit2TwoStep, part = "selection" ) )
+[1] TRUE
+> all.equal(
++    residuals( testTobit2YesTwoStep, part = "selection", type = "deviance" ),
++    residuals( testTobit2TwoStep, part = "selection", type = "deviance" ) )
+[1] TRUE
+> all.equal(
++    residuals( testTobit2YesTwoStep, part = "selection", type = "pearson" ),
++    residuals( testTobit2TwoStep, part = "selection", type = "pearson" ) )
+[1] TRUE
+> all.equal(
++    residuals( testTobit2YesTwoStep, part = "selection", type = "response" ),
++    residuals( testTobit2TwoStep, part = "selection", type = "response" ) )
 [1] TRUE
 > 
 > testTobit2FacMl <- selection( factor( ys ) ~ xs, yo ~ xo, data = t2Dat )
 > all.equal( testTobit2FacMl[-c(17,18)], testTobit2Ml[-c(17,18)] )
 [1] TRUE
+> all.equal( fitted( testTobit2FacMl, part = "selection" ),
++    fitted( testTobit2Ml, part = "selection" ) )
+[1] TRUE
+> all.equal(
++    residuals( testTobit2FacMl, part = "selection", type = "deviance" ),
++    residuals( testTobit2Ml, part = "selection", type = "deviance" ) )
+[1] "Mean relative difference: 1.52"
+> all.equal(
++    residuals( testTobit2FacMl, part = "selection", type = "pearson" ),
++    residuals( testTobit2Ml, part = "selection", type = "pearson" ) )
+[1] "'is.NA' value mismatch: 0 in current 1483 in target"
+Warning message:
+In Ops.factor(sResponse, fitVal) : - not meaningful for factors
+> all.equal(
++    residuals( testTobit2FacMl, part = "selection", type = "response" ),
++    residuals( testTobit2Ml, part = "selection", type = "response" ) )
+[1] "Modes: logical, numeric"              
+[2] "target is logical, current is numeric"
+Warning message:
+In Ops.factor(sResponse, fitVal) : - not meaningful for factors
+> 
 > testTobit2YesMl <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
 +    yo ~ xo, data = t2Dat )
 > all.equal( testTobit2YesMl[-c(16:18)], testTobit2Ml[-c(16:18)] )
 [1] TRUE
 > all.equal( testTobit2YesMl$param[-9], testTobit2Ml$param[-9] )
 [1] TRUE
+> all.equal( fitted( testTobit2YesMl, part = "selection" ),
++    fitted( testTobit2Ml, part = "selection" ) )
+[1] TRUE
+> all.equal(
++    residuals( testTobit2YesMl, part = "selection", type = "deviance" ),
++    residuals( testTobit2Ml, part = "selection", type = "deviance" ) )
+[1] "Mean relative difference: 1.52"
+> all.equal(
++    residuals( testTobit2YesMl, part = "selection", type = "pearson" ),
++    residuals( testTobit2Ml, part = "selection", type = "pearson" ) )
+[1] "'is.NA' value mismatch: 0 in current 1483 in target"
+Warning message:
+In Ops.factor(sResponse, fitVal) : - not meaningful for factors
+> all.equal(
++    residuals( testTobit2YesMl, part = "selection", type = "response" ),
++    residuals( testTobit2Ml, part = "selection", type = "response" ) )
+[1] "Modes: logical, numeric"              
+[2] "target is logical, current is numeric"
+Warning message:
+In Ops.factor(sResponse, fitVal) : - not meaningful for factors
 > 
 > # return just the model.frame
 > selection( factor( ys ) ~ xs, yo ~ xo, method = "model.frame", data = t2Dat )
@@ -41900,4 +41972,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  9.102   0.691   9.901 
+ 13.212   0.605  13.823 

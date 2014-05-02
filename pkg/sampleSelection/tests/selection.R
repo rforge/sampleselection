@@ -406,16 +406,62 @@ try( selection( ys ~ xs, yo ~ xo, method = "ml", weights = 4:14,
 testTobit2FacTwoStep <- selection( factor( ys ) ~ xs, yo ~ xo,
    method = "2step", data = t2Dat )
 all.equal( testTobit2FacTwoStep[-1], testTobit2TwoStep[-1] )
+all.equal( fitted( testTobit2FacTwoStep, part = "selection" ),
+   fitted( testTobit2TwoStep, part = "selection" ) )
+all.equal(
+   residuals( testTobit2FacTwoStep, part = "selection", type = "deviance" ),
+   residuals( testTobit2TwoStep, part = "selection", type = "deviance" ) )
+all.equal(
+   residuals( testTobit2FacTwoStep, part = "selection", type = "pearson" ),
+   residuals( testTobit2TwoStep, part = "selection", type = "pearson" ) )
+all.equal(
+   residuals( testTobit2FacTwoStep, part = "selection", type = "response" ),
+   residuals( testTobit2TwoStep, part = "selection", type = "response" ) )
+
 testTobit2YesTwoStep <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
    yo ~ xo, method = "2step", data = t2Dat )
 all.equal( testTobit2YesTwoStep[-1], testTobit2TwoStep[-1] )
+all.equal( fitted( testTobit2YesTwoStep, part = "selection" ),
+   fitted( testTobit2TwoStep, part = "selection" ) )
+all.equal(
+   residuals( testTobit2YesTwoStep, part = "selection", type = "deviance" ),
+   residuals( testTobit2TwoStep, part = "selection", type = "deviance" ) )
+all.equal(
+   residuals( testTobit2YesTwoStep, part = "selection", type = "pearson" ),
+   residuals( testTobit2TwoStep, part = "selection", type = "pearson" ) )
+all.equal(
+   residuals( testTobit2YesTwoStep, part = "selection", type = "response" ),
+   residuals( testTobit2TwoStep, part = "selection", type = "response" ) )
 
 testTobit2FacMl <- selection( factor( ys ) ~ xs, yo ~ xo, data = t2Dat )
 all.equal( testTobit2FacMl[-c(17,18)], testTobit2Ml[-c(17,18)] )
+all.equal( fitted( testTobit2FacMl, part = "selection" ),
+   fitted( testTobit2Ml, part = "selection" ) )
+all.equal(
+   residuals( testTobit2FacMl, part = "selection", type = "deviance" ),
+   residuals( testTobit2Ml, part = "selection", type = "deviance" ) )
+all.equal(
+   residuals( testTobit2FacMl, part = "selection", type = "pearson" ),
+   residuals( testTobit2Ml, part = "selection", type = "pearson" ) )
+all.equal(
+   residuals( testTobit2FacMl, part = "selection", type = "response" ),
+   residuals( testTobit2Ml, part = "selection", type = "response" ) )
+
 testTobit2YesMl <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
    yo ~ xo, data = t2Dat )
 all.equal( testTobit2YesMl[-c(16:18)], testTobit2Ml[-c(16:18)] )
 all.equal( testTobit2YesMl$param[-9], testTobit2Ml$param[-9] )
+all.equal( fitted( testTobit2YesMl, part = "selection" ),
+   fitted( testTobit2Ml, part = "selection" ) )
+all.equal(
+   residuals( testTobit2YesMl, part = "selection", type = "deviance" ),
+   residuals( testTobit2Ml, part = "selection", type = "deviance" ) )
+all.equal(
+   residuals( testTobit2YesMl, part = "selection", type = "pearson" ),
+   residuals( testTobit2Ml, part = "selection", type = "pearson" ) )
+all.equal(
+   residuals( testTobit2YesMl, part = "selection", type = "response" ),
+   residuals( testTobit2Ml, part = "selection", type = "response" ) )
 
 # return just the model.frame
 selection( factor( ys ) ~ xs, yo ~ xo, method = "model.frame", data = t2Dat )

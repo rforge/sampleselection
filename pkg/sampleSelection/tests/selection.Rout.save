@@ -1989,7 +1989,8 @@ invMillsRatio2          NA  NA             NA          NA  NA             NA
 > all.equal( residuals( testTobit5TwoStep, part = "selection", type = "response" ),
 +    t5Dat$ys[ t5Samp ] - fitted( testTobit5TwoStep, part = "selection" ) )
 [1] TRUE
-> print( model.matrix( testTobit5TwoStep, part = "outcome" ) )
+> mmoTestTobit5TwoStep <- model.matrix( testTobit5TwoStep, part = "outcome" )
+> print( mmoTestTobit5TwoStep )
 [[1]]
      XO1(Intercept)   XO1xo1 XO1invMillsRatio
 1                NA       NA               NA
@@ -4966,7 +4967,8 @@ attr(,"assign")
 attr(,"assign")
 [1] 1 1 1
 
-> print( model.matrix( testTobit5TwoStep, part = "selection" ) )
+> mmsTestTobit5TwoStep <- model.matrix( testTobit5TwoStep, part = "selection" )
+> print( mmsTestTobit5TwoStep )
      XS(Intercept)     XSxs
 1                1 0.940378
 2                1 0.996766
@@ -6453,7 +6455,8 @@ attr(,"assign")
 1500             1 0.450685
 attr(,"assign")
 [1] 1 1
-> print( model.frame( testTobit5TwoStep ) )
+> mfTestTobit5TwoStep <- model.frame( testTobit5TwoStep )
+> print( mfTestTobit5TwoStep )
      ys (Intercept)       xs      yo1      xo1 invMillsRatio1       yo2     xo2
 1     1           1 0.940378       NA       NA             NA -0.588277 0.26802
 2     1           1 0.996766       NA       NA             NA -0.254995 0.10178
@@ -17186,12 +17189,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > testTobit5MlMm <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
 +    method = "ml", xs = TRUE, xo = TRUE, data = t5Dat )
 > mmsTestTobit5MlMm <- model.matrix( testTobit5MlMm, part = "selection" )
-> attributes( mmsTestTobit5Ml )$assign <- NULL
+> attr( mmsTestTobit5MlMm, "assign" ) <- attr( mmsTestTobit5Ml, "assign" )
 > all.equal( mmsTestTobit5Ml, mmsTestTobit5MlMm )
 [1] TRUE
 > mmoTestTobit5MlMm <- model.matrix( testTobit5MlMm, part = "outcome" )
-> attributes( mmoTestTobit5Ml[[ 1 ]] )$assign <- NULL
-> attributes( mmoTestTobit5Ml[[ 2 ]] )$assign <- NULL
+> attr( mmoTestTobit5MlMm[[ 1 ]], "assign" ) <- attr( mmoTestTobit5Ml[[ 1 ]], "assign" )
+> attr( mmoTestTobit5MlMm[[ 2 ]], "assign" ) <- attr( mmoTestTobit5Ml[[ 2 ]], "assign" )
 > all.equal( mmoTestTobit5Ml, mmoTestTobit5MlMm )
 [1] TRUE
 > # ML with model.frames returned
@@ -23229,6 +23232,43 @@ In selection(ys ~ xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "ml",  :
 > all.equal( testTobit5MlWe[-17], testTobit5Ml[-17] )
 [1] TRUE
 > 
+> ## data directly in the workspace
+> ys <- t5Dat$ys
+> xs <- t5Dat$xs
+> yo1 <- t5Dat$yo1
+> xo1 <- t5Dat$xo1
+> yo2 <- t5Dat$yo2
+> xo2 <- t5Dat$xo2
+> 
+> testTobit5WsTwoStep <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), 
++    method = "2step" )
+> all.equal( testTobit5WsTwoStep[-8], testTobit5TwoStep[-8] )
+[1] TRUE
+> all.equal( model.matrix( testTobit5WsTwoStep ),
++    mmoTestTobit5TwoStep )
+[1] TRUE
+> all.equal( model.matrix( testTobit5WsTwoStep, part = "selection" ),
++    mmsTestTobit5TwoStep )
+[1] TRUE
+> all.equal( model.frame( testTobit5WsTwoStep ),
++    mfTestTobit5TwoStep )
+[1] TRUE
+> 
+> testTobit5WsMl <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
+> all.equal( testTobit5Ml[-17], testTobit5Ml[-17] )
+[1] TRUE
+> all.equal( model.matrix( testTobit5WsMl ),
++    mmoTestTobit5Ml )
+[1] TRUE
+> all.equal( model.matrix( testTobit5WsMl, part = "selection" ),
++    mmsTestTobit5Ml )
+[1] TRUE
+> all.equal( model.frame( testTobit5WsMl ),
++    mfTestTobit5Ml )
+[1] TRUE
+> 
+> rm( ys, xs, yo1, xo1, yo2, xo2 )
+> 
 > 
 > ## ------- Tobit-2 exmple -----------
 > vc <- diag(2)
@@ -25257,7 +25297,8 @@ invMillsRatio    -0.02170 -0.00109       0.04525
 > all.equal( residuals( testTobit2TwoStep, part = "selection", type = "response" ),
 +    t2Dat$ys[ t2Samp ] - fitted( testTobit2TwoStep, part = "selection" ) )
 [1] TRUE
-> print( model.matrix( testTobit2TwoStep, part = "outcome" ) )
+> mmoTestTobit2TwoStep <- model.matrix( testTobit2TwoStep, part = "outcome" )
+> print( mmoTestTobit2TwoStep )
      XO(Intercept)    XOxo imrData$IMR1
 1               NA      NA           NA
 2               NA      NA           NA
@@ -26744,7 +26785,8 @@ invMillsRatio    -0.02170 -0.00109       0.04525
 1500            NA      NA           NA
 attr(,"assign")
 [1] 1 1 2
-> print( model.matrix( testTobit2TwoStep, part = "selection" ) )
+> mmsTestTobit2TwoStep <- model.matrix( testTobit2TwoStep, part = "selection" )
+> print( mmsTestTobit2TwoStep )
      XS(Intercept)     XSxs
 1                1 0.989783
 2                1 0.505087
@@ -28231,7 +28273,8 @@ attr(,"assign")
 1500             1 0.342001
 attr(,"assign")
 [1] 1 1
-> print( model.frame( testTobit2TwoStep ) )
+> mfTestTobit2TwoStep <- model.frame( testTobit2TwoStep )
+> print( mfTestTobit2TwoStep )
      ys (Intercept)       xs        yo      xo invMillsRatio
 1     0           1 0.989783        NA      NA            NA
 2     0           1 0.505087        NA      NA            NA
@@ -36090,11 +36133,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > testTobit2MlMm <- selection( ys ~ xs, yo ~ xo, method = "ml", 
 +    xs = TRUE, xo = TRUE, data = t2Dat )
 > mmsTestTobit2MlMm <- model.matrix( testTobit2MlMm, part = "selection" )
-> attributes( mmsTestTobit2Ml )$assign <- NULL
+> attr( mmsTestTobit2MlMm, "assign" ) <- attr( mmsTestTobit2Ml, "assign" )
 > all.equal( mmsTestTobit2Ml, mmsTestTobit2MlMm )
 [1] TRUE
 > mmoTestTobit2MlMm <- model.matrix( testTobit2MlMm, part = "outcome" )
-> attributes( mmoTestTobit2Ml )$assign <- NULL
+> attr( mmoTestTobit2MlMm, "assign" ) <- attr( mmoTestTobit2Ml, "assign" )
 > all.equal( mmoTestTobit2Ml, mmoTestTobit2MlMm )
 [1] TRUE
 > # ML with model.frames returned
@@ -40826,6 +40869,40 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > logLik( testComplex )
 'log Lik.' -2215 (df=7)
 > 
+> ## data directly in the workspace
+> ys <- t2Dat$ys
+> xs <- t2Dat$xs
+> yo <- t2Dat$yo
+> xo <- t2Dat$xo
+> 
+> testTobit2WsTwoStep <- selection( ys ~ xs, yo ~ xo, method = "2step" )
+> all.equal( testTobit2WsTwoStep[-1], testTobit2TwoStep[-1] )
+[1] TRUE
+> all.equal( model.matrix( testTobit2WsTwoStep ),
++    mmoTestTobit2TwoStep )
+[1] TRUE
+> all.equal( model.matrix( testTobit2WsTwoStep, part = "selection" ),
++    mmsTestTobit2TwoStep )
+[1] TRUE
+> all.equal( model.frame( testTobit2WsTwoStep ),
++    mfTestTobit2TwoStep )
+[1] TRUE
+> 
+> testTobit2WsMl <- selection( ys ~ xs, yo ~ xo )
+> all.equal( testTobit2Ml[-17], testTobit2Ml[-17] )
+[1] TRUE
+> all.equal( model.matrix( testTobit2WsMl ),
++    mmoTestTobit2Ml )
+[1] TRUE
+> all.equal( model.matrix( testTobit2WsMl, part = "selection" ),
++    mmsTestTobit2Ml )
+[1] TRUE
+> all.equal( model.frame( testTobit2WsMl ),
++    mfTestTobit2Ml )
+[1] TRUE
+> 
+> rm( ys, xs, yo, xo )
+> 
 > proc.time()
    user  system elapsed 
-  8.762   0.422   9.410 
+   8.84    0.56    9.46 

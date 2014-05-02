@@ -55,9 +55,12 @@ all.equal( residuals( testTobit5TwoStep$probit, type = "response" ),
 t5Samp <- rownames( t5Dat ) %in% names( residuals( testTobit5TwoStep ) )
 all.equal( residuals( testTobit5TwoStep, part = "selection", type = "response" ),
    t5Dat$ys[ t5Samp ] - fitted( testTobit5TwoStep, part = "selection" ) )
-print( model.matrix( testTobit5TwoStep, part = "outcome" ) )
-print( model.matrix( testTobit5TwoStep, part = "selection" ) )
-print( model.frame( testTobit5TwoStep ) )
+mmoTestTobit5TwoStep <- model.matrix( testTobit5TwoStep, part = "outcome" )
+print( mmoTestTobit5TwoStep )
+mmsTestTobit5TwoStep <- model.matrix( testTobit5TwoStep, part = "selection" )
+print( mmsTestTobit5TwoStep )
+mfTestTobit5TwoStep <- model.frame( testTobit5TwoStep )
+print( mfTestTobit5TwoStep )
 try( logLik( testTobit5TwoStep ) )
 
 testTobit5Ml <- selection(ys~xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "ml",
@@ -116,11 +119,11 @@ lrtest( testTobit5Ml01, testTobit5Ml )
 testTobit5MlMm <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
    method = "ml", xs = TRUE, xo = TRUE, data = t5Dat )
 mmsTestTobit5MlMm <- model.matrix( testTobit5MlMm, part = "selection" )
-attributes( mmsTestTobit5Ml )$assign <- NULL
+attr( mmsTestTobit5MlMm, "assign" ) <- attr( mmsTestTobit5Ml, "assign" )
 all.equal( mmsTestTobit5Ml, mmsTestTobit5MlMm )
 mmoTestTobit5MlMm <- model.matrix( testTobit5MlMm, part = "outcome" )
-attributes( mmoTestTobit5Ml[[ 1 ]] )$assign <- NULL
-attributes( mmoTestTobit5Ml[[ 2 ]] )$assign <- NULL
+attr( mmoTestTobit5MlMm[[ 1 ]], "assign" ) <- attr( mmoTestTobit5Ml[[ 1 ]], "assign" )
+attr( mmoTestTobit5MlMm[[ 2 ]], "assign" ) <- attr( mmoTestTobit5Ml[[ 2 ]], "assign" )
 all.equal( mmoTestTobit5Ml, mmoTestTobit5MlMm )
 # ML with model.frames returned
 testTobit5MlMf <- selection( ys~xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
@@ -196,6 +199,35 @@ testTobit5MlWe <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2),
    method = "ml", weights = rep( 0.5, N ), data = t5Dat )
 all.equal( testTobit5MlWe[-17], testTobit5Ml[-17] )
 
+## data directly in the workspace
+ys <- t5Dat$ys
+xs <- t5Dat$xs
+yo1 <- t5Dat$yo1
+xo1 <- t5Dat$xo1
+yo2 <- t5Dat$yo2
+xo2 <- t5Dat$xo2
+
+testTobit5WsTwoStep <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), 
+   method = "2step" )
+all.equal( testTobit5WsTwoStep[-8], testTobit5TwoStep[-8] )
+all.equal( model.matrix( testTobit5WsTwoStep ),
+   mmoTestTobit5TwoStep )
+all.equal( model.matrix( testTobit5WsTwoStep, part = "selection" ),
+   mmsTestTobit5TwoStep )
+all.equal( model.frame( testTobit5WsTwoStep ),
+   mfTestTobit5TwoStep )
+
+testTobit5WsMl <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ) )
+all.equal( testTobit5Ml[-17], testTobit5Ml[-17] )
+all.equal( model.matrix( testTobit5WsMl ),
+   mmoTestTobit5Ml )
+all.equal( model.matrix( testTobit5WsMl, part = "selection" ),
+   mmsTestTobit5Ml )
+all.equal( model.frame( testTobit5WsMl ),
+   mfTestTobit5Ml )
+
+rm( ys, xs, yo1, xo1, yo2, xo2 )
+
 
 ## ------- Tobit-2 exmple -----------
 vc <- diag(2)
@@ -242,9 +274,12 @@ all.equal( residuals( testTobit2TwoStep$probit, type = "response" ),
 t2Samp <- rownames( t2Dat ) %in% names( residuals( testTobit2TwoStep ) )
 all.equal( residuals( testTobit2TwoStep, part = "selection", type = "response" ),
    t2Dat$ys[ t2Samp ] - fitted( testTobit2TwoStep, part = "selection" ) )
-print( model.matrix( testTobit2TwoStep, part = "outcome" ) )
-print( model.matrix( testTobit2TwoStep, part = "selection" ) )
-print( model.frame( testTobit2TwoStep ) )
+mmoTestTobit2TwoStep <- model.matrix( testTobit2TwoStep, part = "outcome" )
+print( mmoTestTobit2TwoStep )
+mmsTestTobit2TwoStep <- model.matrix( testTobit2TwoStep, part = "selection" )
+print( mmsTestTobit2TwoStep )
+mfTestTobit2TwoStep <- model.frame( testTobit2TwoStep )
+print( mfTestTobit2TwoStep )
 try( logLik( testTobit2TwoStep ) )
 
 testTobit2Ml <- selection( ys ~ xs, yo ~ xo, method = "ml", data = t2Dat )
@@ -296,10 +331,10 @@ lrtest( testTobit2Ml0, testTobit2Ml )
 testTobit2MlMm <- selection( ys ~ xs, yo ~ xo, method = "ml", 
    xs = TRUE, xo = TRUE, data = t2Dat )
 mmsTestTobit2MlMm <- model.matrix( testTobit2MlMm, part = "selection" )
-attributes( mmsTestTobit2Ml )$assign <- NULL
+attr( mmsTestTobit2MlMm, "assign" ) <- attr( mmsTestTobit2Ml, "assign" )
 all.equal( mmsTestTobit2Ml, mmsTestTobit2MlMm )
 mmoTestTobit2MlMm <- model.matrix( testTobit2MlMm, part = "outcome" )
-attributes( mmoTestTobit2Ml )$assign <- NULL
+attr( mmoTestTobit2MlMm, "assign" ) <- attr( mmoTestTobit2Ml, "assign" )
 all.equal( mmoTestTobit2Ml, mmoTestTobit2MlMm )
 # ML with model.frames returned
 testTobit2MlMf <- selection( ys ~ xs, yo ~ xo, method = "ml",
@@ -408,3 +443,29 @@ nobs( testComplex )
 nObs( testComplex )
 f <- fitted(testComplex, "selection")
 logLik( testComplex )
+
+## data directly in the workspace
+ys <- t2Dat$ys
+xs <- t2Dat$xs
+yo <- t2Dat$yo
+xo <- t2Dat$xo
+
+testTobit2WsTwoStep <- selection( ys ~ xs, yo ~ xo, method = "2step" )
+all.equal( testTobit2WsTwoStep[-1], testTobit2TwoStep[-1] )
+all.equal( model.matrix( testTobit2WsTwoStep ),
+   mmoTestTobit2TwoStep )
+all.equal( model.matrix( testTobit2WsTwoStep, part = "selection" ),
+   mmsTestTobit2TwoStep )
+all.equal( model.frame( testTobit2WsTwoStep ),
+   mfTestTobit2TwoStep )
+
+testTobit2WsMl <- selection( ys ~ xs, yo ~ xo )
+all.equal( testTobit2Ml[-17], testTobit2Ml[-17] )
+all.equal( model.matrix( testTobit2WsMl ),
+   mmoTestTobit2Ml )
+all.equal( model.matrix( testTobit2WsMl, part = "selection" ),
+   mmsTestTobit2Ml )
+all.equal( model.frame( testTobit2WsMl ),
+   mfTestTobit2Ml )
+
+rm( ys, xs, yo, xo )

@@ -96,6 +96,18 @@ print( residuals( testTobit5Ml, part = "selection", type = "response" ) )
    residuals( testTobit5Ml, part = "selection", type = "response" ) ) )
 all.equal( residuals( testTobit5Ml, part = "selection", type = "response" ),
    t5Dat$ys[ t5Samp ] - fitted( testTobit5Ml, part = "selection" ) )
+all.equal( residuals( testTobit5TwoStep, part = "selection" ),
+   residuals( testTobit5TwoStep, part = "selection", type = "deviance" ) )
+round( predict( testTobit5Ml, newdata = t5Dat, type = "link" ), 3 )
+all.equal(
+   predict( testTobit5Ml, newdata = t5Dat[ t5Samp, ], type = "link" ),
+   qnorm( fitted( testTobit5Ml, part = "selection" ) ) )
+round( predict( testTobit5Ml, newdata = t5Dat, type = "prob" ), 3 )
+all.equal(
+   predict( testTobit5Ml, newdata = t5Dat[ t5Samp, ], type = "prob" ),
+   fitted( testTobit5Ml, part = "selection" ) )
+try( predict( testTobit5Ml, newdata = t5Dat, type = "uncond" ) )
+try( predict( testTobit5Ml, newdata = t5Dat, type = "cond" ) )
 mmsTestTobit5Ml <- model.matrix( testTobit5Ml, part = "selection" )
 print( mmsTestTobit5Ml )
 mmoTestTobit5Ml <- model.matrix( testTobit5Ml, part = "outcome" )
@@ -274,6 +286,23 @@ all.equal( residuals( testTobit2TwoStep$probit, type = "response" ),
 t2Samp <- rownames( t2Dat ) %in% names( residuals( testTobit2TwoStep ) )
 all.equal( residuals( testTobit2TwoStep, part = "selection", type = "response" ),
    t2Dat$ys[ t2Samp ] - fitted( testTobit2TwoStep, part = "selection" ) )
+try( predict( testTobit2TwoStep, newdata = t2Dat, type = "link" ) )
+# all.equal(
+#    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "link" ),
+#    qnorm( fitted( testTobit2TwoStep, part = "selection" ) ) )
+try( predict( testTobit2TwoStep, newdata = t2Dat, type = "prob" ) )
+# all.equal(
+#    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "prob" ),
+#    fitted( testTobit2TwoStep, part = "selection" ) )
+try( predict( testTobit2TwoStep, newdata = t2Dat, type = "uncond" ) )
+try( predict( testTobit2TwoStep, newdata = t2Dat, type = "cond" ) )
+try( predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "cond" ) )
+try( predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "uncond" ) )
+t2oSamp <- !is.na( t2Dat$yo ) & !is.na( t2Dat$xo ) 
+# all.equal(
+#    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp & t2Dat$ys, ],
+#       type = "uncond" ),
+#    fitted( testTobit2TwoStep, part = "outcome" )[ t2Dat$ys[ t2Samp ] ] )
 mmoTestTobit2TwoStep <- model.matrix( testTobit2TwoStep, part = "outcome" )
 print( mmoTestTobit2TwoStep )
 mmsTestTobit2TwoStep <- model.matrix( testTobit2TwoStep, part = "selection" )
@@ -314,6 +343,20 @@ print( residuals( testTobit2Ml, part = "selection", type = "response" ) )
    residuals( testTobit2Ml, part = "selection", type = "response" ) ) )
 all.equal( residuals( testTobit2Ml, part = "selection", type = "response" ),
    t2Dat$ys[ t2Samp ] - fitted( testTobit2Ml, part = "selection" ) )
+round( predict( testTobit2Ml, newdata = t2Dat, type = "link" ), 3 )
+all.equal(
+   predict( testTobit2Ml, newdata = t2Dat[ t2Samp, ], type = "link" ),
+   qnorm( fitted( testTobit2Ml, part = "selection" ) ) )
+round( predict( testTobit2Ml, newdata = t2Dat, type = "prob" ), 3 )
+all.equal(
+   predict( testTobit2Ml, newdata = t2Dat[ t2Samp, ], type = "prob" ),
+   fitted( testTobit2Ml, part = "selection" ) )
+round( predict( testTobit2Ml, newdata = t2Dat, type = "uncond" ), 3 )
+all.equal( predict( testTobit2Ml,
+   newdata = t2Dat[ t2Samp & t2Dat$ys, ], type = "uncond" ),
+   fitted( testTobit2Ml, part = "outcome" )[ t2Dat$ys[ t2Samp ] ] )
+round( predict( testTobit2Ml, newdata = t2Dat, type = "cond" ), 3 )
+try( predict( testTobit2Ml, newdata = t2Dat[ t2Samp, ], type = "cond" ) )
 mmsTestTobit2Ml <- model.matrix( testTobit2Ml, part = "selection" )
 print( mmsTestTobit2Ml )
 mmoTestTobit2Ml <- model.matrix( testTobit2Ml, part = "outcome" )

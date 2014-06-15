@@ -7,7 +7,7 @@ Author: Arne Henningsen <arne.henningsen@gmail.com>,
 Maintainer: Arne Henningsen <arne.henningsen@gmail.com>
 Depends: R (>= 2.10), maxLik (>= 0.7-3), stats
 Imports: miscTools (>= 0.6-3), systemfit (>= 1.0-0), Formula (>= 1.1-1)
-Suggests: VGAM (>= 0.9-4), mvtnorm (>= 0.9-9994), plm, lmtest
+Suggests: VGAM (>= 0.9-4), mvtnorm (>= 0.9-9994), lmtest
 Description: Estimation of Sample Selection Models
 License: GPL (>= 2)
 URL: http://www.sampleSelection.org

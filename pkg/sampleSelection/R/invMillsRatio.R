@@ -35,13 +35,13 @@ invMillsRatio <- function( x, all = FALSE ) {
       } else {
          vglmLink <- x@misc$link[ "rho" ]
       }
-      if( vglmLink == "identity" ) {
+      if( vglmLink %in% c( "identity", "identitylink" ) ) {
          rho <- x@predictors[ , 3 ]
       } else if( vglmLink == "rhobit" ){
          rho <- rhobit( x@predictors[ , 3 ], inverse = TRUE )
       } else {
          stop( "the bivariate probit (binom2.rho) must be either estimated",
-            " with link 'rhobit' or 'identity'" )
+            " with link 'rhobit' or 'identity'/'identitylink'" )
       }
       if( max( rho ) > 1 ) {
          stop( "the correlation between the error terms (rho) is larger",

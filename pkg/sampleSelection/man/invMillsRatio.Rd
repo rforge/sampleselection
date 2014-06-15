@@ -100,7 +100,7 @@ summary( bProbit )
 
 # bivariate probit (NOT using rhobit transformation)
 bProbit2 <- vglm( cbind( y1, y2 ) ~ x1 + x2, family = binom2.rho(
-   lrho = "identity" ), data = myData )
+   lrho = "identitylink" ), data = myData )
 summary( bProbit2 )
 
 # inverse Mills Ratios

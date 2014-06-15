@@ -50,27 +50,9 @@ Loading required package: stats4
 
 Attaching package: 'VGAM'
 
-The following object is masked from 'package:stats4':
-
-    coef
-
-The following objects are masked from 'package:splines':
-
-    bs, ns
-
 The following object is masked from 'package:sampleSelection':
 
     probit
-
-The following objects are masked from 'package:stats':
-
-    case.names, coef, coefficients, df.residual, dfbeta, fitted,
-    fitted.values, formula, hatvalues, poly, residuals, variable.names,
-    weights
-
-The following objects are masked from 'package:base':
-
-    identity, scale.default
 
 > set.seed( 321 )
 > 
@@ -128,11 +110,11 @@ Number of iterations: 2
 > 
 > # bivariate probit (NOT using rhobit transformation)
 > bProbit2 <- vglm( cbind( y1, y2 ) ~ x1 + x2, family = binom2.rho(
-+    lrho = "identity" ), data = myData )
++    lrho = "identitylink" ), data = myData )
 > summary( bProbit2 )
 
 Call:
-vglm(formula = cbind(y1, y2) ~ x1 + x2, family = binom2.rho(lrho = "identity"), 
+vglm(formula = cbind(y1, y2) ~ x1 + x2, family = binom2.rho(lrho = "identitylink"), 
     data = myData)
 
 Pearson residuals:
@@ -611,4 +593,4 @@ F-statistic:  841 on 2 and 5294 DF,  p-value: <2e-16
 > 
 > proc.time()
    user  system elapsed 
- 10.424   0.069  10.485 
+ 10.984   0.087  11.071 

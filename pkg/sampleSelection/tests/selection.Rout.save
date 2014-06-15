@@ -1989,6 +1989,18 @@ invMillsRatio2          NA  NA             NA          NA  NA             NA
 > all.equal( residuals( testTobit5TwoStep, part = "selection", type = "response" ),
 +    t5Dat$ys[ t5Samp ] - fitted( testTobit5TwoStep, part = "selection" ) )
 [1] TRUE
+> try( predict( testTobit5TwoStep, newdata = t5Dat, type = "link" ) )
+Error in mXSelection %*% vBetaS : 
+  requires numeric/complex matrix/vector arguments
+> try( predict( testTobit5TwoStep, newdata = t5Dat, type = "prob" ) )
+Error in mXSelection %*% vBetaS : 
+  requires numeric/complex matrix/vector arguments
+> try( predict( testTobit5TwoStep, newdata = t5Dat, type = "uncond" ) )
+Error in mXOutcome %*% vBetaO : 
+  requires numeric/complex matrix/vector arguments
+> try( predict( testTobit5TwoStep, newdata = t5Dat, type = "cond" ) )
+Error in mXOutcome %*% vBetaO : 
+  requires numeric/complex matrix/vector arguments
 > mmoTestTobit5TwoStep <- model.matrix( testTobit5TwoStep, part = "outcome" )
 > print( mmoTestTobit5TwoStep )
 [[1]]
@@ -43575,4 +43587,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 13.239   0.612  13.847 
+  9.925   0.455  10.428 

@@ -55,6 +55,10 @@ all.equal( residuals( testTobit5TwoStep$probit, type = "response" ),
 t5Samp <- rownames( t5Dat ) %in% names( residuals( testTobit5TwoStep ) )
 all.equal( residuals( testTobit5TwoStep, part = "selection", type = "response" ),
    t5Dat$ys[ t5Samp ] - fitted( testTobit5TwoStep, part = "selection" ) )
+try( predict( testTobit5TwoStep, newdata = t5Dat, type = "link" ) )
+try( predict( testTobit5TwoStep, newdata = t5Dat, type = "prob" ) )
+try( predict( testTobit5TwoStep, newdata = t5Dat, type = "uncond" ) )
+try( predict( testTobit5TwoStep, newdata = t5Dat, type = "cond" ) )
 mmoTestTobit5TwoStep <- model.matrix( testTobit5TwoStep, part = "outcome" )
 print( mmoTestTobit5TwoStep )
 mmsTestTobit5TwoStep <- model.matrix( testTobit5TwoStep, part = "selection" )

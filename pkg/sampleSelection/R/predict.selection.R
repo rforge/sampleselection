@@ -1,6 +1,9 @@
 # based on the code of "fg nu" posted at
 # http://stackoverflow.com/questions/14005788/predict-function-for-heckman-model
-predict.selection <- function( object, newdata = NULL, type = "uncond", ... ) {
+predict.selection <- function( object, newdata = NULL,
+   part = ifelse( type %in% c( "unconditional", "conditional" ),
+      "outcome", "selection" ),
+   type = "unconditional", ... ) {
 
    if( is.null( newdata ) ) {
       # regressor matrix for the selection equation
@@ -37,17 +40,27 @@ predict.selection <- function( object, newdata = NULL, type = "uncond", ... ) {
    
    # depending on the type of prediction requested, return
    # TODO allow the return of multiple prediction types
-   if( type == "link" ) { 
-      pred <- mXSelection %*% vBetaS
-   } else if( type == "prob" ) {
-      pred <- pnorm( mXSelection %*% vBetaS )
-   } else if( type == "uncond" ) {
-      pred <- mXOutcome %*% vBetaO
-   } else if( type == "cond" ) {
-      pred <- mXOutcome %*% vBetaO +
-         dnorm( temp <- mXSelection %*% vBetaS ) / pnorm( temp ) * dLambda
+   if( part == "selection" ) {
+      if( type == "link" ) { 
+         pred <- mXSelection %*% vBetaS
+      } else if( type == "response" ) {
+         pred <- pnorm( mXSelection %*% vBetaS )
+      } else {
+         stop( "if argument 'part' is equal to 'selection',",
+            " argument 'type' must be either 'link' or 'response'" )
+      }
+   } else if( part == "outcome" ) {
+      if( type == "unconditional" ) {
+         pred <- mXOutcome %*% vBetaO
+      } else if( type == "conditional" ) {
+         pred <- mXOutcome %*% vBetaO +
+            dnorm( temp <- mXSelection %*% vBetaS ) / pnorm( temp ) * dLambda
+      } else {
+         stop( "if argument 'part' is equal to 'outcome',",
+            " argument 'type' must be either 'unconditional' or 'conditional'" )
+      }
    } else {
-      stop( "argument 'type' must be either 'link', 'prob', 'uncond', or 'cond'" )
+      stop( "argument 'part' must be either 'selection' or 'outcome'" )
    }
 
    pred <- drop( pred )

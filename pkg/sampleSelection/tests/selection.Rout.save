@@ -1992,13 +1992,13 @@ invMillsRatio2          NA  NA             NA          NA  NA             NA
 > try( predict( testTobit5TwoStep, newdata = t5Dat, type = "link" ) )
 Error in mXSelection %*% vBetaS : 
   requires numeric/complex matrix/vector arguments
-> try( predict( testTobit5TwoStep, newdata = t5Dat, type = "prob" ) )
+> try( predict( testTobit5TwoStep, newdata = t5Dat, type = "response" ) )
 Error in mXSelection %*% vBetaS : 
   requires numeric/complex matrix/vector arguments
-> try( predict( testTobit5TwoStep, newdata = t5Dat, type = "uncond" ) )
+> try( predict( testTobit5TwoStep, newdata = t5Dat, type = "unconditional" ) )
 Error in mXOutcome %*% vBetaO : 
   requires numeric/complex matrix/vector arguments
-> try( predict( testTobit5TwoStep, newdata = t5Dat, type = "cond" ) )
+> try( predict( testTobit5TwoStep, newdata = t5Dat, type = "conditional" ) )
 Error in mXOutcome %*% vBetaO : 
   requires numeric/complex matrix/vector arguments
 > mmoTestTobit5TwoStep <- model.matrix( testTobit5TwoStep, part = "outcome" )
@@ -11478,7 +11478,7 @@ xo2           -9.34e-06  1.31e-06   -0.004941  1.10e-02
 +    predict( testTobit5Ml, newdata = t5Dat[ t5Samp, ], type = "link" ),
 +    qnorm( fitted( testTobit5Ml, part = "selection" ) ) )
 [1] TRUE
-> round( predict( testTobit5Ml, newdata = t5Dat, type = "prob" ), 3 )
+> round( predict( testTobit5Ml, newdata = t5Dat, type = "response" ), 3 )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.828 0.842 0.589 0.553 0.523 0.769 0.610 0.764 0.503 0.566 0.759 0.771 0.829 
    14    16    17    18    19    20    21    22    23    24    25    26    27 
@@ -11710,12 +11710,12 @@ xo2           -9.34e-06  1.31e-06   -0.004941  1.10e-02
  1488  1489  1490  1491  1492  1493  1494  1495  1496  1497  1498  1499  1500 
 0.840 0.772 0.796 0.792 0.722 0.798 0.732 0.586 0.575 0.604 0.707 0.578 0.673 
 > all.equal(
-+    predict( testTobit5Ml, newdata = t5Dat[ t5Samp, ], type = "prob" ),
++    predict( testTobit5Ml, newdata = t5Dat[ t5Samp, ], type = "response" ),
 +    fitted( testTobit5Ml, part = "selection" ) )
 [1] TRUE
-> try( predict( testTobit5Ml, newdata = t5Dat, type = "uncond" ) )
+> try( predict( testTobit5Ml, newdata = t5Dat, type = "unconditional" ) )
 Error in mXOutcome %*% vBetaO : non-conformable arguments
-> try( predict( testTobit5Ml, newdata = t5Dat, type = "cond" ) )
+> try( predict( testTobit5Ml, newdata = t5Dat, type = "conditional" ) )
 Error in mXOutcome %*% vBetaO : non-conformable arguments
 > mmsTestTobit5Ml <- model.matrix( testTobit5Ml, part = "selection" )
 > print( mmsTestTobit5Ml )
@@ -25834,28 +25834,28 @@ Error in mXSelection %*% vBetaS :
 > # all.equal(
 > #    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "link" ),
 > #    qnorm( fitted( testTobit2TwoStep, part = "selection" ) ) )
-> try( predict( testTobit2TwoStep, newdata = t2Dat, type = "prob" ) )
+> try( predict( testTobit2TwoStep, newdata = t2Dat, type = "response" ) )
 Error in mXSelection %*% vBetaS : 
   requires numeric/complex matrix/vector arguments
 > # all.equal(
-> #    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "prob" ),
+> #    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "response" ),
 > #    fitted( testTobit2TwoStep, part = "selection" ) )
-> try( predict( testTobit2TwoStep, newdata = t2Dat, type = "uncond" ) )
+> try( predict( testTobit2TwoStep, newdata = t2Dat, type = "unconditional" ) )
 Error in mXOutcome %*% vBetaO : 
   requires numeric/complex matrix/vector arguments
-> try( predict( testTobit2TwoStep, newdata = t2Dat, type = "cond" ) )
+> try( predict( testTobit2TwoStep, newdata = t2Dat, type = "conditional" ) )
 Error in mXOutcome %*% vBetaO : 
   requires numeric/complex matrix/vector arguments
-> try( predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "cond" ) )
+> try( predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "conditional" ) )
 Error in mXOutcome %*% vBetaO : 
   requires numeric/complex matrix/vector arguments
-> try( predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "uncond" ) )
+> try( predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "unconditional" ) )
 Error in mXOutcome %*% vBetaO : 
   requires numeric/complex matrix/vector arguments
 > t2oSamp <- !is.na( t2Dat$yo ) & !is.na( t2Dat$xo ) 
 > # all.equal(
 > #    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp & t2Dat$ys, ],
-> #       type = "uncond" ),
+> #       type = "unconditional" ),
 > #    fitted( testTobit2TwoStep, part = "outcome" )[ t2Dat$ys[ t2Samp ] ] )
 > mmoTestTobit2TwoStep <- model.matrix( testTobit2TwoStep, part = "outcome" )
 > print( mmoTestTobit2TwoStep )
@@ -32485,7 +32485,7 @@ xo             -0.00436  0.00889
 +    predict( testTobit2Ml, newdata = t2Dat[ t2Samp, ], type = "link" ),
 +    qnorm( fitted( testTobit2Ml, part = "selection" ) ) )
 [1] TRUE
-> round( predict( testTobit2Ml, newdata = t2Dat, type = "prob" ), 3 )
+> round( predict( testTobit2Ml, newdata = t2Dat, type = "response" ), 3 )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.853 0.703 0.758 0.681 0.764 0.546 0.826 0.850 0.811 0.580 0.523 0.526 0.831 
    14    15    16    17    18    19    20    21    22    23    24    25    26 
@@ -32717,10 +32717,10 @@ xo             -0.00436  0.00889
  1488  1489  1490  1491  1492  1493  1494  1495  1496  1497  1498  1499  1500 
 0.829 0.723 0.547 0.838 0.734 0.556 0.764 0.547 0.527 0.634 0.537 0.499 0.641 
 > all.equal(
-+    predict( testTobit2Ml, newdata = t2Dat[ t2Samp, ], type = "prob" ),
++    predict( testTobit2Ml, newdata = t2Dat[ t2Samp, ], type = "response" ),
 +    fitted( testTobit2Ml, part = "selection" ) )
 [1] TRUE
-> round( predict( testTobit2Ml, newdata = t2Dat, type = "uncond" ), 3 )
+> round( predict( testTobit2Ml, newdata = t2Dat, type = "unconditional" ), 3 )
      1      2      3      4      5      6      7      8      9     10     11 
  0.118  0.640  0.019  0.940  0.427 -0.054  0.349  0.741  0.372 -0.041  0.380 
     12     13     14     15     16     17     18     19     20     21     22 
@@ -32994,10 +32994,10 @@ xo             -0.00436  0.00889
   1491   1492   1493   1494   1495   1496   1497   1498   1499   1500 
  0.942  0.808  0.104  0.605  0.302  0.306 -0.046  0.690  0.531  0.689 
 > all.equal( predict( testTobit2Ml,
-+    newdata = t2Dat[ t2Samp & t2Dat$ys, ], type = "uncond" ),
++    newdata = t2Dat[ t2Samp & t2Dat$ys, ], type = "unconditional" ),
 +    fitted( testTobit2Ml, part = "outcome" )[ t2Dat$ys[ t2Samp ] ] )
 [1] TRUE
-> round( predict( testTobit2Ml, newdata = t2Dat, type = "cond" ), 3 )
+> round( predict( testTobit2Ml, newdata = t2Dat, type = "conditional" ), 3 )
      1      2      3      4      5      6      7      8      9     10     11 
 -0.076  0.287 -0.276  0.564  0.138 -0.576  0.126  0.545  0.133 -0.524 -0.167 
     12     13     14     15     16     17     18     19     20     21     22 
@@ -33270,7 +33270,7 @@ xo             -0.00436  0.00889
  0.415 -0.300 -0.008 -0.062  0.419  0.034  0.066  0.158 -0.272 -0.171 -0.309 
   1491   1492   1493   1494   1495   1496   1497   1498   1499   1500 
  0.732  0.487 -0.407  0.316 -0.218 -0.237 -0.472  0.159 -0.042  0.270 
-> try( predict( testTobit2Ml, newdata = t2Dat[ t2Samp, ], type = "cond" ) )
+> try( predict( testTobit2Ml, newdata = t2Dat[ t2Samp, ], type = "conditional" ) )
 Error in mXOutcome %*% vBetaO + dnorm(temp <- mXSelection %*% vBetaS)/pnorm(temp) *  : 
   non-conformable arrays
 > mmsTestTobit2Ml <- model.matrix( testTobit2Ml, part = "selection" )
@@ -43587,4 +43587,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  9.925   0.455  10.428 
+  9.918   0.434  10.341 

@@ -124,7 +124,8 @@ predict.selection <- function( object, newdata = NULL,
             pred <- NULL
             for( i in 1:2 ) {
                pred <- cbind( pred, mXOutcome[[ i ]] %*% vBetaO[[ i ]] +
-                  dnorm( linPred ) / pnorm( (-1)^i * linPred ) * dLambda[[ i ]] )
+                     (-1)^i * dLambda[[ i ]] * dnorm( linPred ) /
+                        pnorm( (-1)^i * linPred ) )
             }
          }
       } else {

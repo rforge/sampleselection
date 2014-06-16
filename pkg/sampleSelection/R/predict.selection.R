@@ -19,17 +19,26 @@ predict.selection <- function( object, newdata = NULL,
       
    } else {
       # construct the Formula object
-      tempS <- evalq( object$call$selection )
-      tempO <- evalq( object$call$outcome )
+      tempS <- eval( object$call$selection )
+      tempO <- eval( object$call$outcome )
       
-      FormHeck <- as.Formula(
-         paste0( tempO[2], '|', tempS[2], '~', tempO[3], '|', tempS[3] ) )
-      
+      formS <- as.formula( tempS )
+      if( object$tobitType == 2 ) {
+         formO <- as.formula( tempO )
+      } else if( object$tobitType == 5 ) {
+         formO <- as.formula( tempO[[1]] )
+      } else {
+         stop( "internal error: unknown tobitType '", object$tobitType,
+            "' Please contact the maintainer of the sampleSelection package" )
+      }
+
       # regressor matrix for the selection equation
-      mXSelection <- model.matrix( FormHeck, data = newdata, rhs = 2 )
+      mfS <- model.frame( formS, data = newdata, na.action = na.pass )
+      mXSelection <- model.matrix( formS, mfS )
       
       # regressor matrix for the outcome equation
-      mXOutcome <- model.matrix(FormHeck, data = newdata, rhs = 1 )
+      mfO <- model.frame( formO, data = newdata, na.action = na.pass )
+      mXOutcome <- model.matrix( formO, mfO )
    }
 
    # indices of the various parameters in selectionObject$estimate

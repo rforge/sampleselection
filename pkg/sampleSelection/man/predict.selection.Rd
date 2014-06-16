@@ -45,7 +45,12 @@
 }
 
 \value{
-   A numeric vector of the predicted values.
+   In most cases, a numeric vector of the predicted values is returned.
+   However, if the dependent variables of the two outcome equations
+   of a Tobit-5 model should be predicted,
+   a matrix with two columns is returned,
+   where each column corresponds to one of the two dependent variables
+   of the two outcome equations.
 }
 
 \author{

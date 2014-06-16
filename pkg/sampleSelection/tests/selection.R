@@ -56,19 +56,19 @@ t5Samp <- rownames( t5Dat ) %in% names( residuals( testTobit5TwoStep ) )
 all.equal( residuals( testTobit5TwoStep, part = "selection", type = "response" ),
    t5Dat$ys[ t5Samp ] - fitted( testTobit5TwoStep, part = "selection" ) )
 round( predict( testTobit5TwoStep, newdata = t5Dat, type = "link" ), 3 )
-try( predict( testTobit5TwoStep, type = "link" ) )
+round( predict( testTobit5TwoStep, type = "link" ), 3 )
 all.equal(
    predict( testTobit5TwoStep$probit, newdata = t5Dat[ t5Samp, ], type = "link" ),
    predict( testTobit5TwoStep, newdata = t5Dat[ t5Samp, ], type = "link" ) )
 round( predict( testTobit5TwoStep, newdata = t5Dat, type = "response" ), 3 )
-try( predict( testTobit5TwoStep, type = "response" ) )
+round( predict( testTobit5TwoStep, type = "response" ), 3 )
 all.equal(
    predict( testTobit5TwoStep$probit, newdata = t5Dat[ t5Samp, ], type = "response" ),
    predict( testTobit5TwoStep, newdata = t5Dat[ t5Samp, ], type = "response" ) )
-try( predict( testTobit5TwoStep, newdata = t5Dat, type = "unconditional" ) )
-try( predict( testTobit5TwoStep, type = "unconditional" ) )
-try( predict( testTobit5TwoStep, newdata = t5Dat, type = "conditional" ) )
-try( predict( testTobit5TwoStep, type = "conditional" ) )
+round( predict( testTobit5TwoStep, newdata = t5Dat, type = "unconditional" ), 3 )
+round( predict( testTobit5TwoStep, type = "unconditional" ), 3 )
+round( predict( testTobit5TwoStep, newdata = t5Dat, type = "conditional" ), 3 )
+round( predict( testTobit5TwoStep, type = "conditional" ), 3 )
 mmoTestTobit5TwoStep <- model.matrix( testTobit5TwoStep, part = "outcome" )
 print( mmoTestTobit5TwoStep )
 mmsTestTobit5TwoStep <- model.matrix( testTobit5TwoStep, part = "selection" )
@@ -124,10 +124,10 @@ all.equal( predict( testTobit5Ml, type = "response" ),
 all.equal(
    predict( testTobit5Ml, newdata = t5Dat[ t5Samp, ], type = "response" ),
    fitted( testTobit5Ml, part = "selection" ) )
-try( predict( testTobit5Ml, newdata = t5Dat, type = "unconditional" ) )
-try( predict( testTobit5Ml, type = "unconditional" ) )
-try( predict( testTobit5Ml, newdata = t5Dat, type = "conditional" ) )
-try( predict( testTobit5Ml, type = "conditional" ) )
+round( predict( testTobit5Ml, newdata = t5Dat, type = "unconditional" ), 3 )
+round( predict( testTobit5Ml, type = "unconditional" ), 3 )
+round( predict( testTobit5Ml, newdata = t5Dat, type = "conditional" ), 3 )
+round( predict( testTobit5Ml, type = "conditional" ), 3 )
 mmsTestTobit5Ml <- model.matrix( testTobit5Ml, part = "selection" )
 print( mmsTestTobit5Ml )
 mmoTestTobit5Ml <- model.matrix( testTobit5Ml, part = "outcome" )

@@ -114,6 +114,7 @@ predict.selection <- function( object, newdata = NULL,
             for( i in 1:2 ) {
                pred <- cbind( pred, mXOutcome[[ i ]] %*% vBetaO[[ i ]] )
             }
+            colnames( pred ) <- c( "E[yo1]", "E[yo2]" )
          }
       } else if( type == "conditional" ) {
          linPred <- mXSelection %*% vBetaS
@@ -139,6 +140,7 @@ predict.selection <- function( object, newdata = NULL,
                      (-1)^i * dLambda[[ i ]] * dnorm( linPred ) /
                         pnorm( (-1)^i * linPred ) )
             }
+            colnames( pred ) <- c( "E[yo1|ys=0]", "E[yo2|ys=1]" )
          }
       } else {
          stop( "if argument 'part' is equal to 'outcome',",

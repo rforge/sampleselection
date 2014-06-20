@@ -36,7 +36,7 @@ predict.selection <- function( object, newdata = NULL,
       # regressor matrix for the selection equation
       if( part == "selection" || type == "conditional" ) {
          tempS <- eval( object$call$selection )
-         formS <- as.formula( tempS )
+         formS <- as.formula( tempS )[-2]
          mfS <- model.frame( formS, data = newdata, na.action = na.pass )
          mXSelection <- model.matrix( formS, mfS )
       }
@@ -45,13 +45,13 @@ predict.selection <- function( object, newdata = NULL,
       if( part == "outcome" ) {
          tempO <- eval( object$call$outcome )
          if( object$tobitType == 2 ) {
-            formO <- as.formula( tempO )
+            formO <- as.formula( tempO )[-2]
             mfO <- model.frame( formO, data = newdata, na.action = na.pass )
             mXOutcome <- model.matrix( formO, mfO )
          } else if( object$tobitType == 5 ) {
             mXOutcome <- list()
             for( i in 1:2 ) {
-               formO <- as.formula( tempO[[i]] )
+               formO <- as.formula( tempO[[i]] )[-2]
                mfO <- model.frame( formO, data = newdata, na.action = na.pass )
                mXOutcome[[i]] <- model.matrix( formO, mfO )
             }

@@ -2539,6 +2539,11 @@ invMillsRatio2          NA  NA             NA          NA  NA             NA
 +    predict( testTobit5TwoStep$probit, newdata = t5Dat[ t5Samp, ], type = "link" ),
 +    predict( testTobit5TwoStep, newdata = t5Dat[ t5Samp, ], type = "link" ) )
 [1] TRUE
+> all.equal(
++    predict( testTobit5TwoStep, newdata = t5Dat[ , "xs", drop = FALSE ],
++       type = "link" ),
++    predict( testTobit5TwoStep, newdata = t5Dat, type = "link" ) )
+[1] TRUE
 > round( predict( testTobit5TwoStep, newdata = t5Dat, type = "response" ), 3 )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.827 0.841 0.589 0.553 0.523 0.768 0.610 0.764 0.503 0.566 0.758 0.770 0.829 
@@ -3006,6 +3011,11 @@ invMillsRatio2          NA  NA             NA          NA  NA             NA
 > all.equal(
 +    predict( testTobit5TwoStep$probit, newdata = t5Dat[ t5Samp, ], type = "response" ),
 +    predict( testTobit5TwoStep, newdata = t5Dat[ t5Samp, ], type = "response" ) )
+[1] TRUE
+> all.equal(
++    predict( testTobit5TwoStep, newdata = t5Dat[ , "xs", drop = FALSE ],
++       type = "response" ),
++    predict( testTobit5TwoStep, newdata = t5Dat, type = "response" ) )
 [1] TRUE
 > round( predict( testTobit5TwoStep, newdata = t5Dat, type = "unconditional" ), 3 )
      E[yo1] E[yo2]
@@ -4521,6 +4531,11 @@ invMillsRatio2          NA  NA             NA          NA  NA             NA
 +    t5Dat$ys[ t5Samp ], 2 ], 
 +    predict( testTobit5TwoStep, newdata = t5Dat[ t5Samp & t5Dat$ys, ],
 +       type = "unconditional" )[ , 2 ] )
+[1] TRUE
+> all.equal(
++    predict( testTobit5TwoStep, newdata = t5Dat[ , c( "xo1", "xo2" ) ],
++       type = "unconditional" ), 
++    predict( testTobit5TwoStep, newdata = t5Dat, type = "unconditional" ) )
 [1] TRUE
 > round( predict( testTobit5TwoStep, newdata = t5Dat, type = "conditional" ), 3 )
      E[yo1|ys=0] E[yo2|ys=1]
@@ -6040,6 +6055,11 @@ invMillsRatio2          NA  NA             NA          NA  NA             NA
 > all.equal(
 +    rowSums( predict( testTobit5TwoStep, type = "conditional" ), na.rm = TRUE ),
 +    fitted( testTobit5TwoStep ), check.attributes = FALSE )
+[1] TRUE
+> all.equal(
++    predict( testTobit5TwoStep, newdata = t5Dat[ , c( "xs", "xo1", "xo2" ) ],
++       type = "conditional" ), 
++    predict( testTobit5TwoStep, newdata = t5Dat, type = "conditional" ) )
 [1] TRUE
 > mmoTestTobit5TwoStep <- model.matrix( testTobit5TwoStep, part = "outcome" )
 > print( mmoTestTobit5TwoStep )
@@ -15523,6 +15543,11 @@ xo2           -9.34e-06  1.31e-06   -0.004941  1.10e-02
 +    predict( testTobit5Ml, newdata = t5Dat[ t5Samp, ], type = "link" ),
 +    qnorm( fitted( testTobit5Ml, part = "selection" ) ) )
 [1] TRUE
+> all.equal(
++    predict( testTobit5Ml, newdata = t5Dat[ , "xs", drop = FALSE ],
++       type = "link" ),
++    predict( testTobit5Ml, newdata = t5Dat, type = "link" ) )
+[1] TRUE
 > round( predict( testTobit5Ml, newdata = t5Dat, type = "response" ), 3 )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.828 0.842 0.589 0.553 0.523 0.769 0.610 0.764 0.503 0.566 0.759 0.771 0.829 
@@ -15762,6 +15787,11 @@ xo2           -9.34e-06  1.31e-06   -0.004941  1.10e-02
 > all.equal(
 +    predict( testTobit5Ml, newdata = t5Dat[ t5Samp, ], type = "response" ),
 +    fitted( testTobit5Ml, part = "selection" ) )
+[1] TRUE
+> all.equal(
++    predict( testTobit5Ml, newdata = t5Dat[ , "xs", drop = FALSE ],
++       type = "response" ),
++    predict( testTobit5Ml, newdata = t5Dat, type = "response" ) )
 [1] TRUE
 > round( predict( testTobit5Ml, newdata = t5Dat, type = "unconditional" ), 3 )
      E[yo1] E[yo2]
@@ -17282,6 +17312,11 @@ xo2           -9.34e-06  1.31e-06   -0.004941  1.10e-02
 +    rowSums( predict( testTobit5Ml, type = "unconditional" ), na.rm = TRUE ),
 +    fitted( testTobit5Ml ), check.attributes = FALSE )
 [1] TRUE
+> all.equal(
++    predict( testTobit5Ml, newdata = t5Dat[ , c( "xo1", "xo2" ) ],
++       type = "unconditional" ),
++    predict( testTobit5Ml, newdata = t5Dat, type = "unconditional" ) )
+[1] TRUE
 > round( predict( testTobit5Ml, newdata = t5Dat, type = "conditional" ), 3 )
      E[yo1|ys=0] E[yo2|ys=1]
 1         -1.254       0.413
@@ -18796,6 +18831,11 @@ xo2           -9.34e-06  1.31e-06   -0.004941  1.10e-02
 +    t5Dat$ys[ t5Samp ], 2 ], 
 +    predict( testTobit5Ml, newdata = t5Dat[ t5Samp & t5Dat$ys, ],
 +       type = "conditional" )[ , 2 ] )
+[1] TRUE
+> all.equal(
++    predict( testTobit5Ml, newdata = t5Dat[ , c( "xs", "xo1", "xo2" ) ],
++       type = "conditional" ),
++    predict( testTobit5Ml, newdata = t5Dat, type = "conditional" ) )
 [1] TRUE
 > mmsTestTobit5Ml <- model.matrix( testTobit5Ml, part = "selection" )
 > print( mmsTestTobit5Ml )
@@ -33151,6 +33191,11 @@ invMillsRatio    -0.02170 -0.00109       0.04525
 +    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "link" ),
 +    qnorm( fitted( testTobit2TwoStep, part = "selection" ) ) )
 [1] TRUE
+> all.equal(
++    predict( testTobit2TwoStep, newdata = t2Dat[ , "xs", drop = FALSE ],
++       type = "link" ),
++    predict( testTobit2TwoStep, newdata = t2Dat, type = "link" ) )
+[1] TRUE
 > round( predict( testTobit2TwoStep, newdata = t2Dat, type = "response" ), 3 )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.851 0.704 0.757 0.682 0.763 0.549 0.825 0.848 0.810 0.583 0.527 0.531 0.829 
@@ -33394,6 +33439,11 @@ invMillsRatio    -0.02170 -0.00109       0.04525
 +    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp, ], type = "response" ),
 +    fitted( testTobit2TwoStep, part = "selection" ) )
 [1] TRUE
+> all.equal(
++    predict( testTobit2TwoStep, newdata = t2Dat[ , "xs", drop = FALSE ],
++       type = "response" ),
++    predict( testTobit2TwoStep, newdata = t2Dat, type = "response" ) )
+[1] TRUE
 > round( predict( testTobit2TwoStep, newdata = t2Dat, type = "unconditional" ), 3 )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.189 0.713 0.090 1.015 0.500 0.016 0.421 0.815 0.444 0.030 0.452 0.258 0.384 
@@ -33634,6 +33684,11 @@ invMillsRatio    -0.02170 -0.00109       0.04525
 +       t2Dat$ys[ t2Samp ] ], 
 +    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp & t2Dat$ys, ],
 +       type = "unconditional" ) )
+[1] TRUE
+> all.equal(
++    predict( testTobit2TwoStep, newdata = t2Dat[ , "xo", drop = FALSE ],
++       type = "unconditional" ),
++    predict( testTobit2TwoStep, newdata = t2Dat, type = "unconditional" ) )
 [1] TRUE
 > round( predict( testTobit2TwoStep, newdata = t2Dat, type = "conditional" ), 3 )
      1      2      3      4      5      6      7      8      9     10     11 
@@ -33923,6 +33978,11 @@ invMillsRatio    -0.02170 -0.00109       0.04525
 +    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp & t2Dat$ys, ],
 +       type = "conditional" ),
 +    fitted( testTobit2TwoStep, part = "outcome" )[ t2Dat$ys[ t2Samp ] ] )
+[1] TRUE
+> all.equal(
++    predict( testTobit2TwoStep, newdata = t2Dat[ , c( "xs", "xo" ) ],
++       type = "conditional" ),
++    predict( testTobit2TwoStep, newdata = t2Dat, type = "conditional" ) )
 [1] TRUE
 > mmoTestTobit2TwoStep <- model.matrix( testTobit2TwoStep, part = "outcome" )
 > print( mmoTestTobit2TwoStep )
@@ -40557,6 +40617,11 @@ xo             -0.00436  0.00889
 +    predict( testTobit2Ml, newdata = t2Dat[ t2Samp, ], type = "link" ),
 +    qnorm( fitted( testTobit2Ml, part = "selection" ) ) )
 [1] TRUE
+> all.equal(
++    predict( testTobit2Ml, newdata = t2Dat[ , "xs", drop = FALSE ],
++       type = "link" ),
++    predict( testTobit2Ml, newdata = t2Dat, type = "link" ) )
+[1] TRUE
 > round( predict( testTobit2Ml, newdata = t2Dat, type = "response" ), 3 )
     1     2     3     4     5     6     7     8     9    10    11    12    13 
 0.853 0.703 0.758 0.681 0.764 0.546 0.826 0.850 0.811 0.580 0.523 0.526 0.831 
@@ -40796,6 +40861,11 @@ xo             -0.00436  0.00889
 > all.equal(
 +    predict( testTobit2Ml, newdata = t2Dat[ t2Samp, ], type = "response" ),
 +    fitted( testTobit2Ml, part = "selection" ) )
+[1] TRUE
+> all.equal(
++    predict( testTobit2Ml, newdata = t2Dat[ , "xs", drop = FALSE ],
++       type = "response" ),
++    predict( testTobit2Ml, newdata = t2Dat, type = "response" ) )
 [1] TRUE
 > round( predict( testTobit2Ml, newdata = t2Dat, type = "unconditional" ), 3 )
      1      2      3      4      5      6      7      8      9     10     11 
@@ -41084,6 +41154,11 @@ xo             -0.00436  0.00889
 +    newdata = t2Dat[ t2Samp & t2Dat$ys, ], type = "unconditional" ),
 +    fitted( testTobit2Ml, part = "outcome" )[ t2Dat$ys[ t2Samp ] ] )
 [1] TRUE
+> all.equal(
++    predict( testTobit2Ml, newdata = t2Dat[ , "xo", drop = FALSE ],
++       type = "unconditional" ),
++    predict( testTobit2Ml, newdata = t2Dat, type = "unconditional" ) )
+[1] TRUE
 > round( predict( testTobit2Ml, newdata = t2Dat, type = "conditional" ), 3 )
      1      2      3      4      5      6      7      8      9     10     11 
 -0.076  0.287 -0.276  0.564  0.138 -0.576  0.126  0.545  0.133 -0.524 -0.167 
@@ -41366,6 +41441,11 @@ xo             -0.00436  0.00889
 +    t2Dat$ys[ t2Samp ] ], 
 +    predict( testTobit2Ml, newdata = t2Dat[ t2Samp & t2Dat$ys, ],
 +       type = "conditional" ) )
+[1] TRUE
+> all.equal(
++    predict( testTobit2Ml, newdata = t2Dat[ , c( "xs", "xo" ) ],
++       type = "conditional" ),
++    predict( testTobit2Ml, newdata = t2Dat, type = "conditional" ) )
 [1] TRUE
 > mmsTestTobit2Ml <- model.matrix( testTobit2Ml, part = "selection" )
 > print( mmsTestTobit2Ml )
@@ -51681,4 +51761,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 10.988   0.512  11.511 
+ 10.660   0.506  11.158 

@@ -46,11 +46,23 @@
 
 \value{
    In most cases, a numeric vector of the predicted values is returned.
-   However, if the dependent variables of the two outcome equations
-   of a Tobit-5 model should be predicted,
+   However, there are three exceptions:
+   (i) when predicting the unconditional expectations of a Tobit-5 model,
    a matrix with two columns is returned,
-   where each column corresponds to one of the two dependent variables
-   of the two outcome equations.
+   where the two columns correspond to the two outcome equations
+   (E[yo1] and E[yo2]);
+   (ii) when predicting the conditional expectations of a Tobit-2 model,
+   a matrix with two columns is returned,
+   where the first column returns the expectations
+   conditional on the observation being not selected (E[yo|ys=0]),
+   while the second column returns the expectations
+   conditional on the observation being selected (E[yo|ys=1]);
+   (iii) when predicting the conditional expectations of a Tobit-5 model,
+   a matrix with four columns is returned,
+   where the first two columns return the conditional expectations
+   of the first outcome equation (E[yo1|ys=0] and E[yo1|ys=1])
+   and the last two columns return the conditional expectations
+   of the second outcome equation (E[yo2|ys=0] and E[yo2|ys=1]).
 }
 
 \author{

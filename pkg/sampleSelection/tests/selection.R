@@ -90,17 +90,17 @@ all.equal(
    predict( testTobit5TwoStep, newdata = t5Dat, type = "unconditional" ) )
 round( predict( testTobit5TwoStep, newdata = t5Dat, type = "conditional" ), 3 )
 all( is.na( predict( testTobit5TwoStep, type = "conditional" )[
-   cbind( t5Dat$ys, !t5Dat$ys )[ t5Samp, ] ] ) )
+   cbind( t5Dat$ys, t5Dat$ys, !t5Dat$ys, !t5Dat$ys )[ t5Samp, ] ] ) )
 all.equal( predict( testTobit5TwoStep, type = "conditional" )[
    !t5Dat$ys[ t5Samp ], 1 ], 
    predict( testTobit5TwoStep, newdata = t5Dat[ t5Samp & !t5Dat$ys, ],
       type = "conditional" )[ , 1 ] )
 all.equal( predict( testTobit5TwoStep, type = "conditional" )[
-   t5Dat$ys[ t5Samp ], 2 ], 
+   t5Dat$ys[ t5Samp ], 4 ], 
    predict( testTobit5TwoStep, newdata = t5Dat[ t5Samp & t5Dat$ys, ],
-      type = "conditional" )[ , 2 ] )
+      type = "conditional" )[ , 4 ] )
 all.equal(
-   rowSums( predict( testTobit5TwoStep, type = "conditional" ), na.rm = TRUE ),
+   rowSums( predict( testTobit5TwoStep, type = "conditional" )[ , c(1,4)], na.rm = TRUE ),
    fitted( testTobit5TwoStep ), check.attributes = FALSE )
 all.equal(
    predict( testTobit5TwoStep, newdata = t5Dat[ , c( "xs", "xo1", "xo2" ) ],
@@ -189,15 +189,15 @@ all.equal(
    predict( testTobit5Ml, newdata = t5Dat, type = "unconditional" ) )
 round( predict( testTobit5Ml, newdata = t5Dat, type = "conditional" ), 3 )
 all( is.na( predict( testTobit5Ml, type = "conditional" )[
-   cbind( t5Dat$ys, !t5Dat$ys )[ t5Samp, ] ] ) )
+   cbind( t5Dat$ys, t5Dat$ys, !t5Dat$ys, !t5Dat$ys )[ t5Samp, ] ] ) )
 all.equal( predict( testTobit5Ml, type = "conditional" )[
    !t5Dat$ys[ t5Samp ], 1 ], 
    predict( testTobit5Ml, newdata = t5Dat[ t5Samp & !t5Dat$ys, ],
       type = "conditional" )[ , 1 ] )
 all.equal( predict( testTobit5Ml, type = "conditional" )[
-   t5Dat$ys[ t5Samp ], 2 ], 
+   t5Dat$ys[ t5Samp ], 4 ], 
    predict( testTobit5Ml, newdata = t5Dat[ t5Samp & t5Dat$ys, ],
-      type = "conditional" )[ , 2 ] )
+      type = "conditional" )[ , 4 ] )
 all.equal(
    predict( testTobit5Ml, newdata = t5Dat[ , c( "xs", "xo1", "xo2" ) ],
       type = "conditional" ),
@@ -417,15 +417,15 @@ all.equal(
    predict( testTobit2TwoStep, newdata = t2Dat, type = "unconditional" ) )
 round( predict( testTobit2TwoStep, newdata = t2Dat, type = "conditional" ), 3 )
 all( is.na( predict( testTobit2TwoStep, type = "conditional" )[
-   !t2Dat$ys[ t2Samp ] ] ) )
+   !t2Dat$ys[ t2Samp ], ] ) )
 all.equal( predict( testTobit2TwoStep, type = "conditional" )[
-   t2Dat$ys[ t2Samp ] ], 
+   t2Dat$ys[ t2Samp ], ], 
    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp & t2Dat$ys, ],
       type = "conditional" ) )
 t2oSamp <- !is.na( t2Dat$yo ) & !is.na( t2Dat$xo ) 
 all.equal(
    predict( testTobit2TwoStep, newdata = t2Dat[ t2Samp & t2Dat$ys, ],
-      type = "conditional" ),
+      type = "conditional" )[ , 2 ],
    fitted( testTobit2TwoStep, part = "outcome" )[ t2Dat$ys[ t2Samp ] ] )
 all.equal(
    predict( testTobit2TwoStep, newdata = t2Dat[ , c( "xs", "xo" ) ],
@@ -509,7 +509,7 @@ round( predict( testTobit2Ml, newdata = t2Dat, type = "conditional" ), 3 )
 all( is.na( predict( testTobit2Ml, type = "conditional" )[
    !t2Dat$ys[ t2Samp ] ] ) )
 all.equal( predict( testTobit2Ml, type = "conditional" )[
-   t2Dat$ys[ t2Samp ] ], 
+   t2Dat$ys[ t2Samp ], ], 
    predict( testTobit2Ml, newdata = t2Dat[ t2Samp & t2Dat$ys, ],
       type = "conditional" ) )
 all.equal(

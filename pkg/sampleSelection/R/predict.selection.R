@@ -123,8 +123,11 @@ predict.selection <- function( object, newdata = NULL,
                rownames( mXOutcome ) %in% rownames( mXSelection ), ]
             mXSelection <- mXSelection[
                rownames( mXSelection ) %in% rownames( mXOutcome ), ]
-            pred <- mXOutcome %*% vBetaO +
-               dnorm( linPred ) / pnorm( linPred ) * dLambda
+            pred <- cbind( mXOutcome %*% vBetaO -
+                  dLambda * dnorm( linPred ) / pnorm( - linPred ),
+               mXOutcome %*% vBetaO +
+                  dLambda * dnorm( linPred ) / pnorm( linPred ) )
+            colnames( pred ) <- c( "E[yo|ys=0]", "E[yo|ys=1]" )
          } else if( object$tobitType == 5 ) {
             for( i in 1:2 ) {
                mXSelection <- mXSelection[
@@ -136,11 +139,13 @@ predict.selection <- function( object, newdata = NULL,
             }
             pred <- NULL
             for( i in 1:2 ) {
-               pred <- cbind( pred, mXOutcome[[ i ]] %*% vBetaO[[ i ]] +
-                     (-1)^i * dLambda[[ i ]] * dnorm( linPred ) /
-                        pnorm( (-1)^i * linPred ) )
+               pred <- cbind( pred, mXOutcome[[ i ]] %*% vBetaO[[ i ]] -
+                     dLambda[[ i ]] * dnorm( linPred ) / pnorm( - linPred ),
+                  mXOutcome[[ i ]] %*% vBetaO[[ i ]] +
+                     dLambda[[ i ]] * dnorm( linPred ) / pnorm( linPred ) )
             }
-            colnames( pred ) <- c( "E[yo1|ys=0]", "E[yo2|ys=1]" )
+            colnames( pred ) <-
+               c( "E[yo1|ys=0]", "E[yo1|ys=1]", "E[yo2|ys=0]", "E[yo2|ys=1]" )
          }
       } else {
          stop( "if argument 'part' is equal to 'outcome',",

@@ -5,7 +5,7 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
-   CHANGES IN VERSION 0.8-0 (2014-00-00)
+   CHANGES IN VERSION 1.0-0 (2014-06-24)
 
 * bug fix: selection() did not pass some arguments to other functions, e.g.
 argument "inst" was ignored so that the second step of heckit-2 models was

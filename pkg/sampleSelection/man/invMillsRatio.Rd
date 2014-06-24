@@ -76,7 +76,7 @@ all.equal( invMillsRatio( myProbit )$IMR1, invMillsRatio( myProbit2 )$IMR0 )
 library( "mvtnorm" )
 library( "VGAM" )
 
-nObs <- 10000
+nObs <- 1000
 
 # error terms (trivariate normal)
 sigma <- symMatrix( c( 2, 0.7, 1.2, 1, 0.5, 1 ) )

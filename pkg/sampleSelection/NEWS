@@ -5,6 +5,11 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+   CHANGES IN VERSION 1.0-2 (2014-06-24)
+
+* changed/simplified a few examples in order to reduce their execution time
+
+
    CHANGES IN VERSION 1.0-0 (2014-06-24)
 
 * bug fix: selection() did not pass some arguments to other functions, e.g.

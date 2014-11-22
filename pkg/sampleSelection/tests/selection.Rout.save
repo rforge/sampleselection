@@ -36186,7 +36186,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [1] 1482
 > nObs( testTobit5SMl )
 [1] 1482
-> try( fitted( testTobit5SMl, part = "outcome" ) )
+> fitted( testTobit5SMl, part = "outcome" )
    [1]  0.428709  0.456082  0.455683  0.467378  0.558923  0.457438  0.436535
    [8]  0.428782  0.466786  0.755983  0.442115  0.940105  0.432391  0.454614
   [15]  0.468453  0.431046  0.200476  0.453677  0.337941  0.430350  0.894509
@@ -36399,7 +36399,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [1464]  0.366624  0.282770  0.430784  0.440056  0.461740  0.379679  0.243224
 [1471]  0.454303  0.469241  0.430386  0.425772  0.341447  0.464866  0.456917
 [1478]  0.431474  0.402032  0.448915  0.452754  0.308315
-> try( residuals( testTobit5SMl, part = "outcome" ) )
+> residuals( testTobit5SMl, part = "outcome" )
         1         2         3         4         5         6         7         8 
 -1.016986 -0.711077  0.525364  1.066947 -1.762209  1.119290  1.245719 -1.147355 
         9        10        11        12        13        14        16        17 
@@ -36772,8 +36772,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 -0.694453 -0.351838 -0.718172  1.543615  0.680729  0.332709 -0.673728  1.284609 
      1499      1500 
  1.105626 -1.035526 
-> try( all.equal( residuals( testTobit5SMl ),
-+    residuals( testTobit5SMl, part = "outcome" ) ) )
+> all.equal( residuals( testTobit5SMl ),
++    residuals( testTobit5SMl, part = "outcome" ) )
 [1] TRUE
 > round( predict( testTobit5SMl, newdata = t5Dat, type = "unconditional" ), 3 )
      E[yo1] E[yo2]
@@ -38277,22 +38277,22 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 1498  0.489  0.449
 1499  0.571  0.453
 1500  0.308  0.441
-> try( all( is.na( predict( testTobit5SMl, type = "unconditional" )[
-+    cbind( t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) ) )
+> all( is.na( predict( testTobit5SMl, type = "unconditional" )[
++    cbind( t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) )
 [1] TRUE
-> try( all.equal( predict( testTobit5SMl, type = "unconditional" )[
+> all.equal( predict( testTobit5SMl, type = "unconditional" )[
 +    !t5Dat$ys[ t5SSamp ], 1 ], 
 +    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & !t5Dat$ys, ],
-+       type = "unconditional" )[ , 1 ] ) )
++       type = "unconditional" )[ , 1 ] )
 [1] TRUE
-> try( all.equal( predict( testTobit5SMl, type = "unconditional" )[
+> all.equal( predict( testTobit5SMl, type = "unconditional" )[
 +    t5Dat$ys[ t5SSamp ], 2 ], 
 +    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & t5Dat$ys, ],
-+       type = "unconditional" )[ , 2 ] ) )
++       type = "unconditional" )[ , 2 ] )
 [1] TRUE
-> try( all.equal(
+> all.equal(
 +    rowSums( predict( testTobit5SMl, type = "unconditional" ), na.rm = TRUE ),
-+    fitted( testTobit5SMl ), check.attributes = FALSE ) )
++    fitted( testTobit5SMl ), check.attributes = FALSE )
 [1] TRUE
 > all.equal(
 +    predict( testTobit5SMl, newdata = t5Dat[ , c( "xo1", "xo2" ) ],
@@ -39801,18 +39801,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 1498      -0.548       0.918      -0.242       0.735
 1499      -0.247       1.169      -0.093       0.851
 1500      -0.665       0.782      -0.208       0.756
-> try( all( is.na( predict( testTobit5SMl, type = "conditional" )[
-+    cbind( t5Dat$ys, t5Dat$ys, !t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) ) )
+> all( is.na( predict( testTobit5SMl, type = "conditional" )[
++    cbind( t5Dat$ys, t5Dat$ys, !t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) )
 [1] TRUE
-> try( all.equal( predict( testTobit5SMl, type = "conditional" )[
+> all.equal( predict( testTobit5SMl, type = "conditional" )[
 +    !t5Dat$ys[ t5SSamp ], 1 ], 
 +    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & !t5Dat$ys, ],
-+       type = "conditional" )[ , 1 ] ) )
++       type = "conditional" )[ , 1 ] )
 [1] TRUE
-> try( all.equal( predict( testTobit5SMl, type = "conditional" )[
+> all.equal( predict( testTobit5SMl, type = "conditional" )[
 +    t5Dat$ys[ t5SSamp ], 4 ], 
 +    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & t5Dat$ys, ],
-+       type = "conditional" )[ , 4 ] ) )
++       type = "conditional" )[ , 4 ] )
 [1] TRUE
 > all.equal(
 +    predict( testTobit5SMl, newdata = t5Dat[ , c( "xs", "xo1", "xo2" ) ],
@@ -41306,8 +41306,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 1500           1 0.450685
 attr(,"assign")
 [1] 0 1
-> try( mmoTestTobit5SMl <- model.matrix( testTobit5SMl, part = "outcome" ) )
-> try( print( mmoTestTobit5SMl ) )
+> mmoTestTobit5SMl <- model.matrix( testTobit5SMl, part = "outcome" )
+> print( mmoTestTobit5SMl )
 [[1]]
      (Intercept)      xo1
 1             NA       NA
@@ -75125,4 +75125,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 12.851   0.654  13.508 
+ 13.288   0.681  13.976 

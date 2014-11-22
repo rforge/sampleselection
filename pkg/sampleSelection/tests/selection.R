@@ -303,47 +303,47 @@ print( testTobit5SMl )
 print( summary( testTobit5SMl ) )
 nobs( testTobit5SMl )
 nObs( testTobit5SMl )
-try( fitted( testTobit5SMl, part = "outcome" ) )
-try( residuals( testTobit5SMl, part = "outcome" ) )
-try( all.equal( residuals( testTobit5SMl ),
-   residuals( testTobit5SMl, part = "outcome" ) ) )
+fitted( testTobit5SMl, part = "outcome" )
+residuals( testTobit5SMl, part = "outcome" )
+all.equal( residuals( testTobit5SMl ),
+   residuals( testTobit5SMl, part = "outcome" ) )
 round( predict( testTobit5SMl, newdata = t5Dat, type = "unconditional" ), 3 )
-try( all( is.na( predict( testTobit5SMl, type = "unconditional" )[
-   cbind( t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) ) )
-try( all.equal( predict( testTobit5SMl, type = "unconditional" )[
+all( is.na( predict( testTobit5SMl, type = "unconditional" )[
+   cbind( t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) )
+all.equal( predict( testTobit5SMl, type = "unconditional" )[
    !t5Dat$ys[ t5SSamp ], 1 ], 
    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & !t5Dat$ys, ],
-      type = "unconditional" )[ , 1 ] ) )
-try( all.equal( predict( testTobit5SMl, type = "unconditional" )[
+      type = "unconditional" )[ , 1 ] )
+all.equal( predict( testTobit5SMl, type = "unconditional" )[
    t5Dat$ys[ t5SSamp ], 2 ], 
    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & t5Dat$ys, ],
-      type = "unconditional" )[ , 2 ] ) )
-try( all.equal(
+      type = "unconditional" )[ , 2 ] )
+all.equal(
    rowSums( predict( testTobit5SMl, type = "unconditional" ), na.rm = TRUE ),
-   fitted( testTobit5SMl ), check.attributes = FALSE ) )
+   fitted( testTobit5SMl ), check.attributes = FALSE )
 all.equal(
    predict( testTobit5SMl, newdata = t5Dat[ , c( "xo1", "xo2" ) ],
       type = "unconditional" ),
    predict( testTobit5SMl, newdata = t5Dat, type = "unconditional" ) )
 round( predict( testTobit5SMl, newdata = t5Dat, type = "conditional" ), 3 )
-try( all( is.na( predict( testTobit5SMl, type = "conditional" )[
-   cbind( t5Dat$ys, t5Dat$ys, !t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) ) )
-try( all.equal( predict( testTobit5SMl, type = "conditional" )[
+all( is.na( predict( testTobit5SMl, type = "conditional" )[
+   cbind( t5Dat$ys, t5Dat$ys, !t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) )
+all.equal( predict( testTobit5SMl, type = "conditional" )[
    !t5Dat$ys[ t5SSamp ], 1 ], 
    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & !t5Dat$ys, ],
-      type = "conditional" )[ , 1 ] ) )
-try( all.equal( predict( testTobit5SMl, type = "conditional" )[
+      type = "conditional" )[ , 1 ] )
+all.equal( predict( testTobit5SMl, type = "conditional" )[
    t5Dat$ys[ t5SSamp ], 4 ], 
    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & t5Dat$ys, ],
-      type = "conditional" )[ , 4 ] ) )
+      type = "conditional" )[ , 4 ] )
 all.equal(
    predict( testTobit5SMl, newdata = t5Dat[ , c( "xs", "xo1", "xo2" ) ],
       type = "conditional" ),
    predict( testTobit5SMl, newdata = t5Dat, type = "conditional" ) )
 mmsTestTobit5SMl <- model.matrix( testTobit5SMl, part = "selection" )
 print( mmsTestTobit5SMl )
-try( mmoTestTobit5SMl <- model.matrix( testTobit5SMl, part = "outcome" ) )
-try( print( mmoTestTobit5SMl ) )
+mmoTestTobit5SMl <- model.matrix( testTobit5SMl, part = "outcome" )
+print( mmoTestTobit5SMl )
 mfTestTobit5SMl <- model.frame( testTobit5SMl )
 print( mfTestTobit5SMl )
 logLik( testTobit5SMl )

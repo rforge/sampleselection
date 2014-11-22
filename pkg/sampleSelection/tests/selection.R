@@ -241,6 +241,58 @@ all.equal( mfTestTobit5Ml, mfTestTobit5MlMf )
 all.equal( selection( ys~xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
    method = "model.frame", data = t5Dat ), mfTestTobit5MlMf )
 
+# the same dependent variables in both of the outcome equations
+testTobit5SMl <- selection( ys~xs, list(yo1 ~ xo1, yo2 ~ xo1 ), method = "ml",
+   data = t5Dat )
+print( testTobit5SMl )
+print( summary( testTobit5SMl ) )
+nobs( testTobit5SMl )
+nObs( testTobit5SMl )
+try( fitted( testTobit5SMl, part = "outcome" ) )
+try( residuals( testTobit5SMl, part = "outcome" ) )
+try( all.equal( residuals( testTobit5SMl ),
+   residuals( testTobit5SMl, part = "outcome" ) ) )
+round( predict( testTobit5SMl, newdata = t5Dat, type = "unconditional" ), 3 )
+try( all( is.na( predict( testTobit5SMl, type = "unconditional" )[
+   cbind( t5Dat$ys, !t5Dat$ys )[ t5Samp, ] ] ) ) )
+try( all.equal( predict( testTobit5SMl, type = "unconditional" )[
+   !t5Dat$ys[ t5Samp ], 1 ], 
+   predict( testTobit5SMl, newdata = t5Dat[ t5Samp & !t5Dat$ys, ],
+      type = "unconditional" )[ , 1 ] ) )
+try( all.equal( predict( testTobit5SMl, type = "unconditional" )[
+   t5Dat$ys[ t5Samp ], 2 ], 
+   predict( testTobit5SMl, newdata = t5Dat[ t5Samp & t5Dat$ys, ],
+      type = "unconditional" )[ , 2 ] ) )
+try( all.equal(
+   rowSums( predict( testTobit5SMl, type = "unconditional" ), na.rm = TRUE ),
+   fitted( testTobit5SMl ), check.attributes = FALSE ) )
+all.equal(
+   predict( testTobit5SMl, newdata = t5Dat[ , c( "xo1", "xo2" ) ],
+      type = "unconditional" ),
+   predict( testTobit5SMl, newdata = t5Dat, type = "unconditional" ) )
+round( predict( testTobit5SMl, newdata = t5Dat, type = "conditional" ), 3 )
+try( all( is.na( predict( testTobit5SMl, type = "conditional" )[
+   cbind( t5Dat$ys, t5Dat$ys, !t5Dat$ys, !t5Dat$ys )[ t5Samp, ] ] ) ) )
+try( all.equal( predict( testTobit5SMl, type = "conditional" )[
+   !t5Dat$ys[ t5Samp ], 1 ], 
+   predict( testTobit5SMl, newdata = t5Dat[ t5Samp & !t5Dat$ys, ],
+      type = "conditional" )[ , 1 ] ) )
+try( all.equal( predict( testTobit5SMl, type = "conditional" )[
+   t5Dat$ys[ t5Samp ], 4 ], 
+   predict( testTobit5SMl, newdata = t5Dat[ t5Samp & t5Dat$ys, ],
+      type = "conditional" )[ , 4 ] ) )
+all.equal(
+   predict( testTobit5SMl, newdata = t5Dat[ , c( "xs", "xo1", "xo2" ) ],
+      type = "conditional" ),
+   predict( testTobit5SMl, newdata = t5Dat, type = "conditional" ) )
+mmsTestTobit5SMl <- model.matrix( testTobit5SMl, part = "selection" )
+print( mmsTestTobit5SMl )
+try( mmoTestTobit5SMl <- model.matrix( testTobit5SMl, part = "outcome" ) )
+try( print( mmoTestTobit5SMl ) )
+mfTestTobit5SMl <- model.frame( testTobit5SMl )
+print( mfTestTobit5SMl )
+logLik( testTobit5SMl )
+
 # factors as dependent variable (from Achim Zeileis)
 testTobit5FacTwoStep <- selection( factor( ys ) ~ xs,
    list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step", data = t5Dat )

@@ -37699,18 +37699,18 @@ Error in oResponse[sResponse == 1] <- o2Response[sResponse == 1] :
 1499  0.571  0.453
 1500  0.308  0.441
 > try( all( is.na( predict( testTobit5SMl, type = "unconditional" )[
-+    cbind( t5Dat$ys, !t5Dat$ys )[ t5Samp, ] ] ) ) )
++    cbind( t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) ) )
 Error in model.matrix.default(object$termsO2, mf) : 
   model frame and formula mismatch in model.matrix()
 > try( all.equal( predict( testTobit5SMl, type = "unconditional" )[
-+    !t5Dat$ys[ t5Samp ], 1 ], 
-+    predict( testTobit5SMl, newdata = t5Dat[ t5Samp & !t5Dat$ys, ],
++    !t5Dat$ys[ t5SSamp ], 1 ], 
++    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & !t5Dat$ys, ],
 +       type = "unconditional" )[ , 1 ] ) )
 Error in model.matrix.default(object$termsO2, mf) : 
   model frame and formula mismatch in model.matrix()
 > try( all.equal( predict( testTobit5SMl, type = "unconditional" )[
-+    t5Dat$ys[ t5Samp ], 2 ], 
-+    predict( testTobit5SMl, newdata = t5Dat[ t5Samp & t5Dat$ys, ],
++    t5Dat$ys[ t5SSamp ], 2 ], 
++    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & t5Dat$ys, ],
 +       type = "unconditional" )[ , 2 ] ) )
 Error in model.matrix.default(object$termsO2, mf) : 
   model frame and formula mismatch in model.matrix()
@@ -39227,18 +39227,18 @@ Error in model.matrix.default(object$termsO2, mf) :
 1499      -0.247       1.169      -0.093       0.851
 1500      -0.665       0.782      -0.208       0.756
 > try( all( is.na( predict( testTobit5SMl, type = "conditional" )[
-+    cbind( t5Dat$ys, t5Dat$ys, !t5Dat$ys, !t5Dat$ys )[ t5Samp, ] ] ) ) )
++    cbind( t5Dat$ys, t5Dat$ys, !t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) ) )
 Error in model.matrix.default(object$termsO2, mf) : 
   model frame and formula mismatch in model.matrix()
 > try( all.equal( predict( testTobit5SMl, type = "conditional" )[
-+    !t5Dat$ys[ t5Samp ], 1 ], 
-+    predict( testTobit5SMl, newdata = t5Dat[ t5Samp & !t5Dat$ys, ],
++    !t5Dat$ys[ t5SSamp ], 1 ], 
++    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & !t5Dat$ys, ],
 +       type = "conditional" )[ , 1 ] ) )
 Error in model.matrix.default(object$termsO2, mf) : 
   model frame and formula mismatch in model.matrix()
 > try( all.equal( predict( testTobit5SMl, type = "conditional" )[
-+    t5Dat$ys[ t5Samp ], 4 ], 
-+    predict( testTobit5SMl, newdata = t5Dat[ t5Samp & t5Dat$ys, ],
++    t5Dat$ys[ t5SSamp ], 4 ], 
++    predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & t5Dat$ys, ],
 +       type = "conditional" )[ , 4 ] ) )
 Error in model.matrix.default(object$termsO2, mf) : 
   model frame and formula mismatch in model.matrix()
@@ -71582,4 +71582,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 12.733   0.666  13.406 
+  12.77    0.69   13.47 

@@ -309,14 +309,14 @@ try( all.equal( residuals( testTobit5SMl ),
    residuals( testTobit5SMl, part = "outcome" ) ) )
 round( predict( testTobit5SMl, newdata = t5Dat, type = "unconditional" ), 3 )
 try( all( is.na( predict( testTobit5SMl, type = "unconditional" )[
-   cbind( t5Dat$ys, !t5Dat$ys )[ t5Samp, ] ] ) ) )
+   cbind( t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) ) )
 try( all.equal( predict( testTobit5SMl, type = "unconditional" )[
-   !t5Dat$ys[ t5Samp ], 1 ], 
-   predict( testTobit5SMl, newdata = t5Dat[ t5Samp & !t5Dat$ys, ],
+   !t5Dat$ys[ t5SSamp ], 1 ], 
+   predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & !t5Dat$ys, ],
       type = "unconditional" )[ , 1 ] ) )
 try( all.equal( predict( testTobit5SMl, type = "unconditional" )[
-   t5Dat$ys[ t5Samp ], 2 ], 
-   predict( testTobit5SMl, newdata = t5Dat[ t5Samp & t5Dat$ys, ],
+   t5Dat$ys[ t5SSamp ], 2 ], 
+   predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & t5Dat$ys, ],
       type = "unconditional" )[ , 2 ] ) )
 try( all.equal(
    rowSums( predict( testTobit5SMl, type = "unconditional" ), na.rm = TRUE ),
@@ -327,14 +327,14 @@ all.equal(
    predict( testTobit5SMl, newdata = t5Dat, type = "unconditional" ) )
 round( predict( testTobit5SMl, newdata = t5Dat, type = "conditional" ), 3 )
 try( all( is.na( predict( testTobit5SMl, type = "conditional" )[
-   cbind( t5Dat$ys, t5Dat$ys, !t5Dat$ys, !t5Dat$ys )[ t5Samp, ] ] ) ) )
+   cbind( t5Dat$ys, t5Dat$ys, !t5Dat$ys, !t5Dat$ys )[ t5SSamp, ] ] ) ) )
 try( all.equal( predict( testTobit5SMl, type = "conditional" )[
-   !t5Dat$ys[ t5Samp ], 1 ], 
-   predict( testTobit5SMl, newdata = t5Dat[ t5Samp & !t5Dat$ys, ],
+   !t5Dat$ys[ t5SSamp ], 1 ], 
+   predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & !t5Dat$ys, ],
       type = "conditional" )[ , 1 ] ) )
 try( all.equal( predict( testTobit5SMl, type = "conditional" )[
-   t5Dat$ys[ t5Samp ], 4 ], 
-   predict( testTobit5SMl, newdata = t5Dat[ t5Samp & t5Dat$ys, ],
+   t5Dat$ys[ t5SSamp ], 4 ], 
+   predict( testTobit5SMl, newdata = t5Dat[ t5SSamp & t5Dat$ys, ],
       type = "conditional" )[ , 4 ] ) )
 all.equal(
    predict( testTobit5SMl, newdata = t5Dat[ , c( "xs", "xo1", "xo2" ) ],

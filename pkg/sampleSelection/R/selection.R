@@ -290,8 +290,8 @@ selection <- function(selection, outcome,
       badRow <- badRow | (apply(XO2, 1, function(v) any(is.na(v))) & (!is.na(YS) & YS == 1))
       if( method == "model.frame" ) {
          mf <- mfS
-         mf <- cbind( mf, mf1[ , ! names( mf1 ) %in% names( mf ) ] )
-         mf <- cbind( mf, mf2[ , ! names( mf2 ) %in% names( mf ) ] )
+         mf <- cbind( mf, mf1[ , ! names( mf1 ) %in% names( mf ), drop = FALSE ] )
+         mf <- cbind( mf, mf2[ , ! names( mf2 ) %in% names( mf ), drop = FALSE ] )
          return( mf[ !badRow, ] )
       }
       ## indices in for the parameter vector.  These are returned in order to provide the user a way

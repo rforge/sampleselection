@@ -1,6 +1,5 @@
 summary.intReg <- function(object, ...) {
    estimate <- coefTable(coef(object), stdEr(object), object$param$df)
-   library(maxLik)
    s <- maxLik:::summary.maxLik(object)
    s$estimate <- estimate
    s$param <- object$param

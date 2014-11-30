@@ -1,6 +1,8 @@
 export("intReg")
 
+import("maxLik")
 importFrom( "miscTools", "nObs" )
+importFrom( "miscTools", "nParam" )
 
 S3method( "coef", "intReg" )
 S3method( "model.frame", "intReg" )

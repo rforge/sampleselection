@@ -112,9 +112,7 @@ intReg <- function(formula, start, boundaries,
        upperBound <- y[,2]
        ## in case of interval regression, we have to construct a set of intervals and pack them correctly to the
        ## parameter vector
-       library(sets)
-                                        # we use sets here (sorry, need R >= 2.7)
-       intervals <- set()
+       intervals <- sets::set()
        for(i in 1:length(lowerBound)) {
           intervals <- intervals | c(lowerBound[i], upperBound[i])
        }
@@ -260,7 +258,6 @@ intReg <- function(formula, start, boundaries,
        activePar[iBoundaries] <- FALSE
        activePar[iStd] <- TRUE
     }
-    library(maxLik)
 ##     compareDerivatives(loglik, gradlik, t0=start)
 ##     stop()
     estimation <- maxLik(loglik, gradlik, start=start,

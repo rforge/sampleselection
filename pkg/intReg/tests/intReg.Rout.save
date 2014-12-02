@@ -1,7 +1,6 @@
 
-R version 2.15.0 (2012-03-30)
-Copyright (C) 2012 The R Foundation for Statistical Computing
-ISBN 3-900051-07-0
+R version 3.1.1 (2014-07-10) -- "Sock it to Me"
+Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -23,10 +22,23 @@ Type 'q()' to quit R.
 > set.seed(1)
 > options(digits=5)
 > library(intReg)
-Loading required package: maxLik
 Loading required package: miscTools
-Loading required package: sets
+Loading required package: maxLik
+
+Please cite the 'maxLik' package as:
+Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.
+
+If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
+https://r-forge.r-project.org/projects/maxlik/
 > library(Ecdat)
+Loading required package: Ecfun
+
+Attaching package: 'Ecdat'
+
+The following object is masked from 'package:datasets':
+
+    Orange
+
 > data(Kakadu)
 > ## Estimate in log form, change 999 to Inf
 > lb <- log(Kakadu$lower)
@@ -70,7 +82,7 @@ tvenv       -0.08446    0.07584   -1.11    0.266
 majoryes     0.46565    0.19908    2.34    0.019 *  
 sigma        1.81019    0.09277   19.51  < 2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## test model.matrix
@@ -143,7 +155,7 @@ poly(exper, 2)1  6.44361    0.34915   18.46  < 2e-16 ***
 poly(exper, 2)2 -2.11563    0.30115   -7.03  3.3e-12 ***
 sigma            0.15630    0.00445   35.12  < 2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## Test model.frame
@@ -214,9 +226,9 @@ Log-Likelihood: -181.66
 c           -7.04e-05   3.45e-04   -0.20   0.8387    
 sigma        1.57e-03   1.11e-04   14.07   <2e-16 ***
 ---
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > proc.time()
    user  system elapsed 
-  3.264   0.028   3.371 
+  4.664   0.028   4.691 

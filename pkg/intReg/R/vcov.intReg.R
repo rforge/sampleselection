@@ -1,8 +1,8 @@
 vcov.intReg <- function( object, boundaries=FALSE, ... ) {
    ## vcov method.  By default, ignore the fixed boundaries.
-   vc <- maxLik:::vcov.maxLik(object)
+   vc <- NextMethod("vcov", object, ...)
    if(!boundaries) {
-      i <- rep(TRUE, maxLik:::nParam.maxim(object))
+      i <- rep(TRUE, nParam(object))
       i[object$param$index$boundary] <- FALSE
       vc <- vc[i,i]
    }

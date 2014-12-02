@@ -1,6 +1,6 @@
 coef.intReg <- function( object, boundaries=FALSE, ... ) {
    ## coef method.  By default, ignore the fixed boundaries.
-   coefValues <- maxLik:::coef.maxLik(object)
+   coefValues <- NextMethod("coef", object)
    if(is.null(coefValues))
                            # may be NULL in case of certain errors
                            # (or somebody hacking the variables)

@@ -82,4 +82,9 @@ c <-c(3, 4, 3, 3, 3, 1, 2, 1, 3, 4, 2, 2, 1, 2, 1, 2, 2, 1, 3, 2, 2, 3, 1, 2, 1,
       3, 2, 2, 1, 2, 2, 2, 2, 1, 3, 2, 3, 2, 1, 1, 2, 2, 1, 1, 2, 3,
       1, 2, 3, 2, 2, 1, 1, 4, 1, 3, 3)
 ab <- cbind(a,b)
-summary(intReg(ab~c))
+mNorm <- intReg(ab~c)
+print(summary(mNorm))
+
+## Test the same with cloglog disturbances
+mCloglog <- intReg(ab~c, method="cloglog")
+print(summary(mCloglog))

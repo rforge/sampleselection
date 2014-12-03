@@ -12,8 +12,9 @@
 \usage{
 intReg(formula, start, boundaries, ...,
 contrasts = NULL, Hess = FALSE, model = TRUE,
-method = c("logistic", "probit", "cloglog", "cauchit", "model.frame"), print.level = 0,
-data, subset, weights, na.action)
+method = c("probit", "logistic", "cloglog", "cauchit", "model.frame"), print.level = 0,
+data, subset, weights, na.action,
+iterlim=100)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -52,10 +53,14 @@ data, subset, weights, na.action)
           \code{\link{model.matrix.default}}.}
   \item{Hess}{Should Hessian of the model be returned}
   \item{model}{logical for whether the model matrix should be returned.}
-  \item{method}{character, distribution of disturbances: either
-    \sQuote{logistic}, \sQuote{probit}, \sQuote{cloglog} or \sQuote{cauchit}.}
+  \item{method}{character, distribution of disturbances or \sQuote{model.frame}.
+    \sQuote{probit}, \sQuote{logistic}, \sQuote{cloglog} and
+    \sQuote{cauchit} assume these disturbance distributions.
+    \sQuote{model.frame} returns the model frame.  The default value
+    \sQuote{probit} assumes normal distribution.}
   \item{print.level}{output of run-time information: higher level prints
     more.}
+  \item{iterlim}{maximum number of optimization iterations}
 }
 \details{
   Interval regression is a form of linear regression where only

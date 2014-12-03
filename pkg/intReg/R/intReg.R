@@ -4,9 +4,10 @@ intReg <- function(formula, start, boundaries,
                    ...,
                  contrasts = NULL, Hess = FALSE,
                  model = TRUE,
-                 method = c("logistic", "probit", "cloglog", "cauchit", "model.frame"),
+                 method = c("probit", "logistic", "cloglog", "cauchit", "model.frame"),
                      print.level=0,
-                   data, subset, weights, na.action)
+                   data, subset, weights, na.action,
+                   iterlim=100)
 {
    ## beta     parameters for the x-s (linear model)
    ## nBeta    number of x-s (including constant)
@@ -261,7 +262,7 @@ intReg <- function(formula, start, boundaries,
 ##     compareDerivatives(loglik, gradlik, t0=start)
 ##     stop()
     estimation <- maxLik(loglik, gradlik, start=start,
-                  method="BHHH", activePar=activePar, iterlim=500, ...)
+                  method="BHHH", activePar=activePar, iterlim=iterlim, ...)
     res <- c(estimation,
              param=list(list(ordered=ordered,
                       boundaries=boundaries,

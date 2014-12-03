@@ -31,14 +31,6 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
 > library(Ecdat)
-Loading required package: Ecfun
-
-Attaching package: 'Ecdat'
-
-The following object is masked from 'package:datasets':
-
-    Orange
-
 > data(Kakadu)
 > ## Estimate in log form, change 999 to Inf
 > lb <- log(Kakadu$lower)
@@ -56,31 +48,31 @@ The following object is masked from 'package:datasets':
 --------------------------------------------
 Interval regression
 Maximum Likelihood estimation
-BHHH maximisation, 12 iterations
+BHHH maximisation, 13 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -1490 
+Log-Likelihood: -1493.2 
 1827 observations, 20 free parameters (df = 1807)
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  2.25146    1.22942    1.83    0.067 .  
-sexmale     -0.22498    0.21511   -1.05    0.296    
-log(income)  0.37303    0.13809    2.70    0.007 ** 
-age         -0.03604    0.00629   -5.73  1.2e-08 ***
-schooling   -0.03188    0.05914   -0.54    0.590    
-recparks     0.08365    0.09230    0.91    0.365    
-jobs        -0.42946    0.09285   -4.63  4.0e-06 ***
-lowrisk     -0.70736    0.08829   -8.01  2.0e-15 ***
-wildlife     0.29810    0.15230    1.96    0.050 .  
-future       0.05552    0.12297    0.45    0.652    
-aboriginal   0.13956    0.08455    1.65    0.099 .  
-finben      -0.66825    0.09444   -7.08  2.1e-12 ***
-mineparks    0.85237    0.08997    9.47  < 2e-16 ***
-moreparks    0.38947    0.09179    4.24  2.3e-05 ***
-gov          0.00487    0.31499    0.02    0.988    
-envconyes    0.42530    0.20733    2.05    0.040 *  
-vparksyes    0.47531    0.22751    2.09    0.037 *  
-tvenv       -0.08446    0.07584   -1.11    0.266    
-majoryes     0.46565    0.19908    2.34    0.019 *  
-sigma        1.81019    0.09277   19.51  < 2e-16 ***
+(Intercept)  2.12952    1.22441    1.74   0.0822 .  
+sexmale     -0.26448    0.21580   -1.23   0.2205    
+log(income)  0.39486    0.14252    2.77   0.0057 ** 
+age         -0.03553    0.00643   -5.52  3.8e-08 ***
+schooling   -0.01319    0.06083   -0.22   0.8284    
+recparks     0.06110    0.09223    0.66   0.5078    
+jobs        -0.47881    0.09250   -5.18  2.5e-07 ***
+lowrisk     -0.69250    0.09166   -7.55  6.6e-14 ***
+wildlife     0.24758    0.15048    1.65   0.1001    
+future       0.06840    0.12339    0.55   0.5794    
+aboriginal   0.12848    0.08501    1.51   0.1309    
+finben      -0.62410    0.09659   -6.46  1.3e-10 ***
+mineparks    0.87101    0.09471    9.20  < 2e-16 ***
+moreparks    0.40875    0.09312    4.39  1.2e-05 ***
+gov          0.08584    0.30379    0.28   0.7775    
+envconyes    0.42509    0.21077    2.02   0.0439 *  
+vparksyes    0.44573    0.23064    1.93   0.0534 .  
+tvenv       -0.06360    0.07750   -0.82   0.4119    
+majoryes     0.47074    0.20216    2.33   0.0200 *  
+sigma        3.14427    0.15062   20.88  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -141,19 +133,19 @@ Interval regression:
 --------------------------------------------
 Interval regression
 Maximum Likelihood estimation
-BHHH maximisation, 10 iterations
+BHHH maximisation, 12 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -1346.8 
+Log-Likelihood: -1354 
 1472 observations, 8 free parameters (df = 1464)
                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      1.90447    0.03772   50.48  < 2e-16 ***
-factor(educ)2    0.21488    0.04214    5.10  3.8e-07 ***
-factor(educ)3    0.36234    0.04060    8.93  < 2e-16 ***
-factor(educ)4    0.51896    0.04168   12.45  < 2e-16 ***
-factor(educ)5    0.71296    0.04102   17.38  < 2e-16 ***
-poly(exper, 2)1  6.44361    0.34915   18.46  < 2e-16 ***
-poly(exper, 2)2 -2.11563    0.30115   -7.03  3.3e-12 ***
-sigma            0.15630    0.00445   35.12  < 2e-16 ***
+(Intercept)      1.89400    0.03865   49.01  < 2e-16 ***
+factor(educ)2    0.21310    0.04333    4.92  9.7e-07 ***
+factor(educ)3    0.36879    0.04173    8.84  < 2e-16 ***
+factor(educ)4    0.53003    0.04307   12.31  < 2e-16 ***
+factor(educ)5    0.71758    0.04168   17.22  < 2e-16 ***
+poly(exper, 2)1  6.49870    0.35543   18.28  < 2e-16 ***
+poly(exper, 2)2 -2.16805    0.28946   -7.49  1.2e-13 ***
+sigma            0.28467    0.00606   46.96  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -213,22 +205,41 @@ Levels: (0,5] (5,10] (10,15] (15,25] (25,Inf]
 +       3, 2, 2, 1, 2, 2, 2, 2, 1, 3, 2, 3, 2, 1, 1, 2, 2, 1, 1, 2, 3,
 +       1, 2, 3, 2, 2, 1, 1, 4, 1, 3, 3)
 > ab <- cbind(a,b)
-> summary(intReg(ab~c))
+> mNorm <- intReg(ab~c)
+> print(summary(mNorm))
 --------------------------------------------
 Interval regression
 Maximum Likelihood estimation
-BHHH maximisation, 33 iterations
+BHHH maximisation, 97 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -181.66 
+Log-Likelihood: -195.04 
 96 observations, 3 free parameters (df = 93)
-             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  2.53e-03   7.58e-04    3.33   0.0012 ** 
-c           -7.04e-05   3.45e-04   -0.20   0.8387    
-sigma        1.57e-03   1.11e-04   14.07   <2e-16 ***
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 0.002875   0.000870    3.30   0.0014 ** 
+c           0.000121   0.000328    0.37   0.7128    
+sigma       0.003569   0.000208   17.19   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
+> ## Test the same with cloglog disturbances
+> mCloglog <- intReg(ab~c, method="cloglog")
+> print(summary(mCloglog))
+--------------------------------------------
+Interval regression
+Maximum Likelihood estimation
+BHHH maximisation, 41 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -164.55 
+96 observations, 3 free parameters (df = 93)
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 0.001486   0.000660    2.25    0.027 *  
+c           0.000032   0.000285    0.11    0.911    
+sigma       0.001902   0.000140   13.62   <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > proc.time()
    user  system elapsed 
-  4.664   0.028   4.691 
+134.956   0.069  88.326 

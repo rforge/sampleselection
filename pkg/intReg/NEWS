@@ -1,6 +1,20 @@
 	PACKAGE intReg NEWS
 
 
+News in version 0.1-2 (2014-12-03)
+
+* Tested for other distributions besides logistic
+
+* The default disturbance distribution is now normal (probit)
+
+* Tested for other distributions
+
+* Now the end user can specify 'iterlim' argument, it was previously
+  hard-coded to 500
+
+* Issues reported by CRAN, related to importing and using functions
+  from other packages cleaned.
+
 News in version 0.1-2
 
 * Package assembled from the stuff, developed in econMisc.  Interval

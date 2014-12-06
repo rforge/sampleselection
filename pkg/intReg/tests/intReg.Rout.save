@@ -30,16 +30,7 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
-> library(Ecdat)
-Loading required package: Ecfun
-
-Attaching package: 'Ecdat'
-
-The following object is masked from 'package:datasets':
-
-    Orange
-
-> data(Kakadu)
+> data(Kakadu, package="Ecdat")
 > ## Estimate in log form, change 999 to Inf
 > lb <- log(Kakadu$lower)
 > ub <- Kakadu$upper
@@ -126,6 +117,21 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > ## Example of common intervals for all the observations
 > ##
 > library(Ecdat)
+Loading required package: Ecfun
+
+Attaching package: 'Ecfun'
+
+The following object is masked from 'package:miscTools':
+
+    checkNames
+
+
+Attaching package: 'Ecdat'
+
+The following object is masked from 'package:datasets':
+
+    Orange
+
 > data(Bwages)
 > ## calculate an ordinary Mincer-style wage regression.  
 > ## Note: gross hourly wage rate in EUR
@@ -250,4 +256,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  5.920   0.040   5.963 
+  8.572   0.088   8.659 

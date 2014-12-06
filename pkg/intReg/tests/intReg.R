@@ -5,8 +5,7 @@
 set.seed(1)
 options(digits=5)
 library(intReg)
-library(Ecdat)
-data(Kakadu)
+data(Kakadu, package="Ecdat")
 ## Estimate in log form, change 999 to Inf
 lb <- log(Kakadu$lower)
 ub <- Kakadu$upper

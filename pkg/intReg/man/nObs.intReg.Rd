@@ -29,8 +29,7 @@
 ## Estimate the willingness to pay for the Kakadu National Park
 ## Data given in intervals -- 'lower' for lower bound and 'upper' for upper bound.
 ## Note that dichotomous-coice answers are already coded to 'lower' and 'upper'
-library(Ecdat)
-data(Kakadu)
+data(Kakadu, package="Ecdat")
 Kakadu <- Kakadu[sample(nrow(Kakadu), 500),]
                         # subsample to speed up the estimation
 ## Estimate in log form, change 999 to Inf

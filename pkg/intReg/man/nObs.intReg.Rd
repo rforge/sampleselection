@@ -31,6 +31,8 @@
 ## Note that dichotomous-coice answers are already coded to 'lower' and 'upper'
 library(Ecdat)
 data(Kakadu)
+Kakadu <- Kakadu[sample(nrow(Kakadu), 500),]
+                        # subsample to speed up the estimation
 ## Estimate in log form, change 999 to Inf
 lb <- log(Kakadu$lower)
 ub <- Kakadu$upper

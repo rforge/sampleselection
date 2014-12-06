@@ -240,7 +240,7 @@ intReg <- function(formula, start, boundaries,
     }
     else
         if(length(start) != iStd)
-            stop("'start' is not of the correct length:\n",
+            stop("'start' is of wrong length:\n",
                  "The current model includes ", nBeta,
                  " explanatory variables plus\n",
                  length(iBeta), " interval boundaries ",

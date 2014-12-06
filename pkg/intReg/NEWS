@@ -1,5 +1,9 @@
 	PACKAGE intReg NEWS
 
+News in version 0.2-4 (2014-12-05)
+
+* Faster (although less beautiful) examples, tests output updated
+
 News in version 0.2-2 (2014-12-05)
 
 * Import of more functions from 'miscTools' declared.  checks cleanly

@@ -1,7 +1,7 @@
 
-R version 3.1.1 (2014-07-10) -- "Sock it to Me"
+R Under development (unstable) (2014-12-05 r67105) -- "Unsuffered Consequences"
 Copyright (C) 2014 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+Platform: x86_64-unknown-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -31,6 +31,14 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
 > library(Ecdat)
+Loading required package: Ecfun
+
+Attaching package: 'Ecdat'
+
+The following object is masked from 'package:datasets':
+
+    Orange
+
 > data(Kakadu)
 > ## Estimate in log form, change 999 to Inf
 > lb <- log(Kakadu$lower)
@@ -242,4 +250,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-134.956   0.069  88.326 
+  5.920   0.040   5.963 

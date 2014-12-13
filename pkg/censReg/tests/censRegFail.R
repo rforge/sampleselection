@@ -2,17 +2,22 @@ library( "censReg" )
 
 data( "Affairs", package = "AER" )
 
-estNR <- try( censReg( affairs ~ age + yearsmarried + religiousness +
+# no censored observations
+try( censReg( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs[Affairs$affairs > 10,] ) )
 
-estBHHH <- try( censReg( affairs ~ age + yearsmarried + religiousness +
-   occupation + rating, data = Affairs[ Affairs$affairs > 10, ], 
-   method = "BHHH" ) )
+# no uncensored observations
+try( censReg( affairs ~ age + yearsmarried + religiousness +
+      occupation + rating, data = Affairs[Affairs$affairs == 0,] ) )
 
-estBFGS <- try( censReg( affairs ~ age + yearsmarried + religiousness +
-   occupation + rating, data = Affairs[ Affairs$affairs > 10, ], 
-   method = "BFGS" ) )
-
-estBFGSR <- try( censReg( affairs ~ age + yearsmarried + religiousness +
-   occupation + rating, data = Affairs[ Affairs$affairs > 10, ], 
-   method = "BFGSR" ) )
+# standard estimations (just to get estimates)
+est <- censReg( affairs ~ age + yearsmarried + religiousness +
+   occupation + rating, data = Affairs )
+# log-likelihood value in case of no censored observations
+try( round( c( censReg( affairs ~ age + yearsmarried + religiousness +
+      occupation + rating, data = Affairs[ Affairs$affairs > 10, ],
+   start = coef( est ), logLikOnly = TRUE ) ), 3 ) )
+# log-likelihood value in case of no censored observations
+try( round( c( censReg( affairs ~ age + yearsmarried + religiousness +
+      occupation + rating, data = Affairs[ Affairs$affairs == 0, ],
+   start = coef( est ), logLikOnly = TRUE ) ), 3 ) )

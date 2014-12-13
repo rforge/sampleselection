@@ -1,6 +1,6 @@
 
-R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
+Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -25,26 +25,7 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
 > library( plm )
-Loading required package: bdsmatrix
-
-Attaching package: 'bdsmatrix'
-
-The following object is masked from 'package:base':
-
-    backsolve
-
-Loading required package: nlme
 Loading required package: Formula
-Loading required package: MASS
-Loading required package: sandwich
-Loading required package: zoo
-
-Attaching package: 'zoo'
-
-The following objects are masked from 'package:base':
-
-    as.Date, as.Date.numeric
-
 > 
 > options( digits = 5 )
 > 
@@ -130,4 +111,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  4.036   0.044   4.102 
+  2.968   0.052   3.859 

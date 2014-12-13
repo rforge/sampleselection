@@ -1,6 +1,6 @@
 
-R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
+Copyright (C) 2014 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -86,9 +86,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-     -3.6e-12      -1.1e-10      -2.5e-11      -1.2e-11      -1.4e-11 
+     -4.2e-12      -1.3e-10      -2.9e-11      -1.4e-11      -1.7e-11 
        rating      logSigma 
-     -1.5e-11      -3.5e-12 
+     -1.8e-11      -4.0e-12 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -9405,9 +9405,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-     -5.3e-12      -1.6e-10      -3.7e-11      -1.7e-11      -2.1e-11 
+     -3.7e-12      -1.1e-10      -2.5e-11      -1.2e-11      -1.5e-11 
        rating      logSigma 
-     -2.2e-11      -5.2e-12 
+     -1.6e-11      -3.6e-12 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -10869,9 +10869,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-      3.6e-12       1.1e-10       2.5e-11       1.2e-11       1.4e-11 
+      4.2e-12       1.3e-10       2.9e-11       1.4e-11       1.7e-11 
        rating      logSigma 
-      1.5e-11      -3.5e-12 
+      1.8e-11      -4.0e-12 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -12942,9 +12942,9 @@ $estimate
 
 $gradient
   (Intercept)           age  yearsmarried religiousness    occupation 
-      5.3e-12       1.6e-10       3.7e-11       1.7e-11       2.1e-11 
+      3.7e-12       1.1e-10       2.5e-11       1.2e-11       1.5e-11 
        rating      logSigma 
-      2.2e-11      -5.2e-12 
+      1.6e-11      -3.6e-12 
 
 $hessian
               (Intercept)      age yearsmarried religiousness occupation
@@ -16054,7 +16054,7 @@ $gradient
    (Intercept)            age   yearsmarried religiousness2 religiousness3 
       -2.0e-13       -5.7e-12       -1.2e-12       -5.7e-14       -3.4e-14 
 religiousness4     occupation         rating       logSigma 
-      -1.0e-13       -7.7e-13       -8.9e-13       -2.1e-13 
+      -1.0e-13       -7.7e-13       -8.9e-13       -2.0e-13 
 
 $hessian
                (Intercept)       age yearsmarried religiousness2 religiousness3
@@ -20605,4 +20605,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 21.356   0.260  21.710 
+ 13.531   0.194  13.728 

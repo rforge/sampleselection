@@ -172,7 +172,7 @@ all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
 # check if the order of observations/individuals influences the likelihood values
 d1c1 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", start = coef(randEffBfgsr),
    iterlim = 0 )
-all.equal( d1c1[-c(5,6,9,13,17)], randEffBfgsr[-c(5,6,9,13,17)] )
+all.equal( d1c1[-c(5,6,7,9,13,17)], randEffBfgsr[-c(5,6,7,9,13,17)] )
 d1c1$maximum -  randEffBfgsr$maximum
 
 d2c2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", start = coef(randEffBfgsr2),

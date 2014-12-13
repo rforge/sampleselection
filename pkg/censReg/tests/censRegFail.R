@@ -2,27 +2,17 @@ library( "censReg" )
 
 data( "Affairs", package = "AER" )
 
-estNR <- censReg( affairs ~ age + yearsmarried + religiousness +
-   occupation + rating, data = Affairs[Affairs$affairs > 10,] )
-print( estNR )
-try( print( summary( estNR ) ) )
+estNR <- try( censReg( affairs ~ age + yearsmarried + religiousness +
+   occupation + rating, data = Affairs[Affairs$affairs > 10,] ) )
 
-
-estBHHH <- censReg( affairs ~ age + yearsmarried + religiousness +
+estBHHH <- try( censReg( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs[ Affairs$affairs > 10, ], 
-   method = "BHHH" )
-print( estBHHH )
-try( print( summary( estBHHH ) ) )
+   method = "BHHH" ) )
 
-
-estBFGS <- censReg( affairs ~ age + yearsmarried + religiousness +
+estBFGS <- try( censReg( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs[ Affairs$affairs > 10, ], 
-   method = "BFGS" )
-print( estBFGS )
-try( print( summary( estBFGS ) ) )
+   method = "BFGS" ) )
 
-estBFGSR <- censReg( affairs ~ age + yearsmarried + religiousness +
+estBFGSR <- try( censReg( affairs ~ age + yearsmarried + religiousness +
    occupation + rating, data = Affairs[ Affairs$affairs > 10, ], 
-   method = "BFGSR" )
-print( estBFGSR )
-try( print( summary( estBFGSR ) ) )
+   method = "BFGSR" ) )

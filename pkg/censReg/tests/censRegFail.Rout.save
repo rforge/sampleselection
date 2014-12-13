@@ -27,119 +27,29 @@ https://r-forge.r-project.org/projects/maxlik/
 > 
 > data( "Affairs", package = "AER" )
 > 
-> estNR <- censReg( affairs ~ age + yearsmarried + religiousness +
-+    occupation + rating, data = Affairs[Affairs$affairs > 10,] )
-> print( estNR )
-
-Call:
-censReg(formula = affairs ~ age + yearsmarried + religiousness + 
-    occupation + rating, data = Affairs[Affairs$affairs > 10, 
-    ])
-
-Coefficients:
-NULL
-
-> try( print( summary( estNR ) ) )
-
-Call:
-censReg(formula = affairs ~ age + yearsmarried + religiousness + 
-    occupation + rating, data = Affairs[Affairs$affairs > 10, 
-    ])
-
-Observations:
-         Total  Left-censored     Uncensored Right-censored 
-            38              0             38              0 
-
-Coefficients:
-Error in printCoefmat(coef(x, logSigma = logSigma), digits = digits) : 
-  'x' must be coefficient matrix/data frame
+> estNR <- try( censReg( affairs ~ age + yearsmarried + religiousness +
++    occupation + rating, data = Affairs[Affairs$affairs > 10,] ) )
+Error in censReg(affairs ~ age + yearsmarried + religiousness + occupation +  : 
+  there are no censored observations
 > 
-> 
-> estBHHH <- censReg( affairs ~ age + yearsmarried + religiousness +
+> estBHHH <- try( censReg( affairs ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs[ Affairs$affairs > 10, ], 
-+    method = "BHHH" )
-> print( estBHHH )
-
-Call:
-censReg(formula = affairs ~ age + yearsmarried + religiousness + 
-    occupation + rating, data = Affairs[Affairs$affairs > 10, 
-    ], method = "BHHH")
-
-Coefficients:
-NULL
-
-> try( print( summary( estBHHH ) ) )
-
-Call:
-censReg(formula = affairs ~ age + yearsmarried + religiousness + 
-    occupation + rating, data = Affairs[Affairs$affairs > 10, 
-    ], method = "BHHH")
-
-Observations:
-         Total  Left-censored     Uncensored Right-censored 
-            38              0             38              0 
-
-Coefficients:
-Error in printCoefmat(coef(x, logSigma = logSigma), digits = digits) : 
-  'x' must be coefficient matrix/data frame
++    method = "BHHH" ) )
+Error in censReg(affairs ~ age + yearsmarried + religiousness + occupation +  : 
+  there are no censored observations
 > 
-> 
-> estBFGS <- censReg( affairs ~ age + yearsmarried + religiousness +
+> estBFGS <- try( censReg( affairs ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs[ Affairs$affairs > 10, ], 
-+    method = "BFGS" )
-> print( estBFGS )
-
-Call:
-censReg(formula = affairs ~ age + yearsmarried + religiousness + 
-    occupation + rating, data = Affairs[Affairs$affairs > 10, 
-    ], method = "BFGS")
-
-Coefficients:
-NULL
-
-> try( print( summary( estBFGS ) ) )
-
-Call:
-censReg(formula = affairs ~ age + yearsmarried + religiousness + 
-    occupation + rating, data = Affairs[Affairs$affairs > 10, 
-    ], method = "BFGS")
-
-Observations:
-         Total  Left-censored     Uncensored Right-censored 
-            38              0             38              0 
-
-Coefficients:
-Error in printCoefmat(coef(x, logSigma = logSigma), digits = digits) : 
-  'x' must be coefficient matrix/data frame
++    method = "BFGS" ) )
+Error in censReg(affairs ~ age + yearsmarried + religiousness + occupation +  : 
+  there are no censored observations
 > 
-> estBFGSR <- censReg( affairs ~ age + yearsmarried + religiousness +
+> estBFGSR <- try( censReg( affairs ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs[ Affairs$affairs > 10, ], 
-+    method = "BFGSR" )
-> print( estBFGSR )
-
-Call:
-censReg(formula = affairs ~ age + yearsmarried + religiousness + 
-    occupation + rating, data = Affairs[Affairs$affairs > 10, 
-    ], method = "BFGSR")
-
-Coefficients:
-NULL
-
-> try( print( summary( estBFGSR ) ) )
-
-Call:
-censReg(formula = affairs ~ age + yearsmarried + religiousness + 
-    occupation + rating, data = Affairs[Affairs$affairs > 10, 
-    ], method = "BFGSR")
-
-Observations:
-         Total  Left-censored     Uncensored Right-censored 
-            38              0             38              0 
-
-Coefficients:
-Error in printCoefmat(coef(x, logSigma = logSigma), digits = digits) : 
-  'x' must be coefficient matrix/data frame
++    method = "BFGSR" ) )
+Error in censReg(affairs ~ age + yearsmarried + religiousness + occupation +  : 
+  there are no censored observations
 > 
 > proc.time()
    user  system elapsed 
-  0.297   0.022   0.312 
+  0.780   0.028   0.802 

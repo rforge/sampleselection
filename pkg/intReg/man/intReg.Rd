@@ -1,8 +1,6 @@
 \name{intReg}
 \alias{intReg}
 \alias{print.intReg}
-\alias{print.summary.intReg}
-\alias{summary.intReg}
 \title{Interval Regression}
 \description{
   This function estimates interval regression using either common

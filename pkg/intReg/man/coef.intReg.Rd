@@ -1,6 +1,8 @@
 \name{coef.intReg}
 \alias{coef.intReg}
 \alias{print.coef.intReg}
+\alias{print.summary.intReg}
+\alias{summary.intReg}
 \alias{stdEr.intReg}
 \alias{vcov.intReg}
 \title{
@@ -15,6 +17,7 @@
 \usage{
 \method{coef}{intReg}(object, boundaries = FALSE, ...)
 \method{stdEr}{intReg}(x, boundaries = FALSE, ...)
+\method{summary}{intReg}(object, boundaries = FALSE, ...)
 \method{vcov}{intReg}(object, boundaries = FALSE, ...)
 }
 \arguments{

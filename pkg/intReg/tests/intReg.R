@@ -3,10 +3,12 @@
 ## Data given in intervals -- 'lower' for lower bound and 'upper' for upper bound.
 ## Note that dichotomous-coice answers are already coded to 'lower' and 'upper'
 set.seed(1)
-options(digits=5)
+options(digits=4)
 library(intReg)
 data(Kakadu, package="Ecdat")
 ## Estimate in log form, change 999 to Inf
+Kakadu <- Kakadu[sample(nrow(Kakadu), 300),]
+                           # Speed up the tests
 lb <- log(Kakadu$lower)
 ub <- Kakadu$upper
 ub[ub > 998] <- Inf
@@ -18,7 +20,14 @@ m <- intReg(y ~ sex + log(income) + age + schooling +
               envcon + vparks + tvenv + major, data=Kakadu)
 ## You may want to compare the results to Werner (1999),
 ## Journal of Business and Economics Statistics 17(4), pp 479-486
+
+## Test coef, stdEr, summary with and without boundaries
+print(coef(m))
+print(coef(m, boundaries=TRUE))
+print(stdEr(m))
+print(stdEr(m, boundaries=TRUE))
 print(summary(m))
+print(summary(m, boundaries=TRUE))
 
 ## test model.matrix
 mm <- model.matrix(m)
@@ -86,4 +95,3 @@ print(summary(mNorm))
 
 ## Test the same with cloglog disturbances
 mCloglog <- intReg(ab~c, method="cloglog")
-print(summary(mCloglog))

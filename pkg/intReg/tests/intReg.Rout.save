@@ -1,6 +1,6 @@
 
-R Under development (unstable) (2014-12-05 r67105) -- "Unsuffered Consequences"
-Copyright (C) 2014 The R Foundation for Statistical Computing
+R Under development (unstable) (2015-01-04 r67319) -- "Unsuffered Consequences"
+Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-unknown-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -20,7 +20,7 @@ Type 'q()' to quit R.
 > ## Data given in intervals -- 'lower' for lower bound and 'upper' for upper bound.
 > ## Note that dichotomous-coice answers are already coded to 'lower' and 'upper'
 > set.seed(1)
-> options(digits=5)
+> options(digits=4)
 > library(intReg)
 Loading required package: miscTools
 Loading required package: maxLik
@@ -32,6 +32,8 @@ If you have questions, suggestions, or comments regarding the 'maxLik' package, 
 https://r-forge.r-project.org/projects/maxlik/
 > data(Kakadu, package="Ecdat")
 > ## Estimate in log form, change 999 to Inf
+> Kakadu <- Kakadu[sample(nrow(Kakadu), 300),]
+>                            # Speed up the tests
 > lb <- log(Kakadu$lower)
 > ub <- Kakadu$upper
 > ub[ub > 998] <- Inf
@@ -43,75 +45,186 @@ https://r-forge.r-project.org/projects/maxlik/
 +               envcon + vparks + tvenv + major, data=Kakadu)
 > ## You may want to compare the results to Werner (1999),
 > ## Journal of Business and Economics Statistics 17(4), pp 479-486
+> 
+> ## Test coef, stdEr, summary with and without boundaries
+> print(coef(m))
+(Intercept)     sexmale log(income)         age   schooling    recparks 
+   7.390819   -0.255675    0.372862   -0.044666   -0.195242   -0.034879 
+       jobs     lowrisk    wildlife      future  aboriginal      finben 
+  -0.687059   -0.864370   -0.012024    0.145218    0.002306   -0.157557 
+  mineparks   moreparks         gov   envconyes   vparksyes       tvenv 
+   0.539109    0.521039   -1.508886    0.237526    0.275681   -0.125687 
+   majoryes       sigma 
+   0.436197    2.612337 
+> print(coef(m, boundaries=TRUE))
+(Intercept)     sexmale log(income)         age   schooling    recparks 
+   7.390819   -0.255675    0.372862   -0.044666   -0.195242   -0.034879 
+       jobs     lowrisk    wildlife      future  aboriginal      finben 
+  -0.687059   -0.864370   -0.012024    0.145218    0.002306   -0.157557 
+  mineparks   moreparks         gov   envconyes   vparksyes       tvenv 
+   0.539109    0.521039   -1.508886    0.237526    0.275681   -0.125687 
+   majoryes         L 1         U 1         L 2         U 2         L 3 
+   0.436197        -Inf    0.693147        -Inf    1.609438        -Inf 
+        U 3         L 4         U 4         L 5         U 5         L 6 
+   2.995732        -Inf    3.912023    0.693147    1.609438    1.609438 
+        U 6         L 7         U 7         L 8         U 8         L 9 
+   2.995732    2.995732    3.912023    2.995732         Inf    3.912023 
+        U 9        L 10        U 10        L 11        U 11        L 12 
+   4.605170    3.912023         Inf    4.605170    5.521461    4.605170 
+       U 12        L 13        U 13       sigma 
+        Inf    5.521461         Inf    2.612337 
+> print(stdEr(m))
+(Intercept)     sexmale log(income)         age   schooling    recparks 
+    2.95567     0.51571     0.31161     0.01543     0.14256     0.23039 
+       jobs     lowrisk    wildlife      future  aboriginal      finben 
+    0.19383     0.20823     0.29107     0.25379     0.20609     0.20115 
+  mineparks   moreparks         gov   envconyes   vparksyes       tvenv 
+    0.20615     0.20251     1.05768     0.46896     0.52456     0.15555 
+   majoryes       sigma 
+    0.44708     0.34251 
+> print(stdEr(m, boundaries=TRUE))
+(Intercept)     sexmale log(income)         age   schooling    recparks 
+    2.95567     0.51571     0.31161     0.01543     0.14256     0.23039 
+       jobs     lowrisk    wildlife      future  aboriginal      finben 
+    0.19383     0.20823     0.29107     0.25379     0.20609     0.20115 
+  mineparks   moreparks         gov   envconyes   vparksyes       tvenv 
+    0.20615     0.20251     1.05768     0.46896     0.52456     0.15555 
+   majoryes       sigma 
+    0.44708     0.34251 
 > print(summary(m))
 --------------------------------------------
 Interval regression
 Maximum Likelihood estimation
-BHHH maximisation, 13 iterations
+BHHH maximisation, 18 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -1493.2 
-1827 observations, 20 free parameters (df = 1807)
+Log-Likelihood: -226.8 
+300 observations, 20 free parameters (df = 280)
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  2.12952    1.22441    1.74   0.0822 .  
-sexmale     -0.26448    0.21580   -1.23   0.2205    
-log(income)  0.39486    0.14252    2.77   0.0057 ** 
-age         -0.03553    0.00643   -5.52  3.8e-08 ***
-schooling   -0.01319    0.06083   -0.22   0.8284    
-recparks     0.06110    0.09223    0.66   0.5078    
-jobs        -0.47881    0.09250   -5.18  2.5e-07 ***
-lowrisk     -0.69250    0.09166   -7.55  6.6e-14 ***
-wildlife     0.24758    0.15048    1.65   0.1001    
-future       0.06840    0.12339    0.55   0.5794    
-aboriginal   0.12848    0.08501    1.51   0.1309    
-finben      -0.62410    0.09659   -6.46  1.3e-10 ***
-mineparks    0.87101    0.09471    9.20  < 2e-16 ***
-moreparks    0.40875    0.09312    4.39  1.2e-05 ***
-gov          0.08584    0.30379    0.28   0.7775    
-envconyes    0.42509    0.21077    2.02   0.0439 *  
-vparksyes    0.44573    0.23064    1.93   0.0534 .  
-tvenv       -0.06360    0.07750   -0.82   0.4119    
-majoryes     0.47074    0.20216    2.33   0.0200 *  
-sigma        3.14427    0.15062   20.88  < 2e-16 ***
+(Intercept)  7.39082    2.95567    2.50  0.01297 *  
+sexmale     -0.25567    0.51571   -0.50  0.62044    
+log(income)  0.37286    0.31161    1.20  0.23248    
+age         -0.04467    0.01543   -2.90  0.00408 ** 
+schooling   -0.19524    0.14256   -1.37  0.17192    
+recparks    -0.03488    0.23039   -0.15  0.87978    
+jobs        -0.68706    0.19383   -3.54  0.00046 ***
+lowrisk     -0.86437    0.20823   -4.15  4.4e-05 ***
+wildlife    -0.01202    0.29107   -0.04  0.96708    
+future       0.14522    0.25379    0.57  0.56765    
+aboriginal   0.00231    0.20609    0.01  0.99108    
+finben      -0.15756    0.20115   -0.78  0.43411    
+mineparks    0.53911    0.20615    2.62  0.00940 ** 
+moreparks    0.52104    0.20251    2.57  0.01060 *  
+gov         -1.50889    1.05768   -1.43  0.15481    
+envconyes    0.23753    0.46896    0.51  0.61291    
+vparksyes    0.27568    0.52456    0.53  0.59962    
+tvenv       -0.12569    0.15555   -0.81  0.41976    
+majoryes     0.43620    0.44708    0.98  0.33007    
+sigma        2.61234         NA      NA       NA    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
+> print(summary(m, boundaries=TRUE))
+--------------------------------------------
+Interval regression
+Maximum Likelihood estimation
+BHHH maximisation, 18 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -226.8 
+300 observations, 20 free parameters (df = 280)
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  7.39082    2.95567    2.50  0.01297 *  
+sexmale     -0.25567    0.51571   -0.50  0.62044    
+log(income)  0.37286    0.31161    1.20  0.23248    
+age         -0.04467    0.01543   -2.90  0.00408 ** 
+schooling   -0.19524    0.14256   -1.37  0.17192    
+recparks    -0.03488    0.23039   -0.15  0.87978    
+jobs        -0.68706    0.19383   -3.54  0.00046 ***
+lowrisk     -0.86437    0.20823   -4.15  4.4e-05 ***
+wildlife    -0.01202    0.29107   -0.04  0.96708    
+future       0.14522    0.25379    0.57  0.56765    
+aboriginal   0.00231    0.20609    0.01  0.99108    
+finben      -0.15756    0.20115   -0.78  0.43411    
+mineparks    0.53911    0.20615    2.62  0.00940 ** 
+moreparks    0.52104    0.20251    2.57  0.01060 *  
+gov         -1.50889    1.05768   -1.43  0.15481    
+envconyes    0.23753    0.46896    0.51  0.61291    
+vparksyes    0.27568    0.52456    0.53  0.59962    
+tvenv       -0.12569    0.15555   -0.81  0.41976    
+majoryes     0.43620    0.44708    0.98  0.33007    
+L 1             -Inf    0.34251    -Inf  < 2e-16 ***
+U 1          0.69315    2.95567    0.23  0.81476    
+L 2             -Inf    0.51571    -Inf  < 2e-16 ***
+U 2          1.60944    0.31161    5.16  4.6e-07 ***
+L 3             -Inf    0.01543    -Inf  < 2e-16 ***
+U 3          2.99573    0.14256   21.01  < 2e-16 ***
+L 4             -Inf    0.23039    -Inf  < 2e-16 ***
+U 4          3.91202    0.19383   20.18  < 2e-16 ***
+L 5          0.69315    0.20823    3.33  0.00099 ***
+U 5          1.60944    0.29107    5.53  7.4e-08 ***
+L 6          1.60944    0.25379    6.34  9.1e-10 ***
+U 6          2.99573    0.20609   14.54  < 2e-16 ***
+L 7          2.99573    0.20115   14.89  < 2e-16 ***
+U 7          3.91202    0.20615   18.98  < 2e-16 ***
+L 8          2.99573    0.20251   14.79  < 2e-16 ***
+U 8              Inf    1.05768     Inf  < 2e-16 ***
+L 9          3.91202    0.46896    8.34  3.4e-15 ***
+U 9          4.60517    0.52456    8.78  < 2e-16 ***
+L 10         3.91202    0.15555   25.15  < 2e-16 ***
+U 10             Inf    0.44708     Inf  < 2e-16 ***
+L 11         4.60517    0.34251   13.45  < 2e-16 ***
+U 11         5.52146    2.95567    1.87  0.06279 .  
+L 12         4.60517    0.51571    8.93  < 2e-16 ***
+U 12             Inf    0.31161     Inf  < 2e-16 ***
+L 13         5.52146    0.01543  357.93  < 2e-16 ***
+U 13             Inf    0.14256     Inf  < 2e-16 ***
+sigma        2.61234    0.23039   11.34  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+Warning messages:
+1: In coef/stdErr :
+  longer object length is not a multiple of shorter object length
+2: In cbind(coef, stdErr, coef/stdErr, rep(NA, length(coef))) :
+  number of rows of result is not a multiple of vector length (arg 2)
+3: In coef/stdErr :
+  longer object length is not a multiple of shorter object length
 > 
 > ## test model.matrix
 > mm <- model.matrix(m)
 > print(mm[i <- sample(nrow(mm), 10),])
      (Intercept) sexmale log(income) age schooling recparks jobs lowrisk
-486            1       1      3.5553  42         5        5    5       3
-680            1       0      1.0986  32         3        4    3       5
-1046           1       0      2.1972  27         3        5    3       1
-1657           1       0      3.2958  42         0        2    1       3
-368            1       1      3.5553  32         6        5    3       5
-1637           1       0      2.1972  70         3        2    1       2
-1721           1       1      2.7726  70         3        3    2       2
-1203           1       0      3.2189  70         6        5    1       1
-1145           1       1      4.0943  37         4        3    1       1
-113            1       1      3.2189  52         5        3    2       5
+840            1       1       2.197  70         5        5    5       5
+1565           1       1       4.094  32         5        5    1       2
+295            1       0       2.197  70         5        3    4       4
+889            1       0       2.197  70         4        5    5       5
+1256           1       0       3.219  21         6        3    1       1
+1507           1       0       4.094  32         6        2    1       3
+1530           1       1       2.197  52         3        5    1       1
+1750           1       0       3.219  21         4        4    2       2
+1406           1       1       3.807  37         6        4    1       2
+1225           1       0       1.099  32         3        5    3       2
      wildlife future aboriginal finben mineparks moreparks gov envconyes
-486         5      5          4      3         5         4   1         0
-680         5      5          5      3         4         5   1         1
-1046        5      3          2      5         5         4   1         1
-1657        5      5          2      2         5         3   1         1
-368         5      5          4      5         1         5   1         0
-1637        5      5          3      2         5         5   1         1
-1721        5      5          3      3         4         5   1         1
-1203        5      5          5      1         5         5   1         1
-1145        5      5          4      3         1         4   1         0
-113         4      4          3      4         2         2   2         1
+840         5      5          5      5         1         3   1         1
+1565        5      5          5      1         5         5   1         1
+295         2      1          1      5         3         2   1         0
+889         5      5          1      3         3         4   1         0
+1256        5      5          5      1         4         3   1         1
+1507        5      5          5      1         4         5   1         1
+1530        5      5          3      5         5         5   1         1
+1750        5      4          4      3         5         3   1         0
+1406        4      5          2      1         5         3   1         1
+1225        5      4          5      3         5         5   1         1
      vparksyes tvenv majoryes
-486          1     1        0
-680          1     1        0
-1046         1     1        1
-1657         1     7        1
-368          1     1        1
-1637         1     1        1
-1721         1     1        1
-1203         1     1        0
-1145         1     1        0
-113          1     2        0
+840          1     1        0
+1565         1     1        1
+295          0     1        1
+889          0     1        0
+1256         1     2        0
+1507         1     1        1
+1530         1     1        0
+1750         1     2        0
+1406         0     1        0
+1225         1     1        0
 > 
 > ##
 > ## Example of common intervals for all the observations
@@ -127,6 +240,10 @@ The following object is masked from 'package:miscTools':
 
 
 Attaching package: 'Ecdat'
+
+The following object is masked _by_ '.GlobalEnv':
+
+    Kakadu
 
 The following object is masked from 'package:datasets':
 
@@ -152,14 +269,14 @@ Return code 2: successive function values within tolerance limit
 Log-Likelihood: -1354 
 1472 observations, 8 free parameters (df = 1464)
                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      1.89400    0.03865   49.01  < 2e-16 ***
-factor(educ)2    0.21310    0.04333    4.92  9.7e-07 ***
-factor(educ)3    0.36879    0.04173    8.84  < 2e-16 ***
-factor(educ)4    0.53003    0.04307   12.31  < 2e-16 ***
-factor(educ)5    0.71758    0.04168   17.22  < 2e-16 ***
-poly(exper, 2)1  6.49870    0.35543   18.28  < 2e-16 ***
-poly(exper, 2)2 -2.16805    0.28946   -7.49  1.2e-13 ***
-sigma            0.28467    0.00606   46.96  < 2e-16 ***
+(Intercept)       1.8940     0.0386   49.01  < 2e-16 ***
+factor(educ)2     0.2131     0.0433    4.92  9.7e-07 ***
+factor(educ)3     0.3688     0.0417    8.84  < 2e-16 ***
+factor(educ)4     0.5300     0.0431   12.31  < 2e-16 ***
+factor(educ)5     0.7176     0.0417   17.22  < 2e-16 ***
+poly(exper, 2)1   6.4987     0.3554   18.28  < 2e-16 ***
+poly(exper, 2)2  -2.1680     0.2895   -7.49  1.2e-13 ***
+sigma             0.2847         NA      NA       NA    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -168,19 +285,19 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > mf <- model.frame(int)
 > print(mf[i <- sample(nrow(mf), 10),])
       salary factor(educ) poly(exper, 2).1 poly(exper, 2).2
-304  (10,15]            2        0.0225236       -0.0128071
-260   (5,10]            2       -0.0390261        0.0409867
-1010  (5,10]            4        0.0045716       -0.0240800
-565  (10,15]            3        0.0430402        0.0272654
-1131  (5,10]            4       -0.0390261        0.0409867
-731  (15,25]            3        0.0379111        0.0145284
-1053  (5,10]            4       -0.0185095       -0.0059465
-1454 (10,15]            5        0.0122653       -0.0219677
-557   (5,10]            3       -0.0133804       -0.0131483
-1138 (10,15]            4        0.0404756        0.0206703
+208   (5,10]            2         0.007136        -0.023829
+285   (5,10]            2        -0.031332         0.019988
+1237 (10,15]            5        -0.031332         0.019988
+1058 (10,15]            4        -0.015945        -0.009774
+393   (5,10]            3         0.063557         0.096340
+727   (5,10]            3        -0.031332         0.019988
+122   (5,10]            2        -0.033897         0.026534
+519   (5,10]            3        -0.028768         0.013895
+1419  (5,10]            5        -0.031332         0.019988
+914   (5,10]            4        -0.036462         0.033534
 > print(model.response(mf)[i])
-    304     260    1010     565    1131     731    1053    1454     557    1138 
-(10,15]  (5,10]  (5,10] (10,15]  (5,10] (15,25]  (5,10] (10,15]  (5,10] (10,15] 
+    208     285    1237    1058     393     727     122     519    1419     914 
+ (5,10]  (5,10] (10,15] (10,15]  (5,10]  (5,10]  (5,10]  (5,10]  (5,10]  (5,10] 
 Levels: (0,5] (5,10] (10,15] (15,25] (25,Inf]
 > 
 > ##
@@ -226,34 +343,19 @@ Interval regression
 Maximum Likelihood estimation
 BHHH maximisation, 97 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -195.04 
+Log-Likelihood: -195 
 96 observations, 3 free parameters (df = 93)
-            Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 0.002875   0.000870    3.30   0.0014 ** 
-c           0.000121   0.000328    0.37   0.7128    
-sigma       0.003569   0.000208   17.19   <2e-16 ***
+            Estimate Std. Error t value Pr(>|t|)   
+(Intercept) 0.002875   0.000870    3.30   0.0014 **
+c           0.000121   0.000328    0.37   0.7128   
+sigma       0.003569         NA      NA       NA   
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## Test the same with cloglog disturbances
 > mCloglog <- intReg(ab~c, method="cloglog")
-> print(summary(mCloglog))
---------------------------------------------
-Interval regression
-Maximum Likelihood estimation
-BHHH maximisation, 41 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -164.55 
-96 observations, 3 free parameters (df = 93)
-            Estimate Std. Error t value Pr(>|t|)    
-(Intercept) 0.001486   0.000660    2.25    0.027 *  
-c           0.000032   0.000285    0.11    0.911    
-sigma       0.001902   0.000140   13.62   <2e-16 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
---------------------------------------------
 > 
 > proc.time()
    user  system elapsed 
-  8.572   0.088   8.659 
+  6.288   0.089   6.365 

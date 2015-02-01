@@ -46,7 +46,7 @@ treatReg <- function(selection, outcome,
       stop( "the left hand side of 'selection' has to contain",
          " exactly two levels (e.g. FALSE and TRUE)" )
    }
-   if( !is.null( weights ) && type != 2 ) {
+   if( !is.null( weights )) {
       warning( "argument 'weights' is ignored" )
       weights <- NULL
    }
@@ -54,7 +54,7 @@ treatReg <- function(selection, outcome,
    cl <- match.call()
    if(method == "2step") {
       twoStep <- heckitTfit(selection, outcome, data=data,
-                            weights = weights,
+#                            weights = weights,
                             print.level = print.level, ... )
       twoStep$call <- cl
       class(twoStep) <- c("selection", class(twoStep))
@@ -139,11 +139,10 @@ treatReg <- function(selection, outcome,
    XO <- XO[!badRow,, drop=FALSE]
    YO <- YO[!badRow]
    weightsNoNA <- weights[ !badRow ]
-   YO[ YS == 0 ] <- NA
-   XO[ YS == 0, ] <- NA
    NXS <- ncol(XS)
    NXO <- ncol(XO)
-   iBetaS <- 1:NXS
+   ## parameter indices in the parameter vector
+   iBetaS <- seq(length=ncol(XS))
    iBetaO <- max(iBetaS) + seq(length=NXO)
    if(!binaryOutcome) {
       iSigma <- max(iBetaO) + 1
@@ -152,12 +151,26 @@ treatReg <- function(selection, outcome,
    else
       iRho <- max(iBetaO) + 1
    nParam <- iRho
+   if(binaryOutcome) {
+      iErrTerms <- c(rho=iRho)
+   }
+   else {
+      iErrTerms <- c(sigma=iSigma, rho=iRho )
+   }
+   index <- list(betaS=iBetaS,
+                 betaO=iBetaO,
+                 errTerms=iErrTerms,
+                 outcome = iBetaO,
+                 nParam=iRho)
+   ##
    twoStep <- NULL
    if(is.null(start)) {
                            # start values by Heckman 2-step method
       start <- numeric(nParam)
-      twoStep <- heckit2fit(selection, outcome, data=data,
-                            print.level = print.level, weights = weights )
+      twoStep <- heckitTfit(selection, outcome, data=data,
+                            print.level = print.level,
+#                            weights = weights
+                            )
       coefs <- coef(twoStep, part="full")
       start[iBetaS] <- coefs[twoStep$param$index$betaS]
       if(!binaryOutcome) {
@@ -183,9 +196,11 @@ treatReg <- function(selection, outcome,
    }                                        # add names to start values if not present
    if(!binaryOutcome) {
       estimation <- tobitTfit(YS, XS, YO, XO, start,
-                              weights = weightsNoNA,
-                              print.level=print.level, ...)
-      iErrTerms <- c(sigma=iSigma, rho=iRho )
+#                              weights = weightsNoNA,
+                              print.level=print.level,
+                              index=index,
+                              binaryOutcome=binaryOutcome,
+                              ...)
    }
    else {
       ## estimation <- tobitTBfit(YS, XS, YO, XO, start, weights = weightsNoNA,
@@ -193,10 +208,7 @@ treatReg <- function(selection, outcome,
       ## iErrTerms <- c(rho=iRho)
       stop("Binary outcome models are not implemented")
    }
-   param <- list(index=list(betaS=iBetaS,
-                 betaO=iBetaO,
-                 errTerms=iErrTerms,
-                 outcome = iBetaO),
+   param <- list(index=index,
                  NXS=ncol(XS), NXO=ncol(XO),
                  N0=sum(YS==0), N1=sum(YS==1),
                  nObs=length(YS), nParam=length(start),

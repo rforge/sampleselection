@@ -1,5 +1,6 @@
 \name{sampleSelection-internal}
 \alias{sampleSelection-internal}
+\alias{tobitTfit}
 % Document the following:
 
 %%%%

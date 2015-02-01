@@ -9,7 +9,7 @@ heckitTfit <- function(selection, outcome,
    ## not public API
    ##
    ## maxMethod:   probit method
-   ## 
+   ##
    checkIMRcollinearity <- function(X, tol=1e6) {
       ## This small utility checks whether inverse Mills ratio is (virtually) collinear to the other explanatory
       ## variables.  IMR is in the last columns.
@@ -124,17 +124,6 @@ heckitTfit <- function(selection, outcome,
                            # R^2
    delta0 <- mean( invMillsRatio0^2 - z[i0]*invMillsRatio0)
    delta1 <- mean( invMillsRatio1^2 + z[i1]*invMillsRatio1)
-   if(print.level > 2) {
-      cat("Means:\n")
-      z0 <- -1 - 2/sqrt(3)*lambda(1/sqrt(3))
-      z1 <- -1 + 2/sqrt(3)*lambda(-1/sqrt(3))
-      a <- rbind(z=c("non-participants"=mean(z[i0]),
-                 "participants"=mean(z[i1])),
-                 th=c(z0, z1),
-                 delta=c(delta0, delta1)
-                 )
-      print(a)
-   }
    betaL <- coef(olm)["XO.invMillsRatio"]
    sigma0.2 <- mean((residuals(olm)[i0])^2)*nObs/(nObs - NXS)
    sigma1.2 <- mean((residuals(olm)[i1])^2)*nObs/(nObs - NXS)

@@ -1,0 +1,290 @@
+% -*- mode: LaTeX; mode: flyspell; -*-
+% mode: Tex-Pdf -*-
+\documentclass[a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[bookmarks=TRUE,
+            colorlinks,
+            pdfpagemode=none,
+            pdfstartview=FitH,
+            citecolor=black,
+            filecolor=black,
+            linkcolor=black,
+            urlcolor=black,
+            ]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{icomma}
+\usepackage{natbib}
+\usepackage{xspace}
+\input{isomath}
+
+%\VignetteIndexEntry{Using treatReg}
+%\VignetteKeyword{models}
+%\VignetteKeyword{regression}
+
+\title{All-Normal Treatment Effect}
+
+\begin{document}
+
+\maketitle
+
+\section{The Problem}
+\label{sec:problem}
+
+Assume two underlying latent variables: ``tendency to participate''
+$y^{s*}$ and ``outcome'' $y^{o*}$:
+\begin{equation}
+  \begin{split}
+    y_{i}^{s*} &= \alpha_{0} + \vec{\alpha}_{1}' \vec{x}_{i}^{s} 
+    + u_{i}
+    \\
+    y_{i}^{o*} &= \beta_{0} + \vec{\beta}_{1}' \vec{x}_{i}^{o} 
+    + \beta_{2} y_{i}^{s}
+    + v_{i}
+  \end{split}
+\end{equation}
+where $y^{s} = \indic(y^{s*} > 0)$ is the observable
+participation indicator
+and 
+\begin{equation}
+  \begin{pmatrix}
+    u \\ v
+  \end{pmatrix}
+  \sim
+  N \left( 
+    \begin{pmatrix}
+      0 \\ 0
+    \end{pmatrix}
+    ,
+    \begin{pmatrix}
+      1 & \rho\sigma \\
+      \rho\sigma & \sigma^{2}
+    \end{pmatrix}
+  \right).
+\end{equation}
+$\vec{x}^{o}$ may include variables, not in $\vec{x}^{o}$
+(exclusion restrictions) but it is not necessary.  The
+parameter of interest is $\beta_{2}$.
+We observe the actual participation $y^{s}$ and the outcome $y^{o} =
+y^{o*}$. 
+
+Individuals participate if $y^{s*} > 1$ i.e. $u > - \alpha_{0} -
+\vec{\alpha}_{1}' \vec{x}^{s}$ and hence
+for participants
+\begin{equation}
+  \E [y^{o}|\vec{x}^{o}, y_{i}^{s} = 1]
+  = 
+  \beta_{0} + \vec{\beta}_{1}' \vec{x}^{o} 
+  + \beta_{2}
+  + \E [v|u > - \alpha_{0} -
+  \vec{\alpha}_{1}' \vec{x}^{s}]
+\end{equation}
+and for non-participants
+\begin{equation}
+  \E [y_{i}^{o}|\vec{x}_{i}, y_{i}^{s} = 0]
+  = \beta_{0} + \vec{\beta}_{1}' \vec{x}^{o} 
+  + \E [v|u < - \alpha_{0} -
+  \vec{\alpha}_{1}' \vec{x}^{s}].
+\end{equation}
+We can identify $\beta$ in the usual way as
+$(y_{i}^{o}|\vec{x}_{i}, y_{i}^{s} = 1) - (y_{i}^{o}|\vec{x}_{i},
+y_{i}^{s} = 0)$.
+
+In terms on econometric model, it is a switching regression where:
+\begin{itemize}
+\item Everyone has an observable outcome $y^{o}$.
+\item There is an selection indicator $y^{s}$ in the outcome
+  equation.
+\item The variables $\vec{x}$ and
+  parameters $\alpha_{1}$ are equal for both outcome
+  types.
+\end{itemize}
+Note that this model cannot be estimated by the ordinary tobit-5
+selection equation: intercept and $\beta_{2}$ are not identified
+unless we impose certain cross-equation restrictions.  Neither can
+you estimate the model by tobit-2 as here both selections are
+observed. 
+
+
+\section{Two-Step Solution}
+\label{sec:two-step_solution}
+
+This model can be consistently estimated by a version of
+\citet{heckman1976} two-step estimator.  First, one can
+consistently estimate the selection process by probit.  Denote 
+$z = \alpha_{0} + \vec{\alpha}_{1}' \vec{x}^{s}$.
+From normal
+density properties we know that
+\begin{equation}
+  \E [v|u > -z]
+  =
+  \rho\sigma\lambda(z)
+  \qquad\text{and}\qquad
+  \E [v|u < -z ]
+  =
+  - \rho\sigma\lambda(-z),
+\end{equation}
+and
+\begin{align}
+  \label{eq:var_u|v}
+  \sigma_{0}^{2} \equiv
+  \var [v|u > -z]
+  &=
+  \sigma^{2} -
+  \rho^{2}\sigma^{2} z \lambda(z) -
+  \rho^{2}\sigma^{2} \lambda^{2}(z)
+  \\
+  \sigma_{1}^{2} \equiv
+  \var [v|u < -z]
+  &=
+  \sigma^{2} +
+  \rho^{2}\sigma^{2} z \lambda(-z) -
+  \rho^{2}\sigma^{2} \lambda^{2}(-z)
+\end{align}
+where $\lambda(\cdot) = \phi(\cdot)/\Phi(\cdot)$, and
+$\phi$ and $\Phi$
+are normal pdf and cdf correspondingly.  Hence we can re-write the
+outcome equation as
+\begin{equation}
+  y_{i}^{o}
+  = 
+  \beta_{0} + \vec{\beta}_{1}' \vec{x}_{i}^{o} 
+  + \beta_{2} T_{i}
+  + \beta_{3} \hat\lambda_{i}
+  + \eta_{i}
+  \label{eq:outcome_imr}
+\end{equation}
+where $T$ is the treatment indicator and
+\begin{equation}
+  \label{eq:hat_lambda}
+  \hat\lambda_{i}
+  =
+  \begin{cases}
+    \rho\sigma\lambda(z)
+    & \text{if}\quad T = 1\\
+    - \rho\sigma\lambda(-z)
+    & \text{if}\quad T = 0.
+  \end{cases}
+\end{equation}
+We can estimate $\rho$ and $\sigma$ from \eqref{eq:outcome_imr}
+in two ways.  First, for participants, we have
+\begin{equation}
+  \label{eq:sigma2_participants}
+  \hat \sigma^{2} = 
+  \sigma_{1}^{2} +
+  \rho^{2}\sigma^{2} \bar z \bar\lambda(z) +
+  \rho^{2}\sigma^{2} \bar\lambda^{2}(z)
+  =
+  \sigma_{1}^{2} +
+  \hat \beta_{3}^{2} \bar z \bar\lambda(z) +
+  \hat \beta_{3}^{2} \bar\lambda^{2}(z)
+\end{equation}
+and second, for non-participants we get
+\begin{equation}
+  \label{eq:sigma2_non-participants}
+  \hat \sigma^{2} = 
+  \sigma_{0}^{2} - 
+  \rho^{2}\sigma^{2} \bar z \bar\lambda(-z) +
+  \rho^{2}\sigma^{2} \bar\lambda^{2}(-z)
+  =
+  \sigma_{0}^{2} - 
+  \hat \beta_{3}^{2} \bar z \bar\lambda(-z) +
+  \hat \beta_{3}^{2} \bar\lambda^{2}(-z)
+\end{equation}
+where upper bar denotes sample means.
+$\sigma_{0}^{2}$ and $\sigma_{1}^{2}$ can simply be estimated from
+the residuals for non-participants and participants.
+In both case the estimator for $\rho$ is
+\begin{equation}
+  \label{eq:rho}
+  \hat\rho = \frac{\hat \beta_{3}}{\hat\sigma}.
+\end{equation}
+
+\section{Maximum Likelihood Estimation}
+\label{sec:ml_estimation}
+
+Denote by $\vec{u} = (u_{1}, u_{2}, \dots, u_{N})$ and $\vec{v} =
+(v_{1}, v_{2}, \dots, v_{N})$.
+Based on .... we can write
+\begin{equation}
+  \begin{split}
+    \Pr(\vec{u},\vec{v}) &=
+    \prod_{i \in \text{non-participants}}
+    \Pr(v_{i}|u_{i} < -z_{i}) \Pr(u_{i} < -z_{i})
+    \times
+    \\
+    &\times
+    \prod_{i \in \text{participants}}
+    \Pr(v_{i}|u_{i} > -z_{i}) \Pr(u_{i} > -z_{i})
+  \end{split}
+\end{equation}
+Normal density properties tell that
+\begin{align}
+  \label{eq:likelihood}
+  \Pr(v_{i}|u_{i} < -z_{i})
+  &=
+  \frac{
+    \frac{1}{\sigma}
+    \phi \left( \frac{v_{i}}{\sigma} \right)
+  }{\Phi(a)}
+  \Phi \left( 
+    \frac{-z - \frac{\rho}{\sigma} v_{i}}{\sqrt{1 - \rho^{2}}}
+  \right)
+  \\
+  \Pr(u_{i} < -z_{i})
+  &=
+  \Phi(a)
+  \\
+  \Pr(v_{i}|u_{i} > -z_{i}) 
+  &=
+  \frac{
+    \frac{1}{\sigma}
+    \phi \left( \frac{v_{i}}{\sigma} \right)
+  }{\Phi(-a)}
+  \Phi \left( 
+    -\frac{-z - \frac{\rho}{\sigma} v_{i}}{\sqrt{1 - \rho^{2}}}
+  \right)
+  \\
+  \Pr(u_{i} > -z_{i})
+  &=
+  \Phi(-a)
+\end{align}
+where $\phi(\cdot)$ and $\Phi(\cdot)$ are the standard normal density
+and cumulative distribution functions.  The disturbance terms $v_{i}$ 
+can
+be written based on observables as $v_{i} = y_{i}^{o} - 
+\beta_{0} - \vec{\beta}_{1}' \vec{x}_{i}^{o} 
+- \beta_{2} y_{i}^{s}$. 
+Accordingly, we can write the
+models log-likelihood as
+\begin{multline}
+  \label{eq:log_likelihood}
+  \loglik =
+  -\frac{N}{2} \log 2\pi 
+  - N \log \sigma 
+  - \frac{N}{2} \left( \frac{v_{i}}{\sigma} \right)^{2}
+  +
+  \\
+  + \sum_{i \in \text{non-participants}}
+  \log \Phi \left( 
+    \frac{-z_{i} - \frac{\rho}{\sigma} v_{i}}{\sqrt{1 - \rho^{2}}}
+  \right)
+  +
+  \\
+  + \sum_{i \in \text{non-participants}}
+  \log \Phi \left( 
+    -\frac{-z_{i} - \frac{\rho}{\sigma} v_{i}}{\sqrt{1 - \rho^{2}}}
+  \right).
+\end{multline}
+The model is very similar in structure to the tobit-5 models
+\citep{amemiya1985,toomet+henningsen2008}.  It stipulates the
+explanatory variables and the coefficients for both choices,
+participation and
+non-participation being the same.
+
+
+\bibliographystyle{apecon}
+\bibliography{Economics}
+
+\end{document}

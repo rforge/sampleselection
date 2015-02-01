@@ -89,12 +89,12 @@ print.summary.selection <- function(x,
       cat(sum(x$activePar), "free parameters" )
       cat( " (df = ", x$param$df, ")\n", sep="")
       if(part == "full") {
-         cat("   Probit selection equation:\n")
+         cat("Probit selection equation:\n")
          printCoefmat( x$estimate[ x$param$index$betaS,,drop=FALSE],
             signif.legend = FALSE, digits = digits )
       }
       if( x$tobitType == 2 ) {
-         cat("   Outcome equation:\n")
+         cat("Outcome equation:\n")
          printCoefmat( x$estimate[ x$param$index$betaO,,drop=FALSE],
             signif.legend = ( part != "full" ), digits = digits )
          if( x$method == "2step" ) {
@@ -103,7 +103,7 @@ print.summary.selection <- function(x,
                "\n", sep="")
          }
       } else if( x$tobitType == 5 ) {
-         cat("   Outcome equation 1:\n")
+         cat("Outcome equation 1:\n")
          printCoefmat( x$estimate[ x$param$index$betaO1,,drop=FALSE],
             signif.legend = FALSE, digits = digits )
          if( x$method == "2step" ) {
@@ -111,7 +111,7 @@ print.summary.selection <- function(x,
                ",\tAdjusted R-Squared:", round(x$rSquared$R2adj1, digits),
                "\n", sep="")
          }
-         cat("   Outcome equation 2:\n")
+         cat("Outcome equation 2:\n")
          printCoefmat( x$estimate[ x$param$index$betaO2,,drop=FALSE],
             signif.legend = ( part != "full" ), digits = digits )
          if( x$method == "2step" ) {

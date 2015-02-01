@@ -24,7 +24,7 @@ tobitTfit <- function(YS, XS, YO, XO, start,
 ###            Should always be supplied but can generate here for
 ###            testing purposes
 ###  ...       additional parameters for maxLik
-### 
+###
    loglik <- function( beta) {
       betaS <- beta[iBetaS]
       betaO <- beta[iBetaO]
@@ -46,50 +46,44 @@ tobitTfit <- function(YS, XS, YO, XO, start,
           0.5*( v0/sigma)^2 + pnorm( B0, log.p=TRUE) 
       loglik[i1] <- -1/2*log( 2*pi) -log( sigma) -
           0.5*( v1/sigma)^2 + pnorm( B1, log.p=TRUE) 
-      loglik
+      sum(loglik)
    }
    gradlik <- function(beta) {
       ## gradient is nObs x nParam matrix
-      ## components of the gradient are ordered as: g b_2, s_2, r_2, b_3,
-      ## s_3, r_3
       betaS <- beta[iBetaS]
-      b1 <- beta[iBetaO1]
-      sigma1 <- beta[iSigma1]
-      if(sigma1 <= 0) return(NA)
-      rho1 <- beta[iRho1]
-      if( ( rho1 < -1) || ( rho1 > 1)) return(NA)
-      b2 <- beta[iBetaO2]
-      sigma2 <- beta[iSigma2]
-      if(sigma2 <= 0) return(NA)
-      rho2 <- beta[iRho2]
-      if((rho2 < -1) || (rho2 > 1)) return(NA)
+      betaO <- beta[iBetaO]
+      sigma <- beta[iSigma]
+      if(sigma <= 0) return(NA)
+      rho <- beta[iRho]
+      if( ( rho < -1) || ( rho > 1)) return(NA)
                            # check the range
       XS0.betaS <- XS0%*%betaS
+                           # denoted by 'z' in the vignette
       XS1.betaS <- XS1%*%betaS
-      XO1.b <- XO1%*%b1
-      XO2.b <- XO2%*%b2
-      u1 <- as.vector(YO1 - XO1.b)
-      u2 <- as.vector(YO2 - XO2.b)
-      sqrt1r22 <- sqrt( 1 - rho1^2)
-      sqrt1r32 <- sqrt( 1 - rho2^2)
-      B1 <- -(XS0.betaS + rho1/sigma1*u1)/sqrt1r22
-      B2 <- (XS1.betaS + rho2/sigma2*u2)/sqrt1r32
-      lambda1 <- as.vector(ifelse(B1 > -30, dnorm(B1)/pnorm(B1), -B1))
-      lambda2 <- as.vector(ifelse(B2 > -30, dnorm(B2)/pnorm(B2), -B2))
-                           # This is a hack in order to avoid numeric problems
+      v0 <- drop(YO0 - XO0%*%betaO)
+      v1 <- drop(YO1 - XO1%*%betaO)
+      sqrt1r2 <- sqrt( 1 - rho^2)
+      B0 <- (-XS0.betaS - rho/sigma*v0)/sqrt1r2
+      B1 <- (XS1.betaS + rho/sigma*v1)/sqrt1r2
+      lambda0 <- drop(lambda(B0))
+      lambda1 <- drop(lambda(B1))
       ## now the gradient itself
       gradient <- matrix(0, nObs, nParam)
-      gradient[YS == 0, iBetaS] <- -lambda1*XS0/sqrt1r22
-      gradient[YS == 1, iBetaS] <- lambda2*XS1/sqrt1r32
-      gradient[YS == 0,iBetaO1] <- (lambda1*rho1/sigma1/sqrt1r22 + u1/sigma1^2)*XO1
-      gradient[YS == 1,iBetaO2] <- (-lambda2*rho2/sigma2/sqrt1r32 + u2/sigma2^2)*XO2
-      gradient[YS == 0,iSigma1] <- (-1/sigma1 + u1^2/sigma1^3
-               +lambda1*rho1/sigma1^2*u1/sqrt1r22)
-      gradient[YS == 1,iSigma2] <- (-1/sigma2 + u2^2/sigma2^3
-               -lambda2*rho2/sigma2^2*u2/sqrt1r32)
-      gradient[YS == 0,iRho1] <- -lambda1*( u1/sigma1 + rho1*XS0.betaS)/sqrt1r22^3
-      gradient[YS == 1,iRho2] <- lambda2*( u2/sigma2 + rho2*XS1.betaS)/sqrt1r32^3
-      gradient
+      gradient[i0, iBetaS] <- -lambda0*XS0/sqrt1r2
+      gradient[i1, iBetaS] <- lambda1*XS1/sqrt1r2
+      gradient[i0,iBetaO] <- (lambda0*rho/sigma/sqrt1r2
+                              + v0/sigma^2)*XO0
+      gradient[i1,iBetaO] <- (-lambda1*rho/sigma/sqrt1r2
+                              + v1/sigma^2)*XO1
+      gradient[i0,iSigma] <- (-1/sigma + v0^2/sigma^3
+                              + lambda0*rho/sigma^2*v0/sqrt1r2)
+      gradient[i1,iSigma] <- (-1/sigma + v1^2/sigma^3
+                              - lambda1*rho/sigma^2*v1/sqrt1r2)
+      gradient[i0,iRho] <- -lambda0*(v0/sigma + rho*XS0.betaS)/
+          sqrt1r2^3
+      gradient[i1,iRho] <- lambda1*(v1/sigma + rho*XS1.betaS)/
+          sqrt1r2^3
+      colSums(gradient)
    }
    hesslik <- function(beta) {
       betaS <- beta[iBetaS]
@@ -259,35 +253,37 @@ tobitTfit <- function(YS, XS, YO, XO, start,
       iRho <- index$errTerms["rho"]
       nParam <- index$nParam
    }
-    ## split the data by selection
-    XS0 <- XS[i0,,drop=FALSE]
-    XS1 <- XS[i1,,drop=FALSE]
-    YO0 <- YO[i0]
-    YO1 <- YO[i1]
-    XO0 <- XO[i0,,drop=FALSE]
-    XO1 <- XO[i1,,drop=FALSE]
-    ##
-    if(print.level > 0) {
-        cat( "Non-participants: ", NO1,
-            "; participants: ", NO2, "\n", sep="")
-        cat( "Initial values:\n")
-        cat("selection equation betaS:\n")
-        print(start[iBetaS])
-        cat("Outcome equation betaO\n")
-        print(start[iBetaO])
-        cat("Variance sigma\n")
-        print(start[iSigma])
-        cat("Correlation rho\n")
-        print(start[iRho])
-    }
-    result <- maxLik(loglik,
-#                     grad=gradlik,
-#                     hess=hesslik,
-                     start=start,
-                     print.level=print.level,
-                     method=maxMethod,
-                     ...)
-#   compareDerivatives(gradlik, hesslik, t0=start)
+   ## split the data by selection
+   XS0 <- XS[i0,,drop=FALSE]
+   XS1 <- XS[i1,,drop=FALSE]
+   YO0 <- YO[i0]
+   YO1 <- YO[i1]
+   XO0 <- XO[i0,,drop=FALSE]
+   XO1 <- XO[i1,,drop=FALSE]
+   ##
+   if(print.level > 0) {
+      cat( "Non-participants: ", NO1,
+          "; participants: ", NO2, "\n", sep="")
+      cat( "Initial values:\n")
+      cat("selection equation betaS:\n")
+      print(start[iBetaS])
+      cat("Outcome equation betaO\n")
+      print(start[iBetaO])
+      cat("Variance sigma\n")
+      print(start[iSigma])
+      cat("Correlation rho\n")
+      print(start[iRho])
+   }
+   result <- maxLik(loglik,
+                    grad=gradlik,
+##                    hess=hesslik,
+                    start=start,
+                    print.level=print.level,
+                    method=maxMethod,
+                    ...)
+   ## compareDerivatives(loglik, gradlik,
+   ##                         #hesslik,
+   ##                    t0=start)
    result$tobitType <- "treatment"
    result$method <- "ml"
    class( result ) <- c( "selection", class( result ) )

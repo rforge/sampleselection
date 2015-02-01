@@ -86,140 +86,97 @@ tobitTfit <- function(YS, XS, YO, XO, start,
       colSums(gradient)
    }
    hesslik <- function(beta) {
-      betaS <- beta[iBetaS]
-      b1 <- beta[iBetaO1]
-      sigma1 <- beta[iSigma1]
-      if(sigma1 <= 0) {
-         return( matrix( NA, nrow = nParam, ncol = nParam ) )
-      }
-      rho1 <- beta[iRho1]
-      if( abs( rho1 ) > 1 ) {
-         return( matrix( NA, nrow = nParam, ncol = nParam ) )
-      }
-      b2 <- beta[iBetaO2]
-      sigma2 <- beta[iSigma2]
-      if(sigma2 <= 0) {
-         return( matrix( NA, nrow = nParam, ncol = nParam ) )
-      }
-      rho2 <- beta[iRho2]
-      if( abs( rho2 ) > 1 ) {
-         return( matrix( NA, nrow = nParam, ncol = nParam ) )
-      }
-      XS0.bS <- XS0%*%betaS
-      XS1.bS <- XS1%*%betaS
-      u1 <- YO1 - XO1%*%b1
-      u2 <- YO2 - XO2%*%b2
-      sqrt1r22 <- sqrt( 1 - rho1^2)
-      sqrt1r32 <- sqrt( 1 - rho2^2)
-      B1 <- -(XS0.bS + rho1/sigma1*u1)/sqrt1r22
-      B2 <- (XS1.bS + rho2/sigma2*u2)/sqrt1r32
-      lambda1 <- ifelse(B1 > -30, dnorm(B1)/pnorm(B1), -B1)
-      lambda2 <- ifelse(B2 > -30, dnorm(B2)/pnorm(B2), -B2)
                            # This is a hack in order to avoid numeric problems
-      CB1 <- as.vector(ifelse(B1 > -500,
-                              -exp(dnorm(B1, log = TRUE) - pnorm(B1, log.p = TRUE))*B1 -
-                                  exp(2 * (dnorm(B1, log = TRUE) - pnorm(B1, log.p = TRUE))),
-                              -1))
-      CB2 <- as.vector(ifelse(B2 > -500,
-                              -exp(dnorm(B2, log = TRUE) - pnorm(B2, log.p = TRUE))*B2 -
-                                  exp(2 * (dnorm(B2, log = TRUE) - pnorm(B2, log.p = TRUE))),
-                              -1))
-                           # recommended by Dimitrios Rizopoulos, KULeuven
-                           # This is a hack in order to avoid numerical problems.  How to do
-                           # it better?  How to prove the limit value?
-      l.gg <- t( XS0) %*% ( XS0 * CB1)/sqrt1r22^2 +
-          t( XS1) %*% ( XS1 * CB2)/sqrt1r32^2
-      l.gb1 <- -t( XS0) %*%
-          ( XO1 * CB1)*rho1/sqrt1r22^2/sigma1
-      l.gs2 <- -rho1/sigma1^2/sqrt1r22^2*
-          t( XS0) %*% ( CB1*u1)
-      l.gr2 <- t( XS0) %*%
-          ( CB1*( u1/sigma1 + rho1*XS0.bS)/sqrt1r22^4 -
-               lambda1*rho1/sqrt1r22^3)
-      l.gb2 <- -t( XS1) %*%
-          ( XO2 * CB2)*rho2/sqrt1r32^2/sigma2
-      l.gs3 <- -rho2/sigma2^2/sqrt1r32^2*
-          t( XS1) %*% ( CB2*u2)
-      l.gr3 <- t( XS1) %*%
-          ( CB2*( u2/sigma2 + rho2*XS1.bS)/sqrt1r32^4 +
-               lambda2*rho2/sqrt1r32^3)
-      l.b1b1 <- t( XO1) %*%
-          (XO1 * ( (rho1/sqrt1r22)^2 * CB1 - 1))/sigma1^2
-      l.b1s2 <- t( XO1) %*%
-          ( CB1*rho1^2/sigma1^3*u1/sqrt1r22^2 -
-               rho1/sigma1^2*lambda1/sqrt1r22 -
-                   2*u1/sigma1^3)
-      l.b1r2 <- t( XO1) %*%
-          ( -CB1*( u1/sigma1 + rho1*XS0.bS)/sqrt1r22^4*rho1 +
-               lambda1/sqrt1r22^3)/sigma1
-      ## l.b1x3 is zero
-      l.s2s2 <- sum(
-          1/sigma1^2
-          -3*u1*u1/sigma1^4
-          + u1*u1/sigma1^4 *rho1^2/sqrt1r22^2 *CB1
-          -2*lambda1* u1/sqrt1r22 *rho1/sigma1^3)
-      l.s2r2 <- sum(
-          ( -CB1*rho1*(u1/sigma1 + rho1*XS0.bS)/sqrt1r22 +
-               lambda1)
-          *u1/sigma1^2)/sqrt1r22^3
+      ## gradient is nObs x nParam matrix
+      betaS <- beta[iBetaS]
+      betaO <- beta[iBetaO]
+      sigma <- beta[iSigma]
+      if(sigma <= 0) return(NA)
+      rho <- beta[iRho]
+      if( ( rho < -1) || ( rho > 1)) return(NA)
+                           # check the range
+      XS0.betaS <- XS0%*%betaS
+                           # denoted by 'z' in the vignette
+      XS1.betaS <- XS1%*%betaS
+      v0 <- drop(YO0 - XO0%*%betaO)
+      v1 <- drop(YO1 - XO1%*%betaO)
+      sqrt1r2 <- sqrt( 1 - rho^2)
+      B0 <- (-XS0.betaS - rho/sigma*v0)/sqrt1r2
+      B1 <- (XS1.betaS + rho/sigma*v1)/sqrt1r2
+      lambda0 <- drop(lambda(B0))
+      lambda1 <- drop(lambda(B1))
+      CB0 <- drop(CB(B0))
+      CB1 <- drop(CB(B1))
+      hess <- array(0, c( nParam, nParam))
+      hess[,] <- NA
+      hess[iBetaS,iBetaS] <-
+         t( XS0) %*% ( XS0 * CB0)/sqrt1r2^2 +
+             t( XS1) %*% ( XS1 * CB1)/sqrt1r2^2
+      hess[iBetaS,iBetaO]  <-
+         - t( XS0) %*% ( XO0 * CB0)*rho/sqrt1r2^2/sigma -
+             t( XS1) %*% ( XO1 * CB1)*rho/sqrt1r2^2/sigma
+      hess[iBetaO,iBetaS] <- t(hess[iBetaS,iBetaO])
+      hess[iBetaS,iSigma] <-
+         -rho/sigma^2/sqrt1r2^2*t( XS0) %*% ( CB0*v0) -
+             rho/sigma^2/sqrt1r2^2*t( XS1) %*% ( CB1*v1)
+      hess[iSigma,iBetaS] <- t(hess[iBetaS,iSigma])
+      hess[iBetaS,iRho] <- 
+         (t(XS0) %*% (CB0*(v0/sigma + rho*XS0.betaS)/sqrt1r2^4
+                      - lambda0*rho/sqrt1r2^3) 
+          +t(XS1) %*% (CB1*(v1/sigma + rho*XS1.betaS)/sqrt1r2^4
+                       + lambda1*rho/sqrt1r2^3)
+          )
+      hess[iRho,iBetaS] <- t(hess[iBetaS,iRho])
+      ##
+      hess[iBetaO,iBetaO] <- 
+         t( XO0) %*% (XO0*((rho/sqrt1r2)^2*CB0 - 1))/sigma^2 +
+             t( XO1) %*% (XO1*( (rho/sqrt1r2)^2 * CB1 - 1))/sigma^2
+      hess[iBetaO,iSigma] <-
+         (t( XO0) %*% (CB0*rho^2/sigma^3*v0/sqrt1r2^2
+                       - rho/sigma^2*lambda0/sqrt1r2 
+                       - 2*v0/sigma^3) 
+          + t( XO1) %*% (CB1*rho^2/sigma^3*v1/sqrt1r2^2 
+                         + rho/sigma^2*lambda1/sqrt1r2
+                         - 2*v1/sigma^3)
+          )
+      hess[iSigma,iBetaO] <- t(hess[iBetaO,iSigma])
+      hess[iBetaO,iRho] <-
+         (t(XO0) %*% (-CB0*(v0/sigma + rho*XS0.betaS)/sqrt1r2^4*rho
+                      + lambda0/sqrt1r2^3)/sigma
+          + t(XO1) %*% (-CB1*(v1/sigma + rho*XS1.betaS)/sqrt1r2^4*rho
+                        - lambda1/sqrt1r2^3)/sigma
+          )
+      hess[iRho,iBetaO] <- t(hess[iBetaO,iRho])
+      ##
+      hess[iSigma,iSigma] <-
+         (sum(1/sigma^2
+             -3*v0*v0/sigma^4
+             + v0*v0/sigma^4*rho^2/sqrt1r2^2*CB0
+             -2*lambda0*v0/sqrt1r2*rho/sigma^3)
+          + sum(1/sigma^2
+                -3*v1*v1/sigma^4
+                +rho^2/sigma^4*v1*v1/sqrt1r2^2*CB1
+                +2*lambda1*v1/sqrt1r2*rho/sigma^3)
+          )
+      hess[iSigma,iRho] <- 
+         (sum((-CB0*rho*(v0/sigma + rho*XS0.betaS)/sqrt1r2 + lambda0)
+              *v0/sigma^2)/sqrt1r2^3
+          - sum(
+              (CB1*rho*(v1/sigma + rho*XS1.betaS)/sqrt1r2 + lambda1)
+              *v1/sigma^2)/sqrt1r2^3
+          )
+      hess[iRho,iSigma] <- t(hess[iSigma,iRho])
+      hess[iRho,iRho] <-
+         (sum(CB0*( (v0/sigma + rho*XS0.betaS)/sqrt1r2^3)^2
+              -lambda0*(XS0.betaS*(1 + 2*rho^2) + 3*rho*v0/sigma)/
+                  sqrt1r2^5
+              )
+          + sum(CB1*( (v1/sigma + rho*XS1.betaS)/sqrt1r2^3)^2
+                +lambda1*( XS1.betaS*( 1 + 2*rho^2) + 3*rho*v1/sigma) /
+              sqrt1r2^5
+                )
+          )
       ## l.s2x3 is zero
-      l.r2r2 <- sum(
-          CB1*( ( u1/sigma1 + rho1*XS0.bS)/sqrt1r22^3)^2
-          -lambda1*( XS0.bS*( 1 + 2*rho1^2) + 3*rho1*u1/sigma1) /
-              sqrt1r22^5
-      )
-      ## l.r2x3 is zero
-      l.b2b2 <- t( XO2) %*%
-          (XO2 * ( (rho2/sqrt1r32)^2 * CB2 - 1))/sigma2^2
-      l.b2s3 <- t( XO2) %*%
-          ( CB2*rho2^2/sigma2^3*u2/sqrt1r32^2 +
-               rho2/sigma2^2*lambda2/sqrt1r32 - 2*u2/sigma2^3)
-      l.b2r3 <- t( XO2) %*%
-          ( -CB2*( u2/sigma2 + rho2*XS1.bS)/sqrt1r32^4*rho2 -
-               lambda2/sqrt1r32^3)/sigma2
-      l.s3s3 <- sum(
-          1/sigma2^2
-          -3*u2*u2/sigma2^4
-          +2*lambda2* u2/sqrt1r32 *rho2/sigma2^3
-          +rho2^2/sigma2^4 *u2*u2/sqrt1r32^2 *CB2)
-      l.s3r3 <- -sum(
-          ( CB2*rho2*(u2/sigma2 + rho2*XS1.bS)/sqrt1r32 +
-               lambda2)
-          *u2/sigma2^2)/sqrt1r32^3
-      l.r3r3 <- sum(
-          CB2*( ( u2/sigma2 + rho2*XS1.bS)/sqrt1r32^3)^2
-          + lambda2*( XS1.bS*( 1 + 2*rho2^2) + 3*rho2*u2/sigma2) /
-              sqrt1r32^5
-      )
-      hess <- array(NA, c( nParam, nParam))
-      hess[iBetaS,iBetaS] <- l.gg
-      hess[iBetaS,iBetaO1] <- l.gb1; hess[iBetaO1,iBetaS] <- t( l.gb1)
-      hess[iBetaS,iSigma1] <- l.gs2; hess[iSigma1,iBetaS] <- t( l.gs2)
-      hess[iBetaS,iRho1] <- l.gr2; hess[iRho1,iBetaS] <- t( l.gr2)
-      hess[iBetaS,iBetaO2] <- l.gb2; hess[iBetaO2,iBetaS] <- t( l.gb2)
-      hess[iBetaS,iSigma2] <- l.gs3; hess[iSigma2,iBetaS] <- t( l.gs3)
-      hess[iBetaS,iRho2] <- l.gr3; hess[iRho2,iBetaS] <- t( l.gr3)
-      hess[iBetaO1,iBetaO1] <- l.b1b1
-      hess[iBetaO1,iSigma1] <- l.b1s2; hess[iSigma1,iBetaO1] <- t( l.b1s2)
-      hess[iBetaO1,iRho1] <- l.b1r2; hess[iRho1,iBetaO1] <- t( l.b1r2)
-      hess[iBetaO1,iBetaO2] <- 0; hess[iBetaO2,iBetaO1] <- 0
-      hess[iBetaO1,iSigma2] <- 0; hess[iSigma2,iBetaO1] <- 0
-      hess[iBetaO1,iRho2] <- 0; hess[iRho2,iBetaO1] <- 0
-      hess[iSigma1,iSigma1] <- l.s2s2
-      hess[iSigma1,iRho1] <- l.s2r2; hess[iRho1,iSigma1] <- l.s2r2
-      hess[iSigma1,iBetaO2] <- 0; hess[iBetaO2,iSigma1] <- 0
-      hess[iSigma1,iSigma2] <- 0; hess[iSigma2,iSigma1] <- 0
-      hess[iSigma1,iRho2] <- 0; hess[iRho2,iSigma1] <- 0
-      hess[iRho1,iRho1] <- l.r2r2
-      hess[iRho1,iBetaO2] <- 0; hess[iBetaO2,iRho1] <- 0
-      hess[iRho1,iSigma2] <- 0; hess[iSigma2,iRho1] <- 0
-      hess[iRho1,iRho2] <- 0; hess[iRho2,iRho1] <- 0
-      hess[iBetaO2,iBetaO2] <- l.b2b2
-      hess[iBetaO2,iSigma2] <- l.b2s3; hess[iSigma2,iBetaO2] <- t( l.b2s3)
-      hess[iBetaO2,iRho2] <- l.b2r3; hess[iRho2,iBetaO2] <- t( l.b2r3)
-      hess[iSigma2,iSigma2] <- l.s3s3
-      hess[iSigma2,iRho2] <- l.s3r3; hess[iRho2,iSigma2] <- t( l.s3r3)
-      hess[iRho2,iRho2] <- l.r3r3
       hess
    }
    ## ---------------
@@ -276,13 +233,14 @@ tobitTfit <- function(YS, XS, YO, XO, start,
    }
    result <- maxLik(loglik,
                     grad=gradlik,
-##                    hess=hesslik,
+                    hess=hesslik,
                     start=start,
                     print.level=print.level,
                     method=maxMethod,
                     ...)
-   ## compareDerivatives(loglik, gradlik,
-   ##                         #hesslik,
+   ## compareDerivatives(#loglik,
+   ##     gradlik,
+   ##     hesslik,
    ##                    t0=start)
    result$tobitType <- "treatment"
    result$method <- "ml"

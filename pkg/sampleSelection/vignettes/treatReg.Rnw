@@ -284,6 +284,13 @@ participation and
 non-participation being the same.
 
 
+\section{TODO}
+
+\begin{itemize}
+\item If $y^{s}$ not included in 2nd step---a sort of switching
+  regression with fixed correlations?
+\end{itemize}
+
 \bibliographystyle{apecon}
 \bibliography{Economics}
 

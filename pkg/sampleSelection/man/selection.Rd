@@ -34,6 +34,7 @@ treatReg(selection, outcome,
    mfs=FALSE, mfo=FALSE,
    print.level=0,
    ...)
+}
 \arguments{
   \item{selection}{formula, the selection equation.}
   \item{outcome}{the outcome equation(s).  Either a single equation (for
@@ -343,13 +344,13 @@ N <- 500
 }
 
 ## Example for treatment regressions
-cat("Estimate the effect of treatment on income.\n",
-"selection outcome: treatment participation, logical (treatment)\n",
-"selection explanatory variables: age, education (years),\n"
-"   unemployment in 1974, 1975, race\n",
-"outcome: log real income 1978\n"
-"outcome explanatory variables: treatment, age, education, race.\n",
-"unemployment variables are treated as exclusion restriction\n")
+## Estimate the effect of treatment on income
+## selection outcome: treatment participation, logical (treatment)
+## selection explanatory variables: age, education (years)
+##   unemployment in 1974, 1975, race
+## outcome: log real income 1978
+## outcome explanatory variables: treatment, age, education, race.
+## unemployment variables are treated as exclusion restriction
 data(Treatment, package="Ecdat")
 a <- treatReg(treat~poly(age,2) + educ + u74 + u75 + ethn,
               log(re78)~treat + poly(age,2) + educ + ethn,

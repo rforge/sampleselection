@@ -1,0 +1,42 @@
+### Demonstrate 'treatReg' usage
+
+DGP <- function(N=1000, sigma=1, rho=0.8,
+                alpha0=-1, alpha1=1, alpha2=1,
+                beta0=0, beta1=1, beta2=1) {
+   ## Generate random data
+   library(mvtnorm)
+   Sigma <- matrix(c(1, rho*sigma, rho*sigma, sigma^2), 2, 2)
+   uv <- rmvnorm(N, mean=c(0,0), sigma=Sigma)
+   u <- uv[,1]
+   v <- uv[,2]
+   x <- rnorm(N)
+   z <- rnorm(N)
+   ySX <- alpha0 + alpha1*x + alpha2*z + u
+   yS <- ySX > 0
+   yO <- beta0 + beta1*x + beta2*yS + v
+   data.frame(yO, yS, x, z, ySX, u, v)
+}
+
+cat("Create random data:\n")
+cat("yS = 1(-1 + x + z + u > 0\n")
+cat("yO = x + yS + v\n")
+cat("x, z are standard normals\n")
+cat("(u,v) ~ N((0,0), matrix(c(1, 0.8, 0.8, 1), 2, 2))\n")
+cat("-- the correlation between disturbance terms 0.8\n")
+cat("-- the true treatmen effect is 1.0\n")
+dat <- DGP(2000)
+cat("1) Estimate the treatment effect by OLS:\n")
+ols <- lm(yO ~ x + yS, data=dat)
+print(summary(ols))
+cat("-- one can see that the effect (yS) is substantially overestimated\n")
+readline("<press Enter>")
+cat("Now estimate the same model with treatReg:\n")
+tr <- treatReg(yS~x+z, yO~x+yS, data=dat)
+print(summary(tr))
+cat("-- now the effect (yS) is close to 1\n")
+cat("However, here we know the treatReg model was correctly specified\n")
+
+cat("Next, look at real data\n")
+readline("<press Enter>")
+data(Treatment, package="Ecdat")
+

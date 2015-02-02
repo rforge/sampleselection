@@ -46,7 +46,8 @@ tobitTfit <- function(YS, XS, YO, XO, start,
           0.5*( v0/sigma)^2 + pnorm( B0, log.p=TRUE) 
       loglik[i1] <- -1/2*log( 2*pi) -log( sigma) -
           0.5*( v1/sigma)^2 + pnorm( B1, log.p=TRUE) 
-      sum(loglik)
+      #sum(loglik)
+      loglik
    }
    gradlik <- function(beta) {
       ## gradient is nObs x nParam matrix
@@ -83,7 +84,8 @@ tobitTfit <- function(YS, XS, YO, XO, start,
           sqrt1r2^3
       gradient[i1,iRho] <- lambda1*(v1/sigma + rho*XS1.betaS)/
           sqrt1r2^3
-      colSums(gradient)
+#      colSums(gradient)
+      gradient
    }
    hesslik <- function(beta) {
                            # This is a hack in order to avoid numeric problems

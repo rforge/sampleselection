@@ -86,8 +86,9 @@ treatReg <- function(selection, outcome,
    ## functions here.  Find bad rows and remove them later.
    ## We check XS and YS separately, because mfS may be a data frame with complex structure (e.g.
    ## including matrices)
-   badRow <- is.na(YS)
-   badRow <- badRow | apply(XS, 1, function(v) any(is.na(v)))
+   badRow <- !complete.cases(YS, XS)
+   badRow <- badRow | is.infinite(YS)
+   badRow <- badRow | apply(XS, 1, function(v) any(is.infinite(v)))
    ## YO (outcome equation)
    ## Here we should include a possibility for the user to
    ## specify the model.  Currently just a guess.
@@ -115,16 +116,17 @@ treatReg <- function(selection, outcome,
       (is.factor(YO) & length(levels(YO)) == 2)) {
       binaryOutcome <- TRUE
    }
-   badRow <- badRow | is.na(YO)
-   badRow <- badRow | (apply(XO, 1, function(v)
-      any(is.na(v))))
-                           # rows in outcome, which contain 
+   badRow <- badRow | !complete.cases(YO, XO)
+   badRow <- badRow | is.infinite(YO)
+   badRow <- badRow | apply(XO, 1, function(v) any(is.infinite(v)))
+                           # outcome cases that contain NA, Inf, NaN
    if( !is.null( weights ) ) {
       if( length( weights ) != length( badRow ) ) {
          stop( "number of weights (", length( weights ), ") is not equal",
               " to the number of observations (", length( badRow ), ")" )
       }
       badRow <- badRow | is.na( weights )
+      badRow <- badRow | is.infinite( weights )
    }   
    if(print.level > 0) {
       cat(sum(badRow), "invalid observations\n")

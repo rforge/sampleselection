@@ -81,11 +81,20 @@ print.summary.selection <- function(x,
       cat( x$param$nObs, "observations" )
       if( x$tobitType == 2 ) {
          cat( " (", x$param$N0, " censored and ", x$param$N1, " observed)\n",
-            sep = "" )
-      } else {
-         cat( ": ", x$param$N1, " selection 1 (", x$param$levels[1], ") and ",
-            x$param$N2, " selection 2 (", x$param$levels[2], ")\n", sep = "" )
+             sep = "" )
       }
+      else if(x$tobitType == 5) {
+         cat( ": ", x$param$N1, " selection 1 (", x$param$levels[1], ") and ",
+             x$param$N2, " selection 2 (", x$param$levels[2], ")\n", sep = "" )
+      }
+      else if(x$tobitType == "treatment") {
+         cat( ": ", x$param$N0, " non-participants (selection ",
+             x$param$levels[1], ") and ",
+             x$param$N1, " participants (selection ",
+             x$param$levels[2], ")\n", sep = "" )
+      }
+      else
+         stop("Tobit type must be either '2', '5', or 'treatment'")
       cat(sum(x$activePar), "free parameters" )
       cat( " (df = ", x$param$df, ")\n", sep="")
       if(part == "full") {

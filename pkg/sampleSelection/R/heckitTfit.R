@@ -10,19 +10,6 @@ heckitTfit <- function(selection, outcome,
    ##
    ## maxMethod:   probit method
    ##
-   checkIMRcollinearity <- function(X, tol=1e6) {
-      ## This small utility checks whether inverse Mills ratio is (virtually) collinear to the other explanatory
-      ## variables.  IMR is in the last columns.
-      ## In case of collinearity it returns TRUE, otherwise FALSE
-      X <- X[!apply(X, 1, function(row) any(is.na(row))),]
-      if(kappa(X) < tol)
-          return(FALSE)
-      if(kappa(X[,-ncol(X)]) > tol)
-          return(FALSE)
-                           # it is multicollinear,
-                           # but not (just) due to IMR
-      return(TRUE)
-   }
    ## Do a few sanity checks...
    if( class( selection ) != "formula" ) {
       stop( "argument 'selection' must be a formula" )
@@ -57,8 +44,9 @@ heckitTfit <- function(selection, outcome,
 
    ## check for NA-s.  Because we have to find NA-s in several frames, we cannot use the standard 'na.'
    ## functions here.  Find bad rows and remove them later.
-   badRow <- is.na(YS)
-   badRow <- badRow | apply(XS, 1, function(v) any(is.na(v)))
+   badRow <- !complete.cases(YS, XS)
+   badRow <- badRow | is.infinite(YS)
+   badRow <- badRow | apply(XS, 1, function(v) any(is.infinite(v)))
    if("formula" %in% class( outcome)) {
       if( length( outcome ) != 3 ) {
          stop( "argument 'outcome1' must be a 2-sided formula" )
@@ -73,8 +61,9 @@ heckitTfit <- function(selection, outcome,
       mtO <- attr(mfO, "terms")
       XO <- model.matrix(mtO, mfO)
       YO <- model.response(mfO, "numeric")
-      badRow <- badRow | (is.na(YO) & (!is.na(YS) & YS == 0))
-      badRow <- badRow | (apply(XO, 1, function(v) any(is.na(v))) & (!is.na(YS) & YS == 0))
+      badRow <- badRow | !complete.cases(YO, XO)
+      badRow <- badRow | is.infinite(YO)
+      badRow <- badRow | apply(XO, 1, function(v) any(is.infinite(v)))
    }
    else
        stop("argument 'outcome' must be a formula")
@@ -93,7 +82,7 @@ heckitTfit <- function(selection, outcome,
    N1 <- sum(i1)
    ## and run the model: selection
    probitResult <- probit(YS ~ XS - 1, maxMethod = maxMethod )
-   if( print.level > 0) {
+   if( print.level > 1) {
       cat("The probit part of the model:\n")
       print(summary(probitResult))
    }
@@ -101,10 +90,8 @@ heckitTfit <- function(selection, outcome,
    ##
    z <- XS %*% gamma
    ## outcome
-   invMillsRatio0 <- exp(dnorm(-z[i0], log=TRUE) -
-                              pnorm(-z[i0], log.p=TRUE))
-   invMillsRatio1 <- exp(dnorm(z[i1], log=TRUE) -
-                             pnorm(z[i1], log.p=TRUE))
+   invMillsRatio0 <- lambda(-z[i0])
+   invMillsRatio1 <- lambda(z[i1])
    XO <- cbind(XO, .invMillsRatio=0)
    XO[i0,".invMillsRatio"] <- -invMillsRatio0
    XO[i1,".invMillsRatio"] <- invMillsRatio1

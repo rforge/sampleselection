@@ -1,14 +1,18 @@
 \name{selection}
 \alias{selection}
 \alias{heckit}
-\title{Heckman-style selection models}
+\alias{treatReg}
+\title{Heckman-style selection and treatment effect models}
 \description{
-  This is the frontend for estimating Heckman-style selection models either with
+  This is the frontend for estimating Heckman-style selection
+  models either with
   one or two outcomes (also known as generalized tobit models).  It
-  supports binary outcomes in the single-outcome case.
+  supports binary outcomes in the single-outcome case.  It also supports
+  normal-distribution based treatment effect models.
 
   For model specification and more details, see Henningsen and Toomet
-  (2008) and the included vignette \dQuote{Sample Selection Models}.
+  (2008) and the included vignettes \dQuote{Sample Selection Models} and
+  \dQuote{All-Normal Treatment Effects}.
 }
 
 \usage{
@@ -19,8 +23,17 @@ selection(selection, outcome, data = sys.frame(sys.parent()),
 
 heckit( selection, outcome, data = sys.frame(sys.parent()),
    method = "2step", ... )
-}
 
+treatReg(selection, outcome,
+   data=sys.frame(sys.parent()),
+   weights = NULL, subset,
+   method="ml",
+   start=NULL,
+   ys=FALSE, xs=FALSE,
+   yo=FALSE, xo=FALSE,
+   mfs=FALSE, mfo=FALSE,
+   print.level=0,
+   ...)
 \arguments{
   \item{selection}{formula, the selection equation.}
   \item{outcome}{the outcome equation(s).  Either a single equation (for
@@ -75,6 +88,16 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
    only for those observations,
    where this variable equals the second element of its levels
    (e.g. 'TRUE' or '1').
+
+  Treatment effect models are a version of tobit-5 models where the two
+  outcomes are \dQuote{participation} and \dQuote{non-participation}.
+\code{treatReg}
+  takes an equal set of explanatory variables for both of these choices
+  and assumes that the corresponding parameters are equal.  In typical
+  treatment effect model the selection outcome variable (participation
+  decision) is included as an explanatory variable for the outcome.
+  It this is not done, \code{treatReg} amounts to estimating two
+  equations with correlated error structure.
 
   \code{NA}-s are allowed in the data.  These are ignored if the
   corresponding outcome is unobserved, otherwise observations which
@@ -318,6 +341,20 @@ N <- 500
    a <- selection(ys~xs, yo ~xo)
    summary(a)
 }
+
+## Example for treatment regressions
+cat("Estimate the effect of treatment on income.\n",
+"selection outcome: treatment participation, logical (treatment)\n",
+"selection explanatory variables: age, education (years),\n"
+"   unemployment in 1974, 1975, race\n",
+"outcome: log real income 1978\n"
+"outcome explanatory variables: treatment, age, education, race.\n",
+"unemployment variables are treated as exclusion restriction\n")
+data(Treatment, package="Ecdat")
+a <- treatReg(treat~poly(age,2) + educ + u74 + u75 + ethn,
+              log(re78)~treat + poly(age,2) + educ + ethn,
+              data=Treatment)
+print(summary(a))
 
 \keyword{models}
 \keyword{regression}

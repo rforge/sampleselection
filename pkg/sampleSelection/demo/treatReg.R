@@ -17,20 +17,51 @@ DGP <- function(N=1000, sigma=1, rho=0.8,
    data.frame(yO, yS, x, z, ySX, u, v)
 }
 
-cat("Create random data:\n")
-cat("yS = 1(-1 + x + z + u > 0\n")
-cat("yO = x + yS + v\n")
-cat("x, z are standard normals\n")
-cat("(u,v) ~ N((0,0), matrix(c(1, 0.8, 0.8, 1), 2, 2))\n")
-cat("-- the correlation between disturbance terms 0.8\n")
-cat("-- the true treatmen effect is 1.0\n")
+library(sampleSelection)
+## Create random data:
+## yS = 1(-1 + x + z + u > 0
+## yO = x + yS + v
+## x, z are standard normals
+## (u,v) ~ N((0,0), matrix(c(1, 0.8, 0.8, 1), 2, 2))
+## -- the correlation between disturbance terms 0.8
+## -- the true treatmen effect is 1.0
 dat <- DGP(2000)
-cat("1) Estimate the treatment effect by OLS:\n")
+## 1) Estimate the treatment effect by OLS:
 ols <- lm(yO ~ x + yS, data=dat)
 print(summary(ols))
-cat("-- one can see that the effect (yS) is substantially overestimated\n")
+## -- one can see that the effect (yS) is substantially overestimated
 readline("<press Enter>")
-cat("Now estimate the same model with treatReg:\n")
+## Now estimate the same model with treatReg:
 tr <- treatReg(yS~x+z, yO~x+yS, data=dat)
 print(summary(tr))
-cat("-- now the effect (yS) is close to 1\n")
+## -- now the effect (yS) is close to 1
+## next: a real example
+
+readline("<press Enter>")
+data(Treatment, package="Ecdat")
+## 'Treatment' data in library 'Ecdat':
+## 'treat'   treatment indicator (logical)
+## 'age'     in years
+## 'educ'    education in years
+## 'u74', 'u75'  unemployment in 1974, 1975 (logical)
+## 'ethn'    race: black, hispanic, other
+## 're78'    real income in 1978
+## First estimate it using unemployment 'u74', 'u75' as exclusion
+## restriction
+er <- treatReg(treat~poly(age,2) + educ + u74 + u75 + ethn,
+               log(re78)~treat + poly(age,2) + educ + ethn,
+               data=Treatment)
+print(summary(er))
+## The treatment effect estimate 'treatTRUE' is -0.96, i.e. the
+## treatment substantially lower the earnings
+## Now estimate it withouth the exclusion restriction
+noer <- treatReg(treat~poly(age,2) + educ + u74 + u75 + ethn,
+                 log(re78)~treat + poly(age,2) + educ + u74 + u75 + ethn,
+                 data=Treatment)
+print(summary(noer))
+## Now the estimate is -0.51. The treatment still seems to
+## lower the earnings.
+## The few observable characteristics are probably not sufficient
+## to correct for selection effects.  Model selection and
+## valid exclusion restrictions are crucial in this type of models
+

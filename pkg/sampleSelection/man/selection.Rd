@@ -341,7 +341,6 @@ N <- 500
    yo <- (xo + eps[,2])*(ys > 0)
    a <- selection(ys~xs, yo ~xo)
    summary(a)
-}
 
 ## Example for treatment regressions
 ## Estimate the effect of treatment on income
@@ -356,6 +355,7 @@ a <- treatReg(treat~poly(age,2) + educ + u74 + u75 + ethn,
               log(re78)~treat + poly(age,2) + educ + ethn,
               data=Treatment)
 print(summary(a))
+}
 
 \keyword{models}
 \keyword{regression}

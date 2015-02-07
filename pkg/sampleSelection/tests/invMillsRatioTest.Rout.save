@@ -24,9 +24,6 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
-Warning messages:
-1: package 'maxLik' was built under R version 3.2.0 
-2: In fun(libname, pkgname) : bytecode version mismatch; using eval
 > options( digits = 3 )
 > 
 > ## Wooldridge( 2003 ): example 17.5, page 590
@@ -47,8 +44,6 @@ Warning messages:
 > 
 > # example for bivariate probit
 > library( "mvtnorm" )
-Warning message:
-package 'mvtnorm' was built under R version 3.2.0 
 > library( "VGAM" )
 Loading required package: stats4
 Loading required package: splines
@@ -59,8 +54,6 @@ The following object is masked from 'package:sampleSelection':
 
     probit
 
-Warning message:
-package 'VGAM' was built under R version 3.2.0 
 > set.seed( 321 )
 > 
 > nObs <- 10000
@@ -604,4 +597,4 @@ F-statistic:  841 on 2 and 5294 DF,  p-value: <2e-16
 > 
 > proc.time()
    user  system elapsed 
- 16.794   0.079  16.873 
+  13.31    0.11   13.42 

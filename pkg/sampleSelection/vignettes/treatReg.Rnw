@@ -1,4 +1,4 @@
-% -*- mode: LaTeX; mode: flyspell; -*-
+% -*- eval: (flyspell-mode 1); -*-
 % mode: Tex-Pdf -*-
 \documentclass[a4paper]{article}
 \usepackage[T1]{fontenc}
@@ -24,9 +24,7 @@
 %\VignetteKeyword{regression}
 
 \title{All-Normal Treatment Effect}
-
 \begin{document}
-
 \maketitle
 
 \section{The Problem}
@@ -282,6 +280,50 @@ The model is very similar in structure to the tobit-5 models
 explanatory variables and the coefficients for both choices,
 participation and
 non-participation being the same.
+
+
+\section{\code{treatReg}}
+\label{sec:treatReg}
+
+\code{treatReg} supports both 2-step and ML estimation.  In the
+latter case, 2-step method is used for initial values of parameters
+(unless the user supplies these herself).  
+
+We first provide an example with random data.  We use highly
+correlated error terms ($\rho=0.8$), all the coefficients are equal
+to unity:
+<<generate_data>>=
+library(mvtnorm)
+set.seed(0)
+N <- 2000
+sigma <- 1
+rho <- 0.8
+Sigma <- matrix(c(1, rho*sigma, rho*sigma, sigma^2), 2, 2)
+uv <- rmvnorm(N, mean=c(0,0), sigma=Sigma)
+u <- uv[,1]
+v <- uv[,2]
+x <- rnorm(N)
+z <- rnorm(N)
+ySX <- -1 + x + z + u
+yS <- ySX > 0
+yO <- x + yS + v
+dat <- data.frame(yO, yS, x, z, ySX, u, v)
+@ 
+The code generates two correlated random variables, $u$ and $v$
+(using \code{rmvnorm}.  It also creates an explanatory variable $x$
+and exclusion restriction $z$.  Finally, we set the observable
+treatment indicator $x^{s}$ equal to unity for those whose $x^{s*} >
+0$, and calculate the outcome $y^{o}$.
+
+First, we run a naive OLS estimate for the treatment in the form of
+<<OLS>>=
+m <- lm(yO ~ x + yS, data=dat)
+print(summary(m))
+@ 
+Our estimated treatment effect (\code{yS}) is close to 2, instead of
+the correct value 1.  This is because the error terms are highly
+positively correlated---the participants are those who have ``the
+best'' outcomes anyway.
 
 
 \section{TODO}

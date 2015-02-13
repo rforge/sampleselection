@@ -19,12 +19,19 @@
 \usepackage{xspace}
 \input{isomath}
 
+
+\title{All-Normal Treatment Effect}
+
+\begin{document}
 %\VignetteIndexEntry{Using treatReg}
 %\VignetteKeyword{models}
 %\VignetteKeyword{regression}
+<<echo=FALSE>>=
+library(mvtnorm)
+library(sampleSelection)
+set.seed(0)
+@ 
 
-\title{All-Normal Treatment Effect}
-\begin{document}
 \maketitle
 
 \section{The Problem}
@@ -293,8 +300,6 @@ We first provide an example with random data.  We use highly
 correlated error terms ($\rho=0.8$), all the coefficients are equal
 to unity:
 <<generate_data>>=
-library(mvtnorm)
-set.seed(0)
 N <- 2000
 sigma <- 1
 rho <- 0.8
@@ -323,7 +328,25 @@ print(summary(m))
 Our estimated treatment effect (\code{yS}) is close to 2, instead of
 the correct value 1.  This is because the error terms are highly
 positively correlated---the participants are those who have ``the
-best'' outcomes anyway.
+best'' outcomes anyway.  Note also that the estimates for the
+intercept and $x$ are wrong.
+
+Now we estimate the same problem using the correct statistical model
+with \code{treatReg}.  We have to specify two equations: the first
+one is the selection equation, the second one the actual outcome.
+The treatment indicator enters here as an ordinary control variable: 
+<<>>=
+tm <- treatReg(yS ~ x + z, yO ~ x + yS, data=dat)
+print(summary(tm))
+@ 
+The estimates are divided into three blocks: the first one describes
+the selection equation, the next one the outcome, and the last block
+describes the error terms.
+In this case all the estimates are close to the correct values.
+This is not surprising because in this case we were able to use the
+correctly specified model.  We also rather precisely recover the
+error term correlation 0.8, note that it also possesses extremely
+high $t$-value 33.
 
 
 \section{TODO}

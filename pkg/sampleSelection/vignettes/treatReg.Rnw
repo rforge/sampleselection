@@ -20,7 +20,9 @@
 \input{isomath}
 
 
-\title{All-Normal Treatment Effect}
+\title{Treatment Effect with Normal Disturbances: \code{treatReg}}
+\author{Ott Toomet\\
+Tartu University}
 
 \begin{document}
 %\VignetteIndexEntry{Using treatReg}
@@ -37,7 +39,22 @@ set.seed(0)
 \section{The Problem}
 \label{sec:problem}
 
-Assume two underlying latent variables: ``tendency to participate''
+The holy grail of policy analysis is to determine causal effects.
+Causal parameters can be directly interpreted as ``impact'': how much
+does the variable of interest increase if we change a policy
+parameter?  Such effects are hard to estimate based on
+commonly available data.  The reason is self-selection, the fact that
+these are typically different people who face different policy
+variables.  If their outcome-of-interest differs, this just can
+reflect the obvious: different people behave in a different way.
+Unfortunately, the gold standard for determining
+causality, randomized experiment, is too often not feasible either.  
+A solution is offered by \citet{heckman1976}.  That paper proposes to
+rephrase the model in terms of a latent variable, ``participation
+tendency'', and assumes all the disturbance terms are drawn from a
+common bivariate normal distribution.
+
+Assume two underlying latent variables: ``participation tendency''
 $y^{s*}$ and ``outcome'' $y^{o*}$:
 \begin{equation}
   \begin{split}
@@ -51,7 +68,7 @@ $y^{s*}$ and ``outcome'' $y^{o*}$:
 \end{equation}
 where $y^{s} = \indic(y^{s*} > 0)$ is the observable
 participation indicator
-and 
+and $u$ and $v$ are normally distributed disturbance terms:
 \begin{equation}
   \begin{pmatrix}
     u \\ v
@@ -68,13 +85,13 @@ and
     \end{pmatrix}
   \right).
 \end{equation}
-$\vec{x}^{o}$ may include variables, not in $\vec{x}^{o}$
+$\vec{x}^{s}$ may include variables, not in $\vec{x}^{o}$
 (exclusion restrictions) but it is not necessary.  The
 parameter of interest is $\beta_{2}$.
 We observe the actual participation $y^{s}$ and the outcome $y^{o} =
 y^{o*}$. 
 
-Individuals participate if $y^{s*} > 1$ i.e. $u > - \alpha_{0} -
+Individuals participate if $y^{s*} > 0$ i.e. $u > - \alpha_{0} -
 \vec{\alpha}_{1}' \vec{x}^{s}$ and hence
 for participants
 \begin{equation}
@@ -92,11 +109,14 @@ and for non-participants
   + \E [v|u < - \alpha_{0} -
   \vec{\alpha}_{1}' \vec{x}^{s}].
 \end{equation}
-We can identify $\beta$ in the usual way as
-$(y_{i}^{o}|\vec{x}_{i}, y_{i}^{s} = 1) - (y_{i}^{o}|\vec{x}_{i},
-y_{i}^{s} = 0)$.
+We can identify $\beta_{2}$ in the usual way as
+$\E[y_{i}^{o}|\vec{x}_{i}, y_{i}^{s} = 1] 
+- 
+\E [y_{i}^{o}|\vec{x}_{i},
+y_{i}^{s} = 0]$.
 
-In terms on econometric model, it is a switching regression where:
+In terms on econometric model, it is a switching regression (tobit-5)
+model where:
 \begin{itemize}
 \item Everyone has an observable outcome $y^{o}$.
 \item There is an selection indicator $y^{s}$ in the outcome
@@ -117,7 +137,9 @@ observed.
 
 This model can be consistently estimated by a version of
 \citet{heckman1976} two-step estimator.  First, one can
-consistently estimate the selection process by probit.  Denote 
+consistently estimate the selection process by probit.  
+
+Next, denote 
 $z = \alpha_{0} + \vec{\alpha}_{1}' \vec{x}^{s}$.
 From normal
 density properties we know that
@@ -132,7 +154,7 @@ density properties we know that
 \end{equation}
 and
 \begin{align}
-  \label{eq:var_u|v}
+  \label{eq:var_u1|v}
   \sigma_{0}^{2} \equiv
   \var [v|u > -z]
   &=
@@ -140,40 +162,45 @@ and
   \rho^{2}\sigma^{2} z \lambda(z) -
   \rho^{2}\sigma^{2} \lambda^{2}(z)
   \\
+  \label{eq:var_u0|v}
   \sigma_{1}^{2} \equiv
   \var [v|u < -z]
   &=
   \sigma^{2} +
   \rho^{2}\sigma^{2} z \lambda(-z) -
-  \rho^{2}\sigma^{2} \lambda^{2}(-z)
+  \rho^{2}\sigma^{2} \lambda^{2}(-z),
 \end{align}
 where $\lambda(\cdot) = \phi(\cdot)/\Phi(\cdot)$, and
 $\phi$ and $\Phi$
-are normal pdf and cdf correspondingly.  Hence we can re-write the
+are standard
+normal pdf and cdf correspondingly.  Hence we can re-write the
 outcome equation as
 \begin{equation}
   y_{i}^{o}
   = 
   \beta_{0} + \vec{\beta}_{1}' \vec{x}_{i}^{o} 
-  + \beta_{2} T_{i}
+  + \beta_{2} y_{i}^{s}
   + \beta_{3} \hat\lambda_{i}
   + \eta_{i}
   \label{eq:outcome_imr}
 \end{equation}
-where $T$ is the treatment indicator and
+where
 \begin{equation}
   \label{eq:hat_lambda}
   \hat\lambda_{i}
   =
   \begin{cases}
     \rho\sigma\lambda(z)
-    & \text{if}\quad T = 1\\
+    & \text{if}\quad y^{s} = 1\\
     - \rho\sigma\lambda(-z)
-    & \text{if}\quad T = 0.
+    & \text{if}\quad y^{s} = 0.
   \end{cases}
 \end{equation}
-We can estimate $\rho$ and $\sigma$ from \eqref{eq:outcome_imr}
-in two ways.  First, for participants, we have
+$\eta$ is a disturbance term that by construction is independent of
+$\hat \lambda$ and has variance of $\chi_{0}^{2}$ or $\sigma_{1}^{2}$,
+depending on the participation status.
+We can estimate $\rho$ and $\sigma$ from~\eqref{eq:outcome_imr} in
+two ways.  First, for participants, from~\eqref{eq:var_u1|v} we have
 \begin{equation}
   \label{eq:sigma2_participants}
   \hat \sigma^{2} = 
@@ -185,7 +212,7 @@ in two ways.  First, for participants, we have
   \hat \beta_{3}^{2} \bar z \bar\lambda(z) +
   \hat \beta_{3}^{2} \bar\lambda^{2}(z)
 \end{equation}
-and second, for non-participants we get
+and second, for non-participants we get from~\eqref{eq:var_u0|v} 
 \begin{equation}
   \label{eq:sigma2_non-participants}
   \hat \sigma^{2} = 
@@ -197,7 +224,7 @@ and second, for non-participants we get
   \hat \beta_{3}^{2} \bar z \bar\lambda(-z) +
   \hat \beta_{3}^{2} \bar\lambda^{2}(-z)
 \end{equation}
-where upper bar denotes sample means.
+where upper bar denotes the corresponding sample mean.
 $\sigma_{0}^{2}$ and $\sigma_{1}^{2}$ can simply be estimated from
 the residuals for non-participants and participants.
 In both case the estimator for $\rho$ is
@@ -335,7 +362,7 @@ Now we estimate the same problem using the correct statistical model
 with \code{treatReg}.  We have to specify two equations: the first
 one is the selection equation, the second one the actual outcome.
 The treatment indicator enters here as an ordinary control variable: 
-<<>>=
+<<treatReg>>=
 tm <- treatReg(yS ~ x + z, yO ~ x + yS, data=dat)
 print(summary(tm))
 @ 
@@ -348,15 +375,69 @@ correctly specified model.  We also rather precisely recover the
 error term correlation 0.8, note that it also possesses extremely
 high $t$-value 33.
 
+However, the real life is almost always harder.  The example above
+involves 
+two advantages not commonly seen in real data: first, 
+the model is correctly specified, and second---the treatment effect is
+extremely strong with $\beta_{2} = \sigma$.
 
-\section{TODO}
+Let's analyze a real dataset (treatment data from library
+\code{Ecdat}).  This includes a US training program data from 1970s.
+\code{educ} measures education (in years), \code{u74} and \code{u75}
+are unemployment indicators for 1974 and 1975.  \code{ethn} is race
+(``black'', ``hispanic'' and ``other'') and \code{re78} measures real
+income in 1978.  First, choose \code{u74} and \code{u75} as exclusion
+restrictions.  This amounts to assuming that previous unemployment is
+unrelated to the wage a few years later, except through eventual
+training.  
+<<EcdatExample>>=
+data(Treatment, package="Ecdat")
+er <- treatReg(treat~poly(age,2) + educ + u74 + u75 + ethn,
+               log(re78)~treat + poly(age,2) + educ + ethn,
+               data=Treatment)
+print(summary(er))
+@ 
+We see that low education and unemployment are strong predictors for
+training 
+participation.  We also see that blacks and hispanics
+are more likely to
+be trained that ``others''.  To a big surprise, the trainings seems to
+have a strong negative impact on earnings: the estimate -0.96 means
+that participants earn
+less than 40\% of what the non-participants do!
 
-\begin{itemize}
-\item If $y^{s}$ not included in 2nd step---a sort of switching
-  regression with fixed correlations?
-\end{itemize}
+Let's now acknowledge that previous unemployment may also have direct
+causal effect on wage.
+<<EcdatNoExclusion>>=
+## The treatment effect estimate 'treatTRUE' is -0.96, i.e. the
+## treatment substantially lower the earnings
+## Now estimate it withouth the exclusion restriction
+noer <- treatReg(treat~poly(age,2) + educ + u74 + u75 + ethn,
+                 log(re78)~treat + poly(age,2) + educ + u74 + u75 + ethn,
+                 data=Treatment)
+print(summary(noer))
+@ 
+Now the estimated treatment effect is substantially smaller in
+absolute value, only -0.51 and hence participants earn about 60\% of
+income of non-participants.
+
+We also see that the error terms in the first case are slightly
+positively correlated while in the latter case they are essentially
+uncorrelated.  However, as the selection equation estimates suggest,
+the participants seem to be draw from the weakest end of the
+observable skill distribution.  We would accordingly expect they the
+correlation to be strongly negative.  Seems like this data is too
+coarse to correctly estimate the bias.
+
 
 \bibliographystyle{apecon}
 \bibliography{Economics}
 
 \end{document}
+
+TODO:
+
+\begin{itemize}
+\item If $y^{s}$ not included in 2nd step---a sort of switching
+  regression with fixed correlations?
+\end{itemize}

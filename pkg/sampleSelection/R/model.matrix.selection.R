@@ -76,6 +76,16 @@ model.matrix.selection <- function( object, part = "outcome", ... ) {
                result[[ 2 ]][ response == 0, ] <- NA
             }
          }
+           else if( object$tobitType == "treatment" ) {
+            result <- list()
+            if( ! is.null( object$xo ) ) {
+               result <- object$xo
+            } else {
+               mf <- model.frame( object )
+               attributes( mf )$na.action <- na.pass
+               result <- model.matrix( object$termsO, mf )
+            }
+         }
       }
    }
 

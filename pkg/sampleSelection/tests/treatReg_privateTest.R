@@ -32,3 +32,10 @@ dat$z[7] <- NA
 dat$z[8] <- Inf
 m <- treatReg(yS~x+z, yO~yS+x, data=dat)
 print(summary(m))
+
+mf <- model.frame(m)
+print(mf[sample(nrow(mf), 10),])
+mm <- model.matrix(m)
+print(mm[sample(nrow(mm), 10),])
+mm <- model.matrix(m, part="selection")
+print(mm[sample(nrow(mm), 10),])

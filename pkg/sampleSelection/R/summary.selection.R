@@ -91,7 +91,7 @@ print.summary.selection <- function(x,
          cat( ": ", x$param$N0, " non-participants (selection ",
              x$param$levels[1], ") and ",
              x$param$N1, " participants (selection ",
-             x$param$levels[2], ")\n", sep = "" )
+             x$param$levels[2], ")\n", sep = "", fill=TRUE)
       }
       else
          stop("Tobit type must be either '2', '5', or 'treatment'")

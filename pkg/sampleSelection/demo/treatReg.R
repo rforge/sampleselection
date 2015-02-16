@@ -24,12 +24,12 @@ library(sampleSelection)
 ## x, z are standard normals
 ## (u,v) ~ N((0,0), matrix(c(1, 0.8, 0.8, 1), 2, 2))
 ## -- the correlation between disturbance terms 0.8
-## -- the true treatmen effect is 1.0
+## -- the true treatment effect is 1.0
 dat <- DGP(2000)
 ## 1) Estimate the treatment effect by OLS:
 ols <- lm(yO ~ x + yS, data=dat)
 print(summary(ols))
-## -- one can see that the effect (yS) is substantially overestimated
+## The effect (yS) is substantially overestimated (ySTRUE close to 2)
 readline("<press Enter>")
 ## Now estimate the same model with treatReg:
 tr <- treatReg(yS~x+z, yO~x+yS, data=dat)

@@ -13,12 +13,18 @@
             ]{hyperref}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
+\RequirePackage{bbm}
 \usepackage{graphicx}
 \usepackage{icomma}
 \usepackage{natbib}
 \usepackage{xspace}
-\input{isomath}
 
+\newcommand{\code}[1]{\texttt{#1}}
+\DeclareMathOperator*{\E}{\mathbbm{E}}% expectation
+\newcommand{\indic}{\mathbbm{1}}% indicator function
+\newcommand{\loglik}{\ell}% log likelihood
+\newcommand{\var}{\mathrm{Var}\,}
+\renewcommand*{\vec}[1]{\boldsymbol{#1}}
 
 \title{Treatment Effect with Normal Disturbances: \code{treatReg}}
 \author{Ott Toomet\\
@@ -31,6 +37,7 @@ Tartu University}
 <<echo=FALSE>>=
 library(mvtnorm)
 library(sampleSelection)
+options(width=70)
 set.seed(0)
 @ 
 
@@ -65,6 +72,7 @@ $y^{s*}$ and ``outcome'' $y^{o*}$:
     + \beta_{2} y_{i}^{s}
     + v_{i}
   \end{split}
+  \label{eq:the_model}
 \end{equation}
 where $y^{s} = \indic(y^{s*} > 0)$ is the observable
 participation indicator
@@ -238,7 +246,7 @@ In both case the estimator for $\rho$ is
 
 Denote by $\vec{u} = (u_{1}, u_{2}, \dots, u_{N})$ and $\vec{v} =
 (v_{1}, v_{2}, \dots, v_{N})$.
-Based on .... we can write
+Based on \eqref{eq:the_model} we can write
 \begin{equation}
   \begin{split}
     \Pr(\vec{u},\vec{v}) &=
@@ -259,28 +267,28 @@ Normal density properties tell that
   \frac{
     \frac{1}{\sigma}
     \phi \left( \frac{v_{i}}{\sigma} \right)
-  }{\Phi(a)}
+  }{\Phi(-z_{i})}
   \Phi \left( 
-    \frac{-z - \frac{\rho}{\sigma} v_{i}}{\sqrt{1 - \rho^{2}}}
+    \frac{-z_{i} - \frac{\rho}{\sigma} v_{i}}{\sqrt{1 - \rho^{2}}}
   \right)
   \\
   \Pr(u_{i} < -z_{i})
   &=
-  \Phi(a)
+  \Phi(-z_{i})
   \\
   \Pr(v_{i}|u_{i} > -z_{i}) 
   &=
   \frac{
     \frac{1}{\sigma}
     \phi \left( \frac{v_{i}}{\sigma} \right)
-  }{\Phi(-a)}
+  }{\Phi(z_{i})}
   \Phi \left( 
-    -\frac{-z - \frac{\rho}{\sigma} v_{i}}{\sqrt{1 - \rho^{2}}}
+    -\frac{-z_{i} - \frac{\rho}{\sigma} v_{i}}{\sqrt{1 - \rho^{2}}}
   \right)
   \\
   \Pr(u_{i} > -z_{i})
   &=
-  \Phi(-a)
+  \Phi(z_{i})
 \end{align}
 where $\phi(\cdot)$ and $\Phi(\cdot)$ are the standard normal density
 and cumulative distribution functions.  The disturbance terms $v_{i}$ 
@@ -289,7 +297,7 @@ be written based on observables as $v_{i} = y_{i}^{o} -
 \beta_{0} - \vec{\beta}_{1}' \vec{x}_{i}^{o} 
 - \beta_{2} y_{i}^{s}$. 
 Accordingly, we can write the
-models log-likelihood as
+model log-likelihood as
 \begin{multline}
   \label{eq:log_likelihood}
   \loglik =
@@ -310,20 +318,26 @@ models log-likelihood as
   \right).
 \end{multline}
 The model is very similar in structure to the tobit-5 models
-\citep{amemiya1985,toomet+henningsen2008}.  It stipulates the
-explanatory variables and the coefficients for both choices,
-participation and
-non-participation being the same.
+\citep{amemiya1985,toomet+henningsen2008}.  Essentially it is a
+tobit-5 model where
+explanatory variables and the coefficients are the same for both
+choices---participation and
+non-participation.
 
 
 \section{\code{treatReg}}
 \label{sec:treatReg}
 
-\code{treatReg} supports both 2-step and ML estimation.  In the
-latter case, 2-step method is used for initial values of parameters
-(unless the user supplies these herself).  
+Technically,
+\code{treatReg} is an amended version of tobit-5 models in the
+\code{selection} command in the package \code{sampleSelection}
+\citep{toomet+henningsen2008}.  It
+supports both 2-step and maximum likelihood estimation.  In the
+latter case, 2-step method is used for calculating the
+nitial values of parameters
+(unless these are supplied by the user).  
 
-We first provide an example with random data.  We use highly
+We first provide a random data example.  We use highly
 correlated error terms ($\rho=0.8$), all the coefficients are equal
 to unity:
 <<generate_data>>=
@@ -342,20 +356,20 @@ yO <- x + yS + v
 dat <- data.frame(yO, yS, x, z, ySX, u, v)
 @ 
 The code generates two correlated random variables, $u$ and $v$
-(using \code{rmvnorm}.  It also creates an explanatory variable $x$
-and exclusion restriction $z$.  Finally, we set the observable
+(using \code{rmvnorm}).  It also creates an explanatory variable $x$
+and an exclusion restriction $z$.  Finally, we set the observable
 treatment indicator $x^{s}$ equal to unity for those whose $x^{s*} >
 0$, and calculate the outcome $y^{o}$.
 
-First, we run a naive OLS estimate for the treatment in the form of
+First, we run a naive OLS estimate completely ignoring the selectivity:
 <<OLS>>=
 m <- lm(yO ~ x + yS, data=dat)
 print(summary(m))
 @ 
 Our estimated treatment effect (\code{yS}) is close to 2, instead of
 the correct value 1.  This is because the error terms are highly
-positively correlated---the participants are those who have ``the
-best'' outcomes anyway.  Note also that the estimates for the
+positively correlated---the participants are those who have the
+``best'' outcomes anyway.  Note that also the estimates for the
 intercept and $x$ are wrong.
 
 Now we estimate the same problem using the correct statistical model
@@ -366,14 +380,14 @@ The treatment indicator enters here as an ordinary control variable:
 tm <- treatReg(yS ~ x + z, yO ~ x + yS, data=dat)
 print(summary(tm))
 @ 
-The estimates are divided into three blocks: the first one describes
+The estimates are divided into three blocks: the first block describes
 the selection equation, the next one the outcome, and the last block
 describes the error terms.
-In this case all the estimates are close to the correct values.
-This is not surprising because in this case we were able to use the
-correctly specified model.  We also rather precisely recover the
+In this case all the estimates are close to their true values.
+This is not surprising we have
+specified the model correctly.  We also rather precisely recover the
 error term correlation 0.8, note that it also possesses extremely
-high $t$-value 33.
+high $t$-value of 33.
 
 However, the real life is almost always harder.  The example above
 involves 
@@ -384,7 +398,7 @@ extremely strong with $\beta_{2} = \sigma$.
 Let's analyze a real dataset (treatment data from library
 \code{Ecdat}).  This includes a US training program data from 1970s.
 \code{educ} measures education (in years), \code{u74} and \code{u75}
-are unemployment indicators for 1974 and 1975.  \code{ethn} is race
+are unemployment indicators for 1974 and 1975, \code{ethn} is race
 (``black'', ``hispanic'' and ``other'') and \code{re78} measures real
 income in 1978.  First, choose \code{u74} and \code{u75} as exclusion
 restrictions.  This amounts to assuming that previous unemployment is
@@ -401,7 +415,7 @@ We see that low education and unemployment are strong predictors for
 training 
 participation.  We also see that blacks and hispanics
 are more likely to
-be trained that ``others''.  To a big surprise, the trainings seems to
+be trained that ``others''.  Surprisingly, the trainings seems to
 have a strong negative impact on earnings: the estimate -0.96 means
 that participants earn
 less than 40\% of what the non-participants do!
@@ -418,16 +432,17 @@ noer <- treatReg(treat~poly(age,2) + educ + u74 + u75 + ethn,
 print(summary(noer))
 @ 
 Now the estimated treatment effect is substantially smaller in
-absolute value, only -0.51 and hence participants earn about 60\% of
+absolute value, only -0.51, and hence participants earn about 60\% of
 income of non-participants.
 
 We also see that the error terms in the first case are slightly
 positively correlated while in the latter case they are essentially
 uncorrelated.  However, as the selection equation estimates suggest,
-the participants seem to be draw from the weakest end of the
-observable skill distribution.  We would accordingly expect they the
-correlation to be strongly negative.  Seems like this data is too
-coarse to correctly estimate the bias.
+the participants are drawn from the weakest end of the
+observable skill distribution.  If this is also true for
+unobservables, we would expect the
+correlation to be negative.  Seems like this data is too
+coarse to correctly determine the bias.
 
 
 \bibliographystyle{apecon}

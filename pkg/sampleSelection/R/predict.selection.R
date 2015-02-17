@@ -7,7 +7,7 @@ predict.selection <- function( object, newdata = NULL,
 
    if( ! object$tobitType %in% c( 2, 5, "treatment") ) {
       stop( "internal error: unknown tobitType '", object$tobitType,
-         "' Please contact the maintainer of the sampleSelection package" )
+         "'\nPlease contact the maintainer of sampleSelection package" )
    }
    
    if( is.null( newdata ) ) {

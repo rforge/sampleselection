@@ -39,3 +39,16 @@ mm <- model.matrix(m)
 print(mm[sample(nrow(mm), 10),])
 mm <- model.matrix(m, part="selection")
 print(mm[sample(nrow(mm), 10),])
+
+## Now test prediction
+cat("predicted and actual selection values\n")
+pl <- predict(m, part="selection", type="link")
+pr <- predict(m, part="selection", type="response")
+p <- cbind(pred.link=pl, pred.resp=pr, actual.resp=mf$yS)
+print(p[sample(nrow(p), 10),])
+cat("predicted and actual outcomes\n")
+pu <- predict(m, part="outcome", type="unconditional")
+pc <- predict(m, part="outcome", type="conditional")
+p <- cbind("E[yo]"=pu, pc, "yo"=mf$yO, "ys"=mf$yS)
+print(p[sample(nrow(p), 10),])
+

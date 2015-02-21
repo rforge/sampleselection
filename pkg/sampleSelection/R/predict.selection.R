@@ -22,8 +22,12 @@ predict.selection <- function( object, newdata = NULL,
       
          # remove inverse Mills ratio
          if( object$method == "2step" ) {
-            if( object$tobitType == 2 ) {
+            if( (object$tobitType == 2) |
+               (object$tobitType == "treatment") ) {
                mXOutcome <- mXOutcome[ , -ncol( mXOutcome ) ]
+                           # here we assume IMR is in the last column
+                           # invent an (internal) function that
+                           # tells it?
             } else if( object$tobitType == 5 ) {
                for( i in 1:2 ) {
                   mXOutcome[[i]] <- mXOutcome[[i]][ , -ncol( mXOutcome[[i]] ) ]
@@ -44,7 +48,8 @@ predict.selection <- function( object, newdata = NULL,
       # regressor matrix for the outcome equation
       if( part == "outcome" ) {
          tempO <- eval( object$call$outcome )
-         if( object$tobitType == 2 ) {
+         if(( object$tobitType == 2 ) |
+            (object$tobitType == "treatment")) {
             formO <- as.formula( tempO )[-2]
             mfO <- model.frame( formO, data = newdata, na.action = na.pass )
             mXOutcome <- model.matrix( formO, mfO )
@@ -66,7 +71,8 @@ predict.selection <- function( object, newdata = NULL,
    }
    
    if( part == "outcome" ) {
-      if( object$tobitType == 2 ) {
+      if(( object$tobitType == 2 ) |
+         (object$tobitType == "treatment")) {
          vIndexBetaO <- object$param$index$betaO
          vBetaO <- coef( object )[ vIndexBetaO ]
          dLambda <- coef( object )[ "rho" ] * coef( object )[ "sigma" ]
@@ -92,8 +98,6 @@ predict.selection <- function( object, newdata = NULL,
          }
       }
    }
-   
-   
    # depending on the type of prediction requested, return
    # TODO allow the return of multiple prediction types
    if( part == "selection" ) {
@@ -107,9 +111,11 @@ predict.selection <- function( object, newdata = NULL,
       }
    } else if( part == "outcome" ) {
       if( type == "unconditional" ) {
-         if( object$tobitType == 2 ) {
+         if(( object$tobitType == 2 ) |
+            (object$tobitType == "treatment")) {
             pred <- mXOutcome %*% vBetaO
-         } else if( object$tobitType == 5 ) {
+         }
+         else if( object$tobitType == 5 ) {
             pred <- NULL
             for( i in 1:2 ) {
                pred <- cbind( pred, mXOutcome[[ i ]] %*% vBetaO[[ i ]] )
@@ -118,15 +124,16 @@ predict.selection <- function( object, newdata = NULL,
          }
       } else if( type == "conditional" ) {
          linPred <- mXSelection %*% vBetaS
-         if( object$tobitType == 2 ) {
+         if(( object$tobitType == 2 ) |
+            (object$tobitType == "treatment")) {
             mXOutcome <- mXOutcome[
                rownames( mXOutcome ) %in% rownames( mXSelection ), ]
             mXSelection <- mXSelection[
                rownames( mXSelection ) %in% rownames( mXOutcome ), ]
             pred <- cbind( mXOutcome %*% vBetaO -
-                  dLambda * dnorm( linPred ) / pnorm( - linPred ),
-               mXOutcome %*% vBetaO +
-                  dLambda * dnorm( linPred ) / pnorm( linPred ) )
+                              dLambda * lambda( - linPred ),
+                          mXOutcome %*% vBetaO +
+                              dLambda*lambda( linPred ) )
             colnames( pred ) <- c( "E[yo|ys=0]", "E[yo|ys=1]" )
          } else if( object$tobitType == 5 ) {
             for( i in 1:2 ) {

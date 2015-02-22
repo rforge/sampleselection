@@ -38,6 +38,7 @@ treatReg <- function(selection, outcome,
          stop("'data' must be either environment, data.frame, or list (currently a ", class(data), ")")
       }
    }
+   ##
    if(print.level > 0)
        cat("Treatment effect model", type, "model\n")
    probitEndogenous <- model.frame( selection, data = data)[ , 1 ]
@@ -116,6 +117,11 @@ treatReg <- function(selection, outcome,
       (is.factor(YO) & length(levels(YO)) == 2)) {
       binaryOutcome <- TRUE
    }
+   ## Now figure out if selection outcome is in fact used as
+   ## explanatory variable for the outcome
+   selectionVariable <- as.character(selection[[2]])
+                           # name of the selection outcome
+   ##
    badRow <- badRow | !complete.cases(YO, XO)
    badRow <- badRow | is.infinite(YO)
    badRow <- badRow | apply(XO, 1, function(v) any(is.infinite(v)))
@@ -215,8 +221,11 @@ treatReg <- function(selection, outcome,
                  N0=sum(YS==0), N1=sum(YS==1),
                  nObs=length(YS), nParam=length(start),
                  df=length(YS) - length(start),
-                 levels=YSLevels
-                           # levels[1]: selection 1; levels[2]: selection 2
+                 levels=YSLevels,
+                           # levels[1]: selection 1; levels[2]:
+                           # selection 2
+                 selectionVariableName=selectionVariable
+                           # which explanatory variable is selection outcome
                  )
    result <- c(estimation,
                twoStep=list(twoStep),

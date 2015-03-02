@@ -86,21 +86,36 @@ model.frame.selection <- function( formula, ... ) {
             "' in formula$tobitType" )
       }
       ## The frame was not saved, evaluate it
-      fcall <- formula$call
-      fcall$method <- "model.frame"
-      fcall[[ 1 ]] <- as.name("selection")
-      env <- environment( formula$termsS )
+      dots <- list(...)
+      nargs <- dots[match(c("data", "na.action", "subset"), names(dots), 
+                          0)]
+      if(length(nargs) | is.null(formula$model)) {
+         fcall <- formula$call
+         m <- match(c("selection", "outcome",
+                      "data", "subset", "weights", 
+                      "na.action"), names(fcall), 0L)
+         fcall <- fcall[c(1L, m)]
+         fcall$method <- "model.frame"
+         fcall$drop.unused.levels <- TRUE
+         fcall[[ 1 ]] <- as.name("selection")
+         # fcall$formula <- terms(formula)
+                           # should create a 'terms' method
+                           # (what does it do?)
+         fcall[names(nargs)] <- nargs
+         env <- environment( formula$termsS )
                            # Assume here that all equations are evaluated in the same environment
                            # (termsS -- in this case the environment for the selection equation)
                            # Can it be done better?
-      if( is.null( env ) ) {
-         env <- parent.frame()
-      }
-      result <- eval( fcall, env, parent.frame() )
-      attr(result, "terms") <- formula$termsS
+         if( is.null( env ) ) {
+            env <- parent.frame()
+         }
+         result <- eval( fcall, env, parent.frame() )
+         attr(result, "terms") <- formula$termsS
                            # apparently 'model.frame.defaul' uses the existence of this attribute to
-                           # check is this is a model.frame or simply a data.frame
+                           # check is this is a model.frame or simply
+                           # a data.frame
+      }
+      
    }
-
    return( result )
 }

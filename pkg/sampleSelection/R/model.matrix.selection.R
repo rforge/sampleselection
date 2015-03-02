@@ -1,4 +1,5 @@
-model.matrix.selection <- function( object, part = "outcome", ... ) {
+model.matrix.selection <- function( object, part = "outcome",
+                                   ... ) {
    ## part   'outcome' or 'selection'
    ##        find the design matrix for that submodel
    ##        
@@ -52,7 +53,7 @@ model.matrix.selection <- function( object, part = "outcome", ... ) {
             result <- object$xs
          } else {
             mf <- model.frame( object )
-            result <- model.matrix( object$termsS, mf )
+            result <- model.matrix( object$termsS, mf)
          }
       }
       else if( part == "outcome" ) {
@@ -89,9 +90,10 @@ model.matrix.selection <- function( object, part = "outcome", ... ) {
                  result <- object$xo
               }
               else {
-                 mf <- model.frame( object )
+                 mf <- model.frame( object, ... )
+                           # '...' passes 'data' argument
                  attributes( mf )$na.action <- na.pass
-                 result <- model.matrix( object$termsO, mf )
+                 result <- model.matrix( object$termsO, mf)
               }
          }
       }

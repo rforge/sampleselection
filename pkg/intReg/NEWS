@@ -1,5 +1,10 @@
 	PACKAGE intReg NEWS
 
+New in version 0.2-9 (2015-08-16)
+
+* predict method, predicts the unconditional latent link and expected
+  link value conditional of being in the observed interval
+
 News in version 0.2-4 (2014-12-05)
 
 * Faster (although less beautiful) examples, tests output updated

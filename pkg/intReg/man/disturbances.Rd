@@ -1,6 +1,6 @@
-\name{disturbancies}
-\alias{disturbancies}
-\alias{disturbancies.intReg}
+\name{disturbances}
+\alias{disturbances}
+\alias{disturbances.intReg}
 \title{
   return the type of disturbancies term used in interval regression
 }
@@ -9,7 +9,7 @@
   \dQuote{intReg} objects.
 }
 \usage{
-\method{disturbancies}{intReg}(object)
+\method{disturbances}{intReg}(object)
 }
 \arguments{
   \item{object}{

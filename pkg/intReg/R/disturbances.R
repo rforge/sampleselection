@@ -1,9 +1,9 @@
 
 ### disturbancies: return the disturbancies type of the interval regression model
 
-disturbancies <- function(object)
-   UseMethod("disturbancies")
+disturbances <- function(object)
+   UseMethod("disturbances")
 
-disturbancies.intReg <- function(object) {
+disturbances.intReg <- function(object) {
    object$method
 }

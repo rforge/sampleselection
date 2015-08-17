@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2015-01-04 r67319) -- "Unsuffered Consequences"
+R version 3.2.0 (2015-04-16) -- "Full of Ingredients"
 Copyright (C) 2015 The R Foundation for Statistical Computing
-Platform: x86_64-unknown-linux-gnu (64-bit)
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -226,6 +226,29 @@ Warning messages:
 1406         0     1        0
 1225         1     1        0
 > 
+> ## test utility functions
+> print(boundaries(m))
+   L 1    U 1    L 2    U 2    L 3    U 3    L 4    U 4    L 5    U 5    L 6 
+  -Inf 0.6931   -Inf 1.6094   -Inf 2.9957   -Inf 3.9120 0.6931 1.6094 1.6094 
+   U 6    L 7    U 7    L 8    U 8    L 9    U 9   L 10   U 10   L 11   U 11 
+2.9957 2.9957 3.9120 2.9957    Inf 3.9120 4.6052 3.9120    Inf 4.6052 5.5215 
+  L 12   U 12   L 13   U 13 
+4.6052    Inf 5.5215    Inf 
+> print(disturbances(m))
+[1] "probit"
+> print(intervals(m)[sample(seq(nObs(m)), 10),])
+        lb    ub
+1398 3.912 4.605
+918   -Inf 3.912
+1202 3.912   Inf
+1531 4.605   Inf
+1680 5.521   Inf
+295   -Inf 2.996
+482  1.609 2.996
+1712 5.521   Inf
+577  2.996   Inf
+315   -Inf 2.996
+> 
 > ##
 > ## Example of common intervals for all the observations
 > ##
@@ -285,20 +308,53 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > mf <- model.frame(int)
 > print(mf[i <- sample(nrow(mf), 10),])
       salary factor(educ) poly(exper, 2).1 poly(exper, 2).2
-208   (5,10]            2         0.007136        -0.023829
-285   (5,10]            2        -0.031332         0.019988
-1237 (10,15]            5        -0.031332         0.019988
-1058 (10,15]            4        -0.015945        -0.009774
+979  (10,15]            4        -0.023639         0.003068
+460  (10,15]            3         0.045605         0.034314
+597   (5,10]            3         0.019959        -0.015777
+1464 (15,25]            5         0.022524        -0.012807
+1256 (15,25]            5        -0.028768         0.013895
+1399 (10,15]            5        -0.021074        -0.001666
+1191 (15,25]            5        -0.008251        -0.018537
+1146 (10,15]            5        -0.039026         0.040987
 393   (5,10]            3         0.063557         0.096340
-727   (5,10]            3        -0.031332         0.019988
-122   (5,10]            2        -0.033897         0.026534
-519   (5,10]            3        -0.028768         0.013895
-1419  (5,10]            5        -0.031332         0.019988
-914   (5,10]            4        -0.036462         0.033534
+1116  (5,10]            4        -0.018510        -0.005946
 > print(model.response(mf)[i])
-    208     285    1237    1058     393     727     122     519    1419     914 
- (5,10]  (5,10] (10,15] (10,15]  (5,10]  (5,10]  (5,10]  (5,10]  (5,10]  (5,10] 
+    979     460     597    1464    1256    1399    1191    1146     393    1116 
+(10,15] (10,15]  (5,10] (15,25] (15,25] (10,15] (15,25] (10,15]  (5,10]  (5,10] 
 Levels: (0,5] (5,10] (10,15] (15,25] (25,Inf]
+> 
+> ## test utility functions for common intervals
+> print(boundaries(m))
+   L 1    U 1    L 2    U 2    L 3    U 3    L 4    U 4    L 5    U 5    L 6 
+  -Inf 0.6931   -Inf 1.6094   -Inf 2.9957   -Inf 3.9120 0.6931 1.6094 1.6094 
+   U 6    L 7    U 7    L 8    U 8    L 9    U 9   L 10   U 10   L 11   U 11 
+2.9957 2.9957 3.9120 2.9957    Inf 3.9120 4.6052 3.9120    Inf 4.6052 5.5215 
+  L 12   U 12   L 13   U 13 
+4.6052    Inf 5.5215    Inf 
+> print(disturbances(m))
+[1] "probit"
+> print(intervals(m)[sample(seq(nObs(m)), 10),])
+        lb    ub
+1044 2.996 3.912
+212   -Inf 1.609
+1094 3.912   Inf
+1770 5.521   Inf
+1177 3.912   Inf
+823  2.996   Inf
+976   -Inf 3.912
+1407 3.912 4.605
+1045 2.996 3.912
+1361 3.912 4.605
+> 
+> ## test predictions
+> Ey <- predict(m, type="link")
+> print(sample(Ey, 10))
+   152    778   1492    254    436   1680    889    849    823    162 
+ 4.310  5.896  3.606 -1.335  1.439  9.280 -1.367  5.229  3.918  3.153 
+> Eyc <- predict(m, type="linkConditional")
+> print(sample(Eyc, 10))
+    762    1406    1007    1286     348     568    1488     482    1754     889 
+ 5.3980  4.2721  3.4423  8.8252 -0.8949  8.1838  7.5759  2.3056  7.5989 -1.5048 
 > 
 > ##
 > ## Small data, large number of intervals (by Thierry Kalisa)
@@ -358,4 +414,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  6.288   0.089   6.365 
+  3.765   1.372   3.654 

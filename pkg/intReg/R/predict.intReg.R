@@ -24,9 +24,9 @@ predict.intReg <- function ( object, newdata = NULL, type = "link", ... ) {
    }
    if(type == "linkConditional") {
       ## Expected link value given the actual interval
-      if(disturbancies(object) != "probit") {
-         stop("conditional link prediction for ", disturbancies(object),
-              " disturbancies not implemented")
+      if(disturbances(object) != "probit") {
+         stop("conditional link prediction for ", disturbances(object),
+              " disturbances not implemented")
       }
       sigma <- coef(object)["sigma"]
       int <- intervals(object)

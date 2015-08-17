@@ -33,6 +33,11 @@ print(summary(m, boundaries=TRUE))
 mm <- model.matrix(m)
 print(mm[i <- sample(nrow(mm), 10),])
 
+## test utility functions
+print(boundaries(m))
+print(disturbances(m))
+print(intervals(m)[sample(seq(nObs(m)), 10),])
+
 ##
 ## Example of common intervals for all the observations
 ##
@@ -53,6 +58,17 @@ print(summary(int))
 mf <- model.frame(int)
 print(mf[i <- sample(nrow(mf), 10),])
 print(model.response(mf)[i])
+
+## test utility functions for common intervals
+print(boundaries(m))
+print(disturbances(m))
+print(intervals(m)[sample(seq(nObs(m)), 10),])
+
+## test predictions
+Ey <- predict(m, type="link")
+print(sample(Ey, 10))
+Eyc <- predict(m, type="linkConditional")
+print(sample(Eyc, 10))
 
 ##
 ## Small data, large number of intervals (by Thierry Kalisa)

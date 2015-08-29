@@ -1,6 +1,6 @@
 
-R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R version 3.2.2 (2015-08-14) -- "Fire Safety"
+Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -105,7 +105,7 @@ Log-likelihood: -56.90544 on 12 Df
 +    data = dat, tol = 0.5,
 +    algorithm = GenzBretz() )
 > all.equal( estResultBHHH, estResultBHHHA )
-[1] "Component 12: target, current do not match when deparsed"
+[1] "Component \"call\": target, current do not match when deparsed"
 > 
 > # estimation with the BHHH algorithm, one-sided gradients
 > estResultBHHH1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -156,12 +156,12 @@ Log-likelihood: -56.90544 on 12 Df
 > logLik( estResultBHHH1 )
 'log Lik.' -56.90544 (df=12)
 > all.equal( estResultBHHH, estResultBHHH1 )
-[1] "Component 1: Mean relative difference: 1.835846e-08"     
-[2] "Component 2: Mean relative difference: 1.179581e-07"     
-[3] "Component 3: Mean relative difference: 1.254582e-06"     
-[4] "Component 4: Mean relative difference: 4.702786e-07"     
-[5] "Component 11: Mean relative difference: 4.498904e-07"    
-[6] "Component 12: target, current do not match when deparsed"
+[1] "Component \"maximum\": Mean relative difference: 1.835846e-08"    
+[2] "Component \"estimate\": Mean relative difference: 1.179581e-07"   
+[3] "Component \"gradient\": Mean relative difference: 1.254646e-06"   
+[4] "Component \"hessian\": Mean relative difference: 4.703407e-07"    
+[5] "Component \"gradientObs\": Mean relative difference: 4.498797e-07"
+[6] "Component \"call\": target, current do not match when deparsed"   
 > 
 > # estimation with the BFGS algorithm, two-sided gradients
 > estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -261,11 +261,11 @@ Log-likelihood: -52.94456 on 12 Df
 > logLik( estResultBFGS1 )
 'log Lik.' -52.94456 (df=12)
 > all.equal( estResultBFGS, estResultBFGS1 )
-[1] "Component 2: Mean relative difference: 2.633371e-07"     
-[2] "Component 3: Mean relative difference: 8.516566e-07"     
-[3] "Component 4: Mean relative difference: 4.317973e-07"     
-[4] "Component 12: Mean relative difference: 2.455142e-07"    
-[5] "Component 13: target, current do not match when deparsed"
+[1] "Component \"estimate\": Mean relative difference: 2.633371e-07"   
+[2] "Component \"gradient\": Mean relative difference: 8.516566e-07"   
+[3] "Component \"hessian\": Mean relative difference: 4.317973e-07"    
+[4] "Component \"gradientObs\": Mean relative difference: 2.455142e-07"
+[5] "Component \"call\": target, current do not match when deparsed"   
 > 
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values
 > estResultBFGS1a <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -459,12 +459,12 @@ Log-likelihood: -52.94417 on 12 Df
 > logLik( estResultBFGSm )
 'log Lik.' -52.94417 (df=12)
 > all.equal( estResultBFGS, estResultBFGSm )
-[1] "Component 1: Mean relative difference: 7.343932e-06"     
-[2] "Component 2: Mean relative difference: 2.683045e-05"     
-[3] "Component 3: Mean relative difference: 0.0001800715"     
-[4] "Component 4: Mean relative difference: 0.0001779414"     
-[5] "Component 12: Mean relative difference: 0.000115282"     
-[6] "Component 13: target, current do not match when deparsed"
+[1] "Component \"maximum\": Mean relative difference: 7.343932e-06"   
+[2] "Component \"estimate\": Mean relative difference: 2.683045e-05"  
+[3] "Component \"gradient\": Mean relative difference: 0.0001800715"  
+[4] "Component \"hessian\": Mean relative difference: 0.0001779414"   
+[5] "Component \"gradientObs\": Mean relative difference: 0.000115282"
+[6] "Component \"call\": target, current do not match when deparsed"  
 > 
 > # estimation with the BFGS algorithm, GHK algorithm for obtaining integrals
 > estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -514,19 +514,19 @@ Log-likelihood: -52.93771 on 12 Df
 > logLik( estResultBFGSg )
 'log Lik.' -52.93771 (df=12)
 > all.equal( estResultBFGS, estResultBFGSg )
-[1] "Component 1: Mean relative difference: 0.0001294771"     
-[2] "Component 2: Mean relative difference: 0.00208213"       
-[3] "Component 3: Mean relative difference: 0.01734211"       
-[4] "Component 4: Mean relative difference: 0.01316396"       
-[5] "Component 12: Mean relative difference: 0.006852369"     
-[6] "Component 13: target, current do not match when deparsed"
+[1] "Component \"maximum\": Mean relative difference: 0.0001294771"   
+[2] "Component \"estimate\": Mean relative difference: 0.00208213"    
+[3] "Component \"gradient\": Mean relative difference: 0.01734212"    
+[4] "Component \"hessian\": Mean relative difference: 0.01316397"     
+[5] "Component \"gradientObs\": Mean relative difference: 0.006852369"
+[6] "Component \"call\": target, current do not match when deparsed"  
 > all.equal( estResultBFGSm, estResultBFGSg )
-[1] "Component 1: Mean relative difference: 0.000122134"      
-[2] "Component 2: Mean relative difference: 0.002077232"      
-[3] "Component 3: Mean relative difference: 0.01738212"       
-[4] "Component 4: Mean relative difference: 0.01309901"       
-[5] "Component 12: Mean relative difference: 0.006838735"     
-[6] "Component 13: target, current do not match when deparsed"
+[1] "Component \"maximum\": Mean relative difference: 0.000122134"    
+[2] "Component \"estimate\": Mean relative difference: 0.002077232"   
+[3] "Component \"gradient\": Mean relative difference: 0.01738213"    
+[4] "Component \"hessian\": Mean relative difference: 0.01309901"     
+[5] "Component \"gradientObs\": Mean relative difference: 0.006838735"
+[6] "Component \"call\": target, current do not match when deparsed"  
 > 
 > # estimation with the Nelder-Mead algorithm
 > estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -665,8 +665,8 @@ Log-likelihood: -52.94456 on 12 Df
 > logLik( estResultFac )
 'log Lik.' -52.94456 (df=12)
 > all.equal( estResultBFGS, estResultFac )
-[1] "Component 13: target, current do not match when deparsed"
-[2] "Component 18: 1 string mismatch"                         
+[1] "Component \"call\": target, current do not match when deparsed"
+[2] "Component \"dummyVars\": 1 string mismatch"                    
 > 
 > # estimation with a factor as explanatory variable (x1 with 3 levels)
 > dat$x1Fac3 <- as.factor(
@@ -3021,4 +3021,4 @@ Error in colMeans(data) : 'x' must be numeric
 > 
 > proc.time()
    user  system elapsed 
- 51.479   0.146  51.670 
+ 44.144   0.064  44.230 

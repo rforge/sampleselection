@@ -1,4 +1,4 @@
-# I thank Mohit Batham for providing this R script that demonstrates
+# I thank Mohit Batham for providing this R script that demonstrated
 # a bug in mvProbitMargEff() when called with 2 dependent variables
 library( "mvProbit" )
 nObs <- 100
@@ -14,4 +14,4 @@ beta <- c( 0.8, 1.2, -1.0, 1.4, -0.8,
 sigma <- symMatrix( c( 1, 0.2, 1))
 margEffCond <- try( mvProbitMargEff( ~ x1 + x2 + x3 + x4 , coef = beta,
   sigma = sigma, data = xData, cond = TRUE ) )
-margEffCond
+round( margEffCond, 3 )

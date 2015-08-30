@@ -1,0 +1,16 @@
+
+2015-08-22
+
+* common boundaries and point observations
+
+* clustering-robust vcov
+
+* fixed parameters: activePar[iBOundary] = FALSE
+
+* point estimates for other distributions
+
+* .polrY1 etc: review and probably remove in the code
+
+* hessian( boundaries=FALSE)
+
+* stdEr(, boundaries=TRUE) does not give boundaries

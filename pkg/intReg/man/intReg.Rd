@@ -4,13 +4,16 @@
 \title{Interval Regression}
 \description{
   This function estimates interval regression using either common
-  intervals for all observations, or observation-specific intervals.
+  intervals for all observations, or observation-specific intervals
+  potentially including point observations.
   Normal, logistic, log-log, and Cauchy disturbances are supported.
 }
 \usage{
 intReg(formula, start, boundaries, ...,
 contrasts = NULL, Hess = FALSE, model = TRUE,
-method = c("probit", "logistic", "cloglog", "cauchit", "model.frame"), print.level = 0,
+method = c("probit", "logistic", "cloglog", "cauchit", "model.frame"),
+       minIntervalWidth=sqrt(.Machine$double.eps),
+print.level = 0,
 data, subset, weights, na.action,
 iterlim=100)
 }
@@ -19,9 +22,10 @@ iterlim=100)
   \item{formula}{an object of class '"formula"' (or one that can be coerced to
           that class): a symbolic description of the model to be
           fitted.  The left-hand-side variable must be either a factor,
-	  describing the intervals where the observations fall to, or a matrix of
+	  describing the intervals where the observations fall to, or a
+	  numeric matrix of
 	  two columns, describing the interval boundaries for each
-	  observation.  See details below, see
+	  observation.  See details below.  See
 	  also \code{\link{lm}} for explanation how to write formulas.}
   \item{data}{an optional data frame, list or environment (or object
           coercible by 'as.data.frame' to a data frame) containing the
@@ -38,7 +42,7 @@ iterlim=100)
     values, including the parameter boundaries and the standard
     deviation of the error term.  See the example below.
   }
-  \item{boundaries}{Boundaries for intervals.  See details.}
+  \item{boundaries}{boundaries for intervals.  See details.}
   \item{\dots}{further arguments to \code{\link[maxLik]{maxLik}}}
   \item{subset}{an optional logical vector specifying a subset of observations to be
           used in the fitting process.}
@@ -56,6 +60,8 @@ iterlim=100)
     \sQuote{cauchit} assume these disturbance distributions.
     \sQuote{model.frame} returns the model frame.  The default value
     \sQuote{probit} assumes normal distribution.}
+  \item{minIntervalWidth}{minimal width of the interval.  If an interval
+    is shorter than this, it is assumed to be a point-observation}
   \item{print.level}{output of run-time information: higher level prints
     more.}
   \item{iterlim}{maximum number of optimization iterations}
@@ -77,6 +83,11 @@ iterlim=100)
   \sQuote{Boundary 1}, \sQuote{Boundary 2} etc.  These names will appear to the estimation
   results.  For observations-specific boundaries, the names are
   generated automatically.
+
+  Note that the limit of an interval observation is point observation
+  when interval length approaches to zero.  In order to avoid numerical
+  problems, intervals narrower than \code{minIntervalWidth} are assumed
+  to be point observations and handled separately.  
 }
 \value{
   Object of class \sQuote{intReg} which inherits from class \sQuote{maxLik}.

@@ -77,11 +77,23 @@ stdEr:
 > print(stdEr(m))
 (Intercept)     sexmale log(income)       sigma 
      1.1475      0.7295      0.4191      0.4427 
+attr(,"class")
+[1] "stdEr.intReg" "numeric"     
 > cat("stdEr, with boundaries:\n")
 stdEr, with boundaries:
 > print(stdEr(m, boundaries=TRUE))
-(Intercept)     sexmale log(income)       sigma 
-     1.1475      0.7295      0.4191      0.4427 
+(Intercept)     sexmale log(income)         L 1         U 1         L 2 
+     1.1475      0.7295      0.4191      0.0000      0.0000      0.0000 
+        U 2         L 3         U 3         L 4         U 4         L 5 
+     0.0000      0.0000      0.0000      0.0000      0.0000      0.0000 
+        U 5         L 6         U 6         L 7         U 7         L 8 
+     0.0000      0.0000      0.0000      0.0000      0.0000      0.0000 
+        U 8         L 9         U 9        L 10        U 10        L 11 
+     0.0000      0.0000      0.0000      0.0000      0.0000      0.0000 
+       U 11        L 12        U 12       sigma 
+     0.0000      0.0000      0.0000      0.4427 
+attr(,"class")
+[1] "stdEr.intReg" "numeric"     
 > cat("Summary:\n")
 Summary:
 > print(summary(m))
@@ -92,11 +104,11 @@ BHHH maximisation, 12 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -113.1 
 100 observations, 4 free parameters (df = 96)
-            Estimate Std. Error t value Pr(>|t|)   
-(Intercept)    3.694      1.147    3.22   0.0018 **
-sexmale       -1.066      0.729   -1.46   0.1472   
-log(income)    0.354      0.419    0.85   0.4002   
-sigma          2.736         NA      NA       NA   
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)    3.694      1.147    3.22   0.0018 ** 
+sexmale       -1.066      0.729   -1.46   0.1472    
+log(income)    0.354      0.419    0.85   0.4002    
+sigma          2.736      0.443    6.18  1.5e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -111,33 +123,33 @@ Return code 2: successive function values within tolerance limit
 Log-Likelihood: -113.1 
 100 observations, 4 free parameters (df = 96)
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)    3.694      1.147    3.22  0.00175 ** 
-sexmale       -1.066      0.729   -1.46  0.14721    
-log(income)    0.354      0.419    0.85  0.40018    
-L 1             -Inf      0.443    -Inf  < 2e-16 ***
-U 1            0.693      1.147    0.60  0.54723    
-L 2             -Inf      0.729    -Inf  < 2e-16 ***
-U 2            1.609      0.419    3.84  0.00022 ***
-L 3             -Inf      0.443    -Inf  < 2e-16 ***
-U 3            2.996      1.147    2.61  0.01048 *  
-L 4             -Inf      0.729    -Inf  < 2e-16 ***
-U 4            3.912      0.419    9.33  4.0e-15 ***
-L 5            1.609      0.443    3.64  0.00045 ***
-U 5            2.996      1.147    2.61  0.01048 *  
-L 6            2.996      0.729    4.11  8.4e-05 ***
-U 6            3.912      0.419    9.33  4.0e-15 ***
-L 7            2.996      0.443    6.77  1.0e-09 ***
-U 7              Inf      1.147     Inf  < 2e-16 ***
-L 8            3.912      0.729    5.36  5.6e-07 ***
-U 8            4.605      0.419   10.99  < 2e-16 ***
-L 9            3.912      0.443    8.84  4.7e-14 ***
-U 9              Inf      1.147     Inf  < 2e-16 ***
-L 10           4.605      0.729    6.31  8.5e-09 ***
-U 10           5.521      0.419   13.17  < 2e-16 ***
-L 11           4.605      0.443   10.40  < 2e-16 ***
-U 11             Inf      1.147     Inf  < 2e-16 ***
-L 12           5.521      0.729    7.57  2.3e-11 ***
-U 12             Inf      0.419     Inf  < 2e-16 ***
+(Intercept)    3.694      1.147    3.22   0.0018 ** 
+sexmale       -1.066      0.729   -1.46   0.1472    
+log(income)    0.354      0.419    0.85   0.4002    
+L 1             -Inf      0.000    -Inf  < 2e-16 ***
+U 1            0.693      0.000     Inf  < 2e-16 ***
+L 2             -Inf      0.000    -Inf  < 2e-16 ***
+U 2            1.609      0.000     Inf  < 2e-16 ***
+L 3             -Inf      0.000    -Inf  < 2e-16 ***
+U 3            2.996      0.000     Inf  < 2e-16 ***
+L 4             -Inf      0.000    -Inf  < 2e-16 ***
+U 4            3.912      0.000     Inf  < 2e-16 ***
+L 5            1.609      0.000     Inf  < 2e-16 ***
+U 5            2.996      0.000     Inf  < 2e-16 ***
+L 6            2.996      0.000     Inf  < 2e-16 ***
+U 6            3.912      0.000     Inf  < 2e-16 ***
+L 7            2.996      0.000     Inf  < 2e-16 ***
+U 7              Inf      0.000     Inf  < 2e-16 ***
+L 8            3.912      0.000     Inf  < 2e-16 ***
+U 8            4.605      0.000     Inf  < 2e-16 ***
+L 9            3.912      0.000     Inf  < 2e-16 ***
+U 9              Inf      0.000     Inf  < 2e-16 ***
+L 10           4.605      0.000     Inf  < 2e-16 ***
+U 10           5.521      0.000     Inf  < 2e-16 ***
+L 11           4.605      0.000     Inf  < 2e-16 ***
+U 11             Inf      0.000     Inf  < 2e-16 ***
+L 12           5.521      0.000     Inf  < 2e-16 ***
+U 12             Inf      0.000     Inf  < 2e-16 ***
 sigma          2.736      0.443    6.18  1.5e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -267,14 +279,14 @@ Return code 2: successive function values within tolerance limit
 Log-Likelihood: -1354 
 1472 observations, 8 free parameters (df = 1464)
                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)       1.8940     0.0386   49.01  < 2e-16 ***
-factor(educ)2     0.2131     0.0433    4.92  9.7e-07 ***
-factor(educ)3     0.3688     0.0417    8.84  < 2e-16 ***
-factor(educ)4     0.5300     0.0431   12.31  < 2e-16 ***
-factor(educ)5     0.7176     0.0417   17.22  < 2e-16 ***
-poly(exper, 2)1   6.4987     0.3554   18.28  < 2e-16 ***
-poly(exper, 2)2  -2.1680     0.2895   -7.49  1.2e-13 ***
-sigma             0.2847         NA      NA       NA    
+(Intercept)      1.89400    0.03865   49.01  < 2e-16 ***
+factor(educ)2    0.21310    0.04333    4.92  9.7e-07 ***
+factor(educ)3    0.36879    0.04173    8.84  < 2e-16 ***
+factor(educ)4    0.53003    0.04307   12.31  < 2e-16 ***
+factor(educ)5    0.71758    0.04168   17.22  < 2e-16 ***
+poly(exper, 2)1  6.49870    0.35543   18.28  < 2e-16 ***
+poly(exper, 2)2 -2.16805    0.28946   -7.49  1.2e-13 ***
+sigma            0.28467    0.00606   46.96  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -329,14 +341,14 @@ Return code 2: successive function values within tolerance limit
 Log-Likelihood: -1347 
 1472 observations, 8 free parameters (df = 1464)
                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)       1.9045     0.0377   50.48  < 2e-16 ***
-factor(educ)2     0.2149     0.0421    5.10  3.8e-07 ***
-factor(educ)3     0.3623     0.0406    8.93  < 2e-16 ***
-factor(educ)4     0.5190     0.0417   12.45  < 2e-16 ***
-factor(educ)5     0.7130     0.0410   17.38  < 2e-16 ***
-poly(exper, 2)1   6.4436     0.3492   18.46  < 2e-16 ***
-poly(exper, 2)2  -2.1156     0.3011   -7.03  3.3e-12 ***
-sigma             0.1563         NA      NA       NA    
+(Intercept)      1.90447    0.03772   50.48  < 2e-16 ***
+factor(educ)2    0.21488    0.04214    5.10  3.8e-07 ***
+factor(educ)3    0.36234    0.04060    8.93  < 2e-16 ***
+factor(educ)4    0.51896    0.04168   12.45  < 2e-16 ***
+factor(educ)5    0.71296    0.04102   17.38  < 2e-16 ***
+poly(exper, 2)1  6.44361    0.34915   18.46  < 2e-16 ***
+poly(exper, 2)2 -2.11563    0.30115   -7.03  3.3e-12 ***
+sigma            0.15630    0.00445   35.12  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -347,4 +359,4 @@ Disturbances:
 > 
 > proc.time()
    user  system elapsed 
-  1.875   0.406   1.889 
+  1.914   0.382   1.907 

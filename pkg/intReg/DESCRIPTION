@@ -4,7 +4,7 @@ Date: 2015-08-16
 Title: Interval Regression
 Author: Ott Toomet <otoomet@gmail.com>
 Maintainer: Ott Toomet <otoomet@gmail.com>
-Depends: R (>= 2.7.0), miscTools, maxLik (>= 1.0-3)
+Depends: R (>= 2.7.0), miscTools, maxLik (>= 1.2-5)
 Imports: sets
 Suggests: Ecdat
 Description: Estimating interval regression models, supports both common and observation-specific boundaries.

@@ -1,18 +1,25 @@
 	PACKAGE intReg NEWS
 
-New in version 0.2-9 (2015-08-16)
+New in version 0.2-9 (2015-08-30)
 
 * predict method, predicts the unconditional latent link and expected
   link value conditional of being in the observed interval
+
+* stdEr now works correctly if using maxLik >= 1.2.5
+
+* new general test suite for quick basic testing on CRAN
+
 
 News in version 0.2-4 (2014-12-05)
 
 * Faster (although less beautiful) examples, tests output updated
 
-News in version 0.2-2 (2014-12-05)
+
+\News in version 0.2-2 (2014-12-05)
 
 * Import of more functions from 'miscTools' declared.  checks cleanly
   on R-devel.
+
 
 News in version 0.2-0 (2014-12-03)
 
@@ -27,6 +34,7 @@ News in version 0.2-0 (2014-12-03)
 
 * Issues reported by CRAN, related to importing and using functions
   from other packages cleaned.
+
 
 News in version 0.1-2
 

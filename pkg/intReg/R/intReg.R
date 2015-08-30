@@ -332,7 +332,7 @@ intReg <- function(formula, start, boundaries,
                          start=start,
                          method="BHHH", activePar=activePar, iterlim=iterlim,
                          print.level=print.level,
-                         guessCorrection="marquardt",
+#                         guessCorrection="marquardt",
                          ...)
     res <- c(estimation,
              param=list(list(ordered=ordered,

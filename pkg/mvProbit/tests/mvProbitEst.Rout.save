@@ -480,9 +480,9 @@ mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta),
 
 Coefficients:
    b_1_0    b_1_1    b_1_2    b_2_0    b_2_1    b_2_2    b_3_0    b_3_1 
- 0.53597  1.16071 -1.14239 -0.45176  1.05313 -1.57570  0.40385 -0.85710 
+ 0.53604  1.16101 -1.14212 -0.44926  1.05509 -1.57625  0.40783 -0.85383 
    b_3_2    R_1_2    R_1_3    R_2_3 
- 1.25977  0.29530  0.32495 -0.02085 
+ 1.25947  0.29431  0.32864 -0.02362 
 
 > summary( estResultBFGSg )
 
@@ -492,41 +492,41 @@ mvProbit(formula = cbind(y1, y2, y3) ~ x1 + x2, data = dat, start = c(beta),
 
 Coefficients:
       Estimate Std. error t value Pr(> t)  
-b_1_0  0.53597    0.82729   0.648  0.5171  
-b_1_1  1.16071    0.91440   1.269  0.2043  
-b_1_2 -1.14239    0.93839  -1.217  0.2235  
-b_2_0 -0.45176    0.80664  -0.560  0.5754  
-b_2_1  1.05313    0.86861   1.212  0.2253  
-b_2_2 -1.57570    0.70696  -2.229  0.0258 *
-b_3_0  0.40385    0.48737   0.829  0.4073  
-b_3_1 -0.85710    0.84821  -1.010  0.3123  
-b_3_2  1.25977    0.67819   1.858  0.0632 .
-R_1_2  0.29530    1.85491   0.159  0.8735  
-R_1_3  0.32495    0.70449   0.461  0.6446  
-R_2_3 -0.02085    0.34616  -0.060  0.9520  
+b_1_0  0.53604    0.82705   0.648  0.5169  
+b_1_1  1.16101    0.91513   1.269  0.2046  
+b_1_2 -1.14212    0.93841  -1.217  0.2236  
+b_2_0 -0.44926    0.78973  -0.569  0.5694  
+b_2_1  1.05509    0.88356   1.194  0.2324  
+b_2_2 -1.57625    0.73151  -2.155  0.0312 *
+b_3_0  0.40783    0.48890   0.834  0.4042  
+b_3_1 -0.85383    0.84792  -1.007  0.3139  
+b_3_2  1.25947    0.67998   1.852  0.0640 .
+R_1_2  0.29431    1.85822   0.158  0.8742  
+R_1_3  0.32864    0.70958   0.463  0.6433  
+R_2_3 -0.02362    0.34492  -0.068  0.9454  
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BFGS maximisation, 4 iterations
 Return code 0: successful convergence 
-Log-likelihood: -52.93771 on 12 Df
+Log-likelihood: -52.94523 on 12 Df
 
 > logLik( estResultBFGSg )
-'log Lik.' -52.93771 (df=12)
+'log Lik.' -52.94523 (df=12)
 > all.equal( estResultBFGS, estResultBFGSg )
-[1] "Component \"maximum\": Mean relative difference: 0.0001294771"   
-[2] "Component \"estimate\": Mean relative difference: 0.00208213"    
-[3] "Component \"gradient\": Mean relative difference: 0.01734212"    
-[4] "Component \"hessian\": Mean relative difference: 0.01316397"     
-[5] "Component \"gradientObs\": Mean relative difference: 0.006852369"
+[1] "Component \"maximum\": Mean relative difference: 1.255085e-05"   
+[2] "Component \"estimate\": Mean relative difference: 0.0002398301"  
+[3] "Component \"gradient\": Mean relative difference: 0.001492616"   
+[4] "Component \"hessian\": Mean relative difference: 0.00113031"     
+[5] "Component \"gradientObs\": Mean relative difference: 0.000680818"
 [6] "Component \"call\": target, current do not match when deparsed"  
 > all.equal( estResultBFGSm, estResultBFGSg )
-[1] "Component \"maximum\": Mean relative difference: 0.000122134"    
-[2] "Component \"estimate\": Mean relative difference: 0.002077232"   
-[3] "Component \"gradient\": Mean relative difference: 0.01738213"    
-[4] "Component \"hessian\": Mean relative difference: 0.01309901"     
-[5] "Component \"gradientObs\": Mean relative difference: 0.006838735"
-[6] "Component \"call\": target, current do not match when deparsed"  
+[1] "Component \"maximum\": Mean relative difference: 1.989492e-05"    
+[2] "Component \"estimate\": Mean relative difference: 0.0002596067"   
+[3] "Component \"gradient\": Mean relative difference: 0.001518248"    
+[4] "Component \"hessian\": Mean relative difference: 0.001182819"     
+[5] "Component \"gradientObs\": Mean relative difference: 0.0007024826"
+[6] "Component \"call\": target, current do not match when deparsed"   
 > 
 > # estimation with the Nelder-Mead algorithm
 > estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -853,7 +853,7 @@ Log-likelihood: -48.81829 on 18 Df
 [1] TRUE
 > logLik( estResultBHHH, algorithm = "GHK" ) -
 +    logLik( estResultBHHH, algorithm = "GHK", nGHK = 2000 )
-'log Lik.' -0.1316356 (df=12)
+'log Lik.' -0.009142389 (df=12)
 > 
 > # argument 'random.seed'
 > all.equal( logLik( estResultBHHH ), 
@@ -3021,4 +3021,4 @@ Error in colMeans(data) : 'x' must be numeric
 > 
 > proc.time()
    user  system elapsed 
- 44.144   0.064  44.230 
+ 63.096   0.168  63.293 

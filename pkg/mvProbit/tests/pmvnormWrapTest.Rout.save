@@ -1,6 +1,6 @@
 
-R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
-Copyright (C) 2013 The R Foundation for Statistical Computing
+R version 3.2.2 (2015-08-14) -- "Fire Safety"
+Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -85,21 +85,21 @@ attr(,"msg")
 > pughk <- mvProbit:::pmvnormWrap( upper = upper, sigma = sigma, 
 +    algorithm = "ghk", random.seed = 123, nGHK = 1000 )
 > print( pughk )
-[1] 0.1361924
+[1] 0.1360032
 > all.equal( pug, pughk, check.attributes = FALSE )
-[1] "Mean relative difference: 0.0008381826"
+[1] "Mean relative difference: 0.0005518774"
 > all.equal( pum, pughk, check.attributes = FALSE )
-[1] "Mean relative difference: 0.0009062716"
+[1] "Mean relative difference: 0.000483883"
 > 
 > # GHK, lower precision
 > pughk1 <- mvProbit:::pmvnormWrap( upper = upper, sigma = sigma, 
 +    algorithm = "ghk", random.seed = 123, nGHK = 100 )
 > print( pughk1 )
-[1] 0.1266176
+[1] 0.136272
 > all.equal( pughk, pughk1, check.attributes = FALSE )
-[1] "Mean relative difference: 0.07030298"
+[1] "Mean relative difference: 0.001976149"
 > all.equal( pug, pughk1, check.attributes = FALSE )
-[1] "Mean relative difference: 0.06952372"
+[1] "Mean relative difference: 0.001423181"
 > 
 > 
 > ######## only lower ##########
@@ -144,11 +144,11 @@ attr(,"msg")
 > plghk <- mvProbit:::pmvnormWrap( lower = lower, sigma = sigma, 
 +    algorithm = "GHK", random.seed = 123, nGHK = 1000 )
 > print( plghk )
-[1] 0.2595157
+[1] 0.2613852
 > all.equal( plg, plghk, check.attributes = FALSE )
-[1] "Mean relative difference: 0.006831746"
+[1] "Mean relative difference: 0.0003227383"
 > all.equal( plm, plghk, check.attributes = FALSE )
-[1] "Mean relative difference: 0.006814907"
+[1] "Mean relative difference: 0.0003396987"
 > 
 > 
 > ######## partly lower, partly upper ##########
@@ -180,15 +180,15 @@ attr(,"msg")
 > pbghk <- mvProbit:::pmvnormWrap( lower = lower2, upper = upper2, sigma = sigma, 
 +    algorithm = "GHK", random.seed = 123, nGHK = 1000 )
 > print( pbghk )
-[1] 0.06256424
+[1] 0.06246009
 > all.equal( pbg, pbghk, check.attributes = FALSE )
-[1] "Mean relative difference: 0.001973"
+[1] "Mean relative difference: 0.0003050058"
 > all.equal( pbm, pbghk, check.attributes = FALSE )
-[1] "Mean relative difference: 0.001648592"
+[1] "Mean relative difference: 1.886205e-05"
 > 
 > 
 > 
 > 
 > proc.time()
    user  system elapsed 
-  0.306   0.037   0.315 
+  0.628   0.056   0.678 

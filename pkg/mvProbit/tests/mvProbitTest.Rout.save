@@ -127,46 +127,38 @@ Loading required package: abind
 > yExpCond4 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
 +    algorithm = Miwa )
-> all.equal( yExpCond, yExpCond4 )
-[1] "Component \"V1\": Mean relative difference: 4.435478e-05"
-[2] "Component \"V2\": Mean relative difference: 0.0001002261"
-[3] "Component \"V3\": Mean relative difference: 5.938566e-05"
+> all.equal( yExpCond, yExpCond4, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the Miwa algorithm, less precise
 > yExpCond5 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
 +    algorithm = Miwa( steps = 32 ) )
-> all.equal( yExpCond4, yExpCond5 )
-[1] "Component \"V1\": Mean relative difference: 1.014946e-05"
-[2] "Component \"V2\": Mean relative difference: 1.070674e-05"
-[3] "Component \"V3\": Mean relative difference: 9.286508e-06"
+> all.equal( yExpCond4, yExpCond5, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the TVPACK algorithm
 > yExpCond6 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
 +    algorithm = TVPACK )
-> all.equal( yExpCond, yExpCond6 )
-[1] "Component \"V1\": Mean relative difference: 4.435948e-05"
-[2] "Component \"V2\": Mean relative difference: 0.0001002157"
-[3] "Component \"V3\": Mean relative difference: 5.938604e-05"
+> all.equal( yExpCond, yExpCond6, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the TVPACK algorithm, less precise
 > yExpCond7 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
 +    algorithm = TVPACK( abseps = 0.5 ) )
-> all.equal( yExpCond6, yExpCond7 )
+> all.equal( yExpCond6, yExpCond7, tol = 1e-3 )
 [1] "Component \"V1\": Mean relative difference: 0.03017515"
 [2] "Component \"V2\": Mean relative difference: 0.04273065"
 [3] "Component \"V3\": Mean relative difference: 0.0424229" 
 > # now with integrals obtained by the GHK algorithm
 > yExpCond8 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
-> all.equal( yExpCond, yExpCond8 )
-[1] "Component \"V1\": Mean relative difference: 0.0008854449"
-[2] "Component \"V2\": Mean relative difference: 0.0001685872"
-[3] "Component \"V3\": Mean relative difference: 0.0002910715"
+> all.equal( yExpCond, yExpCond8, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the GHK algorithm, less precise
 > yExpCond9 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
 +    nGHK = 100 )
-> all.equal( yExpCond8, yExpCond9 )
+> all.equal( yExpCond8, yExpCond9, tol = 1e-3 )
 [1] "Component \"V1\": Mean relative difference: 0.004211736"
 [2] "Component \"V2\": Mean relative difference: 0.001240289"
 [3] "Component \"V3\": Mean relative difference: 0.001381425"
@@ -222,31 +214,25 @@ Loading required package: abind
 > yExpCondObs4 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
 +    cond = TRUE, algorithm = Miwa )
-> all.equal( yExpCondObs, yExpCondObs4 )
-[1] "Component \"y1\": Mean relative difference: 9.258897e-05"
-[2] "Component \"y2\": Mean relative difference: 5.029085e-05"
-[3] "Component \"y3\": Mean relative difference: 0.0001009532"
+> all.equal( yExpCondObs, yExpCondObs4, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the Miwa algorithm, less precise
 > yExpCondObs5 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
 +    cond = TRUE, algorithm = Miwa( steps = 32 ) )
-> all.equal( yExpCondObs4, yExpCondObs5 )
-[1] "Component \"y1\": Mean relative difference: 4.471818e-06"
-[2] "Component \"y2\": Mean relative difference: 3.954285e-06"
-[3] "Component \"y3\": Mean relative difference: 4.758699e-06"
+> all.equal( yExpCondObs4, yExpCondObs5, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the TVPACK algorithm
 > yExpCondObs6 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
 +    cond = TRUE, algorithm = TVPACK )
-> all.equal( yExpCondObs, yExpCondObs6 )
-[1] "Component \"y1\": Mean relative difference: 9.258463e-05"
-[2] "Component \"y2\": Mean relative difference: 5.028616e-05"
-[3] "Component \"y3\": Mean relative difference: 0.0001009503"
+> all.equal( yExpCondObs, yExpCondObs6, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the TVPACK algorithm, less precise
 > yExpCondObs7 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
 +    cond = TRUE, algorithm = TVPACK( abseps = 0.5 ) )
-> all.equal( yExpCondObs6, yExpCondObs7 )
+> all.equal( yExpCondObs6, yExpCondObs7, tol = 1e-3 )
 [1] "Component \"y1\": Mean relative difference: 0.05130138"
 [2] "Component \"y2\": Mean relative difference: 0.04744355"
 [3] "Component \"y3\": Mean relative difference: 0.02586555"
@@ -254,18 +240,15 @@ Loading required package: abind
 > yExpCondObs8 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
 +    cond = TRUE )
-> all.equal( yExpCondObs, yExpCondObs8 )
-[1] "Component \"y1\": Mean relative difference: 0.0002287346"
-[2] "Component \"y2\": Mean relative difference: 0.0002361037"
-[3] "Component \"y3\": Mean relative difference: 0.0001579137"
+> all.equal( yExpCondObs, yExpCondObs8, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the GHK algorithm, less precise
 > yExpCondObs9 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
 +    cond = TRUE, nGHK = 100 )
-> all.equal( yExpCondObs8, yExpCondObs9 )
-[1] "Component \"y1\": Mean relative difference: 0.001769622" 
-[2] "Component \"y2\": Mean relative difference: 0.0006935914"
-[3] "Component \"y3\": Mean relative difference: 0.003009097" 
+> all.equal( yExpCondObs8, yExpCondObs9, tol = 1e-3 )
+[1] "Component \"y1\": Mean relative difference: 0.001769622"
+[2] "Component \"y3\": Mean relative difference: 0.003009097"
 > 
 > 
 > # unconditional expectations of dependent variables by simulation
@@ -331,36 +314,36 @@ Loading required package: abind
 > logLikVal4 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
 +    algorithm = Miwa )
-> all.equal( logLikVal, logLikVal4 )
-[1] "Mean relative difference: 8.840686e-05"
+> all.equal( logLikVal, logLikVal4, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the Miwa algorithm, less precise
 > logLikVal5 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
 +    algorithm = Miwa( steps = 32 ) )
-> all.equal( logLikVal4, logLikVal5 )
-[1] "Mean relative difference: 4.53253e-06"
+> all.equal( logLikVal4, logLikVal5, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the TVPACK algorithm
 > logLikVal6 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
 +    algorithm = TVPACK )
-> all.equal( logLikVal, logLikVal6 )
-[1] "Mean relative difference: 8.840067e-05"
+> all.equal( logLikVal, logLikVal6, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the TVPACK algorithm, less precise
 > logLikVal7 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
 +    algorithm = TVPACK( abseps = 0.5 ) )
-> all.equal( logLikVal6, logLikVal7 )
+> all.equal( logLikVal6, logLikVal7, tol = 1e-3 )
 [1] "Mean relative difference: 0.05527167"
 > # now with integrals obtained by the GHK algorithm
 > logLikVal8 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
-> all.equal( logLikVal, logLikVal8 )
-[1] "Mean relative difference: 0.0001990717"
+> all.equal( logLikVal, logLikVal8, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the GHK algorithm, less precise
 > logLikVal9 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
 +    nGHK = 100 )
-> all.equal( logLikVal8, logLikVal9 )
+> all.equal( logLikVal8, logLikVal9, tol = 1e-3 )
 [1] "Mean relative difference: 0.001900872"
 > 
 > # calculating log likelihood value(s) with one-sided gradients
@@ -1365,19 +1348,8 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 8    -0.3862    0.2840   -0.0911   -0.4669    0.4073
 9    -0.0710    0.1415   -0.3929   -0.0664    0.3343
 10   -0.1492    0.1853   -0.0007   -0.1992    0.1994
-> all.equal( margEffCond, margEffCond1 )
- [1] "Component \"d_y1_d_x1\": Mean relative difference: 9.319688e-05"
- [2] "Component \"d_y2_d_x1\": Mean relative difference: 0.0002259434"
- [3] "Component \"d_y3_d_x1\": Mean relative difference: 8.422528e-05"
- [4] "Component \"d_y1_d_x2\": Mean relative difference: 0.0002359585"
- [5] "Component \"d_y2_d_x2\": Mean relative difference: 0.0004315704"
- [6] "Component \"d_y3_d_x2\": Mean relative difference: 0.0003287333"
- [7] "Component \"d_y1_d_x3\": Mean relative difference: 0.0002101608"
- [8] "Component \"d_y2_d_x3\": Mean relative difference: 0.0001300595"
- [9] "Component \"d_y3_d_x3\": Mean relative difference: 0.0002044696"
-[10] "Component \"d_y1_d_x4\": Mean relative difference: 0.0001675271"
-[11] "Component \"d_y2_d_x4\": Mean relative difference: 0.0001336317"
-[12] "Component \"d_y3_d_x4\": Mean relative difference: 0.0001409381"
+> all.equal( margEffCond, margEffCond1, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the GHK algorithm
 > margEffCond2 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
@@ -1404,32 +1376,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 8    -0.3861    0.2840   -0.0911   -0.4667    0.4074
 9    -0.0709    0.1414   -0.3919   -0.0661    0.3342
 10   -0.1491    0.1855   -0.0013   -0.1991    0.1996
-> all.equal( margEffCond, margEffCond2 )
- [1] "Component \"d_y1_d_x1\": Mean relative difference: 0.002441885" 
- [2] "Component \"d_y2_d_x1\": Mean relative difference: 0.0009643936"
- [3] "Component \"d_y3_d_x1\": Mean relative difference: 0.0003497164"
- [4] "Component \"d_y1_d_x2\": Mean relative difference: 0.0009818832"
- [5] "Component \"d_y2_d_x2\": Mean relative difference: 0.0006037048"
- [6] "Component \"d_y3_d_x2\": Mean relative difference: 0.0005630724"
- [7] "Component \"d_y1_d_x3\": Mean relative difference: 0.001049923" 
- [8] "Component \"d_y2_d_x3\": Mean relative difference: 0.0003217482"
- [9] "Component \"d_y3_d_x3\": Mean relative difference: 0.0003305243"
-[10] "Component \"d_y1_d_x4\": Mean relative difference: 0.002044069" 
-[11] "Component \"d_y2_d_x4\": Mean relative difference: 0.0004507059"
-[12] "Component \"d_y3_d_x4\": Mean relative difference: 0.0003071183"
-> all.equal( margEffCond1, margEffCond2 )
- [1] "Component \"d_y1_d_x1\": Mean relative difference: 0.002493767" 
- [2] "Component \"d_y2_d_x1\": Mean relative difference: 0.0007947823"
- [3] "Component \"d_y3_d_x1\": Mean relative difference: 0.0003168778"
- [4] "Component \"d_y1_d_x2\": Mean relative difference: 0.0008475274"
- [5] "Component \"d_y2_d_x2\": Mean relative difference: 0.0003290944"
- [6] "Component \"d_y3_d_x2\": Mean relative difference: 0.0003077171"
- [7] "Component \"d_y1_d_x3\": Mean relative difference: 0.001127121" 
- [8] "Component \"d_y2_d_x3\": Mean relative difference: 0.0003454478"
- [9] "Component \"d_y3_d_x3\": Mean relative difference: 0.0003116511"
-[10] "Component \"d_y1_d_x4\": Mean relative difference: 0.002148975" 
-[11] "Component \"d_y2_d_x4\": Mean relative difference: 0.0003883502"
-[12] "Component \"d_y3_d_x4\": Mean relative difference: 0.0002457555"
+> all.equal( margEffCond, margEffCond2, tol = 1e-3 )
+[1] "Component \"d_y1_d_x1\": Mean relative difference: 0.002441885"
+[2] "Component \"d_y1_d_x3\": Mean relative difference: 0.001049923"
+[3] "Component \"d_y1_d_x4\": Mean relative difference: 0.002044069"
+> all.equal( margEffCond1, margEffCond2, tol = 1e-3 )
+[1] "Component \"d_y1_d_x1\": Mean relative difference: 0.002493767"
+[2] "Component \"d_y1_d_x3\": Mean relative difference: 0.001127121"
+[3] "Component \"d_y1_d_x4\": Mean relative difference: 0.002148975"
 > # now with integrals obtained by the GHK algorithm, reduced precision
 > margEffCond3 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
 +    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
@@ -1457,20 +1411,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 8    -0.3862    0.2838   -0.0922   -0.4671    0.4067
 9    -0.0756    0.1417   -0.3999   -0.0800    0.3339
 10   -0.1495    0.1849   -0.0006   -0.1996    0.1990
-> all.equal( margEffCond, margEffCond3 )
- [1] "Component \"d_y1_d_x1\": Mean relative difference: 0.01725315"  
- [2] "Component \"d_y2_d_x1\": Mean relative difference: 0.02083584"  
- [3] "Component \"d_y3_d_x1\": Mean relative difference: 0.00141523"  
- [4] "Component \"d_y1_d_x2\": Mean relative difference: 0.002659459" 
- [5] "Component \"d_y2_d_x2\": Mean relative difference: 0.002599731" 
- [6] "Component \"d_y3_d_x2\": Mean relative difference: 0.0007565825"
- [7] "Component \"d_y1_d_x3\": Mean relative difference: 0.003311616" 
- [8] "Component \"d_y2_d_x3\": Mean relative difference: 0.003941323" 
- [9] "Component \"d_y3_d_x3\": Mean relative difference: 0.0009588104"
-[10] "Component \"d_y1_d_x4\": Mean relative difference: 0.01059385"  
-[11] "Component \"d_y2_d_x4\": Mean relative difference: 0.009372929" 
-[12] "Component \"d_y3_d_x4\": Mean relative difference: 0.001291587" 
-> all.equal( margEffCond2, margEffCond3 )
+> all.equal( margEffCond, margEffCond3, tol = 1e-3 )
+ [1] "Component \"d_y1_d_x1\": Mean relative difference: 0.01725315" 
+ [2] "Component \"d_y2_d_x1\": Mean relative difference: 0.02083584" 
+ [3] "Component \"d_y3_d_x1\": Mean relative difference: 0.00141523" 
+ [4] "Component \"d_y1_d_x2\": Mean relative difference: 0.002659459"
+ [5] "Component \"d_y2_d_x2\": Mean relative difference: 0.002599731"
+ [6] "Component \"d_y1_d_x3\": Mean relative difference: 0.003311616"
+ [7] "Component \"d_y2_d_x3\": Mean relative difference: 0.003941323"
+ [8] "Component \"d_y1_d_x4\": Mean relative difference: 0.01059385" 
+ [9] "Component \"d_y2_d_x4\": Mean relative difference: 0.009372929"
+[10] "Component \"d_y3_d_x4\": Mean relative difference: 0.001291587"
+> all.equal( margEffCond2, margEffCond3, tol = 1e-3 )
  [1] "Component \"d_y1_d_x1\": Mean relative difference: 0.01973807" 
  [2] "Component \"d_y2_d_x1\": Mean relative difference: 0.02168867" 
  [3] "Component \"d_y3_d_x1\": Mean relative difference: 0.001723577"
@@ -1927,7 +1879,7 @@ d_y3_d_x4  0.41815  0.01910  0.45177  0.17040
 > margEffCondVA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
 +    data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
 +    vcov = diag( 18 ), returnJacobian = TRUE, algorithm = GenzBretz() )
-> all.equal( margEffCondV, margEffCondVA )
+> all.equal( margEffCondV, margEffCondVA, tol = 1e-3 )
 [1] TRUE
 > # now with Jacobian but without variance covariance matrix
 > margEffCondJac <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
@@ -2512,19 +2464,8 @@ mean: d_y3_d_x4  0.430502    0.43681  0.9856  0.3244
 8    -0.3862    0.2369   -0.1849   -0.4669    0.3786
 9    -0.0892    0.0575   -0.1004   -0.1128    0.0825
 10   -0.1492    0.1482   -0.0045   -0.1992    0.1656
-> all.equal( margEffCondObs, margEffCondObs1 )
- [1] "Component \"d_y1_d_x1\": Mean relative difference: 0.0001814309"
- [2] "Component \"d_y2_d_x1\": Mean relative difference: 0.0001877033"
- [3] "Component \"d_y3_d_x1\": Mean relative difference: 0.0001982085"
- [4] "Component \"d_y1_d_x2\": Mean relative difference: 0.0002147753"
- [5] "Component \"d_y2_d_x2\": Mean relative difference: 0.0001774133"
- [6] "Component \"d_y3_d_x2\": Mean relative difference: 0.0003184793"
- [7] "Component \"d_y1_d_x3\": Mean relative difference: 0.0001634689"
- [8] "Component \"d_y2_d_x3\": Mean relative difference: 0.000165961" 
- [9] "Component \"d_y3_d_x3\": Mean relative difference: 0.0002713411"
-[10] "Component \"d_y1_d_x4\": Mean relative difference: 0.0001883149"
-[11] "Component \"d_y2_d_x4\": Mean relative difference: 9.769877e-05"
-[12] "Component \"d_y3_d_x4\": Mean relative difference: 0.000233469" 
+> all.equal( margEffCondObs, margEffCondObs1, tol = 1e-3 )
+[1] TRUE
 > # now with integrals obtained by the GHK algorithm
 > margEffCondObs2 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
@@ -2552,32 +2493,10 @@ mean: d_y3_d_x4  0.430502    0.43681  0.9856  0.3244
 8    -0.3861    0.2370   -0.1850   -0.4667    0.3788
 9    -0.0891    0.0575   -0.1004   -0.1126    0.0825
 10   -0.1491    0.1483   -0.0045   -0.1991    0.1658
-> all.equal( margEffCondObs, margEffCondObs2 )
- [1] "Component \"d_y1_d_x1\": Mean relative difference: 0.0004011641"
- [2] "Component \"d_y2_d_x1\": Mean relative difference: 0.0004259276"
- [3] "Component \"d_y3_d_x1\": Mean relative difference: 0.0006587125"
- [4] "Component \"d_y1_d_x2\": Mean relative difference: 0.0003207263"
- [5] "Component \"d_y2_d_x2\": Mean relative difference: 0.0002624734"
- [6] "Component \"d_y3_d_x2\": Mean relative difference: 0.0005276083"
- [7] "Component \"d_y1_d_x3\": Mean relative difference: 0.0003520647"
- [8] "Component \"d_y2_d_x3\": Mean relative difference: 0.0003033173"
- [9] "Component \"d_y3_d_x3\": Mean relative difference: 0.0005415165"
-[10] "Component \"d_y1_d_x4\": Mean relative difference: 0.0004972771"
-[11] "Component \"d_y2_d_x4\": Mean relative difference: 0.0003418259"
-[12] "Component \"d_y3_d_x4\": Mean relative difference: 0.0006797403"
-> all.equal( margEffCondObs1, margEffCondObs2 )
- [1] "Component \"d_y1_d_x1\": Mean relative difference: 0.0002633849"
- [2] "Component \"d_y2_d_x1\": Mean relative difference: 0.0003547966"
- [3] "Component \"d_y3_d_x1\": Mean relative difference: 0.0005567896"
- [4] "Component \"d_y1_d_x2\": Mean relative difference: 0.000365792" 
- [5] "Component \"d_y2_d_x2\": Mean relative difference: 0.0001769323"
- [6] "Component \"d_y3_d_x2\": Mean relative difference: 0.0003711016"
- [7] "Component \"d_y1_d_x3\": Mean relative difference: 0.0003501461"
- [8] "Component \"d_y2_d_x3\": Mean relative difference: 0.0002386661"
- [9] "Component \"d_y3_d_x3\": Mean relative difference: 0.0004542135"
-[10] "Component \"d_y1_d_x4\": Mean relative difference: 0.0003478994"
-[11] "Component \"d_y2_d_x4\": Mean relative difference: 0.0003839299"
-[12] "Component \"d_y3_d_x4\": Mean relative difference: 0.0005036986"
+> all.equal( margEffCondObs, margEffCondObs2, tol = 1e-3 )
+[1] TRUE
+> all.equal( margEffCondObs1, margEffCondObs2, tol = 1e-3 )
+[1] TRUE
 > # now with variance covariance matrix and Jacobian
 > margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
 +    coef = c( beta ), sigma = sigma, 
@@ -3556,4 +3475,4 @@ mean: d_y3_d_x4  0.30768    0.46437   0.663   0.508
 > 
 > proc.time()
    user  system elapsed 
- 76.684   0.480  77.224 
+ 39.368   0.132  39.519 

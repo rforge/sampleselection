@@ -72,31 +72,31 @@ identical( yExpCond, yExpCond3 )
 yExpCond4 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
    algorithm = Miwa )
-all.equal( yExpCond, yExpCond4 )
+all.equal( yExpCond, yExpCond4, tol = 1e-3 )
 # now with integrals obtained by the Miwa algorithm, less precise
 yExpCond5 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
    algorithm = Miwa( steps = 32 ) )
-all.equal( yExpCond4, yExpCond5 )
+all.equal( yExpCond4, yExpCond5, tol = 1e-3 )
 # now with integrals obtained by the TVPACK algorithm
 yExpCond6 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
    algorithm = TVPACK )
-all.equal( yExpCond, yExpCond6 )
+all.equal( yExpCond, yExpCond6, tol = 1e-3 )
 # now with integrals obtained by the TVPACK algorithm, less precise
 yExpCond7 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
    algorithm = TVPACK( abseps = 0.5 ) )
-all.equal( yExpCond6, yExpCond7 )
+all.equal( yExpCond6, yExpCond7, tol = 1e-3 )
 # now with integrals obtained by the GHK algorithm
 yExpCond8 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
-all.equal( yExpCond, yExpCond8 )
+all.equal( yExpCond, yExpCond8, tol = 1e-3 )
 # now with integrals obtained by the GHK algorithm, less precise
 yExpCond9 <- mvProbitExp( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
    nGHK = 100 )
-all.equal( yExpCond8, yExpCond9 )
+all.equal( yExpCond8, yExpCond9, tol = 1e-3 )
 
 
 # conditional expectations of dependent variables
@@ -134,32 +134,32 @@ identical( yExpCondObs, yExpCondObs3 )
 yExpCondObs4 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    cond = TRUE, algorithm = Miwa )
-all.equal( yExpCondObs, yExpCondObs4 )
+all.equal( yExpCondObs, yExpCondObs4, tol = 1e-3 )
 # now with integrals obtained by the Miwa algorithm, less precise
 yExpCondObs5 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    cond = TRUE, algorithm = Miwa( steps = 32 ) )
-all.equal( yExpCondObs4, yExpCondObs5 )
+all.equal( yExpCondObs4, yExpCondObs5, tol = 1e-3 )
 # now with integrals obtained by the TVPACK algorithm
 yExpCondObs6 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    cond = TRUE, algorithm = TVPACK )
-all.equal( yExpCondObs, yExpCondObs6 )
+all.equal( yExpCondObs, yExpCondObs6, tol = 1e-3 )
 # now with integrals obtained by the TVPACK algorithm, less precise
 yExpCondObs7 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    cond = TRUE, algorithm = TVPACK( abseps = 0.5 ) )
-all.equal( yExpCondObs6, yExpCondObs7 )
+all.equal( yExpCondObs6, yExpCondObs7, tol = 1e-3 )
 # now with integrals obtained by the GHK algorithm
 yExpCondObs8 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    cond = TRUE )
-all.equal( yExpCondObs, yExpCondObs8 )
+all.equal( yExpCondObs, yExpCondObs8, tol = 1e-3 )
 # now with integrals obtained by the GHK algorithm, less precise
 yExpCondObs9 <- mvProbitExp( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    cond = TRUE, nGHK = 100 )
-all.equal( yExpCondObs8, yExpCondObs9 )
+all.equal( yExpCondObs8, yExpCondObs9, tol = 1e-3 )
 
 
 # unconditional expectations of dependent variables by simulation
@@ -197,31 +197,31 @@ identical( logLikVal, logLikVal3 )
 logLikVal4 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    algorithm = Miwa )
-all.equal( logLikVal, logLikVal4 )
+all.equal( logLikVal, logLikVal4, tol = 1e-3 )
 # now with integrals obtained by the Miwa algorithm, less precise
 logLikVal5 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    algorithm = Miwa( steps = 32 ) )
-all.equal( logLikVal4, logLikVal5 )
+all.equal( logLikVal4, logLikVal5, tol = 1e-3 )
 # now with integrals obtained by the TVPACK algorithm
 logLikVal6 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    algorithm = TVPACK )
-all.equal( logLikVal, logLikVal6 )
+all.equal( logLikVal, logLikVal6, tol = 1e-3 )
 # now with integrals obtained by the TVPACK algorithm, less precise
 logLikVal7 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    algorithm = TVPACK( abseps = 0.5 ) )
-all.equal( logLikVal6, logLikVal7 )
+all.equal( logLikVal6, logLikVal7, tol = 1e-3 )
 # now with integrals obtained by the GHK algorithm
 logLikVal8 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ) )
-all.equal( logLikVal, logLikVal8 )
+all.equal( logLikVal, logLikVal8, tol = 1e-3 )
 # now with integrals obtained by the GHK algorithm, less precise
 logLikVal9 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    nGHK = 100 )
-all.equal( logLikVal8, logLikVal9 )
+all.equal( logLikVal8, logLikVal9, tol = 1e-3 )
 
 # calculating log likelihood value(s) with one-sided gradients
 logLikValGrad1 <- mvProbitLogLik( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
@@ -337,20 +337,20 @@ margEffCond1 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ),
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
    algorithm = Miwa( steps = 32 ) )
 round( margEffCond1, 4 )
-all.equal( margEffCond, margEffCond1 )
+all.equal( margEffCond, margEffCond1, tol = 1e-3 )
 # now with integrals obtained by the GHK algorithm
 margEffCond2 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE )
 round( margEffCond2, 4 )
-all.equal( margEffCond, margEffCond2 )
-all.equal( margEffCond1, margEffCond2 )
+all.equal( margEffCond, margEffCond2, tol = 1e-3 )
+all.equal( margEffCond1, margEffCond2, tol = 1e-3 )
 # now with integrals obtained by the GHK algorithm, reduced precision
 margEffCond3 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
    nGHK = 100 )
 round( margEffCond3, 4 )
-all.equal( margEffCond, margEffCond3 )
-all.equal( margEffCond2, margEffCond3 )
+all.equal( margEffCond, margEffCond3, tol = 1e-3 )
+all.equal( margEffCond2, margEffCond3, tol = 1e-3 )
 # now with variance covariance matrix and Jacobian
 margEffCondV <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
@@ -363,7 +363,7 @@ print( summary( margEffCondV ), digits = 3 )
 margEffCondVA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
    vcov = diag( 18 ), returnJacobian = TRUE, algorithm = GenzBretz() )
-all.equal( margEffCondV, margEffCondVA )
+all.equal( margEffCondV, margEffCondVA, tol = 1e-3 )
 # now with Jacobian but without variance covariance matrix
 margEffCondJac <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
@@ -406,14 +406,14 @@ margEffCondObs1 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    cond = TRUE, algorithm = Miwa( steps = 32 ) )
 round( margEffCondObs1, 4 )
-all.equal( margEffCondObs, margEffCondObs1 )
+all.equal( margEffCondObs, margEffCondObs1, tol = 1e-3 )
 # now with integrals obtained by the GHK algorithm
 margEffCondObs2 <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    cond = TRUE )
 round( margEffCondObs2, 4 )
-all.equal( margEffCondObs, margEffCondObs2 )
-all.equal( margEffCondObs1, margEffCondObs2 )
+all.equal( margEffCondObs, margEffCondObs2, tol = 1e-3 )
+all.equal( margEffCondObs1, margEffCondObs2, tol = 1e-3 )
 # now with variance covariance matrix and Jacobian
 margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = c( beta ), sigma = sigma, 

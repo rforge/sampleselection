@@ -155,13 +155,8 @@ Log-likelihood: -56.90544 on 12 Df
 
 > logLik( estResultBHHH1 )
 'log Lik.' -56.90544 (df=12)
-> all.equal( estResultBHHH, estResultBHHH1 )
-[1] "Component \"maximum\": Mean relative difference: 1.835846e-08"    
-[2] "Component \"estimate\": Mean relative difference: 1.179581e-07"   
-[3] "Component \"gradient\": Mean relative difference: 1.254646e-06"   
-[4] "Component \"hessian\": Mean relative difference: 4.703407e-07"    
-[5] "Component \"gradientObs\": Mean relative difference: 4.498797e-07"
-[6] "Component \"call\": target, current do not match when deparsed"   
+> all.equal( estResultBHHH, estResultBHHH1, tol = 1e-5 )
+[1] "Component \"call\": target, current do not match when deparsed"
 > 
 > # estimation with the BFGS algorithm, two-sided gradients
 > estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -260,12 +255,8 @@ Log-likelihood: -52.94456 on 12 Df
 
 > logLik( estResultBFGS1 )
 'log Lik.' -52.94456 (df=12)
-> all.equal( estResultBFGS, estResultBFGS1 )
-[1] "Component \"estimate\": Mean relative difference: 2.633371e-07"   
-[2] "Component \"gradient\": Mean relative difference: 8.516566e-07"   
-[3] "Component \"hessian\": Mean relative difference: 4.317973e-07"    
-[4] "Component \"gradientObs\": Mean relative difference: 2.455142e-07"
-[5] "Component \"call\": target, current do not match when deparsed"   
+> all.equal( estResultBFGS, estResultBFGS1, tol = 1e-5 )
+[1] "Component \"call\": target, current do not match when deparsed"
 > 
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values
 > estResultBFGS1a <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -458,13 +449,8 @@ Log-likelihood: -52.94417 on 12 Df
 
 > logLik( estResultBFGSm )
 'log Lik.' -52.94417 (df=12)
-> all.equal( estResultBFGS, estResultBFGSm )
-[1] "Component \"maximum\": Mean relative difference: 7.343932e-06"   
-[2] "Component \"estimate\": Mean relative difference: 2.683045e-05"  
-[3] "Component \"gradient\": Mean relative difference: 0.0001800715"  
-[4] "Component \"hessian\": Mean relative difference: 0.0001779414"   
-[5] "Component \"gradientObs\": Mean relative difference: 0.000115282"
-[6] "Component \"call\": target, current do not match when deparsed"  
+> all.equal( estResultBFGS, estResultBFGSm, tol = 1e-3 )
+[1] "Component \"call\": target, current do not match when deparsed"
 > 
 > # estimation with the BFGS algorithm, GHK algorithm for obtaining integrals
 > estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -513,20 +499,10 @@ Log-likelihood: -52.94523 on 12 Df
 
 > logLik( estResultBFGSg )
 'log Lik.' -52.94523 (df=12)
-> all.equal( estResultBFGS, estResultBFGSg )
-[1] "Component \"maximum\": Mean relative difference: 1.255085e-05"   
-[2] "Component \"estimate\": Mean relative difference: 0.0002398301"  
-[3] "Component \"gradient\": Mean relative difference: 0.001492616"   
-[4] "Component \"hessian\": Mean relative difference: 0.00113031"     
-[5] "Component \"gradientObs\": Mean relative difference: 0.000680818"
-[6] "Component \"call\": target, current do not match when deparsed"  
-> all.equal( estResultBFGSm, estResultBFGSg )
-[1] "Component \"maximum\": Mean relative difference: 1.989492e-05"    
-[2] "Component \"estimate\": Mean relative difference: 0.0002596067"   
-[3] "Component \"gradient\": Mean relative difference: 0.001518248"    
-[4] "Component \"hessian\": Mean relative difference: 0.001182819"     
-[5] "Component \"gradientObs\": Mean relative difference: 0.0007024826"
-[6] "Component \"call\": target, current do not match when deparsed"   
+> all.equal( estResultBFGS, estResultBFGSg, tol = 1e-2 )
+[1] "Component \"call\": target, current do not match when deparsed"
+> all.equal( estResultBFGSm, estResultBFGSg, tol = 1e-2 )
+[1] "Component \"call\": target, current do not match when deparsed"
 > 
 > # estimation with the Nelder-Mead algorithm
 > estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -3021,4 +2997,4 @@ Error in colMeans(data) : 'x' must be numeric
 > 
 > proc.time()
    user  system elapsed 
- 63.096   0.168  63.293 
+ 44.856   0.544  45.467 

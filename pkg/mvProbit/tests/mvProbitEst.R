@@ -49,7 +49,7 @@ estResultBHHH1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 print( estResultBHHH1 )
 summary( estResultBHHH1 )
 logLik( estResultBHHH1 )
-all.equal( estResultBHHH, estResultBHHH1 )
+all.equal( estResultBHHH, estResultBHHH1, tol = 1e-5 )
 
 # estimation with the BFGS algorithm, two-sided gradients
 estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -68,7 +68,7 @@ estResultBFGS1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 print( estResultBFGS1 )
 summary( estResultBFGS1 )
 logLik( estResultBFGS1 )
-all.equal( estResultBFGS, estResultBFGS1 )
+all.equal( estResultBFGS, estResultBFGS1, tol = 1e-5 )
 
 # estimation with the BFGS algorithm, one-sided gradients, no starting values
 estResultBFGS1a <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -102,7 +102,7 @@ estResultBFGSm <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 print( estResultBFGSm )
 summary( estResultBFGSm )
 logLik( estResultBFGSm )
-all.equal( estResultBFGS, estResultBFGSm )
+all.equal( estResultBFGS, estResultBFGSm, tol = 1e-3 )
 
 # estimation with the BFGS algorithm, GHK algorithm for obtaining integrals
 estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -112,8 +112,8 @@ estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
 print( estResultBFGSg )
 summary( estResultBFGSg )
 logLik( estResultBFGSg )
-all.equal( estResultBFGS, estResultBFGSg )
-all.equal( estResultBFGSm, estResultBFGSg )
+all.equal( estResultBFGS, estResultBFGSg, tol = 1e-2 )
+all.equal( estResultBFGSm, estResultBFGSg, tol = 1e-2 )
 
 # estimation with the Nelder-Mead algorithm
 estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,

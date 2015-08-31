@@ -1,4 +1,5 @@
 library( "mvProbit" )
+options( digits = 4 )
 
 ## generate a simulated data set
 set.seed( 123 )
@@ -231,11 +232,11 @@ dat <- as.data.frame( cbind( xMat, yMat ) )
 # marginal effects based on estimated coefficients with covariance matrix
 # unconditional marginal effects (with Jacobian)
 margEffUnc <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE )
-round( margEffUnc, 4 )
-round( attr( margEffUnc, "vcov" )[ 1:5, , ], 5 )
-round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 5 )
-round( attr( margEffUnc, "jacobian" )[ 1:5, , ], 5 )
-round( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ), 5 )
+round( margEffUnc, 3 )
+round( attr( margEffUnc, "vcov" )[ 1:5, , ], 3 )
+round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 3 )
+round( attr( margEffUnc, "jacobian" )[ 1:5, , ], 3 )
+round( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ), 3 )
 print( summary( margEffUnc ), digits = 3 )
 # now with explicitly specifying dummy variables
 margEffUncD <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
@@ -256,13 +257,13 @@ all.equal( attr( margEffUncJac, "jacobian" ), attr( margEffUnc, "jacobian" ) )
 margEffUncM <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
    addMean = TRUE )
 all.equal( margEffUnc, margEffUncM[ -(nObs+1), ], check.attributes = FALSE )
-round( margEffUncM[ nObs:(nObs+1), ], 4 )
+round( margEffUncM[ nObs:(nObs+1), ], 3 )
 all.equal( attr( margEffUnc, "vcov" ), attr( margEffUncM, "vcov" )[ 1:nObs, , ] )
-round( attr( margEffUncM, "vcov" )[ nObs:(nObs+1), , ], 5 )
-round( drop( attr( margEffUncM, "vcov" )[ nObs+1, , ] ), 5 )
+round( attr( margEffUncM, "vcov" )[ nObs:(nObs+1), , ], 3 )
+round( drop( attr( margEffUncM, "vcov" )[ nObs+1, , ] ), 3 )
 all.equal( attr( margEffUnc, "jacobian" ), attr( margEffUncM, "jacobian" )[ 1:nObs, , ] )
-round( attr( margEffUncM, "jacobian" )[ nObs:(nObs+1), , ], 5 )
-round( drop( attr( margEffUncM, "jacobian" )[ nObs+1, , ] ), 5 )
+round( attr( margEffUncM, "jacobian" )[ nObs:(nObs+1), , ], 3 )
+round( drop( attr( margEffUncM, "jacobian" )[ nObs+1, , ] ), 3 )
 all.equal( summary( margEffUnc )[ , ], 
    summary( margEffUncM )[ 1:( 6 * nObs ), ], check.attributes = FALSE )
 printCoefmat( summary( margEffUncM )[ -( 1:( 6 * ( nObs - 1 ) ) ), ], digits = 3 )
@@ -277,7 +278,7 @@ all.equal( margEffUncMeanA, margEffUncMean )
 # conditional marginal effects
 # (assuming that all other dependent variables are as observed)
 margEffCondObs <- margEff( estResultBFGS, cond = TRUE, algorithm = GenzBretz() )
-round( margEffCondObs, 4 )
+round( margEffCondObs, 3 )
 
 # conditional marginal effects with covariance matrix at sample mean
 # (assuming that all other dependent variables are at there modal values)
@@ -285,11 +286,11 @@ round( margEffCondObs, 4 )
 margEffCondObsCov <- margEff( estResultBFGS, cond = TRUE,
    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
    algorithm = GenzBretz(), calcVCov = TRUE, returnJacobian = TRUE )
-round( margEffCondObsCov, 4 )
-round( attr( margEffCondObsCov, "vcov" ), 5 )
-round( drop( attr( margEffCondObsCov, "vcov" ) ), 5 )
-round( attr( margEffCondObsCov, "jacobian" ), 5 )
-round( drop( attr( margEffCondObsCov, "jacobian" ) ), 5 )
+round( margEffCondObsCov, 3 )
+round( attr( margEffCondObsCov, "vcov" ), 3 )
+round( drop( attr( margEffCondObsCov, "vcov" ) ), 3 )
+round( attr( margEffCondObsCov, "jacobian" ), 3 )
+round( drop( attr( margEffCondObsCov, "jacobian" ) ), 3 )
 summary( margEffCondObsCov )
 # now with explicitly specifying dummy variables
 margEffCondObsCovD <- margEff( estResultBFGS, cond = TRUE,
@@ -314,16 +315,16 @@ print( summary( margEffCondObsCovDA ), digits = 3 )
 # (assuming that all other dependent variables are one)
 margEffCondOne <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
    algorithm = GenzBretz() )
-round( margEffCondOne, 4 )
+round( margEffCondOne, 3 )
 
 # conditional marginal effects with covariance matrix at sample mean
 # (assuming that all other dependent variables are one)
 margEffCondOneCov <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
    data = as.data.frame( t( colMeans( xMat ) ) ), calcVCov = TRUE,
    algorithm = GenzBretz() )
-round( margEffCondOneCov, 4 )
-round( attr( margEffCondOneCov, "vcov" ), 5 )
-round( drop( attr( margEffCondOneCov, "vcov" ) ), 5 )
+round( margEffCondOneCov, 3 )
+round( attr( margEffCondOneCov, "vcov" ), 3 )
+round( drop( attr( margEffCondOneCov, "vcov" ) ), 3 )
 print( summary( margEffCondOneCov ), digits = 3 )
 # now with using argument 'atMean'
 margEffCondOneCovA <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
@@ -335,7 +336,7 @@ all.equal( margEffCondOneCovA, margEffCondOneCov )
 dat <- datFac
 margEffFacUnc <- margEff( estResultFac, calcVCov = TRUE, returnJacobian = TRUE )
 all.equal( margEffUnc, margEffFacUnc, check.attributes = FALSE )
-round( margEffFacUnc, 4 )
+round( margEffFacUnc, 3 )
 # now at mean values
 margEffFacUncMean <- try( margEff( estResultFac, calcVCov = TRUE, atMean = TRUE ) )
 
@@ -344,7 +345,7 @@ margEffFacUncMean <- try( margEff( estResultFac, calcVCov = TRUE, atMean = TRUE 
 margEffFacCondObs <- margEff( estResultFac, cond = TRUE,
    algorithm = GenzBretz() )
 all.equal( margEffCondObs, margEffFacCondObs, check.attributes = FALSE )
-round( margEffFacCondObs, 4 )
+round( margEffFacCondObs, 3 )
 # now at mean values
 margEffFacCondObs <- try( margEff( estResultFac, cond = TRUE,
    algorithm = GenzBretz(), atMean = TRUE ) )
@@ -353,7 +354,7 @@ margEffFacCondObs <- try( margEff( estResultFac, cond = TRUE,
 # marginal effects (with factor as explanatory variable, 3 levels)
 # unconditional marginal effects (with Jacobian)
 margEffFac13Unc <- margEff( estResultFac13, calcVCov = TRUE, returnJacobian = TRUE )
-round( margEffFac13Unc, 4 )
+round( margEffFac13Unc, 3 )
 # now at mean values
 margEffFac13UncMean <- try( margEff( estResultFac13, calcVCov = TRUE, atMean = TRUE ) )
 
@@ -361,7 +362,7 @@ margEffFac13UncMean <- try( margEff( estResultFac13, calcVCov = TRUE, atMean = T
 # (assuming that all other dependent variables are as observed)
 margEffFac13CondObs <- margEff( estResultFac13, cond = TRUE,
    algorithm = GenzBretz() )
-round( margEffFac13CondObs, 4 )
+round( margEffFac13CondObs, 3 )
 # now at mean values
 margEffFac13CondObs <- try( margEff( estResultFac13, cond = TRUE,
    algorithm = GenzBretz(), atMean = TRUE ) )

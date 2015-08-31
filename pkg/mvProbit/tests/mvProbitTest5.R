@@ -1,4 +1,5 @@
 library( "mvProbit" )
+options( digits = 4 )
 
 ## generate a simulated data set
 set.seed( 123 )
@@ -37,7 +38,7 @@ colnames( yMat ) <- paste( "y", 1:5, sep = "" )
 # unconditional expectations of dependent variables
 yExp <- mvProbitExp( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ) )
-round( yExp, 4 )
+round( yExp, 3 )
 yExpA <- mvProbitExp( ~ x1 + x2 + x3, coef = allCoef,
    data = as.data.frame( xMat ) )
 all.equal( yExp, yExpA )
@@ -50,7 +51,7 @@ all.equal( yExp, as.data.frame( yExp2 ) )
 yExpCond <- mvProbitExp( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
    algorithm = GenzBretz() )
-round( yExpCond, 4 )
+round( yExpCond, 3 )
 yExpCondA <- mvProbitExp( ~ x1 + x2 + x3, coef = allCoef,
    data = as.data.frame( xMat ), cond = TRUE, algorithm = GenzBretz() )
 all.equal( yExpCond, yExpCondA )
@@ -72,7 +73,7 @@ all.equal( yExpCond, as.data.frame( yExpCond2 ) )
 yExpCondObs <- mvProbitExp( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
    cond = TRUE, algorithm = GenzBretz() )
-round( yExpCondObs, 4 )
+round( yExpCondObs, 3 )
 yExpCondObsA <- mvProbitExp( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), 
    cond = TRUE, algorithm = GenzBretz() )
@@ -99,7 +100,7 @@ all.equal( yExpCondObs, as.data.frame( yExpCondObs2 ) )
 logLikVal <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    algorithm = GenzBretz() )
-round( logLikVal, 4 )
+round( logLikVal, 3 )
 logLikValA <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ),
    algorithm = GenzBretz() )
@@ -109,8 +110,8 @@ all.equal( logLikVal, logLikValA )
 logLikValGrad1 <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    oneSidedGrad = TRUE, algorithm = GenzBretz() )
-round( c( logLikValGrad1 ), 4 )
-round( attr( logLikValGrad1, "gradient" ), 4 )
+round( c( logLikValGrad1 ), 3 )
+round( attr( logLikValGrad1, "gradient" ), 3 )
 logLikValGrad1A <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ),
    oneSidedGrad = TRUE, algorithm = GenzBretz() )
@@ -120,8 +121,8 @@ all.equal( logLikValGrad1, logLikValGrad1A )
 logLikValGrad <- mvProbitLogLik( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ),
    returnGrad = TRUE, algorithm = GenzBretz() )
-round( c( logLikValGrad ), 4 )
-round( attr( logLikValGrad, "gradient" ), 4 )
+round( c( logLikValGrad ), 3 )
+round( attr( logLikValGrad, "gradient" ), 3 )
 # now manually
 llTmp <- function( coef ) {
    betaTmp <- coef[ 1:20 ]
@@ -134,7 +135,7 @@ llTmp <- function( coef ) {
    return( result )
 }
 logLikValGrad2 <- numericGradient( llTmp, allCoef )
-round( logLikValGrad2, 5 )
+round( logLikValGrad2, 3 )
 # attr( logLikValGrad1, "gradient" ) / logLikValGrad2 - 1
 range( attr( logLikValGrad1, "gradient" ) / logLikValGrad2 - 1, na.rm = TRUE )
 # attr( logLikValGrad1, "gradient" ) - logLikValGrad2
@@ -149,11 +150,11 @@ range( attr( logLikValGrad, "gradient" ) - logLikValGrad2 )
 margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 30 ),
    returnJacobian = TRUE )
-round( margEffUnc, 4 )
-round( attr( margEffUnc, "vcov" )[ 1:3, , ], 5 )
-round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 5 )
-round( attr( margEffUnc, "jacobian" )[ 1:3, , ], 5 )
-round( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ), 5 )
+round( margEffUnc, 3 )
+round( attr( margEffUnc, "vcov" )[ 1:3, , ], 3 )
+round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 3 )
+round( attr( margEffUnc, "jacobian" )[ 1:3, , ], 3 )
+round( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ), 3 )
 print( summary( margEffUnc ), digits = 3 )
 margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3, coef = allCoef,
    data = as.data.frame( xMat ), vcov = diag( 30 ), returnJacobian = TRUE )
@@ -164,7 +165,7 @@ all.equal( margEffUnc, margEffUncA )
 margEffCond <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), cond = TRUE,
    algorithm = GenzBretz() )
-round( margEffCond, 4 )
+round( margEffCond, 3 )
 margEffCondA <- mvProbitMargEff( ~ x1 + x2 + x3, coef = allCoef,
    data = as.data.frame( xMat ), cond = TRUE,
    algorithm = GenzBretz() )
@@ -173,10 +174,10 @@ all.equal( margEffCond, margEffCondA )
 margEffCondV <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
    vcov = diag( 30 ), returnJacobian = TRUE, algorithm = GenzBretz() )
-round( attr( margEffCondV, "vcov" ), 5 )
-round( drop( attr( margEffCondV, "vcov" )[ 1, , ] ), 5 )
-round( attr( margEffCondV, "jacobian" ), 5 )
-round( drop( attr( margEffCondV, "jacobian" )[ 1, , ] ), 5 )
+round( attr( margEffCondV, "vcov" ), 3 )
+round( drop( attr( margEffCondV, "vcov" )[ 1, , ] ), 3 )
+round( attr( margEffCondV, "jacobian" ), 3 )
+round( drop( attr( margEffCondV, "jacobian" )[ 1, , ] ), 3 )
 print( summary( margEffCondV ), digits = 3 )
 
 # calculating marginal effects, conditional
@@ -184,7 +185,7 @@ print( summary( margEffCondV ), digits = 3 )
 margEffCondObs <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    coef = c( beta ), sigma = sigma, data = as.data.frame( cbind( xMat, yMat ) ), 
    cond = TRUE, algorithm = GenzBretz() )
-round( margEffCondObs, 4 )
+round( margEffCondObs, 3 )
 margEffCondObsA <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3,
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) ), cond = TRUE,
    algorithm = GenzBretz() )
@@ -193,9 +194,9 @@ all.equal( margEffCondObs, margEffCondObsA )
 margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
    cond = TRUE, vcov = diag( 30 ), returnJacobian = TRUE, algorithm = GenzBretz() )
-round( attr( margEffCondObsV, "vcov" ), 5 )
-round( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ), 5 )
-round( attr( margEffCondObsV, "jacobian" ), 5 )
-round( drop( attr( margEffCondObsV, "jacobian" )[ 1, , ] ), 5 )
+round( attr( margEffCondObsV, "vcov" ), 3 )
+round( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ), 3 )
+round( attr( margEffCondObsV, "jacobian" ), 3 )
+round( drop( attr( margEffCondObsV, "jacobian" )[ 1, , ] ), 3 )
 print( summary( margEffCondObsV ), digits = 3 )
 

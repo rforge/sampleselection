@@ -6,7 +6,7 @@ intReg <- function(formula, start, boundaries,
                  model = TRUE,
                  method = c("probit", "logistic", "cloglog", "cauchit",
                  "model.frame"),
-                   minIntervalWidth=sqrt(.Machine$double.eps),
+                   minIntervalWidth=10*sqrt(.Machine$double.eps),
                      print.level=0,
                    data, subset, weights, na.action,
                    iterlim=100)
@@ -24,8 +24,9 @@ intReg <- function(formula, start, boundaries,
         zeta <- theta[iBoundaries]
         sigma <- theta[iSigma]
         eta <- offset
-        if (nBeta > 0)
-            eta <- eta + drop(x %*% beta)
+       if (nBeta > 0) {
+          eta <- eta + drop(x %*% beta)
+       }
        ll <- numeric(nrow(x))
        ## interval observations
        if(nIntervalObs > 0) {
@@ -98,6 +99,7 @@ intReg <- function(formula, start, boundaries,
                dg.dbeta <- -x[!iIntervalObs,] * d2fun(normArg)/dfun(normArg)/sigma
                dg.dsigma <- d2fun(normArg)/dfun(normArg)*normArg/sigma
             }
+            i <- is.infinite(normArg)
             ##
             grad[!iIntervalObs, iBeta] <- dg.dbeta
             grad[!iIntervalObs, iSigma] <- dg.dsigma
@@ -135,60 +137,65 @@ intReg <- function(formula, start, boundaries,
      nBeta <- ncol(x)
      cons <- attr(x, "contrasts") # will get dropped by subsetting
      wt <- model.weights(mf)
-     if(!length(wt)) wt <- rep(1, nObs)
+     if(!length(wt)) {
+        wt <- rep(1, nObs)
+     }
      offset <- model.offset(mf)
-     if(length(offset) <= 1) offset <- rep(0, nObs)
+    if(length(offset) <= 1) {
+       offset <- rep(0, nObs)
+    }
      y <- model.response(mf)
      if(is.matrix(y)) {
         ## Use the intervals, given for each observation.  We have interval regression and the interval boundaries are fixed.
         ## Save boundaries as a sequence of pairs of L,B boundaries
+        if(ncol(y) != 2) {
+           stop("response must be a factor or Nx2 matrix of boundaries")
+        }
         ordered <- FALSE
         dimnames(y) <- NULL
         lowerBound <- y[,1]
         upperBound <- y[,2]
         iIntervalObs <- abs(upperBound - lowerBound) > minIntervalWidth
-                            # these are interval observations
+                           # these are interval observations
+        iIntervalObs[is.infinite(lowerBound) & is.infinite(upperBound)] <- FALSE
+                           # treat (Inf,Inf) intervals as point obs
         nIntervalObs <- sum(iIntervalObs)
         nPointObs <- sum(!iIntervalObs)
         ## in case of interval regression, we have to construct a set of intervals and pack them correctly to the
         ## parameter vector
-        if(nIntervalObs > 0) {
-           intervals <- sets::set()
-           for(i in which(iIntervalObs)) {
-              intervals <- intervals | c(lowerBound[i], upperBound[i])
-           }
-           ## Now make the set to a list to have ordering
-           intervals <- as.list(intervals)
-           ## Now find which interval each observation falls into
-           yInt <- boundaryInterval <- numeric(sum(iIntervalObs))
-                            # which interval observation falls to 
-                            # yInt:                 in terms of ordered intervals
-                            # boundaryInterval   in terms of ordered boundaries
-           for(i in seq(along=intervals)) {
-              j <- lowerBound == intervals[[i]][1] & upperBound == intervals[[i]][2]
-                            # Note: y and boundaryInterval for point estimates will
-                            # also be written but not used later
-              boundaryInterval[j] <- 1 + 2*(i - 1)
-              yInt[j] <- i
-           }
-           boundaries <- unlist(intervals)
-                            # boundaries as a vector (note the joint boundaries are twice
-           names(boundaries) <- paste(c("L", "U"), rep(seq(along=intervals), each=2))
-           nInterval <- length(boundaries) - 1
+        intervals <- sets::set()
+        for(i in seq(length=nrow(x))) {
+           intervals <- intervals | c(lowerBound[i], upperBound[i])
         }
-        else {
-           boundaries <- numeric(0)
+        ## Now make the set to a list to have ordering
+        intervals <- as.list(intervals)
+        ## Now find which interval each observation falls into
+        yInt <- boundaryInterval <- numeric(nrow(x))
+                           # which interval observation falls to 
+                           # yInt:                 in terms of ordered intervals
+                           # boundaryInterval   in terms of ordered boundaries
+        for(i in seq(along=intervals)) {
+           j <- lowerBound == intervals[[i]][1] & upperBound == intervals[[i]][2]
+                           # Note: y and boundaryInterval for point estimates will
+                           # also be written but not used later
+           boundaryInterval[j] <- 1 + 2*(i - 1)
+           yInt[j] <- i
         }
+        boundaries <- unlist(intervals)
+                           # boundaries as a vector (note the joint boundaries are twice
+        names(boundaries) <- paste(c("L", "U"), rep(seq(along=intervals), each=2))
+        nInterval <- length(boundaries) - 1
      }
      else {
         ## response is given as an ordered factor, boundaries must be given separately.
         ## Save them as a vector of boundaries, all numbers (except the first, last) represent the upper boundary of
         ## the smaller interval and the lower boundary of the upper interval at the same time.
+        if(!is.factor(y)) {
+           stop("response must be a factor or Nx2 matrix of boundaries")
+        }
         lev <- levels(y)
         if(length(lev) <= 2)
             stop("response must have 3 or more levels")
-        if(!is.factor(y))
-            stop("response must be a factor or Nx2 matrix of boundaries")
         yInt <- unclass(y)
                            # which interval observation falls to: we keep a separate
                            # variable to preserve the original
@@ -213,13 +220,28 @@ intReg <- function(formula, start, boundaries,
         nIntervalObs <- sum(iIntervalObs)
         nPointObs <- sum(!iIntervalObs)
      }
-     if(nIntervalObs > 0) {
+    if(nIntervalObs > 0) {
         Y <- matrix(0, nObs, nInterval + 1)
         .polrY1 <- col(Y) == boundaryInterval + 1
         .polrY2 <- col(Y) == boundaryInterval 
                                          # .polr are markers for which interval the
                                          # boundaryInterval falls to
      }
+    ## Remove unsuitable observations
+    iExclude <- !complete.cases(x)
+    LB <- boundaries[boundaryInterval]
+    UB <- boundaries[boundaryInterval + 1]
+    iExclude <- iExclude | !complete.cases(LB, UB)
+    iExclude <- iExclude | (is.infinite(LB) & is.infinite(UB))
+                           # exclude (Inf, Inf) intervals
+#    y <- y[!iExclude,,drop=FALSE]
+    boundaryInterval <- boundaryInterval[!iExclude]
+    yInt <- yInt[!iExclude]
+    x <- x[!iExclude,,drop=FALSE]
+    wt <- wt[!iExclude]
+    offset <- offset[!iExclude]
+    iIntervalObsInf <- iIntervalObs
+    iIntervalObs <- iIntervalObs[!iExclude]
      ## starting values
      iBeta <- seq(length=ncol(x))
                             # coefficients
@@ -263,12 +285,7 @@ intReg <- function(formula, start, boundaries,
         }
         else {
            ## not ordered: estimate OLS on interval middle points
-           if(!is.null(dim(y))) {
-              yMean <- numeric(nrow(y))
-           }
-           else {
-              yMean <- numeric(length(y))
-           }
+           yMean <- numeric(length(yInt))
            if(nIntervalObs > 0) {
               means <- sapply(intervals, mean)
                             # we have to put a reasonable value to infinite intervals.
@@ -287,7 +304,9 @@ intReg <- function(formula, start, boundaries,
               yMean <- means[yInt]
            }
            yMean[!iIntervalObs] <- boundaries[boundaryInterval[!iIntervalObs]]
-           fit <- lm(yMean ~ x - 1)
+           yMean[is.infinite(yMean)] <- NA
+                           # Inf will break lm ...
+           fit <- lm(yMean ~ x - 1, na.action=na.action)
            xCoefs <- coef(fit)
            if(any(is.na(xCoefs))) {
               cat("Suggested initial values:\n")
@@ -338,7 +357,9 @@ intReg <- function(formula, start, boundaries,
              param=list(list(ordered=ordered,
                       boundaries=boundaries,
                       index=list(beta=iBeta, boundary=iBoundaries, std=iSigma),
-                      intervalObs=iIntervalObs,
+                      intervalObs=iIntervalObsInf,
+                           # include the Inf obs as these will be passed to
+                           # the model.frame
                       df=nObs - sum(activePar),
                       nObs=nObs
                       )),

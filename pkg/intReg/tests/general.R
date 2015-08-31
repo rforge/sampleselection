@@ -2,6 +2,39 @@
 ### Test general behavior, do not go into depth.
 ### 
 ### Note: there are far more thorough tests on the intReg R-forge page.
+###
+### Tests here:
+### 1) mixed model with observation-sepcific boundaries and point obs,
+###    normal disturbances.
+###   * calculate
+###   * coef
+###   * stdEr
+###   * summary
+###   * model.matrix
+###   * model.frame
+###   * model.response
+###   * boundaries
+###   * disturbances
+###   * intervals
+###   * intervalObs
+###
+### 2) common boundaries, interval obs, normal disturbances
+###   * summary
+###   * boundaries
+###   * intervals
+###
+### 3) predictions (using common boundaries above)
+###   * link
+###   * conditional mean
+###
+### 4) test narrow interval observations.  Note: this may differ on different
+###    machines, hence should stay on CRAN
+###   * width 1e-7 -> should work fine
+###   * width 1e-8 -> should give convergence problems
+###
+### 5) Simple model width logistic disturbances
+###   * summary
+###   * disturbances
 
 ## Observation-specific boundaries
 ## Estimate the willingness to pay for the Kakadu National Park
@@ -67,8 +100,8 @@ print(intervalObs(m))
 ## Example of common intervals for all the observations
 ##
 cat("Common intervals example:\n")
-library(Ecdat)
-data(Bwages)
+data(Bwages, package="Ecdat")
+Bwages <- Bwages[sample(nrow(Bwages), 200),]
 ## calculate an ordinary Mincer-style wage regression.  
 ## Note: gross hourly wage rate in EUR
 intBound <- c(0, 5, 10, 15, 25, Inf)
@@ -95,6 +128,25 @@ Eyc <- predict(m, type="linkConditional")
 cat("Conditional mean prediction (sample):\n")
 print(Eyc[1:10])
 
+## Test if the sqrt(.Machine$double.eps) is a good proxy for minimal
+## interval width
+lb <- intBound[salary]
+                           # test (Inf,Inf) intervals
+lb <- log(lb)
+lb[1] <- -Inf
+lb[2] <- Inf
+ub <- lb + 1e-6
+m <- intReg(cbind(lb,ub) ~ 1, data=Bwages, minIntervalWidth=0, gradtol=0)
+cat("Interval width 1e-6:\n")
+print(summary(m))
+                           # should return code 2: function value withing tolerance
+                           # limit
+ub <- lb + 1e-7
+m <- intReg(cbind(lb,ub) ~ 1, data=Bwages, minIntervalWidth=0, gradtol=0)
+cat("Interval width 1e-7:\n")
+print(summary(m))
+                           # should return code 3: cannot find better point
+
 ## Test the same with cloglog disturbances
 m <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages,
             boundaries=log(intBound),
@@ -103,3 +155,4 @@ cat("Same, logit disturbances:\n")
 print(summary(m))
 cat("Disturbances:\n")
 print(disturbances(m))
+

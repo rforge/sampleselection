@@ -12,7 +12,7 @@
 intReg(formula, start, boundaries, ...,
 contrasts = NULL, Hess = FALSE, model = TRUE,
 method = c("probit", "logistic", "cloglog", "cauchit", "model.frame"),
-       minIntervalWidth=sqrt(.Machine$double.eps),
+       minIntervalWidth=10*sqrt(.Machine$double.eps),
 print.level = 0,
 data, subset, weights, na.action,
 iterlim=100)

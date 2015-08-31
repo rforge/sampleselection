@@ -15,6 +15,10 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
+> ## The comprehensive test suite
+> ## Not to be included in CRAN version
+> ## Hence may run long
+> 
 > ## Example of observation-specific boundaries
 > ## Estimate the willingness to pay for the Kakadu National Park
 > ## Data given in intervals -- 'lower' for lower bound and 'upper' for upper bound.
@@ -30,14 +34,21 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
+> 
+> ## Test a mixed interval complex model and methods
 > data(Kakadu, package="Ecdat")
 > ## Estimate in log form, change 999 to Inf
-> Kakadu <- Kakadu[sample(nrow(Kakadu), 300),]
+> Kakadu <- Kakadu[sample(nrow(Kakadu), 100),]
 >                            # Speed up the tests
 > lb <- log(Kakadu$lower)
 > ub <- Kakadu$upper
 > ub[ub > 998] <- Inf
 > ub <- log(ub)
+> ## Artifically create a few point observations
+> iP <- sample(nrow(Kakadu), 15)
+> iP <- iP[!is.infinite(lb[iP])]
+> ub[iP] <- lb[iP]
+> ##
 > y <- cbind(lb, ub)
 > m <- intReg(y ~ sex + log(income) + age + schooling + 
 +               recparks + jobs + lowrisk + wildlife + future + aboriginal + finben +
@@ -46,315 +57,380 @@ https://r-forge.r-project.org/projects/maxlik/
 > ## You may want to compare the results to Werner (1999),
 > ## Journal of Business and Economics Statistics 17(4), pp 479-486
 > 
-> ## Test coef, stdEr, summary with and without boundaries
+> cat("Coefficients:\n")
+Coefficients:
 > print(coef(m))
 (Intercept)     sexmale log(income)         age   schooling    recparks 
-   7.390819   -0.255675    0.372862   -0.044666   -0.195242   -0.034879 
+   8.589996   -0.032289   -0.259322   -0.022463   -0.144282   -0.384770 
        jobs     lowrisk    wildlife      future  aboriginal      finben 
-  -0.687059   -0.864370   -0.012024    0.145218    0.002306   -0.157557 
+  -0.632277   -0.488045   -0.364712    0.015986    0.467883    0.111265 
   mineparks   moreparks         gov   envconyes   vparksyes       tvenv 
-   0.539109    0.521039   -1.508886    0.237526    0.275681   -0.125687 
+   0.405835    0.177685   -1.301358   -0.284816    0.641849   -0.002504 
    majoryes       sigma 
-   0.436197    2.612337 
+   0.754281    1.517508 
+> cat("Coefficients, with boundaries:\n")
+Coefficients, with boundaries:
 > print(coef(m, boundaries=TRUE))
 (Intercept)     sexmale log(income)         age   schooling    recparks 
-   7.390819   -0.255675    0.372862   -0.044666   -0.195242   -0.034879 
+   8.589996   -0.032289   -0.259322   -0.022463   -0.144282   -0.384770 
        jobs     lowrisk    wildlife      future  aboriginal      finben 
-  -0.687059   -0.864370   -0.012024    0.145218    0.002306   -0.157557 
+  -0.632277   -0.488045   -0.364712    0.015986    0.467883    0.111265 
   mineparks   moreparks         gov   envconyes   vparksyes       tvenv 
-   0.539109    0.521039   -1.508886    0.237526    0.275681   -0.125687 
+   0.405835    0.177685   -1.301358   -0.284816    0.641849   -0.002504 
    majoryes         L 1         U 1         L 2         U 2         L 3 
-   0.436197        -Inf    0.693147        -Inf    1.609438        -Inf 
+   0.754281        -Inf    0.693147        -Inf    1.609438        -Inf 
         U 3         L 4         U 4         L 5         U 5         L 6 
-   2.995732        -Inf    3.912023    0.693147    1.609438    1.609438 
+   2.995732        -Inf    3.912023    1.609438    1.609438    1.609438 
         U 6         L 7         U 7         L 8         U 8         L 9 
-   2.995732    2.995732    3.912023    2.995732         Inf    3.912023 
+   2.995732    2.995732    2.995732    2.995732    3.912023    2.995732 
         U 9        L 10        U 10        L 11        U 11        L 12 
-   4.605170    3.912023         Inf    4.605170    5.521461    4.605170 
-       U 12        L 13        U 13       sigma 
-        Inf    5.521461         Inf    2.612337 
+        Inf    3.912023    3.912023    3.912023    4.605170    3.912023 
+       U 12        L 13        U 13        L 14        U 14        L 15 
+        Inf    4.605170    4.605170    4.605170    5.521461    4.605170 
+       U 15        L 16        U 16        L 17        U 17       sigma 
+        Inf    5.521461    5.521461    5.521461         Inf    1.517508 
+> cat("stdEr:\n")
+stdEr:
 > print(stdEr(m))
 (Intercept)     sexmale log(income)         age   schooling    recparks 
-    2.95567     0.51571     0.31161     0.01543     0.14256     0.23039 
+    5.07906     0.58978     0.37840     0.01688     0.16243     0.27621 
        jobs     lowrisk    wildlife      future  aboriginal      finben 
-    0.19383     0.20823     0.29107     0.25379     0.20609     0.20115 
+    0.33254     0.19832     0.73525     0.35071     0.28790     0.28856 
   mineparks   moreparks         gov   envconyes   vparksyes       tvenv 
-    0.20615     0.20251     1.05768     0.46896     0.52456     0.15555 
+    0.23762     0.27937     1.37003     0.58459     0.63548     0.20388 
    majoryes       sigma 
-    0.44708     0.34251 
+    0.50354     0.34511 
+attr(,"class")
+[1] "stdEr.intReg" "numeric"     
+> cat("stdEr, with boundaries:\n")
+stdEr, with boundaries:
 > print(stdEr(m, boundaries=TRUE))
 (Intercept)     sexmale log(income)         age   schooling    recparks 
-    2.95567     0.51571     0.31161     0.01543     0.14256     0.23039 
+    5.07906     0.58978     0.37840     0.01688     0.16243     0.27621 
        jobs     lowrisk    wildlife      future  aboriginal      finben 
-    0.19383     0.20823     0.29107     0.25379     0.20609     0.20115 
+    0.33254     0.19832     0.73525     0.35071     0.28790     0.28856 
   mineparks   moreparks         gov   envconyes   vparksyes       tvenv 
-    0.20615     0.20251     1.05768     0.46896     0.52456     0.15555 
-   majoryes       sigma 
-    0.44708     0.34251 
+    0.23762     0.27937     1.37003     0.58459     0.63548     0.20388 
+   majoryes         L 1         U 1         L 2         U 2         L 3 
+    0.50354     0.00000     0.00000     0.00000     0.00000     0.00000 
+        U 3         L 4         U 4         L 5         U 5         L 6 
+    0.00000     0.00000     0.00000     0.00000     0.00000     0.00000 
+        U 6         L 7         U 7         L 8         U 8         L 9 
+    0.00000     0.00000     0.00000     0.00000     0.00000     0.00000 
+        U 9        L 10        U 10        L 11        U 11        L 12 
+    0.00000     0.00000     0.00000     0.00000     0.00000     0.00000 
+       U 12        L 13        U 13        L 14        U 14        L 15 
+    0.00000     0.00000     0.00000     0.00000     0.00000     0.00000 
+       U 15        L 16        U 16        L 17        U 17       sigma 
+    0.00000     0.00000     0.00000     0.00000     0.00000     0.34511 
+attr(,"class")
+[1] "stdEr.intReg" "numeric"     
+> cat("Summary:\n")
+Summary:
 > print(summary(m))
 --------------------------------------------
 Interval regression
 Maximum Likelihood estimation
-BHHH maximisation, 18 iterations
+BHHH maximisation, 44 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -226.8 
-300 observations, 20 free parameters (df = 280)
+Log-Likelihood: -78.54 
+100 observations, 20 free parameters (df = 80)
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  7.39082    2.95567    2.50  0.01297 *  
-sexmale     -0.25567    0.51571   -0.50  0.62044    
-log(income)  0.37286    0.31161    1.20  0.23248    
-age         -0.04467    0.01543   -2.90  0.00408 ** 
-schooling   -0.19524    0.14256   -1.37  0.17192    
-recparks    -0.03488    0.23039   -0.15  0.87978    
-jobs        -0.68706    0.19383   -3.54  0.00046 ***
-lowrisk     -0.86437    0.20823   -4.15  4.4e-05 ***
-wildlife    -0.01202    0.29107   -0.04  0.96708    
-future       0.14522    0.25379    0.57  0.56765    
-aboriginal   0.00231    0.20609    0.01  0.99108    
-finben      -0.15756    0.20115   -0.78  0.43411    
-mineparks    0.53911    0.20615    2.62  0.00940 ** 
-moreparks    0.52104    0.20251    2.57  0.01060 *  
-gov         -1.50889    1.05768   -1.43  0.15481    
-envconyes    0.23753    0.46896    0.51  0.61291    
-vparksyes    0.27568    0.52456    0.53  0.59962    
-tvenv       -0.12569    0.15555   -0.81  0.41976    
-majoryes     0.43620    0.44708    0.98  0.33007    
-sigma        2.61234         NA      NA       NA    
+(Intercept)   8.5900     5.0791    1.69    0.095 .  
+sexmale      -0.0323     0.5898   -0.05    0.956    
+log(income)  -0.2593     0.3784   -0.69    0.495    
+age          -0.0225     0.0169   -1.33    0.187    
+schooling    -0.1443     0.1624   -0.89    0.377    
+recparks     -0.3848     0.2762   -1.39    0.167    
+jobs         -0.6323     0.3325   -1.90    0.061 .  
+lowrisk      -0.4880     0.1983   -2.46    0.016 *  
+wildlife     -0.3647     0.7352   -0.50    0.621    
+future        0.0160     0.3507    0.05    0.964    
+aboriginal    0.4679     0.2879    1.63    0.108    
+finben        0.1113     0.2886    0.39    0.701    
+mineparks     0.4058     0.2376    1.71    0.092 .  
+moreparks     0.1777     0.2794    0.64    0.527    
+gov          -1.3014     1.3700   -0.95    0.345    
+envconyes    -0.2848     0.5846   -0.49    0.627    
+vparksyes     0.6419     0.6355    1.01    0.316    
+tvenv        -0.0025     0.2039   -0.01    0.990    
+majoryes      0.7543     0.5035    1.50    0.138    
+sigma         1.5175     0.3451    4.40  3.3e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
+> cat("Summary, with boundaries:\n")
+Summary, with boundaries:
 > print(summary(m, boundaries=TRUE))
 --------------------------------------------
 Interval regression
 Maximum Likelihood estimation
-BHHH maximisation, 18 iterations
+BHHH maximisation, 44 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -226.8 
-300 observations, 20 free parameters (df = 280)
+Log-Likelihood: -78.54 
+100 observations, 20 free parameters (df = 80)
             Estimate Std. Error t value Pr(>|t|)    
-(Intercept)  7.39082    2.95567    2.50  0.01297 *  
-sexmale     -0.25567    0.51571   -0.50  0.62044    
-log(income)  0.37286    0.31161    1.20  0.23248    
-age         -0.04467    0.01543   -2.90  0.00408 ** 
-schooling   -0.19524    0.14256   -1.37  0.17192    
-recparks    -0.03488    0.23039   -0.15  0.87978    
-jobs        -0.68706    0.19383   -3.54  0.00046 ***
-lowrisk     -0.86437    0.20823   -4.15  4.4e-05 ***
-wildlife    -0.01202    0.29107   -0.04  0.96708    
-future       0.14522    0.25379    0.57  0.56765    
-aboriginal   0.00231    0.20609    0.01  0.99108    
-finben      -0.15756    0.20115   -0.78  0.43411    
-mineparks    0.53911    0.20615    2.62  0.00940 ** 
-moreparks    0.52104    0.20251    2.57  0.01060 *  
-gov         -1.50889    1.05768   -1.43  0.15481    
-envconyes    0.23753    0.46896    0.51  0.61291    
-vparksyes    0.27568    0.52456    0.53  0.59962    
-tvenv       -0.12569    0.15555   -0.81  0.41976    
-majoryes     0.43620    0.44708    0.98  0.33007    
-L 1             -Inf    0.34251    -Inf  < 2e-16 ***
-U 1          0.69315    2.95567    0.23  0.81476    
-L 2             -Inf    0.51571    -Inf  < 2e-16 ***
-U 2          1.60944    0.31161    5.16  4.6e-07 ***
-L 3             -Inf    0.01543    -Inf  < 2e-16 ***
-U 3          2.99573    0.14256   21.01  < 2e-16 ***
-L 4             -Inf    0.23039    -Inf  < 2e-16 ***
-U 4          3.91202    0.19383   20.18  < 2e-16 ***
-L 5          0.69315    0.20823    3.33  0.00099 ***
-U 5          1.60944    0.29107    5.53  7.4e-08 ***
-L 6          1.60944    0.25379    6.34  9.1e-10 ***
-U 6          2.99573    0.20609   14.54  < 2e-16 ***
-L 7          2.99573    0.20115   14.89  < 2e-16 ***
-U 7          3.91202    0.20615   18.98  < 2e-16 ***
-L 8          2.99573    0.20251   14.79  < 2e-16 ***
-U 8              Inf    1.05768     Inf  < 2e-16 ***
-L 9          3.91202    0.46896    8.34  3.4e-15 ***
-U 9          4.60517    0.52456    8.78  < 2e-16 ***
-L 10         3.91202    0.15555   25.15  < 2e-16 ***
-U 10             Inf    0.44708     Inf  < 2e-16 ***
-L 11         4.60517    0.34251   13.45  < 2e-16 ***
-U 11         5.52146    2.95567    1.87  0.06279 .  
-L 12         4.60517    0.51571    8.93  < 2e-16 ***
-U 12             Inf    0.31161     Inf  < 2e-16 ***
-L 13         5.52146    0.01543  357.93  < 2e-16 ***
-U 13             Inf    0.14256     Inf  < 2e-16 ***
-sigma        2.61234    0.23039   11.34  < 2e-16 ***
+(Intercept)   8.5900     5.0791    1.69    0.095 .  
+sexmale      -0.0323     0.5898   -0.05    0.956    
+log(income)  -0.2593     0.3784   -0.69    0.495    
+age          -0.0225     0.0169   -1.33    0.187    
+schooling    -0.1443     0.1624   -0.89    0.377    
+recparks     -0.3848     0.2762   -1.39    0.167    
+jobs         -0.6323     0.3325   -1.90    0.061 .  
+lowrisk      -0.4880     0.1983   -2.46    0.016 *  
+wildlife     -0.3647     0.7352   -0.50    0.621    
+future        0.0160     0.3507    0.05    0.964    
+aboriginal    0.4679     0.2879    1.63    0.108    
+finben        0.1113     0.2886    0.39    0.701    
+mineparks     0.4058     0.2376    1.71    0.092 .  
+moreparks     0.1777     0.2794    0.64    0.527    
+gov          -1.3014     1.3700   -0.95    0.345    
+envconyes    -0.2848     0.5846   -0.49    0.627    
+vparksyes     0.6419     0.6355    1.01    0.316    
+tvenv        -0.0025     0.2039   -0.01    0.990    
+majoryes      0.7543     0.5035    1.50    0.138    
+L 1             -Inf     0.0000    -Inf  < 2e-16 ***
+U 1           0.6932     0.0000     Inf  < 2e-16 ***
+L 2             -Inf     0.0000    -Inf  < 2e-16 ***
+U 2           1.6094     0.0000     Inf  < 2e-16 ***
+L 3             -Inf     0.0000    -Inf  < 2e-16 ***
+U 3           2.9957     0.0000     Inf  < 2e-16 ***
+L 4             -Inf     0.0000    -Inf  < 2e-16 ***
+U 4           3.9120     0.0000     Inf  < 2e-16 ***
+L 5           1.6094     0.0000     Inf  < 2e-16 ***
+U 5           1.6094     0.0000     Inf  < 2e-16 ***
+L 6           1.6094     0.0000     Inf  < 2e-16 ***
+U 6           2.9957     0.0000     Inf  < 2e-16 ***
+L 7           2.9957     0.0000     Inf  < 2e-16 ***
+U 7           2.9957     0.0000     Inf  < 2e-16 ***
+L 8           2.9957     0.0000     Inf  < 2e-16 ***
+U 8           3.9120     0.0000     Inf  < 2e-16 ***
+L 9           2.9957     0.0000     Inf  < 2e-16 ***
+U 9              Inf     0.0000     Inf  < 2e-16 ***
+L 10          3.9120     0.0000     Inf  < 2e-16 ***
+U 10          3.9120     0.0000     Inf  < 2e-16 ***
+L 11          3.9120     0.0000     Inf  < 2e-16 ***
+U 11          4.6052     0.0000     Inf  < 2e-16 ***
+L 12          3.9120     0.0000     Inf  < 2e-16 ***
+U 12             Inf     0.0000     Inf  < 2e-16 ***
+L 13          4.6052     0.0000     Inf  < 2e-16 ***
+U 13          4.6052     0.0000     Inf  < 2e-16 ***
+L 14          4.6052     0.0000     Inf  < 2e-16 ***
+U 14          5.5215     0.0000     Inf  < 2e-16 ***
+L 15          4.6052     0.0000     Inf  < 2e-16 ***
+U 15             Inf     0.0000     Inf  < 2e-16 ***
+L 16          5.5215     0.0000     Inf  < 2e-16 ***
+U 16          5.5215     0.0000     Inf  < 2e-16 ***
+L 17          5.5215     0.0000     Inf  < 2e-16 ***
+U 17             Inf     0.0000     Inf  < 2e-16 ***
+sigma         1.5175     0.3451    4.40  3.3e-05 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-Warning messages:
-1: In coef/stdErr :
-  longer object length is not a multiple of shorter object length
-2: In cbind(coef, stdErr, coef/stdErr, rep(NA, length(coef))) :
-  number of rows of result is not a multiple of vector length (arg 2)
-3: In coef/stdErr :
-  longer object length is not a multiple of shorter object length
 > 
 > ## test model.matrix
 > mm <- model.matrix(m)
-> print(mm[i <- sample(nrow(mm), 10),])
+> cat("Model matrix (sample):\n")
+Model matrix (sample):
+> print(mm[1:10,])
      (Intercept) sexmale log(income) age schooling recparks jobs lowrisk
-840            1       1       2.197  70         5        5    5       5
-1565           1       1       4.094  32         5        5    1       2
-295            1       0       2.197  70         5        3    4       4
-889            1       0       2.197  70         4        5    5       5
-1256           1       0       3.219  21         6        3    1       1
-1507           1       0       4.094  32         6        2    1       3
-1530           1       1       2.197  52         3        5    1       1
-1750           1       0       3.219  21         4        4    2       2
-1406           1       1       3.807  37         6        4    1       2
-1225           1       0       1.099  32         3        5    3       2
+486            1       1       3.555  42         5        5    5       3
+680            1       0       1.099  32         3        4    3       5
+1046           1       0       2.197  27         3        5    3       1
+1657           1       0       3.296  42         0        2    1       3
+368            1       1       3.555  32         6        5    3       5
+1637           1       0       2.197  70         3        2    1       2
+1721           1       1       2.773  70         3        3    2       2
+1203           1       0       3.219  70         6        5    1       1
+1145           1       1       4.094  37         4        3    1       1
+113            1       1       3.219  52         5        3    2       5
      wildlife future aboriginal finben mineparks moreparks gov envconyes
-840         5      5          5      5         1         3   1         1
-1565        5      5          5      1         5         5   1         1
-295         2      1          1      5         3         2   1         0
-889         5      5          1      3         3         4   1         0
-1256        5      5          5      1         4         3   1         1
-1507        5      5          5      1         4         5   1         1
-1530        5      5          3      5         5         5   1         1
-1750        5      4          4      3         5         3   1         0
-1406        4      5          2      1         5         3   1         1
-1225        5      4          5      3         5         5   1         1
+486         5      5          4      3         5         4   1         0
+680         5      5          5      3         4         5   1         1
+1046        5      3          2      5         5         4   1         1
+1657        5      5          2      2         5         3   1         1
+368         5      5          4      5         1         5   1         0
+1637        5      5          3      2         5         5   1         1
+1721        5      5          3      3         4         5   1         1
+1203        5      5          5      1         5         5   1         1
+1145        5      5          4      3         1         4   1         0
+113         4      4          3      4         2         2   2         1
      vparksyes tvenv majoryes
-840          1     1        0
-1565         1     1        1
-295          0     1        1
-889          0     1        0
-1256         1     2        0
-1507         1     1        1
-1530         1     1        0
-1750         1     2        0
-1406         0     1        0
-1225         1     1        0
+486          1     1        0
+680          1     1        0
+1046         1     1        1
+1657         1     7        1
+368          1     1        1
+1637         1     1        1
+1721         1     1        1
+1203         1     1        0
+1145         1     1        0
+113          1     2        0
+> ## Test model.frame
+> mf <- model.frame(m)
+> cat("Model frame (sample):\n")
+Model frame (sample):
+> print(mf[1:10,])
+       y.lb   y.ub    sex log(income) age schooling recparks jobs lowrisk
+486  1.6094 2.9957   male       3.555  42         5        5    5       3
+680  2.9957    Inf female       1.099  32         3        4    3       5
+1046 2.9957 3.9120 female       2.197  27         3        5    3       1
+1657 4.6052 5.5215 female       3.296  42         0        2    1       3
+368    -Inf 2.9957   male       3.555  32         6        5    3       5
+1637 4.6052 5.5215 female       2.197  70         3        2    1       2
+1721 5.5215    Inf   male       2.773  70         3        3    2       2
+1203 3.9120    Inf female       3.219  70         6        5    1       1
+1145 3.9120    Inf   male       4.094  37         4        3    1       1
+113    -Inf 0.6931   male       3.219  52         5        3    2       5
+     wildlife future aboriginal finben mineparks moreparks gov envcon vparks
+486         5      5          4      3         5         4   1     no    yes
+680         5      5          5      3         4         5   1    yes    yes
+1046        5      3          2      5         5         4   1    yes    yes
+1657        5      5          2      2         5         3   1    yes    yes
+368         5      5          4      5         1         5   1     no    yes
+1637        5      5          3      2         5         5   1    yes    yes
+1721        5      5          3      3         4         5   1    yes    yes
+1203        5      5          5      1         5         5   1    yes    yes
+1145        5      5          4      3         1         4   1     no    yes
+113         4      4          3      4         2         2   2    yes    yes
+     tvenv major
+486      1    no
+680      1    no
+1046     1   yes
+1657     7   yes
+368      1   yes
+1637     1   yes
+1721     1   yes
+1203     1    no
+1145     1    no
+113      2    no
+> cat("Model response (sample):\n")
+Model response (sample):
+> print(model.response(mf)[1:10])
+ [1] 1.609 2.996 2.996 4.605  -Inf 4.605 5.521 3.912 3.912  -Inf
 > 
 > ## test utility functions
+> cat("Boundaries:\n")
+Boundaries:
 > print(boundaries(m))
    L 1    U 1    L 2    U 2    L 3    U 3    L 4    U 4    L 5    U 5    L 6 
-  -Inf 0.6931   -Inf 1.6094   -Inf 2.9957   -Inf 3.9120 0.6931 1.6094 1.6094 
+  -Inf 0.6931   -Inf 1.6094   -Inf 2.9957   -Inf 3.9120 1.6094 1.6094 1.6094 
    U 6    L 7    U 7    L 8    U 8    L 9    U 9   L 10   U 10   L 11   U 11 
-2.9957 2.9957 3.9120 2.9957    Inf 3.9120 4.6052 3.9120    Inf 4.6052 5.5215 
-  L 12   U 12   L 13   U 13 
-4.6052    Inf 5.5215    Inf 
+2.9957 2.9957 2.9957 2.9957 3.9120 2.9957    Inf 3.9120 3.9120 3.9120 4.6052 
+  L 12   U 12   L 13   U 13   L 14   U 14   L 15   U 15   L 16   U 16   L 17 
+3.9120    Inf 4.6052 4.6052 4.6052 5.5215 4.6052    Inf 5.5215 5.5215 5.5215 
+  U 17 
+   Inf 
+> cat("Disturbances:\n")
+Disturbances:
 > print(disturbances(m))
 [1] "probit"
+> cat("Intervals (sample):\n")
+Intervals (sample):
 > print(intervals(m)[sample(seq(nObs(m)), 10),])
-        lb    ub
-1398 3.912 4.605
-918   -Inf 3.912
-1202 3.912   Inf
-1531 4.605   Inf
-1680 5.521   Inf
-295   -Inf 2.996
-482  1.609 2.996
-1712 5.521   Inf
-577  2.996   Inf
-315   -Inf 2.996
+        lb     ub
+680  2.996    Inf
+596  2.996    Inf
+375   -Inf 2.9957
+987   -Inf 3.9120
+519  2.996    Inf
+1350 3.912    Inf
+42    -Inf 0.6931
+1407 3.912 4.6052
+902   -Inf 3.9120
+149   -Inf 1.6094
+> cat("intervalObs:\n")
+intervalObs:
+> print(intervalObs(m))
+  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [13] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE
+ [25]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE FALSE  TRUE
+ [37]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [49]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [61] FALSE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [73]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+ [85]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE
+ [97] FALSE  TRUE  TRUE FALSE
 > 
 > ##
 > ## Example of common intervals for all the observations
 > ##
-> library(Ecdat)
-Loading required package: Ecfun
-
-Attaching package: 'Ecfun'
-
-The following object is masked from 'package:miscTools':
-
-    checkNames
-
-
-Attaching package: 'Ecdat'
-
-The following object is masked _by_ '.GlobalEnv':
-
-    Kakadu
-
-The following object is masked from 'package:datasets':
-
-    Orange
-
-> data(Bwages)
+> cat("Common intervals example:\n")
+Common intervals example:
+> data(Bwages, package="Ecdat")
+> Bwages <- Bwages[sample(nrow(Bwages), 200),]
 > ## calculate an ordinary Mincer-style wage regression.  
 > ## Note: gross hourly wage rate in EUR
-> intervals <- c(0, 5, 10, 15, 25, Inf)
-> salary <- cut(Bwages$wage, intervals)
-> int <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages, boundaries=log(intervals))
+> intBound <- c(0, 5, 10, 15, 25, Inf)
+> salary <- cut(Bwages$wage, intBound)
+> m <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages,
++             boundaries=log(intBound))
 > ## Note: use logs for the intervals in Euros.  We do not have to
 > ## transform salaris to log form as this does not change the intervals.
 > ## Ignore any warnings
-> cat("Interval regression:\n")
-Interval regression:
-> print(summary(int))
+> cat("Summary, common boundaries:\n")
+Summary, common boundaries:
+> print(summary(m))
 --------------------------------------------
 Interval regression
 Maximum Likelihood estimation
-BHHH maximisation, 12 iterations
+BHHH maximisation, 16 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -1354 
-1472 observations, 8 free parameters (df = 1464)
+Log-Likelihood: -169.9 
+200 observations, 8 free parameters (df = 192)
                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)       1.8940     0.0386   49.01  < 2e-16 ***
-factor(educ)2     0.2131     0.0433    4.92  9.7e-07 ***
-factor(educ)3     0.3688     0.0417    8.84  < 2e-16 ***
-factor(educ)4     0.5300     0.0431   12.31  < 2e-16 ***
-factor(educ)5     0.7176     0.0417   17.22  < 2e-16 ***
-poly(exper, 2)1   6.4987     0.3554   18.28  < 2e-16 ***
-poly(exper, 2)2  -2.1680     0.2895   -7.49  1.2e-13 ***
-sigma             0.2847         NA      NA       NA    
+(Intercept)       1.9081     0.1839   10.38  < 2e-16 ***
+factor(educ)2     0.2218     0.1878    1.18  0.23910    
+factor(educ)3     0.3964     0.1847    2.15  0.03313 *  
+factor(educ)4     0.4904     0.1934    2.54  0.01203 *  
+factor(educ)5     0.7075     0.1881    3.76  0.00022 ***
+poly(exper, 2)1   2.0166     0.3460    5.83  2.3e-08 ***
+poly(exper, 2)2  -0.8724     0.3197   -2.73  0.00694 ** 
+sigma             0.2581     0.0188   13.71  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
-> ## Test model.frame
-> mf <- model.frame(int)
-> print(mf[i <- sample(nrow(mf), 10),])
-      salary factor(educ) poly(exper, 2).1 poly(exper, 2).2
-979  (10,15]            4        -0.023639         0.003068
-460  (10,15]            3         0.045605         0.034314
-597   (5,10]            3         0.019959        -0.015777
-1464 (15,25]            5         0.022524        -0.012807
-1256 (15,25]            5        -0.028768         0.013895
-1399 (10,15]            5        -0.021074        -0.001666
-1191 (15,25]            5        -0.008251        -0.018537
-1146 (10,15]            5        -0.039026         0.040987
-393   (5,10]            3         0.063557         0.096340
-1116  (5,10]            4        -0.018510        -0.005946
-> print(model.response(mf)[i])
-    979     460     597    1464    1256    1399    1191    1146     393    1116 
-(10,15] (10,15]  (5,10] (15,25] (15,25] (10,15] (15,25] (10,15]  (5,10]  (5,10] 
-Levels: (0,5] (5,10] (10,15] (15,25] (25,Inf]
-> 
 > ## test utility functions for common intervals
+> cat("Boundaries:\n")
+Boundaries:
 > print(boundaries(m))
-   L 1    U 1    L 2    U 2    L 3    U 3    L 4    U 4    L 5    U 5    L 6 
-  -Inf 0.6931   -Inf 1.6094   -Inf 2.9957   -Inf 3.9120 0.6931 1.6094 1.6094 
-   U 6    L 7    U 7    L 8    U 8    L 9    U 9   L 10   U 10   L 11   U 11 
-2.9957 2.9957 3.9120 2.9957    Inf 3.9120 4.6052 3.9120    Inf 4.6052 5.5215 
-  L 12   U 12   L 13   U 13 
-4.6052    Inf 5.5215    Inf 
-> print(disturbances(m))
-[1] "probit"
-> print(intervals(m)[sample(seq(nObs(m)), 10),])
-        lb    ub
-1044 2.996 3.912
-212   -Inf 1.609
-1094 3.912   Inf
-1770 5.521   Inf
-1177 3.912   Inf
-823  2.996   Inf
-976   -Inf 3.912
-1407 3.912 4.605
-1045 2.996 3.912
-1361 3.912 4.605
+Boundary 1 Boundary 2 Boundary 3 Boundary 4 Boundary 5 Boundary 6 
+      -Inf      1.609      2.303      2.708      3.219        Inf 
+> cat("Intervals (sample):\n")
+Intervals (sample):
+> print(intervals(m)[1:10,])
+              lb    ub
+Boundary 3 2.303 2.708
+Boundary 2 1.609 2.303
+Boundary 2 1.609 2.303
+Boundary 2 1.609 2.303
+Boundary 2 1.609 2.303
+Boundary 2 1.609 2.303
+Boundary 2 1.609 2.303
+Boundary 2 1.609 2.303
+Boundary 3 2.303 2.708
+Boundary 4 2.708 3.219
+> 
+> ## Test model.response
+> cat("model response (sample):\n")
+model response (sample):
+> print(model.response(mf)[1:10])
+ [1] 1.609 2.996 2.996 4.605  -Inf 4.605 5.521 3.912 3.912  -Inf
 > 
 > ## test predictions
 > Ey <- predict(m, type="link")
-> print(sample(Ey, 10))
-   152    778   1492    254    436   1680    889    849    823    162 
- 4.310  5.896  3.606 -1.335  1.439  9.280 -1.367  5.229  3.918  3.153 
+> cat("Link prediction (sample):\n")
+Link prediction (sample):
+> print(Ey[1:10])
+  669   752   306   336   875   844   113    53   942  1359 
+2.366 2.198 2.048 2.312 2.317 2.121 2.315 2.096 2.292 2.677 
 > Eyc <- predict(m, type="linkConditional")
-> print(sample(Eyc, 10))
-    762    1406    1007    1286     348     568    1488     482    1754     889 
- 5.3980  4.2721  3.4423  8.8252 -0.8949  8.1838  7.5759  2.3056  7.5989 -1.5048 
+> cat("Conditional mean prediction (sample):\n")
+Conditional mean prediction (sample):
+> print(Eyc[1:10])
+  669   752   306   336   875   844   113    53   942  1359 
+2.479 2.063 1.999 2.104 2.105 2.031 2.105 2.021 2.466 2.886 
 > 
 > ##
 > ## Small data, large number of intervals (by Thierry Kalisa)
@@ -401,17 +477,38 @@ BHHH maximisation, 97 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -195 
 96 observations, 3 free parameters (df = 93)
-            Estimate Std. Error t value Pr(>|t|)   
-(Intercept) 0.002875   0.000870    3.30   0.0014 **
-c           0.000121   0.000328    0.37   0.7128   
-sigma       0.003569         NA      NA       NA   
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 0.002875   0.000870    3.30   0.0014 ** 
+c           0.000121   0.000328    0.37   0.7128    
+sigma       0.003569   0.000208   17.19   <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## Test the same with cloglog disturbances
-> mCloglog <- intReg(ab~c, method="cloglog")
+> m <- intReg(ab~c, method="cloglog")
+> print(summary(m))
+--------------------------------------------
+Interval regression
+Maximum Likelihood estimation
+BHHH maximisation, 41 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -164.5 
+96 observations, 3 free parameters (df = 93)
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept) 0.001486   0.000660    2.25    0.027 *  
+c           0.000032   0.000285    0.11    0.911    
+sigma       0.001902   0.000140   13.62   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> cat("Disturbances:\n")
+Disturbances:
+> print(disturbances(m))
+[1] "cloglog"
+> 
+> ## Test precision of intervals
 > 
 > proc.time()
    user  system elapsed 
-  3.765   1.372   3.654 
+  2.093   1.155   1.946 

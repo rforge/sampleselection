@@ -19,6 +19,39 @@ Type 'q()' to quit R.
 > ### Test general behavior, do not go into depth.
 > ### 
 > ### Note: there are far more thorough tests on the intReg R-forge page.
+> ###
+> ### Tests here:
+> ### 1) mixed model with observation-sepcific boundaries and point obs,
+> ###    normal disturbances.
+> ###   * calculate
+> ###   * coef
+> ###   * stdEr
+> ###   * summary
+> ###   * model.matrix
+> ###   * model.frame
+> ###   * model.response
+> ###   * boundaries
+> ###   * disturbances
+> ###   * intervals
+> ###   * intervalObs
+> ###
+> ### 2) common boundaries, interval obs, normal disturbances
+> ###   * summary
+> ###   * boundaries
+> ###   * intervals
+> ###
+> ### 3) predictions (using common boundaries above)
+> ###   * link
+> ###   * conditional mean
+> ###
+> ### 4) test narrow interval observations.  Note: this may differ on different
+> ###    machines, hence should stay on CRAN
+> ###   * width 1e-7 -> should work fine
+> ###   * width 1e-8 -> should give convergence problems
+> ###
+> ### 5) Simple model width logistic disturbances
+> ###   * summary
+> ###   * disturbances
 > 
 > ## Observation-specific boundaries
 > ## Estimate the willingness to pay for the Kakadu National Park
@@ -58,7 +91,7 @@ https://r-forge.r-project.org/projects/maxlik/
 Coefficients:
 > print(coef(m))
 (Intercept)     sexmale log(income)       sigma 
-     3.6938     -1.0659      0.3542      2.7362 
+     3.6938     -1.0659      0.3542      2.7361 
 > cat("Coefficients, with boundaries:\n")
 Coefficients, with boundaries:
 > print(coef(m, boundaries=TRUE))
@@ -67,31 +100,39 @@ Coefficients, with boundaries:
         U 2         L 3         U 3         L 4         U 4         L 5 
      1.6094        -Inf      2.9957        -Inf      3.9120      1.6094 
         U 5         L 6         U 6         L 7         U 7         L 8 
-     2.9957      2.9957      3.9120      2.9957         Inf      3.9120 
+     1.6094      1.6094      2.9957      2.9957      2.9957      2.9957 
         U 8         L 9         U 9        L 10        U 10        L 11 
-     4.6052      3.9120         Inf      4.6052      5.5215      4.6052 
-       U 11        L 12        U 12       sigma 
-        Inf      5.5215         Inf      2.7362 
+     3.9120      2.9957         Inf      3.9120      3.9120      3.9120 
+       U 11        L 12        U 12        L 13        U 13        L 14 
+     4.6052      3.9120         Inf      4.6052      4.6052      4.6052 
+       U 14        L 15        U 15        L 16        U 16        L 17 
+     5.5215      4.6052         Inf      5.5215      5.5215      5.5215 
+       U 17       sigma 
+        Inf      2.7361 
 > cat("stdEr:\n")
 stdEr:
 > print(stdEr(m))
 (Intercept)     sexmale log(income)       sigma 
-     1.1475      0.7295      0.4191      0.4427 
+     1.1475      0.7294      0.4191      0.4427 
 attr(,"class")
 [1] "stdEr.intReg" "numeric"     
 > cat("stdEr, with boundaries:\n")
 stdEr, with boundaries:
 > print(stdEr(m, boundaries=TRUE))
 (Intercept)     sexmale log(income)         L 1         U 1         L 2 
-     1.1475      0.7295      0.4191      0.0000      0.0000      0.0000 
+     1.1475      0.7294      0.4191      0.0000      0.0000      0.0000 
         U 2         L 3         U 3         L 4         U 4         L 5 
      0.0000      0.0000      0.0000      0.0000      0.0000      0.0000 
         U 5         L 6         U 6         L 7         U 7         L 8 
      0.0000      0.0000      0.0000      0.0000      0.0000      0.0000 
         U 8         L 9         U 9        L 10        U 10        L 11 
      0.0000      0.0000      0.0000      0.0000      0.0000      0.0000 
-       U 11        L 12        U 12       sigma 
-     0.0000      0.0000      0.0000      0.4427 
+       U 11        L 12        U 12        L 13        U 13        L 14 
+     0.0000      0.0000      0.0000      0.0000      0.0000      0.0000 
+       U 14        L 15        U 15        L 16        U 16        L 17 
+     0.0000      0.0000      0.0000      0.0000      0.0000      0.0000 
+       U 17       sigma 
+     0.0000      0.4427 
 attr(,"class")
 [1] "stdEr.intReg" "numeric"     
 > cat("Summary:\n")
@@ -135,21 +176,31 @@ U 3            2.996      0.000     Inf  < 2e-16 ***
 L 4             -Inf      0.000    -Inf  < 2e-16 ***
 U 4            3.912      0.000     Inf  < 2e-16 ***
 L 5            1.609      0.000     Inf  < 2e-16 ***
-U 5            2.996      0.000     Inf  < 2e-16 ***
-L 6            2.996      0.000     Inf  < 2e-16 ***
-U 6            3.912      0.000     Inf  < 2e-16 ***
+U 5            1.609      0.000     Inf  < 2e-16 ***
+L 6            1.609      0.000     Inf  < 2e-16 ***
+U 6            2.996      0.000     Inf  < 2e-16 ***
 L 7            2.996      0.000     Inf  < 2e-16 ***
-U 7              Inf      0.000     Inf  < 2e-16 ***
-L 8            3.912      0.000     Inf  < 2e-16 ***
-U 8            4.605      0.000     Inf  < 2e-16 ***
-L 9            3.912      0.000     Inf  < 2e-16 ***
+U 7            2.996      0.000     Inf  < 2e-16 ***
+L 8            2.996      0.000     Inf  < 2e-16 ***
+U 8            3.912      0.000     Inf  < 2e-16 ***
+L 9            2.996      0.000     Inf  < 2e-16 ***
 U 9              Inf      0.000     Inf  < 2e-16 ***
-L 10           4.605      0.000     Inf  < 2e-16 ***
-U 10           5.521      0.000     Inf  < 2e-16 ***
-L 11           4.605      0.000     Inf  < 2e-16 ***
-U 11             Inf      0.000     Inf  < 2e-16 ***
-L 12           5.521      0.000     Inf  < 2e-16 ***
+L 10           3.912      0.000     Inf  < 2e-16 ***
+U 10           3.912      0.000     Inf  < 2e-16 ***
+L 11           3.912      0.000     Inf  < 2e-16 ***
+U 11           4.605      0.000     Inf  < 2e-16 ***
+L 12           3.912      0.000     Inf  < 2e-16 ***
 U 12             Inf      0.000     Inf  < 2e-16 ***
+L 13           4.605      0.000     Inf  < 2e-16 ***
+U 13           4.605      0.000     Inf  < 2e-16 ***
+L 14           4.605      0.000     Inf  < 2e-16 ***
+U 14           5.521      0.000     Inf  < 2e-16 ***
+L 15           4.605      0.000     Inf  < 2e-16 ***
+U 15             Inf      0.000     Inf  < 2e-16 ***
+L 16           5.521      0.000     Inf  < 2e-16 ***
+U 16           5.521      0.000     Inf  < 2e-16 ***
+L 17           5.521      0.000     Inf  < 2e-16 ***
+U 17             Inf      0.000     Inf  < 2e-16 ***
 sigma          2.736      0.443    6.18  1.5e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -197,11 +248,13 @@ Model response (sample):
 Boundaries:
 > print(boundaries(m))
    L 1    U 1    L 2    U 2    L 3    U 3    L 4    U 4    L 5    U 5    L 6 
-  -Inf 0.6931   -Inf 1.6094   -Inf 2.9957   -Inf 3.9120 1.6094 2.9957 2.9957 
+  -Inf 0.6931   -Inf 1.6094   -Inf 2.9957   -Inf 3.9120 1.6094 1.6094 1.6094 
    U 6    L 7    U 7    L 8    U 8    L 9    U 9   L 10   U 10   L 11   U 11 
-3.9120 2.9957    Inf 3.9120 4.6052 3.9120    Inf 4.6052 5.5215 4.6052    Inf 
-  L 12   U 12 
-5.5215    Inf 
+2.9957 2.9957 2.9957 2.9957 3.9120 2.9957    Inf 3.9120 3.9120 3.9120 4.6052 
+  L 12   U 12   L 13   U 13   L 14   U 14   L 15   U 15   L 16   U 16   L 17 
+3.9120    Inf 4.6052 4.6052 4.6052 5.5215 4.6052    Inf 5.5215 5.5215 5.5215 
+  U 17 
+   Inf 
 > cat("Disturbances:\n")
 Disturbances:
 > print(disturbances(m))
@@ -238,27 +291,8 @@ intervalObs:
 > ##
 > cat("Common intervals example:\n")
 Common intervals example:
-> library(Ecdat)
-Loading required package: Ecfun
-
-Attaching package: 'Ecfun'
-
-The following object is masked from 'package:miscTools':
-
-    checkNames
-
-
-Attaching package: 'Ecdat'
-
-The following object is masked _by_ '.GlobalEnv':
-
-    Kakadu
-
-The following object is masked from 'package:datasets':
-
-    Orange
-
-> data(Bwages)
+> data(Bwages, package="Ecdat")
+> Bwages <- Bwages[sample(nrow(Bwages), 200),]
 > ## calculate an ordinary Mincer-style wage regression.  
 > ## Note: gross hourly wage rate in EUR
 > intBound <- c(0, 5, 10, 15, 25, Inf)
@@ -274,19 +308,19 @@ Summary, common boundaries:
 --------------------------------------------
 Interval regression
 Maximum Likelihood estimation
-BHHH maximisation, 12 iterations
+BHHH maximisation, 16 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -1354 
-1472 observations, 8 free parameters (df = 1464)
+Log-Likelihood: -169.9 
+200 observations, 8 free parameters (df = 192)
                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      1.89400    0.03865   49.01  < 2e-16 ***
-factor(educ)2    0.21310    0.04333    4.92  9.7e-07 ***
-factor(educ)3    0.36879    0.04173    8.84  < 2e-16 ***
-factor(educ)4    0.53003    0.04307   12.31  < 2e-16 ***
-factor(educ)5    0.71758    0.04168   17.22  < 2e-16 ***
-poly(exper, 2)1  6.49870    0.35543   18.28  < 2e-16 ***
-poly(exper, 2)2 -2.16805    0.28946   -7.49  1.2e-13 ***
-sigma            0.28467    0.00606   46.96  < 2e-16 ***
+(Intercept)       1.9081     0.1839   10.38  < 2e-16 ***
+factor(educ)2     0.2218     0.1878    1.18  0.23910    
+factor(educ)3     0.3964     0.1847    2.15  0.03313 *  
+factor(educ)4     0.4904     0.1934    2.54  0.01203 *  
+factor(educ)5     0.7075     0.1881    3.76  0.00022 ***
+poly(exper, 2)1   2.0166     0.3460    5.83  2.3e-08 ***
+poly(exper, 2)2  -0.8724     0.3197   -2.73  0.00694 ** 
+sigma             0.2581     0.0188   13.71  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -301,30 +335,79 @@ Boundary 1 Boundary 2 Boundary 3 Boundary 4 Boundary 5 Boundary 6
 Intervals (sample):
 > print(intervals(m)[1:10,])
               lb    ub
-Boundary 2 1.609 2.303
-Boundary 1  -Inf 1.609
 Boundary 3 2.303 2.708
 Boundary 2 1.609 2.303
 Boundary 2 1.609 2.303
 Boundary 2 1.609 2.303
 Boundary 2 1.609 2.303
-Boundary 3 2.303 2.708
-Boundary 3 2.303 2.708
 Boundary 2 1.609 2.303
+Boundary 2 1.609 2.303
+Boundary 2 1.609 2.303
+Boundary 3 2.303 2.708
+Boundary 4 2.708 3.219
 > 
 > ## test predictions
 > Ey <- predict(m, type="link")
 > cat("Link prediction (sample):\n")
 Link prediction (sample):
 > print(Ey[1:10])
-    1     2     3     4     5     6     7     8     9    10 
-2.035 1.902 2.105 2.109 1.761 1.902 2.068 2.035 1.859 2.021 
+  669   752   306   336   875   844   113    53   942  1359 
+2.366 2.198 2.048 2.312 2.317 2.121 2.315 2.096 2.292 2.677 
 > Eyc <- predict(m, type="linkConditional")
 > cat("Conditional mean prediction (sample):\n")
 Conditional mean prediction (sample):
 > print(Eyc[1:10])
-    1     2     3     4     5     6     7     8     9    10 
-1.988 1.461 2.445 2.017 1.879 1.934 2.001 2.436 2.416 1.982 
+  669   752   306   336   875   844   113    53   942  1359 
+2.479 2.063 1.999 2.104 2.105 2.031 2.105 2.021 2.466 2.886 
+> 
+> ## Test if the sqrt(.Machine$double.eps) is a good proxy for minimal
+> ## interval width
+> lb <- intBound[salary]
+>                            # test (Inf,Inf) intervals
+> lb <- log(lb)
+> lb[1] <- -Inf
+> lb[2] <- Inf
+> ub <- lb + 1e-6
+> m <- intReg(cbind(lb,ub) ~ 1, data=Bwages, minIntervalWidth=0, gradtol=0)
+> cat("Interval width 1e-6:\n")
+Interval width 1e-6:
+> print(summary(m))
+--------------------------------------------
+Interval regression
+Maximum Likelihood estimation
+BHHH maximisation, 13 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -2853 
+200 observations, 2 free parameters (df = 198)
+      Estimate Std. Error t value Pr(>|t|)    
+        2.0241     0.0345    58.6   <2e-16 ***
+sigma   0.4372     0.0376    11.6   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+>                            # should return code 2: function value withing tolerance
+>                            # limit
+> ub <- lb + 1e-7
+> m <- intReg(cbind(lb,ub) ~ 1, data=Bwages, minIntervalWidth=0, gradtol=0)
+> cat("Interval width 1e-7:\n")
+Interval width 1e-7:
+> print(summary(m))
+--------------------------------------------
+Interval regression
+Maximum Likelihood estimation
+BHHH maximisation, 14 iterations
+Return code 3: Last step could not find a value above the current.
+Boundary of parameter space?  
+Consider switching to a more robust optimisation method temporarily.
+Log-Likelihood: -3309 
+200 observations, 2 free parameters (df = 198)
+      Estimate Std. Error t value Pr(>|t|)    
+        2.0241     0.0345    58.6   <2e-16 ***
+sigma   0.4372     0.0376    11.6   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+>                            # should return code 3: cannot find better point
 > 
 > ## Test the same with cloglog disturbances
 > m <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages,
@@ -336,19 +419,19 @@ Same, logit disturbances:
 --------------------------------------------
 Interval regression
 Maximum Likelihood estimation
-BHHH maximisation, 10 iterations
+BHHH maximisation, 14 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -1347 
-1472 observations, 8 free parameters (df = 1464)
+Log-Likelihood: -169.4 
+200 observations, 8 free parameters (df = 192)
                 Estimate Std. Error t value Pr(>|t|)    
-(Intercept)      1.90447    0.03772   50.48  < 2e-16 ***
-factor(educ)2    0.21488    0.04214    5.10  3.8e-07 ***
-factor(educ)3    0.36234    0.04060    8.93  < 2e-16 ***
-factor(educ)4    0.51896    0.04168   12.45  < 2e-16 ***
-factor(educ)5    0.71296    0.04102   17.38  < 2e-16 ***
-poly(exper, 2)1  6.44361    0.34915   18.46  < 2e-16 ***
-poly(exper, 2)2 -2.11563    0.30115   -7.03  3.3e-12 ***
-sigma            0.15630    0.00445   35.12  < 2e-16 ***
+(Intercept)       1.9211     0.1702   11.28  < 2e-16 ***
+factor(educ)2     0.2104     0.1736    1.21   0.2270    
+factor(educ)3     0.3715     0.1714    2.17   0.0314 *  
+factor(educ)4     0.4801     0.1790    2.68   0.0080 ** 
+factor(educ)5     0.6939     0.1748    3.97   0.0001 ***
+poly(exper, 2)1   1.9717     0.3342    5.90  1.6e-08 ***
+poly(exper, 2)2  -0.8785     0.3068   -2.86   0.0047 ** 
+sigma             0.1413     0.0128   11.03  < 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -357,6 +440,7 @@ Disturbances:
 > print(disturbances(m))
 [1] "logistic"
 > 
+> 
 > proc.time()
    user  system elapsed 
-  1.914   0.382   1.907 
+  1.007   0.428   1.008 

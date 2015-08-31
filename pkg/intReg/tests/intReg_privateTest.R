@@ -1,3 +1,7 @@
+## The comprehensive test suite
+## Not to be included in CRAN version
+## Hence may run long
+
 ## Example of observation-specific boundaries
 ## Estimate the willingness to pay for the Kakadu National Park
 ## Data given in intervals -- 'lower' for lower bound and 'upper' for upper bound.
@@ -5,14 +9,21 @@
 set.seed(1)
 options(digits=4)
 library(intReg)
+
+## Test a mixed interval complex model and methods
 data(Kakadu, package="Ecdat")
 ## Estimate in log form, change 999 to Inf
-Kakadu <- Kakadu[sample(nrow(Kakadu), 300),]
+Kakadu <- Kakadu[sample(nrow(Kakadu), 100),]
                            # Speed up the tests
 lb <- log(Kakadu$lower)
 ub <- Kakadu$upper
 ub[ub > 998] <- Inf
 ub <- log(ub)
+## Artifically create a few point observations
+iP <- sample(nrow(Kakadu), 15)
+iP <- iP[!is.infinite(lb[iP])]
+ub[iP] <- lb[iP]
+##
 y <- cbind(lb, ub)
 m <- intReg(y ~ sex + log(income) + age + schooling + 
               recparks + jobs + lowrisk + wildlife + future + aboriginal + finben +
@@ -21,54 +32,75 @@ m <- intReg(y ~ sex + log(income) + age + schooling +
 ## You may want to compare the results to Werner (1999),
 ## Journal of Business and Economics Statistics 17(4), pp 479-486
 
-## Test coef, stdEr, summary with and without boundaries
+cat("Coefficients:\n")
 print(coef(m))
+cat("Coefficients, with boundaries:\n")
 print(coef(m, boundaries=TRUE))
+cat("stdEr:\n")
 print(stdEr(m))
+cat("stdEr, with boundaries:\n")
 print(stdEr(m, boundaries=TRUE))
+cat("Summary:\n")
 print(summary(m))
+cat("Summary, with boundaries:\n")
 print(summary(m, boundaries=TRUE))
 
 ## test model.matrix
 mm <- model.matrix(m)
-print(mm[i <- sample(nrow(mm), 10),])
+cat("Model matrix (sample):\n")
+print(mm[1:10,])
+## Test model.frame
+mf <- model.frame(m)
+cat("Model frame (sample):\n")
+print(mf[1:10,])
+cat("Model response (sample):\n")
+print(model.response(mf)[1:10])
 
 ## test utility functions
+cat("Boundaries:\n")
 print(boundaries(m))
+cat("Disturbances:\n")
 print(disturbances(m))
+cat("Intervals (sample):\n")
 print(intervals(m)[sample(seq(nObs(m)), 10),])
+cat("intervalObs:\n")
+print(intervalObs(m))
 
 ##
 ## Example of common intervals for all the observations
 ##
-library(Ecdat)
-data(Bwages)
+cat("Common intervals example:\n")
+data(Bwages, package="Ecdat")
+Bwages <- Bwages[sample(nrow(Bwages), 200),]
 ## calculate an ordinary Mincer-style wage regression.  
 ## Note: gross hourly wage rate in EUR
-intervals <- c(0, 5, 10, 15, 25, Inf)
-salary <- cut(Bwages$wage, intervals)
-int <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages, boundaries=log(intervals))
+intBound <- c(0, 5, 10, 15, 25, Inf)
+salary <- cut(Bwages$wage, intBound)
+m <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages,
+            boundaries=log(intBound))
 ## Note: use logs for the intervals in Euros.  We do not have to
 ## transform salaris to log form as this does not change the intervals.
 ## Ignore any warnings
-cat("Interval regression:\n")
-print(summary(int))
-
-## Test model.frame
-mf <- model.frame(int)
-print(mf[i <- sample(nrow(mf), 10),])
-print(model.response(mf)[i])
+cat("Summary, common boundaries:\n")
+print(summary(m))
 
 ## test utility functions for common intervals
+cat("Boundaries:\n")
 print(boundaries(m))
-print(disturbances(m))
-print(intervals(m)[sample(seq(nObs(m)), 10),])
+cat("Intervals (sample):\n")
+print(intervals(m)[1:10,])
+
+## Test model.response
+cat("model response (sample):\n")
+print(model.response(mf)[1:10])
 
 ## test predictions
 Ey <- predict(m, type="link")
-print(sample(Ey, 10))
+cat("Link prediction (sample):\n")
+print(Ey[1:10])
 Eyc <- predict(m, type="linkConditional")
-print(sample(Eyc, 10))
+cat("Conditional mean prediction (sample):\n")
+print(Eyc[1:10])
 
 ##
 ## Small data, large number of intervals (by Thierry Kalisa)
@@ -110,4 +142,9 @@ mNorm <- intReg(ab~c)
 print(summary(mNorm))
 
 ## Test the same with cloglog disturbances
-mCloglog <- intReg(ab~c, method="cloglog")
+m <- intReg(ab~c, method="cloglog")
+print(summary(m))
+cat("Disturbances:\n")
+print(disturbances(m))
+
+## Test precision of intervals

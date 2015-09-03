@@ -237,7 +237,7 @@ round( attr( margEffUnc, "vcov" )[ 1:5, , ], 3 )
 round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 3 )
 round( attr( margEffUnc, "jacobian" )[ 1:5, , ], 3 )
 round( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ), 3 )
-print( summary( margEffUnc ), digits = 3 )
+print( summary( margEffUnc ), digits = rep( 3, 5 ) )
 # now with explicitly specifying dummy variables
 margEffUncD <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
    dummyVars = c( "x1" ) )
@@ -245,7 +245,7 @@ all.equal( margEffUncD, margEffUnc )
 # now with seemingly no dummy variables
 margEffUncD0 <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
    dummyVars = NULL )
-print( summary( margEffUncD0 ), digits = 3 )
+print( summary( margEffUncD0 ), digits = rep( 3, 5 ) )
 # now with seemingly only dummy variables
 margEffUncDA <- margEff( estResultBFGS, calcVCov = TRUE, returnJacobian = TRUE,
    dummyVars = c( "x1", "x2" ) )
@@ -266,11 +266,13 @@ round( attr( margEffUncM, "jacobian" )[ nObs:(nObs+1), , ], 3 )
 round( drop( attr( margEffUncM, "jacobian" )[ nObs+1, , ] ), 3 )
 all.equal( summary( margEffUnc )[ , ], 
    summary( margEffUncM )[ 1:( 6 * nObs ), ], check.attributes = FALSE )
-printCoefmat( summary( margEffUncM )[ -( 1:( 6 * ( nObs - 1 ) ) ), ], digits = 3 )
+printCoefmat( round(
+  summary( margEffUncM )[ -( 1:( 6 * ( nObs - 1 ) ) ), ], digits = 3 ),
+  digits = 3 )
 # now at mean values of explanatory variables
 margEffUncMean <- margEff( estResultBFGS, calcVCov = TRUE, 
    data = as.data.frame( t( colMeans( xMat ) ) ) )
-summary( margEffUncMean )
+print( summary( margEffUncMean ), digits = rep( 3, 5 ) )
 # now with argument 'atMean'
 margEffUncMeanA <- margEff( estResultBFGS, calcVCov = TRUE, atMean = TRUE )
 all.equal( margEffUncMeanA, margEffUncMean )
@@ -291,7 +293,7 @@ round( attr( margEffCondObsCov, "vcov" ), 3 )
 round( drop( attr( margEffCondObsCov, "vcov" ) ), 3 )
 round( attr( margEffCondObsCov, "jacobian" ), 3 )
 round( drop( attr( margEffCondObsCov, "jacobian" ) ), 3 )
-summary( margEffCondObsCov )
+print( summary( margEffCondObsCov ), digits = rep( 3, 5 ) )
 # now with explicitly specifying dummy variables
 margEffCondObsCovD <- margEff( estResultBFGS, cond = TRUE,
    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ),
@@ -309,7 +311,7 @@ margEffCondObsCovDA <- margEff( estResultBFGS, cond = TRUE,
    atMean = TRUE, othDepVar = c( colMedians( yMat * 1 ) ), 
    algorithm = GenzBretz(),
    calcVCov = TRUE, returnJacobian = TRUE, dummyVars = c( "x1", "x2" ) )
-print( summary( margEffCondObsCovDA ), digits = 3 )
+print( summary( margEffCondObsCovDA ), digits = rep( 3, 5 ) )
 
 # conditional marginal effects
 # (assuming that all other dependent variables are one)
@@ -325,7 +327,7 @@ margEffCondOneCov <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
 round( margEffCondOneCov, 3 )
 round( attr( margEffCondOneCov, "vcov" ), 3 )
 round( drop( attr( margEffCondOneCov, "vcov" ) ), 3 )
-print( summary( margEffCondOneCov ), digits = 3 )
+print( summary( margEffCondOneCov ), digits = rep( 3, 5 ) )
 # now with using argument 'atMean'
 margEffCondOneCovA <- margEff( estResultBFGS, cond = TRUE, othDepVar = 1,
    atMean = TRUE, algorithm = GenzBretz(), calcVCov = TRUE )

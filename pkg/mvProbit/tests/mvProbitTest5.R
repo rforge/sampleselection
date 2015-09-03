@@ -137,13 +137,13 @@ llTmp <- function( coef ) {
 logLikValGrad2 <- numericGradient( llTmp, allCoef )
 round( logLikValGrad2, 3 )
 # attr( logLikValGrad1, "gradient" ) / logLikValGrad2 - 1
-range( attr( logLikValGrad1, "gradient" ) / logLikValGrad2 - 1, na.rm = TRUE )
 # attr( logLikValGrad1, "gradient" ) - logLikValGrad2
-range( attr( logLikValGrad1, "gradient" ) - logLikValGrad2 )
+all.equal( attr( logLikValGrad1, "gradient" ), logLikValGrad2,
+  tol = 1e-5, check.attributes = FALSE )
 # attr( logLikValGrad, "gradient" ) / logLikValGrad2 - 1
-range( attr( logLikValGrad, "gradient" ) / logLikValGrad2 - 1, na.rm = TRUE )
 # attr( logLikValGrad, "gradient" ) - logLikValGrad2
-range( attr( logLikValGrad, "gradient" ) - logLikValGrad2 )
+all.equal( attr( logLikValGrad, "gradient" ), logLikValGrad2,
+  check.attributes = FALSE )
 
 
 # calculating marginal effects, unconditional
@@ -155,7 +155,7 @@ round( attr( margEffUnc, "vcov" )[ 1:3, , ], 3 )
 round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 3 )
 round( attr( margEffUnc, "jacobian" )[ 1:3, , ], 3 )
 round( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ), 3 )
-print( summary( margEffUnc ), digits = 3 )
+print( summary( margEffUnc ), digits = rep( 3, 5 ) )
 margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3, coef = allCoef,
    data = as.data.frame( xMat ), vcov = diag( 30 ), returnJacobian = TRUE )
 all.equal( margEffUnc, margEffUncA )
@@ -174,11 +174,11 @@ all.equal( margEffCond, margEffCondA )
 margEffCondV <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
    vcov = diag( 30 ), returnJacobian = TRUE, algorithm = GenzBretz() )
-round( attr( margEffCondV, "vcov" ), 3 )
-round( drop( attr( margEffCondV, "vcov" )[ 1, , ] ), 3 )
-round( attr( margEffCondV, "jacobian" ), 3 )
-round( drop( attr( margEffCondV, "jacobian" )[ 1, , ] ), 3 )
-print( summary( margEffCondV ), digits = 3 )
+round( attr( margEffCondV, "vcov" ), 2 )
+round( drop( attr( margEffCondV, "vcov" )[ 1, , ] ), 2 )
+round( attr( margEffCondV, "jacobian" ), 2 )
+round( drop( attr( margEffCondV, "jacobian" )[ 1, , ] ), 2 )
+print( summary( margEffCondV ), digits = rep( 3, 5 ) )
 
 # calculating marginal effects, conditional
 # (assuming that all other dependent variables are as observed)
@@ -194,9 +194,9 @@ all.equal( margEffCondObs, margEffCondObsA )
 margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3, y4, y5 ) ~ x1 + x2 + x3, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
    cond = TRUE, vcov = diag( 30 ), returnJacobian = TRUE, algorithm = GenzBretz() )
-round( attr( margEffCondObsV, "vcov" ), 3 )
-round( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ), 3 )
-round( attr( margEffCondObsV, "jacobian" ), 3 )
-round( drop( attr( margEffCondObsV, "jacobian" )[ 1, , ] ), 3 )
-print( summary( margEffCondObsV ), digits = 3 )
+round( attr( margEffCondObsV, "vcov" ), 2 )
+round( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ), 2 )
+round( attr( margEffCondObsV, "jacobian" ), 2 )
+round( drop( attr( margEffCondObsV, "jacobian" )[ 1, , ] ), 2 )
+print( summary( margEffCondObsV ), digits = rep( 3, 5 ) )
 

@@ -255,13 +255,11 @@ llTmp <- function( coef ) {
 logLikValGrad2 <- numericGradient( llTmp, allCoef )
 round( logLikValGrad2, 3 )
 # attr( logLikValGrad1, "gradient" ) / logLikValGrad2 - 1
-range( attr( logLikValGrad1, "gradient" ) / logLikValGrad2 - 1, na.rm = TRUE )
-# attr( logLikValGrad1, "gradient" ) - logLikValGrad2
-range( attr( logLikValGrad1, "gradient" ) - logLikValGrad2 )
-# attr( logLikValGrad1, "gradient" ) / logLikValGrad2 - 1
-range( attr( logLikValGrad, "gradient" ) / logLikValGrad2 - 1, na.rm = TRUE )
-# attr( logLikValGrad, "gradient" ) - logLikValGrad2
-range( attr( logLikValGrad, "gradient" ) - logLikValGrad2 )
+all.equal( attr( logLikValGrad1, "gradient" ), logLikValGrad2,
+  tol = 1e-5, check.attributes = FALSE )
+# attr( logLikValGrad, "gradient" ) / logLikValGrad2 - 1
+all.equal( attr( logLikValGrad, "gradient" ), logLikValGrad2,
+  check.attributes = FALSE  )
 
 # for testing state of random number generator
 rnorm( 4 )
@@ -272,7 +270,7 @@ margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ),
 round( margEffUnc, 3 )
 round( attr( margEffUnc, "vcov" )[ 1:3, , ], 3 )
 round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 3 )
-print( summary( margEffUnc ), digits = 3 )
+print( summary( margEffUnc ), digits = rep( 3, 5 ) )
 margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat ), vcov = diag( 18 ) )
 all.equal( margEffUnc, margEffUncA )
@@ -285,12 +283,12 @@ all.equal( margEffUncD, margEffUnc )
 margEffUncD0 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ),
    dummyVar = NULL )
-print( summary( margEffUncD0 ), digits = 3 )
+print( summary( margEffUncD0 ), digits = rep( 3, 5 ) )
 # now with seemingly only dummy variables
 margEffUncDA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ),
    dummyVar = c( "x1", "x2", "x3", "x4" ) )
-print( summary( margEffUncDA ), digits = 3 )
+print( summary( margEffUncDA ), digits = rep( 3, 5 ) )
 # now with mean values of the marginal effects
 margEffUncM <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ), 
@@ -303,7 +301,9 @@ round( attr( margEffUncM, "vcov" )[ nObs:(nObs+1), , ], 3 )
 round( drop( attr( margEffUncM, "vcov" )[ nObs+1, , ] ), 3 )
 all.equal( summary( margEffUnc )[ , ], 
    summary( margEffUncM )[ 1:( 12 * nObs ), ], check.attributes = FALSE )
-printCoefmat( summary( margEffUncM )[ -( 1:( 12 * (nObs-1) ) ), ], digits = 3 )
+printCoefmat( round(
+  summary( margEffUncM )[ -( 1:( 12 * (nObs-1) ) ), ],
+  digits = 3 ), digits = 3 )
 
 # for testing state of random number generator
 rnorm( 4 )
@@ -360,7 +360,7 @@ round( attr( margEffCondV, "vcov" ), 3 )
 round( drop( attr( margEffCondV, "vcov" )[ 1, , ] ), 3 )
 round( attr( margEffCondV, "jacobian" ), 3 )
 round( drop( attr( margEffCondV, "jacobian" )[ 1, , ] ), 3 )
-print( summary( margEffCondV ), digits = 3 )
+print( summary( margEffCondV ), digits = rep( 3, 5 ) )
 margEffCondVA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
    vcov = diag( 18 ), returnJacobian = TRUE, algorithm = GenzBretz() )
@@ -387,7 +387,7 @@ round( attr( margEffCondM, "jacobian" ), 3 )
 round( drop( attr( margEffCondM, "jacobian" )[ 4, , ] ), 3 )
 all.equal( summary( margEffCondV )[ , ], summary( margEffCondM )[ 1:36, ],
    check.attributes = FALSE ) 
-print( summary( margEffCondM )[ -( 1:24 ), ], digits = 3 )
+print( summary( margEffCondM )[ -( 1:24 ), ], digits = rep( 3, 5 ) )
 
 # for testing state of random number generator
 rnorm( 4 )
@@ -425,7 +425,7 @@ round( attr( margEffCondObsV, "vcov" ), 3 )
 round( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ), 3 )
 round( attr( margEffCondObsV, "jacobian" ), 3 )
 round( drop( attr( margEffCondObsV, "jacobian" )[ 1, , ] ), 3 )
-print( summary( margEffCondObsV ), digits = 3 )
+print( summary( margEffCondObsV ), digits = rep( 3, 5 ) )
 margEffCondObsVA <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
    cond = TRUE, vcov = diag( 18 ), returnJacobian = TRUE,
@@ -456,7 +456,7 @@ round( attr( margEffCondObsM, "jacobian" ), 3 )
 round( drop( attr( margEffCondObsM, "jacobian" )[ 4, , ] ), 3 )
 all.equal( summary( margEffCondObsV )[ , ], summary( margEffCondObsM )[ 1:36, ],
    check.attributes = FALSE )
-print( summary( margEffCondObsM )[ -( 1:24 ), ], digits = 3 )
+print( summary( margEffCondObsM ), digits = rep( 3, 5 ) )
 
 # for testing state of random number generator
 rnorm( 4 )

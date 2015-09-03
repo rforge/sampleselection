@@ -151,11 +151,11 @@ margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3, coef = c( beta ),
    sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 30 ),
    returnJacobian = TRUE )
 round( margEffUnc, 3 )
-round( attr( margEffUnc, "vcov" )[ 1:3, , ], 3 )
-round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 3 )
-round( attr( margEffUnc, "jacobian" )[ 1:3, , ], 3 )
-round( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ), 3 )
-print( summary( margEffUnc ), digits = rep( 3, 5 ) )
+round( attr( margEffUnc, "vcov" )[ 1:3, , ], 2 )
+round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 2 )
+round( attr( margEffUnc, "jacobian" )[ 1:3, , ], 2 )
+round( drop( attr( margEffUnc, "jacobian" )[ nObs, , ] ), 2 )
+print( summary( margEffUnc ), digits = c( 3, 3, 2, 2, 2 ) )
 margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3, coef = allCoef,
    data = as.data.frame( xMat ), vcov = diag( 30 ), returnJacobian = TRUE )
 all.equal( margEffUnc, margEffUncA )
@@ -178,7 +178,7 @@ round( attr( margEffCondV, "vcov" ), 2 )
 round( drop( attr( margEffCondV, "vcov" )[ 1, , ] ), 2 )
 round( attr( margEffCondV, "jacobian" ), 2 )
 round( drop( attr( margEffCondV, "jacobian" )[ 1, , ] ), 2 )
-print( summary( margEffCondV ), digits = rep( 3, 5 ) )
+print( summary( margEffCondV ), digits = c( 3, 3, 2, 2, 2 ) )
 
 # calculating marginal effects, conditional
 # (assuming that all other dependent variables are as observed)
@@ -198,5 +198,5 @@ round( attr( margEffCondObsV, "vcov" ), 2 )
 round( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ), 2 )
 round( attr( margEffCondObsV, "jacobian" ), 2 )
 round( drop( attr( margEffCondObsV, "jacobian" )[ 1, , ] ), 2 )
-print( summary( margEffCondObsV ), digits = rep( 3, 5 ) )
+print( summary( margEffCondObsV ), digits = c( 3, 3, 2, 2, 2 ) )
 

@@ -268,9 +268,9 @@ rnorm( 4 )
 margEffUnc <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ) )
 round( margEffUnc, 3 )
-round( attr( margEffUnc, "vcov" )[ 1:3, , ], 3 )
-round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 3 )
-print( summary( margEffUnc ), digits = rep( 3, 5 ) )
+round( attr( margEffUnc, "vcov" )[ 1:3, , ], 2 )
+round( drop( attr( margEffUnc, "vcov" )[ nObs, , ] ), 2 )
+print( summary( margEffUnc ), digits = c( 3, 3, 2, 2, 2 ) )
 margEffUncA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat ), vcov = diag( 18 ) )
 all.equal( margEffUnc, margEffUncA )
@@ -283,12 +283,12 @@ all.equal( margEffUncD, margEffUnc )
 margEffUncD0 <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ),
    dummyVar = NULL )
-print( summary( margEffUncD0 ), digits = rep( 3, 5 ) )
+print( summary( margEffUncD0 ), digits = c( 3, 3, 2, 2, 2 ) )
 # now with seemingly only dummy variables
 margEffUncDA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ),
    dummyVar = c( "x1", "x2", "x3", "x4" ) )
-print( summary( margEffUncDA ), digits = rep( 3, 5 ) )
+print( summary( margEffUncDA ), digits = c( 3, 3, 2, 2, 2 ) )
 # now with mean values of the marginal effects
 margEffUncM <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat ), vcov = diag( 18 ), 
@@ -297,8 +297,8 @@ all.equal( margEffUnc, margEffUncM[ 1:nObs, ], check.attributes = FALSE )
 round( margEffUncM[ nObs:(nObs+1), ], 3 )
 all.equal( attr( margEffUnc, "vcov" ), 
    attr( margEffUncM, "vcov" )[ 1:nObs, , ] )
-round( attr( margEffUncM, "vcov" )[ nObs:(nObs+1), , ], 3 )
-round( drop( attr( margEffUncM, "vcov" )[ nObs+1, , ] ), 3 )
+round( attr( margEffUncM, "vcov" )[ nObs:(nObs+1), , ], 2 )
+round( drop( attr( margEffUncM, "vcov" )[ nObs+1, , ] ), 2 )
 all.equal( summary( margEffUnc )[ , ], 
    summary( margEffUncM )[ 1:( 12 * nObs ), ], check.attributes = FALSE )
 printCoefmat( round(
@@ -356,11 +356,11 @@ all.equal( margEffCond2, margEffCond3, tol = 1e-3 )
 margEffCondV <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = c( beta ), 
    sigma = sigma, data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
    vcov = diag( 18 ), returnJacobian = TRUE, algorithm = GenzBretz() )
-round( attr( margEffCondV, "vcov" ), 3 )
-round( drop( attr( margEffCondV, "vcov" )[ 1, , ] ), 3 )
-round( attr( margEffCondV, "jacobian" ), 3 )
-round( drop( attr( margEffCondV, "jacobian" )[ 1, , ] ), 3 )
-print( summary( margEffCondV ), digits = rep( 3, 5 ) )
+round( attr( margEffCondV, "vcov" ), 2 )
+round( drop( attr( margEffCondV, "vcov" )[ 1, , ] ), 2 )
+round( attr( margEffCondV, "jacobian" ), 2 )
+round( drop( attr( margEffCondV, "jacobian" )[ 1, , ] ), 2 )
+print( summary( margEffCondV ), digits = c( 3, 3, 2, 2, 2 ) )
 margEffCondVA <- mvProbitMargEff( ~ x1 + x2 + x3 + x4, coef = allCoef,
    data = as.data.frame( xMat )[ c(1,5,10), ], cond = TRUE, 
    vcov = diag( 18 ), returnJacobian = TRUE, algorithm = GenzBretz() )
@@ -379,15 +379,15 @@ all.equal( margEffCondV, margEffCondM[ 1:3, ], check.attributes = FALSE )
 round( margEffCondM, 3 )
 all.equal( attr( margEffCondV, "vcov" ), 
    attr( margEffCondM, "vcov" )[ 1:3, , ] )
-round( attr( margEffCondM, "vcov" ), 3 )
-round( drop( attr( margEffCondM, "vcov" )[ 4, , ] ), 3 )
+round( attr( margEffCondM, "vcov" ), 2 )
+round( drop( attr( margEffCondM, "vcov" )[ 4, , ] ), 2 )
 all.equal( attr( margEffCondV, "jacobian" ), 
    attr( margEffCondM, "jacobian" )[ 1:3, , ] )
-round( attr( margEffCondM, "jacobian" ), 3 )
-round( drop( attr( margEffCondM, "jacobian" )[ 4, , ] ), 3 )
+round( attr( margEffCondM, "jacobian" ), 2 )
+round( drop( attr( margEffCondM, "jacobian" )[ 4, , ] ), 2 )
 all.equal( summary( margEffCondV )[ , ], summary( margEffCondM )[ 1:36, ],
    check.attributes = FALSE ) 
-print( summary( margEffCondM )[ -( 1:24 ), ], digits = rep( 3, 5 ) )
+print( summary( margEffCondM ), digits = c( 3, 3, 2, 2, 2 ) )
 
 # for testing state of random number generator
 rnorm( 4 )
@@ -421,11 +421,11 @@ margEffCondObsV <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4,
    data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
    cond = TRUE, vcov = diag( 18 ), returnJacobian = TRUE,
    algorithm = GenzBretz() )
-round( attr( margEffCondObsV, "vcov" ), 3 )
-round( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ), 3 )
-round( attr( margEffCondObsV, "jacobian" ), 3 )
-round( drop( attr( margEffCondObsV, "jacobian" )[ 1, , ] ), 3 )
-print( summary( margEffCondObsV ), digits = rep( 3, 5 ) )
+round( attr( margEffCondObsV, "vcov" ), 2 )
+round( drop( attr( margEffCondObsV, "vcov" )[ 1, , ] ), 2 )
+round( attr( margEffCondObsV, "jacobian" ), 2 )
+round( drop( attr( margEffCondObsV, "jacobian" )[ 1, , ] ), 2 )
+print( summary( margEffCondObsV ), digits = c( 3, 3, 2, 2, 2 ) )
 margEffCondObsVA <- mvProbitMargEff( cbind( y1, y2, y3 ) ~ x1 + x2 + x3 + x4, 
    coef = allCoef, data = as.data.frame( cbind( xMat, yMat ) )[ c(1,5,10), ], 
    cond = TRUE, vcov = diag( 18 ), returnJacobian = TRUE,
@@ -448,15 +448,15 @@ all.equal( margEffCondObsV, margEffCondObsM[ 1:3, ], check.attributes = FALSE )
 round( margEffCondObsM, 3 )
 all.equal( attr( margEffCondObsV, "vcov" ), 
    attr( margEffCondObsM, "vcov" )[ 1:3, , ] )
-round( attr( margEffCondObsM, "vcov" ), 3 )
-round( drop( attr( margEffCondObsM, "vcov" )[ 4, , ] ), 3 )
+round( attr( margEffCondObsM, "vcov" ), 2 )
+round( drop( attr( margEffCondObsM, "vcov" )[ 4, , ] ), 2 )
 all.equal( attr( margEffCondObsV, "jacobian" ), 
    attr( margEffCondObsM, "jacobian" )[ 1:3, , ] )
-round( attr( margEffCondObsM, "jacobian" ), 3 )
-round( drop( attr( margEffCondObsM, "jacobian" )[ 4, , ] ), 3 )
+round( attr( margEffCondObsM, "jacobian" ), 2 )
+round( drop( attr( margEffCondObsM, "jacobian" )[ 4, , ] ), 2 )
 all.equal( summary( margEffCondObsV )[ , ], summary( margEffCondObsM )[ 1:36, ],
    check.attributes = FALSE )
-print( summary( margEffCondObsM ), digits = rep( 3, 5 ) )
+print( summary( margEffCondObsM ), digits = c( 3, 3, 2, 2, 2 ) )
 
 # for testing state of random number generator
 rnorm( 4 )

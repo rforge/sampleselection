@@ -10,6 +10,6 @@ Imports: bayesm (>= 2.2-4), miscTools (>= 0.6-11)
 Description: Tools for estimating multivariate probit models,
    calculating conditional and unconditional expectations,
    and calculating marginal effects on conditional and unconditional
-   expecttions.
+   expectations.
 License: GPL (>= 2)
 URL: http://www.sampleSelection.org

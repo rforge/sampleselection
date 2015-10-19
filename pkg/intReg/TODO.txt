@@ -12,3 +12,5 @@
 * .polrY1 etc: review and probably remove in the code
 
 * hessian( boundaries=FALSE)
+
+* test for very large disturbance terms

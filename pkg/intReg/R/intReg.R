@@ -1,5 +1,6 @@
 
-### Based on polr() function in MASS (originally developed for categorical wage data in Social Capital Benchmark Survey)
+### Based on polr() function in MASS (originally developed for categorical
+### wage data in Social Capital Benchmark Survey)
 intReg <- function(formula, start, boundaries,
                    ...,
                  contrasts = NULL, Hess = FALSE,
@@ -46,7 +47,6 @@ intReg <- function(formula, start, boundaries,
           ll[!iIntervalObs] <- wt[!iIntervalObs]*
               dfun((y[!iIntervalObs,1] - eta[!iIntervalObs])/sigma, log=TRUE) -
                   log(sigma)
-          
                            # use lower bound for point estimate (should be equal to
                            # upper bound anyway)
        }
@@ -349,9 +349,9 @@ intReg <- function(formula, start, boundaries,
     ## stop()
     estimation <- maxLik(loglik, gradlik,
                          start=start,
-                         method="BHHH", activePar=activePar, iterlim=iterlim,
-                         print.level=print.level,
-#                         guessCorrection="marquardt",
+                         method="BHHH", activePar=activePar,
+                         control=list(iterlim=iterlim,
+                         printLevel=print.level),
                          ...)
     res <- c(estimation,
              param=list(list(ordered=ordered,

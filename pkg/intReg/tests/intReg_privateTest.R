@@ -7,7 +7,7 @@
 ## Data given in intervals -- 'lower' for lower bound and 'upper' for upper bound.
 ## Note that dichotomous-coice answers are already coded to 'lower' and 'upper'
 set.seed(1)
-options(digits=4)
+options(digits=3)
 library(intReg)
 
 ## Test a mixed interval complex model and methods
@@ -101,6 +101,19 @@ print(Ey[1:10])
 Eyc <- predict(m, type="linkConditional")
 cat("Conditional mean prediction (sample):\n")
 print(Eyc[1:10])
+## predictions with new data
+yInt <- cut(rnorm(5), breaks=c(-4, -3, -2, -1, 0, 1, 2, 3, 4))
+newdat <- data.frame(educ=sample(levels(factor(Bwages$educ)), 5),
+                     exper=runif(5, 0, 10))
+                           # newdat only includes: should work with 'link'
+cat("Predicted link:\n")
+print(predict(m, newdata=newdat, type="link"))
+cat("Predicted expected value conditional on interval:\n")
+print(try(predict(m, newdata=newdat, type="linkConditional")))
+                           # Error: must include intervals for 'linkConditional'
+newdat <- cbind(yInt=yInt, newdat)
+print(try(predict(m, newdata=newdat, type="linkConditional")))
+                           # should work
 
 ##
 ## Small data, large number of intervals (by Thierry Kalisa)

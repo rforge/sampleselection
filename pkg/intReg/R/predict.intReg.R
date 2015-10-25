@@ -29,13 +29,17 @@ predict.intReg <- function ( object, newdata = NULL, type = "link", ... ) {
               " disturbances not implemented")
       }
       sigma <- coef(object)["sigma"]
-      int <- intervals(object)
-      lb <- int[,"lb"]
-      ub <- int[,"ub"]
-      rm(int)
+      if(is.null(newdata)) {
+         int <- intervals(object)
+      }
+      else {
+         int <- intervals(newdata)
+      }
+      LB <- int[,"LB"]
+      UB <- int[,"UB"]
       condE <- link +
-          sigma*(dnorm((lb - link)/sigma) - dnorm((ub - link)/sigma))/
-              (pnorm((ub - link)/sigma) - pnorm((lb - link)/sigma))
+          sigma*(dnorm((LB - link)/sigma) - dnorm((UB - link)/sigma))/
+              (pnorm((UB - link)/sigma) - pnorm((LB - link)/sigma))
       return(condE)
    }
    ##   

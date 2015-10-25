@@ -262,7 +262,7 @@ Disturbances:
 > cat("Intervals (sample):\n")
 Intervals (sample):
 > print(intervals(m)[sample(seq(nObs(m)), 10),])
-        lb     ub
+        LB     UB
 680  2.996    Inf
 596  2.996    Inf
 375   -Inf 2.9957
@@ -334,17 +334,17 @@ Boundary 1 Boundary 2 Boundary 3 Boundary 4 Boundary 5 Boundary 6
 > cat("Intervals (sample):\n")
 Intervals (sample):
 > print(intervals(m)[1:10,])
-              lb    ub
-Boundary 3 2.303 2.708
-Boundary 2 1.609 2.303
-Boundary 2 1.609 2.303
-Boundary 2 1.609 2.303
-Boundary 2 1.609 2.303
-Boundary 2 1.609 2.303
-Boundary 2 1.609 2.303
-Boundary 2 1.609 2.303
-Boundary 3 2.303 2.708
-Boundary 4 2.708 3.219
+         LB    UB
+ [1,] 2.303 2.708
+ [2,] 1.609 2.303
+ [3,] 1.609 2.303
+ [4,] 1.609 2.303
+ [5,] 1.609 2.303
+ [6,] 1.609 2.303
+ [7,] 1.609 2.303
+ [8,] 1.609 2.303
+ [9,] 2.303 2.708
+[10,] 2.708 3.219
 > 
 > ## test predictions
 > Ey <- predict(m, type="link")
@@ -441,4 +441,4 @@ Disturbances:
 > 
 > proc.time()
    user  system elapsed 
-  1.417   0.054   1.462 
+  1.415   0.043   1.452 

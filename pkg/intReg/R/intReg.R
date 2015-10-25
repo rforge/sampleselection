@@ -4,7 +4,7 @@
 intReg <- function(formula, start, boundaries,
                    ...,
                  contrasts = NULL, Hess = FALSE,
-                 model = TRUE,
+                   model = TRUE,
                  method = c("probit", "logistic", "cloglog", "cauchit",
                  "model.frame"),
                    minIntervalWidth=10*sqrt(.Machine$double.eps),
@@ -366,7 +366,8 @@ intReg <- function(formula, start, boundaries,
              call=cl,
              terms=mt,
              method=method,
-             na.action=list(attr(mf, "na.action"))
+             na.action=list(attr(mf, "na.action")),
+             model=if(model) list(mf) else NULL
              )
     class(res) <- c("intReg", class(estimation))
     return(res)

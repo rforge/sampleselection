@@ -54,8 +54,6 @@
                        mineparks + moreparks + gov +
                            envcon + vparks + tvenv + major, data=Kakadu)
    ## Expect the conditional and unconditional predictions to deviate by
-   ## 1-2 sigma
-   print(coef(m)["sigma"])
    Ey <- predict(m, type="link")
    print(head(Ey))
    Eyc <- predict(m, type="linkConditional")

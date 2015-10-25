@@ -141,8 +141,7 @@ m <- intReg(y ~ sex + log(income) + age + schooling +
 ##
 ## Example of common intervals for all the observations
 ##
-library(Ecdat)
-data(Bwages)
+data(Bwages, package="Ecdat")
 ## calculate an ordinary Mincer-style wage regression.  First by OLS and
 ## thereafter cut the wage to intervals and estimate with 'intReg'
 ## Note: gross hourly wage rate in EUR

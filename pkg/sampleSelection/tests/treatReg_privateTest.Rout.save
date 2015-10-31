@@ -1,6 +1,6 @@
 
-R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
-Copyright (C) 2014 The R Foundation for Statistical Computing
+R version 3.2.2 (2015-08-14) -- "Fire Safety"
+Copyright (C) 2015 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -130,9 +130,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 predicted and actual selection values
 > pl <- predict(m, part="selection", type="link")
 > pr <- predict(m, part="selection", type="response")
-> p <- cbind(pred.link=pl, pred.resp=pr, actual.resp=mf$yS)
+> p <- cbind(pred.link=pl, "P[ys=1]"=pr, actual.resp=mf$yS)
 > print(p[sample(nrow(p), 10),])
-   pred.link pred.resp actual.resp
+   pred.link   P[ys=1] actual.resp
 71  -1.62195 5.241e-02           0
 91  -0.08054 4.679e-01           0
 84  -1.38642 8.281e-02           0
@@ -146,22 +146,11 @@ predicted and actual selection values
 > cat("predicted and actual outcomes\n")
 predicted and actual outcomes
 > pu <- predict(m, part="outcome", type="unconditional")
-> pc <- predict(m, part="outcome", type="conditional")
-> p <- cbind("E[yo]"=pu, pc, "yo"=mf$yO, "ys"=mf$yS)
-> print(p[sample(nrow(p), 10),])
-     E[yo] E[yo|ys=0] E[yo|ys=1]      yo ys
-93  1.1987     0.5585     1.7318  1.3352  1
-16  2.4863     1.4082     2.7171  3.0354  1
-26  2.7724     1.9172     3.1339  2.4338  1
-50  1.9823     0.6340     2.1057  1.0494  1
-48  0.6941     0.5805     2.0748  1.9535  1
-44 -0.8199    -0.8662     0.8792 -0.6753  0
-6      Inf        NaN        Inf  4.5224  1
-61  1.0272     1.0231     3.3841  1.9260  0
-67 -0.3590    -0.6563     0.5966 -1.5426  0
-34  0.6431    -0.2420     0.9845  1.0741  0
+> ## pc <- predict(m, part="outcome", type="conditional")
+> ## p <- cbind("E[yo]"=pu, pc, "yo"=mf$yO, "ys"=mf$yS)
+> ## print(p[sample(nrow(p), 10),])
 > 
 > 
 > proc.time()
    user  system elapsed 
-  3.190   0.071   3.257 
+  1.828   0.052   1.870 

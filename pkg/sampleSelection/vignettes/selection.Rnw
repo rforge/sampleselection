@@ -1242,7 +1242,7 @@ set.seed(0)
 x <- runif(1000)
 y <- x + rnorm(1000)
 ys <- y > 0
-tobitML <- selection(ys~x, y~x)
+tobitML <- selection( ys~x, y~x, control = list( qrtol = 1e-14 ) )
 cat( tobitML$message )
 coef( summary( tobitML ) )[ "rho", ]
 @ 

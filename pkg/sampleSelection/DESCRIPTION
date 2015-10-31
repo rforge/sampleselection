@@ -9,6 +9,10 @@ Depends: R (>= 2.10), maxLik (>= 0.7-3), stats
 Imports: miscTools (>= 0.6-3), systemfit (>= 1.0-0), Formula (>= 1.1-1), 
    VGAM (>= 0.9-4), mvtnorm (>= 0.9-9994)
 Suggests: lmtest, Ecdat
-Description: Estimation of Sample Selection Models
+Description: This package implements two-step estimation
+   and maximum likelihood estimation
+   of Heckman-type sample selection models:
+   standard sample selection models (Tobit-2)
+   and endogenous switching regression models (Tobit-5).
 License: GPL (>= 2)
 URL: http://www.sampleSelection.org

@@ -54,11 +54,4 @@
    University of Michigan, \url{http://psidonline.isr.umich.edu}.
 }
 
-\references{
-   Fox, J. (2004)
-   \code{car}: The Companion to Applied Regression Libary -
-   An R and S-PLUS Companion to Applied Regression,
-   \url{http://socserv.mcmaster.ca/jfox/Books/Companion/car.html}.
-}
-
 \keyword{datasets}

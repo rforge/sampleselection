@@ -5,8 +5,8 @@ Title: Interval Regression
 Author: Ott Toomet [aut, cre], using code in MASS by 
         W. N. Venables and B. D. Ripley
 Maintainer: Ott Toomet <otoomet@gmail.com>
-Depends: R (>= 2.7.0), miscTools, maxLik (>= 1.2-5)
-Imports: sets, methods
+Depends: R (>= 2.7.0), miscTools, maxLik, methods
+Imports: sets
 Suggests: Ecdat
 Description: Estimating interval regression models, supports both common and observation-specific boundaries.
 License: GPL (>= 2)

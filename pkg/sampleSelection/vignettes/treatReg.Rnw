@@ -318,7 +318,7 @@ model log-likelihood as
   \right).
 \end{multline}
 The model is very similar in structure to the tobit-5 models
-\citep{amemiya1985,toomet+henningsen2008}.  Essentially it is a
+\citep{amemiya1985,toomet08}.  Essentially it is a
 tobit-5 model where
 explanatory variables and the coefficients are the same for both
 choices---participation and
@@ -331,7 +331,7 @@ non-participation.
 Technically,
 \code{treatReg} is an amended version of tobit-5 models in the
 \code{selection} command in the package \code{sampleSelection}
-\citep{toomet+henningsen2008}.  It
+\citep{toomet08}.  It
 supports both 2-step and maximum likelihood estimation.  In the
 latter case, 2-step method is used for calculating the
 nitial values of parameters
@@ -446,7 +446,7 @@ coarse to correctly determine the bias.
 
 
 \bibliographystyle{apecon}
-\bibliography{Economics}
+\bibliography{selection}
 
 \end{document}
 

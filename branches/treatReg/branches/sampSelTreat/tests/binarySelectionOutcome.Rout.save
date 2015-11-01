@@ -1,0 +1,199 @@
+
+R version 3.0.2 (2013-09-25) -- "Frisbee Sailing"
+Copyright (C) 2013 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> 
+> options(digits=5)
+> 
+> ## Leeman Lucas (and many others): binary outcome
+> 
+> set.seed(0)
+> N <- 500
+> rho <- 0.7
+> library(mvtnorm)
+> eps <- rmvnorm(N, c(0,0), matrix(c(1,rho,rho,1), 2, 2), pre0.9_9994 = TRUE )
+> xs <- runif(N)
+> ysX <- 3*xs + eps[,1]
+> ys <- ysX > 0
+> xo <- runif(N)
+> yoX <- -1 + 2*xo + eps[,2]
+> yo <- factor((yoX > 0)*(ys > 0))
+>                            # binary outcome, only observable if ys>0
+> print(table(ys, yo, exclude=NULL))
+       yo
+ys        0   1 <NA>
+  FALSE  84   0    0
+  TRUE  204 212    0
+  <NA>    0   0    0
+> library(sampleSelection)
+Loading required package: maxLik
+Loading required package: miscTools
+
+Please cite the 'maxLik' package as:
+Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.
+
+If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
+https://r-forge.r-project.org/projects/maxlik/
+Loading required package: systemfit
+Loading required package: Matrix
+Loading required package: lattice
+Loading required package: car
+Loading required package: lmtest
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+> ss <- selection(ys~xs, yo ~xo)
+> print(summary(ss))
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 9 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -423.78 
+500 observations (84 censored and 416 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.152      0.133   -1.15    0.25    
+xs             3.025      0.377    8.02 1.1e-15 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.973      0.126   -7.74 1.0e-14 ***
+xo             1.768      0.237    7.45 9.2e-14 ***
+Error terms:
+    Estimate Std. error t value Pr(> t)    
+rho    0.631      0.181    3.49 0.00049 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
+> # binary outcome NA if unobserved
+> yo[ !ys ] <- NA
+> print(table(ys, yo, exclude=NULL))
+       yo
+ys        0   1 <NA>
+  FALSE   0   0   84
+  TRUE  204 212    0
+  <NA>    0   0    0
+> ssN <- selection(ys~xs, yo ~xo)
+> print(summary(ssN))
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 9 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -423.78 
+500 observations (84 censored and 416 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.152      0.133   -1.15    0.25    
+xs             3.025      0.377    8.02 1.1e-15 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.973      0.126   -7.74 1.0e-14 ***
+xo             1.768      0.237    7.45 9.2e-14 ***
+Error terms:
+    Estimate Std. error t value Pr(> t)    
+rho    0.631      0.181    3.49 0.00049 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal(ss,ssN)
+[1] TRUE
+> 
+> # binary outcome logical
+> yo <- yoX > 0 & ys
+> print(table(ys, yo, exclude=NULL))
+       yo
+ys      FALSE TRUE <NA>
+  FALSE    84    0    0
+  TRUE    204  212    0
+  <NA>      0    0    0
+> ssL <- selection(ys~xs, yo ~xo)
+> print(summary(ssL))
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 9 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -423.78 
+500 observations (84 censored and 416 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.152      0.133   -1.15    0.25    
+xs             3.025      0.377    8.02 1.1e-15 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.973      0.126   -7.74 1.0e-14 ***
+xo             1.768      0.237    7.45 9.2e-14 ***
+Error terms:
+    Estimate Std. error t value Pr(> t)    
+rho    0.631      0.181    3.49 0.00049 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal(ss,ssL)
+[1] "Component 14: Component 10: Component 12: Attributes: < Component 2: Modes: numeric, character >"              
+[2] "Component 14: Component 10: Component 12: Attributes: < Component 2: target is numeric, current is character >"
+[3] "Component 14: Component 10: Component 12: Component 1: Modes: numeric, logical"                                
+[4] "Component 14: Component 10: Component 12: Component 1: names for current but not for target"                   
+[5] "Component 14: Component 10: Component 12: Component 1: target is numeric, current is logical"                  
+> 
+> # binary outcome logical and NA if unobserved
+> yo[ !ys ] <- NA
+> print(table(ys, yo, exclude=NULL))
+       yo
+ys      FALSE TRUE <NA>
+  FALSE     0    0   84
+  TRUE    204  212    0
+  <NA>      0    0    0
+> ssLN <- selection(ys~xs, yo ~xo)
+> print(summary(ssLN))
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 9 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -423.78 
+500 observations (84 censored and 416 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.152      0.133   -1.15    0.25    
+xs             3.025      0.377    8.02 1.1e-15 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.973      0.126   -7.74 1.0e-14 ***
+xo             1.768      0.237    7.45 9.2e-14 ***
+Error terms:
+    Estimate Std. error t value Pr(> t)    
+rho    0.631      0.181    3.49 0.00049 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal(ssL,ssLN)
+[1] TRUE
+> 
+> proc.time()
+   user  system elapsed 
+ 14.672   0.060  14.745 

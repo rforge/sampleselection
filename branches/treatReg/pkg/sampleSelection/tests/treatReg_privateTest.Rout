@@ -1,0 +1,89 @@
+
+R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> ### Testing treatreg.
+> ### These are testst that are not supposed to be included in CRAN
+> 
+> DGP <- function(N=1000, sigma=1, rho=0.8,
++                 alpha0=-1, alpha1=1, alpha2=1,
++                 beta0=0, beta1=1, beta2=1) {
++    ## Generate random data
++    library(mvtnorm)
++    Sigma <- matrix(c(1, rho*sigma, rho*sigma, sigma^2), 2, 2)
++    uv <- rmvnorm(N, mean=c(0,0), sigma=Sigma)
++    u <- uv[,1]
++    v <- uv[,2]
++    x <- rnorm(N)
++    z <- rnorm(N)
++    ySX <- alpha0 + alpha1*x + alpha2*z + u
++    yS <- ySX > 0
++    yO <- beta0 + beta1*x + beta2*yS + v
++    data.frame(yO, yS, x, z, ySX, u, v)
++ }
+> 
+> library(sampleSelection)
+Loading required package: maxLik
+Loading required package: miscTools
+
+Please cite the 'maxLik' package as:
+Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.
+
+If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
+https://r-forge.r-project.org/projects/maxlik/
+> set.seed(1)
+> options(digits=4)
+> cat("NA, Inf in data.  Should show 93 observations\n")
+NA, Inf in data.  Should show 93 observations
+> dat <- DGP(100)
+> dat$yO[1] <- NA
+> dat$yO[2] <- Inf
+> dat$yS[3] <- NA
+> dat$x[5] <- NA
+> dat$x[6] <- Inf
+> dat$z[7] <- NA
+> dat$z[8] <- Inf
+> m <- treatReg(yS~x+z, yO~yS+x, data=dat)
+> print(summary(m))
+--------------------------------------------
+Tobit treatment model (switching regression model)
+Maximum Likelihood estimation
+Newton-Raphson maximisation, 4 iterations
+Return code 1: gradient close to zero
+Log-Likelihood: -149.3 
+93 observations: 70 non-participants (selection FALSE) and 23 participants (selection TRUE)
+8 free parameters (df = 85)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -1.083      0.193   -5.61   2e-08 ***
+x              0.656      0.196    3.35   8e-04 ***
+z              0.950      0.206    4.61   4e-06 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   0.0672     0.1286    0.52  0.6015    
+ySTRUE        0.8850     0.3324    2.66  0.0077 ** 
+x             1.0095     0.1103    9.15  <2e-16 ***
+   Error terms:
+      Estimate Std. error t value Pr(> t)    
+sigma   0.9455     0.0888   10.65 < 2e-16 ***
+rho     0.7763     0.1388    5.59 2.2e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
+> proc.time()
+   user  system elapsed 
+  2.849   0.064   2.896 

@@ -362,7 +362,8 @@ Common intervals example:
 > intBound <- c(0, 5, 10, 15, 25, Inf)
 > salary <- cut(Bwages$wage, intBound)
 > m <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages,
-+             boundaries=log(intBound))
++             boundaries=log(intBound),
++             minIntervalWidth=0.01)
 > ## Note: use logs for the intervals in Euros.  We do not have to
 > ## transform salaris to log form as this does not change the intervals.
 > ## Ignore any warnings
@@ -409,6 +410,10 @@ Intervals (sample):
  [8,] 1.61 2.30
  [9,] 2.30 2.71
 [10,] 2.71 3.22
+> cat("minimal interval width:\n")
+minimal interval width:
+> print(minIntervalWidth(m))
+[1] 0.01
 > 
 > ## Test model.response
 > cat("model response (sample):\n")
@@ -416,7 +421,7 @@ model response (sample):
 > print(model.response(mf)[1:10])
  [1] 1.61 3.00 3.00 4.61 -Inf 4.61 5.52 3.91 3.91 -Inf
 > 
-> ## test predictions
+> ## --------- test predictions ------------------
 > Ey <- predict(m, type="link")
 > cat("Link prediction (sample):\n")
 Link prediction (sample):
@@ -427,8 +432,7 @@ Link prediction (sample):
 > cat("Conditional mean prediction (sample):\n")
 Conditional mean prediction (sample):
 > print(Eyc[1:10])
- 669  752  306  336  875  844  113   53  942 1359 
-2.48 2.06 2.00 2.10 2.11 2.03 2.10 2.02 2.47 2.89 
+ [1] 2.48 2.06 2.00 2.10 2.11 2.03 2.10 2.02 2.47 2.89
 > ## predictions with new data
 > yInt <- cut(rnorm(5), breaks=c(-4, -3, -2, -1, 0, 1, 2, 3, 4))
 > newdat <- data.frame(educ=sample(levels(factor(Bwages$educ)), 5),
@@ -457,11 +461,22 @@ attr(,"condition")
 >                            # Error: must include intervals for 'linkConditional'
 > newdat <- cbind(yInt=yInt, newdat)
 > print(try(predict(m, newdata=newdat, type="linkConditional")))
-      1       2       3       4       5 
- 1.8099  0.9521  0.9217 -0.0302  0.9464 
+[1]  1.8099  0.9521  0.9217 -0.0302  0.9464
 >                            # should work
+> ## predict linkConditional with point observations
+> x <- runif(5, 0, 3)
+> yInt <- cut(runif(5, 0, 0.03), breaks=c(0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03))
+> newdat <- rbind(newdat,
++                 data.frame(yInt=yInt,
++                            data.frame(educ=sample(levels(factor(Bwages$educ)), 5),
++                                       exper=runif(5, 0, 10)))
++                 )
+> print(predict(m, newdata=newdat, type="linkConditional"))
+ [1]  1.8099  0.9521  0.9217 -0.0302  0.9464  0.0125  0.0025  0.0225  0.0125
+[10]  0.0275
 > 
-> ##
+> 
+> ## -----
 > ## Small data, large number of intervals (by Thierry Kalisa)
 > ##
 > a <- c(0.002300, 0.020000, 0.000150, 0.000005, 0.002300, 0.000045, 0.000150,
@@ -540,4 +555,4 @@ Disturbances:
 > 
 > proc.time()
    user  system elapsed 
-  2.592   0.057   2.644 
+  2.597   0.065   2.658 

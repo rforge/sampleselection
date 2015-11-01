@@ -1,6 +1,8 @@
 
 ### Based on polr() function in MASS (originally developed for categorical
-### wage data in Social Capital Benchmark Survey)
+### wage data in Social Capital Benchmark Survey).  Polr has GPL >=2 copyright
+### copyright (C) 1994-2013 W. N. Venables and B. D. Ripley
+### Use of transformed intercepts contributed by David Firth
 intReg <- function(formula, start, boundaries,
                    ...,
                  contrasts = NULL, Hess = FALSE,
@@ -357,6 +359,7 @@ intReg <- function(formula, start, boundaries,
              param=list(list(ordered=ordered,
                       boundaries=boundaries,
                       index=list(beta=iBeta, boundary=iBoundaries, std=iSigma),
+                      minIntervalWidth=minIntervalWidth,
                       intervalObs=iIntervalObsInf,
                            # include the Inf obs as these will be passed to
                            # the model.frame

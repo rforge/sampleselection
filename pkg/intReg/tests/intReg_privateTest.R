@@ -77,7 +77,8 @@ Bwages <- Bwages[sample(nrow(Bwages), 200),]
 intBound <- c(0, 5, 10, 15, 25, Inf)
 salary <- cut(Bwages$wage, intBound)
 m <- intReg(salary ~ factor(educ) + poly(exper, 2), data=Bwages,
-            boundaries=log(intBound))
+            boundaries=log(intBound),
+            minIntervalWidth=0.01)
 ## Note: use logs for the intervals in Euros.  We do not have to
 ## transform salaris to log form as this does not change the intervals.
 ## Ignore any warnings
@@ -89,12 +90,14 @@ cat("Boundaries:\n")
 print(boundaries(m))
 cat("Intervals (sample):\n")
 print(intervals(m)[1:10,])
+cat("minimal interval width:\n")
+print(minIntervalWidth(m))
 
 ## Test model.response
 cat("model response (sample):\n")
 print(model.response(mf)[1:10])
 
-## test predictions
+## --------- test predictions ------------------
 Ey <- predict(m, type="link")
 cat("Link prediction (sample):\n")
 print(Ey[1:10])
@@ -114,8 +117,18 @@ print(try(predict(m, newdata=newdat, type="linkConditional")))
 newdat <- cbind(yInt=yInt, newdat)
 print(try(predict(m, newdata=newdat, type="linkConditional")))
                            # should work
+## predict linkConditional with point observations
+x <- runif(5, 0, 3)
+yInt <- cut(runif(5, 0, 0.03), breaks=c(0, 0.005, 0.01, 0.015, 0.02, 0.025, 0.03))
+newdat <- rbind(newdat,
+                data.frame(yInt=yInt,
+                           data.frame(educ=sample(levels(factor(Bwages$educ)), 5),
+                                      exper=runif(5, 0, 10)))
+                )
+print(predict(m, newdata=newdat, type="linkConditional"))
 
-##
+
+## -----
 ## Small data, large number of intervals (by Thierry Kalisa)
 ##
 a <- c(0.002300, 0.020000, 0.000150, 0.000005, 0.002300, 0.000045, 0.000150,

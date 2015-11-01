@@ -1,6 +1,7 @@
 
-### Boundaries: return the set of interval boundaries used in the model
-### Note that these may be overlap in case of observation-specific boundaries
+### intervalObs: return TRUE/FALSE depending on if the observation was treated
+### as an interval or point observation
+
 intervalObs <- function(object)
    UseMethod("intervalObs")
 

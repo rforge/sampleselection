@@ -31,15 +31,25 @@ predict.intReg <- function ( object, newdata = NULL, type = "link", ... ) {
       sigma <- coef(object)["sigma"]
       if(is.null(newdata)) {
          int <- intervals(object)
+         io <- intervalObs(object)
       }
       else {
          int <- intervals(newdata)
+         io <- int[,"UB"] - int[,"LB"] > minIntervalWidth(object)
       }
-      LB <- int[,"LB"]
-      UB <- int[,"UB"]
-      condE <- link +
-          sigma*(dnorm((LB - link)/sigma) - dnorm((UB - link)/sigma))/
-              (pnorm((UB - link)/sigma) - pnorm((LB - link)/sigma))
+      condE <- numeric(nrow(int))
+      if(any(io)) {
+         ## interval observations
+         LB <- int[io,"LB"]
+         UB <- int[io,"UB"]
+         condE[io] <- link[io] +
+             sigma*(dnorm((LB - link[io])/sigma) - dnorm((UB - link[io])/sigma))/
+                 (pnorm((UB - link[io])/sigma) - pnorm((LB - link[io])/sigma))
+      }
+      if(!all(io)) {
+         ## point observations: the conditional expectation is the mean of interval
+         condE[!io] <- (int[!io,"LB"] + int[!io,"UB"])/2
+      }
       return(condE)
    }
    ##   

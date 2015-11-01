@@ -5,10 +5,14 @@ export("intervalObs")
 export("intervals")
     
 import("maxLik")
-importFrom( "miscTools", "coefTable" )
-importFrom( "miscTools", "nObs" )
-importFrom( "miscTools", "nParam" )
-importFrom( "miscTools", "stdEr" )
+importFrom( "miscTools", "coefTable", "nObs", "nParam", "stdEr" )
+importFrom("stats", "binomial", "coef", "complete.cases", "dcauchy",
+           "delete.response", "dlogis", "dnorm", "glm.fit", "lm",
+           "logLik", "model.frame", "model.matrix", "model.offset",
+           "model.response", "model.weights", "pcauchy", "plogis",
+           "pnorm", "printCoefmat", "residuals", "terms", "var")
+
+exportMethods("minIntervalWidth")
 
 S3method("boundaries", "intReg")
 S3method( "coef", "intReg" )
@@ -25,3 +29,4 @@ S3method( "print", "summary.intReg" )
 S3method( "summary", "intReg" )
 S3method( "stdEr", "intReg" )
 S3method( "vcov", "intReg" )
+

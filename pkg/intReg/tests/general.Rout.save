@@ -357,8 +357,7 @@ Link prediction (sample):
 > cat("Conditional mean prediction (sample):\n")
 Conditional mean prediction (sample):
 > print(Eyc[1:10])
-  669   752   306   336   875   844   113    53   942  1359 
-2.479 2.063 1.999 2.104 2.105 2.031 2.105 2.021 2.466 2.886 
+ [1] 2.479 2.063 1.999 2.104 2.105 2.031 2.105 2.021 2.466 2.886
 > 
 > ## Test if the sqrt(.Machine$double.eps) is a good proxy for minimal
 > ## interval width
@@ -441,4 +440,4 @@ Disturbances:
 > 
 > proc.time()
    user  system elapsed 
-  1.415   0.043   1.452 
+  1.413   0.051   1.457 

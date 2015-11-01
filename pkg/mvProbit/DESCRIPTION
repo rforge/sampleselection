@@ -1,6 +1,6 @@
 Package: mvProbit
-Version: 0.1-5
-Date: 2015-09-03
+Version: 0.1-6
+Date: 2015-11-01
 Title: Multivariate Probit Models
 Author: Arne Henningsen <arne.henningsen@gmail.com>
 Maintainer: Arne Henningsen <arne.henningsen@gmail.com>

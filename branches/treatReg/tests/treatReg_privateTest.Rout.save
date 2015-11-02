@@ -1,7 +1,7 @@
 
 R version 3.2.2 (2015-08-14) -- "Fire Safety"
 Copyright (C) 2015 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+Platform: x86_64-redhat-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -16,7 +16,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 Type 'q()' to quit R.
 
 > ### Testing treatreg.
-> ### These are testst that are not supposed to be included in CRAN
+> ### These are tests that are not supposed to be included in CRAN
 > 
 > DGP <- function(N=1000, sigma=1, rho=0.8,
 +                 alpha0=-1, alpha1=1, alpha2=1,
@@ -45,7 +45,7 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
 > set.seed(1)
-> options(digits=4)
+> options(digits=3)
 > cat("NA, Inf in data.  Should show 93 observations\n")
 NA, Inf in data.  Should show 93 observations
 > dat <- DGP(100)
@@ -63,7 +63,7 @@ Tobit treatment model (switching regression model)
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 4 iterations
 Return code 1: gradient close to zero
-Log-Likelihood: -149.3 
+Log-Likelihood: -149 
 93 observations: 70 non-participants (selection FALSE) and 23 participants (selection TRUE)
 
 8 free parameters (df = 85)
@@ -87,43 +87,43 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > mf <- model.frame(m)
 > print(mf[sample(nrow(mf), 10),])
-      yS        x        z      yO
-87 FALSE -0.66818 -2.12936 -0.5328
-6   TRUE      Inf  1.51221  4.5224
-96 FALSE  0.13445 -0.92431  0.4148
-74  TRUE  2.64917 -0.06884  4.5981
-29 FALSE  0.19719 -0.86404 -0.9009
-66 FALSE  0.27005  0.61222 -0.2298
-35 FALSE -0.05972 -0.33428  1.9521
-89 FALSE  0.43370 -1.90496  2.6421
-34 FALSE  0.57051  1.36443  1.0741
-4  FALSE -0.33091 -0.38363  0.5475
+      yS       x       z     yO
+87 FALSE -0.6682 -2.1294 -0.533
+11  TRUE -0.1644  1.0436  1.946
+96 FALSE  0.1344 -0.9243  0.415
+75 FALSE  0.1560 -1.1677 -1.887
+32 FALSE -2.8889 -1.5691 -2.555
+67 FALSE -0.4222  0.6783 -1.543
+38 FALSE -1.1865  0.0044 -1.486
+89 FALSE  0.4337 -1.9050  2.642
+36 FALSE -0.0982  0.7328 -0.521
+10  TRUE  0.5101  0.3230  2.409
 > mm <- model.matrix(m)
 > print(mm[sample(nrow(mm), 10),])
-   (Intercept) ySTRUE       x
-38           1      0 -1.1865
-41           1      0  0.7073
-37           1      1  0.5608
-94           1      0 -1.4263
-39           1      0  1.0968
-54           1      0 -0.2477
-88           1      0  0.9452
-86           1      1 -1.0011
-25           1      0 -1.1566
-67           1      0 -0.4222
+    (Intercept) ySTRUE        x
+40            1      0 -0.00534
+43            1      1  0.22348
+100           1      0 -0.30582
+94            1      0 -1.42626
+42            1      0  1.03411
+56            1      0  1.14623
+88            1      0  0.94518
+86            1      1 -1.00107
+28            1      0 -1.60551
+68            1      0 -1.18911
 > mm <- model.matrix(m, part="selection")
 > print(mm[sample(nrow(mm), 10),])
-    (Intercept)       x        z
-37            1  0.5608  0.94659
-57            1 -2.4031 -1.17358
-74            1  2.6492 -0.06884
-81            1  0.3981  0.76259
-84            1 -0.7012  0.16434
-6             1     Inf  1.51221
-24            1 -0.3410 -1.86979
-100           1 -0.3058  0.86522
-31            1 -0.9858 -0.32710
-68            1 -1.1891  0.56795
+   (Intercept)        x      z
+40           1 -0.00534 -0.530
+58           1  0.57274 -0.156
+75           1  0.15601 -1.168
+81           1  0.39813  0.763
+85           1 -0.58061  1.155
+11           1 -0.16438  1.044
+27           1 -0.33113 -0.353
+39           1  1.09678 -0.352
+33           1 -0.64048 -0.367
+69           1 -0.33103 -0.573
 > 
 > ## Now test prediction
 > cat("predicted and actual selection values\n")
@@ -132,25 +132,36 @@ predicted and actual selection values
 > pr <- predict(m, part="selection", type="response")
 > p <- cbind(pred.link=pl, "P[ys=1]"=pr, actual.resp=mf$yS)
 > print(p[sample(nrow(p), 10),])
-   pred.link   P[ys=1] actual.resp
-71  -1.62195 5.241e-02           0
-91  -0.08054 4.679e-01           0
-84  -1.38642 8.281e-02           0
-77  -2.46122 6.923e-03           0
-41   0.08367 5.333e-01           0
-57  -3.77351 8.048e-05           0
-10  -0.44146 3.294e-01           1
-82  -0.29394 3.844e-01           1
-89  -2.60855 4.546e-03           0
-48  -1.43220 7.604e-02           1
+   pred.link P[ys=1] actual.resp
+73   -2.4234 0.00769           0
+91   -0.0805 0.46790           0
+84   -1.3864 0.08281           0
+78   -0.7356 0.23099           0
+43   -0.7024 0.24123           1
+58   -0.8552 0.19622           0
+14   -2.6043 0.00460           0
+83   -1.0918 0.13746           0
+89   -2.6085 0.00455           0
+50    1.3797 0.91616           1
 > cat("predicted and actual outcomes\n")
 predicted and actual outcomes
 > pu <- predict(m, part="outcome", type="unconditional")
-> ## pc <- predict(m, part="outcome", type="conditional")
-> ## p <- cbind("E[yo]"=pu, pc, "yo"=mf$yO, "ys"=mf$yS)
-> ## print(p[sample(nrow(p), 10),])
+> pc <- predict(m, part="outcome", type="conditional")
+> p <- cbind("E[yo]"=pu, pc, "yo"=mf$yO, "ys"=mf$yS)
+> print(p[sample(nrow(p), 10),])
+    E[yo] E[yo|ys=0] E[yo|ys=1]     yo ys
+93  1.199     0.5585      1.732  1.335  1
+20  0.907     0.5850      1.822  2.130  1
+29  0.266     0.2032      1.863 -0.901  0
+52  0.478    -0.0293      1.147  0.141  0
+50  1.982     0.6340      2.106  1.049  1
+46 -1.952    -1.9522      0.963 -1.162  0
+11  0.786     0.2903      1.468  1.946  1
+63 -0.220    -0.2721      1.440  0.308  0
+68 -1.133    -1.2678      0.180 -2.426  0
+37  1.518     0.8440      2.021  0.998  1
 > 
 > 
 > proc.time()
    user  system elapsed 
-  1.828   0.052   1.870 
+  3.301   0.132   3.430 

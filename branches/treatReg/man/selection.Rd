@@ -19,20 +19,16 @@
 selection(selection, outcome, data = sys.frame(sys.parent()),
    weights = NULL, subset, method = "ml", start = NULL, 
    ys = FALSE, xs = FALSE, yo = FALSE, xo = FALSE,
-   mfs = FALSE, mfo = FALSE, print.level = 0, ...)
+   mfs = FALSE, mfo = FALSE,
+   printLevel = print.level, print.level=0,
+   ...)
 
 heckit( selection, outcome, data = sys.frame(sys.parent()),
    method = "2step", ... )
 
 treatReg(selection, outcome,
    data=sys.frame(sys.parent()),
-   weights = NULL, subset,
-   method="ml",
-   start=NULL,
-   ys=FALSE, xs=FALSE,
-   yo=FALSE, xo=FALSE,
-   mfs=FALSE, mfo=FALSE,
-   print.level=0,
+   mfs=TRUE, mfo=TRUE,
    ...)
 }
 \arguments{
@@ -59,8 +55,8 @@ treatReg(selection, outcome,
     model matrix (\code{x}) or the model frame (\code{mf})
     of the selection (\code{s}) or outcome
     (\code{o}) equation(s) are returned.}
-  \item{print.level}{integer.  Various debugging information, higher
-    value gives more information.}
+  \item{printLevel, print.level}{integer.  Various debugging information, higher
+    value gives more information.  The preferred option is \sQuote{printLevel}.}
   \item{\dots}{additional parameters for the corresponding fitting
     functions \code{\link{tobit2fit}}, \code{\link{tobit5fit}},
     \code{\link{heckit2fit}}, \code{\link{heckit5fit}},

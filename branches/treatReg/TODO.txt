@@ -31,3 +31,5 @@ Ott (long term):
 
 * think about tobit models as different classes, inheriting from a
   common base class
+
+* tobit-1 models (for feature completeness)

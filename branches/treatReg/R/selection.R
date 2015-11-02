@@ -7,7 +7,7 @@ selection <- function(selection, outcome,
                       ys=FALSE, xs=FALSE,
                       yo=FALSE, xo=FALSE,
                       mfs=FALSE, mfo=FALSE,
-                      print.level=0,
+                      printLevel=print.level, print.level=0,
                       ...) {
    ## Heckman-style sample-selection models
    ## selection:   formula
@@ -25,7 +25,11 @@ selection <- function(selection, outcome,
    ## ...          additional arguments for tobit2fit and tobit5fit
    ## 
    type <- detectModelType(selection, outcome)
-   if(print.level > 0)
+   checkModelType(type, selection, outcome)
+   if(length(outcome) == 1) {
+      outcome <- outcome[[1]]
+   }
+   if(printLevel > 0)
        cat("Tobit", type, "model\n")
    if(!missing(data)) {
       if(!inherits(data, "environment") & !inherits(data, "data.frame") & !inherits(data, "list")) {
@@ -50,10 +54,10 @@ selection <- function(selection, outcome,
    if(method == "2step") {
       if(type == 2)
           twoStep <- heckit2fit(selection, outcome, data=data,
-            weights = weights, print.level = print.level, ... )
+            weights = weights, printLevel = printLevel, ... )
       else if(type == 5)
           twoStep <- heckit5fit(selection, outcome, data=data,
-            print.level = print.level, ... )
+            printLevel = printLevel, ... )
       else
           stop("unknown type")
       twoStep$call <- cl
@@ -72,7 +76,7 @@ selection <- function(selection, outcome,
                                         # model.frame requires the parameter to
                                         # be 'formula'
    mfS <- eval(mfS, parent.frame())
-   mtS <- attr(mfS, "terms")
+   mtS <- terms(mfS)
    XS <- model.matrix(mtS, mfS)
    YS <- model.response(mfS)
    YSLevels <- levels( as.factor( YS ) )
@@ -92,13 +96,14 @@ selection <- function(selection, outcome,
    ## functions here.  Find bad rows and remove them later.
    ## We check XS and YS separately, because mfS may be a data frame with complex structure (e.g.
    ## including matrices)
-   badRow <- is.na(YS)
-   badRow <- badRow | apply(XS, 1, function(v) any(is.na(v)))
+   badRow <- is.na(YS) | is.infinite(YS)
+   badRow <- badRow | apply(XS, 1, function(v)
+      any(is.na(v) | is.infinite(v)))
    ## YO (outcome equation)
    ## Here we should include a possibility for the user to
    ## specify the model.  Currently just a guess.
    binaryOutcome <- FALSE
-   if(type == 2) {
+   if(type %in% c(2, "treatment")) {
       oArg <- match("outcome", names(mf), 0)
                                         # find the outcome argument
       m <- match(c("outcome", "data", "subset",
@@ -122,9 +127,22 @@ selection <- function(selection, outcome,
          (is.factor(YO) & length(levels(YO)) == 2)) {
          binaryOutcome <- TRUE
       }
-      badRow <- badRow | (is.na(YO) & (!is.na(YS) & YS == 1))
-      badRow <- badRow | (apply(XO, 1, function(v) any(is.na(v))) & (!is.na(YS) & YS == 1))
-                                        # rows in outcome, which contain NA and are observable -> bad too
+      if(type == 2) {
+         badRow <- badRow | ((is.na(YO) | is.infinite(YO))
+                             & (!is.na(YS) & YS == 1))
+         badRow <- badRow | (apply(XO, 1, function(v)
+            any(is.na(v) | is.infinite(v))) & (!is.na(YS) & YS == 1))
+                           # rows in outcome, which contain NA and are observable -> bad too
+                           # YO unobserved but should be observed
+                           # for tobit-2
+      }
+      else {
+         badRow <- badRow | is.na(YO) | is.infinite(YO)
+         badRow <- badRow | apply(XO, 1, function(v)
+            any(is.na(v) | is.infinite(v)))
+                           # YO unobserved in any case
+                           # for treatment models
+      }
 
       if( !is.null( weights ) ) {
          if( length( weights ) != length( badRow ) ) {
@@ -134,12 +152,12 @@ selection <- function(selection, outcome,
          badRow <- badRow | is.na( weights )
       }   
       
-      if(print.level > 0) {
+      if(printLevel > 0) {
          cat(sum(badRow), "invalid observations\n")
       }
       if( method == "model.frame" ) {
          mf <- mfS
-         mf <- cbind( mf, mfO[ , ! names( mfO ) %in% names( mf ), drop = FALSE ] )
+         mf <- cbind( mf, mfO[ , !(names( mfO ) %in% names( mf )), drop = FALSE ])
          return( mf[ !badRow, ] )
       }
       if( length( YSLevels ) != 2 ) {
@@ -152,8 +170,10 @@ selection <- function(selection, outcome,
       XO <- XO[!badRow,, drop=FALSE]
       YO <- YO[!badRow]
       weightsNoNA <- weights[ !badRow ]
-      YO[ YS == 0 ] <- NA
-      XO[ YS == 0, ] <- NA
+      if(type == 2) {
+         YO[ YS == 0 ] <- NA
+         XO[ YS == 0, ] <- NA
+      }
       NXS <- ncol(XS)
       NXO <- ncol(XO)
       iGamma <- 1:NXS
@@ -169,8 +189,16 @@ selection <- function(selection, outcome,
       if(is.null(start)) {
                            # start values by Heckman 2-step method
          start <- numeric(nParam)
-         twoStep <- heckit2fit(selection, outcome, data=data,
-            print.level = print.level, weights = weights )
+         if(type == 2) {
+            twoStep <- heckit2fit(selection, outcome, data=data,
+                                  printLevel = printLevel,
+                                  weights = weights )
+         }
+         else {
+            twoStep <- heckitTfit(selection, outcome, data=data,
+                                  printLevel = printLevel,
+                                  weights = weights )
+         }
          coefs <- coef(twoStep, part="full")
          start[iGamma] <- coefs[twoStep$param$index$betaS]
          if(!binaryOutcome) {
@@ -193,16 +221,29 @@ selection <- function(selection, outcome,
          else
             names(start) <- c(colnames(XS), colnames(XO), 
                               "rho")
-      }                                        # add names to start values if not present
-      if(!binaryOutcome) {
-         estimation <- tobit2fit(YS, XS, YO, XO, start, weights = weightsNoNA,
-                                 print.level=print.level, ...)
-         iErrTerms <- c(sigma=iSigma, rho=iRho )
+                           # add names to start values if not present
+      }
+      if(type == 2) {
+         if(!binaryOutcome) {
+            estimation <- tobit2fit(YS, XS, YO, XO, start, weights = weightsNoNA,
+                                    printLevel=printLevel, ...)
+            iErrTerms <- c(sigma=iSigma, rho=iRho )
+         }
+         else {
+            estimation <- tobit2Bfit(YS, XS, YO, XO, start, weights = weightsNoNA,
+                                     printLevel=printLevel, ...)
+            iErrTerms <- c(rho=iRho)
+         }
       }
       else {
-         estimation <- tobit2Bfit(YS, XS, YO, XO, start, weights = weightsNoNA,
-                                 print.level=print.level, ...)
-         iErrTerms <- c(rho=iRho)
+         if(!binaryOutcome) {
+            estimation <- tobitTfit(YS, XS, YO, XO, start, weights = weightsNoNA,
+                                    printLevel=printLevel, ...)
+            iErrTerms <- c(sigma=iSigma, rho=iRho )
+         }
+         else {
+            stop("Binary outcome treatment effect models are not implemented")
+         }
       }
       param <- list(index=list(betaS=iGamma,
                     betaO=iBeta,
@@ -297,11 +338,11 @@ selection <- function(selection, outcome,
       twoStep <- NULL
       if(is.null(start)) {
          start <- numeric(nParam)
-         if(print.level > 0) {
+         if(printLevel > 0) {
             cat("Start values by Heckman 2-step method (", nParam, " componenets)\n", sep="")
          }
          twoStep <- heckit5fit(selection, as.formula(formula1), as.formula(formula2),
-                           data=data, print.level = print.level, ... )
+                           data=data, printLevel = printLevel, ... )
          ind <- twoStep$param$index
          start <- coef(twoStep, part="full")[c(ind$betaS,
                                   ind$betaO1, ind$sigma1, ind$rho1,
@@ -312,7 +353,7 @@ selection <- function(selection, outcome,
           names(start) <- c(colnames(XS), colnames(XO1), "sigma1", "rho1", colnames(XO2), "sigma2", "rho2")
                                         # add names to start values if not present
       estimation <- tobit5fit(YS, XS, YO1, XO1, YO2, XO2, start=start,
-                              print.level=print.level, ...)
+                              printLevel=printLevel, ...)
       param <- list(index=list(betaS=iBetaS,
                     betaO1=iBetaO1, sigma1=iSigma1, rho1=iRho1,
                     betaO2=iBetaO2, sigma2=iSigma2, rho2=iRho2,
@@ -327,6 +368,9 @@ selection <- function(selection, outcome,
                            # levels[1]: selection 1; levels[2]: selection 2
                     )
    }
+   else {
+      stop("Unknown model type: '", type, "'")
+   }
    ## now add the additional parameters into the resulting
    ## structure
    result <- c(estimation,
@@ -335,18 +379,28 @@ selection <- function(selection, outcome,
                param=list(param),
                call=cl,
                termsS=mtS,
-               termsO=switch(as.character(type), "2"=mtO, "5"=list(mtO1, mtO2), "0"=NULL),
+               termsO=switch(as.character(type),
+                             "treatment"=, "2"=mtO,
+                             "5"=list(mtO1, mtO2),
+                             "0"=NULL),
                ys=switch(as.character(ys), "TRUE"=list(YS), "FALSE"=NULL),
                xs=switch(as.character(xs), "TRUE"=list(XS), "FALSE"=NULL),
                yo=switch(as.character(yo),
-               "TRUE"=switch(as.character(type), "2"=list(YO), "5"=list(YO1,
-                                                               YO2)), "FALSE"=NULL),
+                  "TRUE"=switch(as.character(type),
+                     "2"=, "treatment"=list(YO),
+                     "5"=list(YO1, YO2)),
+                  "FALSE"=NULL),
                xo=switch(as.character(xo),
-               "TRUE"=switch(as.character(type), "2"=list(XO), "5"=list(XO1, XO2)), "FALSE"=NULL),
+                  "TRUE"=switch(as.character(type),
+                     "2"=, "teatment"=list(XO),
+                     "5"=list(XO1, XO2)),
+                  "FALSE"=NULL),
                mfs=switch(as.character(mfs), "TRUE"=list(mfS[!badRow,]), "FALSE"=NULL),
-               mfo=switch(as.character(mfs),
-               "TRUE"=switch(as.character(type), "2"=list(mfO[!badRow,]),
-                  "5"=list(mf1[!badRow,], mf2[!badRow,]), "FALSE"=NULL))
+               mfo=switch(as.character(mfo),
+                  "TRUE"=switch(as.character(type),
+                     "2"=, "treatment"=list(mfO[!badRow,]),
+                     "5"=list(mf1[!badRow,], mf2[!badRow,]),
+                  "FALSE"=NULL))
                )
 
    result$binaryOutcome <- binaryOutcome

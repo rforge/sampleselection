@@ -5,6 +5,14 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+   CHANGES IN VERSION 1.1-0 (201X-XX-XX)
+
+* added function treatReg() for estimating treatment effect models
+with normal disturbances
+
+* added vignette "Treatment Effect with Normal Disturbances: treatReg"
+
+
    CHANGES IN VERSION 1.0-4 (2015-11-03)
 
 * fixed bug in selection( ..., method = "model.frame" ) for Tobit-5 models

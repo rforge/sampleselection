@@ -7,8 +7,7 @@
 
 \description{
    These functions do the actual fitting of tobit-2
-   (sample selection), tobit-5 (switching regression) and
-   normal-disturbance treatment effect
+   (sample selection) and tobit-5 (switching regression)
    models by the 2-step Heckman (heckit) estimation.
    They are called by \code{\link{selection}} or
    \code{\link{heckit}} and
@@ -31,9 +30,7 @@ heckitTfit(selection, outcome, data=sys.frame(sys.parent()),
 \arguments{
   \item{selection}{formula for the probit estimation (1st step)
     (see \code{\link{selection}}).}
-  \item{outcome}{formula to be estimated (2nd step).  In case of
-    treatment effect model, it may include the response indicator from
-    selection equation.}
+  \item{outcome}{formula to be estimated (2nd step).}
   \item{outcome1}{formula, the first outcome equation.}
   \item{outcome2}{formula, the second outcome equation.}
   \item{data}{a data frame containing the data.}

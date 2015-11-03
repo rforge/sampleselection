@@ -10,7 +10,6 @@ export( "selection" )
 export( "tobit2fit" )
 export( "tobit2Bfit" )
 export( "tobit5fit" )
-export("treatReg")
 export( "linearPredictors" )
 
 import( "maxLik" )

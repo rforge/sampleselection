@@ -24,8 +24,7 @@
    the design matrix of the selection equation is returned.
 
    If argument \code{part} is \code{"outcome"},
-   the design matrix of the outcome equation (tobit-2 or treatment
-   model)
+   the design matrix of the outcome equation (tobit-2)
    or a list of two outcome matrices (tobit-5 model) is returned.
    All unobserved outcomes, including the corresponding explanatory
    variables

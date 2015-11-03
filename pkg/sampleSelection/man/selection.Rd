@@ -215,7 +215,9 @@ heckit( selection, outcome, data = sys.frame(sys.parent()),
 
 \seealso{
    \code{\link{summary.selection}}, \code{\link{selection-methods}},
-   \code{\link{probit}}, and \code{\link{lm}}.
+   \code{\link{probit}}, \code{\link{lm}},
+   and \code{\link{Mroz87}} and \code{\link{RandHIE}}
+   for further examples.
 }
 
 \examples{
@@ -229,13 +231,6 @@ summary( heckit( lfp ~ age + I( age^2 ) + faminc + kids + educ,
 summary( selection( lfp ~ age + I( age^2 ) + faminc + kids + educ,
    wage ~ exper + I( exper^2 ) + educ + city, Mroz87 ) )
 
-## Wooldridge( 2003 ): example 17.5, page 590
-data( Mroz87 )
-# Two-step estimation
-summary( heckit( lfp ~ nwifeinc + educ + exper + I( exper^2 ) + age +
-   kids5 + kids618, log( wage ) ~ educ + exper + I( exper^2 ), Mroz87,
-   method = "2step" ) )
-
 ## Example using binary outcome for selection model.
 ## We estimate the probability of womens' education on their
 ## chances to get high wage (> $5/hr in 1975 USD), using PSID data
@@ -246,19 +241,6 @@ m <- selection(lfp ~ educ + age + kids5 + kids618 + nwifeinc,
    wage >= 5 ~ educ, data = Mroz87 )
 summary(m)
 
-
-## Cameron and Trivedi (2005): Section 16.6, page 553ff
-data( RandHIE )
-subsample <- RandHIE$year == 2 & !is.na( RandHIE$educdec )
-selectEq <- binexp ~ logc + idp + lpi + fmde + physlm + disea +
-   hlthg + hlthf + hlthp + linc + lfam + educdec + xage + female +
-   child + fchild + black
-outcomeEq <- lnmeddol ~ logc + idp + lpi + fmde + physlm + disea +
-   hlthg + hlthf + hlthp + linc + lfam + educdec + xage + female +
-   child + fchild + black
-# ML estimation
-cameron <- selection( selectEq, outcomeEq, data = RandHIE[ subsample, ] )
-summary( cameron )
 
 ## example using random numbers
 library( "mvtnorm" )

@@ -99,9 +99,8 @@ iterlim=100)
   \code{maxLik} estimation routine and hence returned as fixed estimates
   with standard errors set to zero.
 }
-\author{Ott Toomet \email{otoomet@gmail.com}}
-\note{A lot of code is borrowed from \code{\link[MASS]{polr}} from the package MASS
-}
+\author{Ott Toomet \email{otoomet@gmail.com}, a lot of code borrowed
+  from \code{\link[MASS]{polr}} (W. N. Venables and B. D. Ripley.)}
 \seealso{\code{\link[MASS]{polr}}}
 \examples{
 ## Example of observation-specific boundaries

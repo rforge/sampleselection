@@ -14,3 +14,7 @@
 * hessian( boundaries=FALSE)
 
 * test for very large disturbance terms
+
+* compute 'generalized disturbances': ^u = E(epsilon|interval, x)
+
+* compute y^ = y* + ^u

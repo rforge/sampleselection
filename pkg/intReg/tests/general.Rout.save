@@ -1,6 +1,6 @@
 
-R version 3.2.2 (2015-08-14) -- "Fire Safety"
-Copyright (C) 2015 The R Foundation for Statistical Computing
+R version 3.3.0 (2016-05-03) -- "Supposedly Educational"
+Copyright (C) 2016 The R Foundation for Statistical Computing
 Platform: x86_64-redhat-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -21,7 +21,7 @@ Type 'q()' to quit R.
 > ### Note: there are far more thorough tests on the intReg R-forge page.
 > ###
 > ### Tests here:
-> ### 1) mixed model with observation-sepcific boundaries and point obs,
+> ### 1) mixed model with observation-specific boundaries and point obs,
 > ###    normal disturbances.
 > ###   * calculate
 > ###   * coef
@@ -43,6 +43,7 @@ Type 'q()' to quit R.
 > ### 3) predictions (using common boundaries above)
 > ###   * link
 > ###   * conditional mean
+> ###   * residuals
 > ###
 > ### 4) test narrow interval observations.  Note: this may differ on different
 > ###    machines, hence should stay on CRAN
@@ -358,6 +359,10 @@ Link prediction (sample):
 Conditional mean prediction (sample):
 > print(Eyc[1:10])
  [1] 2.479 2.063 1.999 2.104 2.105 2.031 2.105 2.021 2.466 2.886
+> Eeps <- residuals(m)
+> print(head(Eeps, 10))
+ [1]  0.11346 -0.13511 -0.04934 -0.20840 -0.21151 -0.08969 -0.21047 -0.07573
+ [9]  0.17374  0.20936
 > 
 > ## Test if the sqrt(.Machine$double.eps) is a good proxy for minimal
 > ## interval width
@@ -440,4 +445,4 @@ Disturbances:
 > 
 > proc.time()
    user  system elapsed 
-  1.413   0.051   1.457 
+  1.373   0.044   1.408 

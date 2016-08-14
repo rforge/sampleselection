@@ -4,7 +4,7 @@
 ### Note: there are far more thorough tests on the intReg R-forge page.
 ###
 ### Tests here:
-### 1) mixed model with observation-sepcific boundaries and point obs,
+### 1) mixed model with observation-specific boundaries and point obs,
 ###    normal disturbances.
 ###   * calculate
 ###   * coef
@@ -26,6 +26,7 @@
 ### 3) predictions (using common boundaries above)
 ###   * link
 ###   * conditional mean
+###   * residuals
 ###
 ### 4) test narrow interval observations.  Note: this may differ on different
 ###    machines, hence should stay on CRAN
@@ -127,6 +128,8 @@ print(Ey[1:10])
 Eyc <- predict(m, type="linkConditional")
 cat("Conditional mean prediction (sample):\n")
 print(Eyc[1:10])
+Eeps <- residuals(m)
+print(head(Eeps, 10))
 
 ## Test if the sqrt(.Machine$double.eps) is a good proxy for minimal
 ## interval width

@@ -5,17 +5,17 @@
   Interval Regression 
 }
 \description{
-  This package estimates interval regression models with normal and
-  several other types of disturbance terms.  Methods for predicting
+  This package estimates interval regression.  Different disturbance
+  distributions are supported and methods for predicting
   different outcomes are included.
 }
 \details{
-  Interval regression is a linear regression model, where the outcome
+  Interval regression is a linear regression model where the outcome
   variable is only observable in intervals.  Assume \eqn{y^*}{y*} is the
-  latent outcome variable (link).  We observe instead
-  \deqn{y = (l, y) \quad\mbox{where}\quad l \le y^* < u.}{y = (l, y)
-    where l <= y < y.}  \eqn{l} and \eqn{y} are the lower and upper
-  boundaries, between which we know the observation lies.  Note that in
+  latent outcome variable (link).  Instead of \eqn{y^*}{y*} we observe
+  \deqn{y = (l, u) \quad\mbox{where}\quad l \le y^* < u.}{y = (l, y)
+    where l <= y < y.}  \eqn{l} and \eqn{u} are the lower and upper
+  boundaries, and we know that between lies between those.  Note that in
   case \eqn{l=y}, we have a point observation.
 
   If \eqn{y^*}{y*} is related to the explanatory variables \eqn{x} as in
@@ -28,7 +28,7 @@
   \itemize{
     \item Link: \eqn{y^*}{y*}
     \item Conditional link: expected \eqn{y^*}{y*} value, given it falls
-    in the interval \eqn{(l,u)}: \eqn{\mathrm{E} [y^*| l \le y^* < b]}{E[y*|l
+    in the interval \eqn{(l,u)}: \eqn{\mathrm{E} [y^*| l \le y^* < u]}{E[y*|l
       <= y* < u]}
   }
   

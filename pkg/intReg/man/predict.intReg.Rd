@@ -24,10 +24,14 @@
     \dQuote{[LB,UB)}.  (The brackets and parentheses are equivalent.)
   }
   \item{type}{
-    what to predict: \dQuote{link} for the expected
-    latent link value,
-    \dQuote{linkConditional} the expected latent value conditional of
-    being in the observed interval
+    character, what to predict:
+    \itemize{
+      \item{\dQuote{link}} \eqn{y^*}{y*} for the expected
+      latent link value,
+      \item{\dQuote{linkConditional}} the expected latent value conditional of
+      being in the observed interval \eqn{(l,u)}, \eqn{\mathrm{E} [y^*| l \le y^* < u]}{E[y*|l
+	<= y* < u]}
+    }
   }
   \item{\dots}{
     currently ignored

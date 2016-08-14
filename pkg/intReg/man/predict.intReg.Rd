@@ -1,14 +1,17 @@
 \name{predict.intReg}
 \alias{predict.intReg}
+\alias{residuals.intReg}
 \title{
-  predicted outcomes of 'intReg' models
+  predicted outcomes and expected residuals of 'intReg' models
 }
 \description{
   predict the latent link value for interval regression models, either
   unconditional or conditional of being in the observed interval.
+  Compute the expected values of residuals.
 }
 \usage{
 \method{predict}{intReg}(object, newdata = NULL, type = "link", ...)
+\method{residuals}{intReg}(object, ...)
 }
 \arguments{
   \item{object}{
@@ -28,8 +31,9 @@
     \itemize{
       \item{\dQuote{link}} \eqn{y^*}{y*} for the expected
       latent link value,
-      \item{\dQuote{linkConditional}} the expected latent value conditional of
-      being in the observed interval \eqn{(l,u)}, \eqn{\mathrm{E} [y^*| l \le y^* < u]}{E[y*|l
+      \item{\dQuote{linkConditional}} the expected latent value
+      conditional on \eqn{x} and the observed interval
+      \eqn{(l,u)}, \eqn{\mathrm{E} [y^*| l \le y^* < u]}{E[y*|l
 	<= y* < u]}
     }
   }
@@ -37,8 +41,14 @@
     currently ignored
   }
 }
+\details{
+  residuals reports \emph{generalized residuals}, the
+  expected difference between the predicted and actual link
+  \eqn{\mathrm{E} [\hat y^* - y^*| l \le y^* < u, x]}{E[predicted y* - y*|l
+      <= y* < u, x]}.
+}
 \value{
-  a numeric vector, the predicted values
+  a numeric vector, the predicted values/residuals.
 }
 \author{
   Ott Toomet
@@ -85,6 +95,9 @@
    newdatB$yInt <- cut(y, breaks=c(0, 2, 5, 20, 50, 100, 250, Inf))
    EycB <- predict(m, newdata=newdatB, type="linkConditional")
    print(head(EycB))
+   ## extract residuals
+   eps <- residuals(m)
+   head(eps)
 }
 \keyword{methods}
 \keyword{models}

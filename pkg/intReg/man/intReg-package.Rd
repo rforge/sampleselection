@@ -31,6 +31,13 @@
     in the interval \eqn{(l,u)}: \eqn{\mathrm{E} [y^*| l \le y^* < u]}{E[y*|l
       <= y* < u]}
   }
+
+  As \eqn{y^*}{y*}, one cannot compute the ordinary residuals.  Instead,
+  \code{\link[=residuals.intReg]{residuals}} reports \emph{generalized residuals}, the
+  expected difference between the predicted (conditional on \eqn{x} and
+  the observed interval) and actual link
+  \eqn{\mathrm{E} [\hat y^* - y^*| l \le y^* < u, x]}{E[predicted y* - y*|l
+      <= y* < u, x]}.
   
   Interval Regression shares similarities with several other censored
   linear model.  Probit (and logit) are essentially interval regression

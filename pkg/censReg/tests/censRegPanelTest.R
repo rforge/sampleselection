@@ -6,10 +6,11 @@ options( digits = 5 )
 printAll <- function( x ) {
    for( n in names( x ) ) {
       cat( "$", n, "\n", sep = "" )
-      if( n %in% c( "estimate", "hessian", "gradientObs" ) ) {
+      if( n %in% c( "estimate", "gradientObs" ) ) {
          print( round( x[[ n ]], 2 ) )
+      } else if( n %in% c( "hessian" ) ) {
+         print( round( x[[ n ]], 1 ) )
       } else if( n %in% c( "gradient" ) ) {
-         print( round( x[[ n ]], 3 ) )
       } else if( ! n %in% c( "last.step" ) ) {
          print( x[[ n ]] )
       }
@@ -167,7 +168,7 @@ for( i in 1:nId ) {
 pData2 <- pdata.frame( nData2, c( "id", "time" ) )
 randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR" )
 all.equal( randEffBfgsr2[ -c(3,5,6,7,9,11,14) ],
-   randEffBfgsr[ -c(3,5,6,7,9,11,14) ], tolerance = 1e-3 )
+   randEffBfgsr[ -c(3,5,6,7,9,11,14) ], tolerance = 1e-2 )
 
 # check if the order of observations/individuals influences the likelihood values
 d1c1 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", start = coef(randEffBfgsr),

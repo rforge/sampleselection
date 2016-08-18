@@ -9,6 +9,6 @@ Imports: glmmML (>= 0.81-6), sandwich (>= 2.2-6), miscTools (>= 0.6-11),
    stats (>= 2.15.0), plm
 Suggests: AER, lmtest (>= 0.9-27)
 Description: Estimation of censored regression (Tobit) models
-   with cross-section and panel data
+   with cross-section and panel data.
 License: GPL (>= 2)
 URL: http://www.sampleSelection.org

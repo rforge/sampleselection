@@ -15,7 +15,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library( censReg )
+> library( "censReg" )
 Loading required package: maxLik
 Loading required package: miscTools
 
@@ -24,7 +24,7 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
-> library( plm )
+> library( "plm" )
 Loading required package: Formula
 > 
 > options( digits = 5 )
@@ -35,7 +35,7 @@ Loading required package: Formula
 +       if( n %in% c( "estimate", "hessian", "gradientObs" ) ) {
 +          print( round( x[[ n ]], 2 ) )
 +       } else if( n %in% c( "gradient" ) ) {
-+          print( x[[ n ]], digits = 1 )
++          print( round( x[[ n ]], 3 ) )
 +       } else if( ! n %in% c( "last.step" ) ) {
 +          print( x[[ n ]] )
 +       }
@@ -197,7 +197,7 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      2e-11       5e-11       1e-11       8e-12       6e-11 
+          0           0           0           0           0 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
@@ -379,7 +379,7 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-     -6e-04      -1e-03      -2e-05       3e-03      -2e-03 
+     -0.001      -0.001       0.000       0.003      -0.002 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
@@ -563,7 +563,7 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-     -3e-05       2e-05      -4e-05       3e-05       2e-05 
+          0           0           0           0           0 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
@@ -749,7 +749,7 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      8e-03       1e-03      -1e-02      -8e-04       7e-05 
+      0.008       0.001      -0.011      -0.001       0.000 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
@@ -999,7 +999,7 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      8e-03       9e-04      -1e-02      -7e-04       2e-03 
+      0.008       0.001      -0.011      -0.001       0.002 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
@@ -1209,7 +1209,7 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-     -8e-03      -1e-03       1e-02      -8e-04       7e-05 
+     -0.008      -0.001       0.011      -0.001       0.000 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
@@ -1420,7 +1420,7 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-     -8e-03      -9e-04       1e-02      -7e-04       2e-03 
+     -0.008      -0.001       0.011      -0.001       0.002 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
@@ -1671,7 +1671,7 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-     -2e-03      -9e-05       3e-03       8e-05       1e-04 
+     -0.002       0.000       0.003       0.000       0.000 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
@@ -1804,20 +1804,9 @@ class
 + }
 > pData2 <- pdata.frame( nData2, c( "id", "time" ) )
 > randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR" )
-> all.equal( randEffBfgsr2[ -c(11,14) ], randEffBfgsr[ -c(11,14) ] )
- [1] "Component \"maximum\": Mean relative difference: 1.4294e-07"  
- [2] "Component \"estimate\": Mean relative difference: 0.00029578" 
- [3] "Component \"gradient\": Mean relative difference: 0.34274"    
- [4] "Component \"hessian\": Mean relative difference: 0.00027784"  
- [5] "Component \"code\": Mean relative difference: 0.33333"        
- [6] "Component \"message\": 1 string mismatch"                     
- [7] "Component \"last.step\": Modes: list, NULL"                   
- [8] "Component \"last.step\": Lengths: 3, 0"                       
- [9] "Component \"last.step\": names for target but not for current"
-[10] "Component \"last.step\": current is not list-like"            
-[11] "Component \"iterations\": Mean relative difference: 0.060976" 
-> all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
-[1] "Mean relative difference: 0.00026022"
+> all.equal( randEffBfgsr2[ -c(3,5,6,7,9,11,14) ],
++    randEffBfgsr[ -c(3,5,6,7,9,11,14) ], tolerance = 1e-3 )
+[1] TRUE
 > 
 > # check if the order of observations/individuals influences the likelihood values
 > d1c1 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", start = coef(randEffBfgsr),
@@ -1829,8 +1818,8 @@ class
 > 
 > d2c2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", start = coef(randEffBfgsr2),
 +    iterlim = 0 )
-> all.equal( d2c2[-c(5,6,9,12,14,18)], randEffBfgsr2[-c(5,6,9,12,14,18)] )
-[1] "Component \"last.step\": target is NULL, current is list"
+> all.equal( d2c2[-c(5,6,7,9,12,14,18)], randEffBfgsr2[-c(5,6,7,9,12,14,18)] )
+[1] TRUE
 > d2c2$maximum -  randEffBfgsr2$maximum
 [1] 0
 > 
@@ -1850,10 +1839,10 @@ class
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
           0           0           0           0           0 
 > 
-> d2c2$maximum - d2c1$maximum
-[1] 1.0463e-05
-> d1c1$maximum - d1c2$maximum
-[1] -1.0463e-05
+> round( d2c2$maximum - d2c1$maximum, 3 )
+[1] 0
+> round( d1c1$maximum - d1c2$maximum, 3 )
+[1] 0
 > 
 > d1cS <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", 
 +    start = randEffBfgsr$start, iterlim = 0 )
@@ -1870,14 +1859,14 @@ class
 > nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 > pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
 > randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb, method = "BFGSR" )
-> print( randEffBfgsrUnb )
+> print( randEffBfgsrUnb, digits = 1 )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
 
 Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-  -0.222250    1.640387    2.107793   -0.167328   -0.001186 
+     -0.222       1.640       2.108      -0.167      -0.001 
 
 > print( maxLik:::summary.maxLik( randEffBfgsrUnb ), digits = 1 )
 --------------------------------------------
@@ -2091,30 +2080,30 @@ attr(,"gradient")
 [1] TRUE
 > logLikStart <- censReg( y ~ x1 + x2, data = pData, 
 +    start = c( -0.4, 1.7, 2.2, -0.1, -0.01 ), logLikOnly = TRUE )
-> print( logLikStart )
- [1] -4.2237 -3.5906 -7.1103 -5.3162 -3.3894 -5.3604 -6.3494 -1.6617 -4.4338
-[10] -3.7743 -6.7881 -5.6994 -4.3852 -5.5931 -5.5483
-attr(,"gradient")
-           [,1]      [,2]      [,3]     [,4]     [,5]
- [1,] -0.787804  0.278995 -0.039489 -0.17812 -1.02811
- [2,] -1.582326  0.092312 -1.096194  1.48502 -1.05627
- [3,]  1.724367  0.263921  1.722283  1.90892  1.84394
- [4,]  0.184806 -0.209936 -0.406817 -0.61391 -1.53307
- [5,]  0.161565  0.970060  0.713888 -0.66424 -0.51155
- [6,]  0.361760 -0.387858  0.420460 -0.42772 -1.58295
- [7,] -0.049010 -3.196677 -0.230652 -0.69966  6.13444
- [8,] -0.218570  0.356783  0.078201 -0.56848 -1.06583
- [9,]  1.134587  0.551506  0.301019  0.14605 -1.61310
-[10,] -0.354385 -0.387888 -0.107050 -0.52486 -1.91007
-[11,] -0.013738  1.423648 -0.624466 -0.96542  2.68151
-[12,]  1.162805  0.499519  0.601568  0.20257 -1.75372
-[13,]  0.599969 -0.267814  0.369252 -0.29947 -1.38065
-[14,] -1.711850 -1.200787 -0.848659  1.81837  2.49609
-[15,] -0.033879  1.057477 -0.422689 -0.91636  0.19860
+> print( round( c( logLikStart ), 3 ) )
+ [1] -4.224 -3.591 -7.110 -5.316 -3.389 -5.360 -6.349 -1.662 -4.434 -3.774
+[11] -6.788 -5.699 -4.385 -5.593 -5.548
+> print( round( attr( logLikStart, "gradient" ), 2 ) )
+       [,1]  [,2]  [,3]  [,4]  [,5]
+ [1,] -0.79  0.28 -0.04 -0.18 -1.03
+ [2,] -1.58  0.09 -1.10  1.49 -1.06
+ [3,]  1.72  0.26  1.72  1.91  1.84
+ [4,]  0.18 -0.21 -0.41 -0.61 -1.53
+ [5,]  0.16  0.97  0.71 -0.66 -0.51
+ [6,]  0.36 -0.39  0.42 -0.43 -1.58
+ [7,] -0.05 -3.20 -0.23 -0.70  6.13
+ [8,] -0.22  0.36  0.08 -0.57 -1.07
+ [9,]  1.13  0.55  0.30  0.15 -1.61
+[10,] -0.35 -0.39 -0.11 -0.52 -1.91
+[11,] -0.01  1.42 -0.62 -0.97  2.68
+[12,]  1.16  0.50  0.60  0.20 -1.75
+[13,]  0.60 -0.27  0.37 -0.30 -1.38
+[14,] -1.71 -1.20 -0.85  1.82  2.50
+[15,] -0.03  1.06 -0.42 -0.92  0.20
 > 
 > 
 > 
 > 
 > proc.time()
    user  system elapsed 
- 23.528   0.080  23.601 
+  28.02    0.06   28.08 

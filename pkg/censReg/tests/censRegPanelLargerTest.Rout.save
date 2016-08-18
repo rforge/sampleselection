@@ -15,7 +15,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library( censReg )
+> library( "censReg" )
 Loading required package: maxLik
 Loading required package: miscTools
 
@@ -24,7 +24,7 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
-> library( plm )
+> library( "plm" )
 Loading required package: Formula
 > 
 > options( digits = 5 )
@@ -50,7 +50,7 @@ Loading required package: Formula
 > 
 > ## BHHH method
 > randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
-> maxLik:::summary.maxLik( randEffBhhh )
+> print( maxLik:::summary.maxLik( randEffBhhh ), digits = 2 )
 --------------------------------------------
 Maximum Likelihood estimation
 BHHH maximisation, 11 iterations
@@ -59,18 +59,18 @@ Log-Likelihood: -330.52
 5  free parameters
 Estimates:
             Estimate Std. error t value Pr(> t)    
-(Intercept)  -1.0866     0.2346   -4.63 3.6e-06 ***
-x1            2.0695     0.0923   22.42 < 2e-16 ***
-x2            3.1151     0.3701    8.42 < 2e-16 ***
-logSigmaMu   -0.1055     0.1289   -0.82    0.41    
-logSigmaNu    0.0255     0.0647    0.39    0.69    
+(Intercept)   -1.087      0.235    -4.6   4e-06 ***
+x1             2.069      0.092    22.4  <2e-16 ***
+x2             3.115      0.370     8.4  <2e-16 ***
+logSigmaMu    -0.106      0.129    -0.8     0.4    
+logSigmaNu     0.026      0.065     0.4     0.7    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## BFGS method (optim)
 > randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
-> maxLik:::summary.maxLik( randEffBfgs )
+> print( maxLik:::summary.maxLik( randEffBfgs ), digits = 2 )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS maximization, 29 iterations
@@ -79,18 +79,18 @@ Log-Likelihood: -330.52
 5  free parameters
 Estimates:
             Estimate Std. error t value Pr(> t)    
-(Intercept)  -1.0867     0.2263   -4.80 1.6e-06 ***
-x1            2.0696     0.0968   21.37 < 2e-16 ***
-x2            3.1152     0.3266    9.54 < 2e-16 ***
-logSigmaMu   -0.1055     0.1309   -0.81    0.42    
-logSigmaNu    0.0255     0.0696    0.37    0.71    
+(Intercept)   -1.087      0.226    -4.8   2e-06 ***
+x1             2.070      0.097    21.4  <2e-16 ***
+x2             3.115      0.327     9.5  <2e-16 ***
+logSigmaMu    -0.106      0.131    -0.8     0.4    
+logSigmaNu     0.026      0.070     0.4     0.7    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## BFGS method (R)
 > randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
-> maxLik:::summary.maxLik( randEffBfgsr )
+> print( maxLik:::summary.maxLik( randEffBfgsr ), digits = 2 )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGSR maximization, 22 iterations
@@ -99,11 +99,11 @@ Log-Likelihood: -330.52
 5  free parameters
 Estimates:
             Estimate Std. error t value Pr(> t)    
-(Intercept)  -1.0864     0.2263   -4.80 1.6e-06 ***
-x1            2.0695     0.0969   21.37 < 2e-16 ***
-x2            3.1147     0.3266    9.54 < 2e-16 ***
-logSigmaMu   -0.1055     0.1309   -0.81    0.42    
-logSigmaNu    0.0256     0.0696    0.37    0.71    
+(Intercept)   -1.086      0.226    -4.8   2e-06 ***
+x1             2.070      0.097    21.4  <2e-16 ***
+x2             3.115      0.327     9.5  <2e-16 ***
+logSigmaMu    -0.106      0.131    -0.8     0.4    
+logSigmaNu     0.026      0.070     0.4     0.7    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -111,4 +111,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  3.056   0.048   3.101 
+  3.124   0.076   3.194 

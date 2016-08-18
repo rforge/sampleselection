@@ -1,6 +1,6 @@
 
-R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
-Copyright (C) 2014 The R Foundation for Statistical Computing
+R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
+Copyright (C) 2016 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -53,17 +53,17 @@ Loading required package: Formula
 > maxLik:::summary.maxLik( randEffBhhh )
 --------------------------------------------
 Maximum Likelihood estimation
-BHHH maximisation, 15 iterations
+BHHH maximisation, 11 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -330.52 
 5  free parameters
 Estimates:
             Estimate Std. error t value Pr(> t)    
-(Intercept)  -1.0867     0.2346   -4.63 3.6e-06 ***
+(Intercept)  -1.0866     0.2346   -4.63 3.6e-06 ***
 x1            2.0695     0.0923   22.42 < 2e-16 ***
 x2            3.1151     0.3701    8.42 < 2e-16 ***
-logSigmaMu   -0.1056     0.1289   -0.82    0.41    
-logSigmaNu    0.0256     0.0647    0.40    0.69    
+logSigmaMu   -0.1055     0.1289   -0.82    0.41    
+logSigmaNu    0.0255     0.0647    0.39    0.69    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -73,7 +73,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > maxLik:::summary.maxLik( randEffBfgs )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS maximisation, 29 iterations
+BFGS maximization, 29 iterations
 Return code 0: successful convergence 
 Log-Likelihood: -330.52 
 5  free parameters
@@ -111,4 +111,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  2.968   0.052   3.859 
+  3.056   0.048   3.101 

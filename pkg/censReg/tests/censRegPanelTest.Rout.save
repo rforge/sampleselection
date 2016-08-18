@@ -1,6 +1,6 @@
 
-R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
-Copyright (C) 2014 The R Foundation for Statistical Computing
+R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
+Copyright (C) 2016 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -243,6 +243,28 @@ $gradientObs
 [14,]       -1.81 -1.31 -0.92       1.96       2.58
 [15,]       -0.08  1.09 -0.46      -0.84       0.20
 
+$control
+A 'MaxControl' object with slots:
+tol = 1e-08 
+reltol = 1.4901e-08 
+gradtol = 1e-06 
+steptol = 1e-10 
+lambdatol = 1e-06 
+qrtol = 1e-10 
+qac = stephalving 
+marquardt_lambda0 = 0.01 
+marquardt_lambdaStep = 2 
+marquardt_maxLambda = 1e+12 
+nm_alpha = 1 
+nm_beta = 0.5 
+nm_gamma = 2 
+sann_cand = <default Gaussian Markov kernel>
+sann_temp = 10 
+sann_tmax = 10 
+sann_randomSeed = 123 
+iterlim = 150 
+printLevel = 0 
+
 $xMean
 (Intercept)          x1          x2 
   1.0000000  -0.0051594   0.5041407 
@@ -310,7 +332,7 @@ Coefficients:
 > print( maxLik:::summary.maxLik( randEffBhhh ), digits = 1 )
 --------------------------------------------
 Maximum Likelihood estimation
-BHHH maximisation, 18 iterations
+BHHH maximisation, 14 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -73.199 
 5  free parameters
@@ -319,8 +341,8 @@ Estimates:
 (Intercept)    -0.37       0.56    -0.7   0.510    
 x1              1.68       0.29     5.7   1e-08 ***
 x2              2.24       0.73     3.1   0.002 ** 
-logSigmaMu     -0.13       0.30    -0.4   0.661    
-logSigmaNu     -0.01       0.14    -0.1   0.929    
+logSigmaMu     -0.13       0.29    -0.4   0.660    
+logSigmaNu     -0.01       0.14    -0.1   0.930    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -338,12 +360,12 @@ Coefficients:
 (Intercept)    -0.37       0.56    -0.7   0.510    
 x1              1.68       0.29     5.7   1e-08 ***
 x2              2.24       0.73     3.1   0.002 ** 
-logSigmaMu     -0.13       0.30    -0.4   0.661    
-logSigmaNu     -0.01       0.14    -0.1   0.929    
+logSigmaMu     -0.13       0.29    -0.4   0.660    
+logSigmaNu     -0.01       0.14    -0.1   0.930    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-BHHH maximisation, 18 iterations
+BHHH maximisation, 14 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
@@ -357,15 +379,15 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      5e-05      -3e-04      -4e-06       4e-04      -3e-04 
+     -6e-04      -1e-03      -2e-05       3e-03      -2e-03 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
-(Intercept)      -13.48  -4.10 -8.32       2.74       3.96
-x1                -4.10 -17.40 -2.20       2.09      19.03
-x2                -8.32  -2.20 -7.35      -0.24       3.42
-logSigmaMu         2.74   2.09 -0.24     -13.93      -3.64
-logSigmaNu         3.96  19.03  3.42      -3.64     -73.17
+(Intercept)      -13.49  -4.10 -8.33       2.74       3.96
+x1                -4.10 -17.40 -2.20       2.10      19.03
+x2                -8.33  -2.20 -7.35      -0.24       3.42
+logSigmaMu         2.74   2.10 -0.24     -13.93      -3.64
+logSigmaNu         3.96  19.03  3.42      -3.64     -73.16
 attr(,"type")
 [1] "BHHH"
 
@@ -382,7 +404,7 @@ $fixed
       FALSE       FALSE       FALSE       FALSE       FALSE 
 
 $iterations
-[1] 18
+[1] 14
 
 $type
 [1] "BHHH maximisation"
@@ -391,19 +413,41 @@ $gradientObs
       (Intercept)    x1    x2 logSigmaMu logSigmaNu
  [1,]       -0.85  0.23 -0.07      -0.14      -0.96
  [2,]       -1.70  0.05 -1.19       1.68      -1.01
- [3,]        1.75  0.33  1.73       1.84       1.80
+ [3,]        1.75  0.33  1.73       1.84       1.81
  [4,]        0.16 -0.20 -0.43      -0.69      -1.44
  [5,]        0.13  0.98  0.69      -0.68      -0.55
  [6,]        0.33 -0.31  0.38      -0.49      -1.58
- [7,]       -0.08 -3.19 -0.24      -0.68       6.03
+ [7,]       -0.08 -3.18 -0.24      -0.68       6.03
  [8,]       -0.27  0.38  0.06      -0.54      -1.11
  [9,]        1.15  0.59  0.30       0.13      -1.62
 [10,]       -0.44 -0.41 -0.15      -0.47      -1.94
 [11,]       -0.03  1.45 -0.64      -0.92       2.73
 [12,]        1.21  0.54  0.61       0.21      -1.74
 [13,]        0.54 -0.23  0.33      -0.37      -1.41
-[14,]       -1.81 -1.31 -0.92       1.96       2.58
-[15,]       -0.08  1.09 -0.46      -0.84       0.20
+[14,]       -1.82 -1.31 -0.92       1.96       2.58
+[15,]       -0.08  1.08 -0.46      -0.84       0.20
+
+$control
+A 'MaxControl' object with slots:
+tol = 1e-08 
+reltol = 1.4901e-08 
+gradtol = 1e-06 
+steptol = 1e-10 
+lambdatol = 1e-06 
+qrtol = 1e-10 
+qac = stephalving 
+marquardt_lambda0 = 0.01 
+marquardt_lambdaStep = 2 
+marquardt_maxLambda = 1e+12 
+nm_alpha = 1 
+nm_beta = 0.5 
+nm_gamma = 2 
+sann_cand = <default Gaussian Markov kernel>
+sann_temp = 10 
+sann_tmax = 10 
+sann_randomSeed = 123 
+iterlim = 150 
+printLevel = 0 
 
 $xMean
 (Intercept)          x1          x2 
@@ -472,7 +516,7 @@ Coefficients:
 > print( maxLik:::summary.maxLik( randEffBfgs ), digits = 1 )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGS maximisation, 25 iterations
+BFGS maximization, 25 iterations
 Return code 0: successful convergence 
 Log-Likelihood: -73.199 
 5  free parameters
@@ -505,7 +549,7 @@ logSigmaNu     -0.01       0.13    -0.1     0.9
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-BFGS maximisation, 25 iterations
+BFGS maximization, 25 iterations
 Return code 0: successful convergence 
 Log-likelihood: -73.199 on 5 Df
 
@@ -546,7 +590,7 @@ function
       25 
 
 $type
-[1] "BFGS maximisation"
+[1] "BFGS maximization"
 
 $constraints
 NULL
@@ -568,6 +612,28 @@ $gradientObs
 [13,]        0.54 -0.23  0.33      -0.37      -1.41
 [14,]       -1.81 -1.31 -0.92       1.96       2.58
 [15,]       -0.08  1.09 -0.46      -0.84       0.20
+
+$control
+A 'MaxControl' object with slots:
+tol = 1e-08 
+reltol = 1.4901e-08 
+gradtol = 1e-06 
+steptol = 1e-10 
+lambdatol = 1e-06 
+qrtol = 1e-10 
+qac = stephalving 
+marquardt_lambda0 = 0.01 
+marquardt_lambdaStep = 2 
+marquardt_maxLambda = 1e+12 
+nm_alpha = 1 
+nm_beta = 0.5 
+nm_gamma = 2 
+sann_cand = <default Gaussian Markov kernel>
+sann_temp = 10 
+sann_tmax = 10 
+sann_randomSeed = 123 
+iterlim = 200 
+printLevel = 0 
 
 $xMean
 (Intercept)          x1          x2 
@@ -631,22 +697,20 @@ censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
 
 Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      -0.37        1.68        2.24       -0.13       -0.01 
+      -0.37        1.68        2.25       -0.13       -0.01 
 
 > print( maxLik:::summary.maxLik( randEffBfgsr ), digits = 1 )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGSR maximization, 99 iterations
-Return code 3: Last step could not find a value above the current.
-Boundary of parameter space?  
-Consider switching to a more robust optimisation method temporarily.
+BFGSR maximization, 77 iterations
+Return code 2: successive function values within tolerance limit
 Log-Likelihood: -73.199 
 5  free parameters
 Estimates:
             Estimate Std. error t value Pr(> t)    
 (Intercept)    -0.37       0.47    -0.8     0.4    
 x1              1.68       0.21     8.0   1e-15 ***
-x2              2.24       0.67     3.3   9e-04 ***
+x2              2.25       0.67     3.3   9e-04 ***
 logSigmaMu     -0.13       0.26    -0.5     0.6    
 logSigmaNu     -0.01       0.13    -0.1     0.9    
 ---
@@ -665,16 +729,14 @@ Coefficients:
             Estimate Std. error t value Pr(> t)    
 (Intercept)    -0.37       0.47    -0.8     0.4    
 x1              1.68       0.21     8.0   1e-15 ***
-x2              2.24       0.67     3.3   9e-04 ***
+x2              2.25       0.67     3.3   9e-04 ***
 logSigmaMu     -0.13       0.26    -0.5     0.6    
 logSigmaNu     -0.01       0.13    -0.1     0.9    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-BFGSR maximization, 99 iterations
-Return code 3: Last step could not find a value above the current.
-Boundary of parameter space?  
-Consider switching to a more robust optimisation method temporarily.
+BFGSR maximization, 77 iterations
+Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
 > printAll( randEffBfgsr )
@@ -683,25 +745,25 @@ $maximum
 
 $estimate
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      -0.37        1.68        2.24       -0.13       -0.01 
+      -0.37        1.68        2.25       -0.13       -0.01 
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      2e-03      -6e-04      -3e-03      -3e-04       3e-05 
+      8e-03       1e-03      -1e-02      -8e-04       7e-05 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
-(Intercept)      -13.32  -4.10 -7.31      -2.12      -1.30
+(Intercept)      -13.31  -4.10 -7.30      -2.13      -1.29
 x1                -4.10 -26.07 -1.99       4.48       4.76
-x2                -7.31  -1.99 -6.24      -0.63      -0.47
-logSigmaMu        -2.12   4.48 -0.63     -16.67      -3.72
-logSigmaNu        -1.30   4.76 -0.47      -3.72     -61.06
+x2                -7.30  -1.99 -6.23      -0.63      -0.45
+logSigmaMu        -2.13   4.48 -0.63     -16.68      -3.72
+logSigmaNu        -1.29   4.76 -0.45      -3.72     -61.05
 
 $code
-[1] 3
+[1] 2
 
 $message
-[1] "Last step could not find a value above the current.\nBoundary of parameter space?  \nConsider switching to a more robust optimisation method temporarily."
+[1] "successive function values within tolerance limit"
 
 $last.step
 
@@ -710,28 +772,50 @@ $fixed
       FALSE       FALSE       FALSE       FALSE       FALSE 
 
 $iterations
-[1] 99
+[1] 77
 
 $type
 [1] "BFGSR maximization"
 
 $gradientObs
       (Intercept)    x1    x2 logSigmaMu logSigmaNu
- [1,]       -0.85  0.23 -0.07      -0.14      -0.96
+ [1,]       -0.85  0.22 -0.07      -0.14      -0.97
  [2,]       -1.70  0.05 -1.19       1.68      -1.01
- [3,]        1.75  0.33  1.73       1.84       1.80
+ [3,]        1.75  0.33  1.72       1.84       1.80
  [4,]        0.16 -0.20 -0.43      -0.69      -1.43
  [5,]        0.13  0.98  0.69      -0.68      -0.56
  [6,]        0.33 -0.31  0.38      -0.49      -1.58
  [7,]       -0.08 -3.19 -0.24      -0.68       6.03
  [8,]       -0.27  0.38  0.06      -0.54      -1.11
  [9,]        1.15  0.59  0.30       0.13      -1.62
-[10,]       -0.43 -0.41 -0.15      -0.47      -1.94
+[10,]       -0.43 -0.40 -0.15      -0.47      -1.94
 [11,]       -0.03  1.45 -0.64      -0.92       2.74
-[12,]        1.21  0.54  0.61       0.21      -1.73
+[12,]        1.21  0.54  0.61       0.20      -1.73
 [13,]        0.54 -0.23  0.33      -0.37      -1.41
 [14,]       -1.81 -1.31 -0.92       1.96       2.58
-[15,]       -0.08  1.09 -0.46      -0.84       0.20
+[15,]       -0.08  1.09 -0.46      -0.84       0.21
+
+$control
+A 'MaxControl' object with slots:
+tol = 1e-08 
+reltol = 1.4901e-08 
+gradtol = 1e-06 
+steptol = 1e-10 
+lambdatol = 1e-06 
+qrtol = 1e-10 
+qac = stephalving 
+marquardt_lambda0 = 0.01 
+marquardt_lambdaStep = 2 
+marquardt_maxLambda = 1e+12 
+nm_alpha = 1 
+nm_beta = 0.5 
+nm_gamma = 2 
+sann_cand = <default Gaussian Markov kernel>
+sann_temp = 10 
+sann_tmax = 10 
+sann_randomSeed = 123 
+iterlim = 150 
+printLevel = 0 
 
 $xMean
 (Intercept)          x1          x2 
@@ -819,7 +903,7 @@ logSigmaNu     -0.01       0.14    -0.1   0.929
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-BHHH maximisation, 10 iterations
+BHHH maximisation, 7 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
@@ -842,13 +926,13 @@ Coefficients:
 > print( maxLik:::summary.maxLik( randEffAdd ), digits = 1 )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGSR maximization, 77 iterations
+BFGSR maximization, 76 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -73.199 
 5  free parameters
 Estimates:
             Estimate Std. error t value Pr(> t)    
-(Intercept)     4.63       0.47     9.8  <2e-16 ***
+(Intercept)     4.63       0.47     9.7  <2e-16 ***
 x1              1.68       0.21     8.0   1e-15 ***
 x2              2.25       0.67     3.3   9e-04 ***
 logSigmaMu     -0.13       0.26    -0.5     0.6    
@@ -867,7 +951,7 @@ Observations:
 
 Coefficients:
             Estimate Std. error t value Pr(> t)    
-(Intercept)     4.63       0.47     9.8  <2e-16 ***
+(Intercept)     4.63       0.47     9.7  <2e-16 ***
 x1              1.68       0.21     8.0   1e-15 ***
 x2              2.25       0.67     3.3   9e-04 ***
 logSigmaMu     -0.13       0.26    -0.5     0.6    
@@ -875,7 +959,7 @@ logSigmaNu     -0.01       0.13    -0.1     0.9
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-BFGSR maximization, 77 iterations
+BFGSR maximization, 76 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
@@ -915,15 +999,15 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      6e-03      -2e-03      -1e-02      -3e-04      -1e-03 
+      8e-03       9e-04      -1e-02      -7e-04       2e-03 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
-(Intercept)      -13.31  -4.09 -7.30      -2.13      -1.29
-x1                -4.09 -26.07 -1.99       4.48       4.77
+(Intercept)      -13.31  -4.10 -7.30      -2.14      -1.29
+x1                -4.10 -26.07 -1.99       4.48       4.76
 x2                -7.30  -1.99 -6.23      -0.63      -0.45
-logSigmaMu        -2.13   4.48 -0.63     -16.68      -3.72
-logSigmaNu        -1.29   4.77 -0.45      -3.72     -61.06
+logSigmaMu        -2.14   4.48 -0.63     -16.68      -3.72
+logSigmaNu        -1.29   4.76 -0.45      -3.72     -61.06
 
 $code
 [1] 2
@@ -938,7 +1022,7 @@ $fixed
       FALSE       FALSE       FALSE       FALSE       FALSE 
 
 $iterations
-[1] 77
+[1] 76
 
 $type
 [1] "BFGSR maximization"
@@ -947,19 +1031,41 @@ $gradientObs
       (Intercept)    x1    x2 logSigmaMu logSigmaNu
  [1,]       -0.85  0.22 -0.07      -0.14      -0.97
  [2,]       -1.70  0.05 -1.19       1.68      -1.01
- [3,]        1.75  0.33  1.73       1.83       1.80
+ [3,]        1.75  0.33  1.73       1.84       1.80
  [4,]        0.16 -0.20 -0.43      -0.69      -1.43
  [5,]        0.13  0.98  0.69      -0.68      -0.56
  [6,]        0.33 -0.31  0.38      -0.49      -1.58
  [7,]       -0.08 -3.19 -0.24      -0.68       6.03
  [8,]       -0.27  0.38  0.06      -0.54      -1.11
  [9,]        1.15  0.59  0.30       0.13      -1.62
-[10,]       -0.43 -0.41 -0.15      -0.47      -1.94
+[10,]       -0.43 -0.40 -0.15      -0.47      -1.94
 [11,]       -0.03  1.45 -0.64      -0.92       2.74
 [12,]        1.21  0.54  0.61       0.20      -1.73
 [13,]        0.54 -0.23  0.33      -0.37      -1.41
 [14,]       -1.81 -1.31 -0.92       1.96       2.58
 [15,]       -0.08  1.09 -0.46      -0.84       0.21
+
+$control
+A 'MaxControl' object with slots:
+tol = 1e-08 
+reltol = 1.4901e-08 
+gradtol = 1e-06 
+steptol = 1e-10 
+lambdatol = 1e-06 
+qrtol = 1e-10 
+qac = stephalving 
+marquardt_lambda0 = 0.01 
+marquardt_lambdaStep = 2 
+marquardt_maxLambda = 1e+12 
+nm_alpha = 1 
+nm_beta = 0.5 
+nm_gamma = 2 
+sann_cand = <default Gaussian Markov kernel>
+sann_temp = 10 
+sann_tmax = 10 
+sann_randomSeed = 123 
+iterlim = 150 
+printLevel = 0 
 
 $xMean
 (Intercept)          x1          x2 
@@ -1031,7 +1137,7 @@ Coefficients:
 > print( maxLik:::summary.maxLik( randEffNeg ), digits = 1 )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGSR maximization, 90 iterations
+BFGSR maximization, 77 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -73.199 
 5  free parameters
@@ -1065,7 +1171,7 @@ logSigmaNu     -0.01       0.13    -0.1     0.9
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-BFGSR maximization, 90 iterations
+BFGSR maximization, 77 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
@@ -1103,7 +1209,7 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-     -6e-03       6e-04       1e-02       2e-03      -2e-03 
+     -8e-03      -1e-03       1e-02      -8e-04       7e-05 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
@@ -1126,7 +1232,7 @@ $fixed
       FALSE       FALSE       FALSE       FALSE       FALSE 
 
 $iterations
-[1] 90
+[1] 77
 
 $type
 [1] "BFGSR maximization"
@@ -1135,19 +1241,41 @@ $gradientObs
       (Intercept)    x1    x2 logSigmaMu logSigmaNu
  [1,]        0.85 -0.22  0.07      -0.14      -0.97
  [2,]        1.70 -0.05  1.19       1.68      -1.01
- [3,]       -1.75 -0.33 -1.73       1.83       1.80
+ [3,]       -1.75 -0.33 -1.72       1.84       1.80
  [4,]       -0.16  0.20  0.43      -0.69      -1.43
  [5,]       -0.13 -0.98 -0.69      -0.68      -0.56
  [6,]       -0.33  0.31 -0.38      -0.49      -1.58
  [7,]        0.08  3.19  0.24      -0.68       6.03
  [8,]        0.27 -0.38 -0.06      -0.54      -1.11
  [9,]       -1.15 -0.59 -0.30       0.13      -1.62
-[10,]        0.43  0.41  0.15      -0.47      -1.94
+[10,]        0.43  0.40  0.15      -0.47      -1.94
 [11,]        0.03 -1.45  0.64      -0.92       2.74
-[12,]       -1.21 -0.54 -0.61       0.21      -1.73
+[12,]       -1.21 -0.54 -0.61       0.20      -1.73
 [13,]       -0.54  0.23 -0.33      -0.37      -1.41
 [14,]        1.81  1.31  0.92       1.96       2.58
 [15,]        0.08 -1.09  0.46      -0.84       0.21
+
+$control
+A 'MaxControl' object with slots:
+tol = 1e-08 
+reltol = 1.4901e-08 
+gradtol = 1e-06 
+steptol = 1e-10 
+lambdatol = 1e-06 
+qrtol = 1e-10 
+qac = stephalving 
+marquardt_lambda0 = 0.01 
+marquardt_lambdaStep = 2 
+marquardt_maxLambda = 1e+12 
+nm_alpha = 1 
+nm_beta = 0.5 
+nm_gamma = 2 
+sann_cand = <default Gaussian Markov kernel>
+sann_temp = 10 
+sann_tmax = 10 
+sann_randomSeed = 123 
+iterlim = 150 
+printLevel = 0 
 
 $xMean
 (Intercept)          x1          x2 
@@ -1215,20 +1343,20 @@ censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5,
 
 Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      -4.63       -1.68       -2.24       -0.13       -0.01 
+      -4.63       -1.68       -2.25       -0.13       -0.01 
 
 > print( maxLik:::summary.maxLik( randEffAddNeg ), digits = 1 )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGSR maximization, 101 iterations
+BFGSR maximization, 76 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -73.199 
 5  free parameters
 Estimates:
             Estimate Std. error t value Pr(> t)    
-(Intercept)    -4.63       0.47    -9.8  <2e-16 ***
+(Intercept)    -4.63       0.47    -9.7  <2e-16 ***
 x1             -1.68       0.21    -8.0   1e-15 ***
-x2             -2.24       0.67    -3.3   9e-04 ***
+x2             -2.25       0.67    -3.3   9e-04 ***
 logSigmaMu     -0.13       0.26    -0.5     0.6    
 logSigmaNu     -0.01       0.13    -0.1     0.9    
 ---
@@ -1246,24 +1374,24 @@ Observations:
 
 Coefficients:
             Estimate Std. error t value Pr(> t)    
-(Intercept)    -4.63       0.47    -9.8  <2e-16 ***
+(Intercept)    -4.63       0.47    -9.7  <2e-16 ***
 x1             -1.68       0.21    -8.0   1e-15 ***
-x2             -2.24       0.67    -3.3   9e-04 ***
+x2             -2.25       0.67    -3.3   9e-04 ***
 logSigmaMu     -0.13       0.26    -0.5     0.6    
 logSigmaNu     -0.01       0.13    -0.1     0.9    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-BFGSR maximization, 101 iterations
+BFGSR maximization, 76 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
 > round( coef( randEffAddNeg ), 2 )
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      -4.63       -1.68       -2.24       -0.13       -0.01 
+      -4.63       -1.68       -2.25       -0.13       -0.01 
 > round( coef( randEffAddNeg, logSigma = FALSE ), 2 )
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
-      -4.63       -1.68       -2.24        0.88        0.99 
+      -4.63       -1.68       -2.25        0.88        0.99 
 > round( vcov( randEffAddNeg ), 2 )
             (Intercept)    x1    x2 logSigmaMu logSigmaNu
 (Intercept)        0.23 -0.02 -0.25       0.02       0.00
@@ -1288,19 +1416,19 @@ $maximum
 
 $estimate
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      -4.63       -1.68       -2.24       -0.13       -0.01 
+      -4.63       -1.68       -2.25       -0.13       -0.01 
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-     -2e-03      -1e-03       4e-03      -5e-04       3e-04 
+     -8e-03      -9e-04       1e-02      -7e-04       2e-03 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
-(Intercept)      -13.32  -4.10 -7.31       2.12       1.30
+(Intercept)      -13.31  -4.10 -7.30       2.14       1.29
 x1                -4.10 -26.07 -1.99      -4.48      -4.76
-x2                -7.31  -1.99 -6.24       0.63       0.47
-logSigmaMu         2.12  -4.48  0.63     -16.67      -3.72
-logSigmaNu         1.30  -4.76  0.47      -3.72     -61.06
+x2                -7.30  -1.99 -6.23       0.63       0.45
+logSigmaMu         2.14  -4.48  0.63     -16.68      -3.72
+logSigmaNu         1.29  -4.76  0.45      -3.72     -61.06
 
 $code
 [1] 2
@@ -1315,14 +1443,14 @@ $fixed
       FALSE       FALSE       FALSE       FALSE       FALSE 
 
 $iterations
-[1] 101
+[1] 76
 
 $type
 [1] "BFGSR maximization"
 
 $gradientObs
       (Intercept)    x1    x2 logSigmaMu logSigmaNu
- [1,]        0.85 -0.23  0.07      -0.14      -0.96
+ [1,]        0.85 -0.22  0.07      -0.14      -0.97
  [2,]        1.70 -0.05  1.19       1.68      -1.01
  [3,]       -1.75 -0.33 -1.73       1.84       1.80
  [4,]       -0.16  0.20  0.43      -0.69      -1.43
@@ -1331,12 +1459,34 @@ $gradientObs
  [7,]        0.08  3.19  0.24      -0.68       6.03
  [8,]        0.27 -0.38 -0.06      -0.54      -1.11
  [9,]       -1.15 -0.59 -0.30       0.13      -1.62
-[10,]        0.43  0.41  0.15      -0.47      -1.94
+[10,]        0.43  0.40  0.15      -0.47      -1.94
 [11,]        0.03 -1.45  0.64      -0.92       2.74
-[12,]       -1.21 -0.54 -0.61       0.21      -1.73
+[12,]       -1.21 -0.54 -0.61       0.20      -1.73
 [13,]       -0.54  0.23 -0.33      -0.37      -1.41
 [14,]        1.81  1.31  0.92       1.96       2.58
-[15,]        0.08 -1.09  0.46      -0.84       0.20
+[15,]        0.08 -1.09  0.46      -0.84       0.21
+
+$control
+A 'MaxControl' object with slots:
+tol = 1e-08 
+reltol = 1.4901e-08 
+gradtol = 1e-06 
+steptol = 1e-10 
+lambdatol = 1e-06 
+qrtol = 1e-10 
+qac = stephalving 
+marquardt_lambda0 = 0.01 
+marquardt_lambdaStep = 2 
+marquardt_maxLambda = 1e+12 
+nm_alpha = 1 
+nm_beta = 0.5 
+nm_gamma = 2 
+sann_cand = <default Gaussian Markov kernel>
+sann_temp = 10 
+sann_tmax = 10 
+sann_randomSeed = 123 
+iterlim = 150 
+printLevel = 0 
 
 $xMean
 (Intercept)          x1          x2 
@@ -1404,21 +1554,21 @@ censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData,
 
 Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-     -0.232       1.893       1.967       0.001       0.053 
+     -0.234       1.893       1.969       0.002       0.053 
 
 > print( maxLik:::summary.maxLik( randEffBoth ), digits = 1 )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGSR maximization, 92 iterations
+BFGSR maximization, 99 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -64.313 
 5  free parameters
 Estimates:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.232      0.548    -0.4    0.67    
+(Intercept)   -0.234      0.548    -0.4    0.67    
 x1             1.893      0.301     6.3   3e-10 ***
-x2             1.967      0.818     2.4    0.02 *  
-logSigmaMu     0.001      0.278     0.0    1.00    
+x2             1.969      0.819     2.4    0.02 *  
+logSigmaMu     0.002      0.278     0.0    1.00    
 logSigmaNu     0.053      0.163     0.3    0.75    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
@@ -1435,15 +1585,15 @@ Observations:
 
 Coefficients:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.232      0.548    -0.4    0.67    
+(Intercept)   -0.234      0.548    -0.4    0.67    
 x1             1.893      0.301     6.3   3e-10 ***
-x2             1.967      0.818     2.4    0.02 *  
-logSigmaMu     0.001      0.278     0.0    1.00    
+x2             1.969      0.819     2.4    0.02 *  
+logSigmaMu     0.002      0.278     0.0    1.00    
 logSigmaNu     0.053      0.163     0.3    0.75    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-BFGSR maximization, 92 iterations
+BFGSR maximization, 99 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -64.313 on 5 Df
 
@@ -1463,11 +1613,11 @@ Coefficients:
 x1               1.9        0.3     6.3   3e-10 ***
 x2               2.0        0.8     2.4    0.02 *  
 sigmaMu          1.0        0.3     3.6   3e-04 ***
-sigmaNu          1.1        0.2     6.1   8e-10 ***
+sigmaNu          1.1        0.2     6.1   9e-10 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-BFGSR maximization, 92 iterations
+BFGSR maximization, 99 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -64.313 on 5 Df
 
@@ -1493,16 +1643,16 @@ sigmaMu           -0.02  0.04  0.02    0.08    0.00
 sigmaNu           -0.02  0.02  0.03    0.00    0.03
 > round( coef( summary( randEffBoth ) ), 2 )
             Estimate Std. error t value Pr(> t)
-(Intercept)    -0.23       0.55   -0.42    0.67
+(Intercept)    -0.23       0.55   -0.43    0.67
 x1              1.89       0.30    6.29    0.00
-x2              1.97       0.82    2.40    0.02
+x2              1.97       0.82    2.41    0.02
 logSigmaMu      0.00       0.28    0.01    1.00
 logSigmaNu      0.05       0.16    0.32    0.75
 > round( coef( summary( randEffBoth ), logSigma = FALSE ), 2 )
             Estimate Std. error t value Pr(> t)
-(Intercept)    -0.23       0.55   -0.42    0.67
+(Intercept)    -0.23       0.55   -0.43    0.67
 x1              1.89       0.30    6.29    0.00
-x2              1.97       0.82    2.40    0.02
+x2              1.97       0.82    2.41    0.02
 sigmaMu         1.00       0.28    3.60    0.00
 sigmaNu         1.05       0.17    6.14    0.00
 > logLik( randEffBoth )
@@ -1521,15 +1671,15 @@ $estimate
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-     -0.005       0.001       0.005       0.002       0.001 
+     -2e-03      -9e-05       3e-03       8e-05       1e-04 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
-(Intercept)       -9.94  -1.49 -5.31      -0.07      -0.33
-x1                -1.49 -15.15 -0.55       6.30       7.63
-x2                -5.31  -0.55 -4.39       0.15       1.07
-logSigmaMu        -0.07   6.30  0.15     -15.80      -1.38
-logSigmaNu        -0.33   7.63  1.07      -1.38     -43.18
+(Intercept)       -9.93  -1.49 -5.31      -0.07      -0.32
+x1                -1.49 -15.14 -0.55       6.30       7.63
+x2                -5.31  -0.55 -4.39       0.15       1.08
+logSigmaMu        -0.07   6.30  0.15     -15.80      -1.37
+logSigmaNu        -0.32   7.63  1.08      -1.37     -43.18
 
 $code
 [1] 2
@@ -1544,7 +1694,7 @@ $fixed
       FALSE       FALSE       FALSE       FALSE       FALSE 
 
 $iterations
-[1] 92
+[1] 99
 
 $type
 [1] "BFGSR maximization"
@@ -1561,11 +1711,33 @@ $gradientObs
  [8,]       -0.21  0.34  0.08      -0.59      -1.03
  [9,]        1.03  0.66  0.29       0.20      -1.30
 [10,]       -0.43 -0.59 -0.12      -0.40      -1.80
-[11,]       -0.04  1.09 -0.51      -0.87       2.00
-[12,]        1.14  0.50  0.83       0.59      -0.74
+[11,]       -0.04  1.10 -0.51      -0.87       2.00
+[12,]        1.14  0.51  0.83       0.59      -0.74
 [13,]        0.53 -0.28  0.35      -0.29      -1.43
 [14,]       -1.64 -1.35 -0.84       2.12       2.76
 [15,]       -0.02  0.74 -0.30      -0.89      -0.48
+
+$control
+A 'MaxControl' object with slots:
+tol = 1e-08 
+reltol = 1.4901e-08 
+gradtol = 1e-06 
+steptol = 1e-10 
+lambdatol = 1e-06 
+qrtol = 1e-10 
+qac = stephalving 
+marquardt_lambda0 = 0.01 
+marquardt_lambdaStep = 2 
+marquardt_maxLambda = 1e+12 
+nm_alpha = 1 
+nm_beta = 0.5 
+nm_gamma = 2 
+sann_cand = <default Gaussian Markov kernel>
+sann_temp = 10 
+sann_tmax = 10 
+sann_randomSeed = 123 
+iterlim = 150 
+printLevel = 0 
 
 $xMean
 (Intercept)          x1          x2 
@@ -1632,30 +1804,33 @@ class
 + }
 > pData2 <- pdata.frame( nData2, c( "id", "time" ) )
 > randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR" )
-> all.equal( randEffBfgsr2[ -c(11,13) ], randEffBfgsr[ -c(11,13) ] )
-[1] "Component \"maximum\": Mean relative difference: 5.6869e-08" 
-[2] "Component \"estimate\": Mean relative difference: 0.00063787"
-[3] "Component \"gradient\": Mean relative difference: 2.7256"    
-[4] "Component \"hessian\": Mean relative difference: 0.00033491" 
-[5] "Component \"code\": Mean relative difference: 0.5"           
-[6] "Component \"message\": 1 string mismatch"                    
-[7] "Component \"last.step\": target is NULL, current is list"    
-[8] "Component \"iterations\": Mean relative difference: 0.15116" 
+> all.equal( randEffBfgsr2[ -c(11,14) ], randEffBfgsr[ -c(11,14) ] )
+ [1] "Component \"maximum\": Mean relative difference: 1.4294e-07"  
+ [2] "Component \"estimate\": Mean relative difference: 0.00029578" 
+ [3] "Component \"gradient\": Mean relative difference: 0.34274"    
+ [4] "Component \"hessian\": Mean relative difference: 0.00027784"  
+ [5] "Component \"code\": Mean relative difference: 0.33333"        
+ [6] "Component \"message\": 1 string mismatch"                     
+ [7] "Component \"last.step\": Modes: list, NULL"                   
+ [8] "Component \"last.step\": Lengths: 3, 0"                       
+ [9] "Component \"last.step\": names for target but not for current"
+[10] "Component \"last.step\": current is not list-like"            
+[11] "Component \"iterations\": Mean relative difference: 0.060976" 
 > all.equal( sort( randEffBfgsr2[[ 11 ]] ), sort( randEffBfgsr[[ 11 ]] ) )
-[1] "Mean relative difference: 0.00040906"
+[1] "Mean relative difference: 0.00026022"
 > 
 > # check if the order of observations/individuals influences the likelihood values
 > d1c1 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", start = coef(randEffBfgsr),
 +    iterlim = 0 )
-> all.equal( d1c1[-c(5,6,7,9,13,17)], randEffBfgsr[-c(5,6,7,9,13,17)] )
+> all.equal( d1c1[-c(5,6,7,9,12,14,18)], randEffBfgsr[-c(5,6,7,9,12,14,18)] )
 [1] TRUE
 > d1c1$maximum -  randEffBfgsr$maximum
 [1] 0
 > 
 > d2c2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", start = coef(randEffBfgsr2),
 +    iterlim = 0 )
-> all.equal( d2c2[-c(5,6,9,13,17)], randEffBfgsr2[-c(5,6,9,13,17)] )
-[1] TRUE
+> all.equal( d2c2[-c(5,6,9,12,14,18)], randEffBfgsr2[-c(5,6,9,12,14,18)] )
+[1] "Component \"last.step\": target is NULL, current is list"
 > d2c2$maximum -  randEffBfgsr2$maximum
 [1] 0
 > 
@@ -1676,9 +1851,9 @@ class
           0           0           0           0           0 
 > 
 > d2c2$maximum - d2c1$maximum
-[1] 4.1628e-06
+[1] 1.0463e-05
 > d1c1$maximum - d1c2$maximum
-[1] -4.1628e-06
+[1] -1.0463e-05
 > 
 > d1cS <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", 
 +    start = randEffBfgsr$start, iterlim = 0 )
@@ -1702,22 +1877,22 @@ censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
 
 Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-  -0.219971    1.640515    2.104111   -0.167556   -0.000992 
+  -0.222250    1.640387    2.107793   -0.167328   -0.001186 
 
 > print( maxLik:::summary.maxLik( randEffBfgsrUnb ), digits = 1 )
 --------------------------------------------
 Maximum Likelihood estimation
-BFGSR maximization, 62 iterations
+BFGSR maximization, 77 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -71.193 
 5  free parameters
 Estimates:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.220      0.472    -0.5   0.641    
-x1             1.641      0.211     7.8   8e-15 ***
-x2             2.104      0.685     3.1   0.002 ** 
-logSigmaMu    -0.168      0.272    -0.6   0.537    
-logSigmaNu    -0.001      0.132     0.0   0.994    
+(Intercept)   -0.222      0.472    -0.5   0.638    
+x1             1.640      0.211     7.8   8e-15 ***
+x2             2.108      0.685     3.1   0.002 ** 
+logSigmaMu    -0.167      0.271    -0.6   0.538    
+logSigmaNu    -0.001      0.132     0.0   0.993    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -1732,15 +1907,15 @@ Observations:
 
 Coefficients:
             Estimate Std. error t value Pr(> t)    
-(Intercept)   -0.220      0.472    -0.5   0.641    
-x1             1.641      0.211     7.8   8e-15 ***
-x2             2.104      0.685     3.1   0.002 ** 
-logSigmaMu    -0.168      0.272    -0.6   0.537    
-logSigmaNu    -0.001      0.132     0.0   0.994    
+(Intercept)   -0.222      0.472    -0.5   0.638    
+x1             1.640      0.211     7.8   8e-15 ***
+x2             2.108      0.685     3.1   0.002 ** 
+logSigmaMu    -0.167      0.271    -0.6   0.538    
+logSigmaNu    -0.001      0.132     0.0   0.993    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-BFGSR maximization, 62 iterations
+BFGSR maximization, 77 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -71.193 on 5 Df
 
@@ -1754,19 +1929,19 @@ $maximum
 
 $estimate
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      -0.22        1.64        2.10       -0.17        0.00 
+      -0.22        1.64        2.11       -0.17        0.00 
 
 $gradient
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-     -0.010      -0.005       0.011      -0.002      -0.009 
+     -0.006       0.001       0.006      -0.003       0.001 
 
 $hessian
             (Intercept)     x1    x2 logSigmaMu logSigmaNu
-(Intercept)      -13.80  -4.35 -7.53      -1.09      -1.95
-x1                -4.35 -25.81 -2.06       4.65       4.06
-x2                -7.53  -2.06 -6.27      -0.14      -1.08
-logSigmaMu        -1.09   4.65 -0.14     -14.91      -3.78
-logSigmaNu        -1.95   4.06 -1.08      -3.78     -58.82
+(Intercept)      -13.79  -4.35 -7.53      -1.10      -1.94
+x1                -4.35 -25.82 -2.06       4.65       4.05
+x2                -7.53  -2.06 -6.27      -0.14      -1.06
+logSigmaMu        -1.10   4.65 -0.14     -14.93      -3.77
+logSigmaNu        -1.94   4.05 -1.06      -3.77     -58.84
 
 $code
 [1] 2
@@ -1781,7 +1956,7 @@ $fixed
       FALSE       FALSE       FALSE       FALSE       FALSE 
 
 $iterations
-[1] 62
+[1] 77
 
 $type
 [1] "BFGSR maximization"
@@ -1792,17 +1967,39 @@ $gradientObs
  [2,]       -1.82  0.07 -1.25       1.80      -0.96
  [3,]        1.78  0.48  1.77       1.73       1.90
  [4,]        0.15 -0.16 -0.40      -0.74      -1.59
- [5,]        0.08  1.04  0.70      -0.68      -0.44
- [6,]        0.33 -0.24  0.37      -0.54      -1.57
+ [5,]        0.08  1.04  0.70      -0.68      -0.45
+ [6,]        0.33 -0.23  0.37      -0.54      -1.57
  [7,]       -0.18 -3.03 -0.25      -0.62       5.48
  [8,]        0.02  0.00  0.01      -0.42      -0.58
  [9,]        1.12  0.67  0.30       0.06      -1.69
 [10,]       -0.54 -0.42 -0.20      -0.41      -1.97
-[11,]       -0.08  1.38 -0.65      -0.82       2.49
+[11,]       -0.08  1.38 -0.65      -0.82       2.50
 [12,]        1.26  0.53  0.67       0.23      -1.79
 [13,]        0.45 -0.16  0.29      -0.47      -1.45
 [14,]       -1.89 -1.29 -0.96       1.98       2.68
-[15,]       -0.18  1.04 -0.49      -0.72       0.02
+[15,]       -0.17  1.04 -0.50      -0.72       0.03
+
+$control
+A 'MaxControl' object with slots:
+tol = 1e-08 
+reltol = 1.4901e-08 
+gradtol = 1e-06 
+steptol = 1e-10 
+lambdatol = 1e-06 
+qrtol = 1e-10 
+qac = stephalving 
+marquardt_lambda0 = 0.01 
+marquardt_lambdaStep = 2 
+marquardt_maxLambda = 1e+12 
+nm_alpha = 1 
+nm_beta = 0.5 
+nm_gamma = 2 
+sann_cand = <default Gaussian Markov kernel>
+sann_temp = 10 
+sann_tmax = 10 
+sann_randomSeed = 123 
+iterlim = 150 
+printLevel = 0 
 
 $xMean
 (Intercept)          x1          x2 
@@ -1845,7 +2042,7 @@ $df.residual
 
 $start
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-   0.482997    1.030026    1.634705   -0.477721   -0.049889 
+   0.483171    1.029986    1.634417   -0.479802   -0.049889 
 
 $left
 [1] 0
@@ -1864,7 +2061,7 @@ class
 > pDataNa$x1[ obsNa[ 3 ] ] <- NA
 > pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
 > randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa, method = "BFGSR" )
-> all.equal( randEffBfgsrNa[ -13 ], randEffBfgsrUnb[ -13 ] )
+> all.equal( randEffBfgsrNa[ -14 ], randEffBfgsrUnb[ -14 ] )
 [1] TRUE
 > 
 > 
@@ -1920,4 +2117,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 33.141   0.095  33.279 
+ 23.528   0.080  23.601 

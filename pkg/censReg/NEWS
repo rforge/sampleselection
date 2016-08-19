@@ -5,6 +5,16 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+            CHANGES IN VERSION 0.5-22 (2016-08-19)
+
+* added argument 'xValues' to the margEff() method so that the user can specify
+the values of the explanatory variables, at wich the marginal effects are
+calculated
+
+* censReg() now stops with an error message if there are no uncensored
+observations or there are no censored observations
+
+
             CHANGES IN VERSION 0.5-20 (2013-08-20)
 
 * fixed an internal problem so that this package can be used with R version 3.1

@@ -58,6 +58,12 @@ round( coef( summary( estResult ), logSigma = FALSE ), 2 )
 round( margEff( estResult ), 2 )
 printME( margEff( estResult ) )
 summary( margEff( estResult ) )
+all.equal( margEff( estResult ),
+   margEff( estResult, xValues = estResult$xMean ) )
+round( margEff( estResult, xValues = c( 1, 40, 4, 2, 4, 4 ) ), 2 )
+printME( margEff( estResult, xValues = c( 1, 40, 4, 2, 4, 4 ) ) )
+print( summary( margEff( estResult, xValues = c( 1, 40, 4, 2, 4, 4 ) ) ),
+   digits = 2 )
 logLik( estResult )
 nobs( estResult )
 extractAIC( estResult )

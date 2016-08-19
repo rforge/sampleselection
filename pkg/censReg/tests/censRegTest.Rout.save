@@ -997,6 +997,36 @@ occupation        0.0762     0.0595    1.28    0.200
 rating           -0.5341     0.0949   -5.63  2.8e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+> all.equal( margEff( estResult ),
++    margEff( estResult, xValues = estResult$xMean ) )
+[1] TRUE
+> round( margEff( estResult, xValues = c( 1, 40, 4, 2, 4, 4 ) ), 2 )
+          age  yearsmarried religiousness    occupation        rating 
+        -0.03          0.09         -0.28          0.05         -0.38 
+> printME( margEff( estResult, xValues = c( 1, 40, 4, 2, 4, 4 ) ) )
+          age  yearsmarried religiousness    occupation        rating 
+       -0.030         0.092        -0.280         0.054        -0.380 
+attr(,"vcov")
+              age yearsmarried religiousness occupation rating
+age             0        0.000         0.000      0.000  0.000
+yearsmarried    0        0.000        -0.001      0.000  0.000
+religiousness   0       -0.001         0.010      0.000  0.007
+occupation      0        0.000         0.000      0.002  0.000
+rating          0        0.000         0.007      0.000  0.011
+attr(,"df.residual")
+[1] 594
+attr(,"class")
+[1] "margEff.censReg" "numeric"        
+> print( summary( margEff( estResult, xValues = c( 1, 40, 4, 2, 4, 4 ) ) ),
++    digits = 2 )
+              Marg. Eff. Std. Error t value Pr(>|t|)    
+age              -0.0298     0.0083    -3.6    3e-04 ***
+yearsmarried      0.0922     0.0139     6.6    8e-11 ***
+religiousness    -0.2804     0.1022    -2.7    0.006 ** 
+occupation        0.0542     0.0415     1.3    0.192    
+rating           -0.3800     0.1066    -3.6    4e-04 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > logLik( estResult )
 'log Lik.' -705.58 (df=7)
 > nobs( estResult )
@@ -13492,4 +13522,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 14.076   0.436  14.503 
+  9.728   0.332  10.058 

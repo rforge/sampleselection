@@ -1,6 +1,6 @@
 Package: intReg
 Version: 0.2-9
-Date: 2015-10-31
+Date: 2016-08-21
 Title: Interval Regression
 Author: Ott Toomet [aut, cre], using code in MASS by 
         W. N. Venables and B. D. Ripley

@@ -10,12 +10,12 @@
 }
 \usage{
 intReg(formula, start, boundaries, ...,
-contrasts = NULL, Hess = FALSE, model = TRUE,
-method = c("probit", "logistic", "cloglog", "cauchit", "model.frame"),
+       contrasts = NULL, Hess = FALSE, model = TRUE,
+       method = c("probit", "logistic", "cloglog", "cauchit", "model.frame"),
        minIntervalWidth=10*sqrt(.Machine$double.eps),
-print.level = 0,
-data, subset, weights, na.action,
-iterlim=100)
+       print.level = 0,
+       data, subset, weights, na.action,
+       iterlim=100)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -37,7 +37,7 @@ iterlim=100)
           weighted likelihood is maximized (that
           is, maximizing \sQuote{sum(w*loglik)}).}
   \item{start}{Initial values for the optimization algorithm.  if
-    \sQuote{NULL}, initial values are calculated based on interval
+    \sQuote{NULL}, these are calculated using interval
     means.  Note that \code{intReg} expects the full-length inital
     values, including the parameter boundaries and the standard
     deviation of the error term.  See the example below.
@@ -76,10 +76,11 @@ iterlim=100)
 
   The intervals may be specified in two ways: either common intervals
   for all the observations by using argument 'boundaries', or by
-  specifying the response as Nx2 matrix, where columns correspond to the
-  lower- and upper bound for the individual observations.  If you
-  specify the common boundaries, you may want to give names to the
-  components of 'boundaries'.  Otherwise they will be names
+  specifying the response as \eqn{N\times 2}{N x 2} matrix,
+  where columns correspond to the
+  lower- and upper bound for the individual observations.  One may want
+  to give informative names to the individual boundaries,
+  otherwise these will be names
   \sQuote{Boundary 1}, \sQuote{Boundary 2} etc.  These names will appear to the estimation
   results.  For observations-specific boundaries, the names are
   generated automatically.

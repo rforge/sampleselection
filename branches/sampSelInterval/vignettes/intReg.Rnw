@@ -1,0 +1,132 @@
+\documentclass[a4paper]{scrartcl}
+\usepackage[T1]{fontenc}
+\usepackage[bookmarks=TRUE,
+            colorlinks,
+            pdfpagemode=none,
+            pdfstartview=FitH,
+            citecolor=black,
+            filecolor=black,
+            linkcolor=black,
+            urlcolor=black,
+            ]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{bbm}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\loglik}{\ell}% log likelihood
+\newcommand{\var}{\mathrm{Var}\,}
+\renewcommand*{\vec}[1]{\boldsymbol{#1}}% vector
+
+\title{Interval Regression with Sample Selection}
+\author{G\'eraldine Henningsen, Arne Henningsen, Sebastian Petersen}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+%\VignetteIndexEntry{Sample Selection Interval Regression}
+%\VignetteKeyword{models}
+%\VignetteKeyword{regression}
+
+\maketitle
+
+\section*{Model Specification}
+
+The general specification
+of an interval regression model with sample selection is:
+\begin{align}
+   y_i^{S*} &= {\vec{\beta}^S}' \vec{x}_i^S + \varepsilon_i^S
+   \label{eq:selection*}
+   \\
+   y_i^S & = 
+   \begin{cases}
+      0 & \quad \text{if } y_i^{S*} < 0
+      \label{eq:selection}
+      \\
+      1 & \quad \text{otherwise}
+   \end{cases}
+   \\
+   y_i^{O*} &= {\vec{\beta}^O}' \vec{x}_i^O + \varepsilon_i^O
+   \label{eq:outcome*}
+   \\
+   y_i^O &= 
+   \begin{cases}
+      \text{unknown} & \quad \text{if } y_i^{S} = 0\\
+      1 & \quad \text{if } \alpha_0 < y_i^{O*} \leq \alpha_1
+         \text{ and } y_i^{S} = 1\\
+      2 & \quad \text{if } \alpha_1 < y_i^{O*} \leq \alpha_2
+         \text{ and } y_i^{S} = 1\\
+      \vdots & \\
+      M & \quad \text{if } \alpha_{M-1} < y_i^{O*} \leq \alpha_M
+         \text{ and } y_i^{S} = 1
+   \end{cases}
+   \\
+   \left(
+      \begin{array}{c} \varepsilon_i^S \\ \varepsilon_i^O \end{array}
+   \right)
+   &\sim N_2 \left( \left( \begin{array}{c} 0 \\ 0 \end{array} \right),
+      \left[ \begin{matrix}
+         1 & \rho \sigma_2 \\ 
+         \rho \sigma_2 & \sigma_2^2
+      \end{matrix} \right]
+   \right),
+\end{align}
+where subscript~$i$ indicates the observation,
+$y_i^{O*}$~is a latent outcome variable,
+$y_i^O$~is a partially observed categorical variable
+that indicates in which interval $y_i^{O*}$ lies,
+$M$~is the number of intervals,
+$\alpha_0 , \ldots , \alpha_M$~are the boundaries of the intervals
+(whereas frequently but not necessarily
+$\alpha_0 = - \infty$ and $\alpha_M = \infty$),
+$y_i^S$~is a binary variable
+that indicates whether $y_i^O$ is observed,
+$y_i^{S*}$ is a latent variable
+that indicates the ``tendency'' that $y_i^S$ is one,
+$\vec{x}_i^S$ and $\vec{x}_i^O$ are (column) vectors of explanatory variables
+for the selection equation and outcome equation, respectively,
+$\varepsilon_i^S$ and $\varepsilon_i^O$
+are random disturbance terms
+that have a joint bivariate normal distribution,
+and $\vec{\beta}^S$ and $\vec{\beta}^O$ are (column) vectors
+and $\rho$ and $\sigma_2$ are scalars of unknown model parameters.
+
+The probability that $y_i^O$ is unobserved is:
+\begin{align}
+P \left( y_i^S = 0 \right)
+& = P \left( y_i^{S*} \leq 0 \right)\\
+& = P \left( {\vec{\beta}^S}' \vec{x}_i^S + \varepsilon_i^S \leq 0 \right)\\
+& = P \left( \varepsilon_i^S \leq - {\vec{\beta}^S}' \vec{x}_i^S \right)
+\end{align}
+
+The probability that $y_i^O$ is observed and indicates
+that $y_i^{O*}$ lies in the $m$th interval is:
+\begin{align}
+P \left( y_i^S = 1 \wedge y_i^O = m \right)
+& = P \left( y_i^{S*} > 0 \wedge
+   \alpha_{m} < y_i^{O*} \leq \alpha_{m+1} \right)\\
+& = P \left( {\vec{\beta}^S}' \vec{x}_i^S + \varepsilon_i^S > 0 \wedge
+   \alpha_{m} < {\vec{\beta}^O}' \vec{x}_i^O + \varepsilon_i^O
+   \leq \alpha_{m+1} \right)\\
+& = P \left( \varepsilon_i^S > - {\vec{\beta}^S}' \vec{x}_i^S \wedge
+   \alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O < \varepsilon_i^O
+   \leq \alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O \right)
+\end{align}
+
+The log-likelihood contribution of the $i$th observation is:
+\begin{align}
+\ell_i = & ( 1 - y_i^S )
+   \ln \left[ \Phi \left( - {\vec{\beta}^S}' \vec{x}_i^S \right) \right]\\
+   & + \sum_{m=1}^M y_i^S ( y_i^O = m ) \ln \left[
+      \Phi_2 \left(
+         \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) \right.\\
+      & \qquad \left. - \Phi_2 \left(
+         \frac{\alpha_{m-1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) 
+   \right],
+\end{align}
+where $\Phi(.)$ indicates the cumulative distribution function
+of the univariate standard normal distribution
+and $\Phi_2(.)$ indicates the cumulative distribution function
+of the bivariate standard normal distribution.
+\end{document}

@@ -25,7 +25,7 @@ dat$yO <- cut( dat$yOu, bound )
 
 YS <- dat$yS
 XS <- cbind( 1, dat$x1, dat$x2 )
-YO <- as.numeric( dat$yO ) - 1
+YO <- as.numeric( dat$yO )
 XO <- cbind( 1, dat$x1 )
 
 start <- c( betaS, betaO, rho, sigma2 )

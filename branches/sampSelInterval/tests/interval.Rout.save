@@ -50,7 +50,7 @@ https://r-forge.r-project.org/projects/maxlik/
 > 
 > YS <- dat$yS
 > XS <- cbind( 1, dat$x1, dat$x2 )
-> YO <- as.numeric( dat$yO ) - 1
+> YO <- as.numeric( dat$yO )
 > XO <- cbind( 1, dat$x1 )
 > 
 > start <- c( betaS, betaO, rho, sigma2 )
@@ -60,7 +60,7 @@ https://r-forge.r-project.org/projects/maxlik/
 YO observed: 209 times; not observed: 91 times:
 Number of intervals:  3 
        YO
-YS        0   1   2 <NA>
+YS        1   2   3 <NA>
   FALSE   0   0   0   91
   TRUE   26 130  53    0
   <NA>    0   0   0    0
@@ -115,4 +115,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  33.22    0.18   33.40 
+ 33.240   0.032  33.267 

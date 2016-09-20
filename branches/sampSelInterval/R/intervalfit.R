@@ -14,10 +14,10 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start,
    ## YS = \ 1  if  YS* > 0
    ## 
    ##      / NA  if  YS = 0
-   ##      | 0   if  a0 < YO* <= a1 & YS = 1
-   ## YO = | 1   if  a1 < YO* <= a2 & YS = 1
+   ##      | 1   if  a0 < YO* <= a1 & YS = 1
+   ## YO = | 2   if  a1 < YO* <= a2 & YS = 1
    ##      | ... 
-   ##      \ M-1 if  a(M-1) < YO* <= a(M) & YS = 1
+   ##      \ M   if  a(M-1) < YO* <= a(M) & YS = 1
    ## 
    ##  M       number of intervals
    ##
@@ -25,7 +25,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start,
    ##          YO not observed, 1 (TRUE) if observed
    ##  XS      matrix of explanatory variables for selection equation,
    ##          should include exclusion restriction
-   ##  YO      outcome vector: vector of integers with values between 0 and M-1
+   ##  YO      outcome vector: vector of integers with values between 1 and M
    ##  XS      matrix of explanatory variables for outcomes
    ##  ...     additional parameters for maxLik
    ##  
@@ -50,9 +50,9 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start,
       for( i in 1:nObs ) {
          if( YS[i] == 1 ) {
             loglik[ i ] <- log(
-               pmvnorm( upper = c( ( boundaries[ YO[i] + 2 ] - XO.b[i] ) /
-                     sigma2, XS.b[i] ), sigma = Sigma ) -
                pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
+                     sigma2, XS.b[i] ), sigma = Sigma ) -
+               pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
                      sigma2, XS.b[i] ), sigma = Sigma ) )
             # browser()
          }
@@ -68,10 +68,10 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start,
    }
    
    YO <- as.integer( round( YO ) )
-   if( min( YO[YS==1] ) < 0 ) {
-      stop( "YO should only have positive values" )
+   if( min( YO[YS==1] ) <= 0 ) {
+      stop( "YO should only have strictly positive integer values" )
    }
-   nInterval <- max( YO[YS==1] ) + 1
+   nInterval <- max( YO[YS==1] )
    if( length( boundaries ) != nInterval + 1 ) {
       stop( "agrument 'boundaries' must have ", nInterval + 1, "elements" )
    }

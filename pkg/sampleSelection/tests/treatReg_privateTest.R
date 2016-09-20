@@ -1,5 +1,5 @@
 ### Testing treatreg.
-### These are testst that are not supposed to be included in CRAN
+### These are tests that are not supposed to be included in CRAN
 
 DGP <- function(N=1000, sigma=1, rho=0.8,
                 alpha0=-1, alpha1=1, alpha2=1,
@@ -20,7 +20,7 @@ DGP <- function(N=1000, sigma=1, rho=0.8,
 
 library(sampleSelection)
 set.seed(1)
-options(digits=4)
+options(digits=3)
 cat("NA, Inf in data.  Should show 93 observations\n")
 dat <- DGP(100)
 dat$yO[1] <- NA
@@ -48,7 +48,7 @@ p <- cbind(pred.link=pl, "P[ys=1]"=pr, actual.resp=mf$yS)
 print(p[sample(nrow(p), 10),])
 cat("predicted and actual outcomes\n")
 pu <- predict(m, part="outcome", type="unconditional")
-## pc <- predict(m, part="outcome", type="conditional")
-## p <- cbind("E[yo]"=pu, pc, "yo"=mf$yO, "ys"=mf$yS)
-## print(p[sample(nrow(p), 10),])
+pc <- predict(m, part="outcome", type="conditional")
+p <- cbind("E[yo]"=pu, pc, "yo"=mf$yO, "ys"=mf$yS)
+print(p[sample(nrow(p), 10),])
 

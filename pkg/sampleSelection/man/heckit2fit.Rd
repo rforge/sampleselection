@@ -17,16 +17,18 @@
 
 \usage{
 heckit2fit( selection, outcome, data=sys.frame(sys.parent()),
-   weights = NULL, inst = NULL, print.level = 0,
+   weights = NULL, inst = NULL,
+   printLevel=print.level, print.level = 0,
    maxMethod = "Newton-Raphson" )
 
 heckit5fit( selection, outcome1, outcome2, data = sys.frame(sys.parent()),
    ys = FALSE, yo = FALSE, xs = FALSE, xo = FALSE, mfs = FALSE,
-   mfo = FALSE, print.level = 0, maxMethod = "Newton-Raphson", ... )
+   mfo = FALSE,
+   printLevel=print.level, print.level = 0, maxMethod = "Newton-Raphson", ... )
 
 heckitTfit(selection, outcome, data=sys.frame(sys.parent()),
    ys=FALSE, yo=FALSE, xs=FALSE, xo=FALSE, mfs=FALSE, mfo=FALSE,
-   print.level=0, maxMethod="Newton-Raphson", ... )
+   printLevel=0, maxMethod="Newton-Raphson", ... )
 }
 \arguments{
   \item{selection}{formula for the probit estimation (1st step)

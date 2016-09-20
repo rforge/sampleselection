@@ -1,5 +1,5 @@
 tobitTfit <- function(YS, XS, YO, XO, start,
-                      print.level=0,
+                      weights=NULL, print.level=0,
                       maxMethod="Newton-Raphson",
                       index=NULL,
                       binaryOutcome=FALSE,
@@ -193,6 +193,9 @@ tobitTfit <- function(YS, XS, YO, XO, start,
    i1 <- YS==1
    NO1 <- length( YS[i0])
    NO2 <- length( YS[i1])
+   if(!is.null(weights)) {
+      warning("Argument 'weight' is ignored by tobitTfit")
+   }
    ## indices in for the parameter vector
    if(is.null(index)) {
       iBetaS <- 1:NXS

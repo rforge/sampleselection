@@ -1,0 +1,83 @@
+
+R version 3.2.2 (2015-08-14) -- "Fire Safety"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-redhat-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> library( "sampleSelection" )
+Loading required package: maxLik
+Loading required package: miscTools
+
+Please cite the 'maxLik' package as:
+Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihood estimation in R. Computational Statistics 26(3), 443-458. DOI 10.1007/s00180-010-0217-1.
+
+If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
+https://r-forge.r-project.org/projects/maxlik/
+> 
+> # tobit 2
+> 
+> try( selection( s ~ z1, y ~ x1 ) )
+Error in eval(expr, envir, enclos) : object 's' not found
+> 
+> try( selection( "s ~ z1", y ~ x1 ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'selection' must be a formula in function 'selection()'
+> 
+> try( selection( ~ z1, y ~ x1 ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'selection' must be a 2-sided formula in function 'selection()'
+> 
+> try( selection( s ~ z1, "y ~ x1" ) )
+Error in checkModelType(type, selection, outcome) : 
+  'type' in 'selection()' must be either '2', '5', or 'teatment'
+Currently 0
+> 
+> try( selection( s ~ z1, ~ x1 ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'outcome' must be a 2-sided formula in function 'selection()'
+> 
+> # tobit 5
+> 
+> try( selection( s ~ z1, list( y1 ~ x1, y2 ~ x1 ) ) )
+Error in eval(expr, envir, enclos) : object 's' not found
+> 
+> try( selection( "s ~ z1", list( y1 ~ x1, y2 ~ x1 ) ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'selection' must be a formula in function 'selection()'
+> 
+> try( selection( ~ z1, list( y1 ~ x1, y2 ~ x1 ) ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'selection' must be a 2-sided formula in function 'selection()'
+> 
+> try( selection( s ~ z1, list( "y1 ~ x1", y2 ~ x1 ) ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'outcome[[1]]' must be a formula in function 'selection()'
+> 
+> try( selection( s ~ z1, list( ~ x1, y2 ~ x1 ) ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'outcome[[1]]' must be a 2-sided formula in
+in 'selection(~x1y2 ~ x1~sz1)'
+> 
+> try( selection( s ~ z1, list( y1 ~ x1, "y2 ~ x1" ) ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'outcome[[2]]' must be a formula in function 'selection()'
+> 
+> try( selection( s ~ z1, list( y1 ~ x1, ~ x1 ) ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'outcome[[2]]' must be a 2-sided formula in function 'selection()'
+> 
+> 
+> proc.time()
+   user  system elapsed 
+  3.222   0.109   3.327 

@@ -117,6 +117,13 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start,
    }
    
    # browser()
+   # # check if the likelihood values of all possible outcomes sum up to one
+   # YS[] <- 0; ll0 <- loglik( start )
+   # YS[] <- 1; YO[] <- 1; ll11 <- loglik( start )
+   # YS[] <- 1; YO[] <- 2; ll12 <- loglik( start )
+   # YS[] <- 1; YO[] <- 3; ll13 <- loglik( start )
+   # all.equal( exp(ll0) + exp(ll11) + exp(ll12) + exp(ll13), rep( 1, nObs ) )
+   # # check analytical derivatives
    # compareDerivatives(loglik, gradlik, t0=start )
    # range(numericGradient(loglik, t0=start)-gradlik(start))
    

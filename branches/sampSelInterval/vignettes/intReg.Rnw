@@ -129,4 +129,24 @@ where $\Phi(.)$ indicates the cumulative distribution function
 of the univariate standard normal distribution
 and $\Phi_2(.)$ indicates the cumulative distribution function
 of the bivariate standard normal distribution.
+\\
+
+% Conditional probability formulation
+Alternatively, the log-likelihood function and contribution of the $i$th observation can be formulated with conditional probabilities in the outcome equation:
+\begin{align}
+\ell_i = & ( 1 - y_i^S )
+   \ln \left[ \Phi \left( - {\vec{\beta}^S}' \vec{x}_i^S \right) \right]\\
+   & + \sum_{m=1}^M y_i^S ( y_i^O = m ) \ln \left[
+      \Phi \left(
+         \frac{(\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O)\sigma_2^{-1} - \rho {\vec{\beta}^S}'                \vec{x}_i^S}{\sqrt{1-\rho^2}} \right) 
+         \cdot \Phi \left({\vec{\beta}^S}' \vec{x}_i^S \right) \right.\\
+      & \qquad \left. - \Phi \left(
+            \frac{(\alpha_{m-1} - {\vec{\beta}^O}' \vec{x}_i^O)\sigma_2^{-1} - \rho {\vec{\beta}^S}'              \vec{x}_i^S}{\sqrt{1-\rho^2}} \right) 
+            \cdot \Phi \left({\vec{\beta}^S}' \vec{x}_i^S \right) 
+   \right],
+\end{align}
+where $\Phi(.)$ indicates the cumulative distribution function
+of the univariate standard normal distribution.
+This formulation is convenient, as it makes the calculation of the analytical gradients easier.
+
 \end{document}

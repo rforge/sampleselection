@@ -33,12 +33,6 @@ start <- c( betaS, betaO, rho, sigma2 )
 res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound,
    start = start, printLevel = 1 )
 
-res_CP <- sampleSelection:::intervalfit_CP( YS, XS, YO, XO, boundaries = bound,
-  start = start, printLevel = 1 )
-
-print( cbind(round( coef( res ), 2 ),round( coef( res_CP ), 2 )) )   
-
-   
 print( res )
 print( round( coef( res ), 2 ) )
 print( round( coef( summary( res ) ), 2 ) )

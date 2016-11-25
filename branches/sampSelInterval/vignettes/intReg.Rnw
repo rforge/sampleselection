@@ -246,4 +246,58 @@ all.equal( grad,
    pnorm( ( x1 - rho * x2 ) / sqrt( 1 - rho^2 ) ) * dnorm( x2 ) )
 @
 
+% Deriving gradient for rho
+\subsection*{rho gradient}
+
+\begin{align}
+\Phi_2 ( x1, x2 , \rho ) 
+& =   \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+         \phi_2 ( a_1 , a_2 , \rho ) 
+      \; d a_1 \; d a_2
+\\ \nonumber
+\frac{\partial \Phi_2 ( a1, a2 , \rho )}{\partial \rho}
+& =   \int_{- \infty}^{x_2} \int_{- \infty}^{x_1} 
+         \frac{\partial \phi_2 (a_1, a_2, \rho)}{\partial \rho} 
+      \; d a_1 \; d a_2
+      \label{eq:derivBivrho_start}
+\\ \nonumber
+& =   \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+         \frac{\partial}{\partial \rho}
+         \frac{1}{2 \pi \sigma_1 \sigma_2 \sqrt{(1-\rho^2)}} \cdot
+         \\
+         & exp \left (-\frac{1}{2(1-\rho^2)} \left (\frac{(a_1-\mu_1)^2}{\sigma_1^2}
+         \cdot -2\rho \frac{(a_1 - \mu_1)(a_2-\mu_2)}{\sigma_1 \sigma_2}
+         + \frac{(a_2 - \mu_2)^2}{\sigma_2^2} \right ) \right )
+      \; d a_1 \; d a_2
+\\ \nonumber
+& =   \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+         \frac{\rho}{2 \pi \sigma_1 \sigma_2 (1-\rho^2)^{3/2}} \cdot
+         \\
+         & exp \left (-\frac{1}{2(1-\rho^2)} \left (\frac{(a_1-\mu_1)^2}{\sigma_1^2}
+         \cdot -2\rho \frac{(a_1 - \mu_1)(a_2-\mu_2)}{\sigma_1 \sigma_2}
+         + \frac{(a_2 - \mu_2)^2}{\sigma_2^2} \right ) \right )
+      \; d a_1 \; d a_2
+      \label{eq:derivBivrho_final}
+\end{align}
+
+In the following, we will numerically calculate the derivative
+of the cumulative distribution function of the bivariate normal distribution
+(equation~\ref{eq:derivBivrho_start}) with respect to~$\rho$
+and check wehther this partial derivative
+is equal to the right-hand sides of equation~\ref{eq:derivBivrho_final}:
+<<>>=
+
+# Numerical gradient for rho
+funrho <- function( p ) {
+   prob <- pmvnorm( upper = c( x1, x2 ), sigma = matrix( c( 1, p, p, 1 ), nrow = 2 ) )
+   return( prob )
+}
+grad <- c( numericGradient( funrho, rho ) )
+print( grad )
+
+# Analytical gradient for rho
+
+
+@
+
 \end{document}

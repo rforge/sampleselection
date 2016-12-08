@@ -29,7 +29,7 @@
 
 \maketitle
 
-\section*{Model Specification}
+\section{Model Specification}
 
 The general specification
 of an interval regression model with sample selection is:
@@ -91,7 +91,7 @@ and $\vec{\beta}^S$ and $\vec{\beta}^O$ are (column) vectors
 and $\rho$ and $\sigma_2$ are scalars of unknown model parameters.
 
 
-\section*{Log-Likelihood Function}
+\section{Log-Likelihood Function}
 
 The probability that $y_i^O$ is unobserved is:
 \begin{align}
@@ -134,16 +134,25 @@ and $\Phi_2(.)$ indicates the cumulative distribution function
 of the bivariate standard normal distribution.
 
 
-\section*{Gradients of the Log-Likelihood Function}
+\subsection{Gradients of the CDF of the bivariate normal distribution}
 
-We start with deriving the partial derivatives
-of the cumulative distribution function
+In order to facilitate the calculation of the gradients
+of the log-likelihood function,
+we calculate the partial derivatives
+of the cumulative distribution function~(CDF)
 of the bivariate standard normal distribution:
+
 \begin{align}
 \Phi_2 ( x1, x2 , \rho ) 
 & = \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \phi_2 ( a_1 , a_2 , \rho ) \; d a_1 \; d a_2
-   \label{eq:biv}\\
+   \label{eq:biv}
+\end{align}
+
+
+\subsubsection{Gradients with respect to the limits ($x_1$ and $x_2$)}
+
+\begin{align}
 \frac{\partial \Phi_2 ( x1, x2 , \rho )}{\partial x_2} 
 & = \int_{- \infty}^{x_1} \phi_2( a_1 , x_2 , \rho ) \; d a_1
    \label{eq:derivBivFirst}\\
@@ -246,8 +255,8 @@ all.equal( grad,
    pnorm( ( x1 - rho * x2 ) / sqrt( 1 - rho^2 ) ) * dnorm( x2 ) )
 @
 
-% Deriving gradient for rho
-\subsection*{rho gradient}
+
+\subsubsection{Gradients with respect to the coefficient of correlation ($\rho$)}
 
 \begin{align}
 \Phi_2 ( x1, x2 , \rho ) 
@@ -299,5 +308,8 @@ print( grad )
 
 
 @
+
+\section{Gradients of the Log-Likelihood Function}
+
 
 \end{document}

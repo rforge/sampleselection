@@ -134,7 +134,7 @@ and $\Phi_2(.)$ indicates the cumulative distribution function
 of the bivariate standard normal distribution.
 
 
-\subsection{Gradients of the CDF of the bivariate normal distribution}
+\section{Gradients of the CDF of the bivariate normal distribution}
 
 In order to facilitate the calculation of the gradients
 of the log-likelihood function,
@@ -150,7 +150,7 @@ of the bivariate standard normal distribution:
 \end{align}
 
 
-\subsubsection{Gradients with respect to the limits ($x_1$ and $x_2$)}
+\subsection{Gradients with respect to the limits ($x_1$ and $x_2$)}
 
 \begin{align}
 \frac{\partial \Phi_2 ( x1, x2 , \rho )}{\partial x_2} 
@@ -256,33 +256,28 @@ all.equal( grad,
 @
 
 
-\subsubsection{Gradients with respect to the coefficient of correlation ($\rho$)}
+\subsection{Gradients with respect to the coefficient of correlation ($\rho$)}
 
 \begin{align}
-\Phi_2 ( x1, x2 , \rho ) 
-& =   \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
-         \phi_2 ( a_1 , a_2 , \rho ) 
-      \; d a_1 \; d a_2
-\\ \nonumber
 \frac{\partial \Phi_2 ( a1, a2 , \rho )}{\partial \rho}
-& =   \int_{- \infty}^{x_2} \int_{- \infty}^{x_1} 
+= \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1} 
          \frac{\partial \phi_2 (a_1, a_2, \rho)}{\partial \rho} 
       \; d a_1 \; d a_2
       \label{eq:derivBivrho_start}
 \\ \nonumber
-& =   \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
-         \frac{\partial}{\partial \rho}
+= \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+         \frac{\partial}{\partial \rho} \Bigg[
          \frac{1}{2 \pi \sigma_1 \sigma_2 \sqrt{(1-\rho^2)}} \cdot
          \\
-         & exp \left (-\frac{1}{2(1-\rho^2)} \left (\frac{(a_1-\mu_1)^2}{\sigma_1^2}
+         & \exp \left( -\frac{1}{2(1-\rho^2)} \left (\frac{(a_1-\mu_1)^2}{\sigma_1^2}
          \cdot -2\rho \frac{(a_1 - \mu_1)(a_2-\mu_2)}{\sigma_1 \sigma_2}
-         + \frac{(a_2 - \mu_2)^2}{\sigma_2^2} \right ) \right )
+         + \frac{(a_2 - \mu_2)^2}{\sigma_2^2} \right ) \right ) \Bigg]
       \; d a_1 \; d a_2
 \\ \nonumber
-& =   \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+= \, &  \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
          \frac{\rho}{2 \pi \sigma_1 \sigma_2 (1-\rho^2)^{3/2}} \cdot
          \\
-         & exp \left (-\frac{1}{2(1-\rho^2)} \left (\frac{(a_1-\mu_1)^2}{\sigma_1^2}
+         & \exp \left (-\frac{1}{2(1-\rho^2)} \left (\frac{(a_1-\mu_1)^2}{\sigma_1^2}
          \cdot -2\rho \frac{(a_1 - \mu_1)(a_2-\mu_2)}{\sigma_1 \sigma_2}
          + \frac{(a_2 - \mu_2)^2}{\sigma_2^2} \right ) \right )
       \; d a_1 \; d a_2
@@ -298,7 +293,8 @@ is equal to the right-hand sides of equation~\ref{eq:derivBivrho_final}:
 
 # Numerical gradient for rho
 funrho <- function( p ) {
-   prob <- pmvnorm( upper = c( x1, x2 ), sigma = matrix( c( 1, p, p, 1 ), nrow = 2 ) )
+   prob <- pmvnorm( upper = c( x1, x2 ),
+      sigma = matrix( c( 1, p, p, 1 ), nrow = 2 ) )
    return( prob )
 }
 grad <- c( numericGradient( funrho, rho ) )

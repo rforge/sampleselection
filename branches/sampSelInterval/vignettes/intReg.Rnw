@@ -134,19 +134,26 @@ and $\Phi_2(.)$ indicates the cumulative distribution function
 of the bivariate standard normal distribution.
 
 
-\section{Gradients of the CDF of the bivariate normal distribution}
+\section{Gradients of the CDF of the bivariate standard normal distribution}
 
 In order to facilitate the calculation of the gradients
 of the log-likelihood function,
 we calculate the partial derivatives
 of the cumulative distribution function~(CDF)
 of the bivariate standard normal distribution:
-
 \begin{align}
 \Phi_2 ( x1, x2 , \rho ) 
 & = \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \phi_2 ( a_1 , a_2 , \rho ) \; d a_1 \; d a_2
-   \label{eq:biv}
+   \label{eq:biv},
+\end{align}
+where $\phi_2 ( . )$ is the probability density function~(PDF)
+of the bivariate standard normal distribution:
+\begin{align}
+\phi_2 ( x_1 , x_2 , \rho )
+& = \frac{1}{2 \pi \sqrt{(1-\rho^2)}} \cdot
+   \exp \left( -\frac{1}{2 (1-\rho^2)}
+      \left( x_1^2 - 2 \rho x_1 x_2 + x_2^2 \right) \right)
 \end{align}
 
 
@@ -259,25 +266,25 @@ all.equal( grad,
 \subsection{Gradients with respect to the coefficient of correlation ($\rho$)}
 
 \begin{align}
-\frac{\partial \Phi_2 ( a1, a2 , \rho )}{\partial \rho}
+\frac{\partial \Phi_2 ( x1, x2 , \rho )}{\partial \rho}
+= \, & \frac{\partial \left[ \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+   \phi_2 ( a_1, a_2, \rho ) \; d a_1 \; d a_2 \right]}{\partial \rho}
+   \label{eq:derivBivrho_start}\\
 = \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1} 
-         \frac{\partial \phi_2 (a_1, a_2, \rho)}{\partial \rho} 
-      \; d a_1 \; d a_2
-      \label{eq:derivBivrho_start}
-\\ \nonumber
+   \frac{\partial \phi_2 (a_1, a_2, \rho)}{\partial \rho}
+   \; d a_1 \; d a_2\\
 = \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
-         \frac{\partial}{\partial \rho} \Bigg[
-         \frac{1}{2 \pi \sqrt{(1-\rho^2)}} \cdot
-         \\
-         & \exp \left( -\frac{1}{2(1-\rho^2)} \left (a_1^2 -2\rho a_1 a_2 + a_2^2 \right ) \right ) \Bigg]
-      \; d a_1 \; d a_2
-\\ \nonumber
+   \frac{\partial}{\partial \rho} \Bigg[
+      \frac{1}{2 \pi \sqrt{(1-\rho^2)}} \cdot \\
+   & \exp \left( -\frac{1}{2(1-\rho^2)}
+      \left( a_1^2 - 2 \rho a_1 a_2 + a_2^2 \right) \right) \Bigg]
+   \; d a_1 \; d a_2 \nonumber \\
 = \, &  \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
-         \frac{\rho}{2 \pi (1-\rho^2)^{3/2}} \cdot
-         \\
-         & \exp \left( -\frac{1}{2(1-\rho^2)} \left (a_1^2 -2\rho a_1 a_2 + a_2^2 \right ) \right ) \Bigg]
-      \; d a_1 \; d a_2
-      \label{eq:derivBivrho_final}
+   \frac{\rho}{2 \pi (1-\rho^2)^{3/2}} \cdot
+      \label{eq:derivBivrho_final} \\
+   & \exp \left( -\frac{1}{2(1-\rho^2)}
+      \left( a_1^2 - 2 \rho a_1 a_2 + a_2^2 \right) \right) \Bigg]
+      \; d a_1 \; d a_2 \nonumber
 \end{align}
 
 In the following, we will numerically calculate the derivative

@@ -143,7 +143,7 @@ we calculate the partial derivatives
 of the cumulative distribution function~(CDF)
 of the bivariate standard normal distribution:
 \begin{align}
-\Phi_2 ( x1, x2 , \rho ) 
+\Phi_2 ( x_1, x_2 , \rho ) 
 & = \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \phi_2 ( a_1 , a_2 , \rho ) \; d a_1 \; d a_2
    \label{eq:biv},
@@ -177,7 +177,7 @@ all.equal( dens, ( 2 * pi * sqrt( 1 - rho^2 ) )^(-1) *
 \subsection{Gradients with respect to the limits ($x_1$ and $x_2$)}
 
 \begin{align}
-\frac{\partial \Phi_2 ( x1, x2 , \rho )}{\partial x_2} 
+\frac{\partial \Phi_2 ( x_1, x_2 , \rho )}{\partial x_2} 
 & = \int_{- \infty}^{x_1} \phi_2( a_1 , x_2 , \rho ) \; d a_1
    \label{eq:derivBivFirst}\\
 & = \int_{- \infty}^{x_1} \phi( a_1 | x_2, \rho ) \phi( x_2 ) \; d a_1
@@ -276,7 +276,7 @@ all.equal( grad,
 \subsection{Gradients with respect to the coefficient of correlation ($\rho$)}
 
 \begin{align}
-\frac{\partial \Phi_2 ( x1, x2 , \rho )}{\partial \rho}
+\frac{\partial \Phi_2 ( x_1, x_2 , \rho )}{\partial \rho}
 = \, & \frac{\partial \left[ \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \phi_2 ( a_1, a_2, \rho ) \; d a_1 \; d a_2 \right]}{\partial \rho}
    \label{eq:derivBivrho_start}\\
@@ -285,7 +285,7 @@ all.equal( grad,
    \; d a_1 \; d a_2\\
 = \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \frac{\partial}{\partial \rho} \Bigg[
-      \frac{1}{2 \pi \sqrt{(1-\rho^2)}} \cdot \\
+      \frac{1}{2 \pi \sqrt{ 1 - \rho^2 }} \cdot \\
    & \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
       \right) \Bigg]
    \; d a_1 \; d a_2 \nonumber \\

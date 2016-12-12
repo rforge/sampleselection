@@ -135,6 +135,7 @@ of the bivariate standard normal distribution.
 
 
 \section{Gradients of the CDF of the bivariate standard normal distribution}
+\label{sec:gradBiv}
 
 In order to facilitate the calculation of the gradients
 of the log-likelihood function,
@@ -151,10 +152,26 @@ where $\phi_2 ( . )$ is the probability density function~(PDF)
 of the bivariate standard normal distribution:
 \begin{align}
 \phi_2 ( x_1 , x_2 , \rho )
-& = \frac{1}{2 \pi \sqrt{(1-\rho^2)}} \cdot
-   \exp \left( -\frac{1}{2 (1-\rho^2)}
-      \left( x_1^2 - 2 \rho x_1 x_2 + x_2^2 \right) \right)
+& = \frac{1}{2 \pi \sqrt{ 1 - \rho^2 }} \cdot
+   \exp \left( - \frac{x_1^2 - 2 \rho x_1 x_2 + x_2^2}{2 (1-\rho^2)} \right)
+\label{eq:bivPdf}
 \end{align}
+
+In the following, we check equation~(\ref{eq:bivPdf})
+by a simple numerical example:
+<<>>=
+library( "mvtnorm" )
+library( "maxLik" )
+x1 <- 0.4
+x2 <- -0.3
+rho <- -0.6
+sigma <-  matrix( c( 1, rho, rho, 1 ), nrow = 2 )
+
+dens <- dmvnorm( c( x1, x2 ), sigma = sigma )
+print( dens )
+all.equal( dens, ( 2 * pi * sqrt( 1 - rho^2 ) )^(-1) *
+   exp( - ( x1^2 - 2 * rho * x1 * x2 + x2^2 ) / ( 2 * ( 1 - rho^2 ) ) ) )
+@
 
 
 \subsection{Gradients with respect to the limits ($x_1$ and $x_2$)}
@@ -187,26 +204,19 @@ where $\tilde{\phi}( \; , \mu , \sigma^2 )$
 indicates the density function of a normal distribution
 with mean~$\mu$ and variance~$\sigma^2$.
 
-In the following, we check the above derivations by a simple numerical example:
-<<>>=
-library( "mvtnorm" )
-library( "maxLik" )
-x1 <- 0.4
-x2 <- -0.3
-rho <- -0.6
-sigma <-  matrix( c( 1, rho, rho, 1 ), nrow = 2 )
-@
-
-First, we check whether $\phi_2 ( x_1 , x_2 , \rho )$
-(equation~\ref{eq:derivBivFirst})
+In the following, we use the same simple numerical example
+as in the beginning of section~\ref{sec:gradBiv}
+to check the above derivations.
+First, we check whether the PDF
+of the bivariate standard normal distribution,
+i.e.\ $\phi_2 ( x_1 , x_2 , \rho )$
+(part of equation~\ref{eq:derivBivFirst}),
 is equal to $\tilde{\phi} \left( x_1, \rho x_2, 1 - \rho^2 \right) \phi( x_2 )$
-(equation~\ref{eq:derivBivCondNonNormal})
-and equal to $\phi \left( ( x_1 - \rho x_2 ) / ( \sqrt{1 - \rho^2} ) \right)
-   \left( \sqrt{1 - \rho^2} \right)^{-1} \phi( x_2 )$
-(equations~\ref{eq:derivBivCondFinal} and~\ref{eq:derivBivCondX2out}):
+(part of equation~\ref{eq:derivBivCondNonNormal})
+and equal to $\phi \left( ( x_1 - \rho x_2 ) / ( \sqrt{1 - \rho^2} ) \right)$
+   $\left( \sqrt{1 - \rho^2} \right)^{-1} \phi( x_2 )$
+(part of equations~\ref{eq:derivBivCondFinal} and~\ref{eq:derivBivCondX2out}):
 <<>>=
-dens <- dmvnorm( c( x1, x2 ), sigma = sigma )
-print( dens )
 all.equal( dens, dnorm( x1, rho * x2, sqrt( 1 - rho^2 ) ) * dnorm(x2) )
 all.equal( dens, ( dnorm( ( x1 - rho * x2 ) / sqrt( 1 - rho^2 ) ) /
    sqrt( 1 - rho^2 ) ) * dnorm(x2) )
@@ -276,15 +286,15 @@ all.equal( grad,
 = \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \frac{\partial}{\partial \rho} \Bigg[
       \frac{1}{2 \pi \sqrt{(1-\rho^2)}} \cdot \\
-   & \exp \left( -\frac{1}{2(1-\rho^2)}
-      \left( a_1^2 - 2 \rho a_1 a_2 + a_2^2 \right) \right) \Bigg]
+   & \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right) \Bigg]
    \; d a_1 \; d a_2 \nonumber \\
 = \, &  \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \frac{\rho}{2 \pi (1-\rho^2)^{3/2}} \cdot
       \label{eq:derivBivrho_final} \\
-   & \exp \left( -\frac{1}{2(1-\rho^2)}
-      \left( a_1^2 - 2 \rho a_1 a_2 + a_2^2 \right) \right) \Bigg]
-      \; d a_1 \; d a_2 \nonumber
+   & \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right)
+   \; d a_1 \; d a_2 \nonumber
 \end{align}
 
 In the following, we will numerically calculate the derivative

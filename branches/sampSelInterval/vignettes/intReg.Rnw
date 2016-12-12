@@ -267,19 +267,15 @@ all.equal( grad,
 \\ \nonumber
 = \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
          \frac{\partial}{\partial \rho} \Bigg[
-         \frac{1}{2 \pi \sigma_1 \sigma_2 \sqrt{(1-\rho^2)}} \cdot
+         \frac{1}{2 \pi \sqrt{(1-\rho^2)}} \cdot
          \\
-         & \exp \left( -\frac{1}{2(1-\rho^2)} \left (\frac{(a_1-\mu_1)^2}{\sigma_1^2}
-         \cdot -2\rho \frac{(a_1 - \mu_1)(a_2-\mu_2)}{\sigma_1 \sigma_2}
-         + \frac{(a_2 - \mu_2)^2}{\sigma_2^2} \right ) \right ) \Bigg]
+         & \exp \left( -\frac{1}{2(1-\rho^2)} \left (a_1^2 -2\rho a_1 a_2 + a_2^2 \right ) \right ) \Bigg]
       \; d a_1 \; d a_2
 \\ \nonumber
 = \, &  \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
-         \frac{\rho}{2 \pi \sigma_1 \sigma_2 (1-\rho^2)^{3/2}} \cdot
+         \frac{\rho}{2 \pi (1-\rho^2)^{3/2}} \cdot
          \\
-         & \exp \left (-\frac{1}{2(1-\rho^2)} \left (\frac{(a_1-\mu_1)^2}{\sigma_1^2}
-         \cdot -2\rho \frac{(a_1 - \mu_1)(a_2-\mu_2)}{\sigma_1 \sigma_2}
-         + \frac{(a_2 - \mu_2)^2}{\sigma_2^2} \right ) \right )
+         & \exp \left( -\frac{1}{2(1-\rho^2)} \left (a_1^2 -2\rho a_1 a_2 + a_2^2 \right ) \right ) \Bigg]
       \; d a_1 \; d a_2
       \label{eq:derivBivrho_final}
 \end{align}

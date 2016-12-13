@@ -276,8 +276,8 @@ all.equal( grad,
 \subsection{Gradients with respect to the coefficient of correlation ($\rho$)}
 
 \begin{align}
-\frac{\partial \Phi_2 ( x_1, x_2 , \rho )}{\partial \rho}
-= \, & \frac{\partial \left[ \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+& \frac{\partial \Phi_2 ( x_1, x_2 , \rho )}{\partial \rho}
+= \,  \frac{\partial \left[ \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \phi_2 ( a_1, a_2, \rho ) \; d a_1 \; d a_2 \right]}{\partial \rho}
    \label{eq:derivBivrho_start}\\
 = \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1} 
@@ -285,16 +285,38 @@ all.equal( grad,
    \; d a_1 \; d a_2\\
 = \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \frac{\partial}{\partial \rho} \Bigg[
-      \frac{1}{2 \pi \sqrt{ 1 - \rho^2 }} \cdot \\
-   & \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
-      \right) \Bigg]
+      \frac{\exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right)}{2 \pi \sqrt{ 1 - \rho^2 }} \Bigg]
    \; d a_1 \; d a_2 \nonumber \\
-= \, &  \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
-   \frac{\rho}{2 \pi (1-\rho^2)^{3/2}} \cdot
-      \label{eq:derivBivrho_final} \\
-   & \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
-      \right)
-   \; d a_1 \; d a_2 \nonumber
+= \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+   \frac{1}{2\pi}
+   \frac{\partial}{\partial \rho} \Bigg[
+      \frac{\exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right)}{\sqrt{ 1 - \rho^2 }} \Bigg]
+   \; d a_1 \; d a_2 \nonumber \\
+= \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+   \frac{1}{2\pi}
+      \frac{\frac{\partial}{\partial \rho}[\exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right)] \cdot \sqrt{1-\rho^2} - \frac{\partial}{\partial \rho} [\sqrt{1-\rho^2}] \cdot \exp \left( -\frac{a_1       ^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right)}{ 1 - \rho^2 }
+   \; d a_1 \; d a_2 \nonumber \\ 
+= \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+   \frac{1}{2\pi}
+      \frac{-\frac{1}{2}\frac{\partial}{\partial \rho}[\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}] \cdot       \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right) \cdot \sqrt{1-\rho^2} - (-\frac{2\rho}{2 \sqrt{1-\rho^2}}] \cdot \exp \left( -\frac{a_1       ^2 - 2     \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right)}{ 1 - \rho^2 }
+   \; d a_1 \; d a_2 \nonumber \\ 
+= \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+   \frac{1}{2\pi}
+      \frac{-\frac{1}{2}\frac{-2 a_1 a_2 \cdot (1-\rho^2) - (-2\rho) \cdot (a_1^2 - 2\rho a_1 a_2 + a_2^2) \cdot       \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right) \cdot \sqrt{1-\rho^2}}{1-\rho^2}  - (-\frac{2\rho}{2 \sqrt{1-\rho^2}}) \cdot \exp \left( -\frac{a_1       ^2 - 2     \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right)}{ 1 - \rho^2 }
+   \; d a_1 \; d a_2 \nonumber \\ 
+= \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
+   \frac{-\frac{(2 \rho (-2 \rho a_1 a_2 + a_1^2 + a_2^2) - 2 a_1 a_2 (1-\rho^2)) \cdot \exp\left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right) }{2(1-\rho^2)^{\frac{3}{2}}}  + (\frac{\rho \exp \left( -\frac{a_1       ^2 - 2     \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right)}{\sqrt{1-\rho^2}}) }{2 \pi (1 - \rho^2) }
+   \; d a_1 \; d a_2 \nonumber \\ 
 \end{align}
 
 In the following, we will numerically calculate the derivative

@@ -314,10 +314,13 @@ grad <- c( numericGradient( funrho, rho ) )
 print( grad )
 
 # Comparison with analytical gradient for rho
+efun <- exp(-(x1^2 - 2 * rho * x1 * x2 + x2^2)/(2*(1 - rho^2)))
+
 all.equal( grad, 
-   ( rho /(2*pi*(1 - rho^2)^(3/2)) ) * 
-      exp((-1/(2*(1 - rho^2))) * 
-            (x1^2 - 2 * rho * x1 * x2 + x2^2)) )
+( (-((2*rho*(-2*rho*x1*x2+x1^2+x2^2) - 2*x1*x2*(1-rho^2)) * efun)/(2*(1-rho^2)^(3/2) )) +
+   ((rho*efun)/(sqrt(1-rho^2))) ) /
+   (2*pi*(1-rho^2)) )
+
 @
 
 \section{Gradients of the Log-Likelihood Function}

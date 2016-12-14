@@ -296,21 +296,21 @@ all.equal( grad,
    \; d a_1 \; d a_2 \nonumber \\
 = \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \frac{1}{2\pi}
-      \frac{\frac{\partial}{\partial \rho}[\exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
-      \right)] \cdot \sqrt{1-\rho^2} - \frac{\partial}{\partial \rho} [\sqrt{1-\rho^2}] \cdot \exp \left( -\frac{a_1       ^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \frac{\frac{\partial}{\partial \rho}\Big[\exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+      \right)\Big] \cdot \sqrt{1-\rho^2} - \frac{\partial}{\partial \rho} [\sqrt{1-\rho^2}] \cdot \exp \left(          -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
       \right)}{ 1 - \rho^2 }
    \; d a_1 \; d a_2 \nonumber \\ 
 = \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \frac{1}{2\pi}
       \frac{-\frac{1}{2}\frac{\partial}{\partial \rho}[\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}] \cdot       \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
       \right) \cdot \sqrt{1-\rho^2}} { 1 - \rho^2 } \\
-      & \qquad \qquad - \frac {(-\frac{2\rho}{2 \sqrt{1-\rho^2}}] \cdot \exp \left( -\frac{a_1^2 - 2\rho a_1 a_2 +     a_2^2}{2(1-\rho^2)}
+      & \qquad \qquad - \frac {(-\frac{2\rho}{2 \sqrt{1-\rho^2}}) \cdot \exp \left( -\frac{a_1^2 - 2\rho a_1 a_2 +     a_2^2}{2(1-\rho^2)}
       \right)}{ 1 - \rho^2 }
    \; d a_1 \; d a_2 \nonumber \\ 
 = \, & \int_{- \infty}^{x_2} \int_{- \infty}^{x_1}
    \frac{1}{2\pi}
       \frac{-\frac{1}{2}\frac{-2 a_1 a_2 \cdot (1-\rho^2) - (-2\rho) \cdot (a_1^2 - 2\rho a_1 a_2 + a_2^2) \cdot       \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
-      \right) \cdot \sqrt{1-\rho^2}}{1-\rho^2}}{ 1 - \rho^2 } \\
+      \right) \cdot \sqrt{1-\rho^2}}{(1-\rho^2)^2}}{ 1 - \rho^2 } \\
       & \qquad \qquad - \frac{(-\frac{2\rho}{2 \sqrt{1-\rho^2}}) \cdot \exp \left( -\frac{a_1       ^2 - 2     \rho       a_1 a_2 + a_2^2}{2(1-\rho^2)}
       \right)}{ 1 - \rho^2 }
    \; d a_1 \; d a_2 \nonumber \\ 

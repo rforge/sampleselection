@@ -327,8 +327,7 @@ of the cumulative distribution function of the bivariate normal distribution
 and check wehther this partial derivative
 is equal to the right-hand sides of equation~\ref{eq:derivBivrho_final}:
 <<>>=
-
-# Numerical gradient for rho
+# Numerical gradient of the PDF w.r.t. rho
 funrho <- function( p ) {
    prob <- dmvnorm( x = c( x1, x2 ),
       sigma = matrix( c( 1, p, p, 1 ), nrow = 2 ) )
@@ -346,6 +345,36 @@ all.equal( grad,
    (2*pi*(1-rho^2)) )
 
 @
+
+<<>>=
+# Numerical gradient of the CDF w.r.t. rho
+cdfRho <- function( p, xa = x1, xb = x2 ) {
+   prob <- pmvnorm( upper = c( xa, xb ),
+      sigma = matrix( c( 1, p, p, 1 ), nrow = 2 ) )
+   return( prob )
+}
+grad <- c( numericGradient( cdfRho, rho ) )
+print( grad )
+
+# comparison with analytical gradient
+all.equal( grad, dmvnorm( x = c( x1, x2 ),
+      sigma = matrix( c( 1, rho, rho, 1 ), nrow = 2 ) ) )
+
+# comparisons with other values
+compDerivRho <- function( xa, xb, p ) {
+   dn <- c( numericGradient( cdfRho, p, xa = xa, xb = xb ) )
+   da <- dmvnorm( x = c( xa, xb ),
+      sigma = matrix( c( 1, p, p, 1 ), nrow = 2 ) )
+   return( all.equal( dn, da ) )
+}
+compDerivRho( x1, x2, rho )
+compDerivRho( 0.5, x2, rho )
+compDerivRho( 2.5, x2, rho )
+compDerivRho( x1, -2, rho )
+compDerivRho( x1, x2, 0.2 )
+compDerivRho( x1, x2, 0.98 ) 
+@
+
 
 \section{Gradients of the Log-Likelihood Function}
 

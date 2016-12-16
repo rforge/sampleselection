@@ -466,16 +466,14 @@ Analogous to $\beta_i^S$ we derive the gradient of $\beta_i^O$:
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) - \Phi_2 \left(
          \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) } \\
-& = ( 1 - y_i^S )
-    \frac{\phi \left( - {\vec{\beta}^S}' \vec{x}_i^S \right)}{\Phi \left( - {\vec{\beta}^S}' \vec{x}_i^S \right)}        \\
-   & \quad + \sum_{m=1}^M y_i^S ( y_i^O = m )
+& = \sum_{m=1}^M y_i^S ( y_i^O = m )
       \frac{ \Phi \left( \frac{\vec{\beta^S}' \vec{x}_i^S - \rho \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}{\sqrt{1 - \rho^2}} \right) \phi( \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} )
          -  \Phi \left( \frac{\vec{\beta^S}' \vec{x}_i^S - \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}{\sqrt{1 - \rho^2}} \right) \phi( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} )}
          {\Phi_2 \left(
          \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) - \Phi_2 \left(
          \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
-         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) } \nonumber 
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) }
 \end{align}
 
 \subsection{Gradients with respect to the coefficient of correlation ($\rho$)}

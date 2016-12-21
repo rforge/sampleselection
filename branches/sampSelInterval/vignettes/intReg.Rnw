@@ -379,7 +379,43 @@ compDerivRho( x1, x2, 0.98 )
 \section{Gradients of the Log-Likelihood Function}
 \subsection{Gradients with respect to the parameters in the self-selection decision ($\beta_i^S$)}
 
-Using equation \ref{eq:derivBivFinal}, we can now derive the gradient for $\beta_i^S$ in the log-likelihood function:
+First, we use equation \ref{eq:derivBivFinal}, to determine the derivative of the bivariate standard normal distribution with respect to the parameter $\beta_i^S$ as part of the loglikelihood function. We use $z$ as variable for the lower boundary, with $\lim{z}_{z->-\infty}=-\infty$ :
+
+\begin{align}
+& \frac{\partial \Phi_2 \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}, 
+      {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right)}{\partial \beta^S} 
+   = \frac{\partial}{\partial \beta_i^S} \left[ \int_{z}^{\frac{\alpha_{m} - 
+      {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}} \int_{z}^{{\vec{\beta}^S}' 
+      \vec{x}_i^S} \phi_2 \left( a_1, a_2, - \rho \right) \; d a_2 \; d a_1 \right]
+\\
+& = \int_{z}^{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}} 
+      \frac{\partial}{\partial \beta_i^S} \left[ \int_{z}^{{\vec{\beta}^S}' 
+      \vec{x}_i^S} \phi_2 \left( a_1, a_2, - \rho \right) \; d a_2 \right] 
+      \; d a_1
+\\
+& = \int_{z}^{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}} \left[
+      \frac{\partial}{\partial \beta_i^S} \left( {\vec{\beta}^S}' \vec{x}_i^S \right)
+      \cdot \phi_2(a_1, {\vec{\beta}^S}' \vec{x}_i^S) 
+      - \frac{\partial}{\partial \beta_i^S} (z) \cdot \phi(a_1, z)
+      + \int_{z}^{{\vec{\beta}^S}' \vec{x}_i^S} \frac{\partial}{\partial \beta_i^S} \left( \phi_2(a_1, a_2) \right)
+      \; d a_2
+      \right] \; d a_1
+\\
+& = \int_{z}^{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}} \left[
+      \vec{x}_i^S \cdot \phi_2(a_1, {\vec{\beta}^S}' \vec{x}_i^S) 
+      \right] \; d a_1
+\\
+& = \int_{z}^{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}} \left[
+      \phi_2(a_1, {\vec{\beta}^S}' \vec{x}_i^S) 
+      \right] \; d a_1 \cdot \vec{x}_i^S
+\\
+& = \Phi \left( \frac{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} 
+      - \rho {\vec{\beta}^S}' \vec{x}_i^S)}{\sqrt{1 - \rho^2}} \right)
+      \phi( {\vec{\beta}^S}' \vec{x}_i^S ) \cdot \vec{x}_i^S
+\end{align}
+
+\pagebreak
+Using equation this result we can now derive the gradient for $\beta_i^S$ in the log-likelihood function:
 
 \begin{align}
 & \frac{\partial \ell_i}{\partial \beta_i^S} = \frac{\partial}{\partial \beta_i^S} \Bigg( ( 1 - y_i^S )
@@ -419,8 +455,12 @@ Using equation \ref{eq:derivBivFinal}, we can now derive the gradient for $\beta
 & = ( 1 - y_i^S )
     \frac{\phi \left( - {\vec{\beta}^S}' \vec{x}_i^S \right)}{\Phi \left( - {\vec{\beta}^S}' \vec{x}_i^S \right)}        \\
    & \quad + \sum_{m=1}^M y_i^S ( y_i^O = m )
-      \frac{ \Phi \left( \frac{\frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} - \rho \vec{\beta^S}' \vec{x}_i^S}{\sqrt{1 - \rho^2}} \right) \phi( \vec{\beta^S}' \vec{x}_i^S )
-         -  \Phi \left( \frac{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} - \rho \vec{\beta^S}' \vec{x}_i^S}{\sqrt{1 - \rho^2}} \right) \phi( \vec{\beta^S}' \vec{x}_i^S )}
+      \frac{ \Phi \left( \frac{\frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} 
+      - \rho {\vec{\beta}^S}' \vec{x}_i^S)}{\sqrt{1 - \rho^2}} \right)
+      \phi( {\vec{\beta}^S}' \vec{x}_i^S ) \cdot \vec{x}_i^S
+         -  \Phi \left( \frac{\frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} 
+      - \rho {\vec{\beta}^S}' \vec{x}_i^S)}{\sqrt{1 - \rho^2}} \right)
+      \phi( {\vec{\beta}^S}' \vec{x}_i^S ) \cdot \vec{x}_i^S}
          {\Phi_2 \left(
          \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) - \Phi_2 \left(

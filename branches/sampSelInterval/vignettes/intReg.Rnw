@@ -667,13 +667,100 @@ Given the result that the derivative of the CDF with respect to $\rho$ is equal 
          \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right)
          - \phi_2 \left(
-         \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right)}
+         {\Phi_2 \left(
+         \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) - \Phi_2 \left(
+         \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) }
+\end{align}
+
+\subsection{Gradients with respect to the standard deviation used for normalisation ($\sigma_2$)}
+\begin{align}
+& \frac{\partial \Phi_2 \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}, 
+      {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right)}{\partial \sigma_2} 
+         = \frac{\partial}{\partial \sigma_2} \left[ \int_{z}^{{\vec{\beta}^S}' \vec{x}_i^S}
+         \int_{z}^{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
+         \phi_2 \left( a_1, a_2, - \rho \right) \; d a_1 \; d a_2 \right]
+\\
+& = \int_{z}^{{\vec{\beta}^S}' \vec{x}_i^S} 
+      \left[ \frac{\partial}{\partial \sigma_2} 
+      \int_{z}^{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}} 
+      \phi_2 \left( a_1, a_2, - \rho \right) \; d a_1 \right] 
+      \; d a_2
+\\
+& = \int_{z}^{{\vec{\beta}^S}' \vec{x}_i^S} \Bigg[
+      \frac{\partial}{\partial \sigma_2} \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} \right)
+      \cdot \phi_2(\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}, a_2, -\rho) \\
+         &  \quad - \frac{\partial}{\partial \sigma_2} (z) \cdot \phi_2(z, a_2, -\rho)
+         + \int_{z}^{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}} \frac{\partial}{\partial \sigma_2}
+         \left( \phi_2(a_1, a_2, -\rho)
+         \right)
+         \; d a_1 \Bigg] \; d a_2
+\\
+& = \int_{z}^{{\vec{\beta}^S}' \vec{x}_i^S} \left[
+      \frac{{\vec{\beta}^O}' \vec{x}_i^O - \alpha_{m}}{\sigma_2^2} \cdot \phi_2(\frac{\alpha_{m} - 
+      {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}, a_2, -\rho) 
+      \right] \; d a_2
+\\
+& = \int_{z}^{{\vec{\beta}^S}' \vec{x}_i^S} \left[
+      \phi_2(\frac{\alpha_{m} - 
+      {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}, a_2, -\rho) 
+      \right] \; d a_2 \cdot \frac{{\vec{\beta}^O}' \vec{x}_i^O - \alpha_{m}}{\sigma_2^2}
+\\
+& = \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
+      - \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}{\sqrt{1 - \rho^2}} \right)
+      \phi( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} ) 
+      \cdot \frac{{\vec{\beta}^O}' \vec{x}_i^O - \alpha_{m}}{\sigma_2^2}
+\end{align}
+
+\begin{align}
+& \frac{\partial \ell_i}{\partial \sigma_2} = \frac{\partial}{\partial \sigma_2} \Bigg( ( 1 - y_i^S )
+   \ln \left[ \Phi \left( - {\vec{\beta}^S}' \vec{x}_i^S \right) \right] \\
+   & \quad + \sum_{m=1}^M y_i^S ( y_i^O = m ) \ln \left[
+      \Phi_2 \left(
+         \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) \right.\nonumber \\
+      & \qquad \left. - \Phi_2 \left(
+         \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) 
+   \right] \Bigg) \nonumber \\
+& = \sum_{m=1}^M y_i^S ( y_i^O = m ) \frac{\partial}{\partial \sigma_2} \Bigg( \ln \left[
+      \Phi_2 \left(
+         \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) \right. \\
+      & \qquad \left. - \Phi_2 \left(
+         \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) 
+   \right] \Bigg) \nonumber \\
+& = \sum_{m=1}^M y_i^S ( y_i^O = m )
+      \frac{\frac{\partial}{\partial \sigma_2} \Bigg( \Phi_2 \left(
+         \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) \Bigg)
+         - \frac{\partial}{\partial \sigma_2} \Bigg( \Phi_2 \left(
+         \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) \Bigg)}
+         {\Phi_2 \left(
+         \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) - \Phi_2 \left(
+         \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) } \\
+& = \sum_{m=1}^M y_i^S ( y_i^O = m )
+      \frac{ \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
+      - \rho \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}{\sqrt{1 - \rho^2}} \right)
+      \phi( \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} ) 
+      \cdot \frac{{\vec{\beta}^O}' \vec{x}_i^O - \alpha_{m}}{\sigma_2^2}
+         - \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
+      - \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}{\sqrt{1 - \rho^2}} \right)
+      \phi( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} ) 
+      \cdot \frac{{\vec{\beta}^O}' \vec{x}_i^O - \alpha_{m}}{\sigma_2^2}}
          {\Phi_2 \left(
          \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) - \Phi_2 \left(
          \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) }
 \end{align}
+
 
 \end{document}

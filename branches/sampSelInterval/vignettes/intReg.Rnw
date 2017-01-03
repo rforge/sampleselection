@@ -750,7 +750,7 @@ Given the result that the derivative of the CDF with respect to $\rho$ is equal 
       \frac{ \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
       - \rho \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}{\sqrt{1 - \rho^2}} \right)
       \phi( \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} ) 
-      \cdot \frac{{\vec{\beta}^O}' \vec{x}_i^O - \alpha_{m}}{\sigma_2^2}
+      \cdot \frac{{\vec{\beta}^O}' \vec{x}_i^O - \alpha_{m+1}}{\sigma_2^2}
          - \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
       - \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}{\sqrt{1 - \rho^2}} \right)
       \phi( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} ) 

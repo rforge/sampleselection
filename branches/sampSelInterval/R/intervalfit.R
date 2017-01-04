@@ -125,6 +125,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
     return(result)
       }
     )
+    return(loglik)
       # attr(loglik, "gradient") <- grad
    } 
    gradlik <- function(x) {

@@ -29,9 +29,9 @@ YO <- as.numeric( dat$yO )
 XO <- cbind( 1, dat$x1 )
 
 start <- c( betaS, betaO, rho, sigma2 )
-#sampleSelection:::
-res <- intervalfit( YS, XS, YO, XO, boundaries = bound, AnalyticGrad = FALSE,
-   start = start, printLevel = 1 )
+
+res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+    AnalyticGrad = FALSE, start = start, printLevel = 1 )
 
 print( res )
 print( round( coef( res ), 2 ) )

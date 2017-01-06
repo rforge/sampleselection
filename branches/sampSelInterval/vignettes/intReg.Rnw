@@ -471,33 +471,20 @@ decision ($\vec{\beta}^S$)}
 
 First, we use equation \ref{eq:derivBivFinal}, to determine the derivative of 
 the bivariate standard normal distribution with respect to the parameter 
-$\vec{\beta}^S$ as part of the loglikelihood function. We use $z$ as variable 
-for the lower boundary, with $\lim{z}_{z->-\infty}=-\infty$ :
+$\vec{\beta}^S$ as part of the loglikelihood function:
 
 \begin{align}
 & \frac{\partial \Phi_2 \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
     {\sigma_2}, {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right)}{\partial \beta^S} 
-   = \frac{\partial}{\partial \beta^S} \left[ \int_{z}^{\frac{\alpha_{m} - 
-    {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}} \int_{z}^{{\vec{\beta}^S}' 
-    \vec{x}_i^S} \phi_2 \left( a_1, a_2, - \rho \right) 
-    \; d a_2 \; d a_1 \right]
-\\
-& = \int_{z}^{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}} \Bigg[
-    \frac{\partial}{\partial \beta^S} \left( {\vec{\beta}^S}' \vec{x}_i^S 
-    \right) \cdot \phi_2(a_1, {\vec{\beta}^S}' \vec{x}_i^S, , -\rho) -
-    \frac{\partial}{\partial \beta^S} (z) \cdot \phi_2(a_1, z, -\rho)
-    \Bigg] \; d a_1
-\\
-& = \int_{z}^{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}} \left[
-    \phi_2(a_1, {\vec{\beta}^S}' \vec{x}_i^S, -\rho) 
-    \right] \; d a_1 \cdot \vec{x}_i^S
-\\
-& = \Phi \left( \frac{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} 
+   = \Phi \left( \frac{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} 
       - \rho {\vec{\beta}^S}' \vec{x}_i^S}{\sqrt{1 - \rho^2}} \right)
+      \phi( {\vec{\beta}^S}' \vec{x}_i^S ) \cdot 
+      \frac{\partial{\vec{\beta}^S}' \vec{x}_i^S}{\partial \vec{\beta}^S} \\
+      & = \Phi \left( \frac{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
+      {\sigma_2} - \rho {\vec{\beta}^S}' \vec{x}_i^S}{\sqrt{1 - \rho^2}} \right)
       \phi( {\vec{\beta}^S}' \vec{x}_i^S ) \cdot \vec{x}_i^S
 \end{align}
 
-\pagebreak
 Using this result we can now derive the gradient for $\vec{\beta}^S$ in the 
 log-likelihood function:
 
@@ -571,34 +558,12 @@ log-likelihood function:
 
 %\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
 %{\vec{\beta}^S}' \vec{x}_i^S
-Analogous to $\vec{\beta}^S$ we derive the gradient of $\vec{\beta}^O$:
+Analogous to $\vec{\beta}^S$ and by using equation \ref{eq:derivBivFinal} we 
+derive the gradient of $\vec{\beta}^O$:
 \begin{align}
 & \frac{\partial \Phi_2 \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
     {\sigma_2}, {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right)}{\partial \beta^O} 
-    = \frac{\partial}{\partial \beta^O} \left[ \int_{z}^{\frac{\alpha_{m} - 
-    {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}} \int_{z}^{{\vec{\beta}^S}'
-    \vec{x}_i^S} \phi_2 \left( a_1, a_2, - \rho \right) 
-    \; d a_2 \; d a_1 \right]
-\\
-& = \frac{\partial}{\partial \beta^O} \left[ \int_{z}^{{\vec{\beta}^S}' 
-    \vec{x}_i^S} \int_{z}^{\frac{\alpha_{m} - {\vec{\beta}^O}' 
-    \vec{x}_i^O}{\sigma_2}} \phi_2 \left( a_1, a_2, - \rho \right) 
-    \; d a_1 \; d a_2 \right]
-\\
-& = \int_{z}^{{\vec{\beta}^S}' \vec{x}_i^S} \Bigg[
-      \frac{\partial}{\partial \beta^O} \left( \frac{\alpha_{m} - 
-      {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} \right)
-      \cdot \phi_2(\frac{\alpha_{m} - {\vec{\beta}^O}' 
-      \vec{x}_i^O}{\sigma_2}, a_2, -\rho) -
-      \frac{\partial}{\partial \beta^O} (z) \cdot \phi_2(z, a_2, -\rho)
-      \Bigg] \; d a_2
-\\
-& = \int_{z}^{{\vec{\beta}^S}' \vec{x}_i^S} \left[
-      \phi_2(\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
-      {\sigma_2}, a_2, -\rho) \right] \; d a_2 \cdot (-\frac{\vec{x}_i^O}
-      {\sigma_2})
-\\
-& = \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
+    = \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
       - \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
       {\sqrt{1 - \rho^2}} \right) \phi( \frac{\alpha_{m} - {\vec{\beta}^O}' 
       \vec{x}_i^O}{\sigma_2} ) \cdot (-\frac{\vec{x}_i^O}{\sigma_2})
@@ -663,8 +628,8 @@ $\vec{\beta}^O$ for the log-likelihood function:
 \subsection{Gradients with respect to the coefficient of correlation ($\rho$)}
 
 Given the result that the derivative of the CDF with respect to $\rho$ is equal 
-to the PDF, we can also derive the gradient of the correlation parameter 
-($\rho$):
+to the PDF (see equation \ref{eq:derivBivrho_final}), we can also derive the 
+gradient of the correlation parameter ($\rho$):
 
 \begin{align}
 & \frac{\partial \ell_i}{\partial \rho} = \frac{\partial}{\partial \rho} 
@@ -703,28 +668,13 @@ to the PDF, we can also derive the gradient of the correlation parameter
 \subsection{Gradients with respect to the standard deviation used for 
 normalisation ($\sigma_2$)}
 
+Finally, we derive the gradient for $\sigma_2$ in the same way as we did for
+$\beta^S$ and $\beta^O$:
+
 \begin{align}
 & \frac{\partial \Phi_2 \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
     {\sigma_2}, {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right)}{\partial \sigma_2} 
-         = \frac{\partial}{\partial \sigma_2} \left[ \int_{z}^{{\vec{\beta}^S}' 
-         \vec{x}_i^S} \int_{z}^{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
-         {\sigma_2}} \phi_2 \left( a_1, a_2, - \rho \right) 
-         \; d a_1 \; d a_2 \right]
-\\
-& = \int_{z}^{{\vec{\beta}^S}' \vec{x}_i^S} \Bigg[\frac{\partial}{\partial 
-    \sigma_2} \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2} 
-    \right) \cdot \phi_2(\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
-    {\sigma_2}, a_2, -\rho) - \frac{\partial}{\partial \sigma_2} (z) \cdot 
-    \phi_2(z, a_2, -\rho)
-    \Bigg] \; d a_2
-\\
-& = \int_{z}^{{\vec{\beta}^S}' \vec{x}_i^S} \left[
-      \phi_2(\frac{\alpha_{m} - 
-      {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}, a_2, -\rho) 
-      \right] \; d a_2 \cdot \frac{{\vec{\beta}^O}' \vec{x}_i^O - \alpha_{m}}
-      {\sigma_2^2}
-\\
-& = \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
+         = \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
       - \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
       {\sqrt{1 - \rho^2}} \right) \phi( \frac{\alpha_{m} - {\vec{\beta}^O}' 
       \vec{x}_i^O}{\sigma_2} ) \cdot \frac{{\vec{\beta}^O}' \vec{x}_i^O - 

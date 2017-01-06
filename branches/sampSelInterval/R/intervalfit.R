@@ -72,7 +72,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
             XO.b <- drop(XO %*% betaO)
          
     # gradients for the parameters for selection into policy (betaS)
-    result <- ( (1-YS[i]) * (dnorm(-XS.b[i])/pnorm(-XS.b[i])) +
+    result <- ( (1-YS[i]) * ((dnorm(-XS.b[i]) * XS[i])/pnorm(-XS.b[i])) +
         (pnorm(((boundaries[ YO[i] + 1 ] - XO.b[i])/sigma2 - rho * XS.b[i])/
             (sqrt(1-rho^2))) * dnorm(XS.b[i]) * XS[i] - 
             pnorm(((boundaries[ YO[i]] - XO.b[i])/sigma2 - rho * XS.b[i])/
@@ -99,9 +99,9 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
          
          # gradient for the correlation parameter (rho)
     result <- cbind( result,
-        (dmvnorm( x = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
+        (dmvnorm( x = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
             sigma2, XS.b[i] ), sigma = Sigma ) - 
-            dmvnorm( x = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
+            dmvnorm( x = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
             sigma2, XS.b[i] ), sigma = Sigma ) ) /
         (pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
             sigma2, XS.b[i] ), sigma = Sigma ) - 

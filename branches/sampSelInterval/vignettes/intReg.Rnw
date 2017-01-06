@@ -18,6 +18,7 @@
 \newcommand{\loglik}{\ell}% log likelihood
 \newcommand{\var}{\mathrm{Var}\,}
 \renewcommand*{\vec}[1]{\boldsymbol{#1}}% vector
+\allowdisplaybreaks
 
 \title{Interval Regression with Sample Selection}
 \author{G\'eraldine Henningsen, Arne Henningsen, Sebastian Petersen}
@@ -305,7 +306,7 @@ all.equal( grad,
    \nonumber \\ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 = & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
-   \frac{1}{2\pi}
+   \frac{1}{2\pi} \Bigg(
    \dfrac{
    \dfrac{\partial}{\partial \rho}
    \left( \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} 
@@ -313,26 +314,26 @@ all.equal( grad,
   & \qquad - \dfrac{ 
    \dfrac{\partial}{\partial \rho} (\sqrt{1-\rho^2}) \cdot 
    \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}\right)}
-   { 1 - \rho^2 }
+   { 1 - \rho^2 } \Bigg)
    \; d a_2 \; d a_1 \nonumber \\ 
    \nonumber \\ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 = & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
-   \frac{1}{2\pi}
+   \frac{1}{2\pi} \Bigg(
    \dfrac{
    -\dfrac{1}{2}\dfrac{\partial}{\partial \rho} \left( \dfrac{a_1^2 - 2 
-   \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} \right) \cdot       
+   \rho a_1 a_2 + a_2^2}{1-\rho^2} \right) \cdot       
     \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} \right) 
     \cdot \sqrt{1-\rho^2}} { 1 - \rho^2 } \\
   & \qquad - \dfrac {
     (-\dfrac{2\rho}{2 \sqrt{1-\rho^2}}) \cdot \exp \left( -\dfrac{a_1^2 - 
     2\rho a_1 a_2 + a_2^2}{2(1-\rho^2)}\right)}
-    { 1 - \rho^2 }
+    { 1 - \rho^2 } \Bigg)
     \; d a_2 \; d a_1 \nonumber \\ 
     \nonumber \\ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 = & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
-   \frac{1}{2\pi}
+   \frac{1}{2\pi} \Bigg(
    \dfrac{
    -\dfrac{1}{2}\dfrac{-2 a_1 a_2 \cdot (1-\rho^2) - (-2\rho) \cdot (a_1^2 - 
    2\rho a_1 a_2 + a_2^2) \cdot       
@@ -342,7 +343,7 @@ all.equal( grad,
   & \qquad -\dfrac{
    (-\dfrac{2\rho}{2 \sqrt{1-\rho^2}}) \cdot 
     \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}\right)}
-    { 1 - \rho^2 }
+    { 1 - \rho^2 } \Bigg)
    \; d a_2 \; d a_1 \nonumber \\ 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 \end{align}
@@ -542,20 +543,24 @@ log-likelihood function:
     \frac{\phi \left( - {\vec{\beta}^S}' \vec{x}_i^S \right) \cdot \vec{x}_i^S}
     {\Phi \left( - {\vec{\beta}^S}' \vec{x}_i^S \right)} 
     \\
-   & \quad + \sum_{m=1}^M y_i^S ( y_i^O = m )
+   & \quad + \sum_{m=1}^M y_i^S ( y_i^O = m ) \cdot \Bigg(
       \frac{ \Phi \left( \frac{\frac{\alpha_{m+1} - {\vec{\beta}^O}' 
       \vec{x}_i^O}{\sigma_2} 
       - \rho {\vec{\beta}^S}' \vec{x}_i^S)}{\sqrt{1 - \rho^2}} \right)
-      \phi( {\vec{\beta}^S}' \vec{x}_i^S ) \cdot \vec{x}_i^S
-         -  \Phi \left( \frac{\frac{\alpha_{m+1} - {\vec{\beta}^O}' 
-         \vec{x}_i^O}{\sigma_2} 
-      - \rho {\vec{\beta}^S}' \vec{x}_i^S)}{\sqrt{1 - \rho^2}} \right)
-        \phi( {\vec{\beta}^S}' \vec{x}_i^S ) \cdot \vec{x}_i^S}
+      \phi( {\vec{\beta}^S}' \vec{x}_i^S ) \cdot \vec{x}_i^S}
         {\Phi_2 \left(
         \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) - \Phi_2 \left(
         \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
-        {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) } \nonumber
+        {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) } \nonumber \\
+        & \quad - \frac{\Phi \left( \frac{\frac{\alpha_{m} - {\vec{\beta}^O}' 
+         \vec{x}_i^O}{\sigma_2} 
+      - \rho {\vec{\beta}^S}' \vec{x}_i^S)}{\sqrt{1 - \rho^2}} \right)
+        \phi( {\vec{\beta}^S}' \vec{x}_i^S ) \cdot \vec{x}_i^S} 
+            {{\Phi_2 \left(\frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}
+            {\sigma_2}, {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) - \Phi_2 
+            \left(\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
+            {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) }} \Bigg) \nonumber
 \end{align}
 
 
@@ -634,7 +639,7 @@ $\vec{\beta}^O$ for the log-likelihood function:
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) - \Phi_2 \left(
          \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) } \\
-& = \sum_{m=1}^M y_i^S ( y_i^O = m )
+& = \sum_{m=1}^M y_i^S ( y_i^O = m ) \cdot \Bigg(
         \frac{ \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
         - \rho \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
         {\sqrt{1 - \rho^2}} \right) \phi( \frac{\alpha_{m+1} - 

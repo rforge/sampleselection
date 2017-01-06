@@ -282,92 +282,109 @@ all.equal( grad,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 = & \frac{\partial \left[ \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
    \phi_2 ( a_1, a_2, \rho ) \; d a_2 \; d a_1 \right]}{\partial \rho}
-   \label{eq:derivBivrho_start} \\
-  \nonumber \\ 
+   \label{eq:derivBivrho_start} \\[3ex]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 = & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2} 
    \frac{\partial \phi_2 (a_1, a_2, \rho)}{\partial \rho}
-   \; d a_2 \; d a_1  \\
-  \nonumber \\  
+   \; d a_2 \; d a_1  \\[3ex]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 = & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
   \frac{\partial}{\partial \rho} \left(
   \frac{\exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
   \right)}{2 \pi \sqrt{ 1 - \rho^2 }} \right)
-  \; d a_2 \; d a_1  \\
-  \nonumber \\ 
+  \; d a_2 \; d a_1  \\[3ex]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 = & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
    \frac{1}{2\pi}
    \frac{\partial}{\partial \rho} \left(
    \frac{\exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
    \right)}{\sqrt{ 1 - \rho^2 }} \right)
-   \; d a_2 \; d a_1  \\
-   \nonumber \\ 
+   \; d a_2 \; d a_1  \\[3ex]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 = & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
-   \frac{1}{2\pi} \Bigg(
-   \dfrac{
+   \frac{1}{2\pi}
+   \left( \dfrac{
    \dfrac{\partial}{\partial \rho}
-   \left( \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} 
-   \right)\right) \cdot \sqrt{1-\rho^2}}{ 1 - \rho^2 }  \\
-  & \qquad - \dfrac{ 
+   \left( \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
+   \right)\right) \cdot \sqrt{1-\rho^2}}{ 1 - \rho^2 }  \right. \\
+  & \left. \qquad - \dfrac{ 
    \dfrac{\partial}{\partial \rho} (\sqrt{1-\rho^2}) \cdot 
    \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}\right)}
-   { 1 - \rho^2 } \Bigg)
-   \; d a_2 \; d a_1 \nonumber \\ 
-   \nonumber \\ 
+   { 1 - \rho^2 } \right)
+   \; d a_2 \; d a_1 \nonumber \\[3ex] 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 = & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
-   \frac{1}{2\pi} \Bigg(
-   \dfrac{
-   -\dfrac{1}{2}\dfrac{\partial}{\partial \rho} \left( \dfrac{a_1^2 - 2 
-   \rho a_1 a_2 + a_2^2}{1-\rho^2} \right) \cdot       
+   \frac{1}{2\pi}
+   \left( \dfrac{
+   \dfrac{\partial}{\partial \rho} \left( -\dfrac{a_1^2 - 2
+   \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} \right) \cdot       
     \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} \right) 
-    \cdot \sqrt{1-\rho^2}} { 1 - \rho^2 } \\
-  & \qquad - \dfrac {
-    (-\dfrac{2\rho}{2 \sqrt{1-\rho^2}}) \cdot \exp \left( -\dfrac{a_1^2 - 
+    \cdot \sqrt{1-\rho^2}} { 1 - \rho^2 } \right. \\
+  & \left. \qquad - \dfrac {
+    \left(-\dfrac{\rho}{\sqrt{1-\rho^2}}\right)  \cdot \exp \left( -\dfrac{a_1^2 - 
     2\rho a_1 a_2 + a_2^2}{2(1-\rho^2)}\right)}
-    { 1 - \rho^2 } \Bigg)
-    \; d a_2 \; d a_1 \nonumber \\ 
-    \nonumber \\ 
+    { 1 - \rho^2 } \right)
+    \; d a_2 \; d a_1 \nonumber \\[3ex]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 = & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
-   \frac{1}{2\pi} \Bigg(
-   \dfrac{
-   -\dfrac{1}{2}\dfrac{-2 a_1 a_2 \cdot (1-\rho^2) - (-2\rho) \cdot (a_1^2 - 
-   2\rho a_1 a_2 + a_2^2) \cdot       
-   \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} \right) 
-   \cdot \sqrt{1-\rho^2}}{(1-\rho^2)^2}}
-   { 1 - \rho^2 }  \\
-  & \qquad -\dfrac{
-   (-\dfrac{2\rho}{2 \sqrt{1-\rho^2}}) \cdot 
-    \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}\right)}
-    { 1 - \rho^2 } \Bigg)
-   \; d a_2 \; d a_1 \nonumber \\ 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
-\end{align}
-
-\begin{align}
-= & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
+   \frac{1}{2\pi}
    \left( \dfrac{
-   -\dfrac{(2 \rho (-2 \rho a_1 a_2 + a_1^2 + a_2^2) - 2 a_1 a_2 (1-\rho^2))}
-   {2(1-\rho^2)^{\frac{3}{2}}}  
-   + \dfrac{\rho }
-   {\sqrt{1-\rho^2}}}
-   {2 \pi (1 - \rho^2) } \right) \\
-  & \qquad \cdot \exp\left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
-  \right) \; d a_2 \; d a_1 \nonumber \\ 
-   \nonumber \\ 
+   \dfrac{ \left( -4\rho (a_1^2 - 2 \rho a_1 a_2 + a_2^2 ) 
+   - 2( 1 - \rho^2 ) ( -2 a_1 a_2 ) \right)}{4(1-\rho^2)^2} \cdot       
+   \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} \right) \cdot 
+   \sqrt{1-\rho^2}}
+   { 1 - \rho^2 } \right. \\
+  & \left. \qquad -\dfrac{
+   \left(-\dfrac{\rho}{ \sqrt{1-\rho^2}} \right) \cdot 
+    \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}\right)}
+    { 1 - \rho^2 } \right)
+   \; d a_2 \; d a_1 \nonumber \\[3ex] 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+= & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
+   \frac{1}{2\pi}
+   \left( \dfrac{
+   \dfrac{ \left( -4\rho (a_1^2 - 2 \rho a_1 a_2 + a_2^2 ) 
+   - 2( 1 - \rho^2 ) ( -2 a_1 a_2 ) \right)}{4(1-\rho^2)^2} \cdot 
+   \sqrt{1-\rho^2}}
+   { 1 - \rho^2 } 
+   -\dfrac{
+   \left(-\dfrac{\rho}{ \sqrt{1-\rho^2}} \right)}
+   { 1 - \rho^2 } \right) \\
+  &\qquad \cdot       
+   \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} \right)
+   \; d a_2 \; d a_1 \nonumber \\[3ex] 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+= & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
+   \frac{1}{2\pi}
+   \left( \dfrac{
+   \left( -4\rho (a_1^2 - 2 \rho a_1 a_2 + a_2^2 ) 
+   - 2( 1 - \rho^2 ) ( -2 a_1 a_2 ) \right)}
+   {4(1-\rho^2)^{\frac{5}{3}}}
+   +\dfrac{\rho}{ (1-\rho^2)^{\frac{3}{2}}}
+   \right) \\
+  &\qquad \cdot       
+   \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} \right)
+   \; d a_2 \; d a_1 \nonumber \\[3ex] 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+= & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
+   \frac{1}{2\pi}
+   \left( \dfrac{
+   \left( -4\rho (a_1^2 - 2 \rho a_1 a_2 + a_2^2 ) 
+   - 2( 1 - \rho^2 ) ( -2 a_1 a_2 ) \right)}{4(1-\rho^2)^{\frac{5}{2}}}
+   +\dfrac{\rho}{ (1-\rho^2)^{\frac{3}{2}}}
+   \right) \\
+  &\qquad \cdot       
+   \exp \left( -\dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} \right)
+   \; d a_2 \; d a_1 \nonumber \\[3ex] 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 = & \int_{- \infty}^{x_1} \int_{- \infty}^{x_2}
+  \frac{1}{2\pi}
   \left( \dfrac{\rho}
-  {2 \pi ( 1 - \rho^2)^{\frac{3}{2}}}  
-  - \frac{( 2( \rho( - \rho a_1 a_2 + a_1^2 + a_2^2 ) - a_1 a_2 ))}
-  { 4 \pi ( 1 - \rho^2 )^{\frac{5}{2}}} \right) \\
+  {( 1 - \rho^2)^{\frac{3}{2}}}  
+  - \frac{ \rho( a_1^2 - \rho a_1 a_2  + a_2^2 ) - a_1 a_2 }
+  { ( 1 - \rho^2 )^{\frac{5}{2}}} \right) \\
   & \qquad \cdot \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
-  \right) \; d a_2 \; d a_1 \nonumber \\ 
-  \nonumber \\ 
+  \right) \; d a_2 \; d a_1 \nonumber \\[3ex] 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 =& \frac{1}{2 \pi \sqrt{( 1 - \rho^2)}} 
  \int_{- \infty}^{x_1} \int_{- \infty}^{x_2} 
@@ -376,37 +393,32 @@ all.equal( grad,
  \right) \\
  & \qquad \cdot \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)}
     \right)
-    \; d a_2 \; d a_1 \nonumber \\ 
-    \nonumber \\
+    \; d a_2 \; d a_1 \nonumber \\[3ex] 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 =& \frac{1}{2 \pi \sqrt{( 1 - \rho^2)}} 
  \int_{- \infty}^{x_1} 
  \left| \left( - \frac{ 2 a_1 - 2 \rho a_2 }{ 2( 1 - \rho^2 )} \right) 
  \cdot \exp \left( -\frac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} \right) 
  \right|_{-\infty}^{x_2}
- \; d a_1  \\ 
- \nonumber \\
+ \; d a_1  \\[3ex] 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 =& \frac{1}{2 \pi \sqrt{( 1 - \rho^2)}} 
  \int_{- \infty}^{x_1} 
  \left( - \frac{ 2 a_1 - 2 \rho x_2 }{ 2( 1 - \rho^2 )} \right) 
  \cdot \exp \left( -\frac{a_1^2 - 2 \rho a_1 x_2 + x_2^2}{2(1-\rho^2)} \right) 
- \; d a_1  \\ 
- \nonumber \\
+ \; d a_1 \label{eq:x22} \\[3ex] 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 =& \frac{1}{2 \pi \sqrt{( 1 - \rho^2)}} 
  \left|
  \exp \left( -\frac{a_1^2 - 2 \rho a_1 x_2 + x_2^2}{2(1-\rho^2)} \right) 
- \right|_{-\infty}^{x_1} \\ 
- \nonumber \\
+ \right|_{-\infty}^{x_1} \label{eq:x11} \\[3ex] 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 =& \frac{1}{2 \pi \sqrt{( 1 - \rho^2)}} \cdot
- \exp \left( -\frac{x_1^2 - 2 \rho x_1 x_2 + x_2^2}{2(1-\rho^2)} \right)  \\
- \nonumber \\
+ \exp \left( -\frac{x_1^2 - 2 \rho x_1 x_2 + x_2^2}{2(1-\rho^2)} \right) \label{eq:x12} \\[3ex]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 =& \phi_2 ( x_1, x_2, \rho ) \label{eq:derivBivrho_final}
 \end{align}
-
+Equations~(\ref{eq:x22}) and (\ref{eq:x12}) follow from the fact that $\displaystyle{\lim_{x \rightarrow -\infty}} e^x = 0$.
 This result is in line with \citet{Sibuya1960} and \citet{Sungur1990}.
 
 In the following, we will numerically calculate the derivative

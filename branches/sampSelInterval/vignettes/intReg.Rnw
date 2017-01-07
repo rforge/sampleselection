@@ -404,6 +404,24 @@ all.equal( grad,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 =& \frac{1}{2 \pi \sqrt{( 1 - \rho^2)}} 
  \int_{- \infty}^{x_1} 
+ \left( \left( - \frac{ 2 a_1 - 2 \rho x_2 }{ 2( 1 - \rho^2 )} \right) 
+ \cdot \exp \left( -\frac{a_1^2 - 2 \rho a_1 x_2 + x_2^2}{2(1-\rho^2)} \right) \right.\\
+ & \left. - \displaystyle{\lim_{a_2 \rightarrow -\infty}} 
+ \frac{1}{2( 1 - \rho^2 )} \frac{ - 2 a_1 + 2 \rho a_2} 
+ {\exp \left( \dfrac{a_1^2 - 2 \rho a_1 a_2 + a_2^2}{2(1-\rho^2)} \right)} \right)
+ \; d a_1 \nonumber 
+ \end{align}
+ Applying L'Hospital on the last term leads to
+\begin{align} 
+=& \frac{1}{2 \pi \sqrt{( 1 - \rho^2)}} 
+ \int_{- \infty}^{x_1} 
+ \left( \left( - \frac{ 2 a_1 - 2 \rho x_2 }{ 2( 1 - \rho^2 )} \right) 
+ \cdot \exp \left( -\frac{a_1^2 - 2 \rho a_1 x_2 + x_2^2}{2(1-\rho^2)} \right) 
+ - 0 \right)
+ \; d a_1 \\[3ex] 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+=& \frac{1}{2 \pi \sqrt{( 1 - \rho^2)}} 
+ \int_{- \infty}^{x_1} 
  \left( - \frac{ 2 a_1 - 2 \rho x_2 }{ 2( 1 - \rho^2 )} \right) 
  \cdot \exp \left( -\frac{a_1^2 - 2 \rho a_1 x_2 + x_2^2}{2(1-\rho^2)} \right) 
  \; d a_1 \label{eq:x22} \\[3ex] 
@@ -418,7 +436,6 @@ all.equal( grad,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 =& \phi_2 ( x_1, x_2, \rho ) \label{eq:derivBivrho_final}
 \end{align}
-Equations~(\ref{eq:x22}) and (\ref{eq:x12}) follow from the fact that $\displaystyle{\lim_{x \rightarrow -\infty}} e^x = 0$.
 This result is in line with \citet{Sibuya1960} and \citet{Sungur1990}.
 
 In the following, we will numerically calculate the derivative

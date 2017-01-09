@@ -461,6 +461,27 @@ all.equal( grad,
     (2*(1-rho^2)^(3/2) )) +
     ((rho*efun)/(sqrt(1-rho^2))) ) /
     (2*pi*(1-rho^2)) )
+#Eq31
+all.equal(grad,
+    (1/(2*pi)) * (
+    ((((-4*rho*(x1^2-2*rho*x1*x2+x2^2)-2*(1-rho^2)*(-2*x1*x2))/(4*(1-rho^2)^2)) * 
+            efun * sqrt(1-rho^2))/(1-rho^2)) - 
+            ((-(rho/(sqrt(1-rho^2)))*efun)/(1-rho^2))
+    ))
+#Eq35
+all.equal(grad,
+    (1/(2*pi)) * 
+    ((rho/((1-rho^2)^(3/2))) - ((rho*(x1^2-rho*x1*x2+x2^2)-x1*x2)/
+            ((1-rho^2)^(5/2)))) * efun
+    )
+
+#Eq36
+all.equal(grad,
+    (1/(2*pi*sqrt(1-rho^2))) * 
+    (((rho/(1-rho^2)) - ((rho*(x1^2-rho*x1*x2+x2^2)-x1*x2)/
+            ((1-rho^2)^2))) * efun)
+    )
+
 
 @
 

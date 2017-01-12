@@ -52,84 +52,84 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
             loglik[ i ] <- log(
                pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
                      sigma2, XS.b[i] ), sigma = Sigma ) -
-               pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
-                     sigma2, XS.b[i] ), sigma = Sigma ) )
+                  pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
+                        sigma2, XS.b[i] ), sigma = Sigma ) )
             # browser()
          }
       }
       ## --- gradient ---
-    grad <- matrix(0, nObs, nParam)
+      grad <- matrix(0, nObs, nParam)
+      
+      # gradients for the parameters for selection into policy (betaS)
+      if(AnalyticGrad == TRUE ){
+         for( i in 1:nObs ) {
+            ifelse( YS[i] == 0,
+               grad[i, ibetaS] <- ((dnorm(-XS.b[i]) * XS[i])/pnorm(-XS.b[i])),
+               grad[i, ibetaS] <- (pnorm(((boundaries[ YO[i] + 1 ] - XO.b[i])/
+                     sigma2 - rho * XS.b[i])/(sqrt(1-rho^2))) * 
+                     dnorm( XS.b[i] ) * XS[i] - pnorm(((boundaries[ YO[i]] - 
+                           XO.b[i])/sigma2 - rho * XS.b[i])/
+                           (sqrt(1-rho^2))) * dnorm(XS.b[i]) * XS[i] ) /
+                  (pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
+                        sigma2, XS.b[i] ), sigma = Sigma ) - 
+                        pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
+                              sigma2, XS.b[i] ), sigma = Sigma ) )
+            ) }
          
-    # gradients for the parameters for selection into policy (betaS)
-    if(AnalyticGrad == TRUE ){
-    for( i in 1:nObs ) {
-        ifelse( YS[i] == 0,
-            grad[i, ibetaS] <- ((dnorm(-XS.b[i]) * XS[i])/pnorm(-XS.b[i])),
-            grad[i, ibetaS] <- (pnorm(((boundaries[ YO[i] + 1 ] - XO.b[i])/
-                    sigma2 - rho * XS.b[i])/(sqrt(1-rho^2))) * 
-                    dnorm(XS.b[i]) * XS[i] - pnorm(((boundaries[ YO[i]] - 
-                        XO.b[i])/sigma2 - rho * XS.b[i])/
-                        (sqrt(1-rho^2))) * dnorm(XS.b[i]) * XS[i] ) /
-                    (pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
-                        sigma2, XS.b[i] ), sigma = Sigma ) - 
-                        pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
-                                sigma2, XS.b[i] ), sigma = Sigma ) )
-                ) }
-
          # gradients for the parameters for the outcome (betaO)
-    for( i in 1:nObs ) {
-        ifelse( YS[i] == 0,
-            grad[i, ibetaO] <- 0,
-            grad[i, ibetaO] <- (pnorm((XS.b[i] - rho * 
-                    ((boundaries[ YO[i] + 1 ] - XO.b[i])/sigma2))/
-                    (sqrt(1-rho^2))) * dnorm((boundaries[ YO[i] + 1 ] - 
-                        XO.b[i])/sigma2) * (-XO[i]/sigma2) - 
-                    pnorm((XS.b[i] - rho * ((boundaries[ YO[i] ] - XO.b[i])/
-                        sigma2))/
-                        (sqrt(1-rho^2))) * dnorm((boundaries[ YO[i] ] - 
-                        XO.b[i])/sigma2) * (-XO[i]/sigma2) ) /
-                    (pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / 
+         for( i in 1:nObs ) {
+            ifelse( YS[i] == 0,
+               grad[i, ibetaO] <- 0,
+               grad[i, ibetaO] <- (pnorm((XS.b[i] - rho * 
+                     ((boundaries[ YO[i] + 1 ] - XO.b[i])/sigma2))/
+                     (sqrt(1-rho^2))) * dnorm((boundaries[ YO[i] + 1 ] - 
+                           XO.b[i])/sigma2) * (-XO[i]/sigma2) - 
+                     pnorm((XS.b[i] - rho * ((boundaries[ YO[i] ] - XO.b[i])/
+                           sigma2))/
+                           (sqrt(1-rho^2))) * dnorm((boundaries[ YO[i] ] - 
+                                 XO.b[i])/sigma2) * (-XO[i]/sigma2) ) /
+                  (pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / 
                         sigma2, XS.b[i] ), sigma = Sigma ) - 
                         pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
-                                sigma2, XS.b[i] ), sigma = Sigma ) ) 
-        ) }      
+                              sigma2, XS.b[i] ), sigma = Sigma ) ) 
+            ) }      
          
          # gradient for the correlation parameter (rho)
-    for( i in 1:nObs ) {
-        ifelse( YS[i] == 0,
-            grad[i, iRho] <- 0,
-            grad[i, iRho] <- (dmvnorm( x = c( ( boundaries[ YO[i] ] - 
-                XO.b[i] ) /
-                    sigma2, XS.b[i] ), sigma = Sigma ) - 
-                    dmvnorm( x = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
-                    sigma2, XS.b[i] ), sigma = Sigma ) ) /
-                (pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
-                    sigma2, XS.b[i] ), sigma = Sigma ) - 
-                    pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
-                    sigma2, XS.b[i] ), sigma = Sigma ) ) 
+         for( i in 1:nObs ) {
+            ifelse( YS[i] == 0,
+               grad[i, iRho] <- 0,
+               grad[i, iRho] <- (dmvnorm( x = c( ( boundaries[ YO[i] ] - 
+                     XO.b[i] ) /
+                     sigma2, XS.b[i] ), sigma = Sigma ) - 
+                     dmvnorm( x = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
+                           sigma2, XS.b[i] ), sigma = Sigma ) ) /
+                  (pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
+                        sigma2, XS.b[i] ), sigma = Sigma ) - 
+                        pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
+                              sigma2, XS.b[i] ), sigma = Sigma ) ) 
             ) }
-
+         
          # gradient for the standard deviation (sigma2)
-    for( i in 1:nObs ) {
-        ifelse( YS[i] == 0,
-            grad[i, iSigma2] <- 0,
-            grad[i, iSigma2] <- (pnorm((XS.b[i] - rho * 
-                    ((boundaries[ YO[i] + 1 ] - XO.b[i])/sigma2))/
-                (sqrt(1-rho^2))) * dnorm((boundaries[ YO[i] + 1 ] -
-                    XO.b[i])/sigma2) * ((XO[i]-boundaries[ YO[i] + 1 ])/
-                        (sigma2^2)) - pnorm((XS.b[i] - rho * 
-                        ((boundaries[ YO[i] ] - XO.b[i])/sigma2))/
-                    (sqrt(1-rho^2))) * dnorm((boundaries[ YO[i] ] - XO.b[i])/
-                        sigma2) * ((XO[i]-boundaries[ YO[i] ])/(sigma2^2)) )/
-                (pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
-                    sigma2, XS.b[i] ), sigma = Sigma ) -
-                    pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
-                        sigma2, XS.b[i] ), sigma = Sigma ) )
-        ) }
-    attr(loglik, "gradient") <- grad
-    }
-    
-    return(loglik)
+         for( i in 1:nObs ) {
+            ifelse( YS[i] == 0,
+               grad[i, iSigma2] <- 0,
+               grad[i, iSigma2] <- (pnorm((XS.b[i] - rho * 
+                     ((boundaries[ YO[i] + 1 ] - XO.b[i])/sigma2))/
+                     (sqrt(1-rho^2))) * dnorm((boundaries[ YO[i] + 1 ] -
+                           XO.b[i])/sigma2) * ((XO[i]-boundaries[ YO[i] + 1 ])/
+                                 (sigma2^2)) - pnorm((XS.b[i] - rho * 
+                                       ((boundaries[ YO[i] ] - XO.b[i])/sigma2))/
+                                       (sqrt(1-rho^2))) * dnorm((boundaries[ YO[i] ] - XO.b[i])/
+                                             sigma2) * ((XO[i]-boundaries[ YO[i] ])/(sigma2^2)) )/
+                  (pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
+                        sigma2, XS.b[i] ), sigma = Sigma ) -
+                        pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
+                              sigma2, XS.b[i] ), sigma = Sigma ) )
+            ) }
+         attr(loglik, "gradient") <- grad
+      }
+      
+      return(loglik)
    } 
    
 #    grad <- matrix(0, nObs, nParam)

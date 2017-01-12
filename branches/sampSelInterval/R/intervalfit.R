@@ -1,5 +1,5 @@
 intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
-                      weights = NULL, printLevel = 0,
+                      weights = NULL, printLevel = 0, printInitialGrad = FALSE,
                       maxMethod = "BHHH",
                       ...) {
    ## Fit intervaL regression model with sample selection
@@ -240,6 +240,13 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
    # # check analytical derivatives
    # compareDerivatives(loglik, gradlik, t0=start )
    # range(numericGradient(loglik, t0=start)-gradlik(start))
+   
+   if( printInitialGrad ) {
+      AnalyticGradSave <- AnalyticGrad
+      AnalyticGrad <- TRUE
+      print( gradlik( start ) )
+      AnalyticGrad <- AnalyticGradSave
+   }
    
    ## estimate
    result <- maxLik(loglik, 

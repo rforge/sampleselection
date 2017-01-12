@@ -37,3 +37,10 @@ print( res )
 print( round( coef( res ), 2 ) )
 print( round( coef( summary( res ) ), 2 ) )
 maxLik:::summary.maxLik( res )
+
+res2 <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+   AnalyticGrad = FALSE, start = start, printInitialGrad = TRUE, iterlim = 0 )
+
+res2 <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+   AnalyticGrad = FALSE, start = coef( res ), printInitialGrad = TRUE,
+   iterlim = 0 )

@@ -53,12 +53,12 @@ of an interval regression model with sample selection is:
    y_i^O &= 
    \begin{cases}
       \text{unknown} & \quad \text{if } y_i^{S} = 0\\
-      1 & \quad \text{if } \alpha_0 < y_i^{O*} \leq \alpha_1
+      1 & \quad \text{if } \alpha_1 < y_i^{O*} \leq \alpha_2
          \text{ and } y_i^{S} = 1\\
-      2 & \quad \text{if } \alpha_1 < y_i^{O*} \leq \alpha_2
+      2 & \quad \text{if } \alpha_2 < y_i^{O*} \leq \alpha_3
          \text{ and } y_i^{S} = 1\\
       \vdots & \\
-      M & \quad \text{if } \alpha_{M-1} < y_i^{O*} \leq \alpha_M
+      M & \quad \text{if } \alpha_{M} < y_i^{O*} \leq \alpha_{M+1}
          \text{ and } y_i^{S} = 1
    \end{cases}
    \\
@@ -77,9 +77,9 @@ $y_i^{O*}$~is a latent outcome variable,
 $y_i^O$~is a partially observed categorical variable
 that indicates in which interval $y_i^{O*}$ lies,
 $M$~is the number of intervals,
-$\alpha_0 , \ldots , \alpha_M$~are the boundaries of the intervals
+$\alpha_1 , \ldots , \alpha_{M+1}$~are the boundaries of the intervals
 (whereas frequently but not necessarily
-$\alpha_0 = - \infty$ and $\alpha_M = \infty$),
+$\alpha_1 = - \infty$ and $\alpha_{M+1} = \infty$),
 $y_i^S$~is a binary variable
 that indicates whether $y_i^O$ is observed,
 $y_i^{S*}$ is a latent variable
@@ -124,10 +124,10 @@ The log-likelihood contribution of the $i$th observation is:
    & + \sum_{m=1}^M y_i^S ( y_i^O = m ) \ln \left[
       \Phi_2 \left(
          \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
-         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) \right.\\
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) \right.\nonumber \\
       & \qquad \left. - \Phi_2 \left(
          \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2},
-         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) 
+         {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) \nonumber
    \right],
 \end{align}
 where $\Phi(.)$ indicates the cumulative distribution function
@@ -461,21 +461,21 @@ all.equal( grad,
     (2*(1-rho^2)^(3/2) )) +
     ((rho*efun)/(sqrt(1-rho^2))) ) /
     (2*pi*(1-rho^2)) )
-#Eq31
+#Eq29
 all.equal(grad,
     (1/(2*pi)) * (
     ((((-4*rho*(x1^2-2*rho*x1*x2+x2^2)-2*(1-rho^2)*(-2*x1*x2))/(4*(1-rho^2)^2)) * 
             efun * sqrt(1-rho^2))/(1-rho^2)) - 
             ((-(rho/(sqrt(1-rho^2)))*efun)/(1-rho^2))
     ))
-#Eq35
+#Eq33
 all.equal(grad,
     (1/(2*pi)) * 
     ((rho/((1-rho^2)^(3/2))) - ((rho*(x1^2-rho*x1*x2+x2^2)-x1*x2)/
             ((1-rho^2)^(5/2)))) * efun
     )
 
-#Eq36
+#Eq34
 all.equal(grad,
     (1/(2*pi*sqrt(1-rho^2))) * 
     (((rho/(1-rho^2)) - ((rho*(x1^2-rho*x1*x2+x2^2)-x1*x2)/

@@ -29,6 +29,8 @@ YO <- as.numeric( dat$yO )
 XO <- cbind( 1, dat$x1 )
 
 start <- c( betaS, betaO, rho, sigma2 )
+names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
+   "rho", "sigmaSq" )
 
 res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
     AnalyticGrad = FALSE, start = start, printLevel = 1 )
@@ -56,13 +58,15 @@ intGrad <- function( param ) {
 logLikStart <- intLogLik( start )
 print( logLikStart )
 gradStart <- intGrad( start )
+colnames( gradStart ) <- names( start )
 print( gradStart )
 # numeric gradients
 gradStartNum <- numericGradient( intLogLik, t0 = start )
+colnames( gradStartNum ) <- names( start )
 all.equal( as.data.frame( gradStart ), as.data.frame( gradStartNum ) )
 library( "miscTools" )
 for( i in 1:ncol( gradStart ) ) {
-   compPlot( gradStart[ , i ], gradStartNum[ , i ], main = i,
+   compPlot( gradStart[ , i ], gradStartNum[ , i ], main = names( start )[i],
       col = ifelse( !YS, "black",
          ifelse( YO == 1, "blue",
             ifelse( YO == 2, "blueviolet",
@@ -73,6 +77,7 @@ for( i in 1:ncol( gradStart ) ) {
 logLikEst <- intLogLik( coef( res ) )
 print( logLikEst )
 gradEst <- intGrad( coef( res ) )
+colnames( gradEst ) <- names( start )
 print( gradEst )
 
 

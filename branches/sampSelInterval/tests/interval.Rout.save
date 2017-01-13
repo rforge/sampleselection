@@ -54,6 +54,8 @@ https://r-forge.r-project.org/projects/maxlik/
 > XO <- cbind( 1, dat$x1 )
 > 
 > start <- c( betaS, betaO, rho, sigma2 )
+> names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
++    "rho", "sigmaSq" )
 > 
 > res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
 +     AnalyticGrad = FALSE, start = start, printLevel = 1 )
@@ -67,7 +69,8 @@ YS        1   2   3 <NA>
 Boundaries:
 [1] -Inf    5   15  Inf
 Initial values:
-[1]  1.0  1.0 -1.0 10.0  4.0  0.4  5.0
+ betaS0  betaS1  betaS2  betaO0  betaO2     rho sigmaSq 
+    1.0     1.0    -1.0    10.0     4.0     0.4     5.0 
 --------------
 successive function values within tolerance limit 
 14  iterations
@@ -80,19 +83,21 @@ Call:
  NULL 
 
 Coefficients:
-[1]   0.982   0.967  -1.286  10.241   2.659   0.289  26.088
+ betaS0   betaS1   betaS2   betaO0   betaO2      rho  sigmaSq  
+  0.982    0.967   -1.286   10.241    2.659    0.289   26.088  
 
 > print( round( coef( res ), 2 ) )
-[1]   0.98   0.97  -1.29  10.24   2.66   0.29  26.09
+ betaS0   betaS1   betaS2   betaO0   betaO2      rho  sigmaSq  
+   0.98     0.97    -1.29    10.24     2.66     0.29    26.09  
 > print( round( coef( summary( res ) ), 2 ) )
-     Estimate Std. error t value Pr(> t)
-[1,]     0.98       0.11    9.05    0.00
-[2,]     0.97       0.15    6.48    0.00
-[3,]    -1.29       0.12  -10.63    0.00
-[4,]    10.24       0.67   15.33    0.00
-[5,]     2.66       0.59    4.49    0.00
-[6,]     0.29       0.33    0.87    0.38
-[7,]    26.09       3.90    6.69    0.00
+        Estimate Std. error t value Pr(> t)
+betaS0      0.98       0.11    9.05    0.00
+betaS1      0.97       0.15    6.48    0.00
+betaS2     -1.29       0.12  -10.63    0.00
+betaO0     10.24       0.67   15.33    0.00
+betaO2      2.66       0.59    4.49    0.00
+rho         0.29       0.33    0.87    0.38
+sigmaSq    26.09       3.90    6.69    0.00
 > maxLik:::summary.maxLik( res )
 --------------------------------------------
 Maximum Likelihood estimation
@@ -101,14 +106,14 @@ Return code 2: successive function values within tolerance limit
 Log-Likelihood: -275 
 7  free parameters
 Estimates:
-     Estimate Std. error t value Pr(> t)    
-[1,]    0.982      0.109    9.05 < 2e-16 ***
-[2,]    0.967      0.149    6.48 8.9e-11 ***
-[3,]   -1.286      0.121  -10.63 < 2e-16 ***
-[4,]   10.241      0.668   15.33 < 2e-16 ***
-[5,]    2.659      0.592    4.49 7.1e-06 ***
-[6,]    0.289      0.332    0.87    0.38    
-[7,]   26.088      3.899    6.69 2.2e-11 ***
+        Estimate Std. error t value Pr(> t)    
+betaS0     0.982      0.109    9.05 < 2e-16 ***
+betaS1     0.967      0.149    6.48 8.9e-11 ***
+betaS2    -1.286      0.121  -10.63 < 2e-16 ***
+betaO0    10.241      0.668   15.33 < 2e-16 ***
+betaO2     2.659      0.592    4.49 7.1e-06 ***
+rho        0.289      0.332    0.87    0.38    
+sigmaSq   26.088      3.899    6.69 2.2e-11 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -169,8 +174,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [289] -8.6e-01 -3.9e-02 -5.8e-01 -5.3e-01 -8.9e-01 -1.4e+00 -2.4e+00 -4.1e+00
 [297] -1.5e-01 -8.7e-01 -5.7e-01 -1.1e+00
 > gradStart <- intGrad( start )
+> colnames( gradStart ) <- names( start )
 > print( gradStart )
-          [,1]    [,2]    [,3]     [,4]     [,5]     [,6]    [,7]
+        betaS0  betaS1  betaS2   betaO0   betaO2      rho sigmaSq
   [1,] 2.5e-01 2.5e-01 2.5e-01  0.09995  0.09995  7.8e-02  0.1765
   [2,] 1.9e-02 1.9e-02 1.9e-02 -1.30762 -1.30762 -8.8e-01     NaN
   [3,] 1.2e-03 1.2e-03 1.2e-03  0.21587  0.21587  3.5e-04     NaN
@@ -473,16 +479,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [300,] 1.1e+00 1.1e+00 1.1e+00  0.00000  0.00000  0.0e+00  0.0000
 > # numeric gradients
 > gradStartNum <- numericGradient( intLogLik, t0 = start )
+> colnames( gradStartNum ) <- names( start )
 > all.equal( as.data.frame( gradStart ), as.data.frame( gradStartNum ) )
-[1] "Component \"V1\": Mean relative difference: 1.3"                    
-[2] "Component \"V2\": Mean relative difference: 1.2"                    
-[3] "Component \"V3\": Mean relative difference: 1.3"                    
-[4] "Component \"V4\": Mean relative difference: 0.36"                   
-[5] "Component \"V5\": Mean relative difference: 0.93"                   
-[6] "Component \"V7\": 'is.NA' value mismatch: 0 in current 79 in target"
+[1] "Component \"betaS0\": Mean relative difference: 1.3"                     
+[2] "Component \"betaS1\": Mean relative difference: 1.2"                     
+[3] "Component \"betaS2\": Mean relative difference: 1.3"                     
+[4] "Component \"betaO0\": Mean relative difference: 0.36"                    
+[5] "Component \"betaO2\": Mean relative difference: 0.93"                    
+[6] "Component \"sigmaSq\": 'is.NA' value mismatch: 0 in current 79 in target"
 > library( "miscTools" )
 > for( i in 1:ncol( gradStart ) ) {
-+    compPlot( gradStart[ , i ], gradStartNum[ , i ], main = i,
++    compPlot( gradStart[ , i ], gradStartNum[ , i ], main = names( start )[i],
 +       col = ifelse( !YS, "black",
 +          ifelse( YO == 1, "blue",
 +             ifelse( YO == 2, "blueviolet",
@@ -527,8 +534,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [289] -0.7096 -0.4053 -0.5521 -0.6234 -1.0914 -1.5400 -0.8466 -1.6892 -0.6621
 [298] -0.5609 -0.3604 -0.5449
 > gradEst <- intGrad( coef( res ) )
+> colnames( gradEst ) <- names( start )
 > print( gradEst )
-          [,1]    [,2]    [,3]     [,4]     [,5]     [,6]     [,7]
+        betaS0  betaS1  betaS2   betaO0   betaO2      rho  sigmaSq
   [1,] 1.8e-01 1.8e-01 1.8e-01  0.04116  0.04116  7.6e-02 -0.06894
   [2,] 3.8e-02 3.8e-02 3.8e-02 -0.30559 -0.30559 -2.1e-01      NaN
   [3,] 8.0e-04 8.0e-04 8.0e-04  0.17149  0.17149  1.8e-04      NaN
@@ -834,4 +842,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 51.040   0.072  51.113 
+ 44.028   0.076  44.098 

@@ -38,10 +38,41 @@ print( round( coef( res ), 2 ) )
 print( round( coef( summary( res ) ), 2 ) )
 maxLik:::summary.maxLik( res )
 
-logLikStart <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
-   AnalyticGrad = TRUE, start = start, returnLogLikStart = TRUE )
-print( logLikStart )
+# function that returns log-likelihood values
+intLogLik <- function( param ) {
+   ll <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+      AnalyticGrad = FALSE, start = param, returnLogLikStart = TRUE )
+   return( ll )
+}
 
-logLikEst <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
-   AnalyticGrad = TRUE, start = coef( res ), returnLogLikStart = TRUE )
+# function that returns log-likelihood values
+intGrad <- function( param ) {
+   ll <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+      AnalyticGrad = TRUE, start = param, returnLogLikStart = TRUE )
+   return( attr( ll, "gradient" ) )
+}
+
+# log-likelihood values and their gradients at starting values of parameters
+logLikStart <- intLogLik( start )
+print( logLikStart )
+gradStart <- intGrad( start )
+print( gradStart )
+# numeric gradients
+gradStartNum <- numericGradient( intLogLik, t0 = start )
+all.equal( as.data.frame( gradStart ), as.data.frame( gradStartNum ) )
+library( "miscTools" )
+for( i in 1:ncol( gradStart ) ) {
+   compPlot( gradStart[ , i ], gradStartNum[ , i ], main = i,
+      col = ifelse( !YS, "black",
+         ifelse( YO == 1, "blue",
+            ifelse( YO == 2, "blueviolet",
+               ifelse( YO == 3, "red", "green" ) ) ) ) )
+}
+
+# log-likelihood values and their gradients at estimated parameters
+logLikEst <- intLogLik( coef( res ) )
 print( logLikEst )
+gradEst <- intGrad( coef( res ) )
+print( gradEst )
+
+

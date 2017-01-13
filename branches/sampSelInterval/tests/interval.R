@@ -38,9 +38,10 @@ print( round( coef( res ), 2 ) )
 print( round( coef( summary( res ) ), 2 ) )
 maxLik:::summary.maxLik( res )
 
-res2 <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
-   AnalyticGrad = FALSE, start = start, printInitialGrad = TRUE, iterlim = 0 )
+logLikStart <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+   AnalyticGrad = TRUE, start = start, returnLogLikStart = TRUE )
+print( logLikStart )
 
-res2 <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
-   AnalyticGrad = FALSE, start = coef( res ), printInitialGrad = TRUE,
-   iterlim = 0 )
+logLikEst <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+   AnalyticGrad = TRUE, start = coef( res ), returnLogLikStart = TRUE )
+print( logLikEst )

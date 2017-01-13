@@ -1,5 +1,5 @@
 intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
-                      weights = NULL, printLevel = 0, printInitialGrad = FALSE,
+                      weights = NULL, printLevel = 0, returnLogLikStart = FALSE,
                       maxMethod = "BHHH",
                       ...) {
    ## Fit intervaL regression model with sample selection
@@ -132,6 +132,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
                         sigma2, XS.b[i] ), sigma = Sigma ) -
                         pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
                               sigma2, XS.b[i] ), sigma = Sigma ) )
+               # if( is.na( grad[i, iSigma2] ) ) browser()
             }
          }
          attr(loglik, "gradient") <- grad
@@ -241,11 +242,8 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
    # compareDerivatives(loglik, gradlik, t0=start )
    # range(numericGradient(loglik, t0=start)-gradlik(start))
    
-   if( printInitialGrad ) {
-      AnalyticGradSave <- AnalyticGrad
-      AnalyticGrad <- TRUE
-      print( gradlik( start ) )
-      AnalyticGrad <- AnalyticGradSave
+   if( returnLogLikStart ) {
+      return( loglik( start ) )
    }
    
    ## estimate

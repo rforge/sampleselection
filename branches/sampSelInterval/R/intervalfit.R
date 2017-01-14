@@ -128,16 +128,18 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
                grad[i, iSigma2] <- 0
             } else {
                grad[i, iSigma2] <- (
-                  pnorm( ( XS.b[i] + rho *
-                     ( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2 ) ) /
-                        sqrt( 1 - rho^2 ) ) *
-                  dnorm( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2 ) *
-                  ( ( XO.b[i] - boundaries[ YO[i] + 1 ] ) / sigma2^2 ) -
-                  pnorm( ( XS.b[i] + rho *
-                     ( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2 ) ) /
-                        sqrt( 1 - rho^2 ) ) *
-                  dnorm( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2 ) *
-                  ( ( XO.b[i] - boundaries[ YO[i] ] ) / sigma2^2 ) ) /
+                  ifelse( is.infinite( boundaries[ YO[i] + 1 ] ), 0,
+                     pnorm( ( XS.b[i] + rho *
+                        ( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2 ) ) /
+                           sqrt( 1 - rho^2 ) ) *
+                     dnorm( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2 ) *
+                     ( ( XO.b[i] - boundaries[ YO[i] + 1 ] ) / sigma2^2 ) ) -
+                  ifelse( is.infinite( boundaries[ YO[i] ] ), 0,
+                     pnorm( ( XS.b[i] + rho *
+                        ( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2 ) ) /
+                           sqrt( 1 - rho^2 ) ) *
+                     dnorm( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2 ) *
+                     ( ( XO.b[i] - boundaries[ YO[i] ] ) / sigma2^2 ) ) ) /
                   ( pmvnorm( upper =
                      c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2, XS.b[i] ),
                      sigma = Sigma ) -

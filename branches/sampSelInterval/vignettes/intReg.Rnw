@@ -639,16 +639,16 @@ derive the gradient of $\vec{\beta}^O$:
 & \frac{\partial \Phi_2 \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
     {\sigma_2}, {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right)}{\partial \beta^O} 
     = \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
-      - \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
-      {\sqrt{1 - \rho^2}} \right) \phi( \frac{\alpha_{m} - {\vec{\beta}^O}' 
-      \vec{x}_i^O}{\sigma_2} ) \cdot (-\frac{\vec{x}_i^O}{\sigma_2})
+      + \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
+      {\sqrt{1 - \rho^2}} \right) \phi \left( \frac{\alpha_{m} - {\vec{\beta}^O}' 
+      \vec{x}_i^O}{\sigma_2} \right) \cdot \left(-\frac{\vec{x}_i^O}{\sigma_2} \right)
 \end{align}
 
 Using this result we derive the gradient for the outcome parameter 
 $\vec{\beta}^O$ for the log-likelihood function:
 
 \begin{align}
-& \frac{\partial \ell_i}{\partial \beta^O} = \frac{\partial}{\partial \beta^O} 
+\frac{\partial \ell_i}{\partial \beta^O} & = \frac{\partial}{\partial \beta^O} 
     \Bigg( ( 1 - y_i^S )
     \ln \left[ \Phi \left( - {\vec{\beta}^S}' \vec{x}_i^S \right) \right] \\
    & \quad + \sum_{m=1}^M y_i^S ( y_i^O = m ) \ln \left[
@@ -693,13 +693,13 @@ $\vec{\beta}^O$ for the log-likelihood function:
             {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) } \\
    & \quad \left(
       \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S
-            - \rho \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
+            + \rho \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
          }{ \sqrt{1 - \rho^2} } \right)
       \phi \left( \frac{ \alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
          \right) \cdot
       \left( -\frac{ \vec{x}_i^O }{ \sigma_2 } \right) \right. \nonumber \\
    & \qquad \left. - \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
-            - \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
+            + \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
          }{ \sqrt{1 - \rho^2} } \right)
       \phi \left( \frac{ \alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
          \right) \cdot
@@ -714,12 +714,12 @@ $\vec{\beta}^O$ for the log-likelihood function:
             {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) } \\
    & \quad \left(
       \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S
-            - \rho \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
+            + \rho \frac{\alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
          }{ \sqrt{1 - \rho^2} } \right)
       \phi \left( \frac{ \alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
          \right) \right. \nonumber \\
    & \qquad \left. - \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
-            - \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
+            + \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
          }{ \sqrt{1 - \rho^2} } \right)
       \phi \left( \frac{ \alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
          \right)

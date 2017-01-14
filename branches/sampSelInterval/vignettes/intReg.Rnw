@@ -732,6 +732,76 @@ $\beta^S$ and $\beta^O$:
 \end{align}
 
 \begin{align}
+& \lim_{\alpha_m \rightarrow \infty}
+\frac{\partial \Phi_2 \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
+    {\sigma_2}, {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right)}{\partial \sigma_2}
+    \nonumber \\
+& = \lim_{\alpha_m \rightarrow \infty}
+   \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
+      + \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
+      {\sqrt{1 - \rho^2}} \right) \phi \left( \frac{\alpha_{m} - {\vec{\beta}^O}' 
+      \vec{x}_i^O}{\sigma_2} \right) \cdot \frac{{\vec{\beta}^O}' \vec{x}_i^O - 
+      \alpha_{m}}{\sigma_2^2}\\
+& = \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
+      + \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
+      {\sqrt{1 - \rho^2}} \right)
+      \lim_{\alpha_m \rightarrow \infty}
+      \phi \left( \frac{\alpha_{m} - {\vec{\beta}^O}' 
+      \vec{x}_i^O}{\sigma_2} \right) \cdot \frac{{\vec{\beta}^O}' \vec{x}_i^O - 
+      \alpha_{m}}{\sigma_2^2}\\
+& = \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
+      + \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
+      {\sqrt{1 - \rho^2}} \right)
+      \lim_{\alpha_m \rightarrow \infty}
+      \frac{ \frac{{\vec{\beta}^O}' \vec{x}_i^O - \alpha_{m}}{\sigma_2^2} }{ 
+         \left( \phi \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{
+            \sigma_2} \right) \right)^{-1} } \\
+& = \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
+      + \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
+      {\sqrt{1 - \rho^2}} \right) \\
+& \qquad \lim_{\alpha_m \rightarrow \infty}
+      \frac{ - \frac{1}{\sigma_2^2} }{ 
+         - \left( \phi \left(
+               \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
+            \right) \right)^{-2} 
+         \left( - \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
+         \right)
+         \phi \left(
+               \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
+            \right)
+         \frac{1}{\sigma_2}
+      } \nonumber \\
+& = \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
+      + \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
+      {\sqrt{1 - \rho^2}} \right)
+   \lim_{\alpha_m \rightarrow \infty}
+      \frac{ - \frac{1}{\sigma_2} }{ 
+         \left( \phi \left(
+               \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
+            \right) \right)^{-1} 
+         \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
+      } \\
+& = \Phi \left( \frac{{\vec{\beta}^S}' \vec{x}_i^S 
+      + \rho \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}}
+      {\sqrt{1 - \rho^2}} \right)
+   \lim_{\alpha_m \rightarrow \infty}
+      \frac{ - \frac{1}{\sigma_2} 
+         \phi \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
+            \right) }{ 
+         \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma_2}
+      } \\
+& = 0
+\end{align}
+
+Similarly:
+\begin{align}
+\lim_{\alpha_m \rightarrow - \infty}
+\frac{\partial \Phi_2 \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
+    {\sigma_2}, {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right)}{\partial \sigma_2}
+= 0
+\end{align}
+
+\begin{align}
 \frac{\partial \ell_i}{\partial \sigma_2} & = \frac{\partial}{\partial \sigma_2} 
     \Bigg( ( 1 - y_i^S ) \ln \left[ \Phi \left( - {\vec{\beta}^S}' 
     \vec{x}_i^S \right) \right] \\

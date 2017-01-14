@@ -903,6 +903,15 @@ Similarly:
       \vec{x}_i^O - \alpha_{m}}{\sigma_2^2} \right) \nonumber
 \end{align}
 
+\begin{align}
+\frac{\partial \ell_i}{\partial \sigma_2^2}
+& = \frac{\partial \ell_i}{\partial \sigma_2}
+   \frac{\partial \sigma}{\partial \sigma_2^2}
+= \frac{\partial \ell_i}{\partial \sigma_2}
+   \; \frac{1}{2 \cdot \sigma_2}
+\end{align}
+
+
 \bibliographystyle{aer}
 \bibliography{sampleSelection}
 \end{document}

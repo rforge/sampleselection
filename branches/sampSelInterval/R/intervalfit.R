@@ -140,12 +140,13 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
                            sqrt( 1 - rho^2 ) ) *
                      dnorm( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2 ) *
                      ( ( XO.b[i] - boundaries[ YO[i] ] ) / sigma2^2 ) ) ) /
-                  ( pmvnorm( upper =
+                  ( ( pmvnorm( upper =
                      c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2, XS.b[i] ),
                      sigma = Sigma ) -
                   pmvnorm( upper =
                      c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2, XS.b[i] ),
                      sigma = Sigma ) )
+                  * 2 * sigma2 )
                # if( is.na( grad[i, iSigma2] ) ) browser()
             }
          }

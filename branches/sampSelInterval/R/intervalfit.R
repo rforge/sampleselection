@@ -88,14 +88,14 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
             } else {
                grad[i, ibetaO] <- (
                   pnorm( ( XS.b[i]
-                     - rho * ( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2 )
+                     + rho * ( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2 )
                      ) / sqrt( 1 - rho^2 ) ) *
                   dnorm( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2 ) - 
                   pnorm( ( XS.b[i]
-                     - rho * ( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2 )
+                     + rho * ( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2 )
                      ) / sqrt( 1 - rho^2 ) ) *
                   dnorm( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2 ) ) *
-                  ( -XO[i] / sigma2 ) /
+                  ( -XO[ i, ] / sigma2 ) /
                   ( pmvnorm(
                      upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2,
                         XS.b[i] ), sigma = Sigma ) - 

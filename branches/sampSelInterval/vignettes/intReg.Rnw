@@ -531,7 +531,7 @@ $\vec{\beta}^S$ as part of the loglikelihood function:
       \phi( {\vec{\beta}^S}' \vec{x}_i^S ) \cdot 
       \frac{\partial{\vec{\beta}^S}' \vec{x}_i^S}{\partial \vec{\beta}^S} \\
       & = \Phi \left( \frac{\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
-      {\sigma_2} - \rho {\vec{\beta}^S}' \vec{x}_i^S}{\sqrt{1 - \rho^2}} \right)
+      {\sigma_2} + \rho {\vec{\beta}^S}' \vec{x}_i^S}{\sqrt{1 - \rho^2}} \right)
       \phi( {\vec{\beta}^S}' \vec{x}_i^S ) \cdot \vec{x}_i^S
 \end{align}
 
@@ -592,12 +592,12 @@ log-likelihood function:
    & \qquad \left(
       \Phi \left( \frac{
          \frac{ \alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O }{ \sigma_2 } 
-            - \rho {\vec{\beta}^S}' \vec{x}_i^S }{ \sqrt{1 - \rho^2} } \right)
+            + \rho {\vec{\beta}^S}' \vec{x}_i^S }{ \sqrt{1 - \rho^2} } \right)
       \phi \left( {\vec{\beta}^S}' \vec{x}_i^S \right)
       \cdot \vec{x}_i^S \right. \nonumber \\
    & \qquad \qquad - \left. \Phi \left( \frac{
          \frac{ \alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O }{ \sigma_2 } 
-            - \rho {\vec{\beta}^S}' \vec{x}_i^S) }{ \sqrt{1 - \rho^2} } \right)
+            + \rho {\vec{\beta}^S}' \vec{x}_i^S) }{ \sqrt{1 - \rho^2} } \right)
       \phi \left( {\vec{\beta}^S}' \vec{x}_i^S \right)
       \cdot \vec{x}_i^S \right) \nonumber \\
 & = ( 1 - y_i^S )
@@ -609,10 +609,10 @@ log-likelihood function:
    \frac{ \left(
       \Phi \left( \frac{
          \frac{ \alpha_{m+1} - {\vec{\beta}^O}' \vec{x}_i^O }{ \sigma_2 } 
-            - \rho {\vec{\beta}^S}' \vec{x}_i^S }{ \sqrt{1 - \rho^2} } \right)
+            + \rho {\vec{\beta}^S}' \vec{x}_i^S }{ \sqrt{1 - \rho^2} } \right)
       - \Phi \left( \frac{
          \frac{ \alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O }{ \sigma_2 } 
-            - \rho {\vec{\beta}^S}' \vec{x}_i^S }{ \sqrt{1 - \rho^2} } \right)
+            + \rho {\vec{\beta}^S}' \vec{x}_i^S }{ \sqrt{1 - \rho^2} } \right)
       \right)
       \phi \left( {\vec{\beta}^S}' \vec{x}_i^S \right)
       \cdot \vec{x}_i^S \nonumber

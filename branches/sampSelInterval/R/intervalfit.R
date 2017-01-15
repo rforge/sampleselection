@@ -14,10 +14,10 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
    ## YS = \ 1  if  YS* > 0
    ## 
    ##      / NA  if  YS = 0
-   ##      | 1   if  a0 < YO* <= a1 & YS = 1
-   ## YO = | 2   if  a1 < YO* <= a2 & YS = 1
+   ##      | 1   if  a1 < YO* <= a2 & YS = 1
+   ## YO = | 2   if  a2 < YO* <= a3 & YS = 1
    ##      | ... 
-   ##      \ M   if  a(M-1) < YO* <= a(M) & YS = 1
+   ##      \ M   if  a(M) < YO* <= a(M+1) & YS = 1
    ## 
    ##  M       number of intervals
    ##

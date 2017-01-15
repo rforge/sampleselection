@@ -43,17 +43,24 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
       Sigma <- matrix(c(1,-rho,-rho,1), 2, 2)
       XS.b <- drop(XS %*% betaS)
       XO.b <- drop(XO %*% betaO)
+      # pre-compute the difference between the CDF of the bivariate normal
+      # distribution for the interval between the boundaries
+      pmvnDiff <- rep( NA, nObs )
+      for( i in which(YS) ) {
+         pmvnDiff[i] <- pmvnorm(
+            upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2,
+               XS.b[i] ), sigma = Sigma ) -
+         pmvnorm(
+            upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2,
+               XS.b[i] ), sigma = Sigma )
+      }
       loglik <- rep( NA, nObs )
       ## YS == 0, YO == NA
       loglik[YS==0] <- pnorm( -XS.b[YS==0], log.p = TRUE )
       ## YS == 1
       for( i in 1:nObs ) {
          if( YS[i] == 1 ) {
-            loglik[ i ] <- log(
-               pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
-                     sigma2, XS.b[i] ), sigma = Sigma ) -
-                  pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
-                        sigma2, XS.b[i] ), sigma = Sigma ) )
+            loglik[ i ] <- log( pmvnDiff[i] )
             # browser()
          }
       }
@@ -72,12 +79,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
                   pnorm( ( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2
                      + rho * XS.b[i] ) / sqrt( 1 - rho^2 ) ) ) *
                   dnorm( XS.b[i] ) * XS[ i, ] /
-                  ( pmvnorm(
-                     upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2,
-                        XS.b[i] ), sigma = Sigma ) - 
-                  pmvnorm(
-                     upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2,
-                        XS.b[i] ), sigma = Sigma ) )
+                  pmvnDiff[i]
             }
          }
          
@@ -96,12 +98,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
                      ) / sqrt( 1 - rho^2 ) ) *
                   dnorm( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2 ) ) *
                   ( -XO[ i, ] / sigma2 ) /
-                  ( pmvnorm(
-                     upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2,
-                        XS.b[i] ), sigma = Sigma ) - 
-                  pmvnorm(
-                     upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2,
-                        XS.b[i] ), sigma = Sigma ) )
+                  pmvnDiff[i]
             }
          }
          
@@ -115,10 +112,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
                      sigma2, XS.b[i] ), sigma = Sigma ) - 
                      dmvnorm( x = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
                            sigma2, XS.b[i] ), sigma = Sigma ) ) /
-                  (pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
-                        sigma2, XS.b[i] ), sigma = Sigma ) - 
-                        pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) /
-                              sigma2, XS.b[i] ), sigma = Sigma ) ) 
+                  pmvnDiff[i] 
             }
          }
          
@@ -140,13 +134,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
                            sqrt( 1 - rho^2 ) ) *
                      dnorm( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2 ) *
                      ( ( XO.b[i] - boundaries[ YO[i] ] ) / sigma2^2 ) ) ) /
-                  ( ( pmvnorm( upper =
-                     c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2, XS.b[i] ),
-                     sigma = Sigma ) -
-                  pmvnorm( upper =
-                     c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2, XS.b[i] ),
-                     sigma = Sigma ) )
-                  * 2 * sigma2 )
+                  ( pmvnDiff[i] * 2 * sigma2 )
                # if( is.na( grad[i, iSigma2] ) ) browser()
             }
          }

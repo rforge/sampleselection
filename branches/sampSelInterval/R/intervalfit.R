@@ -47,11 +47,10 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
       # distribution for the interval between the boundaries
       pmvnDiff <- rep( NA, nObs )
       for( i in which(YS) ) {
-         pmvnDiff[i] <- pmvnorm(
-            upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2,
+         pmvnDiff[i] <-
+            pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2,
                XS.b[i] ), sigma = Sigma ) -
-         pmvnorm(
-            upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2,
+            pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2,
                XS.b[i] ), sigma = Sigma )
       }
       loglik <- rep( NA, nObs )
@@ -67,8 +66,18 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
       ## --- gradient ---
       grad <- matrix(0, nObs, nParam)
       
-      # gradients for the parameters for selection into policy (betaS)
       if(AnalyticGrad == TRUE ){
+         # pre-compute the difference between the PDF of the bivariate normal
+         # distribution for the interval between the boundaries
+         dmvnDiff <- rep( NA, nObs )
+         for( i in which(YS) ) {
+            dmvnDiff[i] <-
+               dmvnorm( x = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2,
+                  XS.b[i] ), sigma = Sigma ) - 
+               dmvnorm( x = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2,
+                  XS.b[i] ), sigma = Sigma )
+         }
+         # gradients for the parameters for selection into policy (betaS)
          for( i in 1:nObs ) {
             if( YS[i] == 0 ) {
                grad[i, ibetaS] <- - ( dnorm( -XS.b[i] ) * XS[i, ] ) / pnorm( -XS.b[i] )
@@ -107,12 +116,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
             if( YS[i] == 0 ) {
                grad[i, iRho] <- 0
             } else {
-               grad[i, iRho] <- (dmvnorm( x = c( ( boundaries[ YO[i] ] - 
-                     XO.b[i] ) /
-                     sigma2, XS.b[i] ), sigma = Sigma ) - 
-                     dmvnorm( x = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) /
-                           sigma2, XS.b[i] ), sigma = Sigma ) ) /
-                  pmvnDiff[i] 
+               grad[i, iRho] <- dmvnDiff[i] / pmvnDiff[i] 
             }
          }
          

@@ -1,4 +1,4 @@
-intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
+intervalfit <- function(YS, XS, YO, XO, boundaries, start,
                       weights = NULL, printLevel = 0, returnLogLikStart = FALSE,
                       maxMethod = "BHHH",
                       ...) {
@@ -62,63 +62,61 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
       ## --- gradient ---
       grad <- matrix(0, nObs, nParam)
       
-      if(AnalyticGrad == TRUE ){
-         # pre-compute the difference between the PDF of the bivariate normal
-         # distribution for the interval between the boundaries
-         dmvnDiff <- rep( NA, nObs )
-         for( i in which(YS) ) {
-            dmvnDiff[i] <-
-               dmvnorm( x = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2,
-                  XS.b[i] ), sigma = Sigma ) - 
-               dmvnorm( x = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2,
-                  XS.b[i] ), sigma = Sigma )
-         }
-         # gradients for the parameters for selection into policy (betaS)
-         grad[YS==0, ibetaS] <-
-            - dnorm( -XS.b[YS==0] ) * XS[YS==0, ] / pnorm( -XS.b[YS==0] )
-         grad[YS==1, ibetaS] <- (
-            pnorm( ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2
-               + rho * XS.b[YS==1] ) / sqrt( 1 - rho^2 ) ) -
-            pnorm( ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2
-               + rho * XS.b[YS==1] ) / sqrt( 1 - rho^2 ) ) ) *
-            dnorm( XS.b[YS==1] ) * XS[ YS==1, ] /
-            pmvnDiff[YS==1]
-
-         # gradients for the parameters for the outcome (betaO)
-         grad[YS==1, ibetaO] <- (
-            pnorm( ( XS.b[YS==1]
-               + rho * ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 )
-               ) / sqrt( 1 - rho^2 ) ) *
-            dnorm( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 ) - 
-            pnorm( ( XS.b[YS==1]
-               + rho * ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 )
-               ) / sqrt( 1 - rho^2 ) ) *
-            dnorm( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) ) *
-            ( -XO[ YS==1, ] / sigma2 ) /
-            pmvnDiff[YS==1]
-
-         # gradient for the correlation parameter (rho)
-         grad[YS==1, iRho] <- dmvnDiff[YS==1] / pmvnDiff[YS==1] 
-
-         # gradient for the standard deviation (sigma2)
-         grad[YS==1, iSigma2] <- (
-            ifelse( is.infinite( boundaries[ YO[YS==1] + 1 ] ), 0,
-               pnorm( ( XS.b[YS==1] + rho *
-                  ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 ) ) /
-                     sqrt( 1 - rho^2 ) ) *
-               dnorm( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 ) *
-               ( ( XO.b[YS==1] - boundaries[ YO[YS==1] + 1 ] ) / sigma2^2 ) ) -
-            ifelse( is.infinite( boundaries[ YO[YS==1] ] ), 0,
-               pnorm( ( XS.b[YS==1] + rho *
-                  ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) ) /
-                     sqrt( 1 - rho^2 ) ) *
-               dnorm( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) *
-               ( ( XO.b[YS==1] - boundaries[ YO[YS==1] ] ) / sigma2^2 ) ) ) /
-            ( pmvnDiff[YS==1] * 2 * sigma2 )
-         
-         attr(loglik, "gradient") <- grad
+      # pre-compute the difference between the PDF of the bivariate normal
+      # distribution for the interval between the boundaries
+      dmvnDiff <- rep( NA, nObs )
+      for( i in which(YS) ) {
+         dmvnDiff[i] <-
+            dmvnorm( x = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2,
+               XS.b[i] ), sigma = Sigma ) - 
+            dmvnorm( x = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2,
+               XS.b[i] ), sigma = Sigma )
       }
+      # gradients for the parameters for selection into policy (betaS)
+      grad[YS==0, ibetaS] <-
+         - dnorm( -XS.b[YS==0] ) * XS[YS==0, ] / pnorm( -XS.b[YS==0] )
+      grad[YS==1, ibetaS] <- (
+         pnorm( ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2
+            + rho * XS.b[YS==1] ) / sqrt( 1 - rho^2 ) ) -
+         pnorm( ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2
+            + rho * XS.b[YS==1] ) / sqrt( 1 - rho^2 ) ) ) *
+         dnorm( XS.b[YS==1] ) * XS[ YS==1, ] /
+         pmvnDiff[YS==1]
+
+      # gradients for the parameters for the outcome (betaO)
+      grad[YS==1, ibetaO] <- (
+         pnorm( ( XS.b[YS==1]
+            + rho * ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 )
+            ) / sqrt( 1 - rho^2 ) ) *
+         dnorm( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 ) - 
+         pnorm( ( XS.b[YS==1]
+            + rho * ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 )
+            ) / sqrt( 1 - rho^2 ) ) *
+         dnorm( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) ) *
+         ( -XO[ YS==1, ] / sigma2 ) /
+         pmvnDiff[YS==1]
+
+      # gradient for the correlation parameter (rho)
+      grad[YS==1, iRho] <- dmvnDiff[YS==1] / pmvnDiff[YS==1] 
+
+      # gradient for the standard deviation (sigma2)
+      grad[YS==1, iSigma2] <- (
+         ifelse( is.infinite( boundaries[ YO[YS==1] + 1 ] ), 0,
+            pnorm( ( XS.b[YS==1] + rho *
+               ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 ) ) /
+                  sqrt( 1 - rho^2 ) ) *
+            dnorm( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 ) *
+            ( ( XO.b[YS==1] - boundaries[ YO[YS==1] + 1 ] ) / sigma2^2 ) ) -
+         ifelse( is.infinite( boundaries[ YO[YS==1] ] ), 0,
+            pnorm( ( XS.b[YS==1] + rho *
+               ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) ) /
+                  sqrt( 1 - rho^2 ) ) *
+            dnorm( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) *
+            ( ( XO.b[YS==1] - boundaries[ YO[YS==1] ] ) / sigma2^2 ) ) ) /
+         ( pmvnDiff[YS==1] * 2 * sigma2 )
       
+      attr(loglik, "gradient") <- grad
+
       return(loglik)
    } 
    

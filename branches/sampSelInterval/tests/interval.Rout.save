@@ -58,7 +58,7 @@ https://r-forge.r-project.org/projects/maxlik/
 +    "rho", "sigmaSq" )
 > 
 > res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
-+     AnalyticGrad = TRUE, start = start, printLevel = 1 )
++     start = start, printLevel = 1 )
 YO observed: 209 times; not observed: 91 times:
 Number of intervals:  3 
        YO
@@ -121,20 +121,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # function that returns log-likelihood values
 > intLogLik <- function( param ) {
 +    ll <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
-+       AnalyticGrad = FALSE, start = param, returnLogLikStart = TRUE )
++       start = param, returnLogLikStart = TRUE )
 +    return( ll )
 + }
 > 
-> # function that returns log-likelihood values
-> intGrad <- function( param ) {
-+    ll <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
-+       AnalyticGrad = TRUE, start = param, returnLogLikStart = TRUE )
-+    return( attr( ll, "gradient" ) )
-+ }
 > 
 > # log-likelihood values and their gradients at starting values of parameters
 > logLikStart <- intLogLik( start )
-> print( logLikStart )
+> print( c( logLikStart ) )
   [1] -2.2e-01 -3.7e+00 -3.4e-01 -4.8e+00 -9.0e-02 -1.6e+00 -8.4e-02 -3.8e-01
   [9] -2.0e-01 -7.2e-02 -1.7e+00 -3.9e-01 -2.7e+00 -7.2e-02 -7.4e+00 -1.8e+00
  [17] -1.6e-01 -9.5e-01 -2.1e+00 -1.1e+00 -4.8e-01 -4.0e-01 -4.8e-01 -4.3e-01
@@ -173,7 +167,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [281] -1.5e+00 -2.4e-01 -6.5e+00 -5.4e-01 -3.8e+00 -3.8e+00 -1.6e+00 -2.8e-01
 [289] -8.6e-01 -3.9e-02 -5.8e-01 -5.3e-01 -8.9e-01 -1.4e+00 -2.4e+00 -4.1e+00
 [297] -1.5e-01 -8.7e-01 -5.7e-01 -1.1e+00
-> gradStart <- intGrad( start )
+> gradStart <- attr( logLikStart, "gradient" )
 > colnames( gradStart ) <- names( start )
 > print( gradStart )
          betaS0   betaS1   betaS2   betaO0   betaO2      rho  sigmaSq
@@ -497,7 +491,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # log-likelihood values and their gradients at estimated parameters
 > logLikEst <- intLogLik( coef( res ) )
-> print( logLikEst )
+> print( c( logLikEst ) )
   [1] -0.4940 -1.7939 -0.7937 -1.9607 -0.4475 -0.7364 -0.4266 -0.3620 -0.1071
  [10] -0.0194 -1.1667 -0.8875 -1.4489 -0.4301 -2.2755 -0.7944 -0.4890 -1.4183
  [19] -2.0896 -1.7354 -0.4479 -0.2398 -0.5135 -0.3333 -0.5600 -0.0653 -0.5157
@@ -532,7 +526,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [280] -1.7990 -2.0005 -0.5011 -2.2152 -1.0120 -1.6513 -1.6687 -1.4256 -0.7569
 [289] -0.7096 -0.4053 -0.5521 -0.6234 -1.0914 -1.5400 -0.8466 -1.6892 -0.6621
 [298] -0.5609 -0.3604 -0.5449
-> gradEst <- intGrad( coef( res ) )
+> gradEst <- gradStart <- attr( logLikEst, "gradient" )
 > colnames( gradEst ) <- names( start )
 > print( gradEst )
          betaS0   betaS1   betaS2   betaO0   betaO2      rho  sigmaSq
@@ -841,4 +835,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  17.29    0.04   17.33 
+  7.524   0.088   7.606 

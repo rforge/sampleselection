@@ -33,7 +33,7 @@ names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
    "rho", "sigmaSq" )
 
 res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
-    AnalyticGrad = TRUE, start = start, printLevel = 1 )
+    start = start, printLevel = 1 )
 
 print( res )
 print( round( coef( res ), 2 ) )
@@ -43,21 +43,15 @@ maxLik:::summary.maxLik( res )
 # function that returns log-likelihood values
 intLogLik <- function( param ) {
    ll <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
-      AnalyticGrad = FALSE, start = param, returnLogLikStart = TRUE )
+      start = param, returnLogLikStart = TRUE )
    return( ll )
 }
 
-# function that returns log-likelihood values
-intGrad <- function( param ) {
-   ll <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
-      AnalyticGrad = TRUE, start = param, returnLogLikStart = TRUE )
-   return( attr( ll, "gradient" ) )
-}
 
 # log-likelihood values and their gradients at starting values of parameters
 logLikStart <- intLogLik( start )
-print( logLikStart )
-gradStart <- intGrad( start )
+print( c( logLikStart ) )
+gradStart <- attr( logLikStart, "gradient" )
 colnames( gradStart ) <- names( start )
 print( gradStart )
 # numeric gradients
@@ -75,8 +69,8 @@ for( i in 1:ncol( gradStart ) ) {
 
 # log-likelihood values and their gradients at estimated parameters
 logLikEst <- intLogLik( coef( res ) )
-print( logLikEst )
-gradEst <- intGrad( coef( res ) )
+print( c( logLikEst ) )
+gradEst <- gradStart <- attr( logLikEst, "gradient" )
 colnames( gradEst ) <- names( start )
 print( gradEst )
 

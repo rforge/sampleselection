@@ -33,7 +33,7 @@ names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
    "rho", "sigmaSq" )
 
 res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
-    AnalyticGrad = FALSE, start = start, printLevel = 1 )
+    AnalyticGrad = TRUE, start = start, printLevel = 1 )
 
 print( res )
 print( round( coef( res ), 2 ) )

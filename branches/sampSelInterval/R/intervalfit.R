@@ -122,42 +122,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start, AnalyticGrad,
       return(loglik)
    } 
    
-#    grad <- matrix(0, nObs, nParam)
-#    r <- sqrt(1 - rho^2)
-#    ## YS == 0, YO == 0
-#    grad[i00,ibetaS] <- w00 * XS[i00,] * (-dnorm(-XS00.b)/lik[i00])
-#    ## YS == 1, YO == 0
-#    A <- dnorm(XS10.b)
-#    B <- A*pnorm((XO10.b - rho*XS10.b)/r, lower.tail=FALSE)
-#    grad[i10,ibetaS] <- w10 * XS[i10,]*B/lik[i10]
-#    A <- dnorm(XO10.b)
-#    B <- A*pnorm((XS10.b - rho*XO10.b)/r)
-#    grad[i10,ibetaO] <- -w10 * XO[i10,]*B/lik[i10]
-#    locmat <- -cbind(XS10.b, XO10.b)
-#    pdf <- apply(locmat, 1,
-#        function(x) dmvnorm(x, c(0,0), Sigma))
-#    grad[i10,iRho] <- -w10 * pdf/lik[i10]
-#    ## YS == 1, YO == 1
-#    A <- dnorm(XS11.b)
-#    B <- A*pnorm((XO11.b - rho*XS11.b)/r)
-#    grad[i11,ibetaS] <- w11 * XS[i11,]*B/lik[i11]
-#    A <- dnorm(XO11.b)
-#    B <- A*pnorm((XS11.b - rho*XO11.b)/r)
-#    grad[i11,ibetaO] <- w11 * XO[i11,]*B/lik[i11]
-#    locmat <- -cbind(XS11.b, XO11.b)
-#    pdf <- apply(locmat, 1,
-#        function(x) dmvnorm(x, c(0,0), Sigma))
-#    grad[i11,iRho] <- w11 * pdf/lik[i11]
-#    ## loglik <- sum(loglik)
-#    ## grad <- colSums(grad)
-#    attr(loglik, "gradient") <- grad
-#    return(loglik)
-# }
-   
-   
-   
-   
-   
+
    gradlik <- function(x) {
       l <- loglik(x)
       return(attr(l, "gradient"))

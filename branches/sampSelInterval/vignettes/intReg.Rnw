@@ -41,7 +41,7 @@ of an interval regression model with sample selection is:
    \\
    y_i^S & = 
    \begin{cases}
-      0 & \quad \text{if } y_i^{S*} < 0
+      0 & \quad \text{if } y_i^{S*} \leq 0
       \label{eq:selection}
       \\
       1 & \quad \text{otherwise}

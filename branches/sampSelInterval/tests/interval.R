@@ -30,7 +30,7 @@ XO <- cbind( 1, dat$x1 )
 
 start <- c( betaS, betaO, rho, sigma2 )
 names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
-   "rho", "sigmaSq" )
+   "atanrho", "logsigmaSq" )
 
 res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
     start = start, printLevel = 1 )

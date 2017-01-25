@@ -37,7 +37,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start,
    loglik <- function( beta) {
       betaS <- beta[ibetaS]
       betaO <- beta[ibetaO]
-      rho <- beta[iRho]
+      rho <- tan(beta[iRho])
       sigma2 <- sqrt(exp(beta[iSigma2]))
       if( ( rho < -1) || ( rho > 1)) return(NA)
       Sigma <- matrix(c(1,-rho,-rho,1), 2, 2)
@@ -97,7 +97,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start,
          pmvnDiff[YS==1]
 
       # gradient for the correlation parameter (rho)
-      grad[YS==1, iRho] <- dmvnDiff[YS==1] / pmvnDiff[YS==1] 
+      grad[YS==1, iRho] <- ( dmvnDiff[YS==1] * (rho^2 + 1) ) / pmvnDiff[YS==1]  
 
       # gradient for the standard deviation (sigma2)
       grad[YS==1, iSigma2] <- (
@@ -112,8 +112,8 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start,
                ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) ) /
                   sqrt( 1 - rho^2 ) ) *
             dnorm( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) *
-            ( ( XO.b[YS==1] - boundaries[ YO[YS==1] ] ) / sigma2^2 ) ) ) * sigma2 /
-         ( pmvnDiff[YS==1] * 2 )
+            ( ( XO.b[YS==1] - boundaries[ YO[YS==1] ] ) / sigma2^2 ) ) ) * 
+         sigma2 / ( pmvnDiff[YS==1] * 2 )
       
       attr(loglik, "gradient") <- grad
 

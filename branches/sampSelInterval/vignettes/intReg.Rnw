@@ -767,6 +767,14 @@ gradient of the correlation parameter ($\rho$):
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) }
 \end{align}
 
+\begin{align}
+\frac{\partial \ell_i}{\partial atan(\rho)}
+& = \frac{\partial \ell_i}{\partial \rho}
+   \frac{\partial \rho}{\partial atan(rho)}
+= \frac{\partial \ell_i}{\partial \rho}
+   \; (\rho^2 + 1)
+\end{align}
+
 \subsection{Gradients with respect to the standard deviation used for 
 normalisation ($\sigma_2$)}
 
@@ -904,11 +912,11 @@ Similarly:
 \end{align}
 
 \begin{align}
-\frac{\partial \ell_i}{\partial \sigma_2^2}
+\frac{\partial \ell_i}{\partial log(\sigma_2^2)}
 & = \frac{\partial \ell_i}{\partial \sigma_2}
-   \frac{\partial \sigma}{\partial \sigma_2^2}
+   \frac{\partial \sigma}{\partial log(\sigma_2^2)}
 = \frac{\partial \ell_i}{\partial \sigma_2}
-   \; \frac{1}{2 \cdot \sigma_2}
+   \; \frac{\sigma_2}{2}
 \end{align}
 
 

@@ -29,8 +29,9 @@ YO <- as.numeric( dat$yO )
 XO <- cbind( 1, dat$x1 )
 
 start <- c( betaS, betaO, atan( rho ), log( sigma2 ) )
+   # the correct starting value of logSigmaSq2 would be: log( sigma2^2 )
 names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
-   "atanrho", "logsigmaSq" )
+   "atanRho", "logSigmaSq2" )
 
 res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
     start = start, printLevel = 1 )
@@ -41,9 +42,9 @@ print( round( coef( summary( res ) ), 2 ) )
 
 # add derived coefficients
 coefAll <- c( coef( res ),
-   rho = unname( tan( coef( res )[ "atanrho" ] ) ),
-   sigma2 = unname( sqrt( exp( coef( res )[ "logsigmaSq" ] ) ) ),
-   sigmaSq2 = unname( exp( coef( res )[ "logsigmaSq" ] ) ) )
+   rho = unname( tan( coef( res )[ "atanRho" ] ) ),
+   sigma2 = unname( sqrt( exp( coef( res )[ "logSigmaSq2" ] ) ) ),
+   sigmaSq2 = unname( exp( coef( res )[ "logSigmaSq2" ] ) ) )
 print( round( coefAll, 2 ) )
 
 # jacobian
@@ -51,9 +52,9 @@ jac <- cbind( diag( length( coef( res ) ) ),
    matrix( 0, length( coef( res ) ), 3 ) )
 rownames( jac ) <- names( coef( res ) )
 colnames( jac ) <- c( names( coef( res ) ), "rho", "sigma2", "sigmaSq2" )
-jac[ "atanrho", "rho" ] <- 1 + ( tan( coef( res )[ "atanrho" ] ) )^2
-jac[ "logsigmaSq", "sigma2" ] <- sqrt( exp( coef( res )[ "logsigmaSq" ] ) ) / 2
-jac[ "logsigmaSq", "sigmaSq2" ] <- exp( coef( res )[ "logsigmaSq" ] )
+jac[ "atanRho", "rho" ] <- 1 + ( tan( coef( res )[ "atanRho" ] ) )^2
+jac[ "logSigmaSq2", "sigma2" ] <- sqrt( exp( coef( res )[ "logSigmaSq2" ] ) ) / 2
+jac[ "logSigmaSq2", "sigmaSq2" ] <- exp( coef( res )[ "logSigmaSq2" ] )
 vcovAll <- t( jac ) %*% vcov( res ) %*% jac
 print( round( vcovAll, 2 ) )
 print( round( cov2cor( vcovAll ), 2 ) )

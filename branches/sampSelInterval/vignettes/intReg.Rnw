@@ -136,6 +136,43 @@ and $\Phi_2(.)$ indicates the cumulative distribution function
 of the bivariate standard normal distribution.
 
 
+\section{Restricting coefficients $\rho$ and $\sigma_2^2$}
+
+The parameter $\rho$ needs to be in the interval $(-1,1)$.
+In order to restrict $\rho$ to be in this interval,
+we estimate $\arctan( \rho )$ instead of $\rho$
+so that the derived parameter $\rho = \tan ( \arctan( \rho ) )$
+is always in the interval $(-1,1)$.
+We use the delta method to calculate approximate standard errors
+of the derived parameter~$\rho$,
+whereas the corresponding element of the Jacobian matrix is:
+\begin{align}
+\frac{\partial \tan ( \arctan( \rho ) )}{\partial \arctan( \rho )}
+= \frac{\partial \rho }{\partial \arctan( \rho )}
+= ( 1 + \rho^2 )
+\end{align}
+
+The parameter $\sigma_2$ needs to be strictly positive, i.e.~$\sigma_2 > 0$.
+In order to restrict $\sigma_2$ to be strictly positive,
+we estimate $\log( \sigma_2^2 )$ instead of $\sigma_2$ or $\sigma_2^2$
+so that the derived parameters
+$\sigma_2 = \sqrt{ \exp( \log( \sigma_2^2 ) ) }$
+and $\sigma_2^2 = \exp( \log( \sigma_2^2 ) )$
+are always strictly positive.
+We use the delta method to calculate approximate standard errors
+of the derived parameters~$\sigma_2$ and $\sigma_2^2$,
+whereas the corresponding elements of the Jacobian matrix are:
+\begin{align}
+\frac{\partial \sqrt{ \exp( \log( \sigma_2^2 ) ) } }{
+   \partial \log( \sigma_2^2 )}
+= \frac{\partial \sigma_2 }{\partial \log( \sigma_2^2 )}
+= \frac{\sigma_2 }{2}\\[3ex]
+\frac{\partial \exp( \log( \sigma_2^2 ) )}{\partial \log( \sigma_2^2 )}
+= \frac{\partial \sigma_2^2}{\partial \log( \sigma_2^2 )}
+= \sigma_2^2
+\end{align}
+
+
 \section{Gradients of the CDF of the bivariate standard normal distribution}
 \label{sec:gradBiv}
 

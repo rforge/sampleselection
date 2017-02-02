@@ -28,7 +28,7 @@ XS <- cbind( 1, dat$x1, dat$x2 )
 YO <- as.numeric( dat$yO )
 XO <- cbind( 1, dat$x1 )
 
-start <- c( betaS, betaO, rho, sigma2 )
+start <- c( betaS, betaO, atan( rho ), log( sigma2 ) )
 names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
    "atanrho", "logsigmaSq" )
 

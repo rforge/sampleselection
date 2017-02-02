@@ -768,9 +768,9 @@ gradient of the correlation parameter ($\rho$):
 \end{align}
 
 \begin{align}
-\frac{\partial \ell_i}{\partial atan(\rho)}
+\frac{\partial \ell_i}{\partial \arctan(\rho)}
 & = \frac{\partial \ell_i}{\partial \rho}
-   \frac{\partial \rho}{\partial atan(rho)}
+   \frac{\partial \rho}{\partial \arctan(\rho)}
 = \frac{\partial \ell_i}{\partial \rho}
    \; (\rho^2 + 1)
 \end{align}
@@ -912,9 +912,9 @@ Similarly:
 \end{align}
 
 \begin{align}
-\frac{\partial \ell_i}{\partial log(\sigma_2^2)}
+\frac{\partial \ell_i}{\partial \log(\sigma_2^2)}
 & = \frac{\partial \ell_i}{\partial \sigma_2}
-   \frac{\partial \sigma}{\partial log(\sigma_2^2)}
+   \frac{\partial \sigma_2}{\partial \log(\sigma_2^2)}
 = \frac{\partial \ell_i}{\partial \sigma_2}
    \; \frac{\sigma_2}{2}
 \end{align}

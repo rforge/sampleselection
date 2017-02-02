@@ -38,6 +38,27 @@ res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound,
 print( res )
 print( round( coef( res ), 2 ) )
 print( round( coef( summary( res ) ), 2 ) )
+
+# add derived coefficients
+coefAll <- c( coef( res ),
+   rho = unname( tan( coef( res )[ "atanrho" ] ) ),
+   sigma2 = unname( sqrt( exp( coef( res )[ "logsigmaSq" ] ) ) ),
+   sigmaSq2 = unname( exp( coef( res )[ "logsigmaSq" ] ) ) )
+print( round( coefAll, 2 ) )
+
+# jacobian
+jac <- cbind( diag( length( coef( res ) ) ),
+   matrix( 0, length( coef( res ) ), 3 ) )
+rownames( jac ) <- names( coef( res ) )
+colnames( jac ) <- c( names( coef( res ) ), "rho", "sigma2", "sigmaSq2" )
+jac[ "atanrho", "rho" ] <- 1 + ( tan( coef( res )[ "atanrho" ] ) )^2
+jac[ "logsigmaSq", "sigma2" ] <- sqrt( exp( coef( res )[ "logsigmaSq" ] ) ) / 2
+jac[ "logsigmaSq", "sigmaSq2" ] <- exp( coef( res )[ "logsigmaSq" ] )
+vcovAll <- t( jac ) %*% vcov( res ) %*% jac
+print( round( vcovAll, 2 ) )
+print( round( cov2cor( vcovAll ), 2 ) )
+print( coefTable( coefAll, sqrt( diag( vcovAll ) ) ) ) 
+
 maxLik:::summary.maxLik( res )
 
 # function that returns log-likelihood values

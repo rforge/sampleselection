@@ -135,6 +135,54 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start,
       stop( "argument 'boundaries' must have ", nInterval + 1, "elements" )
    }
 
+   ## If no starting values for the parameters are given, 2-step Heckman is
+   ## estimated with first stage probit and second stage OLS on interval 
+   ## midpoints
+   
+   # Calculating Interval midpoints
+   if(missing(start)) {
+      intervals <- vector("list", length(boundaries) - 1)
+      for(i in seq(length=length(boundaries) - 1)) {
+         intervals[[i]] <- c(boundaries[i], boundaries[i+1])
+      }
+      IntMeans <- sapply(intervals, mean)
+      
+      # For infinite boundaries we use mean interval width as value
+      widths <- sapply(intervals, function(x) x[2] - x[1])
+      meanWidth <- mean(widths[!is.infinite(widths)])
+      negInf <- is.infinite(IntMeans) & IntMeans < 0
+      if(any(negInf)) {
+         IntMeans[negInf] <- sapply(intervals[negInf], 
+            function(x) x[2] - meanWidth)
+      }
+      posInf <- is.infinite(IntMeans) & IntMeans > 0
+      if(any(posInf)) {
+         IntMeans[posInf] <- sapply(intervals[posInf], 
+            function(x) x[1] + meanWidth)
+      }
+      yMean <- IntMeans[YO]
+      
+      # Accounting for intercept
+      if( dim(table(XS[,1])) == 1 ){ 
+         XS_start <- XS[,-(1:1),drop=FALSE]
+      } else {
+         XS_start <- XS
+      }
+      
+      if( dim(table(XO[,1])) == 1 ){ 
+         XO_start <- XO[,-(1:1),drop=FALSE]
+      } else {
+         XO_start <- XO
+      }
+      
+      # 2-stage-Heckman estimation   
+      TwoStage <- heckit( YS ~ XS_start, yMean ~ XO_start, method = "2step")
+      TwoStageCoef <- as.numeric(coef(TwoStage))
+      TwoStageCoef <- TwoStageCoef[-(length(TwoStageCoef)-2)]
+      # Assigning estimates as start values
+      start <- TwoStageCoef
+   }
+   
    ## ---------------
    NXS <- ncol( XS )
    if(is.null(colnames(XS))) {

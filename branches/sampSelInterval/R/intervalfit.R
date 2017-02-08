@@ -1,4 +1,4 @@
-intervalfit <- function(YS, XS, YO, XO, boundaries, start,
+intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
                       weights = NULL, printLevel = 0, returnLogLikStart = FALSE,
                       maxMethod = "BHHH",
                       ...) {
@@ -138,9 +138,18 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start,
    ## If no starting values for the parameters are given, 2-step Heckman is
    ## estimated with first stage probit and second stage OLS on interval 
    ## midpoints
-   
    # Calculating Interval midpoints
-   if(missing(start)) {
+
+   if( is.numeric(start) ){
+      if( length(start) != (ncol(XS) + ncol(XO) + 2) ) {
+      stop("Vector of starting values has incorrect length. 
+      Number of parameters: ", 
+         print((ncol(XS) + ncol(XO) + 2)), " Length of provided vector: ", 
+         print(length(start)))
+      }
+   }
+
+   if( start == "ml" || start == "2step" ) {
       intervals <- vector("list", length(boundaries) - 1)
       for(i in seq(length=length(boundaries) - 1)) {
          intervals[[i]] <- c(boundaries[i], boundaries[i+1])
@@ -175,13 +184,27 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start,
          XO_start <- XO
       }
       
-      # 2-stage-Heckman estimation   
-      TwoStage <- heckit( YS ~ XS_start, yMean ~ XO_start, method = "2step")
-      TwoStageCoef <- as.numeric(coef(TwoStage))
-      TwoStageCoef <- TwoStageCoef[-(length(TwoStageCoef)-2)]
-      # Assigning estimates as start values
-      start <- TwoStageCoef
-   }
+      if(start == "2step") {
+      # 2-step-Heckman estimation   
+      Est <- heckit( YS ~ XS_start, yMean ~ XO_start, method = "2step")
+            # Extracting starting values
+      start <- as.numeric(coef(Est))
+      start <- start[c(1:(length(start)-3), length(start), 
+         length(start) - 1)]
+      start[length(start)-1] <- atan(start[length(start)-1])
+      start[length(start)] <- log(start[length(start)]^2)
+      } else {
+      
+         # ML estimation
+         Est <- heckit( YS ~ XS_start, yMean ~ XO_start, method = "ml")
+         # Extracting starting values
+         start <- as.numeric(coef(Est))
+         start <- start[c(1:(length(start)-2), length(start), 
+         length(start) - 1)]
+         start[length(start)-1] <- atan(start[length(start)-1])
+         start[length(start)] <- log(start[length(start)]^2)
+         }
+      }
    
    ## ---------------
    NXS <- ncol( XS )

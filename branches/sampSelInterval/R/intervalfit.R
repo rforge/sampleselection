@@ -185,16 +185,15 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       }
       
       if(start == "2step") {
-      # 2-step-Heckman estimation   
-      Est <- heckit( YS ~ XS_start, yMean ~ XO_start, method = "2step")
-            # Extracting starting values
-      start <- as.numeric(coef(Est))
-      start <- start[c(1:(length(start)-3), length(start), 
-         length(start) - 1)]
-      start[length(start)-1] <- atan(start[length(start)-1])
-      start[length(start)] <- log(start[length(start)]^2)
+         # 2-step-Heckman estimation   
+         Est <- heckit( YS ~ XS_start, yMean ~ XO_start, method = "2step")
+         # Extracting starting values
+         start <- as.numeric(coef(Est))
+         start <- start[c(1:(length(start)-3), length(start), 
+            length(start) - 1)]
+         start[length(start)-1] <- atan(start[length(start)-1])
+         start[length(start)] <- log(start[length(start)]^2)
       } else {
-      
          # ML estimation
          Est <- heckit( YS ~ XS_start, yMean ~ XO_start, method = "ml")
          # Extracting starting values
@@ -203,8 +202,8 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
          length(start) - 1)]
          start[length(start)-1] <- atan(start[length(start)-1])
          start[length(start)] <- log(start[length(start)]^2)
-         }
       }
+   }
    
    ## ---------------
    NXS <- ncol( XS )

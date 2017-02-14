@@ -269,6 +269,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
                     print.level = printLevel, ... )
    result$tobitType <- "interval"
    result$method <- "ml"
+   result$start <- startVal
    class( result ) <- c( "selection", class( result ) )
    return( result )
 }

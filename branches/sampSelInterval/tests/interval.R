@@ -39,6 +39,7 @@ res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound,
 print( res )
 print( round( coef( res ), 2 ) )
 print( round( coef( summary( res ) ), 2 ) )
+print( res$start )
 
 # add derived coefficients
 coefAll <- c( coef( res ),
@@ -103,6 +104,7 @@ resMl <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound,
 print( resMl )
 print( round( coef( resMl ), 2 ) )
 print( round( coef( summary( resMl ) ), 2 ) )
+print( resMl$start )
 
 
 # tests with automatically generated starting values (2-step estimation)
@@ -111,6 +113,7 @@ res2s <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound,
 print( res2s )
 print( round( coef( res2s ), 2 ) )
 print( round( coef( summary( res2s ) ), 2 ) )
+print( res2s$start )
 
 
 # tests with incorrectly specified starting values

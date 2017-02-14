@@ -70,7 +70,7 @@ YS        1   2   3 <NA>
 Boundaries:
 [1] -Inf    5   15  Inf
 Initial values:
-     betaS0      betaS1      betaS2      betaO0      betaO2     atanRho 
+        XS1         XS2         XS3         XO1         XO2     atanRho 
        1.00        1.00       -1.00       10.00        4.00        0.38 
 logSigmaSq2 
        1.61 
@@ -86,27 +86,27 @@ Call:
  NULL 
 
 Coefficients:
-     betaS0       betaS1       betaS2       betaO0       betaO2      atanRho  
+        XS1          XS2          XS3          XO1          XO2      atanRho  
       0.982        0.967       -1.286       10.241        2.659        0.282  
 logSigmaSq2  
       3.261  
 
 > print( round( coef( res ), 2 ) )
-     betaS0       betaS1       betaS2       betaO0       betaO2      atanRho  
+        XS1          XS2          XS3          XO1          XO2      atanRho  
        0.98         0.97        -1.29        10.24         2.66         0.28  
 logSigmaSq2  
        3.26  
 > print( round( coef( summary( res ) ), 2 ) )
             Estimate Std. error t value Pr(> t)
-betaS0          0.98       0.11    9.05    0.00
-betaS1          0.97       0.15    6.48    0.00
-betaS2         -1.29       0.12  -10.63    0.00
-betaO0         10.24       0.67   15.33    0.00
-betaO2          2.66       0.59    4.49    0.00
+XS1             0.98       0.11    9.05    0.00
+XS2             0.97       0.15    6.48    0.00
+XS3            -1.29       0.12  -10.63    0.00
+XO1            10.24       0.67   15.33    0.00
+XO2             2.66       0.59    4.49    0.00
 atanRho         0.28       0.31    0.92    0.36
 logSigmaSq2     3.26       0.15   21.82    0.00
 > print( res$start )
-     betaS0      betaS1      betaS2      betaO0      betaO2     atanRho 
+        XS1         XS2         XS3         XO1         XO2     atanRho 
        1.00        1.00       -1.00       10.00        4.00        0.38 
 logSigmaSq2 
        1.61 
@@ -117,7 +117,7 @@ logSigmaSq2
 +    sigma2 = unname( sqrt( exp( coef( res )[ "logSigmaSq2" ] ) ) ),
 +    sigmaSq2 = unname( exp( coef( res )[ "logSigmaSq2" ] ) ) )
 > print( round( coefAll, 2 ) )
-     betaS0      betaS1      betaS2      betaO0      betaO2     atanRho 
+        XS1         XS2         XS3         XO1         XO2     atanRho 
        0.98        0.97       -1.29       10.24        2.66        0.28 
 logSigmaSq2         rho      sigma2    sigmaSq2 
        3.26        0.29        5.11       26.09 
@@ -132,46 +132,46 @@ logSigmaSq2         rho      sigma2    sigmaSq2
 > jac[ "logSigmaSq2", "sigmaSq2" ] <- exp( coef( res )[ "logSigmaSq2" ] )
 > vcovAll <- t( jac ) %*% vcov( res ) %*% jac
 > print( round( vcovAll, 2 ) )
-            betaS0 betaS1 betaS2 betaO0 betaO2 atanRho logSigmaSq2   rho sigma2
-betaS0        0.01   0.01   0.00   0.00   0.00    0.00        0.00  0.00   0.00
-betaS1        0.01   0.02  -0.01   0.00   0.01    0.00        0.00  0.00   0.00
-betaS2        0.00  -0.01   0.01   0.00   0.00    0.00        0.00  0.00   0.00
-betaO0        0.00   0.00   0.00   0.45  -0.23   -0.16       -0.02 -0.17  -0.05
-betaO2        0.00   0.01   0.00  -0.23   0.35    0.09        0.02  0.10   0.04
-atanRho       0.00   0.00   0.00  -0.16   0.09    0.09        0.01  0.10   0.03
-logSigmaSq2   0.00   0.00   0.00  -0.02   0.02    0.01        0.02  0.01   0.06
-rho           0.00   0.00   0.00  -0.17   0.10    0.10        0.01  0.11   0.03
-sigma2        0.00   0.00   0.00  -0.05   0.04    0.03        0.06  0.03   0.15
-sigmaSq2      0.00  -0.03   0.03  -0.46   0.40    0.26        0.58  0.28   1.49
+             XS1   XS2   XS3   XO1   XO2 atanRho logSigmaSq2   rho sigma2
+XS1         0.01  0.01  0.00  0.00  0.00    0.00        0.00  0.00   0.00
+XS2         0.01  0.02 -0.01  0.00  0.01    0.00        0.00  0.00   0.00
+XS3         0.00 -0.01  0.01  0.00  0.00    0.00        0.00  0.00   0.00
+XO1         0.00  0.00  0.00  0.45 -0.23   -0.16       -0.02 -0.17  -0.05
+XO2         0.00  0.01  0.00 -0.23  0.35    0.09        0.02  0.10   0.04
+atanRho     0.00  0.00  0.00 -0.16  0.09    0.09        0.01  0.10   0.03
+logSigmaSq2 0.00  0.00  0.00 -0.02  0.02    0.01        0.02  0.01   0.06
+rho         0.00  0.00  0.00 -0.17  0.10    0.10        0.01  0.11   0.03
+sigma2      0.00  0.00  0.00 -0.05  0.04    0.03        0.06  0.03   0.15
+sigmaSq2    0.00 -0.03  0.03 -0.46  0.40    0.26        0.58  0.28   1.49
             sigmaSq2
-betaS0          0.00
-betaS1         -0.03
-betaS2          0.03
-betaO0         -0.46
-betaO2          0.40
+XS1             0.00
+XS2            -0.03
+XS3             0.03
+XO1            -0.46
+XO2             0.40
 atanRho         0.26
 logSigmaSq2     0.58
 rho             0.28
 sigma2          1.49
 sigmaSq2       15.20
 > print( round( cov2cor( vcovAll ), 2 ) )
-            betaS0 betaS1 betaS2 betaO0 betaO2 atanRho logSigmaSq2   rho sigma2
-betaS0        1.00   0.35  -0.28   0.05  -0.02    0.01       -0.01  0.01  -0.01
-betaS1        0.35   1.00  -0.36   0.01   0.08   -0.05       -0.05 -0.05  -0.05
-betaS2       -0.28  -0.36   1.00   0.00  -0.02   -0.01        0.06 -0.01   0.06
-betaO0        0.05   0.01   0.00   1.00  -0.57   -0.76       -0.18 -0.76  -0.18
-betaO2       -0.02   0.08  -0.02  -0.57   1.00    0.52        0.17  0.52   0.17
-atanRho       0.01  -0.05  -0.01  -0.76   0.52    1.00        0.22  1.00   0.22
-logSigmaSq2  -0.01  -0.05   0.06  -0.18   0.17    0.22        1.00  0.22   1.00
-rho           0.01  -0.05  -0.01  -0.76   0.52    1.00        0.22  1.00   0.22
-sigma2       -0.01  -0.05   0.06  -0.18   0.17    0.22        1.00  0.22   1.00
-sigmaSq2     -0.01  -0.05   0.06  -0.18   0.17    0.22        1.00  0.22   1.00
+              XS1   XS2   XS3   XO1   XO2 atanRho logSigmaSq2   rho sigma2
+XS1          1.00  0.35 -0.28  0.05 -0.02    0.01       -0.01  0.01  -0.01
+XS2          0.35  1.00 -0.36  0.01  0.08   -0.05       -0.05 -0.05  -0.05
+XS3         -0.28 -0.36  1.00  0.00 -0.02   -0.01        0.06 -0.01   0.06
+XO1          0.05  0.01  0.00  1.00 -0.57   -0.76       -0.18 -0.76  -0.18
+XO2         -0.02  0.08 -0.02 -0.57  1.00    0.52        0.17  0.52   0.17
+atanRho      0.01 -0.05 -0.01 -0.76  0.52    1.00        0.22  1.00   0.22
+logSigmaSq2 -0.01 -0.05  0.06 -0.18  0.17    0.22        1.00  0.22   1.00
+rho          0.01 -0.05 -0.01 -0.76  0.52    1.00        0.22  1.00   0.22
+sigma2      -0.01 -0.05  0.06 -0.18  0.17    0.22        1.00  0.22   1.00
+sigmaSq2    -0.01 -0.05  0.06 -0.18  0.17    0.22        1.00  0.22   1.00
             sigmaSq2
-betaS0         -0.01
-betaS1         -0.05
-betaS2          0.06
-betaO0         -0.18
-betaO2          0.17
+XS1            -0.01
+XS2            -0.05
+XS3             0.06
+XO1            -0.18
+XO2             0.17
 atanRho         0.22
 logSigmaSq2     1.00
 rho             0.22
@@ -179,11 +179,11 @@ sigma2          1.00
 sigmaSq2        1.00
 > print( coefTable( coefAll, sqrt( diag( vcovAll ) ) ) ) 
             Estimate Std. Error t value Pr(>|t|)
-betaS0          0.98       0.11    9.05       NA
-betaS1          0.97       0.15    6.48       NA
-betaS2         -1.29       0.12  -10.63       NA
-betaO0         10.24       0.67   15.33       NA
-betaO2          2.66       0.59    4.49       NA
+XS1             0.98       0.11    9.05       NA
+XS2             0.97       0.15    6.48       NA
+XS3            -1.29       0.12  -10.63       NA
+XO1            10.24       0.67   15.33       NA
+XO2             2.66       0.59    4.49       NA
 atanRho         0.28       0.31    0.92       NA
 logSigmaSq2     3.26       0.15   21.82       NA
 rho             0.29       0.33    0.87       NA
@@ -199,11 +199,11 @@ Log-Likelihood: -275
 7  free parameters
 Estimates:
             Estimate Std. error t value Pr(> t)    
-betaS0         0.982      0.109    9.05 < 2e-16 ***
-betaS1         0.967      0.149    6.48 8.9e-11 ***
-betaS2        -1.286      0.121  -10.63 < 2e-16 ***
-betaO0        10.241      0.668   15.33 < 2e-16 ***
-betaO2         2.659      0.592    4.49 7.1e-06 ***
+XS1            0.982      0.109    9.05 < 2e-16 ***
+XS2            0.967      0.149    6.48 8.9e-11 ***
+XS3           -1.286      0.121  -10.63 < 2e-16 ***
+XO1           10.241      0.668   15.33 < 2e-16 ***
+XO2            2.659      0.592    4.49 7.1e-06 ***
 atanRho        0.282      0.306    0.92    0.36    
 logSigmaSq2    3.261      0.149   21.82 < 2e-16 ***
 ---
@@ -937,7 +937,10 @@ YS        1   2   3 <NA>
 Boundaries:
 [1] -Inf    5   15  Inf
 Initial values:
-[1]  0.98  0.97 -1.29 10.40  3.74  0.23  4.28
+        XS1         XS2         XS3         XO1         XO2     atanRho 
+       0.98        0.97       -1.29       10.40        3.74        0.23 
+logSigmaSq2 
+       4.28 
 --------------
 successive function values within tolerance limit 
 18  iterations
@@ -949,21 +952,30 @@ Call:
  NULL 
 
 Coefficients:
-[1]   0.982   0.967  -1.286  10.240   2.660   0.282   3.262
+        XS1          XS2          XS3          XO1          XO2      atanRho  
+      0.982        0.967       -1.286       10.240        2.660        0.282  
+logSigmaSq2  
+      3.262  
 
 > print( round( coef( resMl ), 2 ) )
-[1]   0.98   0.97  -1.29  10.24   2.66   0.28   3.26
+        XS1          XS2          XS3          XO1          XO2      atanRho  
+       0.98         0.97        -1.29        10.24         2.66         0.28  
+logSigmaSq2  
+       3.26  
 > print( round( coef( summary( resMl ) ), 2 ) )
-     Estimate Std. error t value Pr(> t)
-[1,]     0.98       0.11    9.05    0.00
-[2,]     0.97       0.15    6.48    0.00
-[3,]    -1.29       0.12  -10.64    0.00
-[4,]    10.24       0.67   15.33    0.00
-[5,]     2.66       0.59    4.49    0.00
-[6,]     0.28       0.31    0.92    0.36
-[7,]     3.26       0.15   21.82    0.00
+            Estimate Std. error t value Pr(> t)
+XS1             0.98       0.11    9.05    0.00
+XS2             0.97       0.15    6.48    0.00
+XS3            -1.29       0.12  -10.64    0.00
+XO1            10.24       0.67   15.33    0.00
+XO2             2.66       0.59    4.49    0.00
+atanRho         0.28       0.31    0.92    0.36
+logSigmaSq2     3.26       0.15   21.82    0.00
 > print( resMl$start )
-[1]  0.98  0.97 -1.29 10.40  3.74  0.23  4.28
+        XS1         XS2         XS3         XO1         XO2     atanRho 
+       0.98        0.97       -1.29       10.40        3.74        0.23 
+logSigmaSq2 
+       4.28 
 > 
 > 
 > # tests with automatically generated starting values (2-step estimation)
@@ -979,7 +991,10 @@ YS        1   2   3 <NA>
 Boundaries:
 [1] -Inf    5   15  Inf
 Initial values:
-[1]  0.98  0.97 -1.28 10.35  3.76  0.24  4.28
+        XS1         XS2         XS3         XO1         XO2     atanRho 
+       0.98        0.97       -1.28       10.35        3.76        0.24 
+logSigmaSq2 
+       4.28 
 --------------
 successive function values within tolerance limit 
 18  iterations
@@ -991,21 +1006,30 @@ Call:
  NULL 
 
 Coefficients:
-[1]   0.982   0.967  -1.286  10.240   2.660   0.282   3.262
+        XS1          XS2          XS3          XO1          XO2      atanRho  
+      0.982        0.967       -1.286       10.240        2.660        0.282  
+logSigmaSq2  
+      3.262  
 
 > print( round( coef( res2s ), 2 ) )
-[1]   0.98   0.97  -1.29  10.24   2.66   0.28   3.26
+        XS1          XS2          XS3          XO1          XO2      atanRho  
+       0.98         0.97        -1.29        10.24         2.66         0.28  
+logSigmaSq2  
+       3.26  
 > print( round( coef( summary( res2s ) ), 2 ) )
-     Estimate Std. error t value Pr(> t)
-[1,]     0.98       0.11    9.05    0.00
-[2,]     0.97       0.15    6.48    0.00
-[3,]    -1.29       0.12  -10.64    0.00
-[4,]    10.24       0.67   15.33    0.00
-[5,]     2.66       0.59    4.49    0.00
-[6,]     0.28       0.31    0.92    0.36
-[7,]     3.26       0.15   21.82    0.00
+            Estimate Std. error t value Pr(> t)
+XS1             0.98       0.11    9.05    0.00
+XS2             0.97       0.15    6.48    0.00
+XS3            -1.29       0.12  -10.64    0.00
+XO1            10.24       0.67   15.33    0.00
+XO2             2.66       0.59    4.49    0.00
+atanRho         0.28       0.31    0.92    0.36
+logSigmaSq2     3.26       0.15   21.82    0.00
 > print( res2s$start )
-[1]  0.98  0.97 -1.28 10.35  3.76  0.24  4.28
+        XS1         XS2         XS3         XO1         XO2     atanRho 
+       0.98        0.97       -1.28       10.35        3.76        0.24 
+logSigmaSq2 
+       4.28 
 > 
 > 
 > # tests with incorrectly specified starting values
@@ -1024,4 +1048,4 @@ Error in sampleSelection:::intervalfit(YS, XS, YO, XO, boundaries = bound,  :
 > 
 > proc.time()
    user  system elapsed 
- 17.136   0.068  17.201 
+  19.40    0.14   19.53 

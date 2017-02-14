@@ -210,12 +210,12 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    ## ---------------
    NXS <- ncol( XS )
    if(is.null(colnames(XS))) {
-      colnames(XS) <- paste( rep( "XS", NXS ),
+      colnames(XS) <- paste0( rep( "XS", NXS ),
          seq( from = 1, length.out = NXS ) )
    }
    NXO <- ncol( XO )
    if(is.null(colnames(XO))) {
-      colnames(XO) <- paste( rep( "XO", NXO ),
+      colnames(XO) <- paste0( rep( "XO", NXO ),
          seq( from = 1, length.out = NXO ) )
    }
    nObs <- length( YS )
@@ -227,6 +227,10 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    iRho <- NXS + NXO + 1
    iSigma2 <- NXS + NXO + 2
    nParam <- iSigma2
+   
+   # names of parameters (through their starting values)
+   names( startVal ) <-
+      c( colnames( XS ), colnames( XO ), "atanRho", "logSigmaSq2" )
    
    # weights
    if( !is.null( weights ) ) {

@@ -210,11 +210,13 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    ## ---------------
    NXS <- ncol( XS )
    if(is.null(colnames(XS))) {
-      colnames(XS) <- rep("XS", NXS)
+      colnames(XS) <- paste( rep( "XS", NXS ),
+         seq( from = 1, length.out = NXS ) )
    }
    NXO <- ncol( XO )
    if(is.null(colnames(XO))) {
-      colnames(XO) <- rep("XO", NXO)
+      colnames(XO) <- paste( rep( "XO", NXO ),
+         seq( from = 1, length.out = NXO ) )
    }
    nObs <- length( YS )
    NO <- length( YS[YS > 0] )

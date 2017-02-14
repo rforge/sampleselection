@@ -169,23 +169,10 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
             function(x) x[1] + meanWidth)
       }
       yMean <- IntMeans[YO]
-      
-      # Accounting for intercept
-      if( dim(table(XS[,1])) == 1 ){ 
-         XS_start <- XS[,-(1:1),drop=FALSE]
-      } else {
-         XS_start <- XS
-      }
-      
-      if( dim(table(XO[,1])) == 1 ){ 
-         XO_start <- XO[,-(1:1),drop=FALSE]
-      } else {
-         XO_start <- XO
-      }
-      
+
       if(start == "2step") {
          # 2-step-Heckman estimation   
-         Est <- heckit( YS ~ XS_start, yMean ~ XO_start, method = "2step")
+         Est <- heckit( YS ~ XS - 1, yMean ~ XO - 1, method = "2step")
          # Extracting starting values
          startVal <- as.numeric(coef(Est))
          startVal <- startVal[c(1:(length(startVal)-3), length(startVal), 
@@ -194,7 +181,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
          startVal[length(startVal)] <- log(startVal[length(startVal)]^2)
       } else {
          # ML estimation
-         Est <- heckit( YS ~ XS_start, yMean ~ XO_start, method = "ml")
+         Est <- heckit( YS ~ XS - 1, yMean ~ XO - 1, method = "ml")
          # Extracting starting values
          startVal <- as.numeric(coef(Est))
          startVal <- startVal[c(1:(length(startVal)-2), length(startVal), 

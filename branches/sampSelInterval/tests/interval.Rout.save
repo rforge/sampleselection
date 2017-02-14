@@ -1039,13 +1039,10 @@ Error in sampleSelection:::intervalfit(YS, XS, YO, XO, boundaries = bound,  :
   argument 'start' must be "ml", "2step", or a numeric vector
 > try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
 +    start = rep( 1, 11 ) ) )
-[1] 7
-[1] 11
 Error in sampleSelection:::intervalfit(YS, XS, YO, XO, boundaries = bound,  : 
-  Vector of starting values has incorrect length. 
-      Number of parameters: 7 Length of provided vector: 11
+  The vector of starting values has an incorrect length. Number of parameters: 7. Length of provided vector: 11
 > 
 > 
 > proc.time()
    user  system elapsed 
-  19.76    0.12   19.87 
+ 14.240   0.076  14.307 

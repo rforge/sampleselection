@@ -142,10 +142,9 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
 
    if( is.numeric(start) ){
       if( length(start) != (ncol(XS) + ncol(XO) + 2) ) {
-      stop("Vector of starting values has incorrect length. 
-      Number of parameters: ", 
-         print((ncol(XS) + ncol(XO) + 2)), " Length of provided vector: ", 
-         print(length(start)))
+      stop( "The vector of starting values has an incorrect length.", 
+         " Number of parameters: ", ncol(XS) + ncol(XO) + 2,
+         ". Length of provided vector: ", length( start ) )
       }
       startVal <- start
    } else if( start %in% c( "ml", "2step" ) ) {

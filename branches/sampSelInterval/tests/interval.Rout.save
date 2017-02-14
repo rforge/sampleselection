@@ -998,6 +998,21 @@ Coefficients:
 [6,]     0.28       0.31    0.92    0.36
 [7,]     3.26       0.15   21.82    0.00
 > 
+> 
+> # tests with incorrectly specified starting values
+> try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
++    start = "wrong" ) )
+Error in sampleSelection:::intervalfit(YS, XS, YO, XO, boundaries = bound,  : 
+  argument 'start' must be "ml", "2step", or a numeric vector
+> try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
++    start = rep( 1, 11 ) ) )
+[1] 7
+[1] 11
+Error in sampleSelection:::intervalfit(YS, XS, YO, XO, boundaries = bound,  : 
+  Vector of starting values has incorrect length. 
+      Number of parameters: 7 Length of provided vector: 11
+> 
+> 
 > proc.time()
    user  system elapsed 
-   14.7     0.1    14.8 
+ 15.764   0.092  15.853 

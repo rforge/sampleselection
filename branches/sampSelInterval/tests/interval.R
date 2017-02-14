@@ -111,3 +111,11 @@ res2s <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound,
 print( res2s )
 print( round( coef( res2s ), 2 ) )
 print( round( coef( summary( res2s ) ), 2 ) )
+
+
+# tests with incorrectly specified starting values
+try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+   start = "wrong" ) )
+try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+   start = rep( 1, 11 ) ) )
+

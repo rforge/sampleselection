@@ -37,8 +37,8 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    loglik <- function( beta) {
       betaS <- beta[ibetaS]
       betaO <- beta[ibetaO]
-      rho <- tan(beta[iRho])
       sigma2 <- sqrt(exp(beta[iSigma2]))
+      rho <- tan(beta[iRho])
       if( ( rho < -1) || ( rho > 1)) return(NA)
       Sigma <- matrix(c(1,-rho,-rho,1), 2, 2)
       XS.b <- drop(XS %*% betaS)
@@ -96,9 +96,6 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
          ( -XO[ YS==1, ] / sigma2 ) /
          pmvnDiff[YS==1]
 
-      # gradient for the correlation parameter (rho)
-      grad[YS==1, iRho] <- ( dmvnDiff[YS==1] * (rho^2 + 1) ) / pmvnDiff[YS==1]  
-
       # gradient for the standard deviation (sigma2)
       grad[YS==1, iSigma2] <- (
          ifelse( is.infinite( boundaries[ YO[YS==1] + 1 ] ), 0,
@@ -114,6 +111,9 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
             dnorm( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) *
             ( ( XO.b[YS==1] - boundaries[ YO[YS==1] ] ) / sigma2^2 ) ) ) * 
          sigma2 / ( pmvnDiff[YS==1] * 2 )
+      
+      # gradient for the correlation parameter (rho)
+      grad[YS==1, iRho] <- ( dmvnDiff[YS==1] * (rho^2 + 1) ) / pmvnDiff[YS==1]  
       
       attr(loglik, "gradient") <- grad
 
@@ -175,14 +175,10 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       # Extracting starting values
       startVal <- as.numeric(coef(Est))
       if(start == "2step") {
-         startVal <- startVal[c(1:(length(startVal)-3), length(startVal), 
-            length(startVal) - 1)]
-      } else {
-         startVal <- startVal[c(1:(length(startVal)-2), length(startVal), 
-         length(startVal) - 1)]
+         startVal <- startVal[ - ( length( startVal ) - 2 ) ]
       }
-      startVal[length(startVal)-1] <- atan(startVal[length(startVal)-1])
-      startVal[length(startVal)] <- log(startVal[length(startVal)]^2)
+      startVal[length(startVal)-1] <- log(startVal[length(startVal)-1]^2)
+      startVal[length(startVal)] <- atan(startVal[length(startVal)])
    } else {
       stop( "argument 'start' must be \"ml\", \"2step\", or",
          " a numeric vector" )
@@ -205,13 +201,13 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    ## parameter indices
    ibetaS <- seq( from = 1, length.out = NXS )
    ibetaO <- seq( from = NXS+1, length.out = NXO )
-   iRho <- NXS + NXO + 1
-   iSigma2 <- NXS + NXO + 2
-   nParam <- iSigma2
+   iSigma2 <- NXS + NXO + 1
+   iRho <- NXS + NXO + 2
+   nParam <- iRho
    
    # names of parameters (through their starting values)
    names( startVal ) <-
-      c( colnames( XS ), colnames( XO ), "atanRho", "logSigmaSq2" )
+      c( colnames( XS ), colnames( XO ), "logSigmaSq2", "atanRho" )
    
    # weights
    if( !is.null( weights ) ) {

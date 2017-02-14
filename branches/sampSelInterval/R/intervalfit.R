@@ -147,6 +147,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
          print((ncol(XS) + ncol(XO) + 2)), " Length of provided vector: ", 
          print(length(start)))
       }
+      startVal <- start
    } else if( start %in% c( "ml", "2step" ) ) {
       intervals <- vector("list", length(boundaries) - 1)
       for(i in seq(length=length(boundaries) - 1)) {
@@ -186,20 +187,20 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
          # 2-step-Heckman estimation   
          Est <- heckit( YS ~ XS_start, yMean ~ XO_start, method = "2step")
          # Extracting starting values
-         start <- as.numeric(coef(Est))
-         start <- start[c(1:(length(start)-3), length(start), 
-            length(start) - 1)]
-         start[length(start)-1] <- atan(start[length(start)-1])
-         start[length(start)] <- log(start[length(start)]^2)
+         startVal <- as.numeric(coef(Est))
+         startVal <- startVal[c(1:(length(startVal)-3), length(startVal), 
+            length(startVal) - 1)]
+         startVal[length(startVal)-1] <- atan(startVal[length(startVal)-1])
+         startVal[length(startVal)] <- log(startVal[length(startVal)]^2)
       } else {
          # ML estimation
          Est <- heckit( YS ~ XS_start, yMean ~ XO_start, method = "ml")
          # Extracting starting values
-         start <- as.numeric(coef(Est))
-         start <- start[c(1:(length(start)-2), length(start), 
-         length(start) - 1)]
-         start[length(start)-1] <- atan(start[length(start)-1])
-         start[length(start)] <- log(start[length(start)]^2)
+         startVal <- as.numeric(coef(Est))
+         startVal <- startVal[c(1:(length(startVal)-2), length(startVal), 
+         length(startVal) - 1)]
+         startVal[length(startVal)-1] <- atan(startVal[length(startVal)-1])
+         startVal[length(startVal)] <- log(startVal[length(startVal)]^2)
       }
    } else {
       stop( "argument 'start' must be \"ml\", \"2step\", or",
@@ -239,31 +240,31 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       cat( "Boundaries:\n")
       print(boundaries)
       cat( "Initial values:\n")
-      print(start)
+      print(startVal)
    }
    if( printLevel > 1) {
       cat( "Log-likelihood value at initial values:\n")
-      print(loglik(start))
+      print(loglik(startVal))
    }
    
    # browser()
    # # check if the likelihood values of all possible outcomes sum up to one
-   # YS[] <- 0; ll0 <- loglik( start )
-   # YS[] <- 1; YO[] <- 1; ll11 <- loglik( start )
-   # YS[] <- 1; YO[] <- 2; ll12 <- loglik( start )
-   # YS[] <- 1; YO[] <- 3; ll13 <- loglik( start )
+   # YS[] <- 0; ll0 <- loglik( startVal )
+   # YS[] <- 1; YO[] <- 1; ll11 <- loglik( startVal )
+   # YS[] <- 1; YO[] <- 2; ll12 <- loglik( startVal )
+   # YS[] <- 1; YO[] <- 3; ll13 <- loglik( startVal )
    # all.equal( exp(ll0) + exp(ll11) + exp(ll12) + exp(ll13), rep( 1, nObs ) )
    # # check analytical derivatives
-   # compareDerivatives(loglik, gradlik, t0=start )
-   # range(numericGradient(loglik, t0=start)-gradlik(start))
+   # compareDerivatives(loglik, gradlik, t0=startVal )
+   # range(numericGradient(loglik, t0=startVal)-gradlik(startVal))
    
    if( returnLogLikStart ) {
-      return( loglik( start ) )
+      return( loglik( startVal ) )
    }
    
    ## estimate
    result <- maxLik(loglik, 
-                    start=start,
+                    start=startVal,
                     method=maxMethod,
                     print.level = printLevel, ... )
    result$tobitType <- "interval"

@@ -147,9 +147,7 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
          print((ncol(XS) + ncol(XO) + 2)), " Length of provided vector: ", 
          print(length(start)))
       }
-   }
-
-   if( start == "ml" || start == "2step" ) {
+   } else if( start %in% c( "ml", "2step" ) ) {
       intervals <- vector("list", length(boundaries) - 1)
       for(i in seq(length=length(boundaries) - 1)) {
          intervals[[i]] <- c(boundaries[i], boundaries[i+1])
@@ -203,6 +201,9 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
          start[length(start)-1] <- atan(start[length(start)-1])
          start[length(start)] <- log(start[length(start)]^2)
       }
+   } else {
+      stop( "argument 'start' must be \"ml\", \"2step\", or",
+         " a numeric vector" )
    }
    
    ## ---------------

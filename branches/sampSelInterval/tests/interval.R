@@ -97,3 +97,17 @@ colnames( gradEst ) <- names( start )
 print( gradEst )
 
 
+# tests with automatically generated starting values (ML estimation)
+resMl <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+   start = "ml", printLevel = 1 )
+print( resMl )
+print( round( coef( resMl ), 2 ) )
+print( round( coef( summary( resMl ) ), 2 ) )
+
+
+# tests with automatically generated starting values (2-step estimation)
+res2s <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+   start = "2step", printLevel = 1 )
+print( res2s )
+print( round( coef( res2s ), 2 ) )
+print( round( coef( summary( res2s ) ), 2 ) )

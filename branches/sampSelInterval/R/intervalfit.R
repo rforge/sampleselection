@@ -170,25 +170,19 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       }
       yMean <- IntMeans[YO]
 
+      # estimation as a normal tobit-2 model (either by ML or the 2-step method)
+      Est <- heckit( YS ~ XS - 1, yMean ~ XO - 1, method = start )
+      # Extracting starting values
+      startVal <- as.numeric(coef(Est))
       if(start == "2step") {
-         # 2-step-Heckman estimation   
-         Est <- heckit( YS ~ XS - 1, yMean ~ XO - 1, method = "2step")
-         # Extracting starting values
-         startVal <- as.numeric(coef(Est))
          startVal <- startVal[c(1:(length(startVal)-3), length(startVal), 
             length(startVal) - 1)]
-         startVal[length(startVal)-1] <- atan(startVal[length(startVal)-1])
-         startVal[length(startVal)] <- log(startVal[length(startVal)]^2)
       } else {
-         # ML estimation
-         Est <- heckit( YS ~ XS - 1, yMean ~ XO - 1, method = "ml")
-         # Extracting starting values
-         startVal <- as.numeric(coef(Est))
          startVal <- startVal[c(1:(length(startVal)-2), length(startVal), 
          length(startVal) - 1)]
-         startVal[length(startVal)-1] <- atan(startVal[length(startVal)-1])
-         startVal[length(startVal)] <- log(startVal[length(startVal)]^2)
       }
+      startVal[length(startVal)-1] <- atan(startVal[length(startVal)-1])
+      startVal[length(startVal)] <- log(startVal[length(startVal)]^2)
    } else {
       stop( "argument 'start' must be \"ml\", \"2step\", or",
          " a numeric vector" )

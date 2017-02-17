@@ -58,24 +58,28 @@ https://r-forge.r-project.org/projects/maxlik/
 > names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
 +    "logSigma", "atanRho" )
 > 
-> res <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
-+     start = start, printLevel = 1 )
-  YS YSnumeric lower upper
-1  1         1  -Inf     5
-2  2         2     5    15
-3  3         3    15   Inf
+> res <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
++    start = start, printLevel = 1 )
+Tobit 2 model
+0 invalid observations
+         YS YSnumeric lower upper
+1  (-Inf,5]         1  -Inf     5
+2    (5,15]         2     5    15
+3 (15, Inf]         3    15   Inf
 YO observed: 209 times; not observed: 91 times:
 Number of intervals:  3 
-       YO
-YS        1   2   3 <NA>
-  FALSE   0   0   0   91
-  TRUE   26 130  53    0
-  <NA>    0   0   0    0
+      YO
+YS       1   2   3 <NA>
+  0      0   0   0   91
+  1     26 130  53    0
+  <NA>   0   0   0    0
 Boundaries:
 [1] -Inf    5   15  Inf
 Initial values:
-     XS1      XS2      XS3      XO1      XO2 logSigma  atanRho 
-    1.00     1.00    -1.00    10.00     4.00     0.80     0.38 
+(Intercept)          x1          x2 (Intercept)          x1    logSigma 
+       1.00        1.00       -1.00       10.00        4.00        0.80 
+    atanRho 
+       0.38 
 --------------
 successive function values within tolerance limit 
 13  iterations
@@ -85,27 +89,33 @@ Function value: -275
 > print( res )
 
 Call:
- NULL 
+ selection(selection = yS ~ x1 + x2, outcome = yO ~ x1, data = dat,      start = start, boundaries = bound, printLevel = 1) 
 
 Coefficients:
-     XS1       XS2       XS3       XO1       XO2  logSigma   atanRho  
-   0.982     0.967    -1.286    10.241     2.659     1.631     0.282  
+(Intercept)           x1           x2  (Intercept)           x1     logSigma  
+      0.982        0.967       -1.286       10.241        2.659        1.631  
+    atanRho  
+      0.282  
 
 > print( round( coef( res ), 2 ) )
-     XS1       XS2       XS3       XO1       XO2  logSigma   atanRho  
-    0.98      0.97     -1.29     10.24      2.66      1.63      0.28  
+(Intercept)           x1           x2  (Intercept)           x1     logSigma  
+       0.98         0.97        -1.29        10.24         2.66         1.63  
+    atanRho  
+       0.28  
 > print( round( coef( summary( res ) ), 2 ) )
-         Estimate Std. error t value Pr(> t)
-XS1          0.98       0.11    9.05    0.00
-XS2          0.97       0.15    6.48    0.00
-XS3         -1.29       0.12  -10.63    0.00
-XO1         10.24       0.67   15.33    0.00
-XO2          2.66       0.59    4.49    0.00
-logSigma     1.63       0.07   21.82    0.00
-atanRho      0.28       0.31    0.92    0.36
+            Estimate Std. error t value Pr(> t)
+(Intercept)     0.98       0.11    9.05    0.00
+x1              0.97       0.15    6.48    0.00
+x2             -1.29       0.12  -10.63    0.00
+(Intercept)    10.24       0.67   15.33    0.00
+x1              2.66       0.59    4.49    0.00
+logSigma        1.63       0.07   21.82    0.00
+atanRho         0.28       0.31    0.92    0.36
 > print( res$start )
-     XS1      XS2      XS3      XO1      XO2 logSigma  atanRho 
-    1.00     1.00    -1.00    10.00     4.00     0.80     0.38 
+(Intercept)          x1          x2 (Intercept)          x1    logSigma 
+       1.00        1.00       -1.00       10.00        4.00        0.80 
+    atanRho 
+       0.38 
 > 
 > # add derived coefficients
 > coefAll <- c( coef( res ),
@@ -113,10 +123,10 @@ atanRho      0.28       0.31    0.92    0.36
 +    sigmaSq = unname( exp( 2 * coef( res )[ "logSigma" ] ) ),
 +    rho = unname( tan( coef( res )[ "atanRho" ] ) ) )
 > print( round( coefAll, 2 ) )
-     XS1      XS2      XS3      XO1      XO2 logSigma  atanRho    sigma 
-    0.98     0.97    -1.29    10.24     2.66     1.63     0.28     5.11 
- sigmaSq      rho 
-   26.09     0.29 
+(Intercept)          x1          x2 (Intercept)          x1    logSigma 
+       0.98        0.97       -1.29       10.24        2.66        1.63 
+    atanRho       sigma     sigmaSq         rho 
+       0.28        5.11       26.09        0.29 
 > 
 > # jacobian
 > jac <- cbind( diag( length( coef( res ) ) ),
@@ -128,41 +138,63 @@ atanRho      0.28       0.31    0.92    0.36
 > jac[ "atanRho", "rho" ] <- 1 + ( tan( coef( res )[ "atanRho" ] ) )^2
 > vcovAll <- t( jac ) %*% vcov( res ) %*% jac
 > print( round( vcovAll, 2 ) )
-          XS1   XS2   XS3   XO1   XO2 logSigma atanRho sigma sigmaSq   rho
-XS1      0.01  0.01  0.00  0.00  0.00     0.00    0.00  0.00    0.00  0.00
-XS2      0.01  0.02 -0.01  0.00  0.01     0.00    0.00  0.00   -0.03  0.00
-XS3      0.00 -0.01  0.01  0.00  0.00     0.00    0.00  0.00    0.03  0.00
-XO1      0.00  0.00  0.00  0.45 -0.23    -0.01   -0.16 -0.05   -0.46 -0.17
-XO2      0.00  0.01  0.00 -0.23  0.35     0.01    0.09  0.04    0.40  0.10
-logSigma 0.00  0.00  0.00 -0.01  0.01     0.01    0.00  0.03    0.29  0.01
-atanRho  0.00  0.00  0.00 -0.16  0.09     0.00    0.09  0.03    0.26  0.10
-sigma    0.00  0.00  0.00 -0.05  0.04     0.03    0.03  0.15    1.49  0.03
-sigmaSq  0.00 -0.03  0.03 -0.46  0.40     0.29    0.26  1.49   15.20  0.28
-rho      0.00  0.00  0.00 -0.17  0.10     0.01    0.10  0.03    0.28  0.11
+            (Intercept)    x1    x2 (Intercept)    x1 logSigma atanRho sigma
+(Intercept)        0.01  0.01  0.00        0.00  0.00     0.00    0.00  0.00
+x1                 0.01  0.02 -0.01        0.00  0.01     0.00    0.00  0.00
+x2                 0.00 -0.01  0.01        0.00  0.00     0.00    0.00  0.00
+(Intercept)        0.00  0.00  0.00        0.45 -0.23    -0.01   -0.16 -0.05
+x1                 0.00  0.01  0.00       -0.23  0.35     0.01    0.09  0.04
+logSigma           0.00  0.00  0.00       -0.01  0.01     0.01    0.00  0.03
+atanRho            0.00  0.00  0.00       -0.16  0.09     0.00    0.09  0.03
+sigma              0.00  0.00  0.00       -0.05  0.04     0.03    0.03  0.15
+sigmaSq            0.00 -0.03  0.03       -0.46  0.40     0.29    0.26  1.49
+rho                0.00  0.00  0.00       -0.17  0.10     0.01    0.10  0.03
+            sigmaSq   rho
+(Intercept)    0.00  0.00
+x1            -0.03  0.00
+x2             0.03  0.00
+(Intercept)   -0.46 -0.17
+x1             0.40  0.10
+logSigma       0.29  0.01
+atanRho        0.26  0.10
+sigma          1.49  0.03
+sigmaSq       15.20  0.28
+rho            0.28  0.11
 > print( round( cov2cor( vcovAll ), 2 ) )
-           XS1   XS2   XS3   XO1   XO2 logSigma atanRho sigma sigmaSq   rho
-XS1       1.00  0.35 -0.28  0.05 -0.02    -0.01    0.01 -0.01   -0.01  0.01
-XS2       0.35  1.00 -0.36  0.01  0.08    -0.05   -0.05 -0.05   -0.05 -0.05
-XS3      -0.28 -0.36  1.00  0.00 -0.02     0.06   -0.01  0.06    0.06 -0.01
-XO1       0.05  0.01  0.00  1.00 -0.57    -0.18   -0.76 -0.18   -0.18 -0.76
-XO2      -0.02  0.08 -0.02 -0.57  1.00     0.17    0.52  0.17    0.17  0.52
-logSigma -0.01 -0.05  0.06 -0.18  0.17     1.00    0.22  1.00    1.00  0.22
-atanRho   0.01 -0.05 -0.01 -0.76  0.52     0.22    1.00  0.22    0.22  1.00
-sigma    -0.01 -0.05  0.06 -0.18  0.17     1.00    0.22  1.00    1.00  0.22
-sigmaSq  -0.01 -0.05  0.06 -0.18  0.17     1.00    0.22  1.00    1.00  0.22
-rho       0.01 -0.05 -0.01 -0.76  0.52     0.22    1.00  0.22    0.22  1.00
+            (Intercept)    x1    x2 (Intercept)    x1 logSigma atanRho sigma
+(Intercept)        1.00  0.35 -0.28        0.05 -0.02    -0.01    0.01 -0.01
+x1                 0.35  1.00 -0.36        0.01  0.08    -0.05   -0.05 -0.05
+x2                -0.28 -0.36  1.00        0.00 -0.02     0.06   -0.01  0.06
+(Intercept)        0.05  0.01  0.00        1.00 -0.57    -0.18   -0.76 -0.18
+x1                -0.02  0.08 -0.02       -0.57  1.00     0.17    0.52  0.17
+logSigma          -0.01 -0.05  0.06       -0.18  0.17     1.00    0.22  1.00
+atanRho            0.01 -0.05 -0.01       -0.76  0.52     0.22    1.00  0.22
+sigma             -0.01 -0.05  0.06       -0.18  0.17     1.00    0.22  1.00
+sigmaSq           -0.01 -0.05  0.06       -0.18  0.17     1.00    0.22  1.00
+rho                0.01 -0.05 -0.01       -0.76  0.52     0.22    1.00  0.22
+            sigmaSq   rho
+(Intercept)   -0.01  0.01
+x1            -0.05 -0.05
+x2             0.06 -0.01
+(Intercept)   -0.18 -0.76
+x1             0.17  0.52
+logSigma       1.00  0.22
+atanRho        0.22  1.00
+sigma          1.00  0.22
+sigmaSq        1.00  0.22
+rho            0.22  1.00
 > print( coefTable( coefAll, sqrt( diag( vcovAll ) ) ) ) 
-         Estimate Std. Error t value Pr(>|t|)
-XS1          0.98      0.109    9.05       NA
-XS2          0.97      0.149    6.48       NA
-XS3         -1.29      0.121  -10.63       NA
-XO1         10.24      0.668   15.33       NA
-XO2          2.66      0.592    4.49       NA
-logSigma     1.63      0.075   21.82       NA
-atanRho      0.28      0.306    0.92       NA
-sigma        5.11      0.382   13.38       NA
-sigmaSq     26.09      3.899    6.69       NA
-rho          0.29      0.332    0.87       NA
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)     0.98      0.109    9.05       NA
+x1              0.97      0.149    6.48       NA
+x2             -1.29      0.121  -10.63       NA
+(Intercept)    10.24      0.668   15.33       NA
+x1              2.66      0.592    4.49       NA
+logSigma        1.63      0.075   21.82       NA
+atanRho         0.28      0.306    0.92       NA
+sigma           5.11      0.382   13.38       NA
+sigmaSq        26.09      3.899    6.69       NA
+rho             0.29      0.332    0.87       NA
 > 
 > maxLik:::summary.maxLik( res )
 --------------------------------------------
@@ -172,21 +204,21 @@ Return code 2: successive function values within tolerance limit
 Log-Likelihood: -275 
 7  free parameters
 Estimates:
-         Estimate Std. error t value Pr(> t)    
-XS1        0.9819     0.1085    9.05 < 2e-16 ***
-XS2        0.9667     0.1491    6.48 8.9e-11 ***
-XS3       -1.2861     0.1209  -10.63 < 2e-16 ***
-XO1       10.2410     0.6682   15.33 < 2e-16 ***
-XO2        2.6593     0.5922    4.49 7.1e-06 ***
-logSigma   1.6307     0.0747   21.82 < 2e-16 ***
-atanRho    0.2820     0.3058    0.92    0.36    
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   0.9819     0.1085    9.05 < 2e-16 ***
+x1            0.9667     0.1491    6.48 8.9e-11 ***
+x2           -1.2861     0.1209  -10.63 < 2e-16 ***
+(Intercept)  10.2410     0.6682   15.33 < 2e-16 ***
+x1            2.6593     0.5922    4.49 7.1e-06 ***
+logSigma      1.6307     0.0747   21.82 < 2e-16 ***
+atanRho       0.2820     0.3058    0.92    0.36    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > # function that returns log-likelihood values
 > intLogLik <- function( param ) {
-+    ll <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
++    ll <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
 +       start = param, returnLogLikStart = TRUE )
 +    return( ll )
 + }
@@ -899,24 +931,28 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > 
 > # tests with automatically generated starting values (ML estimation)
-> resMl <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
+> resMl <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
 +    start = "ml", printLevel = 1 )
-  YS YSnumeric lower upper
-1  1         1  -Inf     5
-2  2         2     5    15
-3  3         3    15   Inf
+Tobit 2 model
+0 invalid observations
+         YS YSnumeric lower upper
+1  (-Inf,5]         1  -Inf     5
+2    (5,15]         2     5    15
+3 (15, Inf]         3    15   Inf
 YO observed: 209 times; not observed: 91 times:
 Number of intervals:  3 
-       YO
-YS        1   2   3 <NA>
-  FALSE   0   0   0   91
-  TRUE   26 130  53    0
-  <NA>    0   0   0    0
+      YO
+YS       1   2   3 <NA>
+  0      0   0   0   91
+  1     26 130  53    0
+  <NA>   0   0   0    0
 Boundaries:
 [1] -Inf    5   15  Inf
 Initial values:
-     XS1      XS2      XS3      XO1      XO2 logSigma  atanRho 
-    0.98     0.97    -1.29    10.40     3.74     4.28     0.23 
+(Intercept)          x1          x2 (Intercept)          x1    logSigma 
+       0.98        0.97       -1.29       10.40        3.74        4.28 
+    atanRho 
+       0.23 
 --------------
 successive function values within tolerance limit 
 20  iterations
@@ -925,48 +961,58 @@ Function value: -275
 > print( resMl )
 
 Call:
- NULL 
+ selection(selection = yS ~ x1 + x2, outcome = yO ~ x1, data = dat,      start = "ml", boundaries = bound, printLevel = 1) 
 
 Coefficients:
-     XS1       XS2       XS3       XO1       XO2  logSigma   atanRho  
-   0.982     0.967    -1.286    10.242     2.658     1.631     0.281  
+(Intercept)           x1           x2  (Intercept)           x1     logSigma  
+      0.982        0.967       -1.286       10.242        2.658        1.631  
+    atanRho  
+      0.281  
 
 > print( round( coef( resMl ), 2 ) )
-     XS1       XS2       XS3       XO1       XO2  logSigma   atanRho  
-    0.98      0.97     -1.29     10.24      2.66      1.63      0.28  
+(Intercept)           x1           x2  (Intercept)           x1     logSigma  
+       0.98         0.97        -1.29        10.24         2.66         1.63  
+    atanRho  
+       0.28  
 > print( round( coef( summary( resMl ) ), 2 ) )
-         Estimate Std. error t value Pr(> t)
-XS1          0.98       0.11    9.05    0.00
-XS2          0.97       0.15    6.48    0.00
-XS3         -1.29       0.12  -10.64    0.00
-XO1         10.24       0.67   15.32    0.00
-XO2          2.66       0.59    4.49    0.00
-logSigma     1.63       0.07   21.83    0.00
-atanRho      0.28       0.31    0.92    0.36
+            Estimate Std. error t value Pr(> t)
+(Intercept)     0.98       0.11    9.05    0.00
+x1              0.97       0.15    6.48    0.00
+x2             -1.29       0.12  -10.64    0.00
+(Intercept)    10.24       0.67   15.32    0.00
+x1              2.66       0.59    4.49    0.00
+logSigma        1.63       0.07   21.83    0.00
+atanRho         0.28       0.31    0.92    0.36
 > print( resMl$start )
-     XS1      XS2      XS3      XO1      XO2 logSigma  atanRho 
-    0.98     0.97    -1.29    10.40     3.74     4.28     0.23 
+(Intercept)          x1          x2 (Intercept)          x1    logSigma 
+       0.98        0.97       -1.29       10.40        3.74        4.28 
+    atanRho 
+       0.23 
 > 
 > 
 > # tests with automatically generated starting values (2-step estimation)
-> res2s <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
+> res2s <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
 +    start = "2step", printLevel = 1 )
-  YS YSnumeric lower upper
-1  1         1  -Inf     5
-2  2         2     5    15
-3  3         3    15   Inf
+Tobit 2 model
+0 invalid observations
+         YS YSnumeric lower upper
+1  (-Inf,5]         1  -Inf     5
+2    (5,15]         2     5    15
+3 (15, Inf]         3    15   Inf
 YO observed: 209 times; not observed: 91 times:
 Number of intervals:  3 
-       YO
-YS        1   2   3 <NA>
-  FALSE   0   0   0   91
-  TRUE   26 130  53    0
-  <NA>    0   0   0    0
+      YO
+YS       1   2   3 <NA>
+  0      0   0   0   91
+  1     26 130  53    0
+  <NA>   0   0   0    0
 Boundaries:
 [1] -Inf    5   15  Inf
 Initial values:
-     XS1      XS2      XS3      XO1      XO2 logSigma  atanRho 
-    0.98     0.97    -1.28    10.35     3.76     4.28     0.24 
+(Intercept)          x1          x2 (Intercept)          x1    logSigma 
+       0.98        0.97       -1.28       10.35        3.76        4.28 
+    atanRho 
+       0.24 
 --------------
 successive function values within tolerance limit 
 20  iterations
@@ -975,49 +1021,55 @@ Function value: -275
 > print( res2s )
 
 Call:
- NULL 
+ selection(selection = yS ~ x1 + x2, outcome = yO ~ x1, data = dat,      start = "2step", boundaries = bound, printLevel = 1) 
 
 Coefficients:
-     XS1       XS2       XS3       XO1       XO2  logSigma   atanRho  
-   0.982     0.967    -1.286    10.242     2.658     1.631     0.281  
+(Intercept)           x1           x2  (Intercept)           x1     logSigma  
+      0.982        0.967       -1.286       10.242        2.658        1.631  
+    atanRho  
+      0.281  
 
 > print( round( coef( res2s ), 2 ) )
-     XS1       XS2       XS3       XO1       XO2  logSigma   atanRho  
-    0.98      0.97     -1.29     10.24      2.66      1.63      0.28  
+(Intercept)           x1           x2  (Intercept)           x1     logSigma  
+       0.98         0.97        -1.29        10.24         2.66         1.63  
+    atanRho  
+       0.28  
 > print( round( coef( summary( res2s ) ), 2 ) )
-         Estimate Std. error t value Pr(> t)
-XS1          0.98       0.11    9.05    0.00
-XS2          0.97       0.15    6.48    0.00
-XS3         -1.29       0.12  -10.64    0.00
-XO1         10.24       0.67   15.32    0.00
-XO2          2.66       0.59    4.49    0.00
-logSigma     1.63       0.07   21.83    0.00
-atanRho      0.28       0.31    0.92    0.36
+            Estimate Std. error t value Pr(> t)
+(Intercept)     0.98       0.11    9.05    0.00
+x1              0.97       0.15    6.48    0.00
+x2             -1.29       0.12  -10.64    0.00
+(Intercept)    10.24       0.67   15.32    0.00
+x1              2.66       0.59    4.49    0.00
+logSigma        1.63       0.07   21.83    0.00
+atanRho         0.28       0.31    0.92    0.36
 > print( res2s$start )
-     XS1      XS2      XS3      XO1      XO2 logSigma  atanRho 
-    0.98     0.97    -1.28    10.35     3.76     4.28     0.24 
+(Intercept)          x1          x2 (Intercept)          x1    logSigma 
+       0.98        0.97       -1.28       10.35        3.76        4.28 
+    atanRho 
+       0.24 
 > 
 > 
 > # tests with incorrectly specified starting values
-> try( sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
+> try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
 +    start = "wrong" ) )
-Error in sampleSelection:::tobit2Intfit(YS, XS, YO, XO, boundaries = bound,  : 
+Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
   argument 'start' must be "ml", "2step", or a numeric vector
-> try( sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
+> try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
 +    start = rep( 1, 11 ) ) )
-Error in sampleSelection:::tobit2Intfit(YS, XS, YO, XO, boundaries = bound,  : 
+Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
   The vector of starting values has an incorrect length. Number of parameters: 7. Length of provided vector: 11
 > 
 > # tests with incorrectly specified boundaries
-> try( sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = 1:6, 
+> try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 1:6, 
 +    start = start ) )
-Error in sampleSelection:::tobit2Intfit(YS, XS, YO, XO, boundaries = 1:6,  : 
+Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
   argument 'boundaries' must have 4 elements
-> try( sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = 4:1, 
+> try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 4:1, 
 +    start = start ) )
-Error in sampleSelection:::tobit2Intfit(YS, XS, YO, XO, boundaries = 4:1,  : 
+Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
   the boundaries in the vector definded by argument 'boundaries' must be in ascending order
 > 
 > proc.time()
    user  system elapsed 
-   21.4     0.1    21.5 
+   17.0     0.1    17.1 

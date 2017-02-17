@@ -151,6 +151,9 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    ## midpoints
    # Calculating Interval midpoints
 
+   if( is.null( start ) ) {
+      start <- "ml"
+   }
    if( is.numeric(start) ){
       if( length(start) != (ncol(XS) + ncol(XO) + 2) ) {
       stop( "The vector of starting values has an incorrect length.", 

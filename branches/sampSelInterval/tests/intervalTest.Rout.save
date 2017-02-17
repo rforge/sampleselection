@@ -92,16 +92,16 @@ Call:
  selection(selection = yS ~ x1 + x2, outcome = yO ~ x1, data = dat,      start = start, boundaries = bound, printLevel = 1) 
 
 Coefficients:
-(Intercept)           x1           x2  (Intercept)           x1     logSigma  
-      0.982        0.967       -1.286       10.241        2.659        1.631  
-    atanRho  
-      0.282  
+S:(Intercept)           S:x1           S:x2  O:(Intercept)           O:x1  
+        0.982          0.967         -1.286         10.241          2.659  
+     logSigma        atanRho  
+        1.631          0.282  
 
 > print( round( coef( res ), 2 ) )
-(Intercept)           x1           x2  (Intercept)           x1     logSigma  
-       0.98         0.97        -1.29        10.24         2.66         1.63  
-    atanRho  
-       0.28  
+S:(Intercept)           S:x1           S:x2  O:(Intercept)           O:x1  
+         0.98           0.97          -1.29          10.24           2.66  
+     logSigma        atanRho  
+         1.63           0.28  
 > print( round( coef( summary( res ) ), 2 ) )
             Estimate Std. error t value Pr(> t)
 (Intercept)     0.98       0.11    9.05    0.00
@@ -964,16 +964,16 @@ Call:
  selection(selection = yS ~ x1 + x2, outcome = yO ~ x1, data = dat,      start = "ml", boundaries = bound, printLevel = 1) 
 
 Coefficients:
-(Intercept)           x1           x2  (Intercept)           x1     logSigma  
-      0.982        0.967       -1.286       10.242        2.658        1.631  
-    atanRho  
-      0.281  
+S:(Intercept)           S:x1           S:x2  O:(Intercept)           O:x1  
+        0.982          0.967         -1.286         10.242          2.658  
+     logSigma        atanRho  
+        1.631          0.281  
 
 > print( round( coef( resMl ), 2 ) )
-(Intercept)           x1           x2  (Intercept)           x1     logSigma  
-       0.98         0.97        -1.29        10.24         2.66         1.63  
-    atanRho  
-       0.28  
+S:(Intercept)           S:x1           S:x2  O:(Intercept)           O:x1  
+         0.98           0.97          -1.29          10.24           2.66  
+     logSigma        atanRho  
+         1.63           0.28  
 > print( round( coef( summary( resMl ) ), 2 ) )
             Estimate Std. error t value Pr(> t)
 (Intercept)     0.98       0.11    9.05    0.00
@@ -1024,16 +1024,16 @@ Call:
  selection(selection = yS ~ x1 + x2, outcome = yO ~ x1, data = dat,      start = "2step", boundaries = bound, printLevel = 1) 
 
 Coefficients:
-(Intercept)           x1           x2  (Intercept)           x1     logSigma  
-      0.982        0.967       -1.286       10.242        2.658        1.631  
-    atanRho  
-      0.281  
+S:(Intercept)           S:x1           S:x2  O:(Intercept)           O:x1  
+        0.982          0.967         -1.286         10.242          2.658  
+     logSigma        atanRho  
+        1.631          0.281  
 
 > print( round( coef( res2s ), 2 ) )
-(Intercept)           x1           x2  (Intercept)           x1     logSigma  
-       0.98         0.97        -1.29        10.24         2.66         1.63  
-    atanRho  
-       0.28  
+S:(Intercept)           S:x1           S:x2  O:(Intercept)           O:x1  
+         0.98           0.97          -1.29          10.24           2.66  
+     logSigma        atanRho  
+         1.63           0.28  
 > print( round( coef( summary( res2s ) ), 2 ) )
             Estimate Std. error t value Pr(> t)
 (Intercept)     0.98       0.11    9.05    0.00
@@ -1072,4 +1072,4 @@ Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  :
 > 
 > proc.time()
    user  system elapsed 
-   17.0     0.1    17.1 
+ 17.620   0.088  17.710 

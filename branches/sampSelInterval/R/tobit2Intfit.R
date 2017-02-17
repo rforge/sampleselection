@@ -126,7 +126,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       return(attr(l, "gradient"))
    }
    
-   YO <- as.integer( round( YO ) )
+   YO <- as.integer( YO )
    if( min( YO[YS==1] ) <= 0 ) {
       stop( "YO should only have strictly positive integer values" )
    }

@@ -49,6 +49,7 @@ summary.selection <- function(object, ...) {
    }
    s$param    <- object$param
    s$tobitType <- object$tobitType
+   s$outcomeVar <- object$outcomeVar
    s$method <- object$method
    s$activePar <- activePar(object)
    class( s ) <- c( "summary.selection", class( s ) )
@@ -62,6 +63,9 @@ print.summary.selection <- function(x,
 
    cat("--------------------------------------------\n")
    cat("Tobit", x$tobitType, "model" )
+   if( isTRUE( x$outcomeVar %in% c( "interval", "binary" ) ) ) {
+      cat( " with", x$outcomeVar, "outcome" )
+   }
    if( x$tobitType == 2 ) {
       cat( " (sample selection model)\n" )
    } else {

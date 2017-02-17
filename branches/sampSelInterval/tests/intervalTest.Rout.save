@@ -118,7 +118,7 @@ atanRho         0.28       0.31    0.92    0.36
        0.38 
 > print( summary( res ) )
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 13 iterations
 Return code 2: successive function values within tolerance limit
@@ -1015,7 +1015,7 @@ atanRho         0.28       0.31    0.92    0.36
        0.23 
 > print( summary( resMl ) )
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 20 iterations
 Return code 2: successive function values within tolerance limit
@@ -1100,7 +1100,7 @@ atanRho         0.28       0.31    0.92    0.36
        0.24 
 > print( summary( res2s ) )
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 20 iterations
 Return code 2: successive function values within tolerance limit
@@ -1147,4 +1147,4 @@ Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  :
 > 
 > proc.time()
    user  system elapsed 
- 16.636   0.076  16.708 
+ 21.548   0.084  21.629 

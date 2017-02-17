@@ -1,7 +1,7 @@
 
-R version 3.2.2 (2015-08-14) -- "Fire Safety"
-Copyright (C) 2015 The R Foundation for Statistical Computing
-Platform: x86_64-redhat-linux-gnu (64-bit)
+R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -62,7 +62,7 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo            rho
 
 > summary( ss )
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 6 iterations
 Return code 2: successive function values within tolerance limit
@@ -2394,7 +2394,7 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo            rho
 
 > summary( ssBFGS )
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BFGS maximization, 31 iterations
 Return code 0: successful convergence 
@@ -2455,7 +2455,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    steptol = 1e-12 )
 > summary( ssWe )
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 11 iterations
 Return code 2: successive function values within tolerance limit
@@ -2484,9 +2484,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    data = simDat, maxMethod = "BFGS" )
 > summary( ssWeBFGS )
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
-BFGS maximization, 55 iterations
+BFGS maximization, 56 iterations
 Return code 0: successful convergence 
 Log-Likelihood: -279 
 500 observations (74 censored and 426 observed)
@@ -2513,7 +2513,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > ssWu <- selection( ys ~ xs, yo ~ xo, weights = simDat$wu, data = simDat )
 > summary( ssWu )
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 11 iterations
 Return code 2: successive function values within tolerance limit
@@ -2540,7 +2540,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    data = simDat, maxMethod = "BFGS" )
 > summary( ssWuBFGS )
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BFGS maximization, 43 iterations
 Return code 0: successful convergence 
@@ -2605,7 +2605,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > ssN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 > print(summary(ssN))
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 6 iterations
 Return code 2: successive function values within tolerance limit
@@ -2640,7 +2640,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > ssL <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 > print(summary(ssL))
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 6 iterations
 Return code 2: successive function values within tolerance limit
@@ -2679,7 +2679,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > ssLN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 > print(summary(ssLN))
 --------------------------------------------
-Tobit 2 model (sample selection model)
+Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 6 iterations
 Return code 2: successive function values within tolerance limit
@@ -2705,4 +2705,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 47.287   0.241  47.573 
+ 36.368   0.112  36.484 

@@ -1,4 +1,4 @@
-intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
+tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
                       weights = NULL, printLevel = 0, returnLogLikStart = FALSE,
                       maxMethod = "BHHH",
                       ...) {

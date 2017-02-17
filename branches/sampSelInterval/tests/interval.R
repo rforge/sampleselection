@@ -33,7 +33,7 @@ start <- c( betaS, betaO, log( sigma2 ), atan( rho ) )
 names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
    "logSigmaSq2", "atanRho" )
 
-res <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+res <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
     start = start, printLevel = 1 )
 
 print( res )
@@ -65,7 +65,7 @@ maxLik:::summary.maxLik( res )
 
 # function that returns log-likelihood values
 intLogLik <- function( param ) {
-   ll <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+   ll <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
       start = param, returnLogLikStart = TRUE )
    return( ll )
 }
@@ -99,7 +99,7 @@ print( gradEst )
 
 
 # tests with automatically generated starting values (ML estimation)
-resMl <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+resMl <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
    start = "ml", printLevel = 1 )
 print( resMl )
 print( round( coef( resMl ), 2 ) )
@@ -108,7 +108,7 @@ print( resMl$start )
 
 
 # tests with automatically generated starting values (2-step estimation)
-res2s <- sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+res2s <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
    start = "2step", printLevel = 1 )
 print( res2s )
 print( round( coef( res2s ), 2 ) )
@@ -117,13 +117,13 @@ print( res2s$start )
 
 
 # tests with incorrectly specified starting values
-try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+try( sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
    start = "wrong" ) )
-try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
+try( sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
    start = rep( 1, 11 ) ) )
 
 # tests with incorrectly specified boundaries
-try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = 1:6, 
+try( sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = 1:6, 
    start = start ) )
-try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = 4:1, 
+try( sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = 4:1, 
    start = start ) )

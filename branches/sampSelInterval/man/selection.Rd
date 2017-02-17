@@ -126,7 +126,7 @@ treatReg(selection, outcome,
   If the model estimated by Maximum Likelihood (argument method = "ml"),
   this object is a list, which has all the components of a 'maxLik' object, and in
   addition the elements 'twoStep', 'start, 'param', 'termS', 'termO',
-  'binaryOutcome', and if requested 'ys', 'xs', 'yo', 'xo', 'mfs', and 'mfo'.
+  'outcomeVar', and if requested 'ys', 'xs', 'yo', 'xo', 'mfs', and 'mfo'.
   If a tobit-2 (sample selection) model is estimated by the
   two-step method (argument method = "2step"),
   the returned object is a list with components
@@ -188,8 +188,8 @@ treatReg(selection, outcome,
     the 1st step probit estimation.}
   \item{imrDelta}{the \eqn{\delta}s calculated from the inverse Mills Ratios and
     the results of the 1st step probit estimation.}
-  \item{binaryOutcome}{logical value indicating whether the dependent variable
-    of the outcome equation is binary.}
+  \item{outcomeVar}{character string indicating whether the dependent variable
+    of the outcome equation is \code{"continuous"} or \code{"binary"}.}
 }
 
 \references{

@@ -103,7 +103,6 @@ selection <- function(selection, outcome,
    ## YO (outcome equation)
    ## Here we should include a possibility for the user to
    ## specify the model.  Currently just a guess.
-   binaryOutcome <- FALSE
    if(type %in% c(2, "treatment")) {
       oArg <- match("outcome", names(mf), 0)
                                         # find the outcome argument
@@ -126,7 +125,9 @@ selection <- function(selection, outcome,
       YO <- model.response(mfO)
       if(is.logical(YO) |
          (is.factor(YO) & length(levels(YO)) == 2)) {
-         binaryOutcome <- TRUE
+         outcomeVar <- "binary"
+      } else {
+         outcomeVar <- "continuous"
       }
       if(type == 2) {
          badRow <- badRow | ((is.na(YO) | is.infinite(YO))
@@ -181,11 +182,14 @@ selection <- function(selection, outcome,
       NXO <- ncol(XO)
       iGamma <- 1:NXS
       iBeta <- max(iGamma) + seq(length=NXO)
-      if(!binaryOutcome) {
+      if( outcomeVar == "continuous" ) {
          iSigma <- max(iBeta) + 1
          iRho <- max(iSigma) + 1
-      } else {
+      } else if( outcomeVar == "binary" ) {
           iRho <- max(iBeta) + 1
+      } else {
+         stop( "Internal error ('iRho'). Please contact the maintainer",
+            " of this package" )
       }
       nParam <- iRho
       twoStep <- NULL
@@ -206,11 +210,14 @@ selection <- function(selection, outcome,
          }
          coefs <- coef(twoStep, part="full")
          start[iGamma] <- coefs[twoStep$param$index$betaS]
-         if(!binaryOutcome) {
+         if( outcomeVar == "continuous" ) {
             start[iBeta] <- coefs[twoStep$param$index$betaO]
             start[iSigma] <- coefs[twoStep$param$index$sigma]
-         } else {
+         } else if( outcomeVar == "binary" ) {
              start[iBeta] <- coefs[twoStep$param$index$betaO]/coefs[twoStep$param$index$sigma]
+         } else {
+            stop( "Internal error ('start-2'). Please contact the maintainer",
+               " of this package" )
          }
          start[iRho] <- coefs[twoStep$param$index$rho]
          if(start[iRho] > 0.99) {
@@ -221,34 +228,42 @@ selection <- function(selection, outcome,
       }
       if(is.null(names(start))) {
          # add names to start values if not present
-         if(!binaryOutcome) {
+         if( outcomeVar == "continuous" ) {
             names(start) <- c(colnames(XS), colnames(XO), "sigma",
                               "rho")
-         } else {
+         } else if( outcomeVar == "binary" ) {
             names(start) <- c(colnames(XS), colnames(XO), 
                               "rho")
+         } else {
+            stop( "Internal error ('names'). Please contact the maintainer",
+               " of this package" )
          }
       }
       if(type == 2) {
-         if(!binaryOutcome) {
+         if( outcomeVar == "continuous" ) {
             estimation <- tobit2fit(YS, XS, YO, XO, start, weights = weightsNoNA,
                                     printLevel=printLevel, ...)
             iErrTerms <- c(sigma=iSigma, rho=iRho )
-         } else {
+         } else if( outcomeVar == "binary" ) {
             estimation <- tobit2Bfit(YS, XS, YO, XO, start, weights = weightsNoNA,
                                      printLevel=printLevel, ...)
             iErrTerms <- c(rho=iRho)
+         } else {
+            stop( "Internal error ('est-1'). Please contact the maintainer",
+               " of this package" )
          }
       } else if( type == "treatment" ) {
-         if(!binaryOutcome) {
+         if( outcomeVar == "continuous" ) {
             estimation <- tobitTfit(YS, XS, YO, XO, start, weights = weightsNoNA,
                                     printLevel=printLevel, ...)
             iErrTerms <- c(sigma=iSigma, rho=iRho )
          } else {
-            stop("Binary outcome treatment effect models are not implemented")
+            stop("treatment effect models are only implemented",
+               " for continuous dependent variables",
+               " but not for ", outcomeVar, " dependent variables" )
          }
       } else {
-         stop( "Internal error ('estimation'). Please contact the maintainer",
+         stop( "Internal error ('est-2'). Please contact the maintainer",
             " of this package" )
       }
       param <- list(index=list(betaS=iGamma,
@@ -306,6 +321,12 @@ selection <- function(selection, outcome,
       YO2 <- model.response(mf2, "numeric")
       badRow <- badRow | (is.na(YO2) & (!is.na(YS) & YS == 1))
       badRow <- badRow | (apply(XO2, 1, function(v) any(is.na(v))) & (!is.na(YS) & YS == 1))
+      if( ( is.logical(YO1) | ( is.factor(YO1) & length(levels(YO1)) == 2 ) ) &
+            ( is.logical(YO2) | ( is.factor(YO2) & length(levels(YO2)) == 2  ) ) ){
+         outcomeVar <- "binary"
+      } else {
+         outcomeVar <- "continuous"
+      }
       if( method == "model.frame" ) {
          mf <- mfS
          mf <- cbind( mf, mf1[ , ! names( mf1 ) %in% names( mf ), drop = FALSE ] )
@@ -407,7 +428,7 @@ selection <- function(selection, outcome,
                   "FALSE"=NULL))
                )
 
-   result$binaryOutcome <- binaryOutcome
+   result$outcomeVar <- outcomeVar
 
    class( result ) <- class( estimation ) 
    return(result)

@@ -25,7 +25,7 @@
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
-%\VignetteIndexEntry{Sample Selection Interval Regression}
+%\VignetteIndexEntry{Interval Regression with Sample Selection}
 %\VignetteKeyword{models}
 %\VignetteKeyword{regression}
 

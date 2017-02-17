@@ -40,6 +40,7 @@ print( res )
 print( round( coef( res ), 2 ) )
 print( round( coef( summary( res ) ), 2 ) )
 print( res$start )
+print( summary( res ) )
 
 # add derived coefficients
 coefAll <- c( coef( res ),
@@ -105,6 +106,7 @@ print( resMl )
 print( round( coef( resMl ), 2 ) )
 print( round( coef( summary( resMl ) ), 2 ) )
 print( resMl$start )
+print( summary( resMl ) )
 
 
 # tests with automatically generated starting values (2-step estimation)
@@ -114,6 +116,7 @@ print( res2s )
 print( round( coef( res2s ), 2 ) )
 print( round( coef( summary( res2s ) ), 2 ) )
 print( res2s$start )
+print( summary( res2s ) )
 
 
 # tests with incorrectly specified starting values

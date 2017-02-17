@@ -116,6 +116,31 @@ atanRho         0.28       0.31    0.92    0.36
        1.00        1.00       -1.00       10.00        4.00        0.80 
     atanRho 
        0.38 
+> print( summary( res ) )
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 13 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -275 
+300 observations (91 censored and 209 observed)
+7 free parameters (df = 293)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)    0.982      0.109    9.05 < 2e-16 ***
+x1             0.967      0.149    6.48 8.9e-11 ***
+x2            -1.286      0.121  -10.63 < 2e-16 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   10.241      0.668   15.33 < 2e-16 ***
+x1             2.659      0.592    4.49 7.1e-06 ***
+   Error terms:
+         Estimate Std. error t value Pr(> t)    
+logSigma   1.6307     0.0747   21.82  <2e-16 ***
+atanRho    0.2820     0.3058    0.92    0.36    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
 > 
 > # add derived coefficients
 > coefAll <- c( coef( res ),
@@ -988,6 +1013,31 @@ atanRho         0.28       0.31    0.92    0.36
        0.98        0.97       -1.29       10.40        3.74        4.28 
     atanRho 
        0.23 
+> print( summary( resMl ) )
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 20 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -275 
+300 observations (91 censored and 209 observed)
+7 free parameters (df = 299)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)    0.982      0.109    9.05 < 2e-16 ***
+x1             0.967      0.149    6.48 8.9e-11 ***
+x2            -1.286      0.121  -10.64 < 2e-16 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   10.242      0.668   15.32 < 2e-16 ***
+x1             2.658      0.592    4.49 7.2e-06 ***
+   Error terms:
+         Estimate Std. error t value Pr(> t)    
+logSigma   1.6307     0.0747   21.83  <2e-16 ***
+atanRho    0.2812     0.3062    0.92    0.36    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
 > 
 > 
 > # tests with automatically generated starting values (2-step estimation)
@@ -1048,6 +1098,31 @@ atanRho         0.28       0.31    0.92    0.36
        0.98        0.97       -1.28       10.35        3.76        4.28 
     atanRho 
        0.24 
+> print( summary( res2s ) )
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 20 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -275 
+300 observations (91 censored and 209 observed)
+7 free parameters (df = 299)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)    0.982      0.109    9.05 < 2e-16 ***
+x1             0.967      0.149    6.48 8.9e-11 ***
+x2            -1.286      0.121  -10.64 < 2e-16 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   10.242      0.668   15.32 < 2e-16 ***
+x1             2.658      0.592    4.49 7.2e-06 ***
+   Error terms:
+         Estimate Std. error t value Pr(> t)    
+logSigma   1.6307     0.0747   21.83  <2e-16 ***
+atanRho    0.2812     0.3062    0.92    0.36    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
 > 
 > 
 > # tests with incorrectly specified starting values
@@ -1072,4 +1147,4 @@ Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  :
 > 
 > proc.time()
    user  system elapsed 
- 17.620   0.088  17.710 
+ 16.636   0.076  16.708 

@@ -108,6 +108,10 @@ print( round( coef( summary( resMl ) ), 2 ) )
 print( resMl$start )
 print( summary( resMl ) )
 
+resMl2 <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound )
+all.equal( resMl[ !names( resMl ) %in% c( "call", "control" ) ],
+   resMl2[ !names( resMl2 ) %in% c( "call", "control" ) ] )
+
 
 # tests with automatically generated starting values (2-step estimation)
 res2s <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 

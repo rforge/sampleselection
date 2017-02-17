@@ -1039,6 +1039,11 @@ atanRho    0.2812     0.3062    0.92    0.36
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
+> resMl2 <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound )
+> all.equal( resMl[ !names( resMl ) %in% c( "call", "control" ) ],
++    resMl2[ !names( resMl2 ) %in% c( "call", "control" ) ] )
+[1] TRUE
+> 
 > 
 > # tests with automatically generated starting values (2-step estimation)
 > res2s <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
@@ -1147,4 +1152,4 @@ Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  :
 > 
 > proc.time()
    user  system elapsed 
-  20.26    0.08   20.34 
+ 20.188   0.088  20.270 

@@ -132,9 +132,13 @@ intervalfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    }
    nInterval <- max( YO[YS==1] )
    if( length( boundaries ) != nInterval + 1 ) {
-      stop( "argument 'boundaries' must have ", nInterval + 1, "elements" )
+      stop( "argument 'boundaries' must have ", nInterval + 1, " elements" )
    }
-
+   if( !all( sort( boundaries ) == boundaries ) ) {
+      stop( "the boundaries in the vector definded by argument 'boundaries' ",
+         "must be in ascending order" )
+   }
+   
    ## If no starting values for the parameters are given, 2-step Heckman is
    ## estimated with first stage probit and second stage OLS on interval 
    ## midpoints

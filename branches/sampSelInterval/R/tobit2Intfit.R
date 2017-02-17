@@ -46,7 +46,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       # pre-compute the difference between the CDF of the bivariate normal
       # distribution for the interval between the boundaries
       pmvnDiff <- rep( NA, nObs )
-      for( i in which(YS) ) {
+      for( i in which(YS==1) ) {
          pmvnDiff[i] <-
             pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma,
                XS.b[i] ), sigma = vcovMat ) -
@@ -65,7 +65,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       # pre-compute the difference between the PDF of the bivariate normal
       # distribution for the interval between the boundaries
       dmvnDiff <- rep( NA, nObs )
-      for( i in which(YS) ) {
+      for( i in which(YS==1) ) {
          dmvnDiff[i] <-
             dmvnorm( x = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma,
                XS.b[i] ), sigma = vcovMat ) - 

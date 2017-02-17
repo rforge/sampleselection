@@ -1042,7 +1042,16 @@ Error in sampleSelection:::intervalfit(YS, XS, YO, XO, boundaries = bound,  :
 Error in sampleSelection:::intervalfit(YS, XS, YO, XO, boundaries = bound,  : 
   The vector of starting values has an incorrect length. Number of parameters: 7. Length of provided vector: 11
 > 
+> # tests with incorrectly specified boundaries
+> try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = 1:6, 
++    start = start ) )
+Error in sampleSelection:::intervalfit(YS, XS, YO, XO, boundaries = 1:6,  : 
+  argument 'boundaries' must have 4 elements
+> try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = 4:1, 
++    start = start ) )
+Error in sampleSelection:::intervalfit(YS, XS, YO, XO, boundaries = 4:1,  : 
+  the boundaries in the vector definded by argument 'boundaries' must be in ascending order
 > 
 > proc.time()
    user  system elapsed 
- 14.240   0.076  14.307 
+ 14.588   0.076  14.670 

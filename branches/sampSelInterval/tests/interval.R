@@ -122,3 +122,8 @@ try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound,
 try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = bound, 
    start = rep( 1, 11 ) ) )
 
+# tests with incorrectly specified boundaries
+try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = 1:6, 
+   start = start ) )
+try( sampleSelection:::intervalfit( YS, XS, YO, XO, boundaries = 4:1, 
+   start = start ) )

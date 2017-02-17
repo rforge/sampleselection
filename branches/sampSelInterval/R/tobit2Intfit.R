@@ -126,6 +126,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       return(attr(l, "gradient"))
    }
    
+   YOorig <- YO
    YO <- as.integer( YO )
    if( min( YO[YS==1] ) <= 0 ) {
       stop( "YO should only have strictly positive integer values" )
@@ -137,6 +138,12 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    if( !all( sort( boundaries ) == boundaries ) ) {
       stop( "the boundaries in the vector definded by argument 'boundaries' ",
          "must be in ascending order" )
+   }
+   if( printLevel >= 1 ) {
+      print( data.frame( YS = levels( factor( YOorig ) ),
+         YSnumeric = sort( unique( YO ) ),
+         lower = boundaries[ - length(boundaries) ],
+         upper = boundaries[-1] ) )
    }
    
    ## If no starting values for the parameters are given, 2-step Heckman is

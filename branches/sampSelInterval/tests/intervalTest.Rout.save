@@ -60,6 +60,10 @@ https://r-forge.r-project.org/projects/maxlik/
 > 
 > res <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
 +     start = start, printLevel = 1 )
+  YS YSnumeric lower upper
+1  1         1  -Inf     5
+2  2         2     5    15
+3  3         3    15   Inf
 YO observed: 209 times; not observed: 91 times:
 Number of intervals:  3 
        YO
@@ -897,6 +901,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # tests with automatically generated starting values (ML estimation)
 > resMl <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
 +    start = "ml", printLevel = 1 )
+  YS YSnumeric lower upper
+1  1         1  -Inf     5
+2  2         2     5    15
+3  3         3    15   Inf
 YO observed: 209 times; not observed: 91 times:
 Number of intervals:  3 
        YO
@@ -943,6 +951,10 @@ atanRho      0.28       0.31    0.92    0.36
 > # tests with automatically generated starting values (2-step estimation)
 > res2s <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
 +    start = "2step", printLevel = 1 )
+  YS YSnumeric lower upper
+1  1         1  -Inf     5
+2  2         2     5    15
+3  3         3    15   Inf
 YO observed: 209 times; not observed: 91 times:
 Number of intervals:  3 
        YO
@@ -1008,4 +1020,4 @@ Error in sampleSelection:::tobit2Intfit(YS, XS, YO, XO, boundaries = 4:1,  :
 > 
 > proc.time()
    user  system elapsed 
- 15.568   0.096  15.663 
+   21.4     0.1    21.5 

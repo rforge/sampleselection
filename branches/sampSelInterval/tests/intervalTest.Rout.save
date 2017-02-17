@@ -1021,7 +1021,7 @@ BHHH maximisation, 20 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -275 
 300 observations (91 censored and 209 observed)
-7 free parameters (df = 299)
+7 free parameters (df = 293)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
 (Intercept)    0.982      0.109    9.05 < 2e-16 ***
@@ -1106,7 +1106,7 @@ BHHH maximisation, 20 iterations
 Return code 2: successive function values within tolerance limit
 Log-Likelihood: -275 
 300 observations (91 censored and 209 observed)
-7 free parameters (df = 299)
+7 free parameters (df = 293)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
 (Intercept)    0.982      0.109    9.05 < 2e-16 ***
@@ -1147,4 +1147,4 @@ Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  :
 > 
 > proc.time()
    user  system elapsed 
- 21.548   0.084  21.629 
+  20.26    0.08   20.34 

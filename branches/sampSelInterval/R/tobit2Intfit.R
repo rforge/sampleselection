@@ -37,10 +37,10 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    loglik <- function( beta) {
       betaS <- beta[ibetaS]
       betaO <- beta[ibetaO]
-      sigma2 <- sqrt(exp(beta[iSigma2]))
+      sigma <- sqrt(exp(beta[iSigma]))
       rho <- tan(beta[iRho])
       if( ( rho < -1) || ( rho > 1)) return(NA)
-      Sigma <- matrix(c(1,-rho,-rho,1), 2, 2)
+      vcovMat <- matrix(c(1,-rho,-rho,1), 2, 2)
       XS.b <- drop(XS %*% betaS)
       XO.b <- drop(XO %*% betaO)
       # pre-compute the difference between the CDF of the bivariate normal
@@ -48,10 +48,10 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       pmvnDiff <- rep( NA, nObs )
       for( i in which(YS) ) {
          pmvnDiff[i] <-
-            pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2,
-               XS.b[i] ), sigma = Sigma ) -
-            pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2,
-               XS.b[i] ), sigma = Sigma )
+            pmvnorm( upper = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma,
+               XS.b[i] ), sigma = vcovMat ) -
+            pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma,
+               XS.b[i] ), sigma = vcovMat )
       }
       loglik <- rep( NA, nObs )
       ## YS == 0, YO == NA
@@ -67,18 +67,18 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       dmvnDiff <- rep( NA, nObs )
       for( i in which(YS) ) {
          dmvnDiff[i] <-
-            dmvnorm( x = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma2,
-               XS.b[i] ), sigma = Sigma ) - 
-            dmvnorm( x = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma2,
-               XS.b[i] ), sigma = Sigma )
+            dmvnorm( x = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma,
+               XS.b[i] ), sigma = vcovMat ) - 
+            dmvnorm( x = c( ( boundaries[ YO[i] + 1 ] - XO.b[i] ) / sigma,
+               XS.b[i] ), sigma = vcovMat )
       }
       # gradients for the parameters for selection into policy (betaS)
       grad[YS==0, ibetaS] <-
          - dnorm( -XS.b[YS==0] ) * XS[YS==0, ] / pnorm( -XS.b[YS==0] )
       grad[YS==1, ibetaS] <- (
-         pnorm( ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2
+         pnorm( ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma
             + rho * XS.b[YS==1] ) / sqrt( 1 - rho^2 ) ) -
-         pnorm( ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2
+         pnorm( ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma
             + rho * XS.b[YS==1] ) / sqrt( 1 - rho^2 ) ) ) *
          dnorm( XS.b[YS==1] ) * XS[ YS==1, ] /
          pmvnDiff[YS==1]
@@ -86,31 +86,31 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       # gradients for the parameters for the outcome (betaO)
       grad[YS==1, ibetaO] <- (
          pnorm( ( XS.b[YS==1]
-            + rho * ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 )
+            + rho * ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma )
             ) / sqrt( 1 - rho^2 ) ) *
-         dnorm( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 ) - 
+         dnorm( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma ) - 
          pnorm( ( XS.b[YS==1]
-            + rho * ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 )
+            + rho * ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma )
             ) / sqrt( 1 - rho^2 ) ) *
-         dnorm( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) ) *
-         ( -XO[ YS==1, ] / sigma2 ) /
+         dnorm( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma ) ) *
+         ( -XO[ YS==1, ] / sigma ) /
          pmvnDiff[YS==1]
 
-      # gradient for the standard deviation (sigma2)
-      grad[YS==1, iSigma2] <- (
+      # gradient for the standard deviation (sigma)
+      grad[YS==1, iSigma] <- (
          ifelse( is.infinite( boundaries[ YO[YS==1] + 1 ] ), 0,
             pnorm( ( XS.b[YS==1] + rho *
-               ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 ) ) /
+               ( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma ) ) /
                   sqrt( 1 - rho^2 ) ) *
-            dnorm( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma2 ) *
-            ( ( XO.b[YS==1] - boundaries[ YO[YS==1] + 1 ] ) / sigma2^2 ) ) -
+            dnorm( ( boundaries[ YO[YS==1] + 1 ] - XO.b[YS==1] ) / sigma ) *
+            ( ( XO.b[YS==1] - boundaries[ YO[YS==1] + 1 ] ) / sigma^2 ) ) -
          ifelse( is.infinite( boundaries[ YO[YS==1] ] ), 0,
             pnorm( ( XS.b[YS==1] + rho *
-               ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) ) /
+               ( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma ) ) /
                   sqrt( 1 - rho^2 ) ) *
-            dnorm( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma2 ) *
-            ( ( XO.b[YS==1] - boundaries[ YO[YS==1] ] ) / sigma2^2 ) ) ) * 
-         sigma2 / ( pmvnDiff[YS==1] * 2 )
+            dnorm( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma ) *
+            ( ( XO.b[YS==1] - boundaries[ YO[YS==1] ] ) / sigma^2 ) ) ) * 
+         sigma / ( pmvnDiff[YS==1] * 2 )
       
       # gradient for the correlation parameter (rho)
       grad[YS==1, iRho] <- ( dmvnDiff[YS==1] * (rho^2 + 1) ) / pmvnDiff[YS==1]  
@@ -204,13 +204,13 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    ## parameter indices
    ibetaS <- seq( from = 1, length.out = NXS )
    ibetaO <- seq( from = NXS+1, length.out = NXO )
-   iSigma2 <- NXS + NXO + 1
+   iSigma <- NXS + NXO + 1
    iRho <- NXS + NXO + 2
    nParam <- iRho
    
    # names of parameters (through their starting values)
    names( startVal ) <-
-      c( colnames( XS ), colnames( XO ), "logSigmaSq2", "atanRho" )
+      c( colnames( XS ), colnames( XO ), "logSigmaSq", "atanRho" )
    
    # weights
    if( !is.null( weights ) ) {

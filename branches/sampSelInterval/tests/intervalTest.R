@@ -6,14 +6,14 @@ nObs <- 300
 betaS <- c( 1, 1, -1 )
 betaO <- c( 10, 4 )
 rho <- 0.4
-sigma2 <- 5
+sigma <- 5
 bound <- c(-Inf,5,15,Inf)
 
 
 set.seed(123)
 dat <- data.frame( x1 = rnorm( nObs ), x2 = rnorm( nObs ) )
-Sigma <- matrix( c( 1, rho*sigma2, rho*sigma2, sigma2^2 ), nrow = 2 )
-eps <- rmvnorm( nObs, sigma = Sigma )
+vcovMat <- matrix( c( 1, rho*sigma, rho*sigma, sigma^2 ), nrow = 2 )
+eps <- rmvnorm( nObs, sigma = vcovMat )
 dat$epsS <- eps[,1]
 dat$epsO <- eps[,2]
 dat$yS <- with( dat, betaS[1] + betaS[2] * x1 + betaS[3] * x2 + epsS ) > 0
@@ -28,10 +28,10 @@ XS <- cbind( 1, dat$x1, dat$x2 )
 YO <- as.numeric( dat$yO )
 XO <- cbind( 1, dat$x1 )
 
-start <- c( betaS, betaO, log( sigma2 ), atan( rho ) )
-   # the correct starting value of logSigmaSq2 would be: log( sigma2^2 )
+start <- c( betaS, betaO, log( sigma ), atan( rho ) )
+   # the correct starting value of logSigmaSq would be: log( sigma^2 )
 names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
-   "logSigmaSq2", "atanRho" )
+   "logSigmaSq", "atanRho" )
 
 res <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
     start = start, printLevel = 1 )
@@ -43,8 +43,8 @@ print( res$start )
 
 # add derived coefficients
 coefAll <- c( coef( res ),
-   sigma2 = unname( sqrt( exp( coef( res )[ "logSigmaSq2" ] ) ) ),
-   sigmaSq2 = unname( exp( coef( res )[ "logSigmaSq2" ] ) ),
+   sigma = unname( sqrt( exp( coef( res )[ "logSigmaSq" ] ) ) ),
+   sigmaSq = unname( exp( coef( res )[ "logSigmaSq" ] ) ),
    rho = unname( tan( coef( res )[ "atanRho" ] ) ) )
 print( round( coefAll, 2 ) )
 
@@ -52,9 +52,9 @@ print( round( coefAll, 2 ) )
 jac <- cbind( diag( length( coef( res ) ) ),
    matrix( 0, length( coef( res ) ), 3 ) )
 rownames( jac ) <- names( coef( res ) )
-colnames( jac ) <- c( names( coef( res ) ), "sigma2", "sigmaSq2", "rho" )
-jac[ "logSigmaSq2", "sigma2" ] <- sqrt( exp( coef( res )[ "logSigmaSq2" ] ) ) / 2
-jac[ "logSigmaSq2", "sigmaSq2" ] <- exp( coef( res )[ "logSigmaSq2" ] )
+colnames( jac ) <- c( names( coef( res ) ), "sigma", "sigmaSq", "rho" )
+jac[ "logSigmaSq", "sigma" ] <- sqrt( exp( coef( res )[ "logSigmaSq" ] ) ) / 2
+jac[ "logSigmaSq", "sigmaSq" ] <- exp( coef( res )[ "logSigmaSq" ] )
 jac[ "atanRho", "rho" ] <- 1 + ( tan( coef( res )[ "atanRho" ] ) )^2
 vcovAll <- t( jac ) %*% vcov( res ) %*% jac
 print( round( vcovAll, 2 ) )

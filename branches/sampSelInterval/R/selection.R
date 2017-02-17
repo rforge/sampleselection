@@ -52,14 +52,15 @@ selection <- function(selection, outcome,
    ## now check whether two-step method was requested
    cl <- match.call()
    if(method == "2step") {
-      if(type == 2)
+      if(type == 2) {
           twoStep <- heckit2fit(selection, outcome, data=data,
             weights = weights, printLevel = printLevel, ... )
-      else if(type == 5)
+      } else if(type == 5) {
           twoStep <- heckit5fit(selection, outcome, data=data,
             printLevel = printLevel, ... )
-      else
+      } else {
           stop("unknown type")
+      }
       twoStep$call <- cl
       class(twoStep) <- c("selection", class(twoStep))
       return(twoStep)
@@ -135,13 +136,15 @@ selection <- function(selection, outcome,
                            # rows in outcome, which contain NA and are observable -> bad too
                            # YO unobserved but should be observed
                            # for tobit-2
-      }
-      else {
+      } else if( type == "treatment" ) {
          badRow <- badRow | is.na(YO) | is.infinite(YO)
          badRow <- badRow | apply(XO, 1, function(v)
             any(is.na(v) | is.infinite(v)))
                            # YO unobserved in any case
                            # for treatment models
+      } else {
+         stop( "Internal error ('badRow'). Please contact the maintainer",
+            " of this package" )
       }
 
       if( !is.null( weights ) ) {
@@ -181,9 +184,9 @@ selection <- function(selection, outcome,
       if(!binaryOutcome) {
          iSigma <- max(iBeta) + 1
          iRho <- max(iSigma) + 1
-      }
-      else
+      } else {
           iRho <- max(iBeta) + 1
+      }
       nParam <- iRho
       twoStep <- NULL
       if(is.null(start)) {
@@ -193,57 +196,60 @@ selection <- function(selection, outcome,
             twoStep <- heckit2fit(selection, outcome, data=data,
                                   printLevel = printLevel,
                                   weights = weights )
-         }
-         else {
+         } else if( type == "treatment" ) {
             twoStep <- heckitTfit(selection, outcome, data=data,
                                   printLevel = printLevel,
                                   weights = weights )
+         } else {
+            stop( "Internal error ('start'). Please contact the maintainer",
+               " of this package" )
          }
          coefs <- coef(twoStep, part="full")
          start[iGamma] <- coefs[twoStep$param$index$betaS]
          if(!binaryOutcome) {
             start[iBeta] <- coefs[twoStep$param$index$betaO]
             start[iSigma] <- coefs[twoStep$param$index$sigma]
-         }
-         else
+         } else {
              start[iBeta] <- coefs[twoStep$param$index$betaO]/coefs[twoStep$param$index$sigma]
+         }
          start[iRho] <- coefs[twoStep$param$index$rho]
-         if(start[iRho] > 0.99)
+         if(start[iRho] > 0.99) {
              start[iRho] <- 0.99
-         else if(start[iRho] < -0.99)
+         } else if(start[iRho] < -0.99) {
              start[iRho] <- -0.99
+         }
       }
       if(is.null(names(start))) {
+         # add names to start values if not present
          if(!binaryOutcome) {
             names(start) <- c(colnames(XS), colnames(XO), "sigma",
                               "rho")
-         }
-         else
+         } else {
             names(start) <- c(colnames(XS), colnames(XO), 
                               "rho")
-                           # add names to start values if not present
+         }
       }
       if(type == 2) {
          if(!binaryOutcome) {
             estimation <- tobit2fit(YS, XS, YO, XO, start, weights = weightsNoNA,
                                     printLevel=printLevel, ...)
             iErrTerms <- c(sigma=iSigma, rho=iRho )
-         }
-         else {
+         } else {
             estimation <- tobit2Bfit(YS, XS, YO, XO, start, weights = weightsNoNA,
                                      printLevel=printLevel, ...)
             iErrTerms <- c(rho=iRho)
          }
-      }
-      else {
+      } else if( type == "treatment" ) {
          if(!binaryOutcome) {
             estimation <- tobitTfit(YS, XS, YO, XO, start, weights = weightsNoNA,
                                     printLevel=printLevel, ...)
             iErrTerms <- c(sigma=iSigma, rho=iRho )
-         }
-         else {
+         } else {
             stop("Binary outcome treatment effect models are not implemented")
          }
+      } else {
+         stop( "Internal error ('estimation'). Please contact the maintainer",
+            " of this package" )
       }
       param <- list(index=list(betaS=iGamma,
                     betaO=iBeta,
@@ -256,8 +262,7 @@ selection <- function(selection, outcome,
                     levels=YSLevels
                            # levels[1]: selection 1; levels[2]: selection 2
                     )
-   }
-   else if(type == 5) {
+   } else if(type == 5) {
       ## extract the outcome formulas.  Anyone able to explain why do we need to do the complicated stuff?
       oArg <- match("outcome", names(mf), 0)
                                         # find the outcome argument
@@ -367,8 +372,7 @@ selection <- function(selection, outcome,
                     levels=YSLevels
                            # levels[1]: selection 1; levels[2]: selection 2
                     )
-   }
-   else {
+   } else {
       stop("Unknown model type: '", type, "'")
    }
    ## now add the additional parameters into the resulting

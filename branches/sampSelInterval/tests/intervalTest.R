@@ -28,10 +28,10 @@ XS <- cbind( 1, dat$x1, dat$x2 )
 YO <- as.numeric( dat$yO )
 XO <- cbind( 1, dat$x1 )
 
-start <- c( betaS, betaO, log( sigma ), atan( rho ) )
-   # the correct starting value of logSigmaSq would be: log( sigma^2 )
+start <- c( betaS, betaO, log( sqrt( sigma ) ), atan( rho ) )
+   # the correct starting value of logSigma would be: log( sigma )
 names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
-   "logSigmaSq", "atanRho" )
+   "logSigma", "atanRho" )
 
 res <- sampleSelection:::tobit2Intfit( YS, XS, YO, XO, boundaries = bound, 
     start = start, printLevel = 1 )
@@ -43,8 +43,8 @@ print( res$start )
 
 # add derived coefficients
 coefAll <- c( coef( res ),
-   sigma = unname( sqrt( exp( coef( res )[ "logSigmaSq" ] ) ) ),
-   sigmaSq = unname( exp( coef( res )[ "logSigmaSq" ] ) ),
+   sigma = unname( exp( coef( res )[ "logSigma" ] ) ),
+   sigmaSq = unname( exp( 2 * coef( res )[ "logSigma" ] ) ),
    rho = unname( tan( coef( res )[ "atanRho" ] ) ) )
 print( round( coefAll, 2 ) )
 
@@ -53,8 +53,8 @@ jac <- cbind( diag( length( coef( res ) ) ),
    matrix( 0, length( coef( res ) ), 3 ) )
 rownames( jac ) <- names( coef( res ) )
 colnames( jac ) <- c( names( coef( res ) ), "sigma", "sigmaSq", "rho" )
-jac[ "logSigmaSq", "sigma" ] <- sqrt( exp( coef( res )[ "logSigmaSq" ] ) ) / 2
-jac[ "logSigmaSq", "sigmaSq" ] <- exp( coef( res )[ "logSigmaSq" ] )
+jac[ "logSigma", "sigma" ] <- exp( coef( res )[ "logSigma" ] )
+jac[ "logSigma", "sigmaSq" ] <- 2 * exp( 2 * coef( res )[ "logSigma" ] )
 jac[ "atanRho", "rho" ] <- 1 + ( tan( coef( res )[ "atanRho" ] ) )^2
 vcovAll <- t( jac ) %*% vcov( res ) %*% jac
 print( round( vcovAll, 2 ) )

@@ -37,7 +37,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    loglik <- function( beta) {
       betaS <- beta[ibetaS]
       betaO <- beta[ibetaO]
-      sigma <- sqrt(exp(beta[iSigma]))
+      sigma <- exp(beta[iSigma])
       rho <- tan(beta[iRho])
       if( ( rho < -1) || ( rho > 1)) return(NA)
       vcovMat <- matrix(c(1,-rho,-rho,1), 2, 2)
@@ -110,7 +110,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
                   sqrt( 1 - rho^2 ) ) *
             dnorm( ( boundaries[ YO[YS==1] ] - XO.b[YS==1] ) / sigma ) *
             ( ( XO.b[YS==1] - boundaries[ YO[YS==1] ] ) / sigma^2 ) ) ) * 
-         sigma / ( pmvnDiff[YS==1] * 2 )
+         sigma / ( pmvnDiff[YS==1] )
       
       # gradient for the correlation parameter (rho)
       grad[YS==1, iRho] <- ( dmvnDiff[YS==1] * (rho^2 + 1) ) / pmvnDiff[YS==1]  
@@ -210,7 +210,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    
    # names of parameters (through their starting values)
    names( startVal ) <-
-      c( colnames( XS ), colnames( XO ), "logSigmaSq", "atanRho" )
+      c( colnames( XS ), colnames( XO ), "logSigma", "atanRho" )
    
    # weights
    if( !is.null( weights ) ) {

@@ -154,22 +154,21 @@ whereas the corresponding element of the Jacobian matrix is:
 
 The parameter $\sigma$ needs to be strictly positive, i.e.~$\sigma > 0$.
 In order to restrict $\sigma$ to be strictly positive,
-we estimate $\log( \sigma^2 )$ instead of $\sigma$ or $\sigma^2$
+we estimate $\log( \sigma )$ instead of $\sigma$ or $\sigma^2$
 so that the derived parameters
-$\sigma = \sqrt{ \exp( \log( \sigma^2 ) ) }$
-and $\sigma^2 = \exp( \log( \sigma^2 ) )$
+$\sigma = \exp( \log( \sigma ) )$
+and $\sigma^2 = \exp( 2 \; \log( \sigma ) )$
 are always strictly positive.
 We use the delta method to calculate approximate standard errors
 of the derived parameters~$\sigma$ and $\sigma^2$,
 whereas the corresponding elements of the Jacobian matrix are:
 \begin{align}
-\frac{\partial \sqrt{ \exp( \log( \sigma^2 ) ) } }{
-   \partial \log( \sigma^2 )}
-= \frac{\partial \sigma }{\partial \log( \sigma^2 )}
-= \frac{\sigma }{2}\\[3ex]
-\frac{\partial \exp( \log( \sigma^2 ) )}{\partial \log( \sigma^2 )}
-= \frac{\partial \sigma^2}{\partial \log( \sigma^2 )}
-= \sigma^2
+\frac{\partial \exp( \log( \sigma ) ) }{
+   \partial \log( \sigma )}
+& = \exp( \log( \sigma ) ) = \sigma \\[3ex]
+\frac{\partial \exp( 2 \; \log( \sigma ) )}{\partial \log( \sigma )}
+& = 2 \; \exp( 2 \; \log( \sigma ) )
+= 2 \; \sigma^2
 \end{align}
 
 
@@ -949,11 +948,11 @@ Similarly:
 \end{align}
 
 \begin{align}
-\frac{\partial \ell_i}{\partial \log(\sigma^2)}
+\frac{\partial \ell_i}{\partial \log(\sigma)}
 & = \frac{\partial \ell_i}{\partial \sigma}
-   \frac{\partial \sigma}{\partial \log(\sigma^2)}
+   \frac{\partial \sigma}{\partial \log(\sigma)}
 = \frac{\partial \ell_i}{\partial \sigma}
-   \; \frac{\sigma}{2}
+   \; \sigma
 \end{align}
 
 

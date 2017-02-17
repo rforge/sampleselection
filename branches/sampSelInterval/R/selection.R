@@ -4,6 +4,7 @@ selection <- function(selection, outcome,
                       subset,
                       method="ml",
                       start=NULL,
+                      boundaries = NULL,
                       ys=FALSE, xs=FALSE,
                       yo=FALSE, xo=FALSE,
                       mfs=FALSE, mfo=FALSE,
@@ -52,6 +53,11 @@ selection <- function(selection, outcome,
    ## now check whether two-step method was requested
    cl <- match.call()
    if(method == "2step") {
+      if( !is.null( boundaries ) ) {
+         stop( "2-step estimation of a model with an outcome equation",
+            " that has an interval-variable as dependent variable",
+            " has not yet been implemented" )
+      }
       if(type == 2) {
           twoStep <- heckit2fit(selection, outcome, data=data,
             weights = weights, printLevel = printLevel, ... )
@@ -123,8 +129,10 @@ selection <- function(selection, outcome,
       mtO <- attr(mfO, "terms")
       XO <- model.matrix(mtO, mfO)
       YO <- model.response(mfO)
-      if(is.logical(YO) |
-         (is.factor(YO) & length(levels(YO)) == 2)) {
+      if( !is.null( boundaries ) ) {
+         outcomeVar <- "interval"
+      } else if(is.logical(YO) |
+            (is.factor(YO) & length(levels(YO)) == 2)) {
          outcomeVar <- "binary"
       } else {
          outcomeVar <- "continuous"
@@ -182,7 +190,7 @@ selection <- function(selection, outcome,
       NXO <- ncol(XO)
       iGamma <- 1:NXS
       iBeta <- max(iGamma) + seq(length=NXO)
-      if( outcomeVar == "continuous" ) {
+      if( outcomeVar %in% c( "continuous", "interval" ) ) {
          iSigma <- max(iBeta) + 1
          iRho <- max(iSigma) + 1
       } else if( outcomeVar == "binary" ) {
@@ -193,7 +201,7 @@ selection <- function(selection, outcome,
       }
       nParam <- iRho
       twoStep <- NULL
-      if(is.null(start)) {
+      if(is.null(start) & is.null( boundaries ) ) {
                            # start values by Heckman 2-step method
          start <- numeric(nParam)
          if(type == 2) {
@@ -234,7 +242,7 @@ selection <- function(selection, outcome,
          } else if( outcomeVar == "binary" ) {
             names(start) <- c(colnames(XS), colnames(XO), 
                               "rho")
-         } else {
+         } else if( outcomeVar != "interval" ) {
             stop( "Internal error ('names'). Please contact the maintainer",
                " of this package" )
          }
@@ -244,6 +252,15 @@ selection <- function(selection, outcome,
             estimation <- tobit2fit(YS, XS, YO, XO, start, weights = weightsNoNA,
                                     printLevel=printLevel, ...)
             iErrTerms <- c(sigma=iSigma, rho=iRho )
+         } else if( outcomeVar == "interval" ) {
+            estimation <- tobit2Intfit(YS, XS, YO, XO,
+               boundaries = boundaries, start = start,
+               weights = weightsNoNA,
+               printLevel = printLevel, ... )
+            if( isTRUE( cl$returnLogLikStart ) ) {
+               return( estimation )
+            }
+            iErrTerms <- c( sigma = iSigma, rho = iRho )
          } else if( outcomeVar == "binary" ) {
             estimation <- tobit2Bfit(YS, XS, YO, XO, start, weights = weightsNoNA,
                                      printLevel=printLevel, ...)
@@ -278,6 +295,11 @@ selection <- function(selection, outcome,
                            # levels[1]: selection 1; levels[2]: selection 2
                     )
    } else if(type == 5) {
+      if( !is.null( boundaries ) ) {
+         stop( "estimation of tobit-5 models with an outcome equation",
+            " that has an interval-variable as dependent variable",
+            " has not yet been implemented" )
+      }
       ## extract the outcome formulas.  Anyone able to explain why do we need to do the complicated stuff?
       oArg <- match("outcome", names(mf), 0)
                                         # find the outcome argument

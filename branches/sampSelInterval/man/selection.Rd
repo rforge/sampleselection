@@ -7,17 +7,19 @@
   This is the frontend for estimating Heckman-style selection
   models either with
   one or two outcomes (also known as generalized tobit models).  It
-  supports binary outcomes in the single-outcome case.  It also supports
-  normal-distribution based treatment effect models.
+  supports binary outcomes and interval outcomes in the single-outcome case.
+  It also supports normal-distribution based treatment effect models.
 
-  For model specification and more details, see Henningsen and Toomet
-  (2008) and the included vignettes \dQuote{Sample Selection Models} and
+  For model specification and more details, see Toomet and Henningsen
+  (2008) and the included vignettes \dQuote{Sample Selection Models},
+  \dQuote{Interval Regression with Sample Selection}, and
   \dQuote{All-Normal Treatment Effects}.
 }
 
 \usage{
 selection(selection, outcome, data = sys.frame(sys.parent()),
-   weights = NULL, subset, method = "ml", start = NULL, 
+   weights = NULL, subset, method = "ml", start = NULL,
+   boundaries = NULL,
    ys = FALSE, xs = FALSE, yo = FALSE, xo = FALSE,
    mfs = FALSE, mfo = FALSE,
    printLevel = print.level, print.level=0,
@@ -51,6 +53,10 @@ treatReg(selection, outcome,
   \item{start}{vector, initial values for the ML estimation.  If
     \code{start} does not have names, names are constructed based on the
     model frame.}
+  \item{boundaries}{an optional vector of boundaries of the intervals
+      of the dependent variable of the outcome equation
+      for sample selection models with interval regression
+      of the outcome equation.}
   \item{ys, yo, xs, xo, mfs, mfo}{logicals.  If true, the response (\code{y}),
     model matrix (\code{x}) or the model frame (\code{mf})
     of the selection (\code{s}) or outcome
@@ -63,12 +69,25 @@ treatReg(selection, outcome,
     and \code{\link{tobit2Bfit}}.}
 }
 \details{
-   The endogenous variable of the argument 'selection' must have exactly
+   The dependent variable of of the selection equation
+   (specified by argument \code{selection}) must have exactly
    two levels (e.g. 'FALSE' and 'TRUE', or '0' and '1').
    By default the levels are sorted in increasing order
-   ('FALSE' is before 'TRUE', and '0' is before '1').  This also applies
-   for the binary outcome equation.  For
-   continuous-oucome cases, the dependent variable(s) should be numeric. 
+   ('FALSE' is before 'TRUE', and '0' is before '1').
+   If the dependent variable of the outcome equation
+   (specified by argument \code{outcome}) has exactly two levels,
+   this variable is modelled as a binary variable.
+   If argument \code{boundaries} is specified,
+   the outcome equation is estimated as interval regression model
+   and the dependent variable of the outcome equation
+   must be a categorical (factor) variable
+   or a variable of strictly positive integer values,
+   whereas the vector specified by argument \code{boundaries}
+   must have one more element than the number of levels
+   or the largest integer, respectively.
+   In all other cases, it is assumed
+   that the dependent variable of the outcome equation is continuous
+   and an ordinary sample selection model is estimated. 
 
    For tobit-2 (sample selection) models,
    only those observations are included in the second step estimation

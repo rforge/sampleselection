@@ -1,7 +1,7 @@
 \documentclass[article,nojss]{jss}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb,bbm}
-%% need no \usepackage{Sweave.sty}
+\usepackage{Sweave}
 
 \newcommand{\dnorm}{\phi}% normal density
 \newcommand{\loglik}{\ell}% log likelihood
@@ -58,6 +58,7 @@
 }
 
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 % initialisation stuff
 \SweaveOpts{engine=R}
 %\VignetteIndexEntry{Sample Selection Models}

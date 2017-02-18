@@ -31,6 +31,8 @@
 
 \maketitle
 
+This `vignette' is largely based on \citet{petersen17}. 
+
 \section{Model Specification}
 
 The general specification

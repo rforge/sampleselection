@@ -233,6 +233,12 @@ treatReg(selection, outcome,
   Asymetric covariance matrices of two-stage probit and two-stage tobit
   methods for simultaneous equations models with selectivity.
   \emph{Econometrica}, 48, p. 491-503.
+  
+  Petersen, S., G. Henningsen and A. Henningsen (2017)
+  \emph{Which Households Invest in Energy-Saving Home Improvements?
+  Evidence From a Danish Policy Intervention}.
+  Unpublished Manuscript.
+  Department of Management Engineering, Technical University of Denmark.
 
   Toomet, O. and A. Henningsen, (2008)
   Sample Selection Models in R: Package sampleSelection.

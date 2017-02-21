@@ -160,3 +160,23 @@ print(summary(Wage6))
 Wage7 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
    wage_7interval ~ educ + city, data = Mroz87, boundaries = bound8 )
 print(summary(Wage7))
+
+## tests with different specifications
+# low number of variables - NA in initial gradient
+try(selection( lfp ~ huswage + educ, 
+   wage_5interval ~ educ, data = Mroz87, boundaries = bound6))
+
+# adding wife's marginal tax rate (mtr)
+spec1 <- selection( lfp ~ huswage + educ + mtr, 
+   wage_5interval ~ educ, data = Mroz87, boundaries = bound6)
+print(summary(spec1))
+
+# adding continuous variables only
+spec2 <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
+   wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6)
+print(summary(spec2))
+
+# adding dummy variables (city, huscoll)
+spec3 <- selection( lfp ~ huswage + mtr + fatheduc + educ + city + huscoll, 
+   wage_5interval ~ educ + exper + city, data = Mroz87, boundaries = bound6)
+print(summary(spec3))

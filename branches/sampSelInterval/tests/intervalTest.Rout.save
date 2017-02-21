@@ -1369,6 +1369,56 @@ atanRho   -0.5230     0.0995   -5.26 1.5e-07 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
+> ## trying lrtest and waldtest
+> library(lmtest)
+Loading required package: zoo
+
+Attaching package: 'zoo'
+
+The following objects are masked from 'package:base':
+
+    as.Date, as.Date.numeric
+
+> lrtest(spec1,spec2)
+Likelihood ratio test
+
+Model 1: selection(selection = lfp ~ huswage + educ + mtr, outcome = wage_5interval ~ 
+    educ, data = Mroz87, boundaries = bound6)
+Model 2: selection(selection = lfp ~ huswage + educ + mtr + fatheduc, 
+    outcome = wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6)
+  #Df LogLik Df Chisq Pr(>Chisq)  
+1   8  -1089                      
+2  10  -1085  2  7.62      0.022 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+> lrtest(spec2,spec3)
+Likelihood ratio test
+
+Model 1: selection(selection = lfp ~ huswage + educ + mtr + fatheduc, 
+    outcome = wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6)
+Model 2: selection(selection = lfp ~ huswage + mtr + fatheduc + educ + 
+    city + huscoll, outcome = wage_5interval ~ educ + exper + 
+    city, data = Mroz87, boundaries = bound6)
+  #Df LogLik Df Chisq Pr(>Chisq)
+1  10  -1085                    
+2  13  -1082  3  5.24       0.15
+> waldtest(spec1,spec2,spec3)
+Wald test
+
+Model 1: selection(selection = lfp ~ huswage + educ + mtr, outcome = wage_5interval ~ 
+    educ, data = Mroz87, boundaries = bound6)
+Model 2: selection(selection = lfp ~ huswage + educ + mtr + fatheduc, 
+    outcome = wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6)
+Model 3: selection(selection = lfp ~ huswage + mtr + fatheduc + educ + 
+    city + huscoll, outcome = wage_5interval ~ educ + exper + 
+    city, data = Mroz87, boundaries = bound6)
+  Res.Df Df Chisq Pr(>Chisq)  
+1    745                      
+2    743  2  7.62      0.022 *
+3    740  3  4.78      0.188  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+> 
 > proc.time()
    user  system elapsed 
-  88.67    0.23   89.32 
+  89.66    0.26   90.34 

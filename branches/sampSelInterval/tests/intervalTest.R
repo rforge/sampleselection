@@ -180,3 +180,9 @@ print(summary(spec2))
 spec3 <- selection( lfp ~ huswage + mtr + fatheduc + educ + city + huscoll, 
    wage_5interval ~ educ + exper + city, data = Mroz87, boundaries = bound6)
 print(summary(spec3))
+
+## trying lrtest and waldtest
+library(lmtest)
+lrtest(spec1,spec2)
+lrtest(spec2,spec3)
+waldtest(spec1,spec2,spec3)

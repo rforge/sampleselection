@@ -1266,11 +1266,33 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## tests with different specifications
-> # low number of variables - NA in initial gradient
-> try(selection( lfp ~ huswage + educ, 
-+    wage_5interval ~ educ, data = Mroz87, boundaries = bound6))
-Error in maxNRCompute(fn = function (theta, fnOrig, gradOrig = NULL, hessOrig = NULL,  : 
-  NA in the initial gradient
+> # low number of variables
+> summary(selection( lfp ~ huswage + educ, 
++    wage_5interval ~ huswage, data = Mroz87, boundaries = bound6))
+--------------------------------------------
+Tobit 2 model with interval outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 19 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -1134 
+753 observations (325 censored and 428 observed)
+7 free parameters (df = 746)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)  -1.7187     0.2581   -6.66 2.8e-11 ***
+huswage      -0.0475     0.0125   -3.79 0.00015 ***
+educ          0.1819     0.0215    8.48 < 2e-16 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   4.1024     0.3317   12.37 < 2e-16 ***
+huswage       0.1497     0.0317    4.72 2.3e-06 ***
+   Error terms:
+         Estimate Std. error t value Pr(> t)    
+logSigma   0.9785     0.0796    12.3  <2e-16 ***
+atanRho   -0.6376     0.0553   -11.5  <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
 > 
 > # adding wife's marginal tax rate (mtr)
 > spec1 <- selection( lfp ~ huswage + educ + mtr, 
@@ -1603,4 +1625,4 @@ O:(Intercept)         O:educ        O:exper       logSigma        atanRho
 > 
 > proc.time()
    user  system elapsed 
- 195.11    0.23  195.87 
+ 207.41    0.21  210.00 

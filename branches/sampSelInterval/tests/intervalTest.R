@@ -162,9 +162,9 @@ Wage7 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city,
 print(summary(Wage7))
 
 ## tests with different specifications
-# low number of variables - NA in initial gradient
-try(selection( lfp ~ huswage + educ, 
-   wage_5interval ~ educ, data = Mroz87, boundaries = bound6))
+# low number of variables
+summary(selection( lfp ~ huswage + educ, 
+   wage_5interval ~ huswage, data = Mroz87, boundaries = bound6))
 
 # adding wife's marginal tax rate (mtr)
 spec1 <- selection( lfp ~ huswage + educ + mtr, 

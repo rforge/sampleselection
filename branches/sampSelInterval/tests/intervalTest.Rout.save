@@ -1553,7 +1553,7 @@ O:(Intercept)         O:educ        O:exper       logSigma        atanRho
       -0.3897         0.3660         0.0316         0.7900        -0.4943  
 
 > 
-> ## Testing estimations with 'problems'
+> ## Testing estimations with NAs
 > # NAs in independent variables
 > Mroz87$huswage[Mroz87$huswage < 4] <- NA 
 > try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
@@ -1583,14 +1583,22 @@ O:(Intercept)         O:educ        O:exper       logSigma        atanRho
 
 > 
 > # NAs in dependent variable
-> Mroz87$wage_5interval[Mroz87$educ < 12] <- NA
+> Mroz87$wage_5interval[Mroz87$kids5 > 1] <- NA
 > try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
 +    wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6))
-Error in solve.default(crossprod(xMat)) : 
-  system is computationally singular: reciprocal condition number = 4.66793e-19
+
+Call:
+ selection(selection = lfp ~ huswage + educ + mtr + fatheduc,      outcome = wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6) 
+
+Coefficients:
+S:(Intercept)      S:huswage         S:educ          S:mtr     S:fatheduc  
+      5.68069       -0.16813        0.07930       -7.49765       -0.00707  
+O:(Intercept)         O:educ        O:exper       logSigma        atanRho  
+      1.08518        0.21010        0.03900        0.56813       -0.44780  
+
 > 
 > 
 > 
 > proc.time()
    user  system elapsed 
- 185.59    0.28  185.96 
+ 195.76    0.37  196.48 

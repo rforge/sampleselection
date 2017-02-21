@@ -186,3 +186,19 @@ library(lmtest)
 lrtest(spec1,spec2)
 lrtest(spec2,spec3)
 waldtest(spec1,spec2,spec3)
+
+## Trying different start value inputs
+try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
+   wage_5interval ~ educ + exper, data = Mroz87, 
+   boundaries = bound6, start = c(1,-1,1,-1,-1,-1,1,1,0.5,-0.1) ))
+warnings()
+
+try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
+   wage_5interval ~ educ + exper, data = Mroz87, 
+   boundaries = bound6, start = c(3,-0.5,0.2,-4,-0.1,-0.5,0.1,0.2,0.5,-0.1) ))
+warnings()
+
+try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
+   wage_5interval ~ educ + exper, data = Mroz87, 
+   boundaries = bound6, start = c(3,-0.3,0.1,-5,-0.1,-0.4,0.2,0.1,0.5,-0.1) ))
+

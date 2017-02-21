@@ -1369,6 +1369,33 @@ atanRho   -0.5230     0.0995   -5.26 1.5e-07 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
+> # only dummy variables as indepdent variables
+> spec4 <- selection( lfp ~ city + wifecoll, 
++    wage_5interval ~ wifecoll, data = Mroz87, boundaries = bound6)
+> print(summary(spec4))
+--------------------------------------------
+Tobit 2 model with interval outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 17 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -1112 
+753 observations (325 censored and 428 observed)
+7 free parameters (df = 746)
+Probit selection equation:
+              Estimate Std. error t value Pr(> t)
+(Intercept)     0.5920        Inf       0       1
+city           -0.0104        Inf       0       1
+wifecollFALSE  -0.5754        Inf       0       1
+Outcome equation:
+              Estimate Std. error t value Pr(> t)
+(Intercept)       3.20        Inf       0       1
+wifecollFALSE    -2.28        Inf       0       1
+   Error terms:
+         Estimate Std. error t value Pr(> t)
+logSigma    1.226        Inf       0       1
+atanRho     0.785        Inf       0       1
+--------------------------------------------
+> 
 > ## trying lrtest and waldtest
 > library(lmtest)
 Loading required package: zoo
@@ -1526,7 +1553,44 @@ O:(Intercept)         O:educ        O:exper       logSigma        atanRho
       -0.3897         0.3660         0.0316         0.7900        -0.4943  
 
 > 
+> ## Testing estimations with 'problems'
+> # NAs in independent variables
+> Mroz87$huswage[Mroz87$huswage < 4] <- NA 
+> try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
++    wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6))
+
+Call:
+ selection(selection = lfp ~ huswage + educ + mtr + fatheduc,      outcome = wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6) 
+
+Coefficients:
+S:(Intercept)      S:huswage         S:educ          S:mtr     S:fatheduc  
+       4.6672        -0.1413         0.0921        -6.4430        -0.0148  
+O:(Intercept)         O:educ        O:exper       logSigma        atanRho  
+      -1.0205         0.4045         0.0423         0.7631        -0.4733  
+
+> Mroz87$educ[Mroz87$educ > 12] <- NA
+> try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
++    wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6))
+
+Call:
+ selection(selection = lfp ~ huswage + educ + mtr + fatheduc,      outcome = wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6) 
+
+Coefficients:
+S:(Intercept)      S:huswage         S:educ          S:mtr     S:fatheduc  
+      5.64758       -0.16770        0.08030       -7.47231       -0.00654  
+O:(Intercept)         O:educ        O:exper       logSigma        atanRho  
+      1.13064        0.20548        0.03925        0.57175       -0.45141  
+
+> 
+> # NAs in dependent variable
+> Mroz87$wage_5interval[Mroz87$educ < 12] <- NA
+> try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
++    wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6))
+Error in solve.default(crossprod(xMat)) : 
+  system is computationally singular: reciprocal condition number = 4.66793e-19
+> 
+> 
 > 
 > proc.time()
    user  system elapsed 
- 162.92    0.17  163.67 
+ 185.59    0.28  185.96 

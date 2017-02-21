@@ -181,6 +181,11 @@ spec3 <- selection( lfp ~ huswage + mtr + fatheduc + educ + city + huscoll,
    wage_5interval ~ educ + exper + city, data = Mroz87, boundaries = bound6)
 print(summary(spec3))
 
+# only dummy variables as indepdent variables
+spec4 <- selection( lfp ~ city + wifecoll, 
+   wage_5interval ~ wifecoll, data = Mroz87, boundaries = bound6)
+print(summary(spec4))
+
 ## trying lrtest and waldtest
 library(lmtest)
 lrtest(spec1,spec2)
@@ -201,4 +206,19 @@ warnings()
 try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
    wage_5interval ~ educ + exper, data = Mroz87, 
    boundaries = bound6, start = c(3,-0.3,0.1,-5,-0.1,-0.4,0.2,0.1,0.5,-0.1) ))
+
+## Testing estimations with 'problems'
+# NAs in independent variables
+Mroz87$huswage[Mroz87$huswage < 4] <- NA 
+try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
+   wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6))
+Mroz87$educ[Mroz87$educ > 12] <- NA
+try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
+   wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6))
+
+# NAs in dependent variable
+Mroz87$wage_5interval[Mroz87$educ < 12] <- NA
+try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
+   wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6))
+
 

@@ -1,7 +1,7 @@
 
-R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
+R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
 Copyright (C) 2016 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -1150,6 +1150,121 @@ Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  :
 Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
   the boundaries in the vector definded by argument 'boundaries' must be in ascending order
 > 
+> ### tests with Mroz data
+> data("Mroz87")
+> 
+> ## tests with different boundaries
+> Mroz87$wage_5interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,Inf),
++    labels=c(1,2,3,4,5))
+> bound6 <- c(0,2.0,4.0,6.0,8.0,Inf)
+> Mroz87$wage_6interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,10.0,Inf),
++    labels=c(1,2,3,4,5,6))
+> bound7 <- c(0,2.0,4.0,6.0,8.0,10.0,Inf)
+> Mroz87$wage_7interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,10.0,12.0,Inf),
++    labels=c(1,2,3,4,5,6,7))
+> bound8 <- c(0,2.0,4.0,6.0,8.0,10.0,12.0,Inf)
+> 
+> Wage5 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
++    wage_5interval ~ educ + city, data = Mroz87, boundaries = bound6 )
+> print(summary(Wage5))
+--------------------------------------------
+Tobit 2 model with interval outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 15 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -1072 
+753 observations (325 censored and 428 observed)
+12 free parameters (df = 741)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   4.2008     0.8044    5.22 1.8e-07 ***
+huswage      -0.1225     0.0167   -7.32 2.6e-13 ***
+kids5        -0.4990     0.0934   -5.34 9.2e-08 ***
+mtr          -6.2864     0.8761   -7.18 7.2e-13 ***
+fatheduc     -0.0136     0.0143   -0.95    0.34    
+educ          0.1159     0.0250    4.64 3.4e-06 ***
+city         -0.0244     0.1084   -0.23    0.82    
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)  -0.0973     0.7959   -0.12    0.90    
+educ          0.3571     0.0553    6.45 1.1e-10 ***
+city          0.2899     0.2595    1.12    0.26    
+   Error terms:
+         Estimate Std. error t value Pr(> t)    
+logSigma   0.7915     0.0596   13.29 < 2e-16 ***
+atanRho   -0.4810     0.0896   -5.37 7.8e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
+> Wage6 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
++    wage_6interval ~ educ + city, data = Mroz87, boundaries = bound7 )
+> print(summary(Wage6))
+--------------------------------------------
+Tobit 2 model with interval outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 17 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -1111 
+753 observations (325 censored and 428 observed)
+12 free parameters (df = 741)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   4.0324     0.8171    4.93 8.0e-07 ***
+huswage      -0.1208     0.0169   -7.16 8.3e-13 ***
+kids5        -0.5175     0.0943   -5.49 4.0e-08 ***
+mtr          -6.0907     0.8880   -6.86 6.9e-12 ***
+fatheduc     -0.0118     0.0145   -0.81    0.42    
+educ          0.1172     0.0252    4.65 3.3e-06 ***
+city         -0.0288     0.1082   -0.27    0.79    
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)  -0.4926     0.8516   -0.58    0.56    
+educ          0.3854     0.0588    6.56 5.5e-11 ***
+city          0.3274     0.2836    1.15    0.25    
+   Error terms:
+         Estimate Std. error t value Pr(> t)    
+logSigma   0.8425     0.0532   15.84 < 2e-16 ***
+atanRho   -0.4172     0.1048   -3.98 6.8e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
+> Wage7 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
++    wage_7interval ~ educ + city, data = Mroz87, boundaries = bound8 )
+Warning message:
+In log(pmvnDiff[YS == 1]) : NaNs produced
+> print(summary(Wage7))
+--------------------------------------------
+Tobit 2 model with interval outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 23 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -1140 
+753 observations (325 censored and 428 observed)
+12 free parameters (df = 741)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   3.8850     0.8268    4.70 2.6e-06 ***
+huswage      -0.1189     0.0171   -6.94 4.0e-12 ***
+kids5        -0.5285     0.0958   -5.52 3.4e-08 ***
+mtr          -5.9175     0.8973   -6.59 4.3e-11 ***
+fatheduc     -0.0107     0.0147   -0.73    0.47    
+educ          0.1182     0.0254    4.66 3.2e-06 ***
+city         -0.0328     0.1081   -0.30    0.76    
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)  -0.8186     0.8902   -0.92    0.36    
+educ          0.4071     0.0615    6.62 3.6e-11 ***
+city          0.3353     0.3054    1.10    0.27    
+   Error terms:
+         Estimate Std. error t value Pr(> t)    
+logSigma   0.8880     0.0477   18.62  <2e-16 ***
+atanRho   -0.3470     0.1205   -2.88   0.004 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
 > proc.time()
    user  system elapsed 
- 20.188   0.088  20.270 
+  59.42    0.23   59.78 

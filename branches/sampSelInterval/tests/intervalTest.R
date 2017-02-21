@@ -134,3 +134,29 @@ try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 1:6,
    start = start ) )
 try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 4:1, 
    start = start ) )
+
+### tests with Mroz data
+data("Mroz87")
+
+## tests with different boundaries
+Mroz87$wage_5interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,Inf),
+   labels=c(1,2,3,4,5))
+bound6 <- c(0,2.0,4.0,6.0,8.0,Inf)
+Mroz87$wage_6interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,10.0,Inf),
+   labels=c(1,2,3,4,5,6))
+bound7 <- c(0,2.0,4.0,6.0,8.0,10.0,Inf)
+Mroz87$wage_7interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,10.0,12.0,Inf),
+   labels=c(1,2,3,4,5,6,7))
+bound8 <- c(0,2.0,4.0,6.0,8.0,10.0,12.0,Inf)
+
+Wage5 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
+   wage_5interval ~ educ + city, data = Mroz87, boundaries = bound6 )
+print(summary(Wage5))
+
+Wage6 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
+   wage_6interval ~ educ + city, data = Mroz87, boundaries = bound7 )
+print(summary(Wage6))
+
+Wage7 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
+   wage_7interval ~ educ + city, data = Mroz87, boundaries = bound8 )
+print(summary(Wage7))

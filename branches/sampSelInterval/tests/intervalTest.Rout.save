@@ -1371,29 +1371,31 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > # only dummy variables as indepdent variables
 > spec4 <- selection( lfp ~ city + wifecoll, 
-+    wage_5interval ~ wifecoll, data = Mroz87, boundaries = bound6)
++    wage_5interval ~ city, data = Mroz87, boundaries = bound6)
 > print(summary(spec4))
 --------------------------------------------
 Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
-BHHH maximisation, 17 iterations
+BHHH maximisation, 20 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -1112 
+Log-Likelihood: -1160 
 753 observations (325 censored and 428 observed)
 7 free parameters (df = 746)
 Probit selection equation:
-              Estimate Std. error t value Pr(> t)
-(Intercept)     0.5920        Inf       0       1
-city           -0.0104        Inf       0       1
-wifecollFALSE  -0.5754        Inf       0       1
+              Estimate Std. error t value Pr(> t)    
+(Intercept)     0.6721     0.1092    6.15 7.5e-10 ***
+city           -0.0608     0.0973   -0.63    0.53    
+wifecollFALSE  -0.6495     0.1043   -6.23 4.7e-10 ***
 Outcome equation:
-              Estimate Std. error t value Pr(> t)
-(Intercept)       3.20        Inf       0       1
-wifecollFALSE    -2.28        Inf       0       1
+            Estimate Std. error t value Pr(> t)    
+(Intercept)    4.763      0.392    12.1  <2e-16 ***
+city           0.552      0.276     2.0   0.045 *  
    Error terms:
-         Estimate Std. error t value Pr(> t)
-logSigma    1.226        Inf       0       1
-atanRho     0.785        Inf       0       1
+         Estimate Std. error t value Pr(> t)    
+logSigma   0.9729     0.1001    9.72 < 2e-16 ***
+atanRho   -0.5977     0.0933   -6.41 1.5e-10 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
 > ## trying lrtest and waldtest
@@ -1601,4 +1603,4 @@ O:(Intercept)         O:educ        O:exper       logSigma        atanRho
 > 
 > proc.time()
    user  system elapsed 
- 195.76    0.37  196.48 
+ 195.11    0.23  195.87 

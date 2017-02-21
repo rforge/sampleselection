@@ -183,7 +183,7 @@ print(summary(spec3))
 
 # only dummy variables as indepdent variables
 spec4 <- selection( lfp ~ city + wifecoll, 
-   wage_5interval ~ wifecoll, data = Mroz87, boundaries = bound6)
+   wage_5interval ~ city, data = Mroz87, boundaries = bound6)
 print(summary(spec4))
 
 ## trying lrtest and waldtest

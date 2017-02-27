@@ -60,6 +60,7 @@ US National Health Interview Survey.
 
 \examples{
 data( Smoke )
+bounds <- c(0,5,10,20,50,Inf)
 Smoke_SelInt <- selection( smoker ~ educ + age + restaurn, 
    cigs_intervals ~ educ + income + restaurn, data = Smoke, boundaries = bounds)
 summary( Smoke_SelInt )

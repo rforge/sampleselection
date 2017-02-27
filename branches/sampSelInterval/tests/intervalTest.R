@@ -221,4 +221,20 @@ Mroz87$wage_5interval[Mroz87$kids5 > 1] <- NA
 try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
    wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6))
 
+### tests with Smoke data
+data(Smoke)
 
+## tests with different specifications
+bounds <- c(0,5,10,20,50,Inf)
+
+# low number of variables
+Smoke_spec1 <- selection( smoker ~ educ + age, 
+   cigs_intervals ~ educ, data = Smoke, boundaries = bounds)
+
+#adding variables
+Smoke_spec2 <- selection( smoker ~ educ + age + restaurn, 
+   cigs_intervals ~ educ + income + restaurn, data = Smoke, boundaries = bounds)
+
+# testing models against each other
+lrtest(Smoke_spec1, Smoke_spec2)
+waldtest(Smoke_spec1, Smoke_spec2)

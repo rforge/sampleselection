@@ -1621,8 +1621,55 @@ O:(Intercept)         O:educ        O:exper       logSigma        atanRho
       1.08518        0.21010        0.03900        0.56813       -0.44780  
 
 > 
+> ### tests with Smoke data
+> data(Smoke)
 > 
+> ## tests with different specifications
+> bounds <- c(0,5,10,20,50,Inf)
+> 
+> # low number of variables
+> Smoke_spec1 <- selection( smoker ~ educ + age, 
++    cigs_intervals ~ educ, data = Smoke, boundaries = bounds)
+Warning messages:
+1: In log(pmvnDiff[YS == 1]) : NaNs produced
+2: In log(pmvnDiff[YS == 1]) : NaNs produced
+3: In log(pmvnDiff[YS == 1]) : NaNs produced
+> 
+> #adding variables
+> Smoke_spec2 <- selection( smoker ~ educ + age + restaurn, 
++    cigs_intervals ~ educ + income + restaurn, data = Smoke, boundaries = bounds)
+Warning messages:
+1: In log(pmvnDiff[YS == 1]) : NaNs produced
+2: In log(pmvnDiff[YS == 1]) : NaNs produced
+3: In log(pmvnDiff[YS == 1]) : NaNs produced
+4: In log(pmvnDiff[YS == 1]) : NaNs produced
+> 
+> # testing models against each other
+> lrtest(Smoke_spec1, Smoke_spec2)
+Likelihood ratio test
+
+Model 1: selection(selection = smoker ~ educ + age, outcome = cigs_intervals ~ 
+    educ, data = Smoke, boundaries = bounds)
+Model 2: selection(selection = smoker ~ educ + age + restaurn, outcome = cigs_intervals ~ 
+    educ + income + restaurn, data = Smoke, boundaries = bounds)
+  #Df LogLik Df Chisq Pr(>Chisq)  
+1   7   -941                      
+2  10   -936  3  8.47      0.037 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+> waldtest(Smoke_spec1, Smoke_spec2)
+Wald test
+
+Model 1: selection(selection = smoker ~ educ + age, outcome = cigs_intervals ~ 
+    educ, data = Smoke, boundaries = bounds)
+Model 2: selection(selection = smoker ~ educ + age + restaurn, outcome = cigs_intervals ~ 
+    educ + income + restaurn, data = Smoke, boundaries = bounds)
+  Res.Df Df Chisq Pr(>Chisq)  
+1    800                      
+2    797  3  7.87      0.049 *
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 207.41    0.21  210.00 
+ 240.69    0.34  241.56 

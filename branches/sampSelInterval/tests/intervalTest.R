@@ -238,3 +238,12 @@ Smoke_spec2 <- selection( smoker ~ educ + age + restaurn,
 # testing models against each other
 lrtest(Smoke_spec1, Smoke_spec2)
 waldtest(Smoke_spec1, Smoke_spec2)
+
+## Test with empty interval
+Smoke$cigs_intervals2 <- cut(Smoke$cigs, br=c(0,5,10,20,50,51,Inf),
+   labels=c(1,2,3,4,5,6))
+table(Smoke$cigs_intervals2)
+bounds <- c(0,5,10,20,50,51,Inf)
+try(selection( smoker ~ educ + age + restaurn, 
+   cigs_intervals2 ~ educ + income + restaurn, data = Smoke, 
+   boundaries = bounds))

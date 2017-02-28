@@ -1144,7 +1144,8 @@ Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  :
 > try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 1:6, 
 +    start = start ) )
 Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
-  argument 'boundaries' must have 4 elements
+  argument 'boundaries' does not have (number of intervals + 1) 
+      elements [4], or at least one interval is empty
 > try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 4:1, 
 +    start = start ) )
 Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
@@ -1670,6 +1671,21 @@ Model 2: selection(selection = smoker ~ educ + age + restaurn, outcome = cigs_in
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
+> ## Test with empty interval
+> Smoke$cigs_intervals2 <- cut(Smoke$cigs, br=c(0,5,10,20,50,51,Inf),
++    labels=c(1,2,3,4,5,6))
+> table(Smoke$cigs_intervals2)
+
+  1   2   3   4   5   6 
+ 26  38 138  98   0  10 
+> bounds <- c(0,5,10,20,50,51,Inf)
+> try(selection( smoker ~ educ + age + restaurn, 
++    cigs_intervals2 ~ educ + income + restaurn, data = Smoke, 
++    boundaries = bounds))
+Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
+  argument 'boundaries' does not have (number of intervals + 1) 
+      elements [6], or at least one interval is empty
+> 
 > proc.time()
    user  system elapsed 
- 240.69    0.34  241.56 
+ 240.35    0.28  240.77 

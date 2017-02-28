@@ -131,9 +131,13 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    if( min( YO[YS==1] ) <= 0 ) {
       stop( "YO should only have strictly positive integer values" )
    }
+   if( 0 %in% table(YO)) {
+      stop( "At least one intervals does not contain observations")
+   }
    nInterval <- max( YO[YS==1] )
    if( length( boundaries ) != nInterval + 1 ) {
-      stop( "argument 'boundaries' must have ", nInterval + 1, " elements" )
+      stop( "argument 'boundaries' does not have (number of intervals + 1) 
+      elements [", nInterval + 1, "], or at least one interval is empty" )
    }
    if( !all( sort( boundaries ) == boundaries ) ) {
       stop( "the boundaries in the vector definded by argument 'boundaries' ",

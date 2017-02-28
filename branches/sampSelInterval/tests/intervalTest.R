@@ -247,3 +247,17 @@ bounds <- c(0,5,10,20,50,51,Inf)
 try(selection( smoker ~ educ + age + restaurn, 
    cigs_intervals2 ~ educ + income + restaurn, data = Smoke, 
    boundaries = bounds))
+
+## tests with starting values
+bounds <- c(0,5,10,20,50,Inf)
+
+# Trying different start value inputs
+try(selection( smoker ~ educ + age + restaurn, 
+   cigs_intervals ~ educ + income + restaurn, data = Smoke,
+   boundaries = bounds, start = 
+      c(1,-0.1,-0.1,-0.5,3,-1,0.01,-2,1,0.7)))
+
+summary(selection( smoker ~ educ + age + restaurn, 
+   cigs_intervals ~ educ + income + restaurn, data = Smoke,
+   boundaries = bounds, start = 
+      c(0.6,-0.05,-0.006,-0.27,4,-0.3,0.0001,-4,2,0.7)))

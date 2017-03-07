@@ -53,6 +53,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
             pmvnorm( upper = c( ( boundaries[ YO[i] ] - XO.b[i] ) / sigma,
                XS.b[i] ), sigma = vcovMat )
       }
+      pmvnDiff <- pmax( pmvnDiff, .Machine$double.eps )
       loglik <- rep( NA, nObs )
       ## YS == 0, YO == NA
       loglik[YS==0] <- pnorm( -XS.b[YS==0], log.p = TRUE )

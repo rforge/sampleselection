@@ -1233,8 +1233,6 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > Wage7 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
 +    wage_7interval ~ educ + city, data = Mroz87, boundaries = bound8 )
-Warning message:
-In log(pmvnDiff[YS == 1]) : NaNs produced
 > print(summary(Wage7))
 --------------------------------------------
 Tobit 2 model with interval outcome (sample selection model)
@@ -1475,7 +1473,6 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > mrozBound6 <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
 +    wage_5interval ~ educ + exper, data = Mroz87, 
 +    boundaries = bound6, start = c(1,-1,1,-1,-1,-1,1,1,0.5,-0.1) )
-There were 38 warnings (use warnings() to see them)
 > print( mrozBound6 )
 
 Call:
@@ -1483,83 +1480,42 @@ Call:
 
 Coefficients:
 S:(Intercept)      S:huswage         S:educ          S:mtr     S:fatheduc  
-        1.811         -0.848          0.855         -4.652         -0.706  
+      -0.5797        -0.0668         0.1489        -0.9018        -0.0686  
 O:(Intercept)         O:educ        O:exper       logSigma        atanRho  
-      -10.531          1.127          1.012          0.353          0.104  
+     -23.1204         1.3683         0.9262         1.7106         0.7854  
 
 > warnings()
-Warning messages:
-1: In log(pmvnDiff[YS == 1]) : NaNs produced
-2: In log(pmvnDiff[YS == 1]) : NaNs produced
-3: In log(pmvnDiff[YS == 1]) : NaNs produced
-4: In log(pmvnDiff[YS == 1]) : NaNs produced
-5: In log(pmvnDiff[YS == 1]) : NaNs produced
-6: In log(pmvnDiff[YS == 1]) : NaNs produced
-7: In log(pmvnDiff[YS == 1]) : NaNs produced
-8: In log(pmvnDiff[YS == 1]) : NaNs produced
-9: In log(pmvnDiff[YS == 1]) : NaNs produced
-10: In log(pmvnDiff[YS == 1]) : NaNs produced
-11: In log(pmvnDiff[YS == 1]) : NaNs produced
-12: In log(pmvnDiff[YS == 1]) : NaNs produced
-13: In log(pmvnDiff[YS == 1]) : NaNs produced
-14: In log(pmvnDiff[YS == 1]) : NaNs produced
-15: In log(pmvnDiff[YS == 1]) : NaNs produced
-16: In log(pmvnDiff[YS == 1]) : NaNs produced
-17: In log(pmvnDiff[YS == 1]) : NaNs produced
-18: In log(pmvnDiff[YS == 1]) : NaNs produced
-19: In log(pmvnDiff[YS == 1]) : NaNs produced
-20: In log(pmvnDiff[YS == 1]) : NaNs produced
-21: In log(pmvnDiff[YS == 1]) : NaNs produced
-22: In log(pmvnDiff[YS == 1]) : NaNs produced
-23: In log(pmvnDiff[YS == 1]) : NaNs produced
-24: In log(pmvnDiff[YS == 1]) : NaNs produced
-25: In log(pmvnDiff[YS == 1]) : NaNs produced
-26: In log(pmvnDiff[YS == 1]) : NaNs produced
-27: In log(pmvnDiff[YS == 1]) : NaNs produced
-28: In log(pmvnDiff[YS == 1]) : NaNs produced
-29: In log(pmvnDiff[YS == 1]) : NaNs produced
-30: In log(pmvnDiff[YS == 1]) : NaNs produced
-31: In log(pmvnDiff[YS == 1]) : NaNs produced
-32: In log(pmvnDiff[YS == 1]) : NaNs produced
-33: In log(pmvnDiff[YS == 1]) : NaNs produced
-34: In log(pmvnDiff[YS == 1]) : NaNs produced
-35: In log(pmvnDiff[YS == 1]) : NaNs produced
-36: In log(pmvnDiff[YS == 1]) : NaNs produced
-37: In log(pmvnDiff[YS == 1]) : NaNs produced
-38: In log(pmvnDiff[YS == 1]) : NaNs produced
+NULL
 > print( summary( mrozBound6 ) )
 --------------------------------------------
 Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
-BHHH maximisation, 38 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -28801 
+BHHH maximisation, 150 iterations
+Return code 4: Iteration limit exceeded.
+Log-Likelihood: -10056 
 753 observations (325 censored and 428 observed)
 10 free parameters (df = 743)
 Probit selection equation:
-            Estimate Std. error t value Pr(> t)    
-(Intercept)  1.81087    0.16389    11.1  <2e-16 ***
-huswage     -0.84801    0.00332  -255.5  <2e-16 ***
-educ         0.85476    0.00509   168.0  <2e-16 ***
-mtr         -4.65213    0.16667   -27.9  <2e-16 ***
-fatheduc    -0.70572    0.00306  -230.4  <2e-16 ***
+            Estimate Std. error t value Pr(> t)
+(Intercept)  -0.5797        Inf       0       1
+huswage      -0.0668        Inf       0       1
+educ          0.1489        Inf       0       1
+mtr          -0.9018        Inf       0       1
+fatheduc     -0.0686        Inf       0       1
 Outcome equation:
-             Estimate Std. error t value Pr(> t)    
-(Intercept) -10.53095    0.07246    -145  <2e-16 ***
-educ          1.12656    0.00546     206  <2e-16 ***
-exper         1.01185    0.00409     247  <2e-16 ***
+            Estimate Std. error t value Pr(> t)
+(Intercept)  -23.120        Inf       0       1
+educ           1.368        Inf       0       1
+exper          0.926        Inf       0       1
    Error terms:
-         Estimate Std. error t value Pr(> t)    
-logSigma  0.35284    0.00434    81.2  <2e-16 ***
-atanRho   0.10441    0.00246    42.4  <2e-16 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+         Estimate Std. error t value Pr(> t)
+logSigma    1.711        Inf       0       1
+atanRho     0.785        Inf       0       1
 --------------------------------------------
 > 
 > mrozBound6a <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
 +    wage_5interval ~ educ + exper, data = Mroz87, 
 +    boundaries = bound6, start = c(3,-0.5,0.2,-4,-0.1,-0.5,0.1,0.2,0.5,-0.1) )
-There were 27 warnings (use warnings() to see them)
 > print( mrozBound6a )
 
 Call:
@@ -1567,64 +1523,37 @@ Call:
 
 Coefficients:
 S:(Intercept)      S:huswage         S:educ          S:mtr     S:fatheduc  
-       8.3670        -0.4696         0.1352        -9.3205        -0.0511  
+       4.7591        -0.1266         0.0944        -6.8337        -0.0169  
 O:(Intercept)         O:educ        O:exper       logSigma        atanRho  
-       0.5539         0.2624         0.0512         0.7372        -0.5793  
+      -0.3882         0.3659         0.0316         0.7900        -0.4944  
 
 > warnings()
-Warning messages:
-1: In log(pmvnDiff[YS == 1]) : NaNs produced
-2: In log(pmvnDiff[YS == 1]) : NaNs produced
-3: In log(pmvnDiff[YS == 1]) : NaNs produced
-4: In log(pmvnDiff[YS == 1]) : NaNs produced
-5: In log(pmvnDiff[YS == 1]) : NaNs produced
-6: In log(pmvnDiff[YS == 1]) : NaNs produced
-7: In log(pmvnDiff[YS == 1]) : NaNs produced
-8: In log(pmvnDiff[YS == 1]) : NaNs produced
-9: In log(pmvnDiff[YS == 1]) : NaNs produced
-10: In log(pmvnDiff[YS == 1]) : NaNs produced
-11: In log(pmvnDiff[YS == 1]) : NaNs produced
-12: In log(pmvnDiff[YS == 1]) : NaNs produced
-13: In log(pmvnDiff[YS == 1]) : NaNs produced
-14: In log(pmvnDiff[YS == 1]) : NaNs produced
-15: In log(pmvnDiff[YS == 1]) : NaNs produced
-16: In log(pmvnDiff[YS == 1]) : NaNs produced
-17: In log(pmvnDiff[YS == 1]) : NaNs produced
-18: In log(pmvnDiff[YS == 1]) : NaNs produced
-19: In log(pmvnDiff[YS == 1]) : NaNs produced
-20: In log(pmvnDiff[YS == 1]) : NaNs produced
-21: In log(pmvnDiff[YS == 1]) : NaNs produced
-22: In log(pmvnDiff[YS == 1]) : NaNs produced
-23: In log(pmvnDiff[YS == 1]) : NaNs produced
-24: In log(pmvnDiff[YS == 1]) : NaNs produced
-25: In log(pmvnDiff[YS == 1]) : NaNs produced
-26: In log(pmvnDiff[YS == 1]) : NaNs produced
-27: In log(pmvnDiff[YS == 1]) : NaNs produced
+NULL
 > print( summary( mrozBound6a ) )
 --------------------------------------------
 Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
-BHHH maximisation, 12 iterations
+BHHH maximisation, 41 iterations
 Return code 2: successive function values within tolerance limit
-Log-Likelihood: -1554 
+Log-Likelihood: -1085 
 753 observations (325 censored and 428 observed)
 10 free parameters (df = 743)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)  8.36699    0.36117   23.17 < 2e-16 ***
-huswage     -0.46958    0.01133  -41.44 < 2e-16 ***
-educ         0.13519    0.01666    8.11 4.9e-16 ***
-mtr         -9.32048    0.38197  -24.40 < 2e-16 ***
-fatheduc    -0.05115    0.00684   -7.47 7.9e-14 ***
+(Intercept)   4.7591     0.7735    6.15 7.6e-10 ***
+huswage      -0.1266     0.0161   -7.86 3.9e-15 ***
+educ          0.0944     0.0241    3.93 8.7e-05 ***
+mtr          -6.8337     0.8422   -8.11 4.9e-16 ***
+fatheduc     -0.0169     0.0140   -1.21    0.23    
 Outcome equation:
             Estimate Std. error t value Pr(> t)    
-(Intercept)  0.55387    0.54839    1.01    0.31    
-educ         0.26244    0.04152    6.32 2.6e-10 ***
-exper        0.05117    0.00936    5.47 4.6e-08 ***
+(Intercept)  -0.3882     0.8852   -0.44   0.661    
+educ          0.3659     0.0537    6.81 9.5e-12 ***
+exper         0.0316     0.0135    2.35   0.019 *  
    Error terms:
          Estimate Std. error t value Pr(> t)    
-logSigma   0.7372     0.0434    17.0  <2e-16 ***
-atanRho   -0.5793     0.0169   -34.3  <2e-16 ***
+logSigma   0.7900     0.0679   11.64 < 2e-16 ***
+atanRho   -0.4944     0.1076   -4.59 4.4e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -1725,19 +1654,10 @@ O:(Intercept)         O:educ        O:exper       logSigma        atanRho
 > # low number of variables
 > Smoke_spec1 <- selection( smoker ~ educ + age, 
 +    cigs_intervals ~ educ, data = Smoke, boundaries = bounds)
-Warning messages:
-1: In log(pmvnDiff[YS == 1]) : NaNs produced
-2: In log(pmvnDiff[YS == 1]) : NaNs produced
-3: In log(pmvnDiff[YS == 1]) : NaNs produced
 > 
 > #adding variables
 > Smoke_spec2 <- selection( smoker ~ educ + age + restaurn, 
 +    cigs_intervals ~ educ + income + restaurn, data = Smoke, boundaries = bounds)
-Warning messages:
-1: In log(pmvnDiff[YS == 1]) : NaNs produced
-2: In log(pmvnDiff[YS == 1]) : NaNs produced
-3: In log(pmvnDiff[YS == 1]) : NaNs produced
-4: In log(pmvnDiff[YS == 1]) : NaNs produced
 > 
 > # testing models against each other
 > lrtest(Smoke_spec1, Smoke_spec2)
@@ -1788,10 +1708,16 @@ Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  :
 +    cigs_intervals ~ educ + income + restaurn, data = Smoke,
 +    boundaries = bounds, start = 
 +       c(1,-0.1,-0.1,-0.5,3,-1,0.01,-2,1,0.7)))
-Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
-  maxLik: Return code 100: Initial value out of range
-In addition: Warning message:
-In log(pmvnDiff[YS == 1]) : NaNs produced
+
+Call:
+ selection(selection = smoker ~ educ + age + restaurn, outcome = cigs_intervals ~      educ + income + restaurn, data = Smoke, start = c(1, -0.1,      -0.1, -0.5, 3, -1, 0.01, -2, 1, 0.7), boundaries = bounds) 
+
+Coefficients:
+S:(Intercept)         S:educ          S:age     S:restaurn  O:(Intercept)  
+     -1.21548       -0.01926       -0.01080       -0.33780      -55.21590  
+       O:educ       O:income     O:restaurn       logSigma        atanRho  
+      0.75969        0.00794      -10.89951        3.22753        0.78538  
+
 > 
 > summary(selection( smoker ~ educ + age + restaurn, 
 +    cigs_intervals ~ educ + income + restaurn, data = Smoke,
@@ -1827,4 +1753,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 272.57    0.82  273.61 
+ 631.51    0.65  632.19 

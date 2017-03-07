@@ -36,7 +36,7 @@ Tartu University}
 %\VignetteKeyword{regression}
 <<echo=FALSE>>=
 library(mvtnorm)
-library(sampleSelection)
+library(sampleSelection2)
 options(width=70)
 set.seed(0)
 @ 
@@ -330,7 +330,7 @@ non-participation.
 
 Technically,
 \code{treatReg} is an amended version of tobit-5 models in the
-\code{selection} command in the package \code{sampleSelection}
+\code{selection} command in the package \code{sampleSelection2}
 \citep{toomet08}.  It
 supports both 2-step and maximum likelihood estimation.  In the
 latter case, 2-step method is used for calculating the

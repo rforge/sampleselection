@@ -1,6 +1,6 @@
 
 options( digits = 3 )
-library( "sampleSelection" )
+library( "sampleSelection2" )
 set.seed(0)
                            # Note: library() may change RNG state!
 

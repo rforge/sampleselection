@@ -1,4 +1,4 @@
-library( "sampleSelection" )
+library( "sampleSelection2" )
 library( "mvtnorm" )
 library( "lmtest" )
 options( digits = 3 )

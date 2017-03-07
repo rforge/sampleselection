@@ -1,4 +1,4 @@
-library( "sampleSelection" )
+library( "sampleSelection2" )
 library( "mvtnorm" )
 options( digits = 2 )
 
@@ -28,8 +28,9 @@ XS <- cbind( 1, dat$x1, dat$x2 )
 YO <- as.numeric( dat$yO )
 XO <- cbind( 1, dat$x1 )
 
+
 start <- c( betaS, betaO, log( sqrt( sigma ) ), atan( rho ) )
-   # the correct starting value of logSigma would be: log( sigma )
+# the correct starting value of logSigma would be: log( sigma )
 names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
    "logSigma", "atanRho" )
 

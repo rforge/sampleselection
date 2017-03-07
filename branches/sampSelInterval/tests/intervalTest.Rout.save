@@ -15,7 +15,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library( "sampleSelection2" )
+> library( "sampleSelection" )
 Loading required package: maxLik
 Loading required package: miscTools
 
@@ -24,16 +24,6 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
-Loading required package: sampleSelection
-
-Attaching package: 'sampleSelection2'
-
-The following objects are masked from 'package:sampleSelection':
-
-    binaryChoice, heckit, heckit2fit, heckit5fit, heckitTfit,
-    heckitVcov, invMillsRatio, linearPredictors, probit, selection,
-    tobit2Bfit, tobit2fit, tobit5fit, treatReg
-
 > library( "mvtnorm" )
 > options( digits = 2 )
 > 
@@ -1743,4 +1733,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 250.27    0.29  250.91 
+ 252.61    0.28  253.40 

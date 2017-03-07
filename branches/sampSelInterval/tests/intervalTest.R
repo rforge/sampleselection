@@ -1,4 +1,4 @@
-library( "sampleSelection2" )
+library( "sampleSelection" )
 library( "mvtnorm" )
 options( digits = 2 )
 
@@ -193,19 +193,25 @@ lrtest(spec2,spec3)
 waldtest(spec1,spec2,spec3)
 
 ## Trying different start value inputs
-try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
+mrozBound6 <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
    wage_5interval ~ educ + exper, data = Mroz87, 
-   boundaries = bound6, start = c(1,-1,1,-1,-1,-1,1,1,0.5,-0.1) ))
+   boundaries = bound6, start = c(1,-1,1,-1,-1,-1,1,1,0.5,-0.1) )
+print( mrozBound6 )
 warnings()
+print( summary( mrozBound6 ) )
 
-try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
+mrozBound6a <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
    wage_5interval ~ educ + exper, data = Mroz87, 
-   boundaries = bound6, start = c(3,-0.5,0.2,-4,-0.1,-0.5,0.1,0.2,0.5,-0.1) ))
+   boundaries = bound6, start = c(3,-0.5,0.2,-4,-0.1,-0.5,0.1,0.2,0.5,-0.1) )
+print( mrozBound6a )
 warnings()
+print( summary( mrozBound6a ) )
 
-try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
+mrozBound6b <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
    wage_5interval ~ educ + exper, data = Mroz87, 
-   boundaries = bound6, start = c(3,-0.3,0.1,-5,-0.1,-0.4,0.2,0.1,0.5,-0.1) ))
+   boundaries = bound6, start = c(3,-0.3,0.1,-5,-0.1,-0.4,0.2,0.1,0.5,-0.1) )
+print( mrozBound6b )
+print( summary( mrozBound6b ) )
 
 ## Testing estimations with NAs
 # NAs in independent variables

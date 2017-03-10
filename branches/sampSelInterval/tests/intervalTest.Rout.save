@@ -1,7 +1,7 @@
 
 R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
 Copyright (C) 2016 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -15,7 +15,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library( "sampleSelection2" )
+> library( "sampleSelection" )
 Loading required package: maxLik
 Loading required package: miscTools
 
@@ -53,9 +53,8 @@ https://r-forge.r-project.org/projects/maxlik/
 > YO <- as.numeric( dat$yO )
 > XO <- cbind( 1, dat$x1 )
 > 
-> 
 > start <- c( betaS, betaO, log( sqrt( sigma ) ), atan( rho ) )
-> # the correct starting value of logSigma would be: log( sigma )
+>    # the correct starting value of logSigma would be: log( sigma )
 > names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
 +    "logSigma", "atanRho" )
 > 
@@ -142,23 +141,6 @@ atanRho    0.2820     0.3058    0.92    0.36
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> 
-> # Try estimation with Nx2 matrix of lower and upper bound as YO
-> dat$yOm <- cut( dat$yOu, bound, labels = FALSE )
-> dat$lb[dat$yOm == 1] <- -Inf
-> dat$lb[dat$yOm == 2] <- 5
-> dat$lb[dat$yOm == 3] <- 15
-> dat$ub[dat$yOm == 1] <- 5
-> dat$ub[dat$yOm == 2] <- 15
-> dat$ub[dat$yOm == 3] <- Inf
-> dat$yOm <- cbind(dat$lb, dat$ub)
-> 
-> try(selection( yS ~ x1 + x2, yOm ~ x1, data = dat, boundaries = bound, 
-+    start = start, printLevel = 1 ))
-Tobit 2 model
-79 invalid observations
-Error in XS[!badRow, , drop = FALSE] : 
-  (subscript) logical subscript too long
 > 
 > # add derived coefficients
 > coefAll <- c( coef( res ),
@@ -1500,7 +1482,7 @@ Coefficients:
 S:(Intercept)      S:huswage         S:educ          S:mtr     S:fatheduc  
       -0.5797        -0.0668         0.1489        -0.9018        -0.0686  
 O:(Intercept)         O:educ        O:exper       logSigma        atanRho  
-     -23.1202         1.3682         0.9262         1.7106         0.7854  
+     -23.1204         1.3683         0.9262         1.7106         0.7854  
 
 > warnings()
 NULL
@@ -1732,9 +1714,9 @@ Call:
 
 Coefficients:
 S:(Intercept)         S:educ          S:age     S:restaurn  O:(Intercept)  
-     -1.22090       -0.01894       -0.01082       -0.33648      -54.83970  
+     -1.21548       -0.01926       -0.01080       -0.33780      -55.21590  
        O:educ       O:income     O:restaurn       logSigma        atanRho  
-      0.74776        0.00796      -10.75536        3.22221        0.78537  
+      0.75969        0.00794      -10.89951        3.22753        0.78538  
 
 > 
 > summary(selection( smoker ~ educ + age + restaurn, 
@@ -1771,4 +1753,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 561.96    0.29  564.20 
+ 631.51    0.65  632.19 

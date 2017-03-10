@@ -128,29 +128,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    }
    
    YOorig <- YO
-   
-   # Code for estimation with factor or Nx2 matrix as outcome dependent variable
-   # (to be used when YO can be passed on as matrix by 'selection')
-   # if(is.matrix(YO)) {
-   #    # Obtain integer in case y is Nx2 matrix containing lower and upper bounds
-   #    if(ncol(YO) != 2) {
-   #       stop("response must be a factor or Nx2 matrix of boundaries")
-   #    }
-   #    
-   #    lowerBound <- YO[,1]
-   #    upperBound <- YO[,2] 
-   #    
-   #    YOint <- numeric(nrow(YO))
-   #    for( i in which( YS==1 )){
-   #       YOint[i] <- match(lowerBound[i], boundaries, nomatch = NA)
-   #    }
-   #    YOint[YOint == 0] <- NA
-   #    YO <- YOint
-   # }
-   # YO <- as.integer( as.character(YO) )
-   
    YO <- as.integer( YO )
-   
    if( min( YO[YS==1] ) <= 0 ) {
       stop( "YO should only have strictly positive integer values" )
    }

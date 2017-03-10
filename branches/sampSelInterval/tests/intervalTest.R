@@ -43,6 +43,19 @@ print( round( coef( summary( res ) ), 2 ) )
 print( res$start )
 print( summary( res ) )
 
+# Try estimation with Nx2 matrix of lower and upper bound as YO
+dat$yOm <- cut( dat$yOu, bound, labels = FALSE )
+dat$lb[dat$yOm == 1] <- -Inf
+dat$lb[dat$yOm == 2] <- 5
+dat$lb[dat$yOm == 3] <- 15
+dat$ub[dat$yOm == 1] <- 5
+dat$ub[dat$yOm == 2] <- 15
+dat$ub[dat$yOm == 3] <- Inf
+dat$yOm <- cbind(dat$lb, dat$ub)
+
+try(selection( yS ~ x1 + x2, yOm ~ x1, data = dat, boundaries = bound, 
+   start = start, printLevel = 1 ))
+
 # add derived coefficients
 coefAll <- c( coef( res ),
    sigma = unname( exp( coef( res )[ "logSigma" ] ) ),

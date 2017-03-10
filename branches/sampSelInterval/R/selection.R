@@ -116,7 +116,9 @@ selection <- function(selection, outcome,
                    "offset"), names(mf), 0)
       ## replace the outcome list by the first equation and evaluate it
       mfO <- mf[c(1, m)]
-      mfO$drop.unused.levels <- TRUE
+      if( is.null( boundaries ) ) {
+         mfO$drop.unused.levels <- TRUE
+      }
       mfO$na.action <- na.pass
       mfO[[1]] <- as.name("model.frame")
                                         # eval it as model frame

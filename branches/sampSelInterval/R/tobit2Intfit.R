@@ -137,18 +137,26 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    }
    nInterval <- max( YO[YS==1] )
    if( length( boundaries ) != nInterval + 1 ) {
-      stop( "argument 'boundaries' does not have (number of intervals + 1) 
-      elements [", nInterval + 1, "], or at least one interval is empty" )
+      stop( "argument 'boundaries' must have (number of intervals + 1 = ", 
+         nInterval + 1, ") elements but it has ", length( boundaries ),
+         " elements" )
    }
    if( !all( sort( boundaries ) == boundaries ) ) {
       stop( "the boundaries in the vector definded by argument 'boundaries' ",
          "must be in ascending order" )
    }
    if( printLevel >= 1 ) {
-      print( data.frame( YS = levels( factor( YOorig ) ),
-         YSnumeric = sort( unique( YO ) ),
+      print( data.frame( YO =
+            if( is.factor( YOorig ) ){
+               levels( YOorig )
+            } else {
+               1:max( YO[ YS == 1 ], na.rm = TRUE )
+            },
+         YOnumeric = 1:max( YO[ YS == 1 ], na.rm = TRUE ),
          lower = boundaries[ - length(boundaries) ],
-         upper = boundaries[-1] ) )
+         upper = boundaries[-1],
+         count = sapply( c(1:max( YO[ YS == 1 ], na.rm = TRUE )),
+            function(x) sum( YO[ YS == 1 ] == x, na.rm = TRUE )) ) )
    }
    
    ## If no starting values for the parameters are given, 2-step Heckman is

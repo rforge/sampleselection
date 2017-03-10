@@ -15,7 +15,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library( "sampleSelection" )
+> library( "sampleSelection2" )
 Loading required package: maxLik
 Loading required package: miscTools
 
@@ -53,8 +53,9 @@ https://r-forge.r-project.org/projects/maxlik/
 > YO <- as.numeric( dat$yO )
 > XO <- cbind( 1, dat$x1 )
 > 
+> 
 > start <- c( betaS, betaO, log( sqrt( sigma ) ), atan( rho ) )
->    # the correct starting value of logSigma would be: log( sigma )
+> # the correct starting value of logSigma would be: log( sigma )
 > names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
 +    "logSigma", "atanRho" )
 > 
@@ -62,10 +63,10 @@ https://r-forge.r-project.org/projects/maxlik/
 +    start = start, printLevel = 1 )
 Tobit 2 model
 0 invalid observations
-         YS YSnumeric lower upper
-1  (-Inf,5]         1  -Inf     5
-2    (5,15]         2     5    15
-3 (15, Inf]         3    15   Inf
+         YO YOnumeric lower upper count
+1  (-Inf,5]         1  -Inf     5    26
+2    (5,15]         2     5    15   130
+3 (15, Inf]         3    15   Inf    53
 YO observed: 209 times; not observed: 91 times:
 Number of intervals:  3 
       YO
@@ -960,10 +961,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    start = "ml", printLevel = 1 )
 Tobit 2 model
 0 invalid observations
-         YS YSnumeric lower upper
-1  (-Inf,5]         1  -Inf     5
-2    (5,15]         2     5    15
-3 (15, Inf]         3    15   Inf
+         YO YOnumeric lower upper count
+1  (-Inf,5]         1  -Inf     5    26
+2    (5,15]         2     5    15   130
+3 (15, Inf]         3    15   Inf    53
 YO observed: 209 times; not observed: 91 times:
 Number of intervals:  3 
       YO
@@ -1050,10 +1051,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 +    start = "2step", printLevel = 1 )
 Tobit 2 model
 0 invalid observations
-         YS YSnumeric lower upper
-1  (-Inf,5]         1  -Inf     5
-2    (5,15]         2     5    15
-3 (15, Inf]         3    15   Inf
+         YO YOnumeric lower upper count
+1  (-Inf,5]         1  -Inf     5    26
+2    (5,15]         2     5    15   130
+3 (15, Inf]         3    15   Inf    53
 YO observed: 209 times; not observed: 91 times:
 Number of intervals:  3 
       YO
@@ -1144,8 +1145,7 @@ Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  :
 > try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 1:6, 
 +    start = start ) )
 Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
-  argument 'boundaries' does not have (number of intervals + 1) 
-      elements [4], or at least one interval is empty
+  argument 'boundaries' must have (number of intervals + 1 = 4) elements but it has 6 elements
 > try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 4:1, 
 +    start = start ) )
 Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
@@ -1696,9 +1696,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > try(selection( smoker ~ educ + age + restaurn, 
 +    cigs_intervals2 ~ educ + income + restaurn, data = Smoke, 
 +    boundaries = bounds))
-Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  : 
-  argument 'boundaries' does not have (number of intervals + 1) 
-      elements [6], or at least one interval is empty
+
+Call:
+ selection(selection = smoker ~ educ + age + restaurn, outcome = cigs_intervals2 ~      educ + income + restaurn, data = Smoke, boundaries = bounds) 
+
+Coefficients:
+S:(Intercept)         S:educ          S:age     S:restaurn  O:(Intercept)  
+     5.83e-01      -4.71e-02      -5.79e-03      -2.78e-01       3.94e+00  
+       O:educ       O:income     O:restaurn       logSigma        atanRho  
+    -2.98e-01       5.94e-05      -4.02e+00       2.97e+00       7.74e-01  
+
 > 
 > ## tests with starting values
 > bounds <- c(0,5,10,20,50,Inf)
@@ -1753,4 +1760,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 631.51    0.65  632.19 
+ 709.17    0.81  710.08 

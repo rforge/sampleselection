@@ -138,12 +138,15 @@ print(summary(ssLN))
 all.equal(ssL,ssLN)
 
 # only intercept in outcome equation
-try( ssNo <- selection( ys ~ xs, yo ~ 1, data = simDat ) )
+ssNo <- selection( ys ~ xs, yo ~ 1, data = simDat )
+print( summary( ssNo ) )
 
 # only intercept in selection equation
-try( ssNs <- selection( ys ~ 1, yo ~ xo, data = simDat,
-   start = c( 0, -1, 2, 0.5 ) ) )
+ssNs <- selection( ys ~ 1, yo ~ xo, data = simDat,
+   start = c( 0, -1, 2, 0.5 ) )
+print( summary( ssNs ) )
 
 # only intercept in both equations
-try( ssNso <- selection( ys ~ 1, yo ~ 1, data = simDat,
-   start = c( 0, -1, 0.5 ) ) )
+ssNso <- selection( ys ~ 1, yo ~ 1, data = simDat,
+   start = c( 0, -1, 0.5 ) )
+print( summary( ssNso ) )

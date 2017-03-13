@@ -2704,19 +2704,77 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 [1] TRUE
 > 
 > # only intercept in outcome equation
-> try( ssNo <- selection( ys ~ xs, yo ~ 1, data = simDat ) )
-Error in XO[i10, ] %*% betaO : non-conformable arguments
+> ssNo <- selection( ys ~ xs, yo ~ 1, data = simDat )
+> print( summary( ssNo ) )
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 6 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -444 
+500 observations (74 censored and 426 observed)
+4 free parameters (df = 496)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -0.116      0.132   -0.88    0.38    
+xs             3.286      0.399    8.24  <2e-16 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)
+(Intercept)  -0.0699     0.0710   -0.98    0.32
+   Error terms:
+    Estimate Std. error t value Pr(> t)    
+rho    0.673      0.192     3.5 0.00047 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
 > 
 > # only intercept in selection equation
-> try( ssNs <- selection( ys ~ 1, yo ~ xo, data = simDat,
-+    start = c( 0, -1, 2, 0.5 ) ) )
-Error in XS[i00, ] %*% betaS : non-conformable arguments
+> ssNs <- selection( ys ~ 1, yo ~ xo, data = simDat,
++    start = c( 0, -1, 2, 0.5 ) )
+> print( summary( ssNs ) )
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 5 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -460 
+500 observations (74 censored and 426 observed)
+4 free parameters (df = 496)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   1.0450     0.0687    15.2  <2e-16 ***
+Outcome equation:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)   -1.045      0.173   -6.04 1.6e-09 ***
+xo             2.014      1.406    1.43    0.15    
+   Error terms:
+    Estimate Std. error t value Pr(> t)
+rho    0.532      3.151    0.17    0.87
+--------------------------------------------
 > 
 > # only intercept in both equations
-> try( ssNso <- selection( ys ~ 1, yo ~ 1, data = simDat,
-+    start = c( 0, -1, 0.5 ) ) )
-Error in XS[i00, ] %*% betaS : non-conformable arguments
+> ssNso <- selection( ys ~ 1, yo ~ 1, data = simDat,
++    start = c( 0, -1, 0.5 ) )
+> print( summary( ssNso ) )
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 5 iterations
+Return code 1: gradient close to zero
+Log-Likelihood: -504 
+500 observations (74 censored and 426 observed)
+3 free parameters (df = 497)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)
+(Intercept)     1.05        Inf       0       1
+Outcome equation:
+            Estimate Std. error t value Pr(> t)
+(Intercept)   -0.117        Inf       0       1
+   Error terms:
+    Estimate Std. error t value Pr(> t)
+rho    0.749        Inf       0       1
+--------------------------------------------
 > 
 > proc.time()
    user  system elapsed 
- 29.556   0.152  29.706 
+ 37.520   0.176  37.695 

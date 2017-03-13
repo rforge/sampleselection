@@ -251,9 +251,11 @@ Smoke$cigs_intervals2 <- cut(Smoke$cigs, br=c(0,5,10,20,50,51,Inf),
    labels=c(1,2,3,4,5,6))
 table(Smoke$cigs_intervals2)
 bounds <- c(0,5,10,20,50,51,Inf)
-try(selection( smoker ~ educ + age + restaurn, 
+SmokeEmptyInt <- selection( smoker ~ educ + age + restaurn, 
    cigs_intervals2 ~ educ + income + restaurn, data = Smoke, 
-   boundaries = bounds))
+   boundaries = bounds)
+print( SmokeEmptyInt )
+print( summary( SmokeEmptyInt ) )
 
 ## tests with starting values
 bounds <- c(0,5,10,20,50,Inf)

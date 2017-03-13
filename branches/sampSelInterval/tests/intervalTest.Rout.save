@@ -1788,9 +1788,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
   1   2   3   4   5   6 
  26  38 138  98   0  10 
 > bounds <- c(0,5,10,20,50,51,Inf)
-> try(selection( smoker ~ educ + age + restaurn, 
+> SmokeEmptyInt <- selection( smoker ~ educ + age + restaurn, 
 +    cigs_intervals2 ~ educ + income + restaurn, data = Smoke, 
-+    boundaries = bounds))
++    boundaries = bounds)
+> print( SmokeEmptyInt )
 
 Call:
  selection(selection = smoker ~ educ + age + restaurn, outcome = cigs_intervals2 ~      educ + income + restaurn, data = Smoke, boundaries = bounds) 
@@ -1801,6 +1802,42 @@ S:(Intercept)         S:educ          S:age     S:restaurn  O:(Intercept)
        O:educ       O:income     O:restaurn       logSigma        atanRho  
     -2.98e-01       5.94e-05      -4.02e+00       2.97e+00       7.74e-01  
 
+> print( summary( SmokeEmptyInt ) )
+--------------------------------------------
+Tobit 2 model with interval outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 33 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -938 
+807 observations (497 censored and 310 observed)
+Intervals of the dependent variable of the outcome equation:
+  YO lower upper count
+1  1     0     5    26
+2  2     5    10    38
+3  3    10    20   138
+4  4    20    50    98
+5  5    50    51     0
+6  6    51   Inf    10
+10 free parameters (df = 797)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)   
+(Intercept)  0.58264    0.23526    2.48  0.0133 * 
+educ        -0.04710    0.01580   -2.98  0.0029 **
+age         -0.00579    0.00201   -2.89  0.0039 **
+restaurn    -0.27764    0.10586   -2.62  0.0087 **
+Outcome equation:
+             Estimate Std. error t value Pr(> t)  
+(Intercept)  3.94e+00   4.10e+00    0.96   0.337  
+educ        -2.98e-01   3.28e-01   -0.91   0.363  
+income       5.94e-05   6.74e-05    0.88   0.378  
+restaurn    -4.02e+00   2.15e+00   -1.87   0.062 .
+   Error terms:
+         Estimate Std. error t value Pr(> t)    
+logSigma  2.96549    0.05970    49.7  <2e-16 ***
+atanRho   0.77358    0.00723   107.0  <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
 > 
 > ## tests with starting values
 > bounds <- c(0,5,10,20,50,Inf)
@@ -1862,4 +1899,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 634.28    0.64  635.06 
+  705.4     2.5   708.1 

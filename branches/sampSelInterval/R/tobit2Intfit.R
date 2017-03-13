@@ -275,6 +275,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    result$tobitType <- 2
    result$method <- "ml"
    result$start <- startVal
+   result$intervals <- intervals
    class( result ) <- c( "selection", class( result ) )
    return( result )
 }

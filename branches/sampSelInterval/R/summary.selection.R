@@ -52,6 +52,7 @@ summary.selection <- function(object, ...) {
    s$outcomeVar <- object$outcomeVar
    s$method <- object$method
    s$activePar <- activePar(object)
+   s$intervals <- object$intervals
    class( s ) <- c( "summary.selection", class( s ) )
    return( s )
 }
@@ -99,6 +100,10 @@ print.summary.selection <- function(x,
       }
       else
          stop("Tobit type must be either '2', '5', or 'treatment'")
+      if( !is.null( x$intervals ) ) {
+         cat( "Intervals of the dependent variable of the outcome equation:\n")
+         print( x$intervals )
+      }
       cat(sum(x$activePar), "free parameters" )
       cat( " (df = ", x$param$df, ")\n", sep="")
       if(part == "full") {

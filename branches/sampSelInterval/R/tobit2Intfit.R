@@ -145,18 +145,17 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       stop( "the boundaries in the vector definded by argument 'boundaries' ",
          "must be in ascending order" )
    }
+   if( is.factor( YOorig ) ){
+      intervals <- data.frame( YO = levels( YOorig ) )
+   } else {
+      intervals <- data.frame( YO = 1:nInterval )
+   }
+   intervals$lower <- boundaries[ - length(boundaries) ]
+   intervals$upper <- boundaries[-1]
+   intervals$count <- sapply( c( 1:nInterval ),
+      function(x) sum( YO[ YS == 1 ] == x, na.rm = TRUE ) )
    if( printLevel >= 1 ) {
-      print( data.frame( YO =
-            if( is.factor( YOorig ) ){
-               levels( YOorig )
-            } else {
-               1:max( YO[ YS == 1 ], na.rm = TRUE )
-            },
-         YOnumeric = 1:max( YO[ YS == 1 ], na.rm = TRUE ),
-         lower = boundaries[ - length(boundaries) ],
-         upper = boundaries[-1],
-         count = sapply( c(1:max( YO[ YS == 1 ], na.rm = TRUE )),
-            function(x) sum( YO[ YS == 1 ] == x, na.rm = TRUE )) ) )
+      print( intervals )
    }
    
    ## If no starting values for the parameters are given, 2-step Heckman is
@@ -175,26 +174,20 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
       }
       startVal <- start
    } else if( start %in% c( "ml", "2step" ) ) {
-      intervals <- vector("list", length(boundaries) - 1)
-      for(i in seq(length=length(boundaries) - 1)) {
-         intervals[[i]] <- c(boundaries[i], boundaries[i+1])
-      }
-      IntMeans <- sapply(intervals, mean)
+      intMeans <- ( intervals$lower + intervals$upper ) / 2
       
       # For infinite boundaries we use mean interval width as value
-      widths <- sapply(intervals, function(x) x[2] - x[1])
-      meanWidth <- mean(widths[!is.infinite(widths)])
-      negInf <- is.infinite(IntMeans) & IntMeans < 0
-      if(any(negInf)) {
-         IntMeans[negInf] <- sapply(intervals[negInf], 
-            function(x) x[2] - meanWidth)
+      intWidths <- intervals$upper - intervals$lower
+      meanWidth <- mean( intWidths[ is.finite( intWidths ) ] )
+      negInf <- is.infinite( intMeans ) & intMeans < 0
+      if( any( negInf ) ) {
+         intMeans[ negInf ] <- intervals$upper[ negInf ] - meanWidth
       }
-      posInf <- is.infinite(IntMeans) & IntMeans > 0
-      if(any(posInf)) {
-         IntMeans[posInf] <- sapply(intervals[posInf], 
-            function(x) x[1] + meanWidth)
+      posInf <- is.infinite( intMeans ) & intMeans > 0
+      if( any( posInf ) ) {
+         intMeans[ posInf ] <- intervals$lower[ posInf ] + meanWidth
       }
-      yMean <- IntMeans[YO]
+      yMean <- intMeans[YO]
 
       # estimation as a normal tobit-2 model (either by ML or the 2-step method)
       Est <- heckit( YS ~ XS - 1, yMean ~ XO - 1, method = start )

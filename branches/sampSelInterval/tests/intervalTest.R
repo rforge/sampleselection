@@ -257,6 +257,22 @@ SmokeEmptyInt <- selection( smoker ~ educ + age + restaurn,
 print( SmokeEmptyInt )
 print( summary( SmokeEmptyInt ) )
 
+# Test with factor instead of integer
+Smoke$cigs_intervals2 <- as.factor(Smoke$cigs_intervals2)
+SmokeEmptyInt2 <- selection( smoker ~ educ + age + restaurn, 
+   cigs_intervals2 ~ educ + income + restaurn, data = Smoke, 
+   boundaries = bounds)
+print( summary( SmokeEmptyInt2 ) )
+
+# Test with vector of intervals as YO
+Smoke$cigs_intervals3 <- cut(Smoke$cigs, br=c(0,5,10,20,50,51,Inf))
+SmokeEmptyInt3 <- selection( smoker ~ educ + age + restaurn, 
+   cigs_intervals3 ~ educ + income + restaurn, data = Smoke, 
+   boundaries = bounds)
+print( summary( SmokeEmptyInt3 ) )
+
+all.equal(coef(SmokeEmptyInt), coef(SmokeEmptyInt2), coef(SmokeEmptyInt3))
+
 ## tests with starting values
 bounds <- c(0,5,10,20,50,Inf)
 

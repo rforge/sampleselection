@@ -1,7 +1,7 @@
 
 R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
 Copyright (C) 2016 The R Foundation for Statistical Computing
-Platform: x86_64-pc-linux-gnu (64-bit)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -1556,7 +1556,7 @@ Coefficients:
 S:(Intercept)      S:huswage         S:educ          S:mtr     S:fatheduc  
       -0.5797        -0.0668         0.1489        -0.9018        -0.0686  
 O:(Intercept)         O:educ        O:exper       logSigma        atanRho  
-     -23.1204         1.3683         0.9262         1.7106         0.7854  
+     -23.1202         1.3682         0.9262         1.7106         0.7854  
 
 > warnings()
 NULL
@@ -1839,6 +1839,93 @@ atanRho   0.77358    0.00723   107.0  <2e-16 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
 > 
+> # Test with factor instead of integer
+> Smoke$cigs_intervals2 <- as.factor(Smoke$cigs_intervals2)
+> SmokeEmptyInt2 <- selection( smoker ~ educ + age + restaurn, 
++    cigs_intervals2 ~ educ + income + restaurn, data = Smoke, 
++    boundaries = bounds)
+> print( summary( SmokeEmptyInt2 ) )
+--------------------------------------------
+Tobit 2 model with interval outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 33 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -938 
+807 observations (497 censored and 310 observed)
+Intervals of the dependent variable of the outcome equation:
+  YO lower upper count
+1  1     0     5    26
+2  2     5    10    38
+3  3    10    20   138
+4  4    20    50    98
+5  5    50    51     0
+6  6    51   Inf    10
+10 free parameters (df = 797)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)   
+(Intercept)  0.58264    0.23526    2.48  0.0133 * 
+educ        -0.04710    0.01580   -2.98  0.0029 **
+age         -0.00579    0.00201   -2.89  0.0039 **
+restaurn    -0.27764    0.10586   -2.62  0.0087 **
+Outcome equation:
+             Estimate Std. error t value Pr(> t)  
+(Intercept)  3.94e+00   4.10e+00    0.96   0.337  
+educ        -2.98e-01   3.28e-01   -0.91   0.363  
+income       5.94e-05   6.74e-05    0.88   0.378  
+restaurn    -4.02e+00   2.15e+00   -1.87   0.062 .
+   Error terms:
+         Estimate Std. error t value Pr(> t)    
+logSigma  2.96549    0.05970    49.7  <2e-16 ***
+atanRho   0.77358    0.00723   107.0  <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
+> # Test with vector of intervals as YO
+> Smoke$cigs_intervals3 <- cut(Smoke$cigs, br=c(0,5,10,20,50,51,Inf))
+> SmokeEmptyInt3 <- selection( smoker ~ educ + age + restaurn, 
++    cigs_intervals3 ~ educ + income + restaurn, data = Smoke, 
++    boundaries = bounds)
+> print( summary( SmokeEmptyInt3 ) )
+--------------------------------------------
+Tobit 2 model with interval outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 33 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -938 
+807 observations (497 censored and 310 observed)
+Intervals of the dependent variable of the outcome equation:
+        YO lower upper count
+1    (0,5]     0     5    26
+2   (5,10]     5    10    38
+3  (10,20]    10    20   138
+4  (20,50]    20    50    98
+5  (50,51]    50    51     0
+6 (51,Inf]    51   Inf    10
+10 free parameters (df = 797)
+Probit selection equation:
+            Estimate Std. error t value Pr(> t)   
+(Intercept)  0.58264    0.23526    2.48  0.0133 * 
+educ        -0.04710    0.01580   -2.98  0.0029 **
+age         -0.00579    0.00201   -2.89  0.0039 **
+restaurn    -0.27764    0.10586   -2.62  0.0087 **
+Outcome equation:
+             Estimate Std. error t value Pr(> t)  
+(Intercept)  3.94e+00   4.10e+00    0.96   0.337  
+educ        -2.98e-01   3.28e-01   -0.91   0.363  
+income       5.94e-05   6.74e-05    0.88   0.378  
+restaurn    -4.02e+00   2.15e+00   -1.87   0.062 .
+   Error terms:
+         Estimate Std. error t value Pr(> t)    
+logSigma  2.96549    0.05970    49.7  <2e-16 ***
+atanRho   0.77358    0.00723   107.0  <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
+> all.equal(coef(SmokeEmptyInt), coef(SmokeEmptyInt2), coef(SmokeEmptyInt3))
+[1] TRUE
+> 
 > ## tests with starting values
 > bounds <- c(0,5,10,20,50,Inf)
 > 
@@ -1853,9 +1940,9 @@ Call:
 
 Coefficients:
 S:(Intercept)         S:educ          S:age     S:restaurn  O:(Intercept)  
-     -1.21548       -0.01926       -0.01080       -0.33780      -55.21590  
+     -1.22090       -0.01894       -0.01082       -0.33648      -54.83970  
        O:educ       O:income     O:restaurn       logSigma        atanRho  
-      0.75969        0.00794      -10.89951        3.22753        0.78538  
+      0.74776        0.00796      -10.75536        3.22221        0.78537  
 
 > 
 > summary(selection( smoker ~ educ + age + restaurn, 
@@ -1899,4 +1986,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  705.4     2.5   708.1 
+ 616.54    0.35  617.93 

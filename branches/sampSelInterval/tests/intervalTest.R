@@ -140,23 +140,28 @@ try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 4:1,
 data("Mroz87")
 
 ## tests with different boundaries
+# Test with 5 intervals (6 boundaries)
 Mroz87$wage_5interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,Inf),
    labels=c(1,2,3,4,5))
 bound6 <- c(0,2.0,4.0,6.0,8.0,Inf)
-Mroz87$wage_6interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,10.0,Inf),
-   labels=c(1,2,3,4,5,6))
-bound7 <- c(0,2.0,4.0,6.0,8.0,10.0,Inf)
-Mroz87$wage_7interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,10.0,12.0,Inf),
-   labels=c(1,2,3,4,5,6,7))
-bound8 <- c(0,2.0,4.0,6.0,8.0,10.0,12.0,Inf)
 
 Wage5 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
    wage_5interval ~ educ + city, data = Mroz87, boundaries = bound6 )
 print(summary(Wage5))
 
+# Test with 6 intervals (7 boundaries)
+Mroz87$wage_6interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,10.0,Inf),
+   labels=c(1,2,3,4,5,6))
+bound7 <- c(0,2.0,4.0,6.0,8.0,10.0,Inf)
+
 Wage6 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
    wage_6interval ~ educ + city, data = Mroz87, boundaries = bound7 )
 print(summary(Wage6))
+
+# Test with 7 intervals (8 boundaries)
+Mroz87$wage_7interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,10.0,12.0,Inf),
+   labels=c(1,2,3,4,5,6,7))
+bound8 <- c(0,2.0,4.0,6.0,8.0,10.0,12.0,Inf)
 
 Wage7 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
    wage_7interval ~ educ + city, data = Mroz87, boundaries = bound8 )
@@ -194,6 +199,7 @@ lrtest(spec2,spec3)
 waldtest(spec1,spec2,spec3)
 
 ## Trying different start value inputs
+#Start values somewhat far away
 mrozBound6 <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
    wage_5interval ~ educ + exper, data = Mroz87, 
    boundaries = bound6, start = c(1,-1,1,-1,-1,-1,1,1,0.5,-0.1) )
@@ -201,6 +207,7 @@ print( mrozBound6 )
 warnings()
 print( summary( mrozBound6 ) )
 
+#Start values close
 mrozBound6a <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
    wage_5interval ~ educ + exper, data = Mroz87, 
    boundaries = bound6, start = c(3,-0.5,0.2,-4,-0.1,-0.5,0.1,0.2,0.5,-0.1) )
@@ -208,6 +215,7 @@ print( mrozBound6a )
 warnings()
 print( summary( mrozBound6a ) )
 
+#Start values pretty close
 mrozBound6b <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
    wage_5interval ~ educ + exper, data = Mroz87, 
    boundaries = bound6, start = c(3,-0.3,0.1,-5,-0.1,-0.4,0.2,0.1,0.5,-0.1) )
@@ -234,11 +242,11 @@ data(Smoke)
 ## tests with different specifications
 bounds <- c(0,5,10,20,50,Inf)
 
-# low number of variables
+# test with low number of variables
 Smoke_spec1 <- selection( smoker ~ educ + age, 
    cigs_intervals ~ educ, data = Smoke, boundaries = bounds)
 
-#adding variables
+# test with more variables
 Smoke_spec2 <- selection( smoker ~ educ + age + restaurn, 
    cigs_intervals ~ educ + income + restaurn, data = Smoke, boundaries = bounds)
 
@@ -257,31 +265,34 @@ SmokeEmptyInt <- selection( smoker ~ educ + age + restaurn,
 print( SmokeEmptyInt )
 print( summary( SmokeEmptyInt ) )
 
-# Test with factor instead of integer
+# Test with factor instead of integer and empty interval
 Smoke$cigs_intervals2 <- as.factor(Smoke$cigs_intervals2)
 SmokeEmptyInt2 <- selection( smoker ~ educ + age + restaurn, 
    cigs_intervals2 ~ educ + income + restaurn, data = Smoke, 
    boundaries = bounds)
 print( summary( SmokeEmptyInt2 ) )
 
-# Test with vector of intervals as YO
+# Test with vector of intervals as YO and empty interval
 Smoke$cigs_intervals3 <- cut(Smoke$cigs, br=c(0,5,10,20,50,51,Inf))
 SmokeEmptyInt3 <- selection( smoker ~ educ + age + restaurn, 
    cigs_intervals3 ~ educ + income + restaurn, data = Smoke, 
    boundaries = bounds)
 print( summary( SmokeEmptyInt3 ) )
 
+# check if estimations with different YO variable type deliver the same results
 all.equal(coef(SmokeEmptyInt), coef(SmokeEmptyInt2), coef(SmokeEmptyInt3))
 
 ## tests with starting values
 bounds <- c(0,5,10,20,50,Inf)
 
-# Trying different start value inputs
+# Trying different start value inputs in Smoke data
+#Start values somewhat far away
 try(selection( smoker ~ educ + age + restaurn, 
    cigs_intervals ~ educ + income + restaurn, data = Smoke,
    boundaries = bounds, start = 
       c(1,-0.1,-0.1,-0.5,3,-1,0.01,-2,1,0.7)))
 
+#Start values somewhat closer
 summary(selection( smoker ~ educ + age + restaurn, 
    cigs_intervals ~ educ + income + restaurn, data = Smoke,
    boundaries = bounds, start = 

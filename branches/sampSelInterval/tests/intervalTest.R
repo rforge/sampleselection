@@ -136,105 +136,73 @@ try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 1:6,
 try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 4:1, 
    start = start ) )
 
+
+# Test estimation with empty interval and yO as integer
+bound <- c(-Inf,4.9,5,15,Inf)
+dat$yO <- cut( dat$yOu, br=c(-Inf,4.9,5,15,Inf), labels=c(1,2,3,4) )
+empty1 <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
+   start = start, printLevel = 1 )
+
+# Test estimation with empty interval and yO as factor
+empty2 <- selection( yS ~ x1 + x2, as.factor(yO) ~ x1, data = dat, boundaries = bound, 
+   start = start, printLevel = 1 )
+
+# Test estimation with empty interval and yO as vector of intervals
+dat$yO <- cut( dat$yOu, br=c(-Inf,4.9,5,15,Inf) )
+empty3 <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
+   start = start, printLevel = 1 )
+
+all.equal(coef(empty1), coef(empty2), coef(empty3))
+
+
+## Testing estimations with NAs
+# NAs in independent variables
+dat$x1[dat$x1 > 0.1 & dat$x1 < 1.2] <- NA
+dat$x2[dat$x2 < -0.5 & dat$x2 > -0.7] <- NA
+NAres1 <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
+   start = start, printLevel = 1 )
+print(NAres1)
+
+# NAs in dependent variable
+dat$yS[dat$x1 > 1.1 & dat$x1 < 1.4] <- NA
+NAres2 <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
+   start = start, printLevel = 1 )
+print(NAres2)
+
+
 ### tests with Mroz data
 data("Mroz87")
-
-## tests with different boundaries
-# Test with 5 intervals (6 boundaries)
+bounds <- c(0,2.0,4.0,6.0,8.0,Inf)
 Mroz87$wage_5interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,Inf),
    labels=c(1,2,3,4,5))
-bound6 <- c(0,2.0,4.0,6.0,8.0,Inf)
-
-Wage5 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
-   wage_5interval ~ educ + city, data = Mroz87, boundaries = bound6 )
-print(summary(Wage5))
-
-# Test with 6 intervals (7 boundaries)
-Mroz87$wage_6interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,10.0,Inf),
-   labels=c(1,2,3,4,5,6))
-bound7 <- c(0,2.0,4.0,6.0,8.0,10.0,Inf)
-
-Wage6 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
-   wage_6interval ~ educ + city, data = Mroz87, boundaries = bound7 )
-print(summary(Wage6))
-
-# Test with 7 intervals (8 boundaries)
-Mroz87$wage_7interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,10.0,12.0,Inf),
-   labels=c(1,2,3,4,5,6,7))
-bound8 <- c(0,2.0,4.0,6.0,8.0,10.0,12.0,Inf)
-
-Wage7 <- selection( lfp ~ huswage + kids5 + mtr + fatheduc + educ + city, 
-   wage_7interval ~ educ + city, data = Mroz87, boundaries = bound8 )
-print(summary(Wage7))
 
 ## tests with different specifications
 # low number of variables
-summary(selection( lfp ~ huswage + educ, 
-   wage_5interval ~ huswage, data = Mroz87, boundaries = bound6))
-
-# adding wife's marginal tax rate (mtr)
-spec1 <- selection( lfp ~ huswage + educ + mtr, 
-   wage_5interval ~ educ, data = Mroz87, boundaries = bound6)
+spec1 <- selection( lfp ~ huswage + educ, 
+   wage_5interval ~ huswage, data = Mroz87, boundaries = bounds)
 print(summary(spec1))
 
 # adding continuous variables only
 spec2 <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
-   wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6)
+   wage_5interval ~ educ + exper, data = Mroz87, boundaries = bounds)
 print(summary(spec2))
 
 # adding dummy variables (city, huscoll)
 spec3 <- selection( lfp ~ huswage + mtr + fatheduc + educ + city + huscoll, 
-   wage_5interval ~ educ + exper + city, data = Mroz87, boundaries = bound6)
+   wage_5interval ~ educ + exper + city, data = Mroz87, boundaries = bounds)
 print(summary(spec3))
 
 # only dummy variables as indepdent variables
 spec4 <- selection( lfp ~ city + wifecoll, 
-   wage_5interval ~ city, data = Mroz87, boundaries = bound6)
+   wage_5interval ~ city, data = Mroz87, boundaries = bounds)
 print(summary(spec4))
 
-## trying lrtest and waldtest
+# trying lrtest and waldtest
 library(lmtest)
 lrtest(spec1,spec2)
 lrtest(spec2,spec3)
 waldtest(spec1,spec2,spec3)
 
-## Trying different start value inputs
-#Start values somewhat far away
-mrozBound6 <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
-   wage_5interval ~ educ + exper, data = Mroz87, 
-   boundaries = bound6, start = c(1,-1,1,-1,-1,-1,1,1,0.5,-0.1) )
-print( mrozBound6 )
-warnings()
-print( summary( mrozBound6 ) )
-
-#Start values close
-mrozBound6a <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
-   wage_5interval ~ educ + exper, data = Mroz87, 
-   boundaries = bound6, start = c(3,-0.5,0.2,-4,-0.1,-0.5,0.1,0.2,0.5,-0.1) )
-print( mrozBound6a )
-warnings()
-print( summary( mrozBound6a ) )
-
-#Start values pretty close
-mrozBound6b <- selection( lfp ~ huswage + educ + mtr + fatheduc, 
-   wage_5interval ~ educ + exper, data = Mroz87, 
-   boundaries = bound6, start = c(3,-0.3,0.1,-5,-0.1,-0.4,0.2,0.1,0.5,-0.1) )
-print( mrozBound6b )
-print( summary( mrozBound6b ) )
-
-## Testing estimations with NAs
-# NAs in independent variables
-Mroz87$huswage[Mroz87$huswage < 4] <- NA 
-try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
-   wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6))
-Mroz87$educ[Mroz87$educ > 12] <- NA
-try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
-   wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6))
-
-# NAs in dependent variable
-Mroz87$wage_5interval[Mroz87$kids5 > 1] <- NA
-try(selection( lfp ~ huswage + educ + mtr + fatheduc, 
-   wage_5interval ~ educ + exper, data = Mroz87, boundaries = bound6))
 
 ### tests with Smoke data
 data(Smoke)
@@ -253,47 +221,3 @@ Smoke_spec2 <- selection( smoker ~ educ + age + restaurn,
 # testing models against each other
 lrtest(Smoke_spec1, Smoke_spec2)
 waldtest(Smoke_spec1, Smoke_spec2)
-
-## Test with empty interval
-Smoke$cigs_intervals2 <- cut(Smoke$cigs, br=c(0,5,10,20,50,51,Inf),
-   labels=c(1,2,3,4,5,6))
-table(Smoke$cigs_intervals2)
-bounds <- c(0,5,10,20,50,51,Inf)
-SmokeEmptyInt <- selection( smoker ~ educ + age + restaurn, 
-   cigs_intervals2 ~ educ + income + restaurn, data = Smoke, 
-   boundaries = bounds)
-print( SmokeEmptyInt )
-print( summary( SmokeEmptyInt ) )
-
-# Test with factor instead of integer and empty interval
-Smoke$cigs_intervals2 <- as.factor(Smoke$cigs_intervals2)
-SmokeEmptyInt2 <- selection( smoker ~ educ + age + restaurn, 
-   cigs_intervals2 ~ educ + income + restaurn, data = Smoke, 
-   boundaries = bounds)
-print( summary( SmokeEmptyInt2 ) )
-
-# Test with vector of intervals as YO and empty interval
-Smoke$cigs_intervals3 <- cut(Smoke$cigs, br=c(0,5,10,20,50,51,Inf))
-SmokeEmptyInt3 <- selection( smoker ~ educ + age + restaurn, 
-   cigs_intervals3 ~ educ + income + restaurn, data = Smoke, 
-   boundaries = bounds)
-print( summary( SmokeEmptyInt3 ) )
-
-# check if estimations with different YO variable type deliver the same results
-all.equal(coef(SmokeEmptyInt), coef(SmokeEmptyInt2), coef(SmokeEmptyInt3))
-
-## tests with starting values
-bounds <- c(0,5,10,20,50,Inf)
-
-# Trying different start value inputs in Smoke data
-#Start values somewhat far away
-try(selection( smoker ~ educ + age + restaurn, 
-   cigs_intervals ~ educ + income + restaurn, data = Smoke,
-   boundaries = bounds, start = 
-      c(1,-0.1,-0.1,-0.5,3,-1,0.01,-2,1,0.7)))
-
-#Start values somewhat closer
-summary(selection( smoker ~ educ + age + restaurn, 
-   cigs_intervals ~ educ + income + restaurn, data = Smoke,
-   boundaries = bounds, start = 
-      c(0.6,-0.05,-0.006,-0.27,4,-0.3,0.0001,-4,2,0.7)))

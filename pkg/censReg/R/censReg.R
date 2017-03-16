@@ -67,9 +67,9 @@ censReg <- function( formula, left = 0, right = Inf,
    }
 
    ## extract information on panel structure of data set
-   isPanel <- "pdata.frame" %in% class( data )
+   isPanel <- inherits( data, c( "pdata.frame", "plm.dim" ) )
    if( isPanel ) {
-      pIndex <- attributes( data )$index
+      pIndex <- index( data )
       ## check if observations are ordered with respect to names of individuals
       # (theoretically, it is not required that the observations are ordered
       # alphabetically with respect to individuals' names but
@@ -117,8 +117,8 @@ censReg <- function( formula, left = 0, right = Inf,
          rEff <- plm( formula, data = data, subset = validObs2,
             effect = "individual", model = "random" )
          start <- c( coef( rEff ),
-            0.5 * log( rEff$ercomp$sigma$id ),
-            0.5 * log( rEff$ercomp$sigma$idios ) )
+            0.5 * log( rEff$ercomp$sigma2[[ "id" ]] ),
+            0.5 * log( rEff$ercomp$sigma2[[ "idios" ]] ) )
       } else {
          # OLS estimation for starting values
          ols <- lm.fit( xMat, yVec )

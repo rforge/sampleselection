@@ -69,7 +69,16 @@ censReg <- function( formula, left = 0, right = Inf,
    ## extract information on panel structure of data set
    isPanel <- inherits( data, c( "pdata.frame", "plm.dim" ) )
    if( isPanel ) {
-      pIndex <- index( data )
+      if( inherits( data, "pdata.frame" ) ) {
+         # current panel data format from pkg plm
+         pIndex <- index( data )
+      } else if( inherits( data, "plm.dim" ) ) {
+         # deprecated panel data format from pkg plm
+         pIndex <- data[ , 1:2 ]
+      } else {
+         stop( "internal error: please contact the maintainer",
+            " of the 'censReg' package" )
+      }
       ## check if observations are ordered with respect to names of individuals
       # (theoretically, it is not required that the observations are ordered
       # alphabetically with respect to individuals' names but

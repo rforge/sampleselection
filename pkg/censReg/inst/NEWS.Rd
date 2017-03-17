@@ -2,7 +2,8 @@
 \title{News for Package 'censReg'}
 \section{Changes in censReg version 0.5-24 (2017-03-17)}{
   \itemize{
-    \item minor internal modifications that make the 'censReg' package
+    \item some minor internal improvements and modifications,
+      e.g. to make the 'censReg' package
       compatible with future versions of the 'plm' package
   }
 }

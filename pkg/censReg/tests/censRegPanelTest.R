@@ -7,7 +7,7 @@ load( "censRegPanelTest.RData.save", envir = saved )
 
 options( digits = 5 )
 
-printAll <- function( objName ) {
+printAll <- function( objName, what = "methods" ) {
    x <- get( objName )
    if( !exists( objName, envir = saved ) ) {
       cat( "previously saved object '", objName, "' not found\n" )
@@ -38,36 +38,40 @@ printAll <- function( objName ) {
       }
    }
    
-   print( x, digits = 1 )
-   print( x, logSigma = FALSE , digits = 1 )
-   print( maxLik:::summary.maxLik( x ), digits = 1 )
-   print( summary( x ), digits = 1 )
-   print( summary( x ), logSigma = FALSE , digits = 1 )
-   print( round( coef( x ), 2 ) )
-   print( round( coef( x, logSigma = FALSE ), 2 ) )
-   print( round( vcov( x ), 2 ) )
-   print( round( vcov( x, logSigma = FALSE ), 2 ) )
-   print( round( coef( summary( x ) ), 2 ) )
-   print( round( coef( summary( x ), logSigma = FALSE ), 2 ) )
-   try( margEff( x ) )
-   print( logLik( x ) )
-   print( nobs( x ) )
-   print( extractAIC( x ) )
-   
-   for( n in names( x ) ) {
-      cat( "$", n, "\n", sep = "" )
-      if( n %in% c( "estimate", "gradientObs" ) ) {
-         print( round( x[[ n ]], 2 ) )
-      } else if( n %in% c( "hessian" ) ) {
-         print( round( x[[ n ]], 1 ) )
-      } else if( n %in% c( "gradient" ) ) {
-      } else if( ! n %in% c( "last.step" ) ) {
-         print( x[[ n ]] )
-      }
-      cat( "\n" )
+   if( what %in% c( "methods", "all" ) ) {
+      print( x, digits = 1 )
+      print( x, logSigma = FALSE , digits = 1 )
+      print( maxLik:::summary.maxLik( x ), digits = 1 )
+      print( summary( x ), digits = 1 )
+      print( summary( x ), logSigma = FALSE , digits = 1 )
+      print( round( coef( x ), 2 ) )
+      print( round( coef( x, logSigma = FALSE ), 2 ) )
+      print( round( vcov( x ), 2 ) )
+      print( round( vcov( x, logSigma = FALSE ), 2 ) )
+      print( round( coef( summary( x ) ), 2 ) )
+      print( round( coef( summary( x ), logSigma = FALSE ), 2 ) )
+      try( margEff( x ) )
+      print( logLik( x ) )
+      print( nobs( x ) )
+      print( extractAIC( x ) )
    }
-   cat( "class\n" )
-   print( class( x ) )
+   
+   if( what == "all" ) {
+      for( n in names( x ) ) {
+         cat( "$", n, "\n", sep = "" )
+         if( n %in% c( "estimate", "gradientObs" ) ) {
+            print( round( x[[ n ]], 2 ) )
+         } else if( n %in% c( "hessian" ) ) {
+            print( round( x[[ n ]], 1 ) )
+         } else if( n %in% c( "gradient" ) ) {
+         } else if( ! n %in% c( "last.step" ) ) {
+            print( x[[ n ]] )
+         }
+         cat( "\n" )
+      }
+      cat( "class\n" )
+      print( class( x ) )
+   }
 }
 
 nId <- 15

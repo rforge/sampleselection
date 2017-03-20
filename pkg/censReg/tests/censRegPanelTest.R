@@ -4,6 +4,22 @@ library( "plm" )
 options( digits = 5 )
 
 printAll <- function( x ) {
+   print( x, digits = 1 )
+   print( x, logSigma = FALSE , digits = 1 )
+   print( maxLik:::summary.maxLik( x ), digits = 1 )
+   print( summary( x ), digits = 1 )
+   print( summary( x ), logSigma = FALSE , digits = 1 )
+   print( round( coef( x ), 2 ) )
+   print( round( coef( x, logSigma = FALSE ), 2 ) )
+   print( round( vcov( x ), 2 ) )
+   print( round( vcov( x, logSigma = FALSE ), 2 ) )
+   print( round( coef( summary( x ) ), 2 ) )
+   print( round( coef( summary( x ), logSigma = FALSE ), 2 ) )
+   try( margEff( x ) )
+   print( logLik( x ) )
+   print( nobs( x ) )
+   print( extractAIC( x ) )
+   
    for( n in names( x ) ) {
       cat( "$", n, "\n", sep = "" )
       if( n %in% c( "estimate", "gradientObs" ) ) {
@@ -38,69 +54,33 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 
 ## Newton-Raphson method
 randEff <- censReg( y ~ x1 + x2, data = pData )
-print( randEff, digits = 1 )
-print( randEff, logSigma = FALSE , digits = 1 )
-print( maxLik:::summary.maxLik( randEff ), digits = 1 )
-print( summary( randEff ), digits = 1 )
-print( summary( randEff ), logSigma = FALSE , digits = 1 )
-round( coef( randEff ), 2 )
-round( coef( randEff, logSigma = FALSE ), 2 )
-round( vcov( randEff ), 2 )
-round( vcov( randEff, logSigma = FALSE ), 2 )
-round( coef( summary( randEff ) ), 2 )
-round( coef( summary( randEff ), logSigma = FALSE ), 2 )
-try( margEff( randEff ) )
-logLik( randEff )
-nobs( randEff )
-extractAIC( randEff )
 printAll( randEff )
 
 
 ## BHHH method
 randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
-print( randEffBhhh, digits = 1 )
-print( maxLik:::summary.maxLik( randEffBhhh ), digits = 1 )
-print( summary( randEffBhhh ), digits = 1 )
 printAll( randEffBhhh )
 
 
 ## BFGS method (optim)
 randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
-print( randEffBfgs, digits = 1 )
-print( maxLik:::summary.maxLik( randEffBfgs ), digits = 1 )
-print( summary( randEffBfgs ), digits = 1 )
 printAll( randEffBfgs )
 
 
 ## BFGS method (R)
 randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
-print( randEffBfgsr, digits = 1 )
-print( maxLik:::summary.maxLik( randEffBfgsr ), digits = 1 )
-print( summary( randEffBfgsr ), digits = 1 )
 printAll( randEffBfgsr )
 
 
 ## BHHH with starting values
 randEffBhhhStart <- censReg( y ~ x1 + x2, data = pData, method = "BHHH",
    start = c( -0.4, 1.7, 2.2, -0.1, -0.01 ) )
-print( randEffBhhhStart, digits = 1 )
-print( summary( randEffBhhhStart ), digits = 1 )
-nobs( randEffBhhhStart )
+printAll( randEffBhhhStart )
 
 
 ## left-censoring at 5
 pData$yAdd <- pData$y + 5
 randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
-print( randEffAdd, digits = 1 )
-print( maxLik:::summary.maxLik( randEffAdd ), digits = 1 )
-print( summary( randEffAdd ), digits = 1 )
-round( coef( randEffAdd ), 2 )
-round( coef( randEffAdd, logSigma = FALSE ), 2 )
-round( vcov( randEffAdd ), 2 )
-round( vcov( randEffAdd, logSigma = FALSE ), 2 )
-logLik( randEffAdd )
-nobs( randEffAdd )
-extractAIC( randEffAdd )
 printAll( randEffAdd )
 
 
@@ -108,15 +88,6 @@ printAll( randEffAdd )
 pData$yNeg <- - pData$y
 randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = 0 )
-print( randEffNeg, digits = 1 )
-print( maxLik:::summary.maxLik( randEffNeg ), digits = 1 )
-print( summary( randEffNeg ), digits = 1 )
-round( coef( randEffNeg ), 2 )
-round( coef( randEffNeg, logSigma = FALSE ), 2 )
-round( vcov( randEffNeg ), 2 )
-round( vcov( randEffNeg, logSigma = FALSE ), 2 )
-logLik( randEffNeg )
-extractAIC( randEffNeg )
 printAll( randEffNeg )
 
 
@@ -124,15 +95,6 @@ printAll( randEffNeg )
 pData$yAddNeg <- - pData$yAdd
 randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = -5 )
-print( randEffAddNeg, digits = 1 )
-print( maxLik:::summary.maxLik( randEffAddNeg ), digits = 1 )
-print( summary( randEffAddNeg ), digits = 1 )
-round( coef( randEffAddNeg ), 2 )
-round( coef( randEffAddNeg, logSigma = FALSE ), 2 )
-round( vcov( randEffAddNeg ), 2 )
-round( vcov( randEffAddNeg, logSigma = FALSE ), 2 )
-logLik( randEffAddNeg )
-extractAIC( randEffAddNeg )
 printAll( randEffAddNeg )
 
 
@@ -140,19 +102,6 @@ printAll( randEffAddNeg )
 pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
 randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
    left = 0, right = 3 )
-print( randEffBoth, digits = 1 )
-print( maxLik:::summary.maxLik( randEffBoth ), digits = 1 )
-print( summary( randEffBoth ), digits = 1 )
-print( summary( randEffBoth ), logSigma = FALSE , digits = 1 )
-round( coef( randEffBoth ), 2 )
-round( coef( randEffBoth, logSigma = FALSE ), 2 )
-round( vcov( randEffBoth ), 2 )
-round( vcov( randEffBoth, logSigma = FALSE ), 2 )
-round( coef( summary( randEffBoth ) ), 2 )
-round( coef( summary( randEffBoth ), logSigma = FALSE ), 2 )
-logLik( randEffBoth )
-nobs( randEffBoth )
-extractAIC( randEffBoth )
 printAll( randEffBoth )
 
 
@@ -206,11 +155,6 @@ d1cS$gradient - d2cS$gradient
 nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
 randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb, method = "BFGSR" )
-print( randEffBfgsrUnb, digits = 1 )
-print( maxLik:::summary.maxLik( randEffBfgsrUnb ), digits = 1 )
-print( summary( randEffBfgsrUnb ), digits = 1 )
-logLik( randEffBfgsrUnb )
-extractAIC( randEffBfgsrUnb )
 printAll( randEffBfgsrUnb )
 
 

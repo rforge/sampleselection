@@ -1,6 +1,6 @@
 
-R version 3.3.1 (2016-06-21) -- "Bug in Your Hair"
-Copyright (C) 2016 The R Foundation for Statistical Computing
+R version 3.3.3 (2017-03-06) -- "Another Canoe"
+Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -30,6 +30,22 @@ Loading required package: Formula
 > options( digits = 5 )
 > 
 > printAll <- function( x ) {
++    print( x, digits = 1 )
++    print( x, logSigma = FALSE , digits = 1 )
++    print( maxLik:::summary.maxLik( x ), digits = 1 )
++    print( summary( x ), digits = 1 )
++    print( summary( x ), logSigma = FALSE , digits = 1 )
++    print( round( coef( x ), 2 ) )
++    print( round( coef( x, logSigma = FALSE ), 2 ) )
++    print( round( vcov( x ), 2 ) )
++    print( round( vcov( x, logSigma = FALSE ), 2 ) )
++    print( round( coef( summary( x ) ), 2 ) )
++    print( round( coef( summary( x ), logSigma = FALSE ), 2 ) )
++    try( margEff( x ) )
++    print( logLik( x ) )
++    print( nobs( x ) )
++    print( extractAIC( x ) )
++    
 +    for( n in names( x ) ) {
 +       cat( "$", n, "\n", sep = "" )
 +       if( n %in% c( "estimate", "gradientObs" ) ) {
@@ -64,7 +80,7 @@ Loading required package: Formula
 > 
 > ## Newton-Raphson method
 > randEff <- censReg( y ~ x1 + x2, data = pData )
-> print( randEff, digits = 1 )
+> printAll( randEff )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData)
@@ -73,7 +89,6 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
       -0.37        1.68        2.24       -0.13       -0.01 
 
-> print( randEff, logSigma = FALSE , digits = 1 )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData)
@@ -82,7 +97,6 @@ Coefficients:
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
        -0.4         1.7         2.2         0.9         1.0 
 
-> print( maxLik:::summary.maxLik( randEff ), digits = 1 )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 5 iterations
@@ -99,7 +113,6 @@ logSigmaNu     -0.01       0.13    -0.1     0.9
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( randEff ), digits = 1 )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData)
@@ -122,7 +135,6 @@ Newton-Raphson maximisation, 5 iterations
 Return code 1: gradient close to zero
 Log-likelihood: -73.199 on 5 Df
 
-> print( summary( randEff ), logSigma = FALSE , digits = 1 )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData)
@@ -145,50 +157,39 @@ Newton-Raphson maximisation, 5 iterations
 Return code 1: gradient close to zero
 Log-likelihood: -73.199 on 5 Df
 
-> round( coef( randEff ), 2 )
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
       -0.37        1.68        2.24       -0.13       -0.01 
-> round( coef( randEff, logSigma = FALSE ), 2 )
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
       -0.37        1.68        2.24        0.88        0.99 
-> round( vcov( randEff ), 2 )
             (Intercept)    x1    x2 logSigmaMu logSigmaNu
 (Intercept)        0.23 -0.02 -0.25      -0.02       0.00
 x1                -0.02  0.04  0.01       0.01       0.00
 x2                -0.25  0.01  0.45       0.02       0.00
 logSigmaMu        -0.02  0.01  0.02       0.07       0.00
 logSigmaNu         0.00  0.00  0.00       0.00       0.02
-> round( vcov( randEff, logSigma = FALSE ), 2 )
             (Intercept)    x1    x2 sigmaMu sigmaNu
 (Intercept)        0.23 -0.02 -0.25   -0.02    0.00
 x1                -0.02  0.04  0.01    0.01    0.00
 x2                -0.25  0.01  0.45    0.02    0.00
 sigmaMu           -0.02  0.01  0.02    0.05    0.00
 sigmaNu            0.00  0.00  0.00    0.00    0.02
-> round( coef( summary( randEff ) ), 2 )
             Estimate Std. error t value Pr(> t)
 (Intercept)    -0.37       0.47   -0.77    0.44
 x1              1.68       0.21    8.03    0.00
 x2              2.24       0.67    3.32    0.00
 logSigmaMu     -0.13       0.26   -0.50    0.62
 logSigmaNu     -0.01       0.13   -0.10    0.92
-> round( coef( summary( randEff ), logSigma = FALSE ), 2 )
             Estimate Std. error t value Pr(> t)
 (Intercept)    -0.37       0.47   -0.77    0.44
 x1              1.68       0.21    8.03    0.00
 x2              2.24       0.67    3.32    0.00
 sigmaMu         0.88       0.23    3.87    0.00
 sigmaNu         0.99       0.13    7.71    0.00
-> try( margEff( randEff ) )
-Error in margEff.censReg(randEff) : 
+Error in margEff.censReg(x) : 
   the margEff() method for objects of class 'censReg' can not yet be used for panel data models
-> logLik( randEff )
 'log Lik.' -73.199 (df=5)
-> nobs( randEff )
 [1] 60
-> extractAIC( randEff )
 [1] -40.0 156.4
-> printAll( randEff )
 $maximum
 [1] -73.199
 
@@ -319,7 +320,7 @@ class
 > 
 > ## BHHH method
 > randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
-> print( randEffBhhh, digits = 1 )
+> printAll( randEffBhhh )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
@@ -328,7 +329,14 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
       -0.37        1.68        2.24       -0.13       -0.01 
 
-> print( maxLik:::summary.maxLik( randEffBhhh ), digits = 1 )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
+
+Coefficients:
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+       -0.4         1.7         2.2         0.9         1.0 
+
 --------------------------------------------
 Maximum Likelihood estimation
 BHHH maximisation, 14 iterations
@@ -345,7 +353,6 @@ logSigmaNu     -0.01       0.14    -0.1   0.930
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( randEffBhhh ), digits = 1 )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
@@ -368,7 +375,61 @@ BHHH maximisation, 14 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
-> printAll( randEffBhhh )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)     -0.4        0.6    -0.7   0.510    
+x1               1.7        0.3     5.7   1e-08 ***
+x2               2.2        0.7     3.1   0.002 ** 
+sigmaMu          0.9        0.3     3.4   7e-04 ***
+sigmaNu          1.0        0.1     7.1   1e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+BHHH maximisation, 14 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -73.199 on 5 Df
+
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      -0.37        1.68        2.24       -0.13       -0.01 
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+      -0.37        1.68        2.24        0.88        0.99 
+            (Intercept)    x1    x2 logSigmaMu logSigmaNu
+(Intercept)        0.31 -0.03 -0.35       0.06      -0.01
+x1                -0.03  0.09  0.02       0.00       0.02
+x2                -0.35  0.02  0.53      -0.08       0.02
+logSigmaMu         0.06  0.00 -0.08       0.09       0.00
+logSigmaNu        -0.01  0.02  0.02       0.00       0.02
+            (Intercept)    x1    x2 sigmaMu sigmaNu
+(Intercept)        0.31 -0.03 -0.35    0.06   -0.01
+x1                -0.03  0.09  0.02    0.00    0.02
+x2                -0.35  0.02  0.53   -0.07    0.02
+sigmaMu            0.06  0.00 -0.07    0.07    0.00
+sigmaNu           -0.01  0.02  0.02    0.00    0.02
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -0.37       0.56   -0.66    0.51
+x1              1.68       0.29    5.72    0.00
+x2              2.24       0.73    3.07    0.00
+logSigmaMu     -0.13       0.29   -0.44    0.66
+logSigmaNu     -0.01       0.14   -0.09    0.93
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -0.37       0.56   -0.66    0.51
+x1              1.68       0.29    5.72    0.00
+x2              2.24       0.73    3.07    0.00
+sigmaMu         0.88       0.26    3.39    0.00
+sigmaNu         0.99       0.14    7.14    0.00
+Error in margEff.censReg(x) : 
+  the margEff() method for objects of class 'censReg' can not yet be used for panel data models
+'log Lik.' -73.199 (df=5)
+[1] 60
+[1] -40.0 156.4
 $maximum
 [1] -73.199
 
@@ -501,7 +562,7 @@ class
 > 
 > ## BFGS method (optim)
 > randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
-> print( randEffBfgs, digits = 1 )
+> printAll( randEffBfgs )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
@@ -510,7 +571,14 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
       -0.37        1.68        2.24       -0.13       -0.01 
 
-> print( maxLik:::summary.maxLik( randEffBfgs ), digits = 1 )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
+
+Coefficients:
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+       -0.4         1.7         2.2         0.9         1.0 
+
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS maximization, 25 iterations
@@ -527,7 +595,6 @@ logSigmaNu     -0.01       0.13    -0.1     0.9
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( randEffBfgs ), digits = 1 )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
@@ -550,7 +617,61 @@ BFGS maximization, 25 iterations
 Return code 0: successful convergence 
 Log-likelihood: -73.199 on 5 Df
 
-> printAll( randEffBfgs )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)     -0.4        0.5    -0.8     0.4    
+x1               1.7        0.2     8.0   1e-15 ***
+x2               2.2        0.7     3.3   9e-04 ***
+sigmaMu          0.9        0.2     3.9   1e-04 ***
+sigmaNu          1.0        0.1     7.7   1e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+BFGS maximization, 25 iterations
+Return code 0: successful convergence 
+Log-likelihood: -73.199 on 5 Df
+
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      -0.37        1.68        2.24       -0.13       -0.01 
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+      -0.37        1.68        2.24        0.88        0.99 
+            (Intercept)    x1    x2 logSigmaMu logSigmaNu
+(Intercept)        0.23 -0.02 -0.25      -0.02       0.00
+x1                -0.02  0.04  0.01       0.01       0.00
+x2                -0.25  0.01  0.45       0.02       0.00
+logSigmaMu        -0.02  0.01  0.02       0.07       0.00
+logSigmaNu         0.00  0.00  0.00       0.00       0.02
+            (Intercept)    x1    x2 sigmaMu sigmaNu
+(Intercept)        0.23 -0.02 -0.25   -0.02    0.00
+x1                -0.02  0.04  0.01    0.01    0.00
+x2                -0.25  0.01  0.45    0.02    0.00
+sigmaMu           -0.02  0.01  0.02    0.05    0.00
+sigmaNu            0.00  0.00  0.00    0.00    0.02
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -0.37       0.47   -0.77    0.44
+x1              1.68       0.21    8.03    0.00
+x2              2.24       0.67    3.32    0.00
+logSigmaMu     -0.13       0.26   -0.50    0.62
+logSigmaNu     -0.01       0.13   -0.10    0.92
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -0.37       0.47   -0.77    0.44
+x1              1.68       0.21    8.03    0.00
+x2              2.24       0.67    3.32    0.00
+sigmaMu         0.88       0.23    3.87    0.00
+sigmaNu         0.99       0.13    7.71    0.00
+Error in margEff.censReg(x) : 
+  the margEff() method for objects of class 'censReg' can not yet be used for panel data models
+'log Lik.' -73.199 (df=5)
+[1] 60
+[1] -40.0 156.4
 $maximum
 [1] -73.199
 
@@ -685,7 +806,7 @@ class
 > 
 > ## BFGS method (R)
 > randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
-> print( randEffBfgsr, digits = 1 )
+> printAll( randEffBfgsr )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
@@ -694,7 +815,14 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
       -0.37        1.68        2.25       -0.13       -0.01 
 
-> print( maxLik:::summary.maxLik( randEffBfgsr ), digits = 1 )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+       -0.4         1.7         2.2         0.9         1.0 
+
 --------------------------------------------
 Maximum Likelihood estimation
 BFGSR maximization, 77 iterations
@@ -711,7 +839,6 @@ logSigmaNu     -0.01       0.13    -0.1     0.9
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( randEffBfgsr ), digits = 1 )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
@@ -734,7 +861,61 @@ BFGSR maximization, 77 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
-> printAll( randEffBfgsr )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)     -0.4        0.5    -0.8     0.4    
+x1               1.7        0.2     8.0   1e-15 ***
+x2               2.2        0.7     3.3   9e-04 ***
+sigmaMu          0.9        0.2     3.9   1e-04 ***
+sigmaNu          1.0        0.1     7.7   1e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+BFGSR maximization, 77 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -73.199 on 5 Df
+
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      -0.37        1.68        2.25       -0.13       -0.01 
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+      -0.37        1.68        2.25        0.88        0.99 
+            (Intercept)    x1    x2 logSigmaMu logSigmaNu
+(Intercept)        0.23 -0.02 -0.25      -0.02       0.00
+x1                -0.02  0.04  0.01       0.01       0.00
+x2                -0.25  0.01  0.45       0.02       0.00
+logSigmaMu        -0.02  0.01  0.02       0.07       0.00
+logSigmaNu         0.00  0.00  0.00       0.00       0.02
+            (Intercept)    x1    x2 sigmaMu sigmaNu
+(Intercept)        0.23 -0.02 -0.25   -0.02    0.00
+x1                -0.02  0.04  0.01    0.01    0.00
+x2                -0.25  0.01  0.45    0.02    0.00
+sigmaMu           -0.02  0.01  0.02    0.05    0.00
+sigmaNu            0.00  0.00  0.00    0.00    0.02
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -0.37       0.47   -0.78    0.44
+x1              1.68       0.21    8.03    0.00
+x2              2.25       0.67    3.33    0.00
+logSigmaMu     -0.13       0.26   -0.50    0.62
+logSigmaNu     -0.01       0.13   -0.10    0.92
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -0.37       0.47   -0.78    0.44
+x1              1.68       0.21    8.03    0.00
+x2              2.25       0.67    3.33    0.00
+sigmaMu         0.88       0.23    3.88    0.00
+sigmaNu         0.99       0.13    7.71    0.00
+Error in margEff.censReg(x) : 
+  the margEff() method for objects of class 'censReg' can not yet be used for panel data models
+'log Lik.' -73.199 (df=5)
+[1] 60
+[1] -40.0 156.4
 $maximum
 [1] -73.199
 
@@ -866,7 +1047,7 @@ class
 > ## BHHH with starting values
 > randEffBhhhStart <- censReg( y ~ x1 + x2, data = pData, method = "BHHH",
 +    start = c( -0.4, 1.7, 2.2, -0.1, -0.01 ) )
-> print( randEffBhhhStart, digits = 1 )
+> printAll( randEffBhhhStart )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, start = c(-0.4, 
@@ -876,7 +1057,31 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
       -0.37        1.68        2.24       -0.13       -0.01 
 
-> print( summary( randEffBhhhStart ), digits = 1 )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, start = c(-0.4, 
+    1.7, 2.2, -0.1, -0.01), method = "BHHH")
+
+Coefficients:
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+       -0.4         1.7         2.2         0.9         1.0 
+
+--------------------------------------------
+Maximum Likelihood estimation
+BHHH maximisation, 7 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -73.199 
+5  free parameters
+Estimates:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)    -0.37       0.56    -0.7   0.510    
+x1              1.68       0.29     5.7   1e-08 ***
+x2              2.24       0.73     3.1   0.002 ** 
+logSigmaMu     -0.13       0.30    -0.4   0.661    
+logSigmaNu     -0.01       0.14    -0.1   0.929    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, start = c(-0.4, 
@@ -900,14 +1105,197 @@ BHHH maximisation, 7 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
-> nobs( randEffBhhhStart )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, start = c(-0.4, 
+    1.7, 2.2, -0.1, -0.01), method = "BHHH")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)     -0.4        0.6    -0.7   0.510    
+x1               1.7        0.3     5.7   1e-08 ***
+x2               2.2        0.7     3.1   0.002 ** 
+sigmaMu          0.9        0.3     3.4   7e-04 ***
+sigmaNu          1.0        0.1     7.1   1e-12 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+BHHH maximisation, 7 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -73.199 on 5 Df
+
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      -0.37        1.68        2.24       -0.13       -0.01 
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+      -0.37        1.68        2.24        0.88        0.99 
+            (Intercept)    x1    x2 logSigmaMu logSigmaNu
+(Intercept)        0.31 -0.03 -0.35       0.06      -0.01
+x1                -0.03  0.09  0.02       0.00       0.02
+x2                -0.35  0.02  0.53      -0.08       0.02
+logSigmaMu         0.06  0.00 -0.08       0.09       0.00
+logSigmaNu        -0.01  0.02  0.02       0.00       0.02
+            (Intercept)    x1    x2 sigmaMu sigmaNu
+(Intercept)        0.31 -0.03 -0.35    0.06   -0.01
+x1                -0.03  0.09  0.02    0.00    0.02
+x2                -0.35  0.02  0.53   -0.07    0.02
+sigmaMu            0.06  0.00 -0.07    0.07    0.00
+sigmaNu           -0.01  0.02  0.02    0.00    0.02
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -0.37       0.56   -0.66    0.51
+x1              1.68       0.29    5.72    0.00
+x2              2.24       0.73    3.07    0.00
+logSigmaMu     -0.13       0.30   -0.44    0.66
+logSigmaNu     -0.01       0.14   -0.09    0.93
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -0.37       0.56   -0.66    0.51
+x1              1.68       0.29    5.72    0.00
+x2              2.24       0.73    3.07    0.00
+sigmaMu         0.88       0.26    3.39    0.00
+sigmaNu         0.99       0.14    7.14    0.00
+Error in margEff.censReg(x) : 
+  the margEff() method for objects of class 'censReg' can not yet be used for panel data models
+'log Lik.' -73.199 (df=5)
 [1] 60
+[1] -40.0 156.4
+$maximum
+[1] -73.199
+
+$estimate
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      -0.37        1.68        2.24       -0.13       -0.01 
+
+$gradient
+
+$hessian
+            (Intercept)    x1   x2 logSigmaMu logSigmaNu
+(Intercept)       -13.5  -4.1 -8.3        2.7        4.0
+x1                 -4.1 -17.4 -2.2        2.1       19.0
+x2                 -8.3  -2.2 -7.3       -0.2        3.4
+logSigmaMu          2.7   2.1 -0.2      -13.9       -3.6
+logSigmaNu          4.0  19.0  3.4       -3.6      -73.2
+attr(,"type")
+[1] "BHHH"
+
+$code
+[1] 2
+
+$message
+[1] "successive function values within tolerance limit"
+
+$last.step
+
+$fixed
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      FALSE       FALSE       FALSE       FALSE       FALSE 
+
+$iterations
+[1] 7
+
+$type
+[1] "BHHH maximisation"
+
+$gradientObs
+      (Intercept)    x1    x2 logSigmaMu logSigmaNu
+ [1,]       -0.85  0.23 -0.07      -0.14      -0.96
+ [2,]       -1.70  0.05 -1.19       1.68      -1.01
+ [3,]        1.75  0.33  1.73       1.84       1.80
+ [4,]        0.16 -0.20 -0.43      -0.69      -1.44
+ [5,]        0.13  0.98  0.69      -0.68      -0.55
+ [6,]        0.33 -0.31  0.38      -0.49      -1.58
+ [7,]       -0.08 -3.19 -0.24      -0.68       6.03
+ [8,]       -0.27  0.38  0.06      -0.54      -1.11
+ [9,]        1.15  0.59  0.30       0.13      -1.62
+[10,]       -0.43 -0.41 -0.15      -0.47      -1.94
+[11,]       -0.03  1.45 -0.64      -0.92       2.74
+[12,]        1.21  0.54  0.61       0.21      -1.73
+[13,]        0.54 -0.23  0.33      -0.37      -1.41
+[14,]       -1.81 -1.31 -0.92       1.96       2.58
+[15,]       -0.08  1.09 -0.46      -0.84       0.20
+
+$control
+A 'MaxControl' object with slots:
+tol = 1e-08 
+reltol = 1.4901e-08 
+gradtol = 1e-06 
+steptol = 1e-10 
+lambdatol = 1e-06 
+qrtol = 1e-10 
+qac = stephalving 
+marquardt_lambda0 = 0.01 
+marquardt_lambdaStep = 2 
+marquardt_maxLambda = 1e+12 
+nm_alpha = 1 
+nm_beta = 0.5 
+nm_gamma = 2 
+sann_cand = <default Gaussian Markov kernel>
+sann_temp = 10 
+sann_tmax = 10 
+sann_randomSeed = 123 
+iterlim = 150 
+printLevel = 0 
+
+$xMean
+(Intercept)          x1          x2 
+  1.0000000  -0.0051594   0.5041407 
+
+$call
+censReg(formula = y ~ x1 + x2, data = pData, start = c(-0.4, 
+    1.7, 2.2, -0.1, -0.01), method = "BHHH")
+
+$terms
+y ~ x1 + x2
+attr(,"variables")
+list(y, x1, x2)
+attr(,"factors")
+   x1 x2
+y   0  0
+x1  1  0
+x2  0  1
+attr(,"term.labels")
+[1] "x1" "x2"
+attr(,"order")
+[1] 1 1
+attr(,"intercept")
+[1] 1
+attr(,"response")
+[1] 1
+attr(,".Environment")
+<environment: R_GlobalEnv>
+attr(,"predvars")
+list(y, x1, x2)
+attr(,"dataClasses")
+        y        x1        x2 
+"numeric" "numeric" "numeric" 
+
+$nObs
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+$df.residual
+[1] 55
+
+$start
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      -0.40        1.70        2.20       -0.10       -0.01 
+
+$left
+[1] 0
+
+$right
+[1] Inf
+
+class
+[1] "censReg" "maxLik"  "maxim"   "list"   
 > 
 > 
 > ## left-censoring at 5
 > pData$yAdd <- pData$y + 5
 > randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
-> print( randEffAdd, digits = 1 )
+> printAll( randEffAdd )
 
 Call:
 censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
@@ -916,7 +1304,14 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
        4.63        1.68        2.25       -0.13       -0.01 
 
-> print( maxLik:::summary.maxLik( randEffAdd ), digits = 1 )
+
+Call:
+censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+        4.6         1.7         2.2         0.9         1.0 
+
 --------------------------------------------
 Maximum Likelihood estimation
 BFGSR maximization, 76 iterations
@@ -933,7 +1328,6 @@ logSigmaNu     -0.01       0.13    -0.1     0.9
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( randEffAdd ), digits = 1 )
 
 Call:
 censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
@@ -956,33 +1350,61 @@ BFGSR maximization, 76 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
-> round( coef( randEffAdd ), 2 )
+
+Call:
+censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)      4.6        0.5      10  <2e-16 ***
+x1               1.7        0.2       8   1e-15 ***
+x2               2.2        0.7       3   9e-04 ***
+sigmaMu          0.9        0.2       4   1e-04 ***
+sigmaNu          1.0        0.1       8   1e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+BFGSR maximization, 76 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -73.199 on 5 Df
+
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
        4.63        1.68        2.25       -0.13       -0.01 
-> round( coef( randEffAdd, logSigma = FALSE ), 2 )
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
        4.63        1.68        2.25        0.88        0.99 
-> round( vcov( randEffAdd ), 2 )
             (Intercept)    x1    x2 logSigmaMu logSigmaNu
 (Intercept)        0.23 -0.02 -0.25      -0.02       0.00
 x1                -0.02  0.04  0.01       0.01       0.00
 x2                -0.25  0.01  0.45       0.02       0.00
 logSigmaMu        -0.02  0.01  0.02       0.07       0.00
 logSigmaNu         0.00  0.00  0.00       0.00       0.02
-> round( vcov( randEffAdd, logSigma = FALSE ), 2 )
             (Intercept)    x1    x2 sigmaMu sigmaNu
 (Intercept)        0.23 -0.02 -0.25   -0.02    0.00
 x1                -0.02  0.04  0.01    0.01    0.00
 x2                -0.25  0.01  0.45    0.02    0.00
 sigmaMu           -0.02  0.01  0.02    0.05    0.00
 sigmaNu            0.00  0.00  0.00    0.00    0.02
-> logLik( randEffAdd )
+            Estimate Std. error t value Pr(> t)
+(Intercept)     4.63       0.47    9.75    0.00
+x1              1.68       0.21    8.03    0.00
+x2              2.25       0.67    3.33    0.00
+logSigmaMu     -0.13       0.26   -0.50    0.62
+logSigmaNu     -0.01       0.13   -0.10    0.92
+            Estimate Std. error t value Pr(> t)
+(Intercept)     4.63       0.47    9.75       0
+x1              1.68       0.21    8.03       0
+x2              2.25       0.67    3.33       0
+sigmaMu         0.88       0.23    3.88       0
+sigmaNu         0.99       0.13    7.71       0
+Error in margEff.censReg(x) : 
+  the margEff() method for objects of class 'censReg' can not yet be used for panel data models
 'log Lik.' -73.199 (df=5)
-> nobs( randEffAdd )
 [1] 60
-> extractAIC( randEffAdd )
 [1] -40.0 156.4
-> printAll( randEffAdd )
 $maximum
 [1] -73.199
 
@@ -1115,7 +1537,7 @@ class
 > pData$yNeg <- - pData$y
 > randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = -Inf, right = 0 )
-> print( randEffNeg, digits = 1 )
+> printAll( randEffNeg )
 
 Call:
 censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
@@ -1125,7 +1547,15 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
        0.37       -1.68       -2.25       -0.13       -0.01 
 
-> print( maxLik:::summary.maxLik( randEffNeg ), digits = 1 )
+
+Call:
+censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
+    method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+        0.4        -1.7        -2.2         0.9         1.0 
+
 --------------------------------------------
 Maximum Likelihood estimation
 BFGSR maximization, 77 iterations
@@ -1142,7 +1572,6 @@ logSigmaNu     -0.01       0.13    -0.1     0.9
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( randEffNeg ), digits = 1 )
 
 Call:
 censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
@@ -1166,31 +1595,62 @@ BFGSR maximization, 77 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
-> round( coef( randEffNeg ), 2 )
+
+Call:
+censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
+    method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60              0             40             20 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)      0.4        0.5     0.8     0.4    
+x1              -1.7        0.2    -8.0   1e-15 ***
+x2              -2.2        0.7    -3.3   9e-04 ***
+sigmaMu          0.9        0.2     3.9   1e-04 ***
+sigmaNu          1.0        0.1     7.7   1e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+BFGSR maximization, 77 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -73.199 on 5 Df
+
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
        0.37       -1.68       -2.25       -0.13       -0.01 
-> round( coef( randEffNeg, logSigma = FALSE ), 2 )
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
        0.37       -1.68       -2.25        0.88        0.99 
-> round( vcov( randEffNeg ), 2 )
             (Intercept)    x1    x2 logSigmaMu logSigmaNu
 (Intercept)        0.23 -0.02 -0.25       0.02       0.00
 x1                -0.02  0.04  0.01      -0.01       0.00
 x2                -0.25  0.01  0.45      -0.02       0.00
 logSigmaMu         0.02 -0.01 -0.02       0.07       0.00
 logSigmaNu         0.00  0.00  0.00       0.00       0.02
-> round( vcov( randEffNeg, logSigma = FALSE ), 2 )
             (Intercept)    x1    x2 sigmaMu sigmaNu
 (Intercept)        0.23 -0.02 -0.25    0.02    0.00
 x1                -0.02  0.04  0.01   -0.01    0.00
 x2                -0.25  0.01  0.45   -0.02    0.00
 sigmaMu            0.02 -0.01 -0.02    0.05    0.00
 sigmaNu            0.00  0.00  0.00    0.00    0.02
-> logLik( randEffNeg )
+            Estimate Std. error t value Pr(> t)
+(Intercept)     0.37       0.47    0.78    0.44
+x1             -1.68       0.21   -8.03    0.00
+x2             -2.25       0.67   -3.33    0.00
+logSigmaMu     -0.13       0.26   -0.50    0.62
+logSigmaNu     -0.01       0.13   -0.10    0.92
+            Estimate Std. error t value Pr(> t)
+(Intercept)     0.37       0.47    0.78    0.44
+x1             -1.68       0.21   -8.03    0.00
+x2             -2.25       0.67   -3.33    0.00
+sigmaMu         0.88       0.23    3.88    0.00
+sigmaNu         0.99       0.13    7.71    0.00
+Error in margEff.censReg(x) : 
+  the margEff() method for objects of class 'censReg' can not yet be used for panel data models
 'log Lik.' -73.199 (df=5)
-> extractAIC( randEffNeg )
+[1] 60
 [1] -40.0 156.4
-> printAll( randEffNeg )
 $maximum
 [1] -73.199
 
@@ -1324,7 +1784,7 @@ class
 > pData$yAddNeg <- - pData$yAdd
 > randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = -Inf, right = -5 )
-> print( randEffAddNeg, digits = 1 )
+> printAll( randEffAddNeg )
 
 Call:
 censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
@@ -1334,7 +1794,15 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
       -4.63       -1.68       -2.25       -0.13       -0.01 
 
-> print( maxLik:::summary.maxLik( randEffAddNeg ), digits = 1 )
+
+Call:
+censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
+    data = pData, method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+       -4.6        -1.7        -2.2         0.9         1.0 
+
 --------------------------------------------
 Maximum Likelihood estimation
 BFGSR maximization, 76 iterations
@@ -1351,7 +1819,6 @@ logSigmaNu     -0.01       0.13    -0.1     0.9
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( randEffAddNeg ), digits = 1 )
 
 Call:
 censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
@@ -1375,31 +1842,62 @@ BFGSR maximization, 76 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -73.199 on 5 Df
 
-> round( coef( randEffAddNeg ), 2 )
+
+Call:
+censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
+    data = pData, method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60              0             40             20 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)     -4.6        0.5     -10  <2e-16 ***
+x1              -1.7        0.2      -8   1e-15 ***
+x2              -2.2        0.7      -3   9e-04 ***
+sigmaMu          0.9        0.2       4   1e-04 ***
+sigmaNu          1.0        0.1       8   1e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+BFGSR maximization, 76 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -73.199 on 5 Df
+
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
       -4.63       -1.68       -2.25       -0.13       -0.01 
-> round( coef( randEffAddNeg, logSigma = FALSE ), 2 )
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
       -4.63       -1.68       -2.25        0.88        0.99 
-> round( vcov( randEffAddNeg ), 2 )
             (Intercept)    x1    x2 logSigmaMu logSigmaNu
 (Intercept)        0.23 -0.02 -0.25       0.02       0.00
 x1                -0.02  0.04  0.01      -0.01       0.00
 x2                -0.25  0.01  0.45      -0.02       0.00
 logSigmaMu         0.02 -0.01 -0.02       0.07       0.00
 logSigmaNu         0.00  0.00  0.00       0.00       0.02
-> round( vcov( randEffAddNeg, logSigma = FALSE ), 2 )
             (Intercept)    x1    x2 sigmaMu sigmaNu
 (Intercept)        0.23 -0.02 -0.25    0.02    0.00
 x1                -0.02  0.04  0.01   -0.01    0.00
 x2                -0.25  0.01  0.45   -0.02    0.00
 sigmaMu            0.02 -0.01 -0.02    0.05    0.00
 sigmaNu            0.00  0.00  0.00    0.00    0.02
-> logLik( randEffAddNeg )
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -4.63       0.47   -9.75    0.00
+x1             -1.68       0.21   -8.03    0.00
+x2             -2.25       0.67   -3.33    0.00
+logSigmaMu     -0.13       0.26   -0.50    0.62
+logSigmaNu     -0.01       0.13   -0.10    0.92
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -4.63       0.47   -9.75       0
+x1             -1.68       0.21   -8.03       0
+x2             -2.25       0.67   -3.33       0
+sigmaMu         0.88       0.23    3.88       0
+sigmaNu         0.99       0.13    7.71       0
+Error in margEff.censReg(x) : 
+  the margEff() method for objects of class 'censReg' can not yet be used for panel data models
 'log Lik.' -73.199 (df=5)
-> extractAIC( randEffAddNeg )
+[1] 60
 [1] -40.0 156.4
-> printAll( randEffAddNeg )
 $maximum
 [1] -73.199
 
@@ -1533,7 +2031,7 @@ class
 > pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
 > randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = 0, right = 3 )
-> print( randEffBoth, digits = 1 )
+> printAll( randEffBoth )
 
 Call:
 censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
@@ -1543,7 +2041,15 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
      -0.234       1.893       1.969       0.002       0.053 
 
-> print( maxLik:::summary.maxLik( randEffBoth ), digits = 1 )
+
+Call:
+censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
+    method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+       -0.2         1.9         2.0         1.0         1.1 
+
 --------------------------------------------
 Maximum Likelihood estimation
 BFGSR maximization, 99 iterations
@@ -1560,7 +2066,6 @@ logSigmaNu     0.053      0.163     0.3    0.75
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( randEffBoth ), digits = 1 )
 
 Call:
 censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
@@ -1584,7 +2089,6 @@ BFGSR maximization, 99 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -64.313 on 5 Df
 
-> print( summary( randEffBoth ), logSigma = FALSE , digits = 1 )
 
 Call:
 censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
@@ -1608,47 +2112,39 @@ BFGSR maximization, 99 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -64.313 on 5 Df
 
-> round( coef( randEffBoth ), 2 )
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
       -0.23        1.89        1.97        0.00        0.05 
-> round( coef( randEffBoth, logSigma = FALSE ), 2 )
 (Intercept)          x1          x2     sigmaMu     sigmaNu 
       -0.23        1.89        1.97        1.00        1.05 
-> round( vcov( randEffBoth ), 2 )
             (Intercept)    x1    x2 logSigmaMu logSigmaNu
 (Intercept)        0.30 -0.03 -0.36      -0.02      -0.02
 x1                -0.03  0.09  0.03       0.04       0.02
 x2                -0.36  0.03  0.67       0.02       0.02
 logSigmaMu        -0.02  0.04  0.02       0.08       0.00
 logSigmaNu        -0.02  0.02  0.02       0.00       0.03
-> round( vcov( randEffBoth, logSigma = FALSE ), 2 )
             (Intercept)    x1    x2 sigmaMu sigmaNu
 (Intercept)        0.30 -0.03 -0.36   -0.02   -0.02
 x1                -0.03  0.09  0.03    0.04    0.02
 x2                -0.36  0.03  0.67    0.02    0.03
 sigmaMu           -0.02  0.04  0.02    0.08    0.00
 sigmaNu           -0.02  0.02  0.03    0.00    0.03
-> round( coef( summary( randEffBoth ) ), 2 )
             Estimate Std. error t value Pr(> t)
 (Intercept)    -0.23       0.55   -0.43    0.67
 x1              1.89       0.30    6.29    0.00
 x2              1.97       0.82    2.41    0.02
 logSigmaMu      0.00       0.28    0.01    1.00
 logSigmaNu      0.05       0.16    0.32    0.75
-> round( coef( summary( randEffBoth ), logSigma = FALSE ), 2 )
             Estimate Std. error t value Pr(> t)
 (Intercept)    -0.23       0.55   -0.43    0.67
 x1              1.89       0.30    6.29    0.00
 x2              1.97       0.82    2.41    0.02
 sigmaMu         1.00       0.28    3.60    0.00
 sigmaNu         1.05       0.17    6.14    0.00
-> logLik( randEffBoth )
+Error in margEff.censReg(x) : 
+  the margEff() method for objects of class 'censReg' can not yet be used for panel data models
 'log Lik.' -64.313 (df=5)
-> nobs( randEffBoth )
 [1] 60
-> extractAIC( randEffBoth )
 [1] -40.00 138.63
-> printAll( randEffBoth )
 $maximum
 [1] -64.313
 
@@ -1844,7 +2340,7 @@ class
 > nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 > pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
 > randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb, method = "BFGSR" )
-> print( randEffBfgsrUnb, digits = 1 )
+> printAll( randEffBfgsrUnb )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
@@ -1853,7 +2349,14 @@ Coefficients:
 (Intercept)          x1          x2  logSigmaMu  logSigmaNu 
      -0.222       1.640       2.108      -0.167      -0.001 
 
-> print( maxLik:::summary.maxLik( randEffBfgsrUnb ), digits = 1 )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
+
+Coefficients:
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+       -0.2         1.6         2.1         0.8         1.0 
+
 --------------------------------------------
 Maximum Likelihood estimation
 BFGSR maximization, 77 iterations
@@ -1870,7 +2373,6 @@ logSigmaNu    -0.001      0.132     0.0   0.993
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( randEffBfgsrUnb ), digits = 1 )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
@@ -1893,11 +2395,61 @@ BFGSR maximization, 77 iterations
 Return code 2: successive function values within tolerance limit
 Log-likelihood: -71.193 on 5 Df
 
-> logLik( randEffBfgsrUnb )
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            56             17             39              0 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)     -0.2        0.5    -0.5   0.638    
+x1               1.6        0.2     7.8   8e-15 ***
+x2               2.1        0.7     3.1   0.002 ** 
+sigmaMu          0.8        0.2     3.7   2e-04 ***
+sigmaNu          1.0        0.1     7.6   4e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+BFGSR maximization, 77 iterations
+Return code 2: successive function values within tolerance limit
+Log-likelihood: -71.193 on 5 Df
+
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      -0.22        1.64        2.11       -0.17        0.00 
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+      -0.22        1.64        2.11        0.85        1.00 
+            (Intercept)    x1    x2 logSigmaMu logSigmaNu
+(Intercept)        0.22 -0.02 -0.26      -0.02       0.00
+x1                -0.02  0.04  0.01       0.01       0.00
+x2                -0.26  0.01  0.47       0.02       0.00
+logSigmaMu        -0.02  0.01  0.02       0.07       0.00
+logSigmaNu         0.00  0.00  0.00       0.00       0.02
+            (Intercept)    x1    x2 sigmaMu sigmaNu
+(Intercept)        0.22 -0.02 -0.26   -0.02    0.00
+x1                -0.02  0.04  0.01    0.01    0.00
+x2                -0.26  0.01  0.47    0.02    0.00
+sigmaMu           -0.02  0.01  0.02    0.05    0.00
+sigmaNu            0.00  0.00  0.00    0.00    0.02
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -0.22       0.47   -0.47    0.64
+x1              1.64       0.21    7.77    0.00
+x2              2.11       0.68    3.08    0.00
+logSigmaMu     -0.17       0.27   -0.62    0.54
+logSigmaNu      0.00       0.13   -0.01    0.99
+            Estimate Std. error t value Pr(> t)
+(Intercept)    -0.22       0.47   -0.47    0.64
+x1              1.64       0.21    7.77    0.00
+x2              2.11       0.68    3.08    0.00
+sigmaMu         0.85       0.23    3.68    0.00
+sigmaNu         1.00       0.13    7.56    0.00
+Error in margEff.censReg(x) : 
+  the margEff() method for objects of class 'censReg' can not yet be used for panel data models
 'log Lik.' -71.193 (df=5)
-> extractAIC( randEffBfgsrUnb )
+[1] 56
 [1] -36.00 152.39
-> printAll( randEffBfgsrUnb )
 $maximum
 [1] -71.193
 
@@ -2089,4 +2641,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 27.720   0.224  27.944 
+ 31.428   0.080  31.504 

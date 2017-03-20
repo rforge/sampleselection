@@ -1,10 +1,43 @@
 library( "censReg" )
 library( "plm" )
 
+# load outputs that were previously produced by this script 
+saved <- new.env()
+load( "censRegPanelTest.RData.save", envir = saved )
+
 options( digits = 5 )
 
 printAll <- function( objName ) {
    x <- get( objName )
+   if( !exists( objName, envir = saved ) ) {
+      cat( "previously saved object '", objName, "' not found\n" )
+   } else {
+      xSaved <- get( objName, envir = saved )
+      if( !isTRUE( all.equal( class( x ), class( xSaved ) ) ) ) {
+         cat( "objects '", objName, "' have different classes:\n", sep = "" )
+         print( class( x ) )
+         print( class( xSaved ) )
+      } else if( !isTRUE( all.equal( names( x ), names( xSaved ) ) ) ) {
+         cat( "components of objects '", objName, "' have different names:\n",
+            sep = "" )
+         print( names( x ) )
+         print( names( xSaved ) )
+      }
+      for( n in names( x ) ) {
+         if( ! n %in% c( "code", "gradient", "iterations", "last.step",
+               "message" ) ) {
+            testRes <-  all.equal( x[[ n ]], xSaved[[ n ]], tol = 5e-3 )
+            if( !isTRUE( testRes ) ) {
+               cat( "component '", n, "' of objects '", objName, "' differ:\n",
+                  sep = "" )
+               print( testRes )
+               print( x[[ n ]] )
+               print( xSaved[[ n ]] )
+            }
+         }
+      }
+   }
+   
    print( x, digits = 1 )
    print( x, logSigma = FALSE , digits = 1 )
    print( maxLik:::summary.maxLik( x ), digits = 1 )
@@ -180,4 +213,7 @@ print( round( c( logLikStart ), 3 ) )
 print( round( attr( logLikStart, "gradient" ), 2 ) )
 
 
+# save all objectives that were produced in this script
+# (in order to compare them with objects created in the future)
+save.image( "censRegPanelTest.RData" )
 

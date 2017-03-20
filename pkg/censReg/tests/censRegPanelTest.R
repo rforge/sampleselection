@@ -3,7 +3,8 @@ library( "plm" )
 
 options( digits = 5 )
 
-printAll <- function( x ) {
+printAll <- function( objName ) {
+   x <- get( objName )
    print( x, digits = 1 )
    print( x, logSigma = FALSE , digits = 1 )
    print( maxLik:::summary.maxLik( x ), digits = 1 )
@@ -54,55 +55,55 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 
 ## Newton-Raphson method
 randEff <- censReg( y ~ x1 + x2, data = pData )
-printAll( randEff )
+printAll( "randEff" )
 
 
 ## BHHH method
 randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
-printAll( randEffBhhh )
+printAll( "randEffBhhh" )
 
 
 ## BFGS method (optim)
 randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
-printAll( randEffBfgs )
+printAll( "randEffBfgs" )
 
 
 ## BFGS method (R)
 randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
-printAll( randEffBfgsr )
+printAll( "randEffBfgsr" )
 
 
 ## BHHH with starting values
 randEffBhhhStart <- censReg( y ~ x1 + x2, data = pData, method = "BHHH",
    start = c( -0.4, 1.7, 2.2, -0.1, -0.01 ) )
-printAll( randEffBhhhStart )
+printAll( "randEffBhhhStart" )
 
 
 ## left-censoring at 5
 pData$yAdd <- pData$y + 5
 randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
-printAll( randEffAdd )
+printAll( "randEffAdd" )
 
 
 ## right-censoring
 pData$yNeg <- - pData$y
 randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = 0 )
-printAll( randEffNeg )
+printAll( "randEffNeg" )
 
 
 ## right-censoring at -5
 pData$yAddNeg <- - pData$yAdd
 randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
    left = -Inf, right = -5 )
-printAll( randEffAddNeg )
+printAll( "randEffAddNeg" )
 
 
 ## both right and left censoring
 pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
 randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
    left = 0, right = 3 )
-printAll( randEffBoth )
+printAll( "randEffBoth" )
 
 
 ## re-order observations/individuals
@@ -155,7 +156,7 @@ d1cS$gradient - d2cS$gradient
 nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
 randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb, method = "BFGSR" )
-printAll( randEffBfgsrUnb )
+printAll( "randEffBfgsrUnb" )
 
 
 ## NAs in data

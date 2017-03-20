@@ -29,7 +29,8 @@ Loading required package: Formula
 > 
 > options( digits = 5 )
 > 
-> printAll <- function( x ) {
+> printAll <- function( objName ) {
++    x <- get( objName )
 +    print( x, digits = 1 )
 +    print( x, logSigma = FALSE , digits = 1 )
 +    print( maxLik:::summary.maxLik( x ), digits = 1 )
@@ -80,7 +81,7 @@ Loading required package: Formula
 > 
 > ## Newton-Raphson method
 > randEff <- censReg( y ~ x1 + x2, data = pData )
-> printAll( randEff )
+> printAll( "randEff" )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData)
@@ -320,7 +321,7 @@ class
 > 
 > ## BHHH method
 > randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
-> printAll( randEffBhhh )
+> printAll( "randEffBhhh" )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
@@ -562,7 +563,7 @@ class
 > 
 > ## BFGS method (optim)
 > randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
-> printAll( randEffBfgs )
+> printAll( "randEffBfgs" )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
@@ -806,7 +807,7 @@ class
 > 
 > ## BFGS method (R)
 > randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
-> printAll( randEffBfgsr )
+> printAll( "randEffBfgsr" )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
@@ -1047,7 +1048,7 @@ class
 > ## BHHH with starting values
 > randEffBhhhStart <- censReg( y ~ x1 + x2, data = pData, method = "BHHH",
 +    start = c( -0.4, 1.7, 2.2, -0.1, -0.01 ) )
-> printAll( randEffBhhhStart )
+> printAll( "randEffBhhhStart" )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, start = c(-0.4, 
@@ -1295,7 +1296,7 @@ class
 > ## left-censoring at 5
 > pData$yAdd <- pData$y + 5
 > randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
-> printAll( randEffAdd )
+> printAll( "randEffAdd" )
 
 Call:
 censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
@@ -1537,7 +1538,7 @@ class
 > pData$yNeg <- - pData$y
 > randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = -Inf, right = 0 )
-> printAll( randEffNeg )
+> printAll( "randEffNeg" )
 
 Call:
 censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
@@ -1784,7 +1785,7 @@ class
 > pData$yAddNeg <- - pData$yAdd
 > randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = -Inf, right = -5 )
-> printAll( randEffAddNeg )
+> printAll( "randEffAddNeg" )
 
 Call:
 censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
@@ -2031,7 +2032,7 @@ class
 > pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
 > randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = 0, right = 3 )
-> printAll( randEffBoth )
+> printAll( "randEffBoth" )
 
 Call:
 censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
@@ -2340,7 +2341,7 @@ class
 > nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 > pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
 > randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb, method = "BFGSR" )
-> printAll( randEffBfgsrUnb )
+> printAll( "randEffBfgsrUnb" )
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
@@ -2641,4 +2642,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 31.428   0.080  31.504 
+ 29.264   0.100  29.361 

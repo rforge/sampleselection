@@ -1,6 +1,6 @@
 \name{NEWS}
 \title{News for Package 'censReg'}
-\section{Changes in censReg version 0.5-24 (2017-03-17)}{
+\section{Changes in censReg version 0.5-26 (2017-03-21)}{
   \itemize{
     \item some minor internal improvements and modifications,
       e.g. to make the 'censReg' package

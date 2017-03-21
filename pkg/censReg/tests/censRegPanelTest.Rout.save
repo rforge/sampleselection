@@ -38,7 +38,7 @@ Loading required package: Formula
 +       sep = "" )
 +    x <- get( objName )
 +    if( !exists( objName, envir = saved ) ) {
-+       cat( "' not found\n" )
++       cat( "' previously saved object not found\n" )
 +    } else {
 +       xSaved <- get( objName, envir = saved )
 +       if( !isTRUE( all.equal( class( x ), class( xSaved ) ) ) ) {
@@ -75,6 +75,51 @@ Loading required package: Formula
 +       }
 +    }
 +    
++    for( mName in c( "Coef", "CoefNoLs", "Vcov", "VcovNoLs",
++          "CoefSum", "CoefSumNoLs", "LogLik", "Nobs", "ExtractAIC" ) ) {
++       cat( "   comparing method '", mName, "' ...", sep = "" )
++       if( mName == "Coef" ) {
++          xm <- coef( x )
++       } else if( mName == "CoefNoLs" ) {
++          xm <- coef( x, logSigma = FALSE )
++       } else if( mName == "Vcov" ) {
++          xm <- vcov( x )
++       } else if( mName == "VcovNoLs" ) {
++          xm <- vcov( x, logSigma = FALSE )
++       } else if( mName == "CoefSum" ) {
++          xm <- coef( summary( x ) )
++       } else if( mName == "CoefSumNoLs" ) {
++          xm <- coef( summary( x ), logSigma = FALSE )
++       } else if( mName == "LogLik" ) {
++          xm <- logLik( x )
++       } else if( mName == "Nobs" ) {
++          xm <- nobs( x )
++       } else if( mName == "ExtractAIC" ) {
++          xm <- extractAIC( x )
++       } else {
++          stop( "unknown value of 'mName': ", mName )
++       }
++       methodObjName <- paste0( objName, mName )
++       if( !exists( methodObjName, envir = saved ) ) {
++          cat( "' previously saved object not found\n" )
++       } else {
++          xmSaved <- get( methodObjName, envir = saved )
++          testRes <- all.equal( xm, xmSaved, tol = 5e-3 )
++          if( isTRUE( testRes ) ) {
++             cat( " OK\n" )
++          } else {
++             cat( " different\n" )
++             print( testRes )
++             cat( "new:\n" )
++             print( xm )
++             cat( "saved:\n" )
++             print( xmSaved )
++          }
++       }
++       # assign to parent frame so that it will be included in the saved workspace
++       assign( methodObjName, xm, envir = parent.frame() )
++    }
++       
 +    if( what %in% c( "methods", "all" ) ) {
 +       print( x, digits = 1 )
 +       print( x, logSigma = FALSE , digits = 1 )
@@ -146,6 +191,15 @@ Comparing new object 'randEff' to previously saved object...
    comparing component 'start' ... OK
    comparing component 'left' ... OK
    comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData)
@@ -276,6 +330,15 @@ Comparing new object 'randEffBhhh' to previously saved object...
    comparing component 'start' ... OK
    comparing component 'left' ... OK
    comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
@@ -407,6 +470,15 @@ Comparing new object 'randEffBfgs' to previously saved object...
    comparing component 'start' ... OK
    comparing component 'left' ... OK
    comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
@@ -537,6 +609,15 @@ Comparing new object 'randEffBfgsr' to previously saved object...
    comparing component 'start' ... OK
    comparing component 'left' ... OK
    comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
@@ -668,6 +749,15 @@ Comparing new object 'randEffBhhhStart' to previously saved object...
    comparing component 'start' ... OK
    comparing component 'left' ... OK
    comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, start = c(-0.4, 
@@ -803,6 +893,15 @@ Comparing new object 'randEffAdd' to previously saved object...
    comparing component 'start' ... OK
    comparing component 'left' ... OK
    comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
 
 Call:
 censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
@@ -935,6 +1034,15 @@ Comparing new object 'randEffNeg' to previously saved object...
    comparing component 'start' ... OK
    comparing component 'left' ... OK
    comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
 
 Call:
 censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
@@ -1071,6 +1179,15 @@ Comparing new object 'randEffAddNeg' to previously saved object...
    comparing component 'start' ... OK
    comparing component 'left' ... OK
    comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
 
 Call:
 censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
@@ -1207,6 +1324,15 @@ Comparing new object 'randEffBoth' to previously saved object...
    comparing component 'start' ... OK
    comparing component 'left' ... OK
    comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
 
 Call:
 censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
@@ -1405,6 +1531,15 @@ Comparing new object 'randEffBfgsrUnb' to previously saved object...
    comparing component 'start' ... OK
    comparing component 'left' ... OK
    comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
@@ -1583,4 +1718,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 28.844   0.132  29.022 
+ 28.540   0.044  28.577 

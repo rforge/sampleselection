@@ -12,7 +12,7 @@ printAll <- function( objName, what = "methods" ) {
       sep = "" )
    x <- get( objName )
    if( !exists( objName, envir = saved ) ) {
-      cat( "' not found\n" )
+      cat( "' previously saved object not found\n" )
    } else {
       xSaved <- get( objName, envir = saved )
       if( !isTRUE( all.equal( class( x ), class( xSaved ) ) ) ) {
@@ -49,6 +49,51 @@ printAll <- function( objName, what = "methods" ) {
       }
    }
    
+   for( mName in c( "Coef", "CoefNoLs", "Vcov", "VcovNoLs",
+         "CoefSum", "CoefSumNoLs", "LogLik", "Nobs", "ExtractAIC" ) ) {
+      cat( "   comparing method '", mName, "' ...", sep = "" )
+      if( mName == "Coef" ) {
+         xm <- coef( x )
+      } else if( mName == "CoefNoLs" ) {
+         xm <- coef( x, logSigma = FALSE )
+      } else if( mName == "Vcov" ) {
+         xm <- vcov( x )
+      } else if( mName == "VcovNoLs" ) {
+         xm <- vcov( x, logSigma = FALSE )
+      } else if( mName == "CoefSum" ) {
+         xm <- coef( summary( x ) )
+      } else if( mName == "CoefSumNoLs" ) {
+         xm <- coef( summary( x ), logSigma = FALSE )
+      } else if( mName == "LogLik" ) {
+         xm <- logLik( x )
+      } else if( mName == "Nobs" ) {
+         xm <- nobs( x )
+      } else if( mName == "ExtractAIC" ) {
+         xm <- extractAIC( x )
+      } else {
+         stop( "unknown value of 'mName': ", mName )
+      }
+      methodObjName <- paste0( objName, mName )
+      if( !exists( methodObjName, envir = saved ) ) {
+         cat( "' previously saved object not found\n" )
+      } else {
+         xmSaved <- get( methodObjName, envir = saved )
+         testRes <- all.equal( xm, xmSaved, tol = 5e-3 )
+         if( isTRUE( testRes ) ) {
+            cat( " OK\n" )
+         } else {
+            cat( " different\n" )
+            print( testRes )
+            cat( "new:\n" )
+            print( xm )
+            cat( "saved:\n" )
+            print( xmSaved )
+         }
+      }
+      # assign to parent frame so that it will be included in the saved workspace
+      assign( methodObjName, xm, envir = parent.frame() )
+   }
+      
    if( what %in% c( "methods", "all" ) ) {
       print( x, digits = 1 )
       print( x, logSigma = FALSE , digits = 1 )

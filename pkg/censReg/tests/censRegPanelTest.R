@@ -7,7 +7,7 @@ load( "censRegPanelTest.RData.save", envir = saved )
 
 options( digits = 5 )
 
-printAll <- function( objName, what = "methods" ) {
+printAll <- function( objName, what = "print" ) {
    cat( "Comparing new object '", objName, "' to previously saved object...",
       sep = "" )
    x <- get( objName )
@@ -94,12 +94,14 @@ printAll <- function( objName, what = "methods" ) {
       assign( methodObjName, xm, envir = parent.frame() )
    }
       
-   if( what %in% c( "methods", "all" ) ) {
+   if( what %in% c( "print", "methods", "all" ) ) {
       print( x, digits = 1 )
       print( x, logSigma = FALSE , digits = 1 )
       print( maxLik:::summary.maxLik( x ), digits = 1 )
       print( summary( x ), digits = 1 )
       print( summary( x ), logSigma = FALSE , digits = 1 )
+   }
+   if( what %in% c( "methods", "all" ) ) {
       print( round( coef( x ), 2 ) )
       print( round( coef( x, logSigma = FALSE ), 2 ) )
       print( round( vcov( x ), 2 ) )
@@ -149,6 +151,7 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 ## Newton-Raphson method
 randEff <- censReg( y ~ x1 + x2, data = pData )
 printAll( "randEff" )
+try( margEff( randEff ) )
 
 
 ## BHHH method

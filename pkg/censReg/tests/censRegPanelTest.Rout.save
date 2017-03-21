@@ -24,6 +24,12 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
+
+Please cite the 'censReg' package as:
+Henningsen, Arne (2017). censReg: Censored Regression (Tobit) Models. R package version 0.5. http://CRAN.R-Project.org/package=censReg.
+
+If you have questions, suggestions, or comments regarding the 'censReg' package, please use a forum or 'tracker' at the R-Forge site of the 'sampleSelection' project:
+https://r-forge.r-project.org/projects/sampleselection/
 > library( "plm" )
 Loading required package: Formula
 > 
@@ -1309,4 +1315,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
-  8.900   0.172   9.067 
+  7.876   0.104   7.991 

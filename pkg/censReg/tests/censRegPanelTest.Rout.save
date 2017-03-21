@@ -34,30 +34,41 @@ Loading required package: Formula
 > options( digits = 5 )
 > 
 > printAll <- function( objName, what = "methods" ) {
++    cat( "Comparing new object '", objName, "' to previously saved object...",
++       sep = "" )
 +    x <- get( objName )
 +    if( !exists( objName, envir = saved ) ) {
-+       cat( "previously saved object '", objName, "' not found\n" )
++       cat( "' not found\n" )
 +    } else {
 +       xSaved <- get( objName, envir = saved )
 +       if( !isTRUE( all.equal( class( x ), class( xSaved ) ) ) ) {
-+          cat( "objects '", objName, "' have different classes:\n", sep = "" )
++          cat( " different classes:\n" )
++          cat( "new:\n" )
 +          print( class( x ) )
++          cat( "saved:\n" )
 +          print( class( xSaved ) )
 +       } else if( !isTRUE( all.equal( names( x ), names( xSaved ) ) ) ) {
-+          cat( "components of objects '", objName, "' have different names:\n",
-+             sep = "" )
++          cat( " different names:\n" )
++          cat( "new:\n" )
 +          print( names( x ) )
++          cat( "saved:\n" )
 +          print( names( xSaved ) )
++       } else {
++          cat( "\n" )
 +       }
 +       for( n in names( x ) ) {
 +          if( ! n %in% c( "code", "gradient", "iterations", "last.step",
 +                "message" ) ) {
++             cat( "   comparing component '", n, "' ...", sep = "" )
 +             testRes <-  all.equal( x[[ n ]], xSaved[[ n ]], tol = 5e-3 )
-+             if( !isTRUE( testRes ) ) {
-+                cat( "component '", n, "' of objects '", objName, "' differ:\n",
-+                   sep = "" )
++             if( isTRUE( testRes ) ) {
++                cat( " OK\n" )
++             } else {
++                cat( " different\n" )
 +                print( testRes )
++                cat( "new:\n" )
 +                print( x[[ n ]] )
++                cat( "saved:\n" )
 +                print( xSaved[[ n ]] )
 +             }
 +          }
@@ -119,6 +130,22 @@ Loading required package: Formula
 > ## Newton-Raphson method
 > randEff <- censReg( y ~ x1 + x2, data = pData )
 > printAll( "randEff" )
+Comparing new object 'randEff' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData)
@@ -233,6 +260,22 @@ Error in margEff.censReg(x) :
 > ## BHHH method
 > randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
 > printAll( "randEffBhhh" )
+Comparing new object 'randEffBhhh' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BHHH")
@@ -347,6 +390,23 @@ Error in margEff.censReg(x) :
 > ## BFGS method (optim)
 > randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
 > printAll( "randEffBfgs" )
+Comparing new object 'randEffBfgs' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'constraints' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
@@ -461,6 +521,22 @@ Error in margEff.censReg(x) :
 > ## BFGS method (R)
 > randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
 > printAll( "randEffBfgsr" )
+Comparing new object 'randEffBfgsr' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
@@ -576,6 +652,22 @@ Error in margEff.censReg(x) :
 > randEffBhhhStart <- censReg( y ~ x1 + x2, data = pData, method = "BHHH",
 +    start = c( -0.4, 1.7, 2.2, -0.1, -0.01 ) )
 > printAll( "randEffBhhhStart" )
+Comparing new object 'randEffBhhhStart' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pData, start = c(-0.4, 
@@ -695,6 +787,22 @@ Error in margEff.censReg(x) :
 > pData$yAdd <- pData$y + 5
 > randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
 > printAll( "randEffAdd" )
+Comparing new object 'randEffAdd' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
 
 Call:
 censReg(formula = yAdd ~ x1 + x2, left = 5, data = pData, method = "BFGSR")
@@ -811,6 +919,22 @@ Error in margEff.censReg(x) :
 > randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = -Inf, right = 0 )
 > printAll( "randEffNeg" )
+Comparing new object 'randEffNeg' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
 
 Call:
 censReg(formula = yNeg ~ x1 + x2, left = -Inf, right = 0, data = pData, 
@@ -931,6 +1055,22 @@ Error in margEff.censReg(x) :
 > randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = -Inf, right = -5 )
 > printAll( "randEffAddNeg" )
+Comparing new object 'randEffAddNeg' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
 
 Call:
 censReg(formula = yAddNeg ~ x1 + x2, left = -Inf, right = -5, 
@@ -1051,6 +1191,22 @@ Error in margEff.censReg(x) :
 > randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
 +    left = 0, right = 3 )
 > printAll( "randEffBoth" )
+Comparing new object 'randEffBoth' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
 
 Call:
 censReg(formula = yBoth ~ x1 + x2, left = 0, right = 3, data = pData, 
@@ -1233,6 +1389,22 @@ Error in margEff.censReg(x) :
 > pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
 > randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb, method = "BFGSR" )
 > printAll( "randEffBfgsrUnb" )
+Comparing new object 'randEffBfgsrUnb' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
 
 Call:
 censReg(formula = y ~ x1 + x2, data = pDataUnb, method = "BFGSR")
@@ -1404,10 +1576,11 @@ attr(,"gradient")
 > 
 > 
 > # save all objectives that were produced in this script
-> # (in order to compare them with objects created in the future)
+> # (in order to compare them with objects created by this script in the future)
+> rm( saved )
 > save.image( "censRegPanelTest.RData" )
 > 
 > 
 > proc.time()
    user  system elapsed 
- 27.732   0.036  27.762 
+ 28.844   0.132  29.022 

@@ -8,30 +8,41 @@ load( "censRegPanelTest.RData.save", envir = saved )
 options( digits = 5 )
 
 printAll <- function( objName, what = "methods" ) {
+   cat( "Comparing new object '", objName, "' to previously saved object...",
+      sep = "" )
    x <- get( objName )
    if( !exists( objName, envir = saved ) ) {
-      cat( "previously saved object '", objName, "' not found\n" )
+      cat( "' not found\n" )
    } else {
       xSaved <- get( objName, envir = saved )
       if( !isTRUE( all.equal( class( x ), class( xSaved ) ) ) ) {
-         cat( "objects '", objName, "' have different classes:\n", sep = "" )
+         cat( " different classes:\n" )
+         cat( "new:\n" )
          print( class( x ) )
+         cat( "saved:\n" )
          print( class( xSaved ) )
       } else if( !isTRUE( all.equal( names( x ), names( xSaved ) ) ) ) {
-         cat( "components of objects '", objName, "' have different names:\n",
-            sep = "" )
+         cat( " different names:\n" )
+         cat( "new:\n" )
          print( names( x ) )
+         cat( "saved:\n" )
          print( names( xSaved ) )
+      } else {
+         cat( "\n" )
       }
       for( n in names( x ) ) {
          if( ! n %in% c( "code", "gradient", "iterations", "last.step",
                "message" ) ) {
+            cat( "   comparing component '", n, "' ...", sep = "" )
             testRes <-  all.equal( x[[ n ]], xSaved[[ n ]], tol = 5e-3 )
-            if( !isTRUE( testRes ) ) {
-               cat( "component '", n, "' of objects '", objName, "' differ:\n",
-                  sep = "" )
+            if( isTRUE( testRes ) ) {
+               cat( " OK\n" )
+            } else {
+               cat( " different\n" )
                print( testRes )
+               cat( "new:\n" )
                print( x[[ n ]] )
+               cat( "saved:\n" )
                print( xSaved[[ n ]] )
             }
          }
@@ -218,6 +229,7 @@ print( round( attr( logLikStart, "gradient" ), 2 ) )
 
 
 # save all objectives that were produced in this script
-# (in order to compare them with objects created in the future)
+# (in order to compare them with objects created by this script in the future)
+rm( saved )
 save.image( "censRegPanelTest.RData" )
 

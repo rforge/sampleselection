@@ -391,7 +391,7 @@ Log-likelihood: -73.199 on 5 Df
 > 
 > ## BFGS method (optim)
 > randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
-> printAll( "randEffBfgs", what = "none" )
+> printAll( "randEffBfgs" )
 Comparing new object 'randEffBfgs' to previously saved object...
    comparing component 'maximum' ... OK
    comparing component 'estimate' ... OK
@@ -418,11 +418,87 @@ Comparing new object 'randEffBfgs' to previously saved object...
    comparing method 'LogLik' ... OK
    comparing method 'Nobs' ... OK
    comparing method 'ExtractAIC' ... OK
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
+
+Coefficients:
+(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
+      -0.37        1.68        2.24       -0.13       -0.01 
+
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
+
+Coefficients:
+(Intercept)          x1          x2     sigmaMu     sigmaNu 
+       -0.4         1.7         2.2         0.9         1.0 
+
+--------------------------------------------
+Maximum Likelihood estimation
+BFGS maximization, 25 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -73.199 
+5  free parameters
+Estimates:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)    -0.37       0.47    -0.8     0.4    
+x1              1.68       0.21     8.0   1e-15 ***
+x2              2.24       0.67     3.3   9e-04 ***
+logSigmaMu     -0.13       0.26    -0.5     0.6    
+logSigmaNu     -0.01       0.13    -0.1     0.9    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)    -0.37       0.47    -0.8     0.4    
+x1              1.68       0.21     8.0   1e-15 ***
+x2              2.24       0.67     3.3   9e-04 ***
+logSigmaMu     -0.13       0.26    -0.5     0.6    
+logSigmaNu     -0.01       0.13    -0.1     0.9    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+BFGS maximization, 25 iterations
+Return code 0: successful convergence 
+Log-likelihood: -73.199 on 5 Df
+
+
+Call:
+censReg(formula = y ~ x1 + x2, data = pData, method = "BFGS")
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)     -0.4        0.5    -0.8     0.4    
+x1               1.7        0.2     8.0   1e-15 ***
+x2               2.2        0.7     3.3   9e-04 ***
+sigmaMu          0.9        0.2     3.9   1e-04 ***
+sigmaNu          1.0        0.1     7.7   1e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+BFGS maximization, 25 iterations
+Return code 0: successful convergence 
+Log-likelihood: -73.199 on 5 Df
+
 > 
 > 
 > ## BFGS method (R)
 > randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
-> printAll( "randEffBfgsr" )
+> printAll( "randEffBfgsr", what = "none" )
 Comparing new object 'randEffBfgsr' to previously saved object...
    comparing component 'maximum' ... OK
    comparing component 'estimate' ... OK
@@ -448,82 +524,6 @@ Comparing new object 'randEffBfgsr' to previously saved object...
    comparing method 'LogLik' ... OK
    comparing method 'Nobs' ... OK
    comparing method 'ExtractAIC' ... OK
-
-Call:
-censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
-
-Coefficients:
-(Intercept)          x1          x2  logSigmaMu  logSigmaNu 
-      -0.37        1.68        2.25       -0.13       -0.01 
-
-
-Call:
-censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
-
-Coefficients:
-(Intercept)          x1          x2     sigmaMu     sigmaNu 
-       -0.4         1.7         2.2         0.9         1.0 
-
---------------------------------------------
-Maximum Likelihood estimation
-BFGSR maximization, 77 iterations
-Return code 2: successive function values within tolerance limit
-Log-Likelihood: -73.199 
-5  free parameters
-Estimates:
-            Estimate Std. error t value Pr(> t)    
-(Intercept)    -0.37       0.47    -0.8     0.4    
-x1              1.68       0.21     8.0   1e-15 ***
-x2              2.25       0.67     3.3   9e-04 ***
-logSigmaMu     -0.13       0.26    -0.5     0.6    
-logSigmaNu     -0.01       0.13    -0.1     0.9    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
---------------------------------------------
-
-Call:
-censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
-
-Observations:
-         Total  Left-censored     Uncensored Right-censored 
-            60             20             40              0 
-
-Coefficients:
-            Estimate Std. error t value Pr(> t)    
-(Intercept)    -0.37       0.47    -0.8     0.4    
-x1              1.68       0.21     8.0   1e-15 ***
-x2              2.25       0.67     3.3   9e-04 ***
-logSigmaMu     -0.13       0.26    -0.5     0.6    
-logSigmaNu     -0.01       0.13    -0.1     0.9    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-BFGSR maximization, 77 iterations
-Return code 2: successive function values within tolerance limit
-Log-likelihood: -73.199 on 5 Df
-
-
-Call:
-censReg(formula = y ~ x1 + x2, data = pData, method = "BFGSR")
-
-Observations:
-         Total  Left-censored     Uncensored Right-censored 
-            60             20             40              0 
-
-Coefficients:
-            Estimate Std. error t value Pr(> t)    
-(Intercept)     -0.4        0.5    -0.8     0.4    
-x1               1.7        0.2     8.0   1e-15 ***
-x2               2.2        0.7     3.3   9e-04 ***
-sigmaMu          0.9        0.2     3.9   1e-04 ***
-sigmaNu          1.0        0.1     7.7   1e-14 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-BFGSR maximization, 77 iterations
-Return code 2: successive function values within tolerance limit
-Log-likelihood: -73.199 on 5 Df
-
 > 
 > 
 > ## BHHH with starting values
@@ -1309,4 +1309,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
- 12.228   0.120  12.429 
+  8.900   0.172   9.067 

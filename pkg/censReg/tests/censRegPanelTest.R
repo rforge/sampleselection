@@ -161,12 +161,12 @@ printAll( "randEffBhhh" )
 
 ## BFGS method (optim)
 randEffBfgs <- censReg( y ~ x1 + x2, data = pData, method = "BFGS" )
-printAll( "randEffBfgs", what = "none" )
+printAll( "randEffBfgs" )
 
 
 ## BFGS method (R)
 randEffBfgsr <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR" )
-printAll( "randEffBfgsr" )
+printAll( "randEffBfgsr", what = "none" )
 
 
 ## BHHH with starting values

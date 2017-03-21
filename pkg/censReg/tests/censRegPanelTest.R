@@ -11,10 +11,10 @@ printAll <- function( objName, what = "print" ) {
    cat( "Comparing new object '", objName, "' to previously saved object...",
       sep = "" )
    x <- get( objName )
-   if( !exists( objName, envir = saved ) ) {
-      cat( "' previously saved object not found\n" )
+   if( !exists( objName, envir = saved, inherits = FALSE ) ) {
+      cat( " previously saved object not found\n" )
    } else {
-      xSaved <- get( objName, envir = saved )
+      xSaved <- get( objName, envir = saved, inherits = FALSE )
       if( !isTRUE( all.equal( class( x ), class( xSaved ) ) ) ) {
          cat( " different classes:\n" )
          cat( "new:\n" )
@@ -74,10 +74,10 @@ printAll <- function( objName, what = "print" ) {
          stop( "unknown value of 'mName': ", mName )
       }
       methodObjName <- paste0( objName, mName )
-      if( !exists( methodObjName, envir = saved ) ) {
-         cat( "' previously saved object not found\n" )
+      if( !exists( methodObjName, envir = saved, inherits = FALSE ) ) {
+         cat( " previously saved object not found\n" )
       } else {
-         xmSaved <- get( methodObjName, envir = saved )
+         xmSaved <- get( methodObjName, envir = saved, inherits = FALSE )
          testRes <- all.equal( xm, xmSaved, tol = 5e-3 )
          if( isTRUE( testRes ) ) {
             cat( " OK\n" )
@@ -177,27 +177,27 @@ printAll( "randEffBhhhStart" )
 
 ## left-censoring at 5
 pData$yAdd <- pData$y + 5
-randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, method = "BFGSR", left = 5 )
+randEffAdd <- censReg( yAdd ~ x1 + x2, data = pData, left = 5 )
 printAll( "randEffAdd" )
 
 
 ## right-censoring
 pData$yNeg <- - pData$y
-randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, method = "BFGSR",
+randEffNeg <- censReg( yNeg ~ x1 + x2, data = pData, 
    left = -Inf, right = 0 )
 printAll( "randEffNeg" )
 
 
 ## right-censoring at -5
 pData$yAddNeg <- - pData$yAdd
-randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, method = "BFGSR",
+randEffAddNeg <- censReg( yAddNeg ~ x1 + x2, data = pData, 
    left = -Inf, right = -5 )
 printAll( "randEffAddNeg" )
 
 
 ## both right and left censoring
 pData$yBoth <- ifelse( pData$y < 3, pData$y, 3 )
-randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, method = "BFGSR",
+randEffBoth <- censReg( yBoth ~ x1 + x2, data = pData, 
    left = 0, right = 3 )
 printAll( "randEffBoth" )
 
@@ -212,38 +212,38 @@ for( i in 1:nId ) {
       paste( "G", perm[ i ], sep = "_" )
 }
 pData2 <- pdata.frame( nData2, c( "id", "time" ) )
-randEffBfgsr2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR" )
-all.equal( randEffBfgsr2[ -c(3,5,6,7,9,11,14) ],
-   randEffBfgsr[ -c(3,5,6,7,9,11,14) ], tolerance = 1e-2 )
+randEff2 <- censReg( y ~ x1 + x2, data = pData2 )
+all.equal( randEff2[ -c(3,5,6,7,9,11,14) ],
+   randEff[ -c(3,5,6,7,9,11,14) ], tolerance = 1e-2 )
 
 # check if the order of observations/individuals influences the likelihood values
-d1c1 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", start = coef(randEffBfgsr),
+d1c1 <- censReg( y ~ x1 + x2, data = pData, start = coef(randEff),
    iterlim = 0 )
-all.equal( d1c1[-c(5,6,7,9,12,14,18)], randEffBfgsr[-c(5,6,7,9,12,14,18)] )
-d1c1$maximum -  randEffBfgsr$maximum
+all.equal( d1c1[-c(5,6,7,9,12,14,18)], randEff[-c(5,6,7,9,12,14,18)] )
+d1c1$maximum -  randEff$maximum
 
-d2c2 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", start = coef(randEffBfgsr2),
+d2c2 <- censReg( y ~ x1 + x2, data = pData2, start = coef(randEff2),
    iterlim = 0 )
-all.equal( d2c2[-c(5,6,7,9,12,14,18)], randEffBfgsr2[-c(5,6,7,9,12,14,18)] )
-d2c2$maximum -  randEffBfgsr2$maximum
+all.equal( d2c2[-c(5,6,7,9,12,14,18)], randEff2[-c(5,6,7,9,12,14,18)] )
+d2c2$maximum -  randEff2$maximum
 
-d1c2 <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", 
-   start = coef(randEffBfgsr2), iterlim = 0 )
+d1c2 <- censReg( y ~ x1 + x2, data = pData,  
+   start = coef(randEff2), iterlim = 0 )
 d2c2$maximum - d1c2$maximum
 d2c2$gradient - d1c2$gradient
 
-d2c1 <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", 
-   start = coef(randEffBfgsr), iterlim = 0 )
+d2c1 <- censReg( y ~ x1 + x2, data = pData2, 
+   start = coef(randEff), iterlim = 0 )
 d1c1$maximum - d2c1$maximum
 d1c1$gradient - d2c1$gradient
 
 round( d2c2$maximum - d2c1$maximum, 3 )
 round( d1c1$maximum - d1c2$maximum, 3 )
 
-d1cS <- censReg( y ~ x1 + x2, data = pData, method = "BFGSR", 
-   start = randEffBfgsr$start, iterlim = 0 )
-d2cS <- censReg( y ~ x1 + x2, data = pData2, method = "BFGSR", 
-   start = randEffBfgsr$start, iterlim = 0 )
+d1cS <- censReg( y ~ x1 + x2, data = pData, 
+   start = randEff$start, iterlim = 0 )
+d2cS <- censReg( y ~ x1 + x2, data = pData2, 
+   start = randEff$start, iterlim = 0 )
 d1cS$maximum - d2cS$maximum
 d1cS$gradient - d2cS$gradient
 
@@ -251,8 +251,8 @@ d1cS$gradient - d2cS$gradient
 ## unbalanced panel data
 nDataUnb <- nData[ -c( 2, 5, 6, 8 ), ]
 pDataUnb <- pdata.frame( nDataUnb, c( "id", "time" ) )
-randEffBfgsrUnb <- censReg( y ~ x1 + x2, data = pDataUnb, method = "BFGSR" )
-printAll( "randEffBfgsrUnb" )
+randEffUnb <- censReg( y ~ x1 + x2, data = pDataUnb )
+printAll( "randEffUnb" )
 
 
 ## NAs in data
@@ -261,8 +261,8 @@ obsNa <- which( ! rownames( pData ) %in% rownames( pDataUnb ) )
 pDataNa$y[ obsNa[ 1:2 ] ] <- NA
 pDataNa$x1[ obsNa[ 3 ] ] <- NA
 pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
-randEffBfgsrNa <- censReg( y ~ x1 + x2, data = pDataNa, method = "BFGSR" )
-all.equal( randEffBfgsrNa[ -14 ], randEffBfgsrUnb[ -14 ] )
+randEffNa <- censReg( y ~ x1 + x2, data = pDataNa )
+all.equal( randEffNa[ -14 ], randEffUnb[ -14 ] )
 
 
 # returning log-likelihood contributions only (no estimations)

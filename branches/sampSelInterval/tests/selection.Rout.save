@@ -1,6 +1,6 @@
 
-R version 3.2.2 (2015-08-14) -- "Fire Safety"
-Copyright (C) 2015 The R Foundation for Statistical Computing
+R version 3.3.3 (2017-03-06) -- "Another Canoe"
+Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -15,7 +15,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library( "sampleSelection" )
+> library( "sampleSelection2" )
 Loading required package: maxLik
 Loading required package: miscTools
 
@@ -75126,4 +75126,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  10.58    1.23   11.81 
+  13.33    1.26   14.64 

@@ -1,7 +1,7 @@
 
-R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
-Copyright (C) 2016 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+R version 3.3.3 (2017-03-06) -- "Another Canoe"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -603,12 +603,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > # numeric gradients
 > gradStartNum <- numericGradient( intLogLik, t0 = start )
 > colnames( gradStartNum ) <- names( start )
-> all.equal( as.data.frame( gradStart ), as.data.frame( gradStartNum ) )
-[1] "Component \"betaS0\": Mean relative difference: 1.5e-08" 
-[2] "Component \"betaS1\": Mean relative difference: 3.7e-08" 
-[3] "Component \"betaO0\": Mean relative difference: 5e-08"   
-[4] "Component \"betaO2\": Mean relative difference: 4.4e-08" 
-[5] "Component \"atanRho\": Mean relative difference: 2.2e-08"
+> all.equal( as.data.frame( gradStart ), as.data.frame( gradStartNum ),
++    tol = 1e-5 )
+[1] TRUE
 > library( "miscTools" )
 > for( i in 1:ncol( gradStart ) ) {
 +    compPlot( gradStart[ , i ], gradStartNum[ , i ], main = names( start )[i],
@@ -1169,9 +1166,9 @@ Error in tobit2Intfit(YS, XS, YO, XO, boundaries = boundaries, start = start,  :
 > 
 > # Test estimation with empty interval and yO as integer
 > bound <- c(-Inf,4.9,5,15,Inf)
-> dat$yO <- cut( dat$yOu, br=c(-Inf,4.9,5,15,Inf), labels=c(1,2,3,4) )
-> empty1 <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
-+    start = start, printLevel = 1 )
+> dat$yO <- cut( dat$yOu, br = bound )
+> empty1 <- selection( yS ~ x1 + x2, as.integer(yO) ~ x1, data = dat,
++    boundaries = bound, start = start, printLevel = 1 )
 Tobit 2 model
 0 invalid observations
   YO lower upper count
@@ -1198,39 +1195,40 @@ successive function values within tolerance limit
 13  iterations
 estimate: 0.98 0.97 -1.3 10 2.7 1.6 0.28 
 Function value: -276 
+> 
+> # Test estimation with empty interval and yO as numeric variable
+> empty2 <- selection( yS ~ x1 + x2, as.numeric(yO) ~ x1, data = dat,
++    boundaries = bound, start = start, printLevel = 1 )
+Tobit 2 model
+0 invalid observations
+  YO lower upper count
+1  1  -Inf   4.9    26
+2  2   4.9   5.0     0
+3  3   5.0  15.0   130
+4  4  15.0   Inf    53
+YO observed: 209 times; not observed: 91 times:
+Number of intervals:  4 
+      YO
+YS       1   3   4 <NA>
+  0      0   0   0   91
+  1     26 130  53    0
+  <NA>   0   0   0    0
+Boundaries:
+[1] -Inf  4.9  5.0 15.0  Inf
+Initial values:
+(Intercept)          x1          x2 (Intercept)          x1    logSigma 
+       1.00        1.00       -1.00       10.00        4.00        0.80 
+    atanRho 
+       0.38 
+--------------
+successive function values within tolerance limit 
+13  iterations
+estimate: 0.98 0.97 -1.3 10 2.7 1.6 0.28 
+Function value: -276 
+> all.equal( coef(empty1), coef(empty2) )
+[1] TRUE
 > 
 > # Test estimation with empty interval and yO as factor
-> empty2 <- selection( yS ~ x1 + x2, as.factor(yO) ~ x1, data = dat, boundaries = bound, 
-+    start = start, printLevel = 1 )
-Tobit 2 model
-0 invalid observations
-  YO lower upper count
-1  1  -Inf   4.9    26
-2  2   4.9   5.0     0
-3  3   5.0  15.0   130
-4  4  15.0   Inf    53
-YO observed: 209 times; not observed: 91 times:
-Number of intervals:  4 
-      YO
-YS       1   3   4 <NA>
-  0      0   0   0   91
-  1     26 130  53    0
-  <NA>   0   0   0    0
-Boundaries:
-[1] -Inf  4.9  5.0 15.0  Inf
-Initial values:
-(Intercept)          x1          x2 (Intercept)          x1    logSigma 
-       1.00        1.00       -1.00       10.00        4.00        0.80 
-    atanRho 
-       0.38 
---------------
-successive function values within tolerance limit 
-13  iterations
-estimate: 0.98 0.97 -1.3 10 2.7 1.6 0.28 
-Function value: -276 
-> 
-> # Test estimation with empty interval and yO as vector of intervals
-> dat$yO <- cut( dat$yOu, br=c(-Inf,4.9,5,15,Inf) )
 > empty3 <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
 +    start = start, printLevel = 1 )
 Tobit 2 model
@@ -1259,8 +1257,7 @@ successive function values within tolerance limit
 13  iterations
 estimate: 0.98 0.97 -1.3 10 2.7 1.6 0.28 
 Function value: -276 
-> 
-> all.equal(coef(empty1), coef(empty2), coef(empty3))
+> all.equal( coef(empty1), coef(empty3) )
 [1] TRUE
 > 
 > 
@@ -1354,8 +1351,7 @@ S:(Intercept)           S:x1           S:x2  O:(Intercept)           O:x1
 > ### tests with Mroz data
 > data("Mroz87")
 > bounds <- c(0,2.0,4.0,6.0,8.0,Inf)
-> Mroz87$wage_5interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,Inf),
-+    labels=c(1,2,3,4,5))
+> Mroz87$wage_5interval <- cut( Mroz87$wage, br = bounds )
 > 
 > ## tests with different specifications
 > # low number of variables
@@ -1370,12 +1366,12 @@ Return code 2: successive function values within tolerance limit
 Log-Likelihood: -1134 
 753 observations (325 censored and 428 observed)
 Intervals of the dependent variable of the outcome equation:
-  YO lower upper count
-1  1     0     2    87
-2  2     2     4   171
-3  3     4     6   100
-4  4     6     8    32
-5  5     8   Inf    38
+       YO lower upper count
+1   (0,2]     0     2    87
+2   (2,4]     2     4   171
+3   (4,6]     4     6   100
+4   (6,8]     6     8    32
+5 (8,Inf]     8   Inf    38
 7 free parameters (df = 746)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
@@ -1406,12 +1402,12 @@ Return code 2: successive function values within tolerance limit
 Log-Likelihood: -1085 
 753 observations (325 censored and 428 observed)
 Intervals of the dependent variable of the outcome equation:
-  YO lower upper count
-1  1     0     2    87
-2  2     2     4   171
-3  3     4     6   100
-4  4     6     8    32
-5  5     8   Inf    38
+       YO lower upper count
+1   (0,2]     0     2    87
+2   (2,4]     2     4   171
+3   (4,6]     4     6   100
+4   (6,8]     6     8    32
+5 (8,Inf]     8   Inf    38
 10 free parameters (df = 743)
 Probit selection equation:
             Estimate Std. error t value Pr(> t)    
@@ -1445,12 +1441,12 @@ Return code 2: successive function values within tolerance limit
 Log-Likelihood: -1082 
 753 observations (325 censored and 428 observed)
 Intervals of the dependent variable of the outcome equation:
-  YO lower upper count
-1  1     0     2    87
-2  2     2     4   171
-3  3     4     6   100
-4  4     6     8    32
-5  5     8   Inf    38
+       YO lower upper count
+1   (0,2]     0     2    87
+2   (2,4]     2     4   171
+3   (4,6]     4     6   100
+4   (6,8]     6     8    32
+5 (8,Inf]     8   Inf    38
 13 free parameters (df = 740)
 Probit selection equation:
              Estimate Std. error t value Pr(> t)    
@@ -1487,12 +1483,12 @@ Return code 2: successive function values within tolerance limit
 Log-Likelihood: -1160 
 753 observations (325 censored and 428 observed)
 Intervals of the dependent variable of the outcome equation:
-  YO lower upper count
-1  1     0     2    87
-2  2     2     4   171
-3  3     4     6   100
-4  4     6     8    32
-5  5     8   Inf    38
+       YO lower upper count
+1   (0,2]     0     2    87
+2   (2,4]     2     4   171
+3   (4,6]     4     6   100
+4   (6,8]     6     8    32
+5 (8,Inf]     8   Inf    38
 7 free parameters (df = 746)
 Probit selection equation:
               Estimate Std. error t value Pr(> t)    
@@ -1604,4 +1600,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 113.13    0.28  113.84 
+  134.2     0.3   134.5 

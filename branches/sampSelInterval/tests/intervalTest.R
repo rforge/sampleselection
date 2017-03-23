@@ -82,7 +82,8 @@ print( gradStart )
 # numeric gradients
 gradStartNum <- numericGradient( intLogLik, t0 = start )
 colnames( gradStartNum ) <- names( start )
-all.equal( as.data.frame( gradStart ), as.data.frame( gradStartNum ) )
+all.equal( as.data.frame( gradStart ), as.data.frame( gradStartNum ),
+   tol = 1e-5 )
 library( "miscTools" )
 for( i in 1:ncol( gradStart ) ) {
    compPlot( gradStart[ , i ], gradStartNum[ , i ], main = names( start )[i],
@@ -139,20 +140,19 @@ try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 4:1,
 
 # Test estimation with empty interval and yO as integer
 bound <- c(-Inf,4.9,5,15,Inf)
-dat$yO <- cut( dat$yOu, br=c(-Inf,4.9,5,15,Inf), labels=c(1,2,3,4) )
-empty1 <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
-   start = start, printLevel = 1 )
+dat$yO <- cut( dat$yOu, br = bound )
+empty1 <- selection( yS ~ x1 + x2, as.integer(yO) ~ x1, data = dat,
+   boundaries = bound, start = start, printLevel = 1 )
+
+# Test estimation with empty interval and yO as numeric variable
+empty2 <- selection( yS ~ x1 + x2, as.numeric(yO) ~ x1, data = dat,
+   boundaries = bound, start = start, printLevel = 1 )
+all.equal( coef(empty1), coef(empty2) )
 
 # Test estimation with empty interval and yO as factor
-empty2 <- selection( yS ~ x1 + x2, as.factor(yO) ~ x1, data = dat, boundaries = bound, 
-   start = start, printLevel = 1 )
-
-# Test estimation with empty interval and yO as vector of intervals
-dat$yO <- cut( dat$yOu, br=c(-Inf,4.9,5,15,Inf) )
 empty3 <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
    start = start, printLevel = 1 )
-
-all.equal(coef(empty1), coef(empty2), coef(empty3))
+all.equal( coef(empty1), coef(empty3) )
 
 
 ## Testing estimations with NAs
@@ -173,8 +173,7 @@ print(NAres2)
 ### tests with Mroz data
 data("Mroz87")
 bounds <- c(0,2.0,4.0,6.0,8.0,Inf)
-Mroz87$wage_5interval <- cut(Mroz87$wage, br=c(0,2.0,4.0,6.0,8.0,Inf),
-   labels=c(1,2,3,4,5))
+Mroz87$wage_5interval <- cut( Mroz87$wage, br = bounds )
 
 ## tests with different specifications
 # low number of variables

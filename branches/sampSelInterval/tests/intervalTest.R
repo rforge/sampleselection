@@ -29,10 +29,10 @@ YO <- as.numeric( dat$yO )
 XO <- cbind( 1, dat$x1 )
 
 
-start <- c( betaS, betaO, log( sqrt( sigma ) ), atan( rho ) )
+start <- c( betaS, betaO, log( sqrt( sigma ) ), atanh( rho ) )
 # the correct starting value of logSigma would be: log( sigma )
 names( start ) <- c( "betaS0", "betaS1", "betaS2", "betaO0", "betaO2",
-   "logSigma", "atanRho" )
+   "logSigma", "atanhRho" )
 
 res <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
    start = start, printLevel = 1 )
@@ -47,7 +47,7 @@ print( summary( res ) )
 coefAll <- c( coef( res ),
    sigma = unname( exp( coef( res )[ "logSigma" ] ) ),
    sigmaSq = unname( exp( 2 * coef( res )[ "logSigma" ] ) ),
-   rho = unname( tan( coef( res )[ "atanRho" ] ) ) )
+   rho = unname( tanh( coef( res )[ "atanhRho" ] ) ) )
 print( round( coefAll, 2 ) )
 
 # jacobian
@@ -57,7 +57,7 @@ rownames( jac ) <- names( coef( res ) )
 colnames( jac ) <- c( names( coef( res ) ), "sigma", "sigmaSq", "rho" )
 jac[ "logSigma", "sigma" ] <- exp( coef( res )[ "logSigma" ] )
 jac[ "logSigma", "sigmaSq" ] <- 2 * exp( 2 * coef( res )[ "logSigma" ] )
-jac[ "atanRho", "rho" ] <- 1 + ( tan( coef( res )[ "atanRho" ] ) )^2
+jac[ "atanhRho", "rho" ] <- 1 + ( tanh( coef( res )[ "atanhRho" ] ) )^2
 vcovAll <- t( jac ) %*% vcov( res ) %*% jac
 print( round( vcovAll, 2 ) )
 print( round( cov2cor( vcovAll ), 2 ) )

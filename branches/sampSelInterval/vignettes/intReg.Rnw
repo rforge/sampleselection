@@ -20,6 +20,8 @@
 \renewcommand*{\vec}[1]{\boldsymbol{#1}}% vector
 \allowdisplaybreaks
 
+\DeclareMathOperator{\artanh}{arctanh}
+
 \title{Interval Regression with Sample Selection}
 \author{G\'eraldine Henningsen, Arne Henningsen, Sebastian Petersen}
 
@@ -805,12 +807,13 @@ gradient of the correlation parameter ($\rho$):
          {\vec{\beta}^S}' \vec{x}_i^S, - \rho \right) }
 \end{align}
 
+
 \begin{align}
-\frac{\partial \ell_i}{\partial \arctan(\rho)}
+\frac{\partial \ell_i}{\partial \artanh(\rho)}
 & = \frac{\partial \ell_i}{\partial \rho}
-   \frac{\partial \rho}{\partial \arctan(\rho)}
+   \frac{\partial \rho}{\partial \artanh(\rho)}
 = \frac{\partial \ell_i}{\partial \rho}
-   \; (\rho^2 + 1)
+   \; (1 - \rho^2)
 \end{align}
 
 \subsection{Gradients with respect to the standard deviation used for 

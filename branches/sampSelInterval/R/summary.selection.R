@@ -3,6 +3,9 @@ summary.selection <- function(object, ...) {
 
    if( object$method == "ml" ) {
       s <- NextMethod( "summary", object, ...)
+      stdd <- sqrt( diag( vcov( object, part = "full" ) ) )
+      estcoef <- coef( object, part="full" )
+      s$estimate <- coefTable( estcoef, stdd, object$param$df )
    } else if( object$method == "2step" )  {
       s <- list()  # list for results that will be returned
       RSq <- function(model, intercept) {

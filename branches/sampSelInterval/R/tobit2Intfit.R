@@ -289,7 +289,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    colnames( jac ) <- c( names( result$estimate ), "sigma", "sigmaSq", "rho" )
    jac[ "logSigma", "sigma" ] <- exp( result$estimate[ "logSigma" ] )
    jac[ "logSigma", "sigmaSq" ] <- 2 * exp( 2 * result$estimate[ "logSigma" ] )
-   jac[ "atanhRho", "rho" ] <- 1 + ( tanh( result$estimate[ "atanhRho" ] ) )^2
+   jac[ "atanhRho", "rho" ] <- 1 - ( tanh( result$estimate[ "atanhRho" ] ) )^2
    result$vcovAll <- t( jac ) %*% vcov( result ) %*% jac
 
    class( result ) <- c( "selection", class( result ) )

@@ -1,6 +1,6 @@
 
-R version 3.3.2 (2016-10-31) -- "Sincere Pumpkin Patch"
-Copyright (C) 2016 The R Foundation for Statistical Computing
+R version 3.4.0 (2017-04-21) -- "You Stupid Darkness"
+Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -44,10 +44,9 @@ https://r-forge.r-project.org/projects/maxlik/
 >                            # binary outcome, only observable if ys>0
 > print(table(simDat$ys, simDat$yo, exclude=NULL))
        
-          0   1 <NA>
-  FALSE  74   0    0
-  TRUE  202 224    0
-  <NA>    0   0    0
+          0   1
+  FALSE  74   0
+  TRUE  202 224
 > 
 > # estimation with BHHH method
 > ss <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
@@ -2601,7 +2600,6 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
           0   1 <NA>
   FALSE   0   0   74
   TRUE  202 224    0
-  <NA>    0   0    0
 > ssN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 > print(summary(ssN))
 --------------------------------------------
@@ -2633,10 +2631,9 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > simDat$yo <- simDat$yoX > 0 & simDat$ys
 > print(table(simDat$ys, simDat$yo, exclude=NULL))
        
-        FALSE TRUE <NA>
-  FALSE    74    0    0
-  TRUE    202  224    0
-  <NA>      0    0    0
+        FALSE TRUE
+  FALSE    74    0
+  TRUE    202  224
 > ssL <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 > print(summary(ssL))
 --------------------------------------------
@@ -2675,7 +2672,6 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
         FALSE TRUE <NA>
   FALSE     0    0   74
   TRUE    202  224    0
-  <NA>      0    0    0
 > ssLN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 > print(summary(ssLN))
 --------------------------------------------
@@ -2777,4 +2773,4 @@ rho    0.749        Inf       0       1
 > 
 > proc.time()
    user  system elapsed 
- 37.520   0.176  37.695 
+  41.74    0.18   41.95 

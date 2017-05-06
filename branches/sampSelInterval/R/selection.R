@@ -263,7 +263,8 @@ selection <- function(selection, outcome,
                return( estimation )
             }
             start <- estimation$start
-            iErrTerms <- c( sigma = iSigma, rho = iRho )
+            iErrTerms <- c( logSigma = iSigma, atanhRho = iRho,
+               sigma = iRho + 1, sigmaSq = iRho + 2, rho = iRho + 3 )
          } else if( outcomeVar == "binary" ) {
             estimation <- tobit2Bfit(YS, XS, YO, XO, start, weights = weightsNoNA,
                                      printLevel=printLevel, ...)

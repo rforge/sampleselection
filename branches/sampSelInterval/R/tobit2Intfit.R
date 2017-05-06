@@ -278,7 +278,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    result$intervals <- intervals
    
    # Calculating sigma, sigmaSq, and rho with standard errors
-   coefAll <- c( result$estimate,
+   result$coefAll <- c( result$estimate,
       sigma = unname( exp( result$estimate[ "logSigma" ] ) ),
       sigmaSq = unname( exp( 2 * result$estimate[ "logSigma" ] ) ),
       rho = unname( tanh( result$estimate[ "atanhRho" ] ) ) )
@@ -290,10 +290,7 @@ tobit2Intfit <- function(YS, XS, YO, XO, boundaries, start = "ml",
    jac[ "logSigma", "sigma" ] <- exp( result$estimate[ "logSigma" ] )
    jac[ "logSigma", "sigmaSq" ] <- 2 * exp( 2 * result$estimate[ "logSigma" ] )
    jac[ "atanhRho", "rho" ] <- 1 + ( tanh( result$estimate[ "atanhRho" ] ) )^2
-   vcovAll <- t( jac ) %*% vcov( result ) %*% jac
-   result$SigmaRho <- coefTable( coefAll,
-      sqrt( diag( vcovAll ) ) )[c("sigma","sigmaSq","rho"),1:2]
-   result$SigmaRho <- cbind(result$SigmaRho, NA, NA)
+   result$vcovAll <- t( jac ) %*% vcov( result ) %*% jac
 
    class( result ) <- c( "selection", class( result ) )
    return( result )

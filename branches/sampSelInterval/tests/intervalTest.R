@@ -43,25 +43,11 @@ print( round( coef( summary( res ) ), 2 ) )
 print( res$start )
 print( summary( res ) )
 
-# add derived coefficients
-coefAll <- c( coef( res ),
-   sigma = unname( exp( coef( res )[ "logSigma" ] ) ),
-   sigmaSq = unname( exp( 2 * coef( res )[ "logSigma" ] ) ),
-   rho = unname( tanh( coef( res )[ "atanhRho" ] ) ) )
-print( round( coefAll, 2 ) )
-
-# jacobian
-jac <- cbind( diag( length( coef( res ) ) ),
-   matrix( 0, length( coef( res ) ), 3 ) )
-rownames( jac ) <- names( coef( res ) )
-colnames( jac ) <- c( names( coef( res ) ), "sigma", "sigmaSq", "rho" )
-jac[ "logSigma", "sigma" ] <- exp( coef( res )[ "logSigma" ] )
-jac[ "logSigma", "sigmaSq" ] <- 2 * exp( 2 * coef( res )[ "logSigma" ] )
-jac[ "atanhRho", "rho" ] <- 1 + ( tanh( coef( res )[ "atanhRho" ] ) )^2
-vcovAll <- t( jac ) %*% vcov( res ) %*% jac
-print( round( vcovAll, 2 ) )
-print( round( cov2cor( vcovAll ), 2 ) )
-print( coefTable( coefAll, sqrt( diag( vcovAll ) ) ) ) 
+# with derived coefficients
+print( round( res$coefAll, 2 ) )
+print( round( res$vcovAll, 2 ) )
+print( round( cov2cor( res$vcovAll ), 2 ) )
+print( coefTable( res$coefAll, sqrt( diag( res$vcovAll ) ) ) ) 
 
 maxLik:::summary.maxLik( res )
 
@@ -94,7 +80,7 @@ for( i in 1:ncol( gradStart ) ) {
 }
 
 # log-likelihood values and their gradients at estimated parameters
-logLikEst <- intLogLik( coef( res ) )
+logLikEst <- intLogLik( coef( res, part = "est" ) )
 print( c( logLikEst ) )
 gradEst <- gradStart <- attr( logLikEst, "gradient" )
 colnames( gradEst ) <- names( start )

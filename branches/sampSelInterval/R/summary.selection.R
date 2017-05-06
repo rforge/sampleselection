@@ -56,7 +56,8 @@ summary.selection <- function(object, ...) {
    s$method <- object$method
    s$activePar <- activePar(object)
    s$intervals <- object$intervals
-   s$SigmaRho <- object$SigmaRho
+   s$coefAll   <- object$coefAll
+   s$vcovAll   <- object$vcovAll
    class( s ) <- c( "summary.selection", class( s ) )
    return( s )
 }
@@ -154,8 +155,7 @@ print.summary.selection <- function(x,
       }
       if(part=="full") {
          cat("   Error terms:\n")
-         printCoefmat( rbind(x$estimate[ x$param$index$errTerms,,drop=FALSE],
-            x$SigmaRho),
+         printCoefmat( x$estimate[ x$param$index$errTerms,,drop=FALSE],
             digits = digits )
       }
 

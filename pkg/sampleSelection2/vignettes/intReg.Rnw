@@ -23,7 +23,7 @@
 \DeclareMathOperator{\artanh}{arctanh}
 
 \title{Interval Regression with Sample Selection}
-\author{G\'eraldine Henningsen, Arne Henningsen, Sebastian Petersen}
+\author{Arne Henningsen, G\'eraldine Henningsen, Sebastian Petersen}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}
@@ -33,7 +33,7 @@
 
 \maketitle
 
-This `vignette' is largely based on \citet{petersen17}. 
+This `vignette' is largely based on \citet*{petersen17}. 
 
 \section{Model Specification}
 
@@ -216,7 +216,7 @@ all.equal( dens, ( 2 * pi * sqrt( 1 - rho^2 ) )^(-1) *
 @
 
 
-\subsection{Gradients with respect to the limits ($x_1$ and $x_2$)}
+\subsection{Gradients with respect to the limits~($x_1$ and~$x_2$)}
 
 \begin{align}
 \frac{\partial \Phi_2 ( x_1, x_2 , \rho )}{\partial x_2} 
@@ -268,9 +268,9 @@ In the following, we will numerically calculate the derivative
 of the cumulative distribution function of the bivaraite normal distribution
 (equation~\ref{eq:biv}) with respect to~$x_2$
 and check wehther this partial derivative
-is equal to the right-hand sides of equations~\ref{eq:derivBivFirst},
-\ref{eq:derivBivCondFinal}, \ref{eq:derivBivCondX2out}, 
-and~\ref{eq:derivBivFinal}:
+is equal to the right-hand sides of equations~(\ref{eq:derivBivFirst}),
+(\ref{eq:derivBivCondFinal}), (\ref{eq:derivBivCondX2out}), 
+and~(\ref{eq:derivBivFinal}):
 <<>>=
 funX2 <- function( a2 ) {
    prob <- pmvnorm( upper = c( x1, a2 ), sigma = sigma )
@@ -315,7 +315,7 @@ all.equal( grad,
 @
 
 
-\subsection{Gradients with respect to the coefficient of correlation ($\rho$)}
+\subsection{Gradients with respect to the coefficient of correlation~($\rho$)}
 
 \begin{align}
 & \frac{\partial \Phi_2 ( x_1, x_2 , \rho )}{\partial \rho} \\
@@ -482,7 +482,7 @@ In the following, we will numerically calculate the derivative
 of the cumulative distribution function of the bivariate normal distribution
 (equation~\ref{eq:derivBivrho_start}) with respect to~$\rho$
 and check whether this partial derivative
-is equal to the right-hand sides of equation~\ref{eq:derivBivrho_final}:
+is equal to the right-hand sides of equation~(\ref{eq:derivBivrho_final}):
 <<>>=
 # Numerical gradient of the PDF w.r.t. rho
 funrho <- function( p ) {
@@ -501,28 +501,28 @@ all.equal( grad,
     (2*(1-rho^2)^(3/2) )) +
     ((rho*efun)/(sqrt(1-rho^2))) ) /
     (2*pi*(1-rho^2)) )
-#Eq29
+@
+<<echo=FALSE>>=
+#Eq??
 all.equal(grad,
     (1/(2*pi)) * (
     ((((-4*rho*(x1^2-2*rho*x1*x2+x2^2)-2*(1-rho^2)*(-2*x1*x2))/(4*(1-rho^2)^2)) * 
             efun * sqrt(1-rho^2))/(1-rho^2)) - 
             ((-(rho/(sqrt(1-rho^2)))*efun)/(1-rho^2))
     ))
-#Eq33
+#Eq??
 all.equal(grad,
     (1/(2*pi)) * 
     ((rho/((1-rho^2)^(3/2))) - ((rho*(x1^2-rho*x1*x2+x2^2)-x1*x2)/
             ((1-rho^2)^(5/2)))) * efun
     )
 
-#Eq34
+#Eq??
 all.equal(grad,
     (1/(2*pi*sqrt(1-rho^2))) * 
     (((rho/(1-rho^2)) - ((rho*(x1^2-rho*x1*x2+x2^2)-x1*x2)/
             ((1-rho^2)^2))) * efun)
     )
-
-
 @
 
 <<>>=
@@ -556,10 +556,10 @@ compDerivRho( x1, x2, 0.98 )
 
 \pagebreak
 \section{Gradients of the Log-Likelihood Function}
-\subsection{Gradients with respect to the parameters in the self-selection 
-decision ($\vec{\beta}^S$)}
+\subsection{Gradients with respect to the parameters of the selection 
+equation~($\vec{\beta}^S$)}
 
-First, we use equation \ref{eq:derivBivFinal}, to determine the derivative of 
+First, we use equation~(\ref{eq:derivBivFinal}), to determine the derivative of 
 the bivariate standard normal distribution with respect to the parameter 
 $\vec{\beta}^S$ as part of the loglikelihood function:
 
@@ -668,12 +668,12 @@ log-likelihood function:
 
 \pagebreak
 
-\subsection{Gradients with respect to the parameters in the outcome decision 
+\subsection{Gradients with respect to the parameters in the outcome equation~%
 ($\vec{\beta}^O$)}
 
 %\frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}{\sigma}
 %{\vec{\beta}^S}' \vec{x}_i^S
-Analogous to $\vec{\beta}^S$ and by using equation \ref{eq:derivBivFinal} we 
+Analogous to $\vec{\beta}^S$ and by using equation~(\ref{eq:derivBivFinal}) we 
 derive the gradient of $\vec{\beta}^O$:
 \begin{align}
 & \frac{\partial \Phi_2 \left( \frac{\alpha_{m} - {\vec{\beta}^O}' \vec{x}_i^O}
@@ -767,7 +767,7 @@ $\vec{\beta}^O$ for the log-likelihood function:
       \left( - \frac{ \vec{x}_i^O }{ \sigma} \right) \nonumber
 \end{align}
 
-\subsection{Gradients with respect to the coefficient of correlation ($\rho$)}
+\subsection{Gradients with respect to the coefficient of correlation~($\rho$)}
 
 Given the result that the derivative of the CDF with respect to $\rho$ is equal 
 to the PDF (see equation \ref{eq:derivBivrho_final}), we can also derive the 
@@ -817,7 +817,7 @@ gradient of the correlation parameter ($\rho$):
 \end{align}
 
 \subsection{Gradients with respect to the standard deviation used for 
-normalisation ($\sigma$)}
+normalisation~($\sigma$)}
 
 Finally, we derive the gradient for $\sigma$ in the same way as we did for
 $\beta^S$ and $\beta^O$:

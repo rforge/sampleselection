@@ -71,7 +71,7 @@ treatReg(selection, outcome,
 \details{
    The dependent variable of of the selection equation
    (specified by argument \code{selection}) must have exactly
-   two levels (e.g. 'FALSE' and 'TRUE', or '0' and '1').
+   two levels (e.g., 'FALSE' and 'TRUE', or '0' and '1').
    By default the levels are sorted in increasing order
    ('FALSE' is before 'TRUE', and '0' is before '1').
    If the dependent variable of the outcome equation
@@ -91,19 +91,20 @@ treatReg(selection, outcome,
 
    For tobit-2 (sample selection) models,
    only those observations are included in the second step estimation
-   (argument 'outcome'), where this variable equals the second element
-   of its levels (e.g. 'TRUE' or '1').  
+   (argument 'outcome'),
+   where the dependent variable variable of the selection equation
+   equals the second element of its levels (e.g., 'TRUE' or '1').  
 
    For tobit-5 (switching regression) models,
    in the second step the first outcome equation
    (first element of argument 'outcome') is estimated
    only for those observations,
-   where this endogenous variable of the selections equation
-   equals the first element of its levels (e.g. 'FALSE' or '0').
+   where the dependent variable of the selection equation
+   equals the first element of its levels (e.g., 'FALSE' or '0').
    The second outcome equation is estimated
    only for those observations,
    where this variable equals the second element of its levels
-   (e.g. 'TRUE' or '1').
+   (e.g., 'TRUE' or '1').
 
   Treatment effect models are a version of tobit-5 models where the two
   outcomes are \dQuote{participation} and \dQuote{non-participation}.
@@ -112,7 +113,7 @@ treatReg(selection, outcome,
   and assumes that the corresponding parameters are equal.  In typical
   treatment effect model the selection outcome variable (participation
   decision) is included as an explanatory variable for the outcome.
-  It this is not done, \code{treatReg} amounts to estimating two
+  If this is not done, \code{treatReg} amounts to estimating two
   equations with correlated error structure.
 
   \code{NA}-s are allowed in the data.  These are ignored if the
@@ -136,7 +137,32 @@ treatReg(selection, outcome,
   Argument \code{maxMethod} (see \code{\link{tobit2fit}}) 
   can be used to chose other algorithms for the maximisation 
   of the (log) likelihood function.
-
+  
+  If argument \code{method} is equal to \code{"ml"} (the default)
+  and argument \code{start} is \code{NULL} (the default),
+  the starting values for the maximum-likelihood (ML) estimation
+  of a tobit-2 or tobit-5 model
+  are obtained by an initial two-step estimation of this model.
+  
+  The two-step estimation of interval-regression models with sample-selection
+  has not yet been implemented.
+  If no starting values for a maximum-likelihood (ML) estimation
+  of an interval-regression model with sample-selection
+  are specified (i.e., argument \code{start} is \code{NULL}, the default),
+  starting values are obtained by an initial estimation of a tobit-2 model,
+  where the dependent variable of the outcome equation
+  is set to the mid points of the boudaries of the intervals.
+  By default, the starting values are obtained
+  by a maximum-likelihood (ML) estimation of the tobit-2 model,
+  whereas the starting values
+  for the maximum-likelihood (ML) estimation of the tobit-2 model
+  are obtained by a 2-step estimation of the tobit-2 model.
+  If argument \code{start} is set to \code{"2step"},
+  the starting values for the maximum-likelihood (ML) estimation
+  of an interval-regression model with sample-selection
+  are directly obtained by a 2-step estimation of the tobit-2 model
+  (i.e., without a subsequent ML estimation of the tobit-2 model).
+  
   Methods that can be applied to objects returned by \code{selection()}
   are described on the help page \code{\link{selection-methods}}.
 }

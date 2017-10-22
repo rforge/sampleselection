@@ -80,4 +80,4 @@ Error in checkModelType(type, selection, outcome) :
 > 
 > proc.time()
    user  system elapsed 
-  2.488   0.084   2.562 
+  3.880   0.104   3.973 

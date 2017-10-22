@@ -7,17 +7,19 @@
   This is the frontend for estimating Heckman-style selection
   models either with
   one or two outcomes (also known as generalized tobit models).  It
-  supports binary outcomes in the single-outcome case.  It also supports
-  normal-distribution based treatment effect models.
+  supports binary outcomes and interval outcomes in the single-outcome case.
+  It also supports normal-distribution based treatment effect models.
 
-  For model specification and more details, see Henningsen and Toomet
-  (2008) and the included vignettes \dQuote{Sample Selection Models} and
+  For model specification and more details, see Toomet and Henningsen
+  (2008) and the included vignettes \dQuote{Sample Selection Models},
+  \dQuote{Interval Regression with Sample Selection}, and
   \dQuote{All-Normal Treatment Effects}.
 }
 
 \usage{
 selection(selection, outcome, data = sys.frame(sys.parent()),
-   weights = NULL, subset, method = "ml", start = NULL, 
+   weights = NULL, subset, method = "ml", start = NULL,
+   boundaries = NULL,
    ys = FALSE, xs = FALSE, yo = FALSE, xo = FALSE,
    mfs = FALSE, mfo = FALSE,
    printLevel = print.level, print.level=0,
@@ -51,6 +53,10 @@ treatReg(selection, outcome,
   \item{start}{vector, initial values for the ML estimation.  If
     \code{start} does not have names, names are constructed based on the
     model frame.}
+  \item{boundaries}{an optional vector of boundaries of the intervals
+      of the dependent variable of the outcome equation
+      for sample selection models with interval regression
+      of the outcome equation.}
   \item{ys, yo, xs, xo, mfs, mfo}{logicals.  If true, the response (\code{y}),
     model matrix (\code{x}) or the model frame (\code{mf})
     of the selection (\code{s}) or outcome
@@ -63,28 +69,42 @@ treatReg(selection, outcome,
     and \code{\link{tobit2Bfit}}.}
 }
 \details{
-   The endogenous variable of the argument 'selection' must have exactly
-   two levels (e.g. 'FALSE' and 'TRUE', or '0' and '1').
+   The dependent variable of of the selection equation
+   (specified by argument \code{selection}) must have exactly
+   two levels (e.g., 'FALSE' and 'TRUE', or '0' and '1').
    By default the levels are sorted in increasing order
-   ('FALSE' is before 'TRUE', and '0' is before '1').  This also applies
-   for the binary outcome equation.  For
-   continuous-oucome cases, the dependent variable(s) should be numeric. 
+   ('FALSE' is before 'TRUE', and '0' is before '1').
+   If the dependent variable of the outcome equation
+   (specified by argument \code{outcome}) has exactly two levels,
+   this variable is modelled as a binary variable.
+   If argument \code{boundaries} is specified,
+   the outcome equation is estimated as interval regression model
+   and the dependent variable of the outcome equation
+   must be a categorical (factor) variable
+   or a variable of strictly positive integer values,
+   whereas the vector specified by argument \code{boundaries}
+   must have one more element than the number of levels
+   or the largest integer, respectively.
+   In all other cases, it is assumed
+   that the dependent variable of the outcome equation is continuous
+   and an ordinary sample selection model is estimated. 
 
    For tobit-2 (sample selection) models,
    only those observations are included in the second step estimation
-   (argument 'outcome'), where this variable equals the second element
-   of its levels (e.g. 'TRUE' or '1').  
+   (argument 'outcome'),
+   where the dependent variable variable of the selection equation
+   equals the second element of its levels (e.g., 'TRUE' or '1').  
 
    For tobit-5 (switching regression) models,
    in the second step the first outcome equation
    (first element of argument 'outcome') is estimated
    only for those observations,
-   where this endogenous variable of the selections equation
-   equals the first element of its levels (e.g. 'FALSE' or '0').
+   where the dependent variable of the selection equation
+   equals the first element of its levels (e.g., 'FALSE' or '0').
    The second outcome equation is estimated
    only for those observations,
    where this variable equals the second element of its levels
-   (e.g. 'TRUE' or '1').
+   (e.g., 'TRUE' or '1').
 
   Treatment effect models are a version of tobit-5 models where the two
   outcomes are \dQuote{participation} and \dQuote{non-participation}.
@@ -93,7 +113,7 @@ treatReg(selection, outcome,
   and assumes that the corresponding parameters are equal.  In typical
   treatment effect model the selection outcome variable (participation
   decision) is included as an explanatory variable for the outcome.
-  It this is not done, \code{treatReg} amounts to estimating two
+  If this is not done, \code{treatReg} amounts to estimating two
   equations with correlated error structure.
 
   \code{NA}-s are allowed in the data.  These are ignored if the
@@ -117,7 +137,32 @@ treatReg(selection, outcome,
   Argument \code{maxMethod} (see \code{\link{tobit2fit}}) 
   can be used to chose other algorithms for the maximisation 
   of the (log) likelihood function.
-
+  
+  If argument \code{method} is equal to \code{"ml"} (the default)
+  and argument \code{start} is \code{NULL} (the default),
+  the starting values for the maximum-likelihood (ML) estimation
+  of a tobit-2 or tobit-5 model
+  are obtained by an initial two-step estimation of this model.
+  
+  The two-step estimation of interval-regression models with sample-selection
+  has not yet been implemented.
+  If no starting values for a maximum-likelihood (ML) estimation
+  of an interval-regression model with sample-selection
+  are specified (i.e., argument \code{start} is \code{NULL}, the default),
+  starting values are obtained by an initial estimation of a tobit-2 model,
+  where the dependent variable of the outcome equation
+  is set to the mid points of the boudaries of the intervals.
+  By default, the starting values are obtained
+  by a maximum-likelihood (ML) estimation of the tobit-2 model,
+  whereas the starting values
+  for the maximum-likelihood (ML) estimation of the tobit-2 model
+  are obtained by a 2-step estimation of the tobit-2 model.
+  If argument \code{start} is set to \code{"2step"},
+  the starting values for the maximum-likelihood (ML) estimation
+  of an interval-regression model with sample-selection
+  are directly obtained by a 2-step estimation of the tobit-2 model
+  (i.e., without a subsequent ML estimation of the tobit-2 model).
+  
   Methods that can be applied to objects returned by \code{selection()}
   are described on the help page \code{\link{selection-methods}}.
 }
@@ -126,7 +171,7 @@ treatReg(selection, outcome,
   If the model estimated by Maximum Likelihood (argument method = "ml"),
   this object is a list, which has all the components of a 'maxLik' object, and in
   addition the elements 'twoStep', 'start, 'param', 'termS', 'termO',
-  'binaryOutcome', and if requested 'ys', 'xs', 'yo', 'xo', 'mfs', and 'mfo'.
+  'outcomeVar', and if requested 'ys', 'xs', 'yo', 'xo', 'mfs', and 'mfo'.
   If a tobit-2 (sample selection) model is estimated by the
   two-step method (argument method = "2step"),
   the returned object is a list with components
@@ -188,8 +233,8 @@ treatReg(selection, outcome,
     the 1st step probit estimation.}
   \item{imrDelta}{the \eqn{\delta}s calculated from the inverse Mills Ratios and
     the results of the 1st step probit estimation.}
-  \item{binaryOutcome}{logical value indicating whether the dependent variable
-    of the outcome equation is binary.}
+  \item{outcomeVar}{character string indicating whether the dependent variable
+    of the outcome equation is \code{"continuous"} or \code{"binary"}.}
 }
 
 \references{
@@ -214,6 +259,12 @@ treatReg(selection, outcome,
   Asymetric covariance matrices of two-stage probit and two-stage tobit
   methods for simultaneous equations models with selectivity.
   \emph{Econometrica}, 48, p. 491-503.
+  
+  Petersen, S., G. Henningsen and A. Henningsen (2017)
+  \emph{Which Households Invest in Energy-Saving Home Improvements?
+  Evidence From a Danish Policy Intervention}.
+  Unpublished Manuscript.
+  Department of Management Engineering, Technical University of Denmark.
 
   Toomet, O. and A. Henningsen, (2008)
   Sample Selection Models in R: Package sampleSelection.

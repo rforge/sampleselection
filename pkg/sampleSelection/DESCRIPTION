@@ -1,9 +1,15 @@
 Package: sampleSelection
-Version: 1.0-5
-Date: 2015-11-03
+Version: 1.2-0
+Date: 2017-05-13
 Title: Sample Selection Models
-Author: Arne Henningsen <arne.henningsen@gmail.com>,
-   Ott Toomet <otoomet@ut.ee>
+Authors@R: c(
+  person( given = "Arne", family = "Henningsen", role = c( "aut", "cre" ),
+    email = "arne.henningsen@gmail.com" ),
+  person( given = "Ott", family = "Toomet", role = "aut" ),
+  person( given = "Sebastian", family = "Petersen", role = "ctb" ) )
+Author: Arne Henningsen [aut, cre],
+  Ott Toomet [aut],
+  Sebastian Petersen [ctb]
 Maintainer: Arne Henningsen <arne.henningsen@gmail.com>
 Depends: R (>= 2.10), maxLik (>= 0.7-3), stats
 Imports: miscTools (>= 0.6-3), systemfit (>= 1.0-0), Formula (>= 1.1-1), 
@@ -12,7 +18,10 @@ Suggests: lmtest, Ecdat
 Description: Two-step
    and maximum likelihood estimation
    of Heckman-type sample selection models:
-   standard sample selection models (Tobit-2)
-   and endogenous switching regression models (Tobit-5).
+   standard sample selection models (Tobit-2),
+   endogenous switching regression models (Tobit-5),
+   sample selection models with binary dependent outcome variable,
+   interval regression with sample selection (only ML estimation),
+   and endogenous treatment effects models.
 License: GPL (>= 2)
 URL: http://www.sampleSelection.org

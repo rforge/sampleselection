@@ -17,7 +17,7 @@ Type 'q()' to quit R.
 
 > 
 > options( digits = 3 )
-> library( "sampleSelection2" )
+> library( "sampleSelection" )
 Loading required package: maxLik
 Loading required package: miscTools
 

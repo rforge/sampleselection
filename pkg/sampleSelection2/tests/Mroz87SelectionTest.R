@@ -1,4 +1,4 @@
-library( "sampleSelection2" )
+library( "sampleSelection" )
 library( "lmtest" )
 data( "Mroz87" )
 options( digits = 3 )

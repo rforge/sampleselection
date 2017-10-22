@@ -1,4 +1,4 @@
-library( "sampleSelection2" )
+library( "sampleSelection" )
 
 # tobit 2
 

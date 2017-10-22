@@ -15,7 +15,7 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library( "sampleSelection2" )
+> library( "sampleSelection" )
 Loading required package: maxLik
 Loading required package: miscTools
 
@@ -50,7 +50,7 @@ Loading required package: splines
 
 Attaching package: 'VGAM'
 
-The following object is masked from 'package:sampleSelection2':
+The following object is masked from 'package:sampleSelection':
 
     probit
 

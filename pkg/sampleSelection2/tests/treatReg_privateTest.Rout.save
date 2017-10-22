@@ -35,7 +35,7 @@ Type 'q()' to quit R.
 +    data.frame(yO, yS, x, z, ySX, u, v)
 + }
 > 
-> library(sampleSelection2)
+> library(sampleSelection)
 Loading required package: maxLik
 Loading required package: miscTools
 

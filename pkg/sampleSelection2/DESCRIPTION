@@ -1,5 +1,5 @@
-Package: sampleSelection2
-Version: 2.0-0
+Package: sampleSelection
+Version: 1.2-0
 Date: 2017-05-13
 Title: Sample Selection Models
 Authors@R: c(

@@ -1007,7 +1007,7 @@ of a tobit-2 model,
 where the dependent variable of the outcome equation
 is set to the mid points of the intervals:
 <<>>=
-library( "sampleSelection2" )
+library( "sampleSelection" )
 res <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound )
 res
 summary( res )

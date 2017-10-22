@@ -1,4 +1,4 @@
-library( "sampleSelection2" )
+library( "sampleSelection" )
 library( "mvtnorm" )
 options( digits = 3 )
 set.seed( 123 )

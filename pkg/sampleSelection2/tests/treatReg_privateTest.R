@@ -18,7 +18,7 @@ DGP <- function(N=1000, sigma=1, rho=0.8,
    data.frame(yO, yS, x, z, ySX, u, v)
 }
 
-library(sampleSelection2)
+library(sampleSelection)
 set.seed(1)
 options(digits=3)
 cat("NA, Inf in data.  Should show 93 observations\n")

@@ -23,7 +23,7 @@
 \DeclareMathOperator{\artanh}{arctanh}
 
 \title{Interval Regression with Sample Selection}
-\author{Arne Henningsen, G\'eraldine Henningsen, Sebastian Petersen}
+\author{Arne Henningsen, Sebastian Petersen, G\'eraldine Henningsen}
 
 \begin{document}
 \SweaveOpts{concordance=TRUE}

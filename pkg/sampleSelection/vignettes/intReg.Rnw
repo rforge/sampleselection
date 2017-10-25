@@ -1072,9 +1072,9 @@ waldtest( SmokeRes1, SmokeRes2 )
 @
 Both tests indicate
 that---at 5\%~significance level---%
-the model with more explanatory variables (\code{SmaokeRes2})
+the model with more explanatory variables (\code{SmokeRes2})
 has significantly higher explanatory power
-than the model with fewer explanatory variables~(\code{SmakeRes1}).
+than the model with fewer explanatory variables~(\code{SmokeRes1}).
 
 
 \bibliographystyle{aer}

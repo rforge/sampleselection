@@ -3,6 +3,7 @@ selection <- function(selection, outcome,
                       weights = NULL,
                       subset,
                       method="ml",
+                      type = NULL,
                       start=NULL,
                       boundaries = NULL,
                       ys=FALSE, xs=FALSE,
@@ -14,6 +15,11 @@ selection <- function(selection, outcome,
    ## selection:   formula
    ##              LHS: must be convertable to two-level factor (e.g. 0-1, 1-2, "A"-"B")
    ##              RHS: ordinary formula as in lm()
+   ## type         model type:
+   ##          2: tobit 2
+   ##          5: tobit 5
+   ##          treatment: spherical treatment model
+   ##          NULL: guess the correct type
    ## outcome:     formula, or a list of two formulas.
    ##              If the outcome contains one formula, it is
    ##              assumed that we observe the formula only if selection equals to the first level
@@ -24,8 +30,10 @@ selection <- function(selection, outcome,
    ##              the model frame of outcome and selection equation(s)
    ## First the consistency checks
    ## ...          additional arguments for tobit2fit and tobit5fit
-   ## 
-   type <- detectModelType(selection, outcome)
+   ##
+   if(is.null(type)) {
+      type <- detectModelType(selection, outcome)
+   }
    checkModelType(type, selection, outcome)
    if(length(outcome) == 1) {
       outcome <- outcome[[1]]

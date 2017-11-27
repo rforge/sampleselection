@@ -13,6 +13,7 @@ treatReg <- function(selection, outcome,
    ## First the consistency checks
    ## ...          additional arguments for tobit2fit and tobit5fit
    res <- selection(selection, outcome, data=data,
+                    type="treatment",
                     mfs=mfs, mfo=mfo,
                     ...)
    return(res)

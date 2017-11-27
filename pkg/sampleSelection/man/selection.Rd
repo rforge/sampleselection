@@ -18,7 +18,9 @@
 
 \usage{
 selection(selection, outcome, data = sys.frame(sys.parent()),
-   weights = NULL, subset, method = "ml", start = NULL,
+   weights = NULL, subset, method = "ml",
+   type = NULL,
+   start = NULL,
    boundaries = NULL,
    ys = FALSE, xs = FALSE, yo = FALSE, xo = FALSE,
    mfs = FALSE, mfo = FALSE,
@@ -50,6 +52,10 @@ treatReg(selection, outcome,
   \item{method}{how to estimate the model.  Either \code{"ml"} for Maximum
     Likelihood, \code{"2step"} for 2-step estimation,
     or \code{"model.frame"} for returning the model frame (only).}
+  \item{type}{model type.  \code{NULL} will automatically detect the
+   type, but one may also manually determine it.  Numeric \sQuote{2} and \sQuote{5} are
+   tobit-2 and tobit-5 models respectively, and character \dQuote{treatment} is treatment
+   effect model.}
   \item{start}{vector, initial values for the ML estimation.  If
     \code{start} does not have names, names are constructed based on the
     model frame.}

@@ -26,7 +26,8 @@
 \newcommand{\var}{\mathrm{Var}\,}
 \renewcommand*{\vec}[1]{\boldsymbol{#1}}
 
-\title{Treatment Effect with Normal Disturbances: \code{treatReg}}
+\title{Treatment Effects with Normal Disturbances with
+  \code{sampleSelection} Package}
 \author{Ott Toomet\\
 University of Washington}
 
@@ -46,28 +47,30 @@ set.seed(0)
 \label{sec:problem}
 
 Recent decades have seen a surge in interest for evidence-based
-policy-making.  This is a welcome trend but it also calls for estimation of
-causal parameters.  Causal parameters can be directly interpreted as ``impact'': how much
-does the variable of interest increase if we change a policy
-parameter?  Unfortunately, such effects are hard to estimate based on
-commonly available data.  The reason is self-selection, the fact that
-these are typically different people who face different policy
-variables.  For instance, workers who sign up for a training program
-may be more motivated or faster learners than those who do not enter
-the program.  And if their post-program outcome-of-interest differs, this just can
-reflect the obvious: different people behave in a different way.
-Unfortunately, the gold standard for measuring
-causal effects, randomized experiments, are often not too expensive,
-or completely unfeasible.  
+policy-making.  This is a welcome trend but it is demanding in terms
+of providing corresponding research-based evidence.  Typically the
+question-of-interest in policy problems are causal effects: how much
+will the variable of interest increase or decrease if we change a
+policy parameter?  Unfortunately, such effects are hard to estimate
+based on commonly available data.  The reasons are related to
+different sample selection effects, the
+fact that these are typically different people or economies that face different
+policy variables.  For instance, workers who sign up for a training
+program may be more motivated or faster learners than those who do not
+enter the program.  And if their post-program outcome-of-interest
+differs, this may just reflect the obvious: different people behave in
+a different way.  Unfortunately, the gold standard for measuring
+causal effects, randomized experiments, are sometimes too expensive and
+sometimes completely unfeasible.
 
-An econometric solution is offered by \citet{heckman1976}.  The paper suggests to
+An econometric solution to these problems is offered by \citet{heckman1976}.  The paper suggests to
 rephrase the model in terms of a latent variable, ``participation
 tendency'', and assumes all the disturbance terms are drawn from a
 common bivariate normal distribution.  Although more recent literature
-shows that these assumptions are often unrealistic, the model remain
+shows that these assumptions are often unrealistic, the model remains
 popular in many applications due to it's simplicity and few additional
-demands on data.  Below, we first describe the model and later
-illustrate it's usage with \texttt{sampleSelection} package.
+demands on data.  Below, we describe the model and later
+illustrate it's usage in \texttt{sampleSelection} package.
 
 
 \section{Treatment Effects with Spherical Disturbances}
@@ -78,7 +81,8 @@ illustrate it's usage with \texttt{sampleSelection} package.
 
 Assume the individual participation and outcome process is described
 by two latent variables: ``participation tendency''
-$y^{s*}$ ($s$ stands for ``selection'') and ``outcome'' $y^{o*}$:
+$y^{s*}$ ($s$ stands for ``selection'' and asterisk $^{*}$ means this
+variables is not directly observed) and ``outcome'' $y^{o*}$:
 \begin{equation}
   \begin{split}
     y_{i}^{s*} &= \alpha_{0} + \vec{\alpha}_{1}' \vec{x}_{i}^{s} 
@@ -90,9 +94,7 @@ $y^{s*}$ ($s$ stands for ``selection'') and ``outcome'' $y^{o*}$:
   \end{split}
   \label{eq:the_model}
 \end{equation}
-where $y^{s} = \indic(y^{s*} > 0)$ is the observable
-participation indicator,
-and $u$ and $v$ are normally distributed disturbance terms:
+where $u$ and $v$ are normally distributed disturbance terms:
 \begin{equation}
   \begin{pmatrix}
     u \\ v
@@ -108,15 +110,20 @@ and $u$ and $v$ are normally distributed disturbance terms:
       \rho\sigma & \sigma^{2}
     \end{pmatrix}
   \right).
+  \label{eq:2dnormal}
 \end{equation}
 $\vec{x}^{s}$ may include variables, not in $\vec{x}^{o}$
 (exclusion restrictions) but it is not necessary.  If participation is
 decided based on outcome (for instance, when individuals select the
 training only if they expect it to pay off), one may also require that $\vec{x}^{s}$ includes
 all the components of $\vec{x}^{o}$.
-We observe the actual participation $y^{s}$ and the outcome $y^{o} =
+
+Instead of the latent participation tendency we observe actual
+participation that occurs if $y^{s*} > 0$, and outcome $y^{o} =
 y^{o*}$.  The
-parameter of interest is $\beta_{2}$.  Note that this specification
+parameter of interest is $\beta_{2}$ that measures how much changes
+$y^{o}$ given someone chooses participation instead of non-participation.
+Note that this specification
 assumes no individual heterogeneity ($\beta_{2}$ is constant
 across individuals).
 
@@ -164,7 +171,7 @@ observed.
 \subsection{Two-Step Solution}
 \label{sec:two-step_solution}
 
-This model can be consistently estimated by a version of
+This model can be estimated by a version of
 \citet{heckman1976} two-step estimator.  
 
 First, the selection process parameters $\vec{\alpha}$ can be consistently estimated
@@ -267,7 +274,7 @@ In either case the estimator for $\rho$ is
 \subsection{Maximum Likelihood Estimation}
 \label{sec:ml_estimation}
 
-The model can also be easily estimated by full Maximum Likelihood.
+The model is straightforward to be estimated by Maximum Likelihood.
 Denote the disturbance vectors by $\vec{u} = (u_{1}, u_{2}, \dots, u_{N})$ and $\vec{v} =
 (v_{1}, v_{2}, \dots, v_{N})$.
 Based on \eqref{eq:the_model}, the likelihood of modeled disturbances can be written as
@@ -283,7 +290,8 @@ Based on \eqref{eq:the_model}, the likelihood of modeled disturbances can be wri
     \Pr(v_{i}|u_{i} > -z_{i}) \Pr(u_{i} > -z_{i})
   \end{split}
 \end{equation}
-Normal density properties tell that
+Using well-known normal density properties, we get from
+\eqref{eq:2dnormal}: 
 \begin{align}
   \label{eq:likelihood}
   \Pr(v_{i}|u_{i} < -z_{i})
@@ -321,20 +329,25 @@ be written based on observables as $v_{i} = y_{i}^{o} -
 \beta_{0} - \vec{\beta}_{1}' \vec{x}_{i}^{o} 
 - \beta_{2} y_{i}^{s}$. 
 Accordingly, we can write the
-model log-likelihood in the model parameters and observed data as
+model log-likelihood in the model parameters $(\alpha_{0},
+\vec{\alpha}_{1}, \beta_{0}, \vec{\beta}_{1}, \beta_{2}, \sigma, \rho)$ 
+and observed data $(\vec{x}, \vec{y})$ as
 \begin{multline}
   \label{eq:log_likelihood}
   \loglik =
   -\frac{N}{2} \log 2\pi 
   - N \log \sigma 
-  - \frac{N}{2} \left( \frac{y_{i}^{o} - 
+  - \frac{1}{2} 
+  \sum_{i=1}^{N} 
+  \left( \frac{y_{i}^{o} - 
 \beta_{0} - \vec{\beta}_{1}' \vec{x}_{i}^{o} 
 - \beta_{2} y_{i}^{s}}{\sigma} \right)^{2}
   +
   \\
   + \sum_{i \in \text{non-participants}}
   \log \Phi \left( 
-    \frac{-z_{i} - \frac{\displaystyle \rho}{\sigma} 
+    \frac{-\alpha_{0} - \vec{\alpha}_{1}' \vec{x}_{i}^{s} 
+      - \frac{\displaystyle \rho}{\sigma} 
       \left( y_{i}^{o} - 
         \beta_{0} - \vec{\beta}_{1}' \vec{x}_{i}^{o} 
         - \beta_{2} y_{i}^{s} \right)}
@@ -344,7 +357,8 @@ model log-likelihood in the model parameters and observed data as
   \\
   + \sum_{i \in \text{non-participants}}
   \log \Phi \left( 
-    -\frac{-z_{i} - \frac{\rho}{\sigma} 
+    -\frac{-\alpha_{0} - \vec{\alpha}_{1}' \vec{x}_{i}^{s} 
+      - \frac{\rho}{\sigma} 
             \left( y_{i}^{o} - 
 \beta_{0} - \vec{\beta}_{1}' \vec{x}_{i}^{o} 
 - \beta_{2} y_{i}^{s} \right)}{\sqrt{1 - \rho^{2}}}
@@ -371,7 +385,12 @@ Technically,
 supports both 2-step and maximum likelihood estimation.  In the
 latter case, 2-step method is used for calculating the
 initial values of parameters
-(unless these are supplied by the user).  
+(unless these are supplied by the user).  The only difference between
+\code{treatReg} and \code{selection} is the default model type: the
+former forces to estimate the treatment effect model, the latter
+detects the model type based on the arguments.  If the outcome
+equation includes the selection outcome as an explanatory variable, it
+estimates treatment effect model.
 
 First we provide a usage example based on random data.  We use highly
 correlated error terms ($\rho=0.8$), and set all the coefficients equal
@@ -406,7 +425,7 @@ Our estimated treatment effect (\code{yS}) is close to 2, instead of
 the correct value 1.  This is because the error terms are highly
 positively correlated---the participants are those who have the
 ``best'' outcomes anyway.  Note that the estimates for the
-intercept and $x$ are wrong too.
+intercept and $x$ are biased too.
 
 Now we estimate the same problem using the correct statistical model
 with \code{treatReg}.  We have to specify two equations: the first
@@ -434,10 +453,11 @@ However, the real life is almost never that easy.  The example above
 involves 
 two advantages not commonly seen in real data: first, 
 the model is correctly specified, and second---the treatment effect is
-extremely strong with $\beta_{2} = \sigma$.
+extremely strong with $\beta_{2} = \sigma$, the disturbance variance
+in the outcome process.
 
-Let us analyze a real dataset (treatment data from library
-\code{Ecdat}).  This includes a US training program data from 1970s.
+Let us analyze real data instead, treatment data from library
+\code{Ecdat}.  This includes a US training program data from 1970s.
 \code{educ} measures education (in years), \code{u74} and \code{u75}
 are unemployment indicators for 1974 and 1975, \code{ethn} is race
 (``black'', ``hispanic'' and ``other'') and \code{re78} measures real

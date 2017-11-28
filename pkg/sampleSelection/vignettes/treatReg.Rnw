@@ -26,7 +26,7 @@
 \newcommand{\var}{\mathrm{Var}\,}
 \renewcommand*{\vec}[1]{\boldsymbol{#1}}
 
-\title{Treatment Effects with Normal Disturbances with
+\title{Treatment Effects with Normal Disturbances in
   \code{sampleSelection} Package}
 \author{Ott Toomet\\
 University of Washington}
@@ -47,21 +47,20 @@ set.seed(0)
 \label{sec:problem}
 
 Recent decades have seen a surge in interest for evidence-based
-policy-making.  This is a welcome trend but it is demanding in terms
-of providing corresponding research-based evidence.  Typically the
-question-of-interest in policy problems are causal effects: how much
+policy-making.  This is a welcome trend but it sets high demands for
+the corresponding evidence.  Typical policy questions---how much
 will the variable of interest increase or decrease if we change a
-policy parameter?  Unfortunately, such effects are hard to estimate
+policy parameter---require estimation of causal effects that are,
+unfortunately, hard to identify
 based on commonly available data.  The reasons are related to
-different sample selection effects, the
-fact that these are typically different people or economies that face different
+sample selection, the
+fact that these are typically different people and different economies that face different
 policy variables.  For instance, workers who sign up for a training
 program may be more motivated or faster learners than those who do not
-enter the program.  And if their post-program outcome-of-interest
+enter the program.  And if their post-program outcome
 differs, this may just reflect the obvious: different people behave in
 a different way.  Unfortunately, the gold standard for measuring
-causal effects, randomized experiments, are sometimes too expensive and
-sometimes completely unfeasible.
+causal effects, randomized experiments, are sometimes too expensive or completely unfeasible.
 
 An econometric solution to these problems is offered by \citet{heckman1976}.  The paper suggests to
 rephrase the model in terms of a latent variable, ``participation
@@ -69,7 +68,7 @@ tendency'', and assumes all the disturbance terms are drawn from a
 common bivariate normal distribution.  Although more recent literature
 shows that these assumptions are often unrealistic, the model remains
 popular in many applications due to it's simplicity and few additional
-demands on data.  Below, we describe the model and later
+demands on data.  Below, we describe the model, and thereafter
 illustrate it's usage in \texttt{sampleSelection} package.
 
 
@@ -81,20 +80,21 @@ illustrate it's usage in \texttt{sampleSelection} package.
 
 Assume the individual participation and outcome process is described
 by two latent variables: ``participation tendency''
-$y^{s*}$ ($s$ stands for ``selection'' and asterisk $^{*}$ means this
-variables is not directly observed) and ``outcome'' $y^{o*}$:
+$y^{s*}$ ($s$ stands for ``selection'' and asterisk $^{*}$ means the
+variable is not directly observed) and ``outcome'' $y^{o}$:
 \begin{equation}
   \begin{split}
     y_{i}^{s*} &= \alpha_{0} + \vec{\alpha}_{1}' \vec{x}_{i}^{s} 
     + u_{i}
     \\
-    y_{i}^{o*} &= \beta_{0} + \vec{\beta}_{1}' \vec{x}_{i}^{o} 
+    y_{i}^{o} &= \beta_{0} + \vec{\beta}_{1}' \vec{x}_{i}^{o} 
     + \beta_{2} y_{i}^{s}
     + v_{i}
   \end{split}
   \label{eq:the_model}
 \end{equation}
-where $u$ and $v$ are normally distributed disturbance terms:
+where $u$ and $v$ are disturbance terms, derived from a bivariate
+normal distribution:
 \begin{equation}
   \begin{pmatrix}
     u \\ v
@@ -112,46 +112,54 @@ where $u$ and $v$ are normally distributed disturbance terms:
   \right).
   \label{eq:2dnormal}
 \end{equation}
-$\vec{x}^{s}$ may include variables, not in $\vec{x}^{o}$
-(exclusion restrictions) but it is not necessary.  If participation is
+$\vec{x}^{s}$ may include exclusion restrictions, variables not in $\vec{x}^{o}$,
+but it is not necessary as the model is also identified based on the
+functional form assumptions only.\footnote{Although formally
+  identified, the estimates are much less precise if we do not include a
+  strong exclusion restriction.}  If participation is
 decided based on outcome (for instance, when individuals select the
-training only if they expect it to pay off), one may also require that $\vec{x}^{s}$ includes
-all the components of $\vec{x}^{o}$.
+training only if they expect it to pay off), one may also want that
+$\vec{x}^{s}$ to include
+all the components of $\vec{x}^{o}$.  However, the general model does
+not require it.
 
-Instead of the latent participation tendency we observe actual
-participation that occurs if $y^{s*} > 0$, and outcome $y^{o} =
-y^{o*}$.  The
-parameter of interest is $\beta_{2}$ that measures how much changes
-$y^{o}$ given someone chooses participation instead of non-participation.
+Instead of the latent participation tendency we observe the actual
+$y^{s}$ participation that occurs if $y^{s*} > 0$: $y^{s} =
+\indic(y^{s*} > 0)$, and outcome $y^{o}$.  The
+parameter of interest is $\beta_{2}$ that measures how much will
+$y^{o}$ rise or fall if someone chooses participation instead of non-participation.
 Note that this specification
-assumes no individual heterogeneity ($\beta_{2}$ is constant
-across individuals).
+assumes no individual heterogeneity: $\beta_{2}$ is constant
+across individuals.
 
-Individuals participate if $y^{s*} > 0$ i.e. $u > - \alpha_{0} -
-\vec{\alpha}_{1}' \vec{x}^{s}$ and hence
-for participants
+Individuals participate if $y^{s} = \indic(y^{s*} > 0) = 1$ i.e. $u > - \alpha_{0} -
+\vec{\alpha}_{1}' \vec{x}^{s}$.  Denote the last expression $z \equiv \alpha_{0} +
+\vec{\alpha}_{1}' \vec{x}^{s}$ for notational simplicity.  
+For participants
 \begin{equation}
   \E [y^{o}|\vec{x}^{o}, y_{i}^{s} = 1]
   = 
   \beta_{0} + \vec{\beta}_{1}' \vec{x}^{o} 
   + \beta_{2}
-  + \E [v|u > - \alpha_{0} -
-  \vec{\alpha}_{1}' \vec{x}^{s}]
+  + \E [v|u > -z]
+  \label{eq:outcomeParticipants}
 \end{equation}
 and for non-participants
 \begin{equation}
   \E [y_{i}^{o}|\vec{x}_{i}, y_{i}^{s} = 0]
   = \beta_{0} + \vec{\beta}_{1}' \vec{x}^{o} 
-  + \E [v|u < - \alpha_{0} -
-  \vec{\alpha}_{1}' \vec{x}^{s}].
+  + \E [v|u < -z].
+  \label{eq:outcomeNonParticipants}
 \end{equation}
 We can identify $\beta_{2}$ in the usual way as
 $\E[y_{i}^{o}|\vec{x}_{i}, y_{i}^{s} = 1] 
 - 
 \E [y_{i}^{o}|\vec{x}_{i},
-y_{i}^{s} = 0]$.
+y_{i}^{s} = 0]$.  However, as the conditional expectations in
+\eqref{eq:outcomeParticipants} and \eqref{eq:outcomeNonParticipants}
+are not 0, OLS estimation will give biased results.
 
-In terms on econometric model, it is a switching regression (tobit-5)
+In econometric classification, it is a switching regression (tobit-5)
 model where:
 \begin{itemize}
 \item Everyone has an observable outcome $y^{o}$.

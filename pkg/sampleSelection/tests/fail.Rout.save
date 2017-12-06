@@ -1,5 +1,5 @@
 
-R version 3.4.0 (2017-04-21) -- "You Stupid Darkness"
+R version 3.4.2 (2017-09-28) -- "Short Summer"
 Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -39,9 +39,8 @@ Error in checkModelType(type, selection, outcome) :
   argument 'selection' must be a 2-sided formula in function 'selection()'
 > 
 > try( selection( s ~ z1, "y ~ x1" ) )
-Error in checkModelType(type, selection, outcome) : 
-  'type' in 'selection()' must be either '2', '5', or 'teatment'
-Currently 0
+Error in detectModelType(selection, outcome) : 
+  argument 'outcome' must be a formula or a list of formulas
 > 
 > try( selection( s ~ z1, ~ x1 ) )
 Error in checkModelType(type, selection, outcome) : 
@@ -80,4 +79,4 @@ Error in checkModelType(type, selection, outcome) :
 > 
 > proc.time()
    user  system elapsed 
-  3.880   0.104   3.973 
+  2.800   0.092   2.886 

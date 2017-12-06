@@ -6,14 +6,15 @@ detectModelType <- function(selection, outcome) {
    type <- 0
    if(inherits(outcome, "formula")) {
       type <- 2
-   }
-   else if(inherits(outcome, "list")) {
+   } else if(inherits(outcome, "list")) {
       if(length(outcome) == 1) {
          outcome <- outcome[[1]]
          type <- 2
-      }
-      else
+      } else {
          type <- 5
+      }
+   } else {
+      stop( "argument 'outcome' must be a formula or a list of formulas")
    }
    ## Now distinguish between 2 and treatment
    if(type == 2) {

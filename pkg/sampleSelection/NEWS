@@ -12,6 +12,11 @@ with normal disturbances
 
 * added vignette "Treatment Effect with Normal Disturbances: treatReg"
 
+* selection() can now estimate sample-selection (tobit-2) models 
+with interval outcome
+
+* added vignette "Interval Regression with Sample Selection"
+
 
    CHANGES IN VERSION 1.0-4 (2015-11-03)
 

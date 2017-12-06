@@ -52,3 +52,23 @@ pc <- predict(m, part="outcome", type="conditional")
 p <- cbind("E[yo]"=pu, pc, "yo"=mf$yO, "ys"=mf$yS)
 print(p[sample(nrow(p), 10),])
 
+
+### some further tests
+# using selection() instead of treatReg()
+ms <- selection( yS ~ x + z, yO ~ yS + x, data = dat, 
+   mfs = TRUE, mfo = TRUE )
+all.equal( m[ names( m ) != "call" ], ms[ names( ms ) != "call" ] )
+# using selection( , type = "treatment" ) instead of treatReg()
+mst <- selection( yS ~ x + z, yO ~ yS + x, data = dat, type = "treatment",
+   mfs = TRUE, mfo = TRUE )
+all.equal( m[ names( m ) != "call" ], ms[ names( ms ) != "call" ] )
+# same treatment variable but a different name in the outcome equation
+dat$yD <- dat$yS
+try( selection( yS ~ x + z, yO ~ yD + x, data = dat ) )
+msD <- selection( yS ~ x + z, yO ~ yD + x, data = dat, type = "treatment",
+   mfs = TRUE, mfo = TRUE )
+all.equal( m[ names( m ) != "call" ], ms[ names( msD ) != "call" ] )
+# estimate the model as tobit-2 model
+try( selection( yS ~ x + z, yO ~ yS + x, data = dat, type = "2" ) )
+try( selection( yS ~ x + z, yO ~ yD + x, data = dat, type = "2" ) )
+

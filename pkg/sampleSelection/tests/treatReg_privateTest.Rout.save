@@ -1,5 +1,5 @@
 
-R version 3.4.0 (2017-04-21) -- "You Stupid Darkness"
+R version 3.4.2 (2017-09-28) -- "Short Summer"
 Copyright (C) 2017 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
@@ -162,6 +162,35 @@ predicted and actual outcomes
 37  1.518     0.8440      2.021  0.998  1
 > 
 > 
+> ### some further tests
+> # using selection() instead of treatReg()
+> ms <- selection( yS ~ x + z, yO ~ yS + x, data = dat, 
++    mfs = TRUE, mfo = TRUE )
+> all.equal( m[ names( m ) != "call" ], ms[ names( ms ) != "call" ] )
+[1] TRUE
+> # using selection( , type = "treatment" ) instead of treatReg()
+> mst <- selection( yS ~ x + z, yO ~ yS + x, data = dat, type = "treatment",
++    mfs = TRUE, mfo = TRUE )
+> all.equal( m[ names( m ) != "call" ], ms[ names( ms ) != "call" ] )
+[1] TRUE
+> # same treatment variable but a different name in the outcome equation
+> dat$yD <- dat$yS
+> try( selection( yS ~ x + z, yO ~ yD + x, data = dat ) )
+Error in mm %*% x$estimate : 
+  requires numeric/complex matrix/vector arguments
+> msD <- selection( yS ~ x + z, yO ~ yD + x, data = dat, type = "treatment",
++    mfs = TRUE, mfo = TRUE )
+> all.equal( m[ names( m ) != "call" ], ms[ names( msD ) != "call" ] )
+[1] TRUE
+> # estimate the model as tobit-2 model
+> try( selection( yS ~ x + z, yO ~ yS + x, data = dat, type = "2" ) )
+Error in mm %*% x$estimate : 
+  requires numeric/complex matrix/vector arguments
+> try( selection( yS ~ x + z, yO ~ yD + x, data = dat, type = "2" ) )
+Error in mm %*% x$estimate : 
+  requires numeric/complex matrix/vector arguments
+> 
+> 
 > proc.time()
    user  system elapsed 
-  2.596   0.068   2.655 
+   8.44    0.12    8.56 

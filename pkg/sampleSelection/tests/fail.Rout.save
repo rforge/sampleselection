@@ -30,6 +30,7 @@ Error in checkModelType(type, selection, outcome) :
   'type' in 'selection()' must be either '2', '5', or 'teatment'
 Currently w
 > 
+> 
 > # tobit 2
 > 
 > try( selection( s ~ z1, y ~ x1 ) )
@@ -118,6 +119,37 @@ a list of two formulas
 Error in checkModelType(type, selection, outcome) : 
   argument 'outcome' must be either a formula or a list of two formulas in function 'selection()'
 > 
+> 
+> # treatment effects models
+> 
+> try( selection( s ~ z1, y1 ~ s + x1, type = "treatment" ) )
+Error in eval(predvars, data, env) : object 's' not found
+> 
+> try( selection( s ~ z1, y1 ~ x1, type = "treatment" ) )
+Error in eval(predvars, data, env) : object 's' not found
+> 
+> try( selection( "s ~ z1", y1 ~ s + x1, type = "treatment" ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'selection' must be a formula in function 'selection()'
+> 
+> try( selection(  ~ z1, y1 ~ s + x1, type = "treatment" ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'selection' must be a 2-sided formula in function 'selection()'
+> 
+> try( selection( s ~ z1, "y1 ~ s + x1", type = "treatment" ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'outcome' must be either a formula or a list of two formulas in function 'selection()'
+> 
+> try( selection( s ~ z1, ~ s + x1, type = "treatment" ) )
+Error in checkModelType(type, selection, outcome) : 
+  argument 'outcome' must be a 2-sided formula in function 'selection()'
+> 
+> try( selection( s ~ z1, list( y1 ~ s + x1, y1 ~ s + x1 ), type = "treatment" ) )
+Error in checkModelType(type, selection, outcome) : 
+  type-2 and treatment models require a single outcome
+in function 'selection()'.  Currently a list of length 2
+> 
+> 
 > proc.time()
    user  system elapsed 
-  3.448   0.120   3.566 
+  2.780   0.044   2.810 

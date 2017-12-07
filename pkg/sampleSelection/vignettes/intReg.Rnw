@@ -12,7 +12,6 @@
 \usepackage[utf8]{inputenc}
 \usepackage{natbib}
 \usepackage{amsmath}
-\usepackage{bbm}
 
 \newcommand{\code}[1]{\texttt{#1}}
 \newcommand{\loglik}{\ell}% log likelihood
@@ -1077,6 +1076,6 @@ has significantly higher explanatory power
 than the model with fewer explanatory variables~(\code{SmokeRes1}).
 
 
-\bibliographystyle{aer}
+\bibliographystyle{apalike}
 \bibliography{selection}
 \end{document}

@@ -60,10 +60,30 @@ US National Health Interview Survey.
 
 \examples{
 data( Smoke )
+# boundaries of the intervals
 bounds <- c(0,5,10,20,50,Inf)
+\dontrun{
+# estimation with starting values obtained by a ML estimation 
+# of a standard tobit-2 model with the dependent variable 
+# of the outcome equation equal to the mid-points of the intervals
 res <- selection( smoker ~ educ + age, cigs_intervals ~ educ, 
-  data = Smoke, boundaries = bounds, start = "2step" )
+  data = Smoke, boundaries = bounds )
 summary( res )
+
+# estimation with starting values obtained by a two-step estimation 
+# of a standard tobit-2 model with the dependent variable 
+# of the outcome equation equal to the mid-points of the intervals
+res2 <- selection( smoker ~ educ + age, cigs_intervals ~ educ, 
+  data = Smoke, boundaries = bounds, start = "2step" )
+summary( res2 )
+}
+
+# estimation with starting values that are very close to the estimates
+# (in order to reduce the execution time of running this example) 
+resS <- selection( smoker ~ educ + age, cigs_intervals ~ educ, 
+  data = Smoke, boundaries = bounds, 
+  start = c( 0.527, -0.0482, -0.0057, 4.23, -0.319, 2.97, 2.245 ) )
+summary( resS )
 }
 
 \keyword{datasets}

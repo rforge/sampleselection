@@ -152,7 +152,14 @@ pData <- pdata.frame( pData, c( "id", "time" ) )
 randEff <- censReg( y ~ x1 + x2, data = pData )
 printAll( "randEff" )
 try( margEff( randEff ) )
-
+# only intercept
+randEffOnlyInt <- censReg( y ~ 1, data = pData )
+printAll( "randEffOnlyInt" )
+# no intercept
+randEffNoInt <- censReg( y ~ x1 -1, data = pData )
+printAll( "randEffNoInt" )
+# neither intercept nor explanatory variables
+try( censReg( y ~ -1, data = pData ) )
 
 ## BHHH method
 randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )

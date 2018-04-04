@@ -1,6 +1,6 @@
 
-R version 3.3.3 (2017-03-06) -- "Another Canoe"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -287,7 +287,217 @@ Log-likelihood: -73.199 on 5 Df
 > try( margEff( randEff ) )
 Error in margEff.censReg(randEff) : 
   the margEff() method for objects of class 'censReg' can not yet be used for panel data models
-> 
+> # only intercept
+> randEffOnlyInt <- censReg( y ~ 1, data = pData )
+> printAll( "randEffOnlyInt" )
+Comparing new object 'randEffOnlyInt' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
+
+Call:
+censReg(formula = y ~ 1, data = pData)
+
+Coefficients:
+(Intercept)  logSigmaMu  logSigmaNu 
+        0.8       -10.7         0.7 
+
+
+Call:
+censReg(formula = y ~ 1, data = pData)
+
+Coefficients:
+(Intercept)     sigmaMu     sigmaNu 
+      8e-01       2e-05       2e+00 
+
+--------------------------------------------
+Maximum Likelihood estimation
+Newton-Raphson maximisation, 8 iterations
+Return code 1: gradient close to zero
+Log-Likelihood: -102.71 
+3  free parameters
+Estimates:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)      0.8        0.3       3   0.004 ** 
+logSigmaMu     -10.7         NA      NA      NA    
+logSigmaNu       0.7        0.1       6   2e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+
+Call:
+censReg(formula = y ~ 1, data = pData)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)      0.8        0.3       3   0.004 ** 
+logSigmaMu     -10.7         NA      NA      NA    
+logSigmaNu       0.7        0.1       6   2e-09 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Newton-Raphson maximisation, 8 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -102.71 on 3 Df
+
+
+Call:
+censReg(formula = y ~ 1, data = pData)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+            Estimate Std. error t value Pr(> t)    
+(Intercept)    8e-01      3e-01       3   0.004 ** 
+sigmaMu        2e-05         NA      NA      NA    
+sigmaNu        2e+00      2e-01       8  <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Newton-Raphson maximisation, 8 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -102.71 on 3 Df
+
+Warning messages:
+1: In sqrt(diag(vc)) : NaNs produced
+2: In sqrt(diag(vc)) : NaNs produced
+3: In sqrt(diag(vc)) : NaNs produced
+4: In sqrt(diag(vc)) : NaNs produced
+5: In sqrt(diag(vc)) : NaNs produced
+6: In sqrt(diag(vc)) : NaNs produced
+7: In sqrt(diag(vc)) : NaNs produced
+8: In sqrt(diag(vc)) : NaNs produced
+9: In sqrt(diag(vc)) : NaNs produced
+10: In sqrt(diag(vc)) : NaNs produced
+> # no intercept
+> randEffNoInt <- censReg( y ~ x1 -1, data = pData )
+> printAll( "randEffNoInt" )
+Comparing new object 'randEffNoInt' to previously saved object...
+   comparing component 'maximum' ... OK
+   comparing component 'estimate' ... OK
+   comparing component 'hessian' ... OK
+   comparing component 'fixed' ... OK
+   comparing component 'type' ... OK
+   comparing component 'gradientObs' ... OK
+   comparing component 'control' ... OK
+   comparing component 'xMean' ... OK
+   comparing component 'call' ... OK
+   comparing component 'terms' ... OK
+   comparing component 'nObs' ... OK
+   comparing component 'df.residual' ... OK
+   comparing component 'start' ... OK
+   comparing component 'left' ... OK
+   comparing component 'right' ... OK
+   comparing method 'Coef' ... OK
+   comparing method 'CoefNoLs' ... OK
+   comparing method 'Vcov' ... OK
+   comparing method 'VcovNoLs' ... OK
+   comparing method 'CoefSum' ... OK
+   comparing method 'CoefSumNoLs' ... OK
+   comparing method 'LogLik' ... OK
+   comparing method 'Nobs' ... OK
+   comparing method 'ExtractAIC' ... OK
+
+Call:
+censReg(formula = y ~ x1 - 1, data = pData)
+
+Coefficients:
+        x1 logSigmaMu logSigmaNu 
+       1.9        0.1        0.2 
+
+
+Call:
+censReg(formula = y ~ x1 - 1, data = pData)
+
+Coefficients:
+     x1 sigmaMu sigmaNu 
+      2       1       1 
+
+--------------------------------------------
+Maximum Likelihood estimation
+Newton-Raphson maximisation, 5 iterations
+Return code 1: gradient close to zero
+Log-Likelihood: -81.186 
+3  free parameters
+Estimates:
+           Estimate Std. error t value Pr(> t)    
+x1              1.9        0.3     7.3   2e-13 ***
+logSigmaMu      0.1        0.2     0.5     0.6    
+logSigmaNu      0.2        0.1     1.6     0.1    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+
+Call:
+censReg(formula = y ~ x1 - 1, data = pData)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+           Estimate Std. error t value Pr(> t)    
+x1              1.9        0.3     7.3   2e-13 ***
+logSigmaMu      0.1        0.2     0.5     0.6    
+logSigmaNu      0.2        0.1     1.6     0.1    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Newton-Raphson maximisation, 5 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -81.186 on 3 Df
+
+
+Call:
+censReg(formula = y ~ x1 - 1, data = pData)
+
+Observations:
+         Total  Left-censored     Uncensored Right-censored 
+            60             20             40              0 
+
+Coefficients:
+        Estimate Std. error t value Pr(> t)    
+x1           1.9        0.3       7   2e-13 ***
+sigmaMu      1.1        0.3       4   6e-05 ***
+sigmaNu      1.2        0.2       8   2e-14 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Newton-Raphson maximisation, 5 iterations
+Return code 1: gradient close to zero
+Log-likelihood: -81.186 on 3 Df
+
+> # neither intercept nor explanatory variables
+> try( censReg( y ~ -1, data = pData ) )
+Error in censReg(y ~ -1, data = pData) : 
+  argument 'formula' seems to have neither an intercept nor any explanatory variables
 > 
 > ## BHHH method
 > randEffBhhh <- censReg( y ~ x1 + x2, data = pData, method = "BHHH" )
@@ -1315,4 +1525,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
-  7.876   0.104   7.991 
+  7.788   0.064   7.851 

@@ -122,7 +122,7 @@ censReg <- function( formula, left = 0, right = Inf,
    if( is.null( start ) ) {
       if( isPanel ) {
          assign( "validObs2", validObs, inherits = TRUE )
-         if( length( attr( terms( formula ), "term.labels" ) ) ) {
+         if( length( attr( terms( formula ), "term.labels" ) ) > 0 ) {
             # Random effects panel model estimation for starting values
             rEff <- plm( formula, data = data, subset = validObs2,
                effect = "individual", model = "random" )

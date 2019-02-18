@@ -1,6 +1,6 @@
 
-R version 3.3.3 (2017-03-06) -- "Another Canoe"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -108,6 +108,8 @@ Names of linear predictors: probit(mu1), probit(mu2), rhobit(rho)
 Log-likelihood: -10858 on 29993 degrees of freedom
 
 Number of iterations: 2 
+
+No Hauck-Donner effect found in any of the estimates
 > 
 > # bivariate probit (NOT using rhobit transformation)
 > bProbit2 <- vglm( cbind( y1, y2 ) ~ x1 + x2, family = binom2.rho(
@@ -144,6 +146,8 @@ Names of linear predictors: probit(mu1), probit(mu2), rho
 Log-likelihood: -10858 on 29993 degrees of freedom
 
 Number of iterations: 2 
+
+No Hauck-Donner effect found in any of the estimates
 > 
 > # inverse Mills Ratios
 > imr  <- invMillsRatio( bProbit )
@@ -595,4 +599,4 @@ F-statistic:  841 on 2 and 5294 DF,  p-value: <2e-16
 > 
 > proc.time()
    user  system elapsed 
- 10.572   0.072  10.742 
+ 10.722   0.153  10.865 

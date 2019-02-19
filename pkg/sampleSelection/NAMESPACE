@@ -47,6 +47,7 @@ importFrom( "stats", "terms" )
 importFrom( "stats", "vcov" )
 importFrom( "systemfit", "systemfit" )
 importFrom( "utils", "tail" )
+importFrom( "VGAM", "predictvglm" )
 importFrom( "VGAM", "rhobit" )
 
 S3method( "coef", "selection" )

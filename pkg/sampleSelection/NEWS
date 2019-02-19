@@ -5,6 +5,12 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
+   CHANGES IN VERSION 1.2-2 (2019-02-19)
+
+* minor adjustments to make this package compatible with version 1.1-1 of the
+VGAM package
+
+
    CHANGES IN VERSION 1.2-0 (2017-12-07)
 
 * added function treatReg() for estimating treatment effect models

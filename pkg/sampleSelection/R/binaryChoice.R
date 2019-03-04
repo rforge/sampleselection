@@ -130,7 +130,7 @@ binaryChoice <- function(formula, subset, na.action,
    }
    Y <- as.integer(Y == YLevels[ 2 ])
                                         # selection will be kept as integer internally
-   X <- model.matrix(mt, mf, contrasts)
+   X <- model.matrix( mt, mf )
    nParam <- ncol( X)
    nObs <- length( Y)
    N1 <- sum(Y == 1)

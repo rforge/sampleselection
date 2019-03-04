@@ -1,6 +1,6 @@
 Package: sampleSelection
-Version: 1.2-3
-Date: 2019-02-19
+Version: 1.2-4
+Date: 2019-03-04
 Title: Sample Selection Models
 Authors@R: c(
   person( given = "Arne", family = "Henningsen", role = c( "aut", "cre" ),

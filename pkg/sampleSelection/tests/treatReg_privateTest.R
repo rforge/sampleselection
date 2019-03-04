@@ -19,6 +19,9 @@ DGP <- function(N=1000, sigma=1, rho=0.8,
 }
 
 library(sampleSelection)
+# the following command makes sure that sample() returns the same pseudo-random
+# numbers in R 3.5.X and in R-devel  
+suppressWarnings( RNGversion( "3.5.0" ) )
 set.seed(1)
 options(digits=3)
 cat("NA, Inf in data.  Should show 93 observations\n")

@@ -1,6 +1,6 @@
 
-R version 3.4.2 (2017-09-28) -- "Short Summer"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -44,6 +44,9 @@ Henningsen, Arne and Toomet, Ott (2011). maxLik: A package for maximum likelihoo
 
 If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
 https://r-forge.r-project.org/projects/maxlik/
+> # the following command makes sure that sample() returns the same pseudo-random
+> # numbers in R 3.5.X and in R-devel  
+> suppressWarnings( RNGversion( "3.5.0" ) )
 > set.seed(1)
 > options(digits=3)
 > cat("NA, Inf in data.  Should show 93 observations\n")
@@ -193,4 +196,4 @@ Error in mm %*% x$estimate :
 > 
 > proc.time()
    user  system elapsed 
-   8.44    0.12    8.56 
+  1.055   0.044   1.093 

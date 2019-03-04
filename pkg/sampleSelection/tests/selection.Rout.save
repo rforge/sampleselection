@@ -1,6 +1,6 @@
 
-R version 3.4.0 (2017-04-21) -- "You Stupid Darkness"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -40,6 +40,9 @@ The following objects are masked from 'package:base':
 > vc <- diag(3)
 > vc[lower.tri(vc)] <- c(0.9, 0.5, 0.6)
 > vc[upper.tri(vc)] <- vc[lower.tri(vc)]
+> # the following command makes sure that sample() returns the same pseudo-random
+> # numbers in R 3.5.X and in R-devel  
+> suppressWarnings( RNGversion( "3.5.0" ) )
 > set.seed(1)
 > ## ------- Tobit-5 example ---------
 > eps <- rmvnorm( N, rep(0, 3), vc )
@@ -75126,4 +75129,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
- 20.052   0.784  21.008 
+  5.251   0.952   6.198 

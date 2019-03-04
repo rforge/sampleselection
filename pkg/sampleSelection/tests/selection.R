@@ -7,6 +7,9 @@ NNA <- 5
 vc <- diag(3)
 vc[lower.tri(vc)] <- c(0.9, 0.5, 0.6)
 vc[upper.tri(vc)] <- vc[lower.tri(vc)]
+# the following command makes sure that sample() returns the same pseudo-random
+# numbers in R 3.5.X and in R-devel  
+suppressWarnings( RNGversion( "3.5.0" ) )
 set.seed(1)
 ## ------- Tobit-5 example ---------
 eps <- rmvnorm( N, rep(0, 3), vc )

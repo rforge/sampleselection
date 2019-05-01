@@ -54,16 +54,6 @@ print( resMl$start )
 print( summary( resMl ) )
 
 
-# tests with automatically generated starting values (2-step estimation)
-res2s <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
-   start = "2step", printLevel = 1 )
-print( res2s )
-print( round( coef( res2s ), 2 ) )
-print( round( coef( summary( res2s ) ), 2 ) )
-print( res2s$start )
-print( summary( res2s ) )
-
-
 # tests with incorrectly specified starting values
 try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound, 
    start = "wrong" ) )
@@ -75,25 +65,3 @@ try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 1:6,
    start = start ) )
 try( selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = 4:1, 
    start = start ) )
-
-
-### tests with Smoke data
-data(Smoke)
-
-## tests with different specifications
-bounds <- c(0,5,10,20,50,Inf)
-
-# test with low number of variables
-Smoke_spec1 <- selection( smoker ~ educ + age, 
-   cigs_intervals ~ educ, data = Smoke, boundaries = bounds,
-  start = "2step" )
-
-# test with more variables
-Smoke_spec2 <- selection( smoker ~ educ + age + restaurn, 
-   cigs_intervals ~ educ + income + restaurn, data = Smoke, 
-  boundaries = bounds, start = "2step")
-
-# testing models against each other
-library( "lmtest" )
-lrtest(Smoke_spec1, Smoke_spec2)
-waldtest(Smoke_spec1, Smoke_spec2)

@@ -1,6 +1,6 @@
 
-R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
-Copyright (C) 2019 The R Foundation for Statistical Computing
+R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -2448,6 +2448,329 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > all.equal( logLik( ss ), logLik( ssBFGS ), tol = 1e-3 )
 [1] TRUE
 > 
+> # BHHH estimation with equal weights
+> simDat$we <- rep( 0.7, N )
+> ssWe <- selection( ys ~ xs, yo ~ xo, weights = simDat$we, data = simDat,
++    steptol = 1e-12 )
+> summary( ssWe )
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 11 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -279 
+500 observations (74 censored and 426 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -0.122      0.185   -0.66     0.51    
+xs             3.329      0.561    5.93  5.6e-09 ***
+Outcome equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -1.055      0.173   -6.10  2.2e-09 ***
+xo             1.987      0.325    6.11  2.0e-09 ***
+   Error terms:
+    Estimate Std. Error t value Pr(>|t|)    
+rho    0.817      0.202    4.04  6.2e-05 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal( coef( ssWe ), coef( ss ), tol = 1e-2 )
+[1] TRUE
+> 
+> # BHHH estimation with equal weights
+> ssWeBFGS <- selection( ys ~ xs, yo ~ xo, weights = simDat$we,
++    data = simDat, maxMethod = "BFGS" )
+> summary( ssWeBFGS )
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BFGS maximization, 55 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -279 
+500 observations (74 censored and 426 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -0.122      0.158   -0.77     0.44    
+xs             3.329      0.474    7.02  7.2e-12 ***
+Outcome equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -1.055      0.145   -7.25  1.6e-12 ***
+xo             1.987      0.278    7.16  2.9e-12 ***
+   Error terms:
+    Estimate Std. Error t value Pr(>|t|)    
+rho    0.817      0.173    4.72  3.1e-06 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal( coef( ssWeBFGS ), coef( ssBFGS ), tol = 1e-2 )
+[1] TRUE
+> 
+> # BHHH estimation with unequal weights
+> simDat$wu <- 2 * runif( N )
+> ssWu <- selection( ys ~ xs, yo ~ xo, weights = simDat$wu, data = simDat )
+> summary( ssWu )
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 11 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -396 
+500 observations (74 censored and 426 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -0.112      0.103   -1.09     0.27    
+xs             3.360      0.275   12.21   <2e-16 ***
+Outcome equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -1.070      0.106   -10.1   <2e-16 ***
+xo             1.994      0.185    10.8   <2e-16 ***
+   Error terms:
+    Estimate Std. Error t value Pr(>|t|)    
+rho   0.9535     0.0553    17.2   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
+> # BFGS estimation with unequal weights
+> ssWuBFGS <- selection( ys ~ xs, yo ~ xo, weights = simDat$wu,
++    data = simDat, maxMethod = "BFGS" )
+> summary( ssWuBFGS )
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BFGS maximization, 43 iterations
+Return code 0: successful convergence 
+Log-Likelihood: -396 
+500 observations (74 censored and 426 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -0.113      0.119   -0.94     0.35    
+xs             3.361      0.369    9.12   <2e-16 ***
+Outcome equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -1.070      0.120   -8.92   <2e-16 ***
+xo             1.995      0.216    9.23   <2e-16 ***
+   Error terms:
+    Estimate Std. Error t value Pr(>|t|)    
+rho   0.9535     0.0451    21.2   <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal( coef( ssWuBFGS ), coef( ssWu ), tol = 1e-2 )
+[1] TRUE
+> 
+> # comparison of estimated coefficients, standard errors, and logLik values
+> round( rbind( coef( ss ), coef( ssBFGS ), coef( ssWe ), coef( ssWeBFGS ),
++    coef( ssWu ), coef( ssWuBFGS ) ), 3 )
+     (Intercept)   xs (Intercept)   xo   rho
+[1,]      -0.122 3.33       -1.05 1.99 0.817
+[2,]      -0.122 3.33       -1.05 1.99 0.817
+[3,]      -0.122 3.33       -1.05 1.99 0.817
+[4,]      -0.122 3.33       -1.05 1.99 0.817
+[5,]      -0.112 3.36       -1.07 1.99 0.954
+[6,]      -0.113 3.36       -1.07 2.00 0.953
+> round( rbind( coef( summary( ss ) )[ , 2 ], coef( summary( ssBFGS ) )[ , 2 ],
++    coef( summary( ssWe ) )[ , 2 ], coef( summary( ssWeBFGS ) )[ , 2 ],
++    coef( summary( ssWu ) )[ , 2 ], coef( summary( ssWuBFGS ) )[ , 2 ] ), 3 )
+     (Intercept)    xs (Intercept)    xo   rho
+[1,]       0.130 0.393       0.121 0.228 0.141
+[2,]       0.132 0.397       0.122 0.232 0.145
+[3,]       0.185 0.561       0.173 0.325 0.202
+[4,]       0.158 0.474       0.145 0.278 0.173
+[5,]       0.103 0.275       0.106 0.185 0.055
+[6,]       0.119 0.369       0.120 0.216 0.045
+> print( rbind( logLik( ss ), logLik( ssBFGS ), logLik( ssWe ),
++    logLik( ssWeBFGS ), logLik( ssWu ), logLik( ssWuBFGS ) ), digits = 6 )
+         [,1]
+[1,] -398.191
+[2,] -398.191
+[3,] -278.734
+[4,] -278.734
+[5,] -395.657
+[6,] -395.657
+> 
+> # binary outcome NA if unobserved
+> simDat$yo[ !simDat$ys ] <- NA
+> print(table(simDat$ys, simDat$yo, exclude=NULL))
+       
+          0   1 <NA>
+  FALSE   0   0   74
+  TRUE  202 224    0
+> ssN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
+> print(summary(ssN))
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 6 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -398 
+500 observations (74 censored and 426 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -0.122      0.130   -0.94     0.35    
+xs             3.329      0.393    8.48  2.7e-16 ***
+Outcome equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -1.055      0.121   -8.71   <2e-16 ***
+xo             1.987      0.228    8.73   <2e-16 ***
+   Error terms:
+    Estimate Std. Error t value Pr(>|t|)    
+rho    0.817      0.141    5.77  1.4e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal(ss,ssN)
+[1] TRUE
+> 
+> # binary outcome logical
+> simDat$yo <- simDat$yoX > 0 & simDat$ys
+> print(table(simDat$ys, simDat$yo, exclude=NULL))
+       
+        FALSE TRUE
+  FALSE    74    0
+  TRUE    202  224
+> ssL <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
+> print(summary(ssL))
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 6 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -398 
+500 observations (74 censored and 426 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -0.122      0.130   -0.94     0.35    
+xs             3.329      0.393    8.48  2.7e-16 ***
+Outcome equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -1.055      0.121   -8.71   <2e-16 ***
+xo             1.987      0.228    8.73   <2e-16 ***
+   Error terms:
+    Estimate Std. Error t value Pr(>|t|)    
+rho    0.817      0.141    5.77  1.4e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal(ss,ssL)
+[1] "Component \"twoStep\": Component \"lm\": Component \"model\": Attributes: < Component \"row.names\": Modes: numeric, character >"              
+[2] "Component \"twoStep\": Component \"lm\": Component \"model\": Attributes: < Component \"row.names\": target is numeric, current is character >"
+[3] "Component \"twoStep\": Component \"lm\": Component \"model\": Component \"YO\": Modes: numeric, logical"                                       
+[4] "Component \"twoStep\": Component \"lm\": Component \"model\": Component \"YO\": names for current but not for target"                          
+[5] "Component \"twoStep\": Component \"lm\": Component \"model\": Component \"YO\": target is numeric, current is logical"                         
+> 
+> # binary outcome logical and NA if unobserved
+> simDat$yo[ !simDat$ys ] <- NA
+> print(table(simDat$ys, simDat$yo, exclude=NULL))
+       
+        FALSE TRUE <NA>
+  FALSE     0    0   74
+  TRUE    202  224    0
+> ssLN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
+> print(summary(ssLN))
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 6 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -398 
+500 observations (74 censored and 426 observed)
+5 free parameters (df = 495)
+Probit selection equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -0.122      0.130   -0.94     0.35    
+xs             3.329      0.393    8.48  2.7e-16 ***
+Outcome equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -1.055      0.121   -8.71   <2e-16 ***
+xo             1.987      0.228    8.73   <2e-16 ***
+   Error terms:
+    Estimate Std. Error t value Pr(>|t|)    
+rho    0.817      0.141    5.77  1.4e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> all.equal(ssL,ssLN)
+[1] TRUE
+> 
+> # only intercept in outcome equation
+> ssNo <- selection( ys ~ xs, yo ~ 1, data = simDat )
+> print( summary( ssNo ) )
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 6 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -444 
+500 observations (74 censored and 426 observed)
+4 free parameters (df = 496)
+Probit selection equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -0.116      0.132   -0.88     0.38    
+xs             3.286      0.399    8.24  1.5e-15 ***
+Outcome equation:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)  -0.0699     0.0710   -0.98     0.33
+   Error terms:
+    Estimate Std. Error t value Pr(>|t|)    
+rho    0.673      0.192     3.5  0.00051 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+> 
+> # only intercept in selection equation
+> ssNs <- selection( ys ~ 1, yo ~ xo, data = simDat,
++    start = c( 0, -1, 2, 0.5 ) )
+> print( summary( ssNs ) )
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 5 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -460 
+500 observations (74 censored and 426 observed)
+4 free parameters (df = 496)
+Probit selection equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   1.0450     0.0687    15.2   <2e-16 ***
+Outcome equation:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   -1.045      0.173   -6.04  3.1e-09 ***
+xo             2.014      1.406    1.43     0.15    
+   Error terms:
+    Estimate Std. Error t value Pr(>|t|)
+rho    0.532      3.151    0.17     0.87
+--------------------------------------------
+> 
+> # only intercept in both equations
+> ssNso <- selection( ys ~ 1, yo ~ 1, data = simDat,
++    start = c( 0, -1, 0.5 ) )
+> print( summary( ssNso ) )
+--------------------------------------------
+Tobit 2 model with binary outcome (sample selection model)
+Maximum Likelihood estimation
+BHHH maximisation, 5 iterations
+Return code 1: gradient close to zero
+Log-Likelihood: -504 
+500 observations (74 censored and 426 observed)
+3 free parameters (df = 497)
+Probit selection equation:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)     1.05        Inf       0        1
+Outcome equation:
+            Estimate Std. Error t value Pr(>|t|)
+(Intercept)   -0.117        Inf       0        1
+   Error terms:
+    Estimate Std. Error t value Pr(>|t|)
+rho    0.749        Inf       0        1
+--------------------------------------------
+> 
 > proc.time()
    user  system elapsed 
-  4.503   0.088   4.610 
+  23.16    0.19   23.35 

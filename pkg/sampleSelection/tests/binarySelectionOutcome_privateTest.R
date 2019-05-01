@@ -82,3 +82,71 @@ all.equal( model.matrix( ss, part = "selection" ),
    model.matrix( ssBFGS, part = "selection" ) )
 all.equal( model.matrix( ssBFGS ), model.matrix( ssBFGS, part = "outcome" ) )
 all.equal( logLik( ss ), logLik( ssBFGS ), tol = 1e-3 )
+
+# BHHH estimation with equal weights
+simDat$we <- rep( 0.7, N )
+ssWe <- selection( ys ~ xs, yo ~ xo, weights = simDat$we, data = simDat,
+   steptol = 1e-12 )
+summary( ssWe )
+all.equal( coef( ssWe ), coef( ss ), tol = 1e-2 )
+
+# BHHH estimation with equal weights
+ssWeBFGS <- selection( ys ~ xs, yo ~ xo, weights = simDat$we,
+   data = simDat, maxMethod = "BFGS" )
+summary( ssWeBFGS )
+all.equal( coef( ssWeBFGS ), coef( ssBFGS ), tol = 1e-2 )
+
+# BHHH estimation with unequal weights
+simDat$wu <- 2 * runif( N )
+ssWu <- selection( ys ~ xs, yo ~ xo, weights = simDat$wu, data = simDat )
+summary( ssWu )
+
+# BFGS estimation with unequal weights
+ssWuBFGS <- selection( ys ~ xs, yo ~ xo, weights = simDat$wu,
+   data = simDat, maxMethod = "BFGS" )
+summary( ssWuBFGS )
+all.equal( coef( ssWuBFGS ), coef( ssWu ), tol = 1e-2 )
+
+# comparison of estimated coefficients, standard errors, and logLik values
+round( rbind( coef( ss ), coef( ssBFGS ), coef( ssWe ), coef( ssWeBFGS ),
+   coef( ssWu ), coef( ssWuBFGS ) ), 3 )
+round( rbind( coef( summary( ss ) )[ , 2 ], coef( summary( ssBFGS ) )[ , 2 ],
+   coef( summary( ssWe ) )[ , 2 ], coef( summary( ssWeBFGS ) )[ , 2 ],
+   coef( summary( ssWu ) )[ , 2 ], coef( summary( ssWuBFGS ) )[ , 2 ] ), 3 )
+print( rbind( logLik( ss ), logLik( ssBFGS ), logLik( ssWe ),
+   logLik( ssWeBFGS ), logLik( ssWu ), logLik( ssWuBFGS ) ), digits = 6 )
+
+# binary outcome NA if unobserved
+simDat$yo[ !simDat$ys ] <- NA
+print(table(simDat$ys, simDat$yo, exclude=NULL))
+ssN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
+print(summary(ssN))
+all.equal(ss,ssN)
+
+# binary outcome logical
+simDat$yo <- simDat$yoX > 0 & simDat$ys
+print(table(simDat$ys, simDat$yo, exclude=NULL))
+ssL <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
+print(summary(ssL))
+all.equal(ss,ssL)
+
+# binary outcome logical and NA if unobserved
+simDat$yo[ !simDat$ys ] <- NA
+print(table(simDat$ys, simDat$yo, exclude=NULL))
+ssLN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
+print(summary(ssLN))
+all.equal(ssL,ssLN)
+
+# only intercept in outcome equation
+ssNo <- selection( ys ~ xs, yo ~ 1, data = simDat )
+print( summary( ssNo ) )
+
+# only intercept in selection equation
+ssNs <- selection( ys ~ 1, yo ~ xo, data = simDat,
+   start = c( 0, -1, 2, 0.5 ) )
+print( summary( ssNs ) )
+
+# only intercept in both equations
+ssNso <- selection( ys ~ 1, yo ~ 1, data = simDat,
+   start = c( 0, -1, 0.5 ) )
+print( summary( ssNso ) )

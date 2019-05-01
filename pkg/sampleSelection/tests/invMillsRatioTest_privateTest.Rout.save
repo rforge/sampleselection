@@ -1,6 +1,6 @@
 
-R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
-Copyright (C) 2019 The R Foundation for Statistical Computing
+R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
+Copyright (C) 2018 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -109,8 +109,47 @@ Number of Fisher scoring iterations: 2
 No Hauck-Donner effect found in any of the estimates
 
 > 
+> # bivariate probit (NOT using rhobit transformation)
+> bProbit2 <- vglm( cbind( y1, y2 ) ~ x1 + x2, family = binom2.rho(
++    lrho = "identitylink" ), data = myData )
+> summary( bProbit2 )
+
+Call:
+vglm(formula = cbind(y1, y2) ~ x1 + x2, family = binom2.rho(lrho = "identitylink"), 
+    data = myData)
+
+Pearson residuals:
+                  Min     1Q Median    3Q  Max
+probitlink(mu1) -6.97 -0.889  0.438 0.753 2.74
+probitlink(mu2) -5.64 -0.671 -0.180 0.677 7.62
+rho             -8.80 -0.602  0.245 0.519 9.23
+
+Coefficients: 
+              Estimate Std. Error z value Pr(>|z|)    
+(Intercept):1   0.3031     0.0134   22.70  < 2e-16 ***
+(Intercept):2  -0.1004     0.0141   -7.14  9.6e-13 ***
+(Intercept):3   0.5023     0.0149   33.62  < 2e-16 ***
+x1:1            0.4050     0.0142   28.57  < 2e-16 ***
+x1:2            0.5743     0.0158   36.31  < 2e-16 ***
+x2:1            0.3108     0.0137   22.70  < 2e-16 ***
+x2:2            0.6796     0.0162   41.87  < 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Names of linear predictors: probitlink(mu1), probitlink(mu2), rho
+
+Log-likelihood: -10858 on 29993 degrees of freedom
+
+Number of Fisher scoring iterations: 2 
+
+No Hauck-Donner effect found in any of the estimates
+
+> 
 > # inverse Mills Ratios
 > imr  <- invMillsRatio( bProbit )
+> imr2 <- invMillsRatio( bProbit2 )
+> all.equal( imr, imr2, tolerance = .Machine$double.eps ^ 0.25)
+[1] TRUE
 > 
 > # tests
 > # E[ e0 | y1* > 0 & y2* > 0 ]
@@ -556,4 +595,4 @@ F-statistic:  841 on 2 and 5294 DF,  p-value: <2e-16
 > 
 > proc.time()
    user  system elapsed 
-  7.136   0.108   7.238 
+ 12.714   0.108  12.816 

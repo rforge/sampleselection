@@ -43,8 +43,15 @@ bProbit <- vglm( cbind( y1, y2 ) ~ x1 + x2, family = binom2.rho,
    data = myData )
 summary( bProbit )
 
+# bivariate probit (NOT using rhobit transformation)
+bProbit2 <- vglm( cbind( y1, y2 ) ~ x1 + x2, family = binom2.rho(
+   lrho = "identitylink" ), data = myData )
+summary( bProbit2 )
+
 # inverse Mills Ratios
 imr  <- invMillsRatio( bProbit )
+imr2 <- invMillsRatio( bProbit2 )
+all.equal( imr, imr2, tolerance = .Machine$double.eps ^ 0.25)
 
 # tests
 # E[ e0 | y1* > 0 & y2* > 0 ]

@@ -13,7 +13,7 @@ Author: Arne Henningsen [aut, cre],
 Maintainer: Arne Henningsen <arne.henningsen@gmail.com>
 Depends: R (>= 2.10), maxLik (>= 0.7-3), stats
 Imports: miscTools (>= 0.6-3), systemfit (>= 1.0-0), Formula (>= 1.1-1), 
-   VGAM (>= 0.9-4), mvtnorm (>= 0.9-9994)
+   VGAM (>= 1.1-1), mvtnorm (>= 0.9-9994)
 Suggests: lmtest, Ecdat
 Description: Two-step
    and maximum likelihood estimation

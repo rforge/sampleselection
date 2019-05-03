@@ -5,10 +5,13 @@ A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
 
-   CHANGES IN VERSION 1.2-4 (2019-03-04)
+   CHANGES IN VERSION 1.2-6 (2019-05-03)
 
 * fixed a problem in the code that did not affect any results but that gave 
 a warning message when it was run with the latest R-devel version
+
+* internal changes to make the sampleSelection package compatible with future 
+versions of the VGAM package
 
 
    CHANGES IN VERSION 1.2-2 (2019-02-19)

@@ -133,11 +133,12 @@ assumes no individual heterogeneity: $\beta_{2}$ is constant
 across individuals.
 
 Individuals participate if $y^{s} = \indic(y^{s*} > 0) = 1$ i.e. $u > - \alpha_{0} -
-\vec{\alpha}_{1}' \vec{x}^{s}$.  Denote the last expression $z \equiv \alpha_{0} +
-\vec{\alpha}_{1}' \vec{x}^{s}$ for notational simplicity.  
+\vec{\alpha}_{1}' \vec{x}^{s}$.  Denote $z \equiv \alpha_{0} +
+\vec{\alpha}_{1}' \vec{x}^{s}$ for notational simplicity, hence the participation condition 
+can be written as $y^{s} = \indic(u > -z)$.
 For participants
 \begin{equation}
-  \E [y^{o}|\vec{x}^{o}, y_{i}^{s} = 1]
+  \E [y^{o}|\vec{x}^{o}, y^{s} = 1]
   = 
   \beta_{0} + \vec{\beta}_{1}' \vec{x}^{o} 
   + \beta_{2}
@@ -146,7 +147,7 @@ For participants
 \end{equation}
 and for non-participants
 \begin{equation}
-  \E [y_{i}^{o}|\vec{x}_{i}, y_{i}^{s} = 0]
+  \E [y^{o}|\vec{x}, y^{s} = 0]
   = \beta_{0} + \vec{\beta}_{1}' \vec{x}^{o} 
   + \E [v|u < -z].
   \label{eq:outcomeNonParticipants}
@@ -186,9 +187,7 @@ First, the selection process parameters $\vec{\alpha}$ can be consistently estim
 by standard probit model, and hence we can compute estimated values
 $\hat z_{i}$, the estimates for the true $z_{i}$.
 
-Next, denote 
-$z = \alpha_{0} + \vec{\alpha}_{1}' \vec{x}^{s}$.
-From normal
+Next, from normal
 density properties we know that
 \begin{equation}
   \E [v|u > -z]
@@ -289,7 +288,7 @@ In either case the estimator for $\rho$ is
 \subsection{Maximum Likelihood Estimation}
 \label{sec:ml_estimation}
 
-The model is straightforward to be estimated with Maximum Likelihood.
+It is straightforward to use Maximum Likelihood for this model.
 Denote the disturbance vectors by $\vec{u} = (u_{1}, u_{2}, \dots, u_{N})$ and $\vec{v} =
 (v_{1}, v_{2}, \dots, v_{N})$.
 Based on \eqref{eq:the_model}, the likelihood of modeled disturbances can be written as
@@ -306,6 +305,7 @@ Based on \eqref{eq:the_model}, the likelihood of modeled disturbances can be wri
   \end{split}
 \end{equation}
 Using well-known normal density properties, we get from
+% a citation would be good here ....
 \eqref{eq:2dnormal}: 
 \begin{align}
   \label{eq:likelihood}
@@ -369,7 +369,7 @@ and observed data $(\vec{x}, \vec{y})$ as
   \right)
   +
   \\
-  + \sum_{i \in \text{non-participants}}
+  + \sum_{i \in \text{participants}}
   \log \Phi \left( 
     -\frac{-\alpha_{0} - \vec{\alpha}_{1}' \vec{x}_{i}^{s} 
       - \frac{\rho}{\sigma} 
@@ -425,7 +425,7 @@ z <- rnorm(N)
 ySX <- -1 + x + z + u      # unobserved participation tendency
 yS <- ySX > 0              # observed participation
 yO <- x + yS + v
-dat <- data.frame(yO, yS, x, z, ySX, u, v)
+dat <- data.frame(yO, yS, x, z)
 @ 
 The code generates two correlated random variables, $u$ and $v$
 (using \code{rmvnorm}).  It also creates an explanatory variable $x$

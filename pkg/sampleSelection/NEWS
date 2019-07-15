@@ -4,6 +4,12 @@ Please note that only the most significant changes are reported here.
 A full ChangeLog is available in the log messages of the SVN repository
 on R-Forge.
 
+   CHANGES IN VERSION 1.2-8 (2019-07-15)
+
+* fixed a type in treatReg.pdf vignette
+
+* internal change: selection.R test gives fewer notes
+
 
    CHANGES IN VERSION 1.2-6 (2019-05-03)
 

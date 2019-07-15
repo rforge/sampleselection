@@ -361,7 +361,7 @@ and observed data $(\vec{x}, \vec{y})$ as
   + \sum_{i \in \text{non-participants}}
   \log \Phi \left( 
     \frac{-\alpha_{0} - \vec{\alpha}_{1}' \vec{x}_{i}^{s} 
-      - \frac{\displaystyle \rho}{\sigma} 
+      - \displaystyle\frac{\rho}{\sigma} 
       \left( y_{i}^{o} - 
         \beta_{0} - \vec{\beta}_{1}' \vec{x}_{i}^{o} 
         - \beta_{2} y_{i}^{s} \right)}
@@ -372,7 +372,7 @@ and observed data $(\vec{x}, \vec{y})$ as
   + \sum_{i \in \text{participants}}
   \log \Phi \left( 
     -\frac{-\alpha_{0} - \vec{\alpha}_{1}' \vec{x}_{i}^{s} 
-      - \frac{\rho}{\sigma} 
+      - \displaystyle\frac{\rho}{\sigma} 
             \left( y_{i}^{o} - 
 \beta_{0} - \vec{\beta}_{1}' \vec{x}_{i}^{o} 
 - \beta_{2} y_{i}^{s} \right)}{\sqrt{1 - \rho^{2}}}

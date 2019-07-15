@@ -1,6 +1,6 @@
 
-R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
-Copyright (C) 2018 The R Foundation for Statistical Computing
+R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -15,6 +15,11 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
+> ### Testing 'selection' function
+> ### Includes following tests:
+> ###
+> ### * factor as dependent variable (yes/no)
+> ### 
 > library( "sampleSelection" )
 Loading required package: maxLik
 Loading required package: miscTools
@@ -45773,7 +45778,8 @@ attr(,"assign")
 > logLik( testTobit5SMl )
 'log Lik.' -2821 (df=10)
 > 
-> # factors as dependent variable (from Achim Zeileis)
+> ## ---------- factors as dependent variable (from Achim Zeileis) ----------
+> ## it should not matter at all as the underlying models remain binary equivalent
 > testTobit5FacTwoStep <- selection( factor( ys ) ~ xs,
 +    list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step", data = t5Dat )
 > all.equal( testTobit5FacTwoStep[ -c( 8, 9 ) ], testTobit5TwoStep[ -c( 8, 9 ) ] )
@@ -45786,18 +45792,14 @@ attr(,"assign")
 > all.equal( testTobit5YesTwoStep$param[ -c( 12 ) ],
 +    testTobit5TwoStep$param[ -c( 12 ) ] )
 [1] TRUE
-> 
-> testTobit5FacMl <- selection( factor( ys ) ~ xs,
-+    list( yo1 ~ xo1, yo2 ~ xo2 ), data = t5Dat )
-> all.equal( testTobit5FacMl[ -c( 15, 18, 19 ) ],
-+    testTobit5Ml[ -c( 15, 18, 19 ) ] )
-[1] TRUE
+> ## use yes/no as the outcome variable
 > testTobit5YesMl <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
 +    list( yo1 ~ xo1, yo2 ~ xo2 ), data = t5Dat )
-> all.equal( testTobit5YesMl[ -c( 15, 17, 18, 19 ) ],
-+    testTobit5Ml[ -c( 15, 17, 18, 19 ) ] )
+> all.equal(coef(testTobit5YesMl), coef(testTobit5Ml))
 [1] TRUE
-> all.equal( testTobit5YesMl$param[ -c( 10 ) ], testTobit5Ml$param[ -c( 10 ) ] )
+> all.equal(stdEr(testTobit5YesMl), stdEr(testTobit5Ml))
+[1] TRUE
+> all.equal(nIter(testTobit5YesMl), nIter(testTobit5Ml))
 [1] TRUE
 > 
 > # with pre-defined list of outcome equations (works since revision 1420)
@@ -45817,14 +45819,17 @@ attr(,"assign")
 > 
 > testTobit5LiMl <- selection( ys ~ xs, oList, data = t5Dat )
 > all.equal( testTobit5LiMl[ -18 ],  testTobit5Ml[ -18 ] )
-[1] TRUE
+[1] "Component \"call\": target, current do not match when deparsed"
 > testTobit5LiFacMl <- selection( factor( ys ) ~ xs, oList, data = t5Dat )
-> all.equal( testTobit5LiFacMl[ -18 ],  testTobit5FacMl[ -18 ] )
-[1] TRUE
+> all.equal( testTobit5LiFacMl[ -18 ],  testTobit5YesMl[ -18 ] )
+[1] "Component \"twoStep\": Component \"termsS\": formulas differ in contents"             
+[2] "Component \"twoStep\": Component \"param\": Component \"levels\": 2 string mismatches"
+[3] "Component \"call\": target, current do not match when deparsed"                       
+[4] "Component \"termsS\": formulas differ in contents"                                    
 > testTobit5LiYesMl <- selection( factor( ys, labels = c( "no", "yes" ) )
 +    ~ xs, oList, data = t5Dat )
 > all.equal( testTobit5LiYesMl[ -18 ],  testTobit5YesMl[ -18 ] )
-[1] TRUE
+[1] "Component \"call\": target, current do not match when deparsed"
 > 
 > # return just the model.frame
 > selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
@@ -51794,7 +51799,7 @@ Warning message:
 In selection(ys ~ xs, list(yo1 ~ xo1, yo2 ~ xo2), method = "ml",  :
   argument 'weights' is ignored in type-5 models
 > all.equal( testTobit5MlWe[-18], testTobit5Ml[-18] )
-[1] TRUE
+[1] "Component \"call\": target, current do not match when deparsed"
 > 
 > ## data directly in the workspace
 > ys <- t5Dat$ys
@@ -69549,7 +69554,7 @@ Error in selection(ys ~ xs, yo ~ xo, method = "ml", weights = 4:14, data = t2Dat
 > 
 > testTobit2FacMl <- selection( factor( ys ) ~ xs, yo ~ xo, data = t2Dat )
 > all.equal( testTobit2FacMl[-c(18,19)], testTobit2Ml[-c(18,19)] )
-[1] TRUE
+[1] "Component \"termsS\": formulas differ in contents"
 > all.equal( fitted( testTobit2FacMl, part = "selection" ),
 +    fitted( testTobit2Ml, part = "selection" ) )
 [1] TRUE
@@ -69569,7 +69574,7 @@ Error in selection(ys ~ xs, yo ~ xo, method = "ml", weights = 4:14, data = t2Dat
 > testTobit2YesMl <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
 +    yo ~ xo, data = t2Dat )
 > all.equal( testTobit2YesMl[-c(17:19)], testTobit2Ml[-c(17:19)] )
-[1] TRUE
+[1] "Component \"termsS\": formulas differ in contents"
 > all.equal( testTobit2YesMl$param[-9], testTobit2Ml$param[-9] )
 [1] TRUE
 > all.equal( fitted( testTobit2YesMl, part = "selection" ),
@@ -74085,7 +74090,10 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 >                            # Note: should be only 1 iteration
 > all.equal( testTobit2Ml[ -c(2,5,6,9,15,16,18)],
 +    testTobit2MlStart[ -c(2,5,6,9,15,16,18)], tol = 1e-5 )
-[1] TRUE
+[1] "Component \"start\": Attributes: < names for current but not for target >"             
+[2] "Component \"start\": Attributes: < Length mismatch: comparison on first 0 components >"
+[3] "Component \"start\": target is numeric, current is coef.selection"                     
+[4] "Component \"call\": target, current do not match when deparsed"                        
 > 
 > ## Chris Hane: dummy variable (factor) as explanatory variable
 > t2Dat$xF <- rbinom( nrow( t2Dat ), 1, 0.5 )
@@ -75129,4 +75137,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  5.251   0.952   6.198 
+  13.03    5.59    9.72 

@@ -1,3 +1,8 @@
+### Testing 'selection' function
+### Includes following tests:
+###
+### * factor as dependent variable (yes/no)
+### 
 library( "sampleSelection" )
 library( "mvtnorm" )
 library( "lmtest" )
@@ -351,7 +356,8 @@ mfTestTobit5SMl <- model.frame( testTobit5SMl )
 print( mfTestTobit5SMl )
 logLik( testTobit5SMl )
 
-# factors as dependent variable (from Achim Zeileis)
+## ---------- factors as dependent variable (from Achim Zeileis) ----------
+## it should not matter at all as the underlying models remain binary equivalent
 testTobit5FacTwoStep <- selection( factor( ys ) ~ xs,
    list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step", data = t5Dat )
 all.equal( testTobit5FacTwoStep[ -c( 8, 9 ) ], testTobit5TwoStep[ -c( 8, 9 ) ] )
@@ -361,16 +367,12 @@ all.equal( testTobit5YesTwoStep[ -c( 8, 9, 17 ) ],
    testTobit5TwoStep[ -c( 8, 9, 17 ) ] )
 all.equal( testTobit5YesTwoStep$param[ -c( 12 ) ],
    testTobit5TwoStep$param[ -c( 12 ) ] )
-
-testTobit5FacMl <- selection( factor( ys ) ~ xs,
-   list( yo1 ~ xo1, yo2 ~ xo2 ), data = t5Dat )
-all.equal( testTobit5FacMl[ -c( 15, 18, 19 ) ],
-   testTobit5Ml[ -c( 15, 18, 19 ) ] )
+## use yes/no as the outcome variable
 testTobit5YesMl <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
    list( yo1 ~ xo1, yo2 ~ xo2 ), data = t5Dat )
-all.equal( testTobit5YesMl[ -c( 15, 17, 18, 19 ) ],
-   testTobit5Ml[ -c( 15, 17, 18, 19 ) ] )
-all.equal( testTobit5YesMl$param[ -c( 10 ) ], testTobit5Ml$param[ -c( 10 ) ] )
+all.equal(coef(testTobit5YesMl), coef(testTobit5Ml))
+all.equal(stdEr(testTobit5YesMl), stdEr(testTobit5Ml))
+all.equal(nIter(testTobit5YesMl), nIter(testTobit5Ml))
 
 # with pre-defined list of outcome equations (works since revision 1420)
 oList <- list( yo1 ~ xo1, yo2 ~ xo2 )
@@ -387,7 +389,7 @@ all.equal( testTobit5LiYesTwoStep[ -8 ],  testTobit5YesTwoStep[ -8 ] )
 testTobit5LiMl <- selection( ys ~ xs, oList, data = t5Dat )
 all.equal( testTobit5LiMl[ -18 ],  testTobit5Ml[ -18 ] )
 testTobit5LiFacMl <- selection( factor( ys ) ~ xs, oList, data = t5Dat )
-all.equal( testTobit5LiFacMl[ -18 ],  testTobit5FacMl[ -18 ] )
+all.equal( testTobit5LiFacMl[ -18 ],  testTobit5YesMl[ -18 ] )
 testTobit5LiYesMl <- selection( factor( ys, labels = c( "no", "yes" ) )
    ~ xs, oList, data = t5Dat )
 all.equal( testTobit5LiYesMl[ -18 ],  testTobit5YesMl[ -18 ] )

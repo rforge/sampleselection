@@ -34,7 +34,12 @@ printAll <- function( objName, what = "print" ) {
          if( ! n %in% c( "code", "gradient", "iterations", "last.step",
                "message" ) ) {
             cat( "   comparing component '", n, "' ...", sep = "" )
-            testRes <-  all.equal( x[[ n ]], xSaved[[ n ]], tol = 5e-3 )
+            if( n == "vcov" ) {
+               tol <- 5e-2
+            } else {
+               tol <- 5e-3
+            }
+            testRes <-  all.equal( x[[ n ]], xSaved[[ n ]], tol = tol )
             if( isTRUE( testRes ) ) {
                cat( " OK\n" )
             } else {

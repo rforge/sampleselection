@@ -1,6 +1,6 @@
 
-R version 3.4.4 (2018-03-15) -- "Someone to Lean On"
-Copyright (C) 2018 The R Foundation for Statistical Computing
+R version 3.6.1 (2019-07-05) -- "Action of the Toes"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -31,7 +31,6 @@ Henningsen, Arne (2017). censReg: Censored Regression (Tobit) Models. R package 
 If you have questions, suggestions, or comments regarding the 'censReg' package, please use a forum or 'tracker' at the R-Forge site of the 'sampleSelection' project:
 https://r-forge.r-project.org/projects/sampleselection/
 > library( "plm" )
-Loading required package: Formula
 > 
 > # load outputs that were previously produced by this script 
 > saved <- new.env()
@@ -43,6 +42,7 @@ Loading required package: Formula
 +    cat( "Comparing new object '", objName, "' to previously saved object...",
 +       sep = "" )
 +    x <- get( objName )
++    x$objectiveFn <- NULL
 +    if( !exists( objName, envir = saved, inherits = FALSE ) ) {
 +       cat( " previously saved object not found\n" )
 +    } else {
@@ -1299,21 +1299,21 @@ Log-likelihood: -64.313 on 5 Df
 + }
 > pData2 <- pdata.frame( nData2, c( "id", "time" ) )
 > randEff2 <- censReg( y ~ x1 + x2, data = pData2 )
-> all.equal( randEff2[ -c(3,5,6,7,9,11,14) ],
-+    randEff[ -c(3,5,6,7,9,11,14) ], tolerance = 1e-2 )
+> all.equal( randEff2[ -c(3,5,6,7,9,11,15) ],
++    randEff[ -c(3,5,6,7,9,11,15) ], tolerance = 1e-2 )
 [1] TRUE
 > 
 > # check if the order of observations/individuals influences the likelihood values
 > d1c1 <- censReg( y ~ x1 + x2, data = pData, start = coef(randEff),
 +    iterlim = 0 )
-> all.equal( d1c1[-c(5,6,7,9,12,14,18)], randEff[-c(5,6,7,9,12,14,18)] )
+> all.equal( d1c1[-c(5,6,7,9,12,15,19)], randEff[-c(5,6,7,9,12,15,19)] )
 [1] TRUE
 > d1c1$maximum -  randEff$maximum
 [1] 0
 > 
 > d2c2 <- censReg( y ~ x1 + x2, data = pData2, start = coef(randEff2),
 +    iterlim = 0 )
-> all.equal( d2c2[-c(5,6,7,9,12,14,18)], randEff2[-c(5,6,7,9,12,14,18)] )
+> all.equal( d2c2[-c(5,6,7,9,12,15,19)], randEff2[-c(5,6,7,9,12,15,19)] )
 [1] TRUE
 > d2c2$maximum -  randEff2$maximum
 [1] 0
@@ -1465,7 +1465,7 @@ Log-likelihood: -71.193 on 5 Df
 > pDataNa$x1[ obsNa[ 3 ] ] <- NA
 > pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
 > randEffNa <- censReg( y ~ x1 + x2, data = pDataNa )
-> all.equal( randEffNa[ -14 ], randEffUnb[ -14 ] )
+> all.equal( randEffNa[ -15 ], randEffUnb[ -15 ] )
 [1] TRUE
 > 
 > 
@@ -1525,4 +1525,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
-  7.788   0.064   7.851 
+  4.114   0.097   4.224 

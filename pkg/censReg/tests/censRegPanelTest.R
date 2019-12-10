@@ -11,6 +11,7 @@ printAll <- function( objName, what = "print" ) {
    cat( "Comparing new object '", objName, "' to previously saved object...",
       sep = "" )
    x <- get( objName )
+   x$objectiveFn <- NULL
    if( !exists( objName, envir = saved, inherits = FALSE ) ) {
       cat( " previously saved object not found\n" )
    } else {
@@ -220,18 +221,18 @@ for( i in 1:nId ) {
 }
 pData2 <- pdata.frame( nData2, c( "id", "time" ) )
 randEff2 <- censReg( y ~ x1 + x2, data = pData2 )
-all.equal( randEff2[ -c(3,5,6,7,9,11,14) ],
-   randEff[ -c(3,5,6,7,9,11,14) ], tolerance = 1e-2 )
+all.equal( randEff2[ -c(3,5,6,7,9,11,15) ],
+   randEff[ -c(3,5,6,7,9,11,15) ], tolerance = 1e-2 )
 
 # check if the order of observations/individuals influences the likelihood values
 d1c1 <- censReg( y ~ x1 + x2, data = pData, start = coef(randEff),
    iterlim = 0 )
-all.equal( d1c1[-c(5,6,7,9,12,14,18)], randEff[-c(5,6,7,9,12,14,18)] )
+all.equal( d1c1[-c(5,6,7,9,12,15,19)], randEff[-c(5,6,7,9,12,15,19)] )
 d1c1$maximum -  randEff$maximum
 
 d2c2 <- censReg( y ~ x1 + x2, data = pData2, start = coef(randEff2),
    iterlim = 0 )
-all.equal( d2c2[-c(5,6,7,9,12,14,18)], randEff2[-c(5,6,7,9,12,14,18)] )
+all.equal( d2c2[-c(5,6,7,9,12,15,19)], randEff2[-c(5,6,7,9,12,15,19)] )
 d2c2$maximum -  randEff2$maximum
 
 d1c2 <- censReg( y ~ x1 + x2, data = pData,  
@@ -269,7 +270,7 @@ pDataNa$y[ obsNa[ 1:2 ] ] <- NA
 pDataNa$x1[ obsNa[ 3 ] ] <- NA
 pDataNa$x2[ obsNa[ c( 1, 2, 4 ) ] ] <- NA
 randEffNa <- censReg( y ~ x1 + x2, data = pDataNa )
-all.equal( randEffNa[ -14 ], randEffUnb[ -14 ] )
+all.equal( randEffNa[ -15 ], randEffUnb[ -15 ] )
 
 
 # returning log-likelihood contributions only (no estimations)

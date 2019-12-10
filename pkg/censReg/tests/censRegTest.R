@@ -5,7 +5,6 @@ library( "sandwich" )
 options( digits = 5 )
 
 printAll <- function( x ) {
-   x$objectiveFn <- NULL
    for( n in names( x ) ) {
       cat( "$", n, "\n", sep = "" )
       if( n %in% c( "estimate", "hessian", "gradientObs" ) ) {

@@ -44,7 +44,6 @@ The following objects are masked from 'package:base':
 > options( digits = 5 )
 > 
 > printAll <- function( x ) {
-+    x$objectiveFn <- NULL
 +    for( n in names( x ) ) {
 +       cat( "$", n, "\n", sep = "" )
 +       if( n %in% c( "estimate", "hessian", "gradientObs" ) ) {
@@ -763,6 +762,35 @@ sann_tmax = 10
 sann_randomSeed = 123 
 iterlim = 150 
 printLevel = 0 
+
+$objectiveFn
+function (beta, yVec, xMat, left, right, obsBelow, obsBetween, 
+    obsAbove) 
+{
+    yHat <- xMat %*% beta[-length(beta)]
+    sigma <- exp(beta[length(beta)])
+    ll <- rep(NA, length(yVec))
+    ll[obsBelow] <- pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)
+    ll[obsBetween] <- dnorm((yVec - yHat)[obsBetween]/sigma, 
+        log = TRUE) - log(sigma)
+    ll[obsAbove] <- pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)
+    grad <- matrix(NA, nrow = length(yVec), ncol = length(beta))
+    grad[obsBelow, ] <- exp(dnorm((left - yHat[obsBelow])/sigma, 
+        log = TRUE) - pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)) * 
+        cbind(-xMat[obsBelow, , drop = FALSE]/sigma, -(left - 
+            yHat[obsBelow])/sigma)
+    grad[obsBetween, ] <- cbind(((yVec - yHat)[obsBetween]/sigma) * 
+        xMat[obsBetween, , drop = FALSE]/sigma, ((yVec - yHat)[obsBetween]/sigma)^2 - 
+        1)
+    grad[obsAbove, ] <- exp(dnorm((yHat[obsAbove] - right)/sigma, 
+        log = TRUE) - pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)) * 
+        cbind(xMat[obsAbove, , drop = FALSE]/sigma, -(yHat[obsAbove] - 
+            right)/sigma)
+    attr(ll, "gradient") <- grad
+    return(ll)
+}
+<bytecode: 0x556718717430>
+<environment: namespace:censReg>
 
 $xMean
   (Intercept)           age  yearsmarried religiousness    occupation 
@@ -2435,6 +2463,35 @@ sann_randomSeed = 123
 iterlim = 150 
 printLevel = 0 
 
+$objectiveFn
+function (beta, yVec, xMat, left, right, obsBelow, obsBetween, 
+    obsAbove) 
+{
+    yHat <- xMat %*% beta[-length(beta)]
+    sigma <- exp(beta[length(beta)])
+    ll <- rep(NA, length(yVec))
+    ll[obsBelow] <- pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)
+    ll[obsBetween] <- dnorm((yVec - yHat)[obsBetween]/sigma, 
+        log = TRUE) - log(sigma)
+    ll[obsAbove] <- pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)
+    grad <- matrix(NA, nrow = length(yVec), ncol = length(beta))
+    grad[obsBelow, ] <- exp(dnorm((left - yHat[obsBelow])/sigma, 
+        log = TRUE) - pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)) * 
+        cbind(-xMat[obsBelow, , drop = FALSE]/sigma, -(left - 
+            yHat[obsBelow])/sigma)
+    grad[obsBetween, ] <- cbind(((yVec - yHat)[obsBetween]/sigma) * 
+        xMat[obsBetween, , drop = FALSE]/sigma, ((yVec - yHat)[obsBetween]/sigma)^2 - 
+        1)
+    grad[obsAbove, ] <- exp(dnorm((yHat[obsAbove] - right)/sigma, 
+        log = TRUE) - pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)) * 
+        cbind(xMat[obsAbove, , drop = FALSE]/sigma, -(yHat[obsAbove] - 
+            right)/sigma)
+    attr(ll, "gradient") <- grad
+    return(ll)
+}
+<bytecode: 0x556718717430>
+<environment: namespace:censReg>
+
 $xMean
   (Intercept)           age  yearsmarried religiousness    occupation 
        1.0000       32.4875        8.1777        3.1165        4.1947 
@@ -3283,6 +3340,35 @@ sann_randomSeed = 123
 iterlim = 200 
 printLevel = 0 
 
+$objectiveFn
+function (beta, yVec, xMat, left, right, obsBelow, obsBetween, 
+    obsAbove) 
+{
+    yHat <- xMat %*% beta[-length(beta)]
+    sigma <- exp(beta[length(beta)])
+    ll <- rep(NA, length(yVec))
+    ll[obsBelow] <- pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)
+    ll[obsBetween] <- dnorm((yVec - yHat)[obsBetween]/sigma, 
+        log = TRUE) - log(sigma)
+    ll[obsAbove] <- pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)
+    grad <- matrix(NA, nrow = length(yVec), ncol = length(beta))
+    grad[obsBelow, ] <- exp(dnorm((left - yHat[obsBelow])/sigma, 
+        log = TRUE) - pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)) * 
+        cbind(-xMat[obsBelow, , drop = FALSE]/sigma, -(left - 
+            yHat[obsBelow])/sigma)
+    grad[obsBetween, ] <- cbind(((yVec - yHat)[obsBetween]/sigma) * 
+        xMat[obsBetween, , drop = FALSE]/sigma, ((yVec - yHat)[obsBetween]/sigma)^2 - 
+        1)
+    grad[obsAbove, ] <- exp(dnorm((yHat[obsAbove] - right)/sigma, 
+        log = TRUE) - pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)) * 
+        cbind(xMat[obsAbove, , drop = FALSE]/sigma, -(yHat[obsAbove] - 
+            right)/sigma)
+    attr(ll, "gradient") <- grad
+    return(ll)
+}
+<bytecode: 0x556718717430>
+<environment: namespace:censReg>
+
 $xMean
   (Intercept)           age  yearsmarried religiousness    occupation 
        1.0000       32.4875        8.1777        3.1165        4.1947 
@@ -4105,6 +4191,35 @@ sann_tmax = 10
 sann_randomSeed = 123 
 iterlim = 500 
 printLevel = 0 
+
+$objectiveFn
+function (beta, yVec, xMat, left, right, obsBelow, obsBetween, 
+    obsAbove) 
+{
+    yHat <- xMat %*% beta[-length(beta)]
+    sigma <- exp(beta[length(beta)])
+    ll <- rep(NA, length(yVec))
+    ll[obsBelow] <- pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)
+    ll[obsBetween] <- dnorm((yVec - yHat)[obsBetween]/sigma, 
+        log = TRUE) - log(sigma)
+    ll[obsAbove] <- pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)
+    grad <- matrix(NA, nrow = length(yVec), ncol = length(beta))
+    grad[obsBelow, ] <- exp(dnorm((left - yHat[obsBelow])/sigma, 
+        log = TRUE) - pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)) * 
+        cbind(-xMat[obsBelow, , drop = FALSE]/sigma, -(left - 
+            yHat[obsBelow])/sigma)
+    grad[obsBetween, ] <- cbind(((yVec - yHat)[obsBetween]/sigma) * 
+        xMat[obsBetween, , drop = FALSE]/sigma, ((yVec - yHat)[obsBetween]/sigma)^2 - 
+        1)
+    grad[obsAbove, ] <- exp(dnorm((yHat[obsAbove] - right)/sigma, 
+        log = TRUE) - pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)) * 
+        cbind(xMat[obsAbove, , drop = FALSE]/sigma, -(yHat[obsAbove] - 
+            right)/sigma)
+    attr(ll, "gradient") <- grad
+    return(ll)
+}
+<bytecode: 0x556718717430>
+<environment: namespace:censReg>
 
 $xMean
   (Intercept)           age  yearsmarried religiousness    occupation 
@@ -4936,6 +5051,35 @@ sann_randomSeed = 123
 iterlim = 10000 
 printLevel = 0 
 
+$objectiveFn
+function (beta, yVec, xMat, left, right, obsBelow, obsBetween, 
+    obsAbove) 
+{
+    yHat <- xMat %*% beta[-length(beta)]
+    sigma <- exp(beta[length(beta)])
+    ll <- rep(NA, length(yVec))
+    ll[obsBelow] <- pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)
+    ll[obsBetween] <- dnorm((yVec - yHat)[obsBetween]/sigma, 
+        log = TRUE) - log(sigma)
+    ll[obsAbove] <- pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)
+    grad <- matrix(NA, nrow = length(yVec), ncol = length(beta))
+    grad[obsBelow, ] <- exp(dnorm((left - yHat[obsBelow])/sigma, 
+        log = TRUE) - pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)) * 
+        cbind(-xMat[obsBelow, , drop = FALSE]/sigma, -(left - 
+            yHat[obsBelow])/sigma)
+    grad[obsBetween, ] <- cbind(((yVec - yHat)[obsBetween]/sigma) * 
+        xMat[obsBetween, , drop = FALSE]/sigma, ((yVec - yHat)[obsBetween]/sigma)^2 - 
+        1)
+    grad[obsAbove, ] <- exp(dnorm((yHat[obsAbove] - right)/sigma, 
+        log = TRUE) - pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)) * 
+        cbind(xMat[obsAbove, , drop = FALSE]/sigma, -(yHat[obsAbove] - 
+            right)/sigma)
+    attr(ll, "gradient") <- grad
+    return(ll)
+}
+<bytecode: 0x556718717430>
+<environment: namespace:censReg>
+
 $xMean
   (Intercept)           age  yearsmarried religiousness    occupation 
        1.0000       32.4875        8.1777        3.1165        4.1947 
@@ -5762,6 +5906,35 @@ sann_tmax = 10
 sann_randomSeed = 123 
 iterlim = 150 
 printLevel = 0 
+
+$objectiveFn
+function (beta, yVec, xMat, left, right, obsBelow, obsBetween, 
+    obsAbove) 
+{
+    yHat <- xMat %*% beta[-length(beta)]
+    sigma <- exp(beta[length(beta)])
+    ll <- rep(NA, length(yVec))
+    ll[obsBelow] <- pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)
+    ll[obsBetween] <- dnorm((yVec - yHat)[obsBetween]/sigma, 
+        log = TRUE) - log(sigma)
+    ll[obsAbove] <- pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)
+    grad <- matrix(NA, nrow = length(yVec), ncol = length(beta))
+    grad[obsBelow, ] <- exp(dnorm((left - yHat[obsBelow])/sigma, 
+        log = TRUE) - pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)) * 
+        cbind(-xMat[obsBelow, , drop = FALSE]/sigma, -(left - 
+            yHat[obsBelow])/sigma)
+    grad[obsBetween, ] <- cbind(((yVec - yHat)[obsBetween]/sigma) * 
+        xMat[obsBetween, , drop = FALSE]/sigma, ((yVec - yHat)[obsBetween]/sigma)^2 - 
+        1)
+    grad[obsAbove, ] <- exp(dnorm((yHat[obsAbove] - right)/sigma, 
+        log = TRUE) - pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)) * 
+        cbind(xMat[obsAbove, , drop = FALSE]/sigma, -(yHat[obsAbove] - 
+            right)/sigma)
+    attr(ll, "gradient") <- grad
+    return(ll)
+}
+<bytecode: 0x556718717430>
+<environment: namespace:censReg>
 
 $xMean
   (Intercept)           age  yearsmarried religiousness    occupation 
@@ -6602,6 +6775,35 @@ sann_tmax = 10
 sann_randomSeed = 123 
 iterlim = 150 
 printLevel = 0 
+
+$objectiveFn
+function (beta, yVec, xMat, left, right, obsBelow, obsBetween, 
+    obsAbove) 
+{
+    yHat <- xMat %*% beta[-length(beta)]
+    sigma <- exp(beta[length(beta)])
+    ll <- rep(NA, length(yVec))
+    ll[obsBelow] <- pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)
+    ll[obsBetween] <- dnorm((yVec - yHat)[obsBetween]/sigma, 
+        log = TRUE) - log(sigma)
+    ll[obsAbove] <- pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)
+    grad <- matrix(NA, nrow = length(yVec), ncol = length(beta))
+    grad[obsBelow, ] <- exp(dnorm((left - yHat[obsBelow])/sigma, 
+        log = TRUE) - pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)) * 
+        cbind(-xMat[obsBelow, , drop = FALSE]/sigma, -(left - 
+            yHat[obsBelow])/sigma)
+    grad[obsBetween, ] <- cbind(((yVec - yHat)[obsBetween]/sigma) * 
+        xMat[obsBetween, , drop = FALSE]/sigma, ((yVec - yHat)[obsBetween]/sigma)^2 - 
+        1)
+    grad[obsAbove, ] <- exp(dnorm((yHat[obsAbove] - right)/sigma, 
+        log = TRUE) - pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)) * 
+        cbind(xMat[obsAbove, , drop = FALSE]/sigma, -(yHat[obsAbove] - 
+            right)/sigma)
+    attr(ll, "gradient") <- grad
+    return(ll)
+}
+<bytecode: 0x556718717430>
+<environment: namespace:censReg>
 
 $xMean
   (Intercept)           age  yearsmarried religiousness    occupation 
@@ -7486,6 +7688,35 @@ sann_tmax = 10
 sann_randomSeed = 123 
 iterlim = 150 
 printLevel = 0 
+
+$objectiveFn
+function (beta, yVec, xMat, left, right, obsBelow, obsBetween, 
+    obsAbove) 
+{
+    yHat <- xMat %*% beta[-length(beta)]
+    sigma <- exp(beta[length(beta)])
+    ll <- rep(NA, length(yVec))
+    ll[obsBelow] <- pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)
+    ll[obsBetween] <- dnorm((yVec - yHat)[obsBetween]/sigma, 
+        log = TRUE) - log(sigma)
+    ll[obsAbove] <- pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)
+    grad <- matrix(NA, nrow = length(yVec), ncol = length(beta))
+    grad[obsBelow, ] <- exp(dnorm((left - yHat[obsBelow])/sigma, 
+        log = TRUE) - pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)) * 
+        cbind(-xMat[obsBelow, , drop = FALSE]/sigma, -(left - 
+            yHat[obsBelow])/sigma)
+    grad[obsBetween, ] <- cbind(((yVec - yHat)[obsBetween]/sigma) * 
+        xMat[obsBetween, , drop = FALSE]/sigma, ((yVec - yHat)[obsBetween]/sigma)^2 - 
+        1)
+    grad[obsAbove, ] <- exp(dnorm((yHat[obsAbove] - right)/sigma, 
+        log = TRUE) - pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)) * 
+        cbind(xMat[obsAbove, , drop = FALSE]/sigma, -(yHat[obsAbove] - 
+            right)/sigma)
+    attr(ll, "gradient") <- grad
+    return(ll)
+}
+<bytecode: 0x556718717430>
+<environment: namespace:censReg>
 
 $xMean
   (Intercept)           age  yearsmarried religiousness    occupation 
@@ -8980,6 +9211,35 @@ sann_randomSeed = 123
 iterlim = 150 
 printLevel = 0 
 
+$objectiveFn
+function (beta, yVec, xMat, left, right, obsBelow, obsBetween, 
+    obsAbove) 
+{
+    yHat <- xMat %*% beta[-length(beta)]
+    sigma <- exp(beta[length(beta)])
+    ll <- rep(NA, length(yVec))
+    ll[obsBelow] <- pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)
+    ll[obsBetween] <- dnorm((yVec - yHat)[obsBetween]/sigma, 
+        log = TRUE) - log(sigma)
+    ll[obsAbove] <- pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)
+    grad <- matrix(NA, nrow = length(yVec), ncol = length(beta))
+    grad[obsBelow, ] <- exp(dnorm((left - yHat[obsBelow])/sigma, 
+        log = TRUE) - pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)) * 
+        cbind(-xMat[obsBelow, , drop = FALSE]/sigma, -(left - 
+            yHat[obsBelow])/sigma)
+    grad[obsBetween, ] <- cbind(((yVec - yHat)[obsBetween]/sigma) * 
+        xMat[obsBetween, , drop = FALSE]/sigma, ((yVec - yHat)[obsBetween]/sigma)^2 - 
+        1)
+    grad[obsAbove, ] <- exp(dnorm((yHat[obsAbove] - right)/sigma, 
+        log = TRUE) - pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)) * 
+        cbind(xMat[obsAbove, , drop = FALSE]/sigma, -(yHat[obsAbove] - 
+            right)/sigma)
+    attr(ll, "gradient") <- grad
+    return(ll)
+}
+<bytecode: 0x556718717430>
+<environment: namespace:censReg>
+
 $xMean
   (Intercept)           age  yearsmarried religiousness    occupation 
        1.0000       32.4875        8.1777        3.1165        4.1947 
@@ -9865,6 +10125,35 @@ sann_tmax = 10
 sann_randomSeed = 123 
 iterlim = 150 
 printLevel = 0 
+
+$objectiveFn
+function (beta, yVec, xMat, left, right, obsBelow, obsBetween, 
+    obsAbove) 
+{
+    yHat <- xMat %*% beta[-length(beta)]
+    sigma <- exp(beta[length(beta)])
+    ll <- rep(NA, length(yVec))
+    ll[obsBelow] <- pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)
+    ll[obsBetween] <- dnorm((yVec - yHat)[obsBetween]/sigma, 
+        log = TRUE) - log(sigma)
+    ll[obsAbove] <- pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)
+    grad <- matrix(NA, nrow = length(yVec), ncol = length(beta))
+    grad[obsBelow, ] <- exp(dnorm((left - yHat[obsBelow])/sigma, 
+        log = TRUE) - pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)) * 
+        cbind(-xMat[obsBelow, , drop = FALSE]/sigma, -(left - 
+            yHat[obsBelow])/sigma)
+    grad[obsBetween, ] <- cbind(((yVec - yHat)[obsBetween]/sigma) * 
+        xMat[obsBetween, , drop = FALSE]/sigma, ((yVec - yHat)[obsBetween]/sigma)^2 - 
+        1)
+    grad[obsAbove, ] <- exp(dnorm((yHat[obsAbove] - right)/sigma, 
+        log = TRUE) - pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)) * 
+        cbind(xMat[obsAbove, , drop = FALSE]/sigma, -(yHat[obsAbove] - 
+            right)/sigma)
+    attr(ll, "gradient") <- grad
+    return(ll)
+}
+<bytecode: 0x556718717430>
+<environment: namespace:censReg>
 
 $xMean
   (Intercept)           age  yearsmarried religiousness    occupation 
@@ -11363,6 +11652,35 @@ sann_tmax = 10
 sann_randomSeed = 123 
 iterlim = 150 
 printLevel = 0 
+
+$objectiveFn
+function (beta, yVec, xMat, left, right, obsBelow, obsBetween, 
+    obsAbove) 
+{
+    yHat <- xMat %*% beta[-length(beta)]
+    sigma <- exp(beta[length(beta)])
+    ll <- rep(NA, length(yVec))
+    ll[obsBelow] <- pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)
+    ll[obsBetween] <- dnorm((yVec - yHat)[obsBetween]/sigma, 
+        log = TRUE) - log(sigma)
+    ll[obsAbove] <- pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)
+    grad <- matrix(NA, nrow = length(yVec), ncol = length(beta))
+    grad[obsBelow, ] <- exp(dnorm((left - yHat[obsBelow])/sigma, 
+        log = TRUE) - pnorm((left - yHat[obsBelow])/sigma, log.p = TRUE)) * 
+        cbind(-xMat[obsBelow, , drop = FALSE]/sigma, -(left - 
+            yHat[obsBelow])/sigma)
+    grad[obsBetween, ] <- cbind(((yVec - yHat)[obsBetween]/sigma) * 
+        xMat[obsBetween, , drop = FALSE]/sigma, ((yVec - yHat)[obsBetween]/sigma)^2 - 
+        1)
+    grad[obsAbove, ] <- exp(dnorm((yHat[obsAbove] - right)/sigma, 
+        log = TRUE) - pnorm((yHat[obsAbove] - right)/sigma, log.p = TRUE)) * 
+        cbind(xMat[obsAbove, , drop = FALSE]/sigma, -(yHat[obsAbove] - 
+            right)/sigma)
+    attr(ll, "gradient") <- grad
+    return(ll)
+}
+<bytecode: 0x556718717430>
+<environment: namespace:censReg>
 
 $xMean
    (Intercept)            age   yearsmarried religiousness2 religiousness3 
@@ -13529,4 +13847,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  3.316   0.299   3.609 
+  3.349   0.287   3.627 

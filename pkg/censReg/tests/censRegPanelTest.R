@@ -11,7 +11,6 @@ printAll <- function( objName, what = "print" ) {
    cat( "Comparing new object '", objName, "' to previously saved object...",
       sep = "" )
    x <- get( objName )
-   x$objectiveFn <- NULL
    if( !exists( objName, envir = saved, inherits = FALSE ) ) {
       cat( " previously saved object not found\n" )
    } else {

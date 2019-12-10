@@ -42,7 +42,6 @@ https://r-forge.r-project.org/projects/sampleselection/
 +    cat( "Comparing new object '", objName, "' to previously saved object...",
 +       sep = "" )
 +    x <- get( objName )
-+    x$objectiveFn <- NULL
 +    if( !exists( objName, envir = saved, inherits = FALSE ) ) {
 +       cat( " previously saved object not found\n" )
 +    } else {
@@ -191,6 +190,7 @@ Comparing new object 'randEff' to previously saved object...
    comparing component 'type' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -298,6 +298,7 @@ Comparing new object 'randEffOnlyInt' to previously saved object...
    comparing component 'type' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -407,6 +408,7 @@ Comparing new object 'randEffNoInt' to previously saved object...
    comparing component 'type' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -510,6 +512,7 @@ Comparing new object 'randEffBhhh' to previously saved object...
    comparing component 'type' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -617,6 +620,7 @@ Comparing new object 'randEffBfgs' to previously saved object...
    comparing component 'constraints' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -723,6 +727,7 @@ Comparing new object 'randEffBfgsr' to previously saved object...
    comparing component 'type' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -754,6 +759,7 @@ Comparing new object 'randEffBhhhStart' to previously saved object...
    comparing component 'type' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -865,6 +871,7 @@ Comparing new object 'randEffAdd' to previously saved object...
    comparing component 'type' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -973,6 +980,7 @@ Comparing new object 'randEffNeg' to previously saved object...
    comparing component 'type' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -1081,6 +1089,7 @@ Comparing new object 'randEffAddNeg' to previously saved object...
    comparing component 'type' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -1193,6 +1202,7 @@ Comparing new object 'randEffBoth' to previously saved object...
    comparing component 'type' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -1363,6 +1373,7 @@ Comparing new object 'randEffUnb' to previously saved object...
    comparing component 'type' ... OK
    comparing component 'gradientObs' ... OK
    comparing component 'control' ... OK
+   comparing component 'objectiveFn' ... OK
    comparing component 'xMean' ... OK
    comparing component 'call' ... OK
    comparing component 'terms' ... OK
@@ -1525,4 +1536,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
-  4.114   0.097   4.224 
+  3.308   0.092   3.396 

@@ -57,14 +57,17 @@ printAll <- function( objName, what = "print" ) {
    for( mName in c( "Coef", "CoefNoLs", "Vcov", "VcovNoLs",
          "CoefSum", "CoefSumNoLs", "LogLik", "Nobs", "ExtractAIC" ) ) {
       cat( "   comparing method '", mName, "' ...", sep = "" )
+      tol <- 5e-3
       if( mName == "Coef" ) {
          xm <- coef( x )
       } else if( mName == "CoefNoLs" ) {
          xm <- coef( x, logSigma = FALSE )
       } else if( mName == "Vcov" ) {
          xm <- vcov( x )
+         tol <- 5e-2
       } else if( mName == "VcovNoLs" ) {
          xm <- vcov( x, logSigma = FALSE )
+         tol <- 5e-2
       } else if( mName == "CoefSum" ) {
          xm <- coef( summary( x ) )
       } else if( mName == "CoefSumNoLs" ) {
@@ -83,7 +86,7 @@ printAll <- function( objName, what = "print" ) {
          cat( " previously saved object not found\n" )
       } else {
          xmSaved <- get( methodObjName, envir = saved, inherits = FALSE )
-         testRes <- all.equal( xm, xmSaved, tol = 5e-3 )
+         testRes <- all.equal( xm, xmSaved, tol = tol )
          if( isTRUE( testRes ) ) {
             cat( " OK\n" )
          } else {

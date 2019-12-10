@@ -88,14 +88,17 @@ https://r-forge.r-project.org/projects/sampleselection/
 +    for( mName in c( "Coef", "CoefNoLs", "Vcov", "VcovNoLs",
 +          "CoefSum", "CoefSumNoLs", "LogLik", "Nobs", "ExtractAIC" ) ) {
 +       cat( "   comparing method '", mName, "' ...", sep = "" )
++       tol <- 5e-3
 +       if( mName == "Coef" ) {
 +          xm <- coef( x )
 +       } else if( mName == "CoefNoLs" ) {
 +          xm <- coef( x, logSigma = FALSE )
 +       } else if( mName == "Vcov" ) {
 +          xm <- vcov( x )
++          tol <- 5e-2
 +       } else if( mName == "VcovNoLs" ) {
 +          xm <- vcov( x, logSigma = FALSE )
++          tol <- 5e-2
 +       } else if( mName == "CoefSum" ) {
 +          xm <- coef( summary( x ) )
 +       } else if( mName == "CoefSumNoLs" ) {
@@ -114,7 +117,7 @@ https://r-forge.r-project.org/projects/sampleselection/
 +          cat( " previously saved object not found\n" )
 +       } else {
 +          xmSaved <- get( methodObjName, envir = saved, inherits = FALSE )
-+          testRes <- all.equal( xm, xmSaved, tol = 5e-3 )
++          testRes <- all.equal( xm, xmSaved, tol = tol )
 +          if( isTRUE( testRes ) ) {
 +             cat( " OK\n" )
 +          } else {
@@ -1541,4 +1544,4 @@ attr(,"gradient")
 > 
 > proc.time()
    user  system elapsed 
-  3.277   0.053   3.325 
+  3.358   0.048   3.399 

@@ -45,15 +45,17 @@ The following objects are masked from 'package:base':
 > 
 > printAll <- function( x ) {
 +    for( n in names( x ) ) {
-+       cat( "$", n, "\n", sep = "" )
-+       if( n %in% c( "estimate", "hessian", "gradientObs" ) ) {
-+          print( round( x[[ n ]], 2 ) )
-+       } else if( n %in% c( "gradient" ) ) {
-+          print( round( x[[ n ]], 3 ) )
-+       } else {
-+          print( x[[ n ]] )
++       if( ! n %in% c( "code", "message", "iterations" ) ) {
++          cat( "$", n, "\n", sep = "" )
++          if( n %in% c( "estimate", "hessian", "gradientObs" ) ) {
++             print( round( x[[ n ]], 2 ) )
++          } else if( n %in% c( "gradient" ) ) {
++             print( round( x[[ n ]], 3 ) )
++          } else {
++             print( x[[ n ]] )
++          }
++          cat( "\n" )
 +       }
-+       cat( "\n" )
 +    }
 +    cat( "class\n" )
 +    print( class( x ) )
@@ -116,12 +118,6 @@ occupation     -78.86  -155.31
 rating         -74.92  -148.52
 logSigma      -148.52  -530.53
 
-$code
-[1] 1
-
-$message
-[1] "gradient close to zero"
-
 $last.step
 NULL
 
@@ -130,9 +126,6 @@ $fixed
         FALSE         FALSE         FALSE         FALSE         FALSE 
        rating      logSigma 
         FALSE         FALSE 
-
-$iterations
-[1] 7
 
 $type
 [1] "Newton-Raphson maximisation"
@@ -789,7 +782,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x556718717430>
+<bytecode: 0x55896f73b2b0>
 <environment: namespace:censReg>
 
 $xMean
@@ -1816,12 +1809,6 @@ logSigma      -144.72  -443.21
 attr(,"type")
 [1] "BHHH"
 
-$code
-[1] 2
-
-$message
-[1] "successive function values within tolerance limit"
-
 $last.step
 NULL
 
@@ -1830,9 +1817,6 @@ $fixed
         FALSE         FALSE         FALSE         FALSE         FALSE 
        rating      logSigma 
         FALSE         FALSE 
-
-$iterations
-[1] 10
 
 $type
 [1] "BHHH maximisation"
@@ -2489,7 +2473,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x556718717430>
+<bytecode: 0x55896f73b2b0>
 <environment: namespace:censReg>
 
 $xMean
@@ -2689,12 +2673,6 @@ occupation     -78.86  -155.31
 rating         -74.92  -148.52
 logSigma      -148.52  -530.53
 
-$code
-[1] 0
-
-$message
-[1] "successful convergence "
-
 $last.step
 NULL
 
@@ -2703,10 +2681,6 @@ $fixed
         FALSE         FALSE         FALSE         FALSE         FALSE 
        rating      logSigma 
         FALSE         FALSE 
-
-$iterations
-function 
-      65 
 
 $type
 [1] "BFGS maximization"
@@ -3366,7 +3340,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x556718717430>
+<bytecode: 0x55896f73b2b0>
 <environment: namespace:censReg>
 
 $xMean
@@ -3541,12 +3515,6 @@ occupation     -78.22  -156.51
 rating         -74.38  -149.03
 logSigma      -149.03  -532.93
 
-$code
-[1] 1
-
-$message
-[1] "iteration limit exceeded "
-
 $last.step
 NULL
 
@@ -3555,10 +3523,6 @@ $fixed
         FALSE         FALSE         FALSE         FALSE         FALSE 
        rating      logSigma 
         FALSE         FALSE 
-
-$iterations
-function 
-     502 
 
 $type
 [1] "Nelder-Mead maximization"
@@ -4218,7 +4182,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x556718717430>
+<bytecode: 0x55896f73b2b0>
 <environment: namespace:censReg>
 
 $xMean
@@ -4400,12 +4364,6 @@ occupation     -69.91  -150.20
 rating         -66.07  -143.66
 logSigma      -143.66  -527.77
 
-$code
-[1] 0
-
-$message
-[1] "successful convergence "
-
 $last.step
 NULL
 
@@ -4414,10 +4372,6 @@ $fixed
         FALSE         FALSE         FALSE         FALSE         FALSE 
        rating      logSigma 
         FALSE         FALSE 
-
-$iterations
-function 
-   10000 
 
 $type
 [1] "SANN maximization"
@@ -5077,7 +5031,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x556718717430>
+<bytecode: 0x55896f73b2b0>
 <environment: namespace:censReg>
 
 $xMean
@@ -5260,12 +5214,6 @@ occupation     -78.86  -155.31
 rating         -74.92  -148.52
 logSigma      -148.52  -530.53
 
-$code
-[1] 1
-
-$message
-[1] "gradient close to zero"
-
 $last.step
 NULL
 
@@ -5274,9 +5222,6 @@ $fixed
         FALSE         FALSE         FALSE         FALSE         FALSE 
        rating      logSigma 
         FALSE         FALSE 
-
-$iterations
-[1] 3
 
 $type
 [1] "Newton-Raphson maximisation"
@@ -5933,7 +5878,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x556718717430>
+<bytecode: 0x55896f73b2b0>
 <environment: namespace:censReg>
 
 $xMean
@@ -6129,12 +6074,6 @@ occupation     -78.86  -155.31
 rating         -74.92  -148.52
 logSigma      -148.52  -530.53
 
-$code
-[1] 1
-
-$message
-[1] "gradient close to zero"
-
 $last.step
 NULL
 
@@ -6143,9 +6082,6 @@ $fixed
         FALSE         FALSE         FALSE         FALSE         FALSE 
        rating      logSigma 
         FALSE         FALSE 
-
-$iterations
-[1] 7
 
 $type
 [1] "Newton-Raphson maximisation"
@@ -6802,7 +6738,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x556718717430>
+<bytecode: 0x55896f73b2b0>
 <environment: namespace:censReg>
 
 $xMean
@@ -7042,12 +6978,6 @@ occupation     -78.86   155.31
 rating         -74.92   148.52
 logSigma       148.52  -530.53
 
-$code
-[1] 1
-
-$message
-[1] "gradient close to zero"
-
 $last.step
 NULL
 
@@ -7056,9 +6986,6 @@ $fixed
         FALSE         FALSE         FALSE         FALSE         FALSE 
        rating      logSigma 
         FALSE         FALSE 
-
-$iterations
-[1] 7
 
 $type
 [1] "Newton-Raphson maximisation"
@@ -7715,7 +7642,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x556718717430>
+<bytecode: 0x55896f73b2b0>
 <environment: namespace:censReg>
 
 $xMean
@@ -8564,12 +8491,6 @@ occupation     -78.86   155.31
 rating         -74.92   148.52
 logSigma       148.52  -530.53
 
-$code
-[1] 1
-
-$message
-[1] "gradient close to zero"
-
 $last.step
 NULL
 
@@ -8578,9 +8499,6 @@ $fixed
         FALSE         FALSE         FALSE         FALSE         FALSE 
        rating      logSigma 
         FALSE         FALSE 
-
-$iterations
-[1] 7
 
 $type
 [1] "Newton-Raphson maximisation"
@@ -9237,7 +9155,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x556718717430>
+<bytecode: 0x55896f73b2b0>
 <environment: namespace:censReg>
 
 $xMean
@@ -9479,12 +9397,6 @@ occupation     -80.64  -127.76
 rating         -77.33  -129.91
 logSigma      -129.91  -325.14
 
-$code
-[1] 1
-
-$message
-[1] "gradient close to zero"
-
 $last.step
 NULL
 
@@ -9493,9 +9405,6 @@ $fixed
         FALSE         FALSE         FALSE         FALSE         FALSE 
        rating      logSigma 
         FALSE         FALSE 
-
-$iterations
-[1] 7
 
 $type
 [1] "Newton-Raphson maximisation"
@@ -10152,7 +10061,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x556718717430>
+<bytecode: 0x55896f73b2b0>
 <environment: namespace:censReg>
 
 $xMean
@@ -10544,12 +10453,6 @@ occupation              -5.33     -94.78  -70.00  -134.76
 rating                  -4.89     -70.00  -66.49  -129.85
 logSigma               -11.87    -134.76 -129.85  -473.33
 
-$code
-[1] 2
-
-$message
-[1] "successive function values within tolerance limit"
-
 $last.step
 NULL
 
@@ -10558,9 +10461,6 @@ $fixed
          FALSE          FALSE          FALSE          FALSE          FALSE 
 religiousness4     occupation         rating       logSigma 
          FALSE          FALSE          FALSE          FALSE 
-
-$iterations
-[1] 6
 
 $type
 [1] "Newton-Raphson maximisation"
@@ -11679,7 +11579,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x556718717430>
+<bytecode: 0x55896f73b2b0>
 <environment: namespace:censReg>
 
 $xMean
@@ -13847,4 +13747,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  3.349   0.287   3.627 
+  3.238   0.343   3.573 

@@ -6,15 +6,17 @@ options( digits = 5 )
 
 printAll <- function( x ) {
    for( n in names( x ) ) {
-      cat( "$", n, "\n", sep = "" )
-      if( n %in% c( "estimate", "hessian", "gradientObs" ) ) {
-         print( round( x[[ n ]], 2 ) )
-      } else if( n %in% c( "gradient" ) ) {
-         print( round( x[[ n ]], 3 ) )
-      } else {
-         print( x[[ n ]] )
+      if( ! n %in% c( "code", "message", "iterations" ) ) {
+         cat( "$", n, "\n", sep = "" )
+         if( n %in% c( "estimate", "hessian", "gradientObs" ) ) {
+            print( round( x[[ n ]], 2 ) )
+         } else if( n %in% c( "gradient" ) ) {
+            print( round( x[[ n ]], 3 ) )
+         } else {
+            print( x[[ n ]] )
+         }
+         cat( "\n" )
       }
-      cat( "\n" )
    }
    cat( "class\n" )
    print( class( x ) )

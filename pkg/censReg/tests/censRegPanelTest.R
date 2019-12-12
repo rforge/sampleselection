@@ -35,6 +35,8 @@ printAll <- function( objName, what = "print" ) {
                "message" ) ) {
             cat( "   comparing component '", n, "' ...", sep = "" )
             if( n == "vcov" ) {
+               tol <- 5e-1
+            } else if( n == "estimate" ) {
                tol <- 5e-2
             } else {
                tol <- 5e-3
@@ -60,18 +62,22 @@ printAll <- function( objName, what = "print" ) {
       tol <- 5e-3
       if( mName == "Coef" ) {
          xm <- coef( x )
+         tol <- 5e-2
       } else if( mName == "CoefNoLs" ) {
          xm <- coef( x, logSigma = FALSE )
+         tol <- 5e-2
       } else if( mName == "Vcov" ) {
          xm <- vcov( x )
-         tol <- 5e-2
+         tol <- 5e-1
       } else if( mName == "VcovNoLs" ) {
          xm <- vcov( x, logSigma = FALSE )
-         tol <- 5e-2
+         tol <- 5e-1
       } else if( mName == "CoefSum" ) {
          xm <- coef( summary( x ) )
+         tol <- 5e-2
       } else if( mName == "CoefSumNoLs" ) {
          xm <- coef( summary( x ), logSigma = FALSE )
+         tol <- 5e-2
       } else if( mName == "LogLik" ) {
          xm <- logLik( x )
       } else if( mName == "Nobs" ) {
@@ -162,7 +168,7 @@ printAll( "randEff" )
 try( margEff( randEff ) )
 # only intercept
 randEffOnlyInt <- censReg( y ~ 1, data = pData )
-printAll( "randEffOnlyInt" )
+printAll( "randEffOnlyInt", what = "diff" )
 # no intercept
 randEffNoInt <- censReg( y ~ x1 -1, data = pData )
 printAll( "randEffNoInt" )
@@ -235,22 +241,22 @@ all.equal( randEff2[ -c(3,5,6,7,9,11,15) ],
 d1c1 <- censReg( y ~ x1 + x2, data = pData, start = coef(randEff),
    iterlim = 0 )
 all.equal( d1c1[-c(5,6,7,9,12,15,19)], randEff[-c(5,6,7,9,12,15,19)] )
-d1c1$maximum -  randEff$maximum
+round( d1c1$maximum -  randEff$maximum, 12 )
 
 d2c2 <- censReg( y ~ x1 + x2, data = pData2, start = coef(randEff2),
    iterlim = 0 )
 all.equal( d2c2[-c(5,6,7,9,12,15,19)], randEff2[-c(5,6,7,9,12,15,19)] )
-d2c2$maximum -  randEff2$maximum
+round( d2c2$maximum -  randEff2$maximum, 12 )
 
 d1c2 <- censReg( y ~ x1 + x2, data = pData,  
    start = coef(randEff2), iterlim = 0 )
-d2c2$maximum - d1c2$maximum
-d2c2$gradient - d1c2$gradient
+round( d2c2$maximum - d1c2$maximum, 12 )
+round( d2c2$gradient - d1c2$gradient, 12 )
 
 d2c1 <- censReg( y ~ x1 + x2, data = pData2, 
    start = coef(randEff), iterlim = 0 )
-d1c1$maximum - d2c1$maximum
-d1c1$gradient - d2c1$gradient
+round( d1c1$maximum - d2c1$maximum, 12 )
+round( d1c1$gradient - d2c1$gradient, 12 )
 
 round( d2c2$maximum - d2c1$maximum, 3 )
 round( d1c1$maximum - d1c2$maximum, 3 )
@@ -259,8 +265,8 @@ d1cS <- censReg( y ~ x1 + x2, data = pData,
    start = randEff$start, iterlim = 0 )
 d2cS <- censReg( y ~ x1 + x2, data = pData2, 
    start = randEff$start, iterlim = 0 )
-d1cS$maximum - d2cS$maximum
-d1cS$gradient - d2cS$gradient
+round( d1cS$maximum - d2cS$maximum, 12 )
+round( d1cS$gradient - d2cS$gradient, 12 )
 
 
 ## unbalanced panel data

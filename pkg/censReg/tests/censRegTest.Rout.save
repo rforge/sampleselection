@@ -819,7 +819,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x5606f234f0f0>
+<bytecode: 0x55f091e450f0>
 <environment: namespace:censReg>
 
 $xMean
@@ -1735,23 +1735,23 @@ affairs ~ age + yearsmarried + religiousness + occupation + rating
 [28,]        0.13  4.23         1.32          0.40       0.79   0.40     0.19
 [29,]        0.03  1.24         0.44          0.09       0.18   0.09    -0.94
 [30,]        0.02  0.51         0.16          0.07       0.14   0.05    -0.96
-> meat( estResult )
-              (Intercept)      age yearsmarried religiousness occupation
-(Intercept)     0.0083161  0.28171     0.076235      0.024741   0.035204
-age             0.2817069 10.32592     2.897859      0.862339   1.218809
-yearsmarried    0.0762353  2.89786     0.934428      0.238142   0.330355
-religiousness   0.0247407  0.86234     0.238142      0.084829   0.103589
-occupation      0.0352042  1.21881     0.330355      0.103589   0.174408
-rating          0.0311476  1.04870     0.272656      0.092227   0.133517
-logSigma        0.0557006  1.93996     0.442467      0.178062   0.236918
-                rating logSigma
-(Intercept)   0.031148 0.055701
-age           1.048703 1.939961
-yearsmarried  0.272656 0.442467
-religiousness 0.092227 0.178062
-occupation    0.133517 0.236918
-rating        0.128390 0.240716
-logSigma      0.240716 0.737280
+> round( meat( estResult ), 2 )
+              (Intercept)   age yearsmarried religiousness occupation rating
+(Intercept)          0.01  0.28         0.08          0.02       0.04   0.03
+age                  0.28 10.33         2.90          0.86       1.22   1.05
+yearsmarried         0.08  2.90         0.93          0.24       0.33   0.27
+religiousness        0.02  0.86         0.24          0.08       0.10   0.09
+occupation           0.04  1.22         0.33          0.10       0.17   0.13
+rating               0.03  1.05         0.27          0.09       0.13   0.13
+logSigma             0.06  1.94         0.44          0.18       0.24   0.24
+              logSigma
+(Intercept)       0.06
+age               1.94
+yearsmarried      0.44
+religiousness     0.18
+occupation        0.24
+rating            0.24
+logSigma          0.74
 > round( bread( estResult ), 2 )
               (Intercept)    age yearsmarried religiousness occupation  rating
 (Intercept)       4516.83 -71.93        53.70       -238.60    -106.12 -370.48
@@ -2510,7 +2510,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x5606f234f0f0>
+<bytecode: 0x55f091e450f0>
 <environment: namespace:censReg>
 
 $xMean
@@ -3377,7 +3377,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x5606f234f0f0>
+<bytecode: 0x55f091e450f0>
 <environment: namespace:censReg>
 
 $xMean
@@ -4219,7 +4219,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x5606f234f0f0>
+<bytecode: 0x55f091e450f0>
 <environment: namespace:censReg>
 
 $xMean
@@ -5068,7 +5068,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x5606f234f0f0>
+<bytecode: 0x55f091e450f0>
 <environment: namespace:censReg>
 
 $xMean
@@ -5915,7 +5915,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x5606f234f0f0>
+<bytecode: 0x55f091e450f0>
 <environment: namespace:censReg>
 
 $xMean
@@ -6773,7 +6773,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x5606f234f0f0>
+<bytecode: 0x55f091e450f0>
 <environment: namespace:censReg>
 
 $xMean
@@ -7677,7 +7677,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x5606f234f0f0>
+<bytecode: 0x55f091e450f0>
 <environment: namespace:censReg>
 
 $xMean
@@ -9190,7 +9190,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x5606f234f0f0>
+<bytecode: 0x55f091e450f0>
 <environment: namespace:censReg>
 
 $xMean
@@ -9398,7 +9398,7 @@ sigma          0.31
 Warning message:
 In censReg(affairsFormula, data = Affairs, right = 4) :
   at least one value of the endogenous variable is larger than the right limit
-> printAll( estResultBoth )
+> printAll( estResultBoth, logSigmaFalse = TRUE )
 $maximum
 [1] -500.04
 
@@ -10096,7 +10096,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x5606f234f0f0>
+<bytecode: 0x55f091e450f0>
 <environment: namespace:censReg>
 
 $xMean
@@ -10171,6 +10171,17 @@ Coefficients:
        rating      logSigma 
         -2.21          2.07 
 
+print( x, logSigma = FALSE, digits = 2 )
+
+Call:
+censReg(formula = affairsFormula, right = 4, data = Affairs)
+
+Coefficients:
+  (Intercept)           age  yearsmarried religiousness    occupation 
+         7.90         -0.18          0.53         -1.62          0.32 
+       rating         sigma 
+        -2.21          7.94 
+
 print( round( margEff( x ), digits = 2 ) )
           age  yearsmarried religiousness    occupation        rating 
         -0.02          0.07         -0.20          0.04         -0.27 
@@ -10241,7 +10252,7 @@ Newton-Raphson maximisation, 0 iterations
 Return code 0: removed message
 Log-likelihood: -500.04 on 7 Df
 
-> print( summary( estResultBoth ), logSigma = FALSE, digits = 2 )
+print( summary( x ), logSigma = FALSE, digits = sDigits )
 
 Call:
 censReg(formula = affairsFormula, right = 4, data = Affairs)
@@ -10262,8 +10273,8 @@ sigma             7.94       0.88     9.1  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Newton-Raphson maximisation, 7 iterations
-Return code 1: gradient close to zero
+Newton-Raphson maximisation, 0 iterations
+Return code 0: removed message
 Log-likelihood: -500.04 on 7 Df
 
 > round( coef( estResultBoth ), 2 )
@@ -11614,7 +11625,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x5606f234f0f0>
+<bytecode: 0x55f091e450f0>
 <environment: namespace:censReg>
 
 $xMean
@@ -12416,27 +12427,27 @@ religiousness4           0.00       0.01   0.01     0.03
 occupation               0.01       0.18   0.14     0.25
 rating                   0.01       0.14   0.13     0.25
 logSigma                 0.03       0.25   0.25     0.84
-> round( bread( estResultEmpty ), 2 )
-               (Intercept)    age yearsmarried religiousness2 religiousness3
-(Intercept)        5169.41 -78.25        47.65       -1183.53       -1258.21
-age                 -78.25   4.07        -5.11           0.98           4.36
-yearsmarried         47.65  -5.11        11.02          -1.19          -9.75
-religiousness2    -1183.53   0.98        -1.19        1442.75        1053.38
-religiousness3    -1258.21   4.36        -9.75        1053.38        1490.31
-religiousness4    -1090.86   2.74       -16.85        1068.42        1071.93
-occupation          -88.00  -2.95         2.91          -7.51           4.65
-rating             -413.55   0.51         3.45          53.00          44.42
-logSigma              3.14  -0.27         0.83          -8.10          -5.37
-               religiousness4 occupation  rating logSigma
-(Intercept)          -1090.86     -88.00 -413.55     3.14
-age                      2.74      -2.95    0.51    -0.27
-yearsmarried           -16.85       2.91    3.45     0.83
-religiousness2        1068.42      -7.51   53.00    -8.10
-religiousness3        1071.93       4.65   44.42    -5.37
-religiousness4        1529.90       8.07   34.78   -13.01
-occupation               8.07      39.51   -3.94     0.64
-rating                  34.78      -3.94  101.79    -4.19
-logSigma               -13.01       0.64   -4.19     2.60
+> round( bread( estResultEmpty ), 1 )
+               (Intercept)   age yearsmarried religiousness2 religiousness3
+(Intercept)         5169.4 -78.2         47.6        -1183.5        -1258.2
+age                  -78.2   4.1         -5.1            1.0            4.4
+yearsmarried          47.6  -5.1         11.0           -1.2           -9.8
+religiousness2     -1183.5   1.0         -1.2         1442.7         1053.4
+religiousness3     -1258.2   4.4         -9.8         1053.4         1490.3
+religiousness4     -1090.9   2.7        -16.8         1068.4         1071.9
+occupation           -88.0  -3.0          2.9           -7.5            4.6
+rating              -413.6   0.5          3.5           53.0           44.4
+logSigma               3.1  -0.3          0.8           -8.1           -5.4
+               religiousness4 occupation rating logSigma
+(Intercept)           -1090.9      -88.0 -413.6      3.1
+age                       2.7       -3.0    0.5     -0.3
+yearsmarried            -16.8        2.9    3.5      0.8
+religiousness2         1068.4       -7.5   53.0     -8.1
+religiousness3         1071.9        4.6   44.4     -5.4
+religiousness4         1529.9        8.1   34.8    -13.0
+occupation                8.1       39.5   -3.9      0.6
+rating                   34.8       -3.9  101.8     -4.2
+logSigma                -13.0        0.6   -4.2      2.6
 > round( sandwich( estResultEmpty ), 2 )
                (Intercept)   age yearsmarried religiousness2 religiousness3
 (Intercept)          10.32 -0.20         0.17          -1.13          -1.67
@@ -13803,4 +13814,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  3.295   0.281   3.567 
+  3.304   0.297   3.594 

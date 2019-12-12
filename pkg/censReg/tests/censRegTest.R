@@ -43,6 +43,10 @@ printAll <- function( x, logSigmaFalse = FALSE, sDigits = 2,
    print( summary( margEff( x, calcVCov = sumMeCalcVCov, 
       returnJacobian = sumMeReturnJacobian ) ), digits = sDigits )
    
+   x$code <- 0
+   x$message <- "removed message"
+   x$iterations <- 0
+   
    cat( "print( maxLik:::summary.maxLik( x ), sDigits )\n" )
    print( maxLik:::summary.maxLik( x ), digits = sDigits )
    

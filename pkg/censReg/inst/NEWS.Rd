@@ -1,11 +1,11 @@
 \name{NEWS}
 \title{News for Package 'censReg'}
-\section{Changes in censReg version 0.5-28 (2019-12-10)}{
+\section{Changes in censReg version 0.5-30 (2019-12-12)}{
   \itemize{
     \item \code{censReg()} can now estimate models that only have an intercept 
       and no (other) explanatory variables
-    \item updated the reference output of the test scripts, 
-      because changes in other packages changed the output of the test scripts
+    \item made the output of the test scripts much more robust to differences
+      in numerical inaccuracies
   }
 }
 \section{Changes in censReg version 0.5-26 (2017-03-21)}{

@@ -43,7 +43,9 @@ The following objects are masked from 'package:base':
 > 
 > options( digits = 5 )
 > 
-> printAll <- function( x ) {
+> printAll <- function( x, logSigmaFalse = FALSE, sDigits = 2, 
++       meCalcVCov = TRUE, meReturnJacobian = FALSE,
++       sumMeCalcVCov = TRUE, sumMeReturnJacobian = FALSE ) {
 +    for( n in names( x ) ) {
 +       if( ! n %in% c( "code", "message", "iterations" ) ) {
 +          cat( "$", n, "\n", sep = "" )
@@ -59,6 +61,37 @@ The following objects are masked from 'package:base':
 +    }
 +    cat( "class\n" )
 +    print( class( x ) )
++    
++    cat( "print( x, digits = 2 )\n" )
++    print( x, digits = 2 )
++    
++    if( logSigmaFalse ) {
++       cat( "print( x, logSigma = FALSE, digits = 2 )\n" )
++       print( x, logSigma = FALSE, digits = 2 )
++    }
++    
++    cat( "print( round( margEff( x ), digits = 2 ) )\n" )
++    print( round( margEff( x, calcVCov = meCalcVCov, 
++       returnJacobian = meReturnJacobian ), 2 ) )
++    
++    cat( "printME( margEff( x ) )\n" )
++    printME( margEff( x, calcVCov = meCalcVCov,
++       returnJacobian = meReturnJacobian ) )
++    
++    cat( "print( summary( margEff( x ) ), digits = sDigits )\n" )
++    print( summary( margEff( x, calcVCov = sumMeCalcVCov, 
++       returnJacobian = sumMeReturnJacobian ) ), digits = sDigits )
++    
++    cat( "print( maxLik:::summary.maxLik( x ), sDigits )\n" )
++    print( maxLik:::summary.maxLik( x ), digits = sDigits )
++    
++    cat( "print( summary( x ), digits = sDigits )\n" )
++    print( summary( x ), digits = sDigits )
++    
++    if( logSigmaFalse ) {
++       cat( "print( summary( x ), logSigma = FALSE, digits = sDigits )\n" )
++       print( summary( x ), logSigma = FALSE, digits = sDigits )
++    }
 + }
 > 
 > printME <- function( x ) {
@@ -84,7 +117,7 @@ The following objects are masked from 'package:base':
 > 
 > ## usual tobit estimation
 > estResult <- censReg( affairsFormula, data = Affairs )
-> printAll( estResult )
+> printAll( estResult, logSigmaFalse = TRUE, sDigits = 1 )
 $maximum
 [1] -705.58
 
@@ -782,7 +815,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55896f73b2b0>
+<bytecode: 0x558a65ffc5f8>
 <environment: namespace:censReg>
 
 $xMean
@@ -846,7 +879,7 @@ $right
 
 class
 [1] "censReg" "maxLik"  "maxim"   "list"   
-> print( estResult, digits = 2 )
+print( x, digits = 2 )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs)
@@ -857,7 +890,7 @@ Coefficients:
        rating      logSigma 
         -2.28          2.11 
 
-> print( estResult, logSigma = FALSE, digits = 2 )
+print( x, logSigma = FALSE, digits = 2 )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs)
@@ -868,7 +901,33 @@ Coefficients:
        rating         sigma 
         -2.28          8.25 
 
-> print( maxLik:::summary.maxLik( estResult ), digits = 1 )
+print( round( margEff( x ), digits = 2 ) )
+          age  yearsmarried religiousness    occupation        rating 
+        -0.04          0.13         -0.39          0.08         -0.53 
+printME( margEff( x ) )
+          age  yearsmarried religiousness    occupation        rating 
+       -0.042         0.130        -0.394         0.076        -0.534 
+attr(,"vcov")
+              age yearsmarried religiousness occupation rating
+age             0        0.000         0.000      0.000  0.000
+yearsmarried    0        0.001         0.000      0.000  0.000
+religiousness   0        0.000         0.009      0.000  0.000
+occupation      0        0.000         0.000      0.004  0.000
+rating          0        0.000         0.000      0.000  0.009
+attr(,"df.residual")
+[1] 594
+attr(,"class")
+[1] "margEff.censReg" "numeric"        
+print( summary( margEff( x ) ), digits = sDigits )
+              Marg. Eff. Std. Error t value Pr(>|t|)    
+age                -0.04       0.02      -2     0.02 *  
+yearsmarried        0.13       0.03       4    4e-05 ***
+religiousness      -0.39       0.09      -4    3e-05 ***
+occupation          0.08       0.06       1     0.20    
+rating             -0.53       0.09      -6    3e-08 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+print( maxLik:::summary.maxLik( x ), sDigits )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -887,7 +946,7 @@ logSigma          2.11       0.07      31  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( estResult ), digits = 1 )
+print( summary( x ), digits = sDigits )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs)
@@ -912,7 +971,7 @@ Newton-Raphson maximisation, 7 iterations
 Return code 1: gradient close to zero
 Log-likelihood: -705.58 on 7 Df
 
-> print( summary( estResult ), logSigma = FALSE, digits = 1 )
+print( summary( x ), logSigma = FALSE, digits = sDigits )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs)
@@ -999,32 +1058,6 @@ religiousness    -1.69       0.40   -4.18    0.00
 occupation        0.33       0.25    1.28    0.20
 rating           -2.28       0.41   -5.60    0.00
 sigma             8.25       0.55   14.90    0.00
-> round( margEff( estResult ), 2 )
-          age  yearsmarried religiousness    occupation        rating 
-        -0.04          0.13         -0.39          0.08         -0.53 
-> printME( margEff( estResult ) )
-          age  yearsmarried religiousness    occupation        rating 
-       -0.042         0.130        -0.394         0.076        -0.534 
-attr(,"vcov")
-              age yearsmarried religiousness occupation rating
-age             0        0.000         0.000      0.000  0.000
-yearsmarried    0        0.001         0.000      0.000  0.000
-religiousness   0        0.000         0.009      0.000  0.000
-occupation      0        0.000         0.000      0.004  0.000
-rating          0        0.000         0.000      0.000  0.009
-attr(,"df.residual")
-[1] 594
-attr(,"class")
-[1] "margEff.censReg" "numeric"        
-> summary( margEff( estResult ) )
-              Marg. Eff. Std. Error t value Pr(>|t|)    
-age              -0.0419     0.0184   -2.27    0.023 *  
-yearsmarried      0.1295     0.0312    4.16  3.7e-05 ***
-religiousness    -0.3942     0.0934   -4.22  2.8e-05 ***
-occupation        0.0762     0.0595    1.28    0.200    
-rating           -0.5341     0.0949   -5.63  2.8e-08 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > all.equal( margEff( estResult ),
 +    margEff( estResult, xValues = estResult$xMean ) )
 [1] TRUE
@@ -1773,7 +1806,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > ## usual tobit estimation, BHHH method
 > estResultBhhh <- censReg( affairsFormula, data = Affairs, method = "BHHH" )
-> printAll( estResultBhhh )
+> printAll( estResultBhhh, meReturnJacobian = TRUE )
 $maximum
 [1] -705.58
 
@@ -2473,7 +2506,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55896f73b2b0>
+<bytecode: 0x558a65ffc5f8>
 <environment: namespace:censReg>
 
 $xMean
@@ -2537,7 +2570,7 @@ $right
 
 class
 [1] "censReg" "maxLik"  "maxim"   "list"   
-> print( estResultBhhh, digits = 2 )
+print( x, digits = 2 )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs, method = "BHHH")
@@ -2548,10 +2581,10 @@ Coefficients:
        rating      logSigma 
         -2.28          2.11 
 
-> round( margEff( estResultBhhh, returnJacobian = TRUE ), 2 )
+print( round( margEff( x ), digits = 2 ) )
           age  yearsmarried religiousness    occupation        rating 
         -0.04          0.13         -0.39          0.08         -0.53 
-> printME( margEff( estResultBhhh, returnJacobian = TRUE ) )
+printME( margEff( x ) )
           age  yearsmarried religiousness    occupation        rating 
        -0.042         0.129        -0.394         0.076        -0.534 
 attr(,"vcov")
@@ -2578,7 +2611,7 @@ attr(,"df.residual")
 [1] 594
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
-> print( summary( margEff( estResultBhhh ) ), digits = 2 )
+print( summary( margEff( x ) ), digits = sDigits )
               Marg. Eff. Std. Error t value Pr(>|t|)    
 age               -0.042      0.018    -2.4     0.02 *  
 yearsmarried       0.129      0.033     4.0    8e-05 ***
@@ -2587,7 +2620,7 @@ occupation         0.076      0.062     1.2     0.22
 rating            -0.534      0.103    -5.2    3e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-> print( maxLik:::summary.maxLik( estResultBhhh ), digits = 2 )
+print( maxLik:::summary.maxLik( x ), sDigits )
 --------------------------------------------
 Maximum Likelihood estimation
 BHHH maximisation, 10 iterations
@@ -2606,7 +2639,7 @@ logSigma         2.110      0.087    24.1  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( estResultBhhh ), digits = 2 )
+print( summary( x ), digits = sDigits )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs, method = "BHHH")
@@ -2639,7 +2672,7 @@ Log-likelihood: -705.58 on 7 Df
 > 
 > ## usual tobit estimation, BFGS method
 > estResultBfgs <- censReg( affairsFormula, data = Affairs, method = "BFGS" )
-> printAll( estResultBfgs )
+> printAll( estResultBfgs, meCalcVCov = FALSE )
 $maximum
 [1] -705.58
 
@@ -3340,7 +3373,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55896f73b2b0>
+<bytecode: 0x558a65ffc5f8>
 <environment: namespace:censReg>
 
 $xMean
@@ -3404,7 +3437,7 @@ $right
 
 class
 [1] "censReg" "maxLik"  "maxim"  
-> print( estResultBfgs, digits = 2 )
+print( x, digits = 2 )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs, method = "BFGS")
@@ -3415,17 +3448,17 @@ Coefficients:
        rating      logSigma 
         -2.28          2.11 
 
-> round( margEff( estResultBfgs, calcVCov = FALSE ), 2 )
+print( round( margEff( x ), digits = 2 ) )
           age  yearsmarried religiousness    occupation        rating 
         -0.04          0.13         -0.39          0.08         -0.53 
-> printME( margEff( estResultBfgs, calcVCov = FALSE ) )
+printME( margEff( x ) )
           age  yearsmarried religiousness    occupation        rating 
        -0.042         0.130        -0.394         0.076        -0.534 
 attr(,"df.residual")
 [1] 594
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
-> print( summary( margEff( estResultBfgs ) ), digits = 2 )
+print( summary( margEff( x ) ), digits = sDigits )
               Marg. Eff. Std. Error t value Pr(>|t|)    
 age               -0.042      0.018    -2.3     0.02 *  
 yearsmarried       0.130      0.031     4.2    4e-05 ***
@@ -3434,7 +3467,7 @@ occupation         0.076      0.059     1.3     0.20
 rating            -0.534      0.095    -5.6    3e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-> print( maxLik:::summary.maxLik( estResultBfgs ), 2 )
+print( maxLik:::summary.maxLik( x ), sDigits )
 --------------------------------------------
 Maximum Likelihood estimation
 BFGS maximization, 65 iterations
@@ -3453,7 +3486,7 @@ logSigma         2.110      0.067    31.4  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( estResultBfgs ), digits = 2 )
+print( summary( x ), digits = sDigits )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs, method = "BFGS")
@@ -4182,7 +4215,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55896f73b2b0>
+<bytecode: 0x558a65ffc5f8>
 <environment: namespace:censReg>
 
 $xMean
@@ -4246,7 +4279,7 @@ $right
 
 class
 [1] "censReg" "maxLik"  "maxim"  
-> print( estResultNm, digits = 2 )
+print( x, digits = 2 )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs, method = "NM")
@@ -4257,10 +4290,10 @@ Coefficients:
        rating      logSigma 
         -2.31          2.11 
 
-> round( margEff( estResultNm ), 2 )
+print( round( margEff( x ), digits = 2 ) )
           age  yearsmarried religiousness    occupation        rating 
         -0.04          0.13         -0.40          0.07         -0.54 
-> printME( margEff( estResultNm ) )
+printME( margEff( x ) )
           age  yearsmarried religiousness    occupation        rating 
        -0.043         0.128        -0.402         0.071        -0.536 
 attr(,"vcov")
@@ -4274,7 +4307,7 @@ attr(,"df.residual")
 [1] 594
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
-> print( summary( margEff( estResultNm ) ), digits = 2 )
+print( summary( margEff( x ) ), digits = sDigits )
               Marg. Eff. Std. Error t value Pr(>|t|)    
 age               -0.043      0.018    -2.3     0.02 *  
 yearsmarried       0.128      0.031     4.1    4e-05 ***
@@ -4283,7 +4316,7 @@ occupation         0.071      0.059     1.2     0.23
 rating            -0.536      0.095    -5.7    2e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-> print( maxLik:::summary.maxLik( estResultNm ), digits = 2 )
+print( maxLik:::summary.maxLik( x ), sDigits )
 --------------------------------------------
 Maximum Likelihood estimation
 Nelder-Mead maximization, 502 iterations
@@ -4302,7 +4335,7 @@ logSigma         2.112      0.067    31.3  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( estResultNm ), digits = 2 )
+print( summary( x ), digits = sDigits )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs, method = "NM")
@@ -5031,7 +5064,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55896f73b2b0>
+<bytecode: 0x558a65ffc5f8>
 <environment: namespace:censReg>
 
 $xMean
@@ -5095,7 +5128,7 @@ $right
 
 class
 [1] "censReg" "maxLik"  "maxim"  
-> print( estResultSann, digits = 2 )
+print( x, digits = 2 )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs, method = "SANN")
@@ -5106,10 +5139,10 @@ Coefficients:
        rating      logSigma 
         -2.01          2.17 
 
-> round( margEff( estResultSann ), 2 )
+print( round( margEff( x ), digits = 2 ) )
           age  yearsmarried religiousness    occupation        rating 
         -0.04          0.13         -0.36          0.12         -0.45 
-> printME( margEff( estResultSann ) )
+printME( margEff( x ) )
           age  yearsmarried religiousness    occupation        rating 
        -0.039         0.128        -0.357         0.122        -0.449 
 attr(,"vcov")
@@ -5123,7 +5156,7 @@ attr(,"df.residual")
 [1] 594
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
-> print( summary( margEff( estResultSann ) ), digits = 2 )
+print( summary( margEff( x ) ), digits = sDigits )
               Marg. Eff. Std. Error t value Pr(>|t|)    
 age               -0.039      0.019    -2.1     0.04 *  
 yearsmarried       0.128      0.032     4.0    6e-05 ***
@@ -5132,7 +5165,7 @@ occupation         0.122      0.062     2.0     0.05 *
 rating            -0.449      0.095    -4.7    3e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-> print( maxLik:::summary.maxLik( estResultSann ), digits = 2 )
+print( maxLik:::summary.maxLik( x ), sDigits )
 --------------------------------------------
 Maximum Likelihood estimation
 SANN maximization, 10000 iterations
@@ -5151,7 +5184,7 @@ logSigma         2.171      0.072    30.0  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( estResultSann ), digits = 2 )
+print( summary( x ), digits = sDigits )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs, method = "SANN")
@@ -5180,7 +5213,7 @@ Log-likelihood: -706.96 on 7 Df
 > ## usual tobit estimation with user-defined starting values
 > estResultStart <- censReg( affairsFormula, data = Affairs,
 +    start = c( 8.17, -0.18, 0.55, -1.69, 0.33, -2.3, 2.13 ) )
-> printAll( estResultStart )
+> printAll( estResultStart, sumMeCalcVCov = FALSE, sumMeReturnJacobian = TRUE )
 $maximum
 [1] -705.58
 
@@ -5878,7 +5911,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55896f73b2b0>
+<bytecode: 0x558a65ffc5f8>
 <environment: namespace:censReg>
 
 $xMean
@@ -5943,7 +5976,7 @@ $right
 
 class
 [1] "censReg" "maxLik"  "maxim"   "list"   
-> print( estResultStart, digits = 2 )
+print( x, digits = 2 )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs, start = c(8.17, 
@@ -5955,10 +5988,10 @@ Coefficients:
        rating      logSigma 
         -2.28          2.11 
 
-> round( margEff( estResultStart ), 2 )
+print( round( margEff( x ), digits = 2 ) )
           age  yearsmarried religiousness    occupation        rating 
         -0.04          0.13         -0.39          0.08         -0.53 
-> printME( margEff( estResultStart ) )
+printME( margEff( x ) )
           age  yearsmarried religiousness    occupation        rating 
        -0.042         0.130        -0.394         0.076        -0.534 
 attr(,"vcov")
@@ -5972,19 +6005,14 @@ attr(,"df.residual")
 [1] 594
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
-> print( summary(
-+    margEff( estResultStart, calcVCov = FALSE, returnJacobian = TRUE ) ),
-+    digits = 2 )
+print( summary( margEff( x ) ), digits = sDigits )
               Marg. Eff. Std. Error t value Pr(>|t|)
 age               -0.042         NA      NA       NA
 yearsmarried       0.130         NA      NA       NA
 religiousness     -0.394         NA      NA       NA
 occupation         0.076         NA      NA       NA
 rating            -0.534         NA      NA       NA
-Warning message:
-In summary.margEff.censReg(margEff(estResultStart, calcVCov = FALSE,  :
-  cannot calculate standard errors, t-values, and P-values, because the marginal effects do not have an attribute 'vcov': please set attribute 'calcVCov' of the 'margEff' method to 'TRUE'
-> print( maxLik:::summary.maxLik( estResultStart ), digits = 2 )
+print( maxLik:::summary.maxLik( x ), sDigits )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 3 iterations
@@ -6003,7 +6031,7 @@ logSigma         2.110      0.067    31.4  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( estResultStart ), digits = 2 )
+print( summary( x ), digits = sDigits )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs, start = c(8.17, 
@@ -6029,6 +6057,9 @@ Newton-Raphson maximisation, 3 iterations
 Return code 1: gradient close to zero
 Log-likelihood: -705.58 on 7 Df
 
+Warning message:
+In summary.margEff.censReg(margEff(x, calcVCov = sumMeCalcVCov,  :
+  cannot calculate standard errors, t-values, and P-values, because the marginal effects do not have an attribute 'vcov': please set attribute 'calcVCov' of the 'margEff' method to 'TRUE'
 > logLik( estResultStart )
 'log Lik.' -705.58 (df=7)
 > nobs( estResultStart )
@@ -6040,7 +6071,7 @@ affairs ~ age + yearsmarried + religiousness + occupation + rating
 > Affairs$affairsAdd <- Affairs$affairs + 5
 > estResultAdd <- censReg( affairsAdd ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs, left = 5 )
-> printAll( estResultAdd )
+> printAll( estResultAdd, sumMeReturnJacobian = TRUE )
 $maximum
 [1] -705.58
 
@@ -6738,7 +6769,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55896f73b2b0>
+<bytecode: 0x558a65ffc5f8>
 <environment: namespace:censReg>
 
 $xMean
@@ -6806,7 +6837,7 @@ $right
 
 class
 [1] "censReg" "maxLik"  "maxim"   "list"   
-> print( estResultAdd, digits = 2 )
+print( x, digits = 2 )
 
 Call:
 censReg(formula = affairsAdd ~ age + yearsmarried + religiousness + 
@@ -6818,10 +6849,10 @@ Coefficients:
        rating      logSigma 
         -2.28          2.11 
 
-> round( margEff( estResultAdd ), 2 )
+print( round( margEff( x ), digits = 2 ) )
           age  yearsmarried religiousness    occupation        rating 
         -0.04          0.13         -0.39          0.08         -0.53 
-> printME( margEff( estResultAdd ) )
+printME( margEff( x ) )
           age  yearsmarried religiousness    occupation        rating 
        -0.042         0.130        -0.394         0.076        -0.534 
 attr(,"vcov")
@@ -6835,7 +6866,7 @@ attr(,"df.residual")
 [1] 594
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
-> print( summary( margEff( estResultAdd, returnJacobian = TRUE ) ), digits = 2 )
+print( summary( margEff( x ) ), digits = sDigits )
               Marg. Eff. Std. Error t value Pr(>|t|)    
 age               -0.042      0.018    -2.3     0.02 *  
 yearsmarried       0.130      0.031     4.2    4e-05 ***
@@ -6844,7 +6875,7 @@ occupation         0.076      0.059     1.3     0.20
 rating            -0.534      0.095    -5.6    3e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-> print( maxLik:::summary.maxLik( estResultAdd ), digits = 2 )
+print( maxLik:::summary.maxLik( x ), sDigits )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -6863,7 +6894,7 @@ logSigma         2.110      0.067    31.4  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( estResultAdd ), digits = 2 )
+print( summary( x ), digits = sDigits )
 
 Call:
 censReg(formula = affairsAdd ~ age + yearsmarried + religiousness + 
@@ -6944,7 +6975,7 @@ sigma          0.31
 > Affairs$affairsNeg <- - Affairs$affairs
 > estResultNeg <- censReg( affairsNeg ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs, left = -Inf, right = 0 )
-> printAll( estResultNeg )
+> printAll( estResultNeg, meCalcVCov = FALSE, meReturnJacobian = TRUE )
 $maximum
 [1] -705.58
 
@@ -7642,7 +7673,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55896f73b2b0>
+<bytecode: 0x558a65ffc5f8>
 <environment: namespace:censReg>
 
 $xMean
@@ -7710,7 +7741,7 @@ $right
 
 class
 [1] "censReg" "maxLik"  "maxim"   "list"   
-> print( estResultNeg, digits = 2 )
+print( x, digits = 2 )
 
 Call:
 censReg(formula = affairsNeg ~ age + yearsmarried + religiousness + 
@@ -7722,10 +7753,10 @@ Coefficients:
        rating      logSigma 
          2.28          2.11 
 
-> round( margEff( estResultNeg, calcVCov = FALSE, returnJacobian = TRUE ), 2 )
+print( round( margEff( x ), digits = 2 ) )
           age  yearsmarried religiousness    occupation        rating 
          0.04         -0.13          0.39         -0.08          0.53 
-> printME( margEff( estResultNeg, calcVCov = FALSE, returnJacobian = TRUE ) )
+printME( margEff( x ) )
           age  yearsmarried religiousness    occupation        rating 
         0.042        -0.130         0.394        -0.076         0.534 
 attr(,"jacobian")
@@ -7745,7 +7776,7 @@ attr(,"df.residual")
 [1] 594
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
-> print( summary( margEff( estResultNeg ) ), digits = 2 )
+print( summary( margEff( x ) ), digits = sDigits )
               Marg. Eff. Std. Error t value Pr(>|t|)    
 age                0.042      0.018     2.3     0.02 *  
 yearsmarried      -0.130      0.031    -4.2    4e-05 ***
@@ -7754,7 +7785,7 @@ occupation        -0.076      0.059    -1.3     0.20
 rating             0.534      0.095     5.6    3e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-> print( maxLik:::summary.maxLik( estResultNeg ), digits = 2 )
+print( maxLik:::summary.maxLik( x ), sDigits )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -7773,7 +7804,7 @@ logSigma         2.110      0.067    31.4  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( estResultNeg ), digits = 2 )
+print( summary( x ), digits = sDigits )
 
 Call:
 censReg(formula = affairsNeg ~ age + yearsmarried + religiousness + 
@@ -8457,7 +8488,7 @@ sigma          0.31
 > Affairs$affairsAddNeg <- - Affairs$affairsAdd
 > estResultAddNeg <- censReg( affairsAddNeg ~ age + yearsmarried + religiousness +
 +    occupation + rating, data = Affairs, left = -Inf, right = -5 )
-> printAll( estResultAddNeg )
+> printAll( estResultAddNeg, sumMeCalcVCov = FALSE )
 $maximum
 [1] -705.58
 
@@ -9155,7 +9186,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55896f73b2b0>
+<bytecode: 0x558a65ffc5f8>
 <environment: namespace:censReg>
 
 $xMean
@@ -9223,7 +9254,7 @@ $right
 
 class
 [1] "censReg" "maxLik"  "maxim"   "list"   
-> print( estResultAddNeg, digits = 2 )
+print( x, digits = 2 )
 
 Call:
 censReg(formula = affairsAddNeg ~ age + yearsmarried + religiousness + 
@@ -9235,10 +9266,10 @@ Coefficients:
        rating      logSigma 
          2.28          2.11 
 
-> round( margEff( estResultAddNeg ), 2 )
+print( round( margEff( x ), digits = 2 ) )
           age  yearsmarried religiousness    occupation        rating 
          0.04         -0.13          0.39         -0.08          0.53 
-> printME( margEff( estResultAddNeg ) )
+printME( margEff( x ) )
           age  yearsmarried religiousness    occupation        rating 
         0.042        -0.130         0.394        -0.076         0.534 
 attr(,"vcov")
@@ -9252,17 +9283,14 @@ attr(,"df.residual")
 [1] 594
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
-> print( summary( margEff( estResultAddNeg, calcVCov = FALSE ) ), digits = 2 )
+print( summary( margEff( x ) ), digits = sDigits )
               Marg. Eff. Std. Error t value Pr(>|t|)
 age                0.042         NA      NA       NA
 yearsmarried      -0.130         NA      NA       NA
 religiousness      0.394         NA      NA       NA
 occupation        -0.076         NA      NA       NA
 rating             0.534         NA      NA       NA
-Warning message:
-In summary.margEff.censReg(margEff(estResultAddNeg, calcVCov = FALSE)) :
-  cannot calculate standard errors, t-values, and P-values, because the marginal effects do not have an attribute 'vcov': please set attribute 'calcVCov' of the 'margEff' method to 'TRUE'
-> print( maxLik:::summary.maxLik( estResultAddNeg ), digits = 2 )
+print( maxLik:::summary.maxLik( x ), sDigits )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -9281,7 +9309,7 @@ logSigma         2.110      0.067    31.4  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( estResultAddNeg ), digits = 2 )
+print( summary( x ), digits = sDigits )
 
 Call:
 censReg(formula = affairsAddNeg ~ age + yearsmarried + religiousness + 
@@ -9307,6 +9335,9 @@ Newton-Raphson maximisation, 7 iterations
 Return code 1: gradient close to zero
 Log-likelihood: -705.58 on 7 Df
 
+Warning message:
+In summary.margEff.censReg(margEff(x, calcVCov = sumMeCalcVCov,  :
+  cannot calculate standard errors, t-values, and P-values, because the marginal effects do not have an attribute 'vcov': please set attribute 'calcVCov' of the 'margEff' method to 'TRUE'
 > round( coef( estResultAddNeg ), 2 )
   (Intercept)           age  yearsmarried religiousness    occupation 
        -13.17          0.18         -0.55          1.69         -0.33 
@@ -10061,7 +10092,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55896f73b2b0>
+<bytecode: 0x558a65ffc5f8>
 <environment: namespace:censReg>
 
 $xMean
@@ -10125,7 +10156,7 @@ $right
 
 class
 [1] "censReg" "maxLik"  "maxim"   "list"   
-> print( estResultBoth, digits = 2 )
+print( x, digits = 2 )
 
 Call:
 censReg(formula = affairsFormula, right = 4, data = Affairs)
@@ -10136,10 +10167,10 @@ Coefficients:
        rating      logSigma 
         -2.21          2.07 
 
-> round( margEff( estResultBoth ), 2 )
+print( round( margEff( x ), digits = 2 ) )
           age  yearsmarried religiousness    occupation        rating 
         -0.02          0.07         -0.20          0.04         -0.27 
-> printME( margEff( estResultBoth ) )
+printME( margEff( x ) )
           age  yearsmarried religiousness    occupation        rating 
        -0.022         0.065        -0.199         0.040        -0.271 
 attr(,"vcov")
@@ -10153,7 +10184,7 @@ attr(,"df.residual")
 [1] 594
 attr(,"class")
 [1] "margEff.censReg" "numeric"        
-> print( summary( margEff( estResultBoth ) ), digits = 2 )
+print( summary( margEff( x ) ), digits = sDigits )
               Marg. Eff. Std. Error t value Pr(>|t|)    
 age              -0.0218     0.0096    -2.3     0.02 *  
 yearsmarried      0.0654     0.0161     4.1    5e-05 ***
@@ -10162,7 +10193,7 @@ occupation        0.0399     0.0310     1.3     0.20
 rating           -0.2713     0.0488    -5.6    4e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-> print( maxLik:::summary.maxLik( estResultBoth ), digits = 2 )
+print( maxLik:::summary.maxLik( x ), sDigits )
 --------------------------------------------
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 7 iterations
@@ -10181,7 +10212,7 @@ logSigma          2.07       0.11    18.8  <2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> print( summary( estResultBoth ), digits = 2 )
+print( summary( x ), digits = sDigits )
 
 Call:
 censReg(formula = affairsFormula, right = 4, data = Affairs)
@@ -11579,7 +11610,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55896f73b2b0>
+<bytecode: 0x558a65ffc5f8>
 <environment: namespace:censReg>
 
 $xMean
@@ -11643,7 +11674,7 @@ $right
 
 class
 [1] "censReg" "maxLik"  "maxim"   "list"   
-> print( estResultEmpty, digits = 2 )
+print( x, digits = 2 )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs2)
@@ -11654,7 +11685,70 @@ Coefficients:
 religiousness4     occupation         rating       logSigma 
          -7.22           0.40          -2.33           2.11 
 
-> print( summary( estResultEmpty ), digits = 2 )
+print( round( margEff( x ), digits = 2 ) )
+           age   yearsmarried religiousness2 religiousness3 religiousness4 
+         -0.04           0.13          -0.99          -0.72          -1.73 
+    occupation         rating 
+          0.10          -0.56 
+printME( margEff( x ) )
+           age   yearsmarried religiousness2 religiousness3 religiousness4 
+        -0.039          0.126         -0.990         -0.725         -1.734 
+    occupation         rating 
+         0.096         -0.559 
+attr(,"vcov")
+                  age yearsmarried religiousness2 religiousness3 religiousness4
+age             0.000       -0.001          0.000          0.000          0.000
+yearsmarried   -0.001        0.001          0.000         -0.001         -0.002
+religiousness2  0.000        0.000          0.156          0.114          0.115
+religiousness3  0.000       -0.001          0.114          0.162          0.115
+religiousness4  0.000       -0.002          0.115          0.115          0.163
+occupation      0.000        0.000         -0.001          0.001          0.001
+rating          0.000        0.000          0.005          0.005          0.003
+               occupation rating
+age                 0.000  0.000
+yearsmarried        0.000  0.000
+religiousness2     -0.001  0.005
+religiousness3      0.001  0.005
+religiousness4      0.001  0.003
+occupation          0.004  0.000
+rating              0.000  0.011
+attr(,"df.residual")
+[1] 522
+attr(,"class")
+[1] "margEff.censReg" "numeric"        
+print( summary( margEff( x ) ), digits = sDigits )
+               Marg. Eff. Std. Error t value Pr(>|t|)    
+age                -0.039      0.021    -1.9     0.06 .  
+yearsmarried        0.126      0.034     3.7    3e-04 ***
+religiousness2     -0.990      0.395    -2.5     0.01 *  
+religiousness3     -0.725      0.402    -1.8     0.07 .  
+religiousness4     -1.734      0.403    -4.3    2e-05 ***
+occupation          0.096      0.066     1.5     0.14    
+rating             -0.559      0.104    -5.4    1e-07 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+print( maxLik:::summary.maxLik( x ), sDigits )
+--------------------------------------------
+Maximum Likelihood estimation
+Newton-Raphson maximisation, 6 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: -638.42 
+9  free parameters
+Estimates:
+               Estimate Std. error t value Pr(> t)    
+(Intercept)       7.311      3.120     2.3    0.02 *  
+age              -0.164      0.088    -1.9    0.06 .  
+yearsmarried      0.523      0.144     3.6   3e-04 ***
+religiousness2   -4.120      1.648    -2.5    0.01 *  
+religiousness3   -3.017      1.675    -1.8    0.07 .  
+religiousness4   -7.218      1.697    -4.3   2e-05 ***
+occupation        0.401      0.273     1.5    0.14    
+rating           -2.328      0.438    -5.3   1e-07 ***
+logSigma          2.110      0.070    30.1  <2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
+print( summary( x ), digits = sDigits )
 
 Call:
 censReg(formula = affairsFormula, data = Affairs2)
@@ -11707,48 +11801,6 @@ religiousness4           2.88       0.02   0.07    -0.02
 occupation               0.02       0.07  -0.01     0.00
 rating                   0.07      -0.01   0.19    -0.01
 logSigma                -0.02       0.00  -0.01     0.00
-> round( margEff( estResultEmpty ), 2 )
-           age   yearsmarried religiousness2 religiousness3 religiousness4 
-         -0.04           0.13          -0.99          -0.72          -1.73 
-    occupation         rating 
-          0.10          -0.56 
-> printME( margEff( estResultEmpty ) )
-           age   yearsmarried religiousness2 religiousness3 religiousness4 
-        -0.039          0.126         -0.990         -0.725         -1.734 
-    occupation         rating 
-         0.096         -0.559 
-attr(,"vcov")
-                  age yearsmarried religiousness2 religiousness3 religiousness4
-age             0.000       -0.001          0.000          0.000          0.000
-yearsmarried   -0.001        0.001          0.000         -0.001         -0.002
-religiousness2  0.000        0.000          0.156          0.114          0.115
-religiousness3  0.000       -0.001          0.114          0.162          0.115
-religiousness4  0.000       -0.002          0.115          0.115          0.163
-occupation      0.000        0.000         -0.001          0.001          0.001
-rating          0.000        0.000          0.005          0.005          0.003
-               occupation rating
-age                 0.000  0.000
-yearsmarried        0.000  0.000
-religiousness2     -0.001  0.005
-religiousness3      0.001  0.005
-religiousness4      0.001  0.003
-occupation          0.004  0.000
-rating              0.000  0.011
-attr(,"df.residual")
-[1] 522
-attr(,"class")
-[1] "margEff.censReg" "numeric"        
-> print( summary( margEff( estResultEmpty ) ), 2 )
-               Marg. Eff. Std. Error t value Pr(>|t|)    
-age                -0.039      0.021    -1.9     0.06 .  
-yearsmarried        0.126      0.034     3.7    3e-04 ***
-religiousness2     -0.990      0.395    -2.5     0.01 *  
-religiousness3     -0.725      0.402    -1.8     0.07 .  
-religiousness4     -1.734      0.403    -4.3    2e-05 ***
-occupation          0.096      0.066     1.5     0.14    
-rating             -0.559      0.104    -5.4    1e-07 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > formula( estResultEmpty )
 affairs ~ age + yearsmarried + religiousness + occupation + rating
 > model.frame( estResultEmpty )
@@ -13747,4 +13799,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  3.238   0.343   3.573 
+  3.224   0.316   3.533 

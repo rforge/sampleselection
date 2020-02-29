@@ -1,6 +1,6 @@
 
-R version 3.2.2 (2015-08-14) -- "Fire Safety"
-Copyright (C) 2015 The R Foundation for Statistical Computing
+R version 3.6.2 (2019-12-12) -- "Dark and Stormy Night"
+Copyright (C) 2019 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -1620,7 +1620,7 @@ d_y5_d_x3      0.76
 10     -0.36      0.02      0.00      0.09         0      0.61     -0.07
    d_y3_d_x2 d_y4_d_x2 d_y5_d_x2 d_y1_d_x3 d_y2_d_x3 d_y3_d_x3 d_y4_d_x3
 1       0.01      0.00         0      0.47     -0.09     -0.01      0.00
-5       0.00      0.00         0      0.00      0.00      0.00      0.00
+5       0.00     -0.01         0      0.00      0.00      0.00      0.00
 10      0.00     -0.19         0      0.21      0.04      0.00      0.03
    d_y5_d_x3
 1          0
@@ -1634,9 +1634,9 @@ d_y5_d_x3      0.76
 5       0.00      0.00      0.00         0         0         0     -0.01
 10      0.01      0.00      0.00         0         0         0      0.00
    d_y3_d_x2 d_y4_d_x2 d_y5_d_x2 d_y1_d_x3 d_y2_d_x3 d_y3_d_x3 d_y4_d_x3
-1          0         0         0         0         0         0         0
-5          0         0         0         0         0         0         0
-10         0         0         0         0         0         0         0
+1          0      0.00         0         0         0         0         0
+5          0     -0.01         0         0         0         0         0
+10         0      0.00         0         0         0         0         0
    d_y5_d_x3
 1          0
 5          0
@@ -1744,7 +1744,7 @@ d_y5_d_x3      0.76
 10      0.00     -0.04      0.00      0.00      0.00      0.00      0.03
    d_y5_d_x3
 1       0.08
-5       0.00
+5      -0.01
 10      0.00
 
 , , b_3_1
@@ -3033,4 +3033,4 @@ d_y5_d_x3 -0.02  0.51  0.01  0.00  0.02  0.00 -0.03  0.04
 > 
 > proc.time()
    user  system elapsed 
- 187.41    0.18  187.75 
+ 63.592   0.068  63.659 

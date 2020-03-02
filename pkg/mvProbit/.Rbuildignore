@@ -1,2 +1,5 @@
 ^\.Rproj\.user$
 ^.*\.Rproj$
+tests/mvProbitEst.Rout.save$
+tests/mvProbitTest.Rout.save$
+tests/mvProbitTest5.Rout.save$

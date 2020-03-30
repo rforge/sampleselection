@@ -135,6 +135,12 @@ logLik( estResultStart )
 nobs( estResultStart )
 formula( estResultStart )
 
+## usual tobit estimation using a "subset" of the data set
+estResultSub <- censReg( affairsFormula, data = Affairs, subset = 3:600 )
+estResultSubMan <- censReg( affairsFormula, data = Affairs[ 3:600, ] )
+all.equal( estResultSub[ names( estResultSub ) != "call" ], 
+   estResultSubMan[ names( estResultSubMan ) != "call" ] )
+
 ## estimation with left-censoring at 5
 Affairs$affairsAdd <- Affairs$affairs + 5
 estResultAdd <- censReg( affairsAdd ~ age + yearsmarried + religiousness +

@@ -1,6 +1,6 @@
 
-R version 3.6.1 (2019-07-05) -- "Action of the Toes"
-Copyright (C) 2019 The R Foundation for Statistical Computing
+R version 3.6.3 RC (2020-02-21 r77847) -- "Holding the Windsock"
+Copyright (C) 2020 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -819,7 +819,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55f091e450f0>
+<bytecode: 0x55e4b03dd750>
 <environment: namespace:censReg>
 
 $xMean
@@ -2510,7 +2510,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55f091e450f0>
+<bytecode: 0x55e4b03dd750>
 <environment: namespace:censReg>
 
 $xMean
@@ -3377,7 +3377,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55f091e450f0>
+<bytecode: 0x55e4b03dd750>
 <environment: namespace:censReg>
 
 $xMean
@@ -4219,7 +4219,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55f091e450f0>
+<bytecode: 0x55e4b03dd750>
 <environment: namespace:censReg>
 
 $xMean
@@ -5068,7 +5068,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55f091e450f0>
+<bytecode: 0x55e4b03dd750>
 <environment: namespace:censReg>
 
 $xMean
@@ -5915,7 +5915,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55f091e450f0>
+<bytecode: 0x55e4b03dd750>
 <environment: namespace:censReg>
 
 $xMean
@@ -6070,6 +6070,13 @@ In summary.margEff.censReg(margEff(x, calcVCov = sumMeCalcVCov,  :
 [1] 601
 > formula( estResultStart )
 affairs ~ age + yearsmarried + religiousness + occupation + rating
+> 
+> ## usual tobit estimation using a "subset" of the data set
+> estResultSub <- censReg( affairsFormula, data = Affairs, subset = 3:600 )
+> estResultSubMan <- censReg( affairsFormula, data = Affairs[ 3:600, ] )
+> all.equal( estResultSub[ names( estResultSub ) != "call" ], 
++    estResultSubMan[ names( estResultSubMan ) != "call" ] )
+[1] TRUE
 > 
 > ## estimation with left-censoring at 5
 > Affairs$affairsAdd <- Affairs$affairs + 5
@@ -6773,7 +6780,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55f091e450f0>
+<bytecode: 0x55e4b03dd750>
 <environment: namespace:censReg>
 
 $xMean
@@ -7677,7 +7684,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55f091e450f0>
+<bytecode: 0x55e4b03dd750>
 <environment: namespace:censReg>
 
 $xMean
@@ -9190,7 +9197,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55f091e450f0>
+<bytecode: 0x55e4b03dd750>
 <environment: namespace:censReg>
 
 $xMean
@@ -10096,7 +10103,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55f091e450f0>
+<bytecode: 0x55e4b03dd750>
 <environment: namespace:censReg>
 
 $xMean
@@ -11625,7 +11632,7 @@ function (beta, yVec, xMat, left, right, obsBelow, obsBetween,
     attr(ll, "gradient") <- grad
     return(ll)
 }
-<bytecode: 0x55f091e450f0>
+<bytecode: 0x55e4b03dd750>
 <environment: namespace:censReg>
 
 $xMean
@@ -13814,4 +13821,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  3.304   0.297   3.594 
+  3.927   0.347   4.269 

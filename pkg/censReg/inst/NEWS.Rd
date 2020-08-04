@@ -1,6 +1,6 @@
 \name{NEWS}
 \title{News for Package 'censReg'}
-\section{Changes in censReg version 0.5-32 (2020-??-??)}{
+\section{Changes in censReg version 0.5-32 (2020-08-04)}{
   \itemize{
     \item added argument \code{subset} to function \code{censReg()}
     \item added argument \code{vcov} to the \code{margeff()} method

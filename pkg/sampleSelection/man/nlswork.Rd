@@ -57,7 +57,7 @@ for the observation with \code{idcode = 2} and \code{year = 87}.
 \source{
 Datasets for Stata Longitudinal/Panel-Data Reference Manual, Release 10:
 National Longitudinal Survey. Young Women 14-26 years of age in 1968,
-\url{http://www.stata-press.com/data/r10/nlswork.dta}.
+\url{https://www.stata-press.com/data/r10/nlswork.dta}.
 }
 
 \references{

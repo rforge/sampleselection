@@ -68,7 +68,7 @@
 \author{
    Arne Henningsen and \sQuote{fg nu}
    (the code is partly based on the code posted by \sQuote{fg nu} at
-   \url{http://stackoverflow.com/questions/14005788/predict-function-for-heckman-model})
+   \url{https://stackoverflow.com/questions/14005788/predict-function-for-heckman-model})
 }
 
 \seealso{

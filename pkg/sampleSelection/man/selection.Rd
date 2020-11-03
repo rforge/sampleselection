@@ -275,7 +275,7 @@ treatReg(selection, outcome,
   Toomet, O. and A. Henningsen, (2008)
   Sample Selection Models in R: Package sampleSelection.
   \emph{Journal of Statistical Software} 27(7),
-  \url{http://www.jstatsoft.org/v27/i07/}
+  \url{https://www.jstatsoft.org/v27/i07/}
 
   Wooldridge, J. M. (2003)
   \emph{Introductory Econometrics: A Modern Approach, 2e}, Thomson South-Western.

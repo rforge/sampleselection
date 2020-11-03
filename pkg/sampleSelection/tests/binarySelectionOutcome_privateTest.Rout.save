@@ -1,6 +1,6 @@
 
-R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
-Copyright (C) 2018 The R Foundation for Statistical Computing
+R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"
+Copyright (C) 2020 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -2380,8 +2380,6 @@ attr(,"assign")
 > 
 > # estimation with BFGS method
 > ssBFGS <- selection( ys ~ xs, yo ~ xo, data = simDat, maxMethod = "BFGS" )
-Warning message:
-In log(lik[i10]) : NaNs produced
 > print( ssBFGS )
 
 Call:
@@ -2773,4 +2771,4 @@ rho    0.749        Inf       0        1
 > 
 > proc.time()
    user  system elapsed 
-  23.16    0.19   23.35 
+ 20.360   0.119  20.474 

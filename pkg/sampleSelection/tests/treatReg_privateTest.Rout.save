@@ -1,6 +1,6 @@
 
-R version 3.5.2 (2018-12-20) -- "Eggshell Igloo"
-Copyright (C) 2018 The R Foundation for Statistical Computing
+R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"
+Copyright (C) 2020 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -179,21 +179,21 @@ predicted and actual outcomes
 > # same treatment variable but a different name in the outcome equation
 > dat$yD <- dat$yS
 > try( selection( yS ~ x + z, yO ~ yD + x, data = dat ) )
-Error in mm %*% x$estimate : 
-  requires numeric/complex matrix/vector arguments
+Error in attr(ll, "df") <- sum(activePar(object)) : 
+  attempt to set an attribute on NULL
 > msD <- selection( yS ~ x + z, yO ~ yD + x, data = dat, type = "treatment",
 +    mfs = TRUE, mfo = TRUE )
 > all.equal( m[ names( m ) != "call" ], ms[ names( msD ) != "call" ] )
 [1] TRUE
 > # estimate the model as tobit-2 model
 > try( selection( yS ~ x + z, yO ~ yS + x, data = dat, type = "2" ) )
-Error in mm %*% x$estimate : 
-  requires numeric/complex matrix/vector arguments
+Error in attr(ll, "df") <- sum(activePar(object)) : 
+  attempt to set an attribute on NULL
 > try( selection( yS ~ x + z, yO ~ yD + x, data = dat, type = "2" ) )
-Error in mm %*% x$estimate : 
-  requires numeric/complex matrix/vector arguments
+Error in attr(ll, "df") <- sum(activePar(object)) : 
+  attempt to set an attribute on NULL
 > 
 > 
 > proc.time()
    user  system elapsed 
-  1.055   0.044   1.093 
+  1.375   0.071   1.440 

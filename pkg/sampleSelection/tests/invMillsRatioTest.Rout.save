@@ -1,6 +1,6 @@
 
-R version 3.6.0 (2019-04-26) -- "Planting of a Tree"
-Copyright (C) 2019 The R Foundation for Statistical Computing
+R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"
+Copyright (C) 2020 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -81,12 +81,6 @@ The following object is masked from 'package:sampleSelection':
 Call:
 vglm(formula = cbind(y1, y2) ~ x1 + x2, family = binom2.rho, 
     data = myData)
-
-Pearson residuals:
-                  Min     1Q Median    3Q  Max
-probitlink(mu1) -6.98 -0.887  0.441 0.747 2.74
-probitlink(mu2) -5.74 -0.671 -0.182 0.676 7.88
-rhobitlink(rho) -8.60 -0.620  0.236 0.517 9.39
 
 Coefficients: 
               Estimate Std. Error z value Pr(>|z|)    
@@ -556,4 +550,4 @@ F-statistic:  841 on 2 and 5294 DF,  p-value: <2e-16
 > 
 > proc.time()
    user  system elapsed 
-  7.136   0.108   7.238 
+  8.320   0.092   8.409 

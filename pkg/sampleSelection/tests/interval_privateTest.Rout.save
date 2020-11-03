@@ -1,6 +1,6 @@
 
-R version 3.4.0 (2017-04-21) -- "You Stupid Darkness"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"
+Copyright (C) 2020 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -234,6 +234,9 @@ x2           -1.2861     0.1209  -10.63 < 2e-16 ***
 x1            2.6593     0.5922    4.49 7.1e-06 ***
 logSigma      1.6307     0.0747   21.82 < 2e-16 ***
 atanhRho      0.2982     0.3619    0.82    0.41    
+sigma         5.1077     0.3817   13.38 < 2e-16 ***
+sigmaSq      26.0884     3.8992    6.69 2.2e-11 ***
+rho           0.2897     0.3315    0.87    0.38    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
@@ -1608,4 +1611,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  150.3     0.2   150.5 
+  79.42    0.35   79.90 

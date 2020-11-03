@@ -8,12 +8,12 @@ citEntry(entry = "Article",
   year         = "2008",
   volume       = "27",
   number       = "7",
-  url          = "http://www.jstatsoft.org/v27/i07/",
+  url          = "https://www.jstatsoft.org/v27/i07/",
 
   textVersion  =
   paste("Ott Toomet, Arne Henningsen (2008).",
         "Sample Selection Models in R: Package sampleSelection.",
         "Journal of Statistical Software 27(7).",
-        "URL http://www.jstatsoft.org/v27/i07/.")
+        "URL https://www.jstatsoft.org/v27/i07/.")
 )
 

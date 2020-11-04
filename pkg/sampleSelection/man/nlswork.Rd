@@ -63,7 +63,7 @@ National Longitudinal Survey. Young Women 14-26 years of age in 1968,
 \references{
 Boston College,
 National Longitudinal Survey. Young Women 14-26 years of age in 1968,
-\url{http://fmwww.bc.edu/ec-p/data/stata/nlswork.dta}.
+\url{https://fmwww.bc.edu/ec-p/data/stata/nlswork.dta}.
 }
 
 \examples{

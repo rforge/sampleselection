@@ -51,7 +51,7 @@
 
    PSID Staff, The Panel Study of Income Dynamics,
    Institute for Social ResearchPanel Study of Income Dynamics,
-   University of Michigan, \url{http://psidonline.isr.umich.edu}.
+   University of Michigan, \url{https://psidonline.isr.umich.edu}.
 }
 
 \examples{

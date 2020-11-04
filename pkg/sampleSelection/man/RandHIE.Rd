@@ -14,7 +14,7 @@ of different health insurance plans.
 Although the fieldwork of the study was conducted between 1974 and 1982,
 the results are still highly relevant,
 since RAND HIE is the only study which can make causal statements.'
-(Wikipedia, RAND Health Insurance Experiment, \url{http://en.wikipedia.org/w/index.php?title=RAND_Health_Insurance_Experiment&oldid=110166949}, accessed April 8, 2007).
+(Wikipedia, RAND Health Insurance Experiment, \url{https://en.wikipedia.org/w/index.php?title=RAND_Health_Insurance_Experiment&oldid=110166949}, accessed April 8, 2007).
 }
 
 \usage{data(RandHIE)}
@@ -127,7 +127,7 @@ since RAND HIE is the only study which can make causal statements.'
    ICPSR 6439.
 
    Wikipedia, \emph{RAND Health Insurance Experiment},
-   \url{ http://en.wikipedia.org/wiki/RAND_Health_Insurance_Experiment}.
+   \url{https://en.wikipedia.org/wiki/RAND_Health_Insurance_Experiment}.
 }
 
 \examples{

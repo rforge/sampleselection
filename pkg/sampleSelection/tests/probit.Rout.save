@@ -1,6 +1,6 @@
 
-R version 3.4.0 (2017-04-21) -- "You Stupid Darkness"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"
+Copyright (C) 2020 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -60,7 +60,7 @@ Coefficients:
 --------------------------------------------
 Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 5 iterations
-Return code 1: gradient close to zero
+Return code 1: gradient close to zero (gradtol)
 Log-Likelihood: -40.7 
 Model: Y == 'TRUE' in contrary to 'FALSE'
 100 observations (16 'negative' and 84 'positive') and 2 free parameters (df = 98)
@@ -494,7 +494,7 @@ Coefficients:
 --------------------------------------------
 Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 5 iterations
-Return code 1: gradient close to zero
+Return code 1: gradient close to zero (gradtol)
 Log-Likelihood: -20.3 
 Model: Y == 'TRUE' in contrary to 'FALSE'
 100 observations (16 'negative' and 84 'positive') and 2 free parameters (df = 98)
@@ -730,7 +730,7 @@ In eval(family$initialize) : non-integer #successes in a binomial glm!
 --------------------------------------------
 Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 4 iterations
-Return code 1: gradient close to zero
+Return code 1: gradient close to zero (gradtol)
 Log-Likelihood: -31.6 
 Model: Y == 'TRUE' in contrary to 'FALSE'
 54 observations (16 'negative' and 38 'positive') and 2 free parameters (df = 52)
@@ -775,7 +775,7 @@ Coefficients:
 --------------------------------------------
 Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 4 iterations
-Return code 1: gradient close to zero
+Return code 1: gradient close to zero (gradtol)
 Log-Likelihood: -22.9 
 Model: Y == 'TRUE' in contrary to 'FALSE'
 54 observations (16 'negative' and 38 'positive') and 2 free parameters (df = 52)
@@ -1062,7 +1062,7 @@ Coefficients:
 --------------------------------------------
 Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 4 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -435 
 Model: Y == '1' in contrary to '0'
 753 observations (325 'negative' and 428 'positive') and 10 free parameters (df = 743)
@@ -4448,7 +4448,7 @@ Coefficients:
 --------------------------------------------
 Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 4 iterations
-Return code 1: gradient close to zero
+Return code 1: gradient close to zero (gradtol)
 Log-Likelihood: -491 
 Model: Y == '1' in contrary to '0'
 753 observations (325 'negative' and 428 'positive') and 6 free parameters (df = 747)
@@ -6898,7 +6898,7 @@ Coefficients:
 --------------------------------------------
 Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 10 iterations
-Return code 2: successive function values within tolerance limit
+Return code 2: successive function values within tolerance limit (tol)
 Log-Likelihood: -11.5 
 Model: Y == 'TRUE' in contrary to 'FALSE'
 20 observations (13 'negative' and 7 'positive') and 2 free parameters (df = 18)
@@ -6920,4 +6920,4 @@ chi2(1) = 2.98 (p=0.0844)
 > 
 > proc.time()
    user  system elapsed 
-  3.584   0.264   3.848 
+  1.928   0.224   2.144 

@@ -65,7 +65,7 @@ NA, Inf in data.  Should show 93 observations
 Tobit treatment model (switching regression model)
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 4 iterations
-Return code 1: gradient close to zero
+Return code 1: gradient close to zero (gradtol)
 Log-Likelihood: -149 
 93 observations: 70 non-participants (selection FALSE) and 23 participants (selection TRUE)
 
@@ -196,4 +196,4 @@ Error in attr(ll, "df") <- sum(activePar(object)) :
 > 
 > proc.time()
    user  system elapsed 
-  1.375   0.071   1.440 
+  1.501   0.076   1.570 

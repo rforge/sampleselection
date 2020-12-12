@@ -81,7 +81,7 @@ Initial values:
    atanhRho 
        0.42 
 --------------
-successive function values within tolerance limit 
+successive function values within relative tolerance limit (reltol) 
 13  iterations
 estimate: 0.98 0.97 -1.3 10 2.7 1.6 0.3 
 Function value: -275 
@@ -124,7 +124,7 @@ rho             0.29       0.33    0.87     0.38
 Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 13 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -275 
 300 observations (91 censored and 209 observed)
 Intervals of the dependent variable of the outcome equation:
@@ -222,7 +222,7 @@ rho             0.29      0.332    0.87       NA
 --------------------------------------------
 Maximum Likelihood estimation
 BHHH maximisation, 13 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -275 
 7  free parameters
 Estimates:
@@ -975,7 +975,7 @@ Initial values:
    atanhRho 
        0.24 
 --------------
-successive function values within tolerance limit 
+successive function values within relative tolerance limit (reltol) 
 21  iterations
 estimate: 0.98 0.97 -1.3 10 2.7 1.6 0.3 
 Function value: -275 
@@ -1017,7 +1017,7 @@ rho             0.29       0.33    0.88     0.38
 Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 21 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -275 
 300 observations (91 censored and 209 observed)
 Intervals of the dependent variable of the outcome equation:
@@ -1075,7 +1075,7 @@ Initial values:
    atanhRho 
        0.26 
 --------------
-successive function values within tolerance limit 
+successive function values within relative tolerance limit (reltol) 
 21  iterations
 estimate: 0.98 0.97 -1.3 10 2.7 1.6 0.3 
 Function value: -275 
@@ -1117,7 +1117,7 @@ rho             0.29       0.33    0.88     0.38
 Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 21 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -275 
 300 observations (91 censored and 209 observed)
 Intervals of the dependent variable of the outcome equation:
@@ -1194,7 +1194,7 @@ Initial values:
    atanhRho 
        0.42 
 --------------
-successive function values within tolerance limit 
+successive function values within relative tolerance limit (reltol) 
 13  iterations
 estimate: 0.98 0.97 -1.3 10 2.7 1.6 0.3 
 Function value: -276 
@@ -1223,7 +1223,7 @@ Initial values:
    atanhRho 
        0.42 
 --------------
-successive function values within tolerance limit 
+successive function values within relative tolerance limit (reltol) 
 13  iterations
 estimate: 0.98 0.97 -1.3 10 2.7 1.6 0.3 
 Function value: -276 
@@ -1254,7 +1254,7 @@ Initial values:
    atanhRho 
        0.42 
 --------------
-successive function values within tolerance limit 
+successive function values within relative tolerance limit (reltol) 
 13  iterations
 estimate: 0.98 0.97 -1.3 10 2.7 1.6 0.3 
 Function value: -276 
@@ -1289,7 +1289,7 @@ Initial values:
    atanhRho 
        0.42 
 --------------
-successive function values within tolerance limit 
+successive function values within relative tolerance limit (reltol) 
 15  iterations
 estimate: 0.8 0.82 -1.2 11 3 1.6 0.029 
 Function value: -174 
@@ -1330,7 +1330,7 @@ Initial values:
    atanhRho 
        0.42 
 --------------
-successive function values within tolerance limit 
+successive function values within relative tolerance limit (reltol) 
 14  iterations
 estimate: 0.87 0.91 -1.1 11 3.2 1.6 0.065 
 Function value: -163 
@@ -1361,7 +1361,7 @@ S:(Intercept)           S:x1           S:x2  O:(Intercept)           O:x1
 Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 17 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -1134 
 753 observations (325 censored and 428 observed)
 Intervals of the dependent variable of the outcome equation:
@@ -1400,7 +1400,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 18 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -1085 
 753 observations (325 censored and 428 observed)
 Intervals of the dependent variable of the outcome equation:
@@ -1442,7 +1442,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 14 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -1082 
 753 observations (325 censored and 428 observed)
 Intervals of the dependent variable of the outcome equation:
@@ -1487,7 +1487,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Tobit 2 model with interval outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 18 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -1160 
 753 observations (325 censored and 428 observed)
 Intervals of the dependent variable of the outcome equation:
@@ -1611,4 +1611,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  79.42    0.35   79.90 
+  78.82    0.21   79.03 

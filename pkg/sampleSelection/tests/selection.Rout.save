@@ -24805,7 +24805,7 @@ Coefficients:
 Tobit 5 model (switching regression model)
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 9 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -2777 
 1483 observations: 472 selection 1 (FALSE) and 1011 selection 2 (TRUE)
 10 free parameters (df = 1473)
@@ -36165,7 +36165,7 @@ Coefficients:
 Tobit 5 model (switching regression model)
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 9 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -2821 
 1482 observations: 472 selection 1 (FALSE) and 1010 selection 2 (TRUE)
 10 free parameters (df = 1472)
@@ -60617,7 +60617,7 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo          sigma
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 5 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -2215 
 1483 observations (455 censored and 1028 observed)
 6 free parameters (df = 1477)
@@ -69374,7 +69374,7 @@ Error in logLik.selection(testTobit2TwoStepWe) :
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 5 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -1550 
 1483 observations (455 censored and 1028 observed)
 6 free parameters (df = 1477)
@@ -69461,7 +69461,7 @@ Error in logLik.selection(testTobit2TwoStepWu) :
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 4 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -2186 
 1483 observations (455 censored and 1028 observed)
 6 free parameters (df = 1477)
@@ -74072,7 +74072,7 @@ Now run tobit2 without intercepts
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 1 iterations
-Return code 1: gradient close to zero
+Return code 1: gradient close to zero (gradtol)
 Log-Likelihood: -2215 
 1483 observations (455 censored and 1028 observed)
 6 free parameters (df = 1477)
@@ -75138,4 +75138,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  6.220   0.655   6.868 
+   7.24    1.26    8.49 

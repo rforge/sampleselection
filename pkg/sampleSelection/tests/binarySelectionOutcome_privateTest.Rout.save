@@ -64,7 +64,7 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo            rho
 Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 6 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -398 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -2455,7 +2455,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 11 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -279 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -2513,7 +2513,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 11 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -396 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -2604,7 +2604,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 6 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -398 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -2638,7 +2638,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 6 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -398 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -2676,7 +2676,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 6 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -398 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -2704,7 +2704,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 6 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -444 
 500 observations (74 censored and 426 observed)
 4 free parameters (df = 496)
@@ -2730,7 +2730,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 5 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -460 
 500 observations (74 censored and 426 observed)
 4 free parameters (df = 496)
@@ -2754,7 +2754,7 @@ rho    0.532      3.151    0.17     0.87
 Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 5 iterations
-Return code 1: gradient close to zero
+Return code 1: gradient close to zero (gradtol)
 Log-Likelihood: -504 
 500 observations (74 censored and 426 observed)
 3 free parameters (df = 497)
@@ -2771,4 +2771,4 @@ rho    0.749        Inf       0        1
 > 
 > proc.time()
    user  system elapsed 
- 20.360   0.119  20.474 
+ 20.807   0.164  20.975 

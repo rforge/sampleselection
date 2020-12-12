@@ -1,6 +1,6 @@
 
-R version 3.4.0 (2017-04-21) -- "You Stupid Darkness"
-Copyright (C) 2017 The R Foundation for Statistical Computing
+R version 4.0.3 (2020-10-10) -- "Bunny-Wunnies Freak Out"
+Copyright (C) 2020 The R Foundation for Statistical Computing
 Platform: x86_64-pc-linux-gnu (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -110,7 +110,7 @@ F-statistic:  139 on 6 and 422 DF,  p-value: <2e-16
 --------------------------------------------
 Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 4 iterations
-Return code 1: gradient close to zero
+Return code 1: gradient close to zero (gradtol)
 Log-Likelihood: -491 
 Model: Y == '1' in contrary to '0'
 753 observations (325 'negative' and 428 'positive') and 6 free parameters (df = 747)
@@ -4153,7 +4153,7 @@ S:(Intercept)          S:age     S:I(age^2)       S:faminc     S:kidsTRUE
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 5 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -1581 
 753 observations (325 censored and 428 observed)
 13 free parameters (df = 740)
@@ -7491,7 +7491,7 @@ F-statistic:  288 on 5 and 423 DF,  p-value: <2e-16
 --------------------------------------------
 Probit binary choice model/Maximum Likelihood estimation
 Newton-Raphson maximisation, 4 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -401 
 Model: Y == '1' in contrary to '0'
 753 observations (325 'negative' and 428 'positive') and 8 free parameters (df = 745)
@@ -12217,7 +12217,7 @@ S:(Intercept)     S:nwifeinc         S:educ        S:exper   S:I(exper^2)
 Tobit 2 model (sample selection model)
 Maximum Likelihood estimation
 Newton-Raphson maximisation, 3 iterations
-Return code 1: gradient close to zero
+Return code 1: gradient close to zero (gradtol)
 Log-Likelihood: -833 
 753 observations (325 censored and 428 observed)
 14 free parameters (df = 739)
@@ -15473,4 +15473,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  5.188   0.236   5.422 
+  2.218   0.395   2.607 

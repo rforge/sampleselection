@@ -64,7 +64,7 @@ S:(Intercept)           S:xs  O:(Intercept)           O:xo            rho
 Tobit 2 model with binary outcome (sample selection model)
 Maximum Likelihood estimation
 BHHH maximisation, 6 iterations
-Return code 2: successive function values within tolerance limit
+Return code 8: successive function values within relative tolerance limit (reltol)
 Log-Likelihood: -398 
 500 observations (74 censored and 426 observed)
 5 free parameters (df = 495)
@@ -2448,4 +2448,4 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 > 
 > proc.time()
    user  system elapsed 
-  5.390   0.096   5.478 
+  5.048   0.104   5.145 

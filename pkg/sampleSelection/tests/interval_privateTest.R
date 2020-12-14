@@ -20,7 +20,7 @@ dat$yS <- with( dat, betaS[1] + betaS[2] * x1 + betaS[3] * x2 + epsS ) > 0
 # table(dat$yS)
 dat$yOu <- with( dat, betaO[1] + betaO[2] * x1 + epsO )
 dat$yOu[ !dat$yS ] <- NA
-hist( dat$yOu )
+# hist( dat$yOu )
 dat$yO <- cut( dat$yOu, bound )
 
 YS <- dat$yS
@@ -70,14 +70,14 @@ gradStartNum <- numericGradient( intLogLik, t0 = start )
 colnames( gradStartNum ) <- names( start )
 all.equal( as.data.frame( gradStart ), as.data.frame( gradStartNum ),
    tol = 1e-5 )
-library( "miscTools" )
-for( i in 1:ncol( gradStart ) ) {
-   compPlot( gradStart[ , i ], gradStartNum[ , i ], main = names( start )[i],
-      col = ifelse( !YS, "black",
-         ifelse( YO == 1, "blue",
-            ifelse( YO == 2, "blueviolet",
-               ifelse( YO == 3, "red", "green" ) ) ) ) )
-}
+# library( "miscTools" )
+# for( i in 1:ncol( gradStart ) ) {
+#    compPlot( gradStart[ , i ], gradStartNum[ , i ], main = names( start )[i],
+#       col = ifelse( !YS, "black",
+#          ifelse( YO == 1, "blue",
+#             ifelse( YO == 2, "blueviolet",
+#                ifelse( YO == 3, "red", "green" ) ) ) ) )
+# }
 
 # log-likelihood values and their gradients at estimated parameters
 logLikEst <- intLogLik( coef( res, part = "est" ) )
@@ -97,8 +97,8 @@ print( resMl$start )
 print( summary( resMl ) )
 
 resMl2 <- selection( yS ~ x1 + x2, yO ~ x1, data = dat, boundaries = bound )
-all.equal( resMl[ !names( resMl ) %in% c( "call", "control" ) ],
-   resMl2[ !names( resMl2 ) %in% c( "call", "control" ) ] )
+all.equal( resMl[ !names( resMl ) %in% c( "call", "control", "objectiveFn" ) ],
+   resMl2[ !names( resMl2 ) %in% c( "call", "control", "objectiveFn" ) ] )
 
 
 # tests with automatically generated starting values (2-step estimation)

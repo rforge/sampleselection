@@ -2622,7 +2622,7 @@ rho    0.817      0.141    5.77  1.4e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> all.equal(ss,ssN)
+> all.equal( ss[-c(13,16)], ssN[-c(13,16)] )
 [1] TRUE
 > 
 > # binary outcome logical
@@ -2656,12 +2656,8 @@ rho    0.817      0.141    5.77  1.4e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> all.equal(ss,ssL)
-[1] "Component \"twoStep\": Component \"lm\": Component \"model\": Attributes: < Component \"row.names\": Modes: numeric, character >"              
-[2] "Component \"twoStep\": Component \"lm\": Component \"model\": Attributes: < Component \"row.names\": target is numeric, current is character >"
-[3] "Component \"twoStep\": Component \"lm\": Component \"model\": Component \"YO\": Modes: numeric, logical"                                       
-[4] "Component \"twoStep\": Component \"lm\": Component \"model\": Component \"YO\": names for current but not for target"                          
-[5] "Component \"twoStep\": Component \"lm\": Component \"model\": Component \"YO\": target is numeric, current is logical"                         
+> all.equal( ss[-c(13,16)], ssL[-c(13,16)] )
+[1] TRUE
 > 
 > # binary outcome logical and NA if unobserved
 > simDat$yo[ !simDat$ys ] <- NA
@@ -2694,7 +2690,7 @@ rho    0.817      0.141    5.77  1.4e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 --------------------------------------------
-> all.equal(ssL,ssLN)
+> all.equal( ss[-c(13,16)], ssLN[-c(13,16)] )
 [1] TRUE
 > 
 > # only intercept in outcome equation
@@ -2771,4 +2767,4 @@ rho    0.749        Inf       0        1
 > 
 > proc.time()
    user  system elapsed 
- 20.807   0.164  20.975 
+ 20.940   0.139  21.079 

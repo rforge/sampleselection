@@ -121,21 +121,21 @@ simDat$yo[ !simDat$ys ] <- NA
 print(table(simDat$ys, simDat$yo, exclude=NULL))
 ssN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 print(summary(ssN))
-all.equal(ss,ssN)
+all.equal( ss[-c(13,16)], ssN[-c(13,16)] )
 
 # binary outcome logical
 simDat$yo <- simDat$yoX > 0 & simDat$ys
 print(table(simDat$ys, simDat$yo, exclude=NULL))
 ssL <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 print(summary(ssL))
-all.equal(ss,ssL)
+all.equal( ss[-c(13,16)], ssL[-c(13,16)] )
 
 # binary outcome logical and NA if unobserved
 simDat$yo[ !simDat$ys ] <- NA
 print(table(simDat$ys, simDat$yo, exclude=NULL))
 ssLN <- selection( ys ~ xs, yo ~ xo, data = simDat, steptol = 1e-12 )
 print(summary(ssLN))
-all.equal(ssL,ssLN)
+all.equal( ss[-c(13,16)], ssLN[-c(13,16)] )
 
 # only intercept in outcome equation
 ssNo <- selection( ys ~ xs, yo ~ 1, data = simDat )

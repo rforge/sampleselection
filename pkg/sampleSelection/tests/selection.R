@@ -363,44 +363,44 @@ logLik( testTobit5SMl )
 ### 2-step estimation
 testTobit5FacTwoStep <- selection( factor( ys ) ~ xs,
    list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step", data = t5Dat )
-all.equal( testTobit5FacTwoStep[ -c( 8, 9 ) ], testTobit5TwoStep[ -c( 8, 9 ) ] )
+all.equal( testTobit5FacTwoStep[ -c( 1, 8, 9 ) ], testTobit5TwoStep[ -c( 1, 8, 9 ) ] )
 ## use yes/no as the outcome variable
 testTobit5YesTwoStep <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
    list( yo1 ~ xo1, yo2 ~ xo2 ), method = "2step", data = t5Dat )
-all.equal( testTobit5YesTwoStep[ -c( 8, 9, 17 ) ],
-   testTobit5TwoStep[ -c( 8, 9, 17 ) ] )
+all.equal( testTobit5YesTwoStep[ -c( 1, 8, 9, 17 ) ],
+   testTobit5TwoStep[ -c( 1, 8, 9, 17 ) ] )
 all.equal( testTobit5YesTwoStep$param[ -c( 12 ) ],
    testTobit5TwoStep$param[ -c( 12 ) ] )
 ### ML estimation
 testTobit5FacMl <- selection( factor( ys ) ~ xs,
    list( yo1 ~ xo1, yo2 ~ xo2 ), data = t5Dat )
-all.equal( testTobit5FacMl[ -c( 16, 19, 20 ) ],
-   testTobit5Ml[ -c( 16, 19, 20 ) ] )
+all.equal( testTobit5FacMl[ -c( 13, 16, 19, 20 ) ],
+   testTobit5Ml[ -c( 13, 16, 19, 20 ) ] )
 testTobit5YesMl <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
    list( yo1 ~ xo1, yo2 ~ xo2 ), data = t5Dat )
-all.equal( testTobit5YesMl[ -c( 16, 18, 19, 20 ) ],
-   testTobit5Ml[ -c( 16, 18, 19, 20 ) ] )
+all.equal( testTobit5YesMl[ -c( 13, 16, 18, 19, 20 ) ],
+   testTobit5Ml[ -c( 13, 16, 18, 19, 20 ) ] )
 all.equal( testTobit5YesMl$param[ -c( 10 ) ], testTobit5Ml$param[ -c( 10 ) ] )
 
 # with pre-defined list of outcome equations (works since revision 1420)
 oList <- list( yo1 ~ xo1, yo2 ~ xo2 )
 testTobit5LiTwoStep <- selection( ys ~ xs, oList, method = "2step",
    data = t5Dat )
-all.equal( testTobit5LiTwoStep[ -8 ],  testTobit5TwoStep[ -8 ] )
+all.equal( testTobit5LiTwoStep[ -c( 1, 8 ) ],  testTobit5TwoStep[ -c( 1, 8 ) ] )
 testTobit5LiFacTwoStep <- selection( factor( ys ) ~ xs, oList, method = "2step",
    data = t5Dat )
-all.equal( testTobit5LiFacTwoStep[ -8 ],  testTobit5FacTwoStep[ -8 ] )
+all.equal( testTobit5LiFacTwoStep[ -c( 1, 8 ) ],  testTobit5FacTwoStep[ -c( 1, 8 ) ] )
 testTobit5LiYesTwoStep <- selection( factor( ys, labels = c( "no", "yes" ) )
    ~ xs, oList, method = "2step", data = t5Dat )
-all.equal( testTobit5LiYesTwoStep[ -8 ],  testTobit5YesTwoStep[ -8 ] )
+all.equal( testTobit5LiYesTwoStep[ -c( 1, 8 ) ],  testTobit5YesTwoStep[ -c( 1, 8 ) ] )
 
 testTobit5LiMl <- selection( ys ~ xs, oList, data = t5Dat )
-all.equal( testTobit5LiMl[ -19 ],  testTobit5Ml[ -19 ] )
+all.equal( testTobit5LiMl[ -c( 13, 16, 19 ) ],  testTobit5Ml[ -c( 13, 16, 19 ) ] )
 testTobit5LiFacMl <- selection( factor( ys ) ~ xs, oList, data = t5Dat )
-all.equal( testTobit5LiFacMl[ -19 ], testTobit5FacMl[ -19 ] )
+all.equal( testTobit5LiFacMl[ -c( 13, 16, 19 ) ], testTobit5FacMl[ -c( 13, 16, 19 ) ] )
 testTobit5LiYesMl <- selection( factor( ys, labels = c( "no", "yes" ) )
    ~ xs, oList, data = t5Dat )
-all.equal( testTobit5LiYesMl[ -19 ],  testTobit5YesMl[ -19 ] )
+all.equal( testTobit5LiYesMl[ -c( 13, 16, 19 ) ],  testTobit5YesMl[ -c( 13, 16, 19 ) ] )
 
 # return just the model.frame
 selection( factor( ys ) ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ),
@@ -419,11 +419,11 @@ selection( ys ~ xs - 1, list( yo1 ~ xo1 - 1, yo2 ~ xo2 - 1 ),
 ## estimations withs weights that do not work
 testTobit5TwoStepWe <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2), 
    method = "2step", weights = rep( 0.5, N ), data = t5Dat )
-all.equal( testTobit5TwoStepWe[-8], testTobit5TwoStep[-8] )
+all.equal( testTobit5TwoStepWe[ -c( 1, 8 ) ], testTobit5TwoStep[ -c( 1, 8 ) ] )
 
 testTobit5MlWe <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2), 
    method = "ml", weights = rep( 0.5, N ), data = t5Dat )
-all.equal( testTobit5MlWe[-19], testTobit5Ml[-19] )
+all.equal( testTobit5MlWe[ -c( 13, 16, 19 ) ], testTobit5Ml[ -c( 13, 16, 19 ) ] )
 
 ## data directly in the workspace
 ys <- t5Dat$ys
@@ -435,7 +435,7 @@ xo2 <- t5Dat$xo2
 
 testTobit5WsTwoStep <- selection( ys ~ xs, list( yo1 ~ xo1, yo2 ~ xo2 ), 
    method = "2step" )
-all.equal( testTobit5WsTwoStep[-8], testTobit5TwoStep[-8] )
+all.equal( testTobit5WsTwoStep[ -c( 1, 8 ) ], testTobit5TwoStep[ -c( 1, 8 ) ] )
 all.equal( model.matrix( testTobit5WsTwoStep ),
    mmoTestTobit5TwoStep )
 all.equal( model.matrix( testTobit5WsTwoStep, part = "selection" ),
@@ -726,7 +726,7 @@ try( selection( ys ~ xs, yo ~ xo, method = "ml", weights = 4:14,
 # factors as dependent variable (from Achim Zeileis)
 testTobit2FacTwoStep <- selection( factor( ys ) ~ xs, yo ~ xo,
    method = "2step", data = t2Dat )
-all.equal( testTobit2FacTwoStep[-1], testTobit2TwoStep[-1] )
+all.equal( testTobit2FacTwoStep[ -c( 1, 2 ) ], testTobit2TwoStep[ -c( 1, 2 ) ] )
 all.equal( fitted( testTobit2FacTwoStep, part = "selection" ),
    fitted( testTobit2TwoStep, part = "selection" ) )
 all.equal(
@@ -741,7 +741,7 @@ all.equal(
 
 testTobit2YesTwoStep <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
    yo ~ xo, method = "2step", data = t2Dat )
-all.equal( testTobit2YesTwoStep[-1], testTobit2TwoStep[-1] )
+all.equal( testTobit2YesTwoStep[ -c( 1, 2 ) ], testTobit2TwoStep[ -c( 1, 2 ) ] )
 all.equal( fitted( testTobit2YesTwoStep, part = "selection" ),
    fitted( testTobit2TwoStep, part = "selection" ) )
 all.equal(
@@ -755,7 +755,8 @@ all.equal(
    residuals( testTobit2TwoStep, part = "selection", type = "response" ) )
 
 testTobit2FacMl <- selection( factor( ys ) ~ xs, yo ~ xo, data = t2Dat )
-all.equal( testTobit2FacMl[-c(19,20)], testTobit2Ml[-c(19,20)] )
+all.equal( testTobit2FacMl[ -c( 13, 16, 19, 20 ) ], 
+   testTobit2Ml[ -c( 13, 16, 19, 20 ) ] )
 all.equal( fitted( testTobit2FacMl, part = "selection" ),
    fitted( testTobit2Ml, part = "selection" ) )
 all.equal(
@@ -770,7 +771,8 @@ all.equal(
 
 testTobit2YesMl <- selection( factor( ys, labels = c( "no", "yes" ) ) ~ xs,
    yo ~ xo, data = t2Dat )
-all.equal( testTobit2YesMl[-c(18:20)], testTobit2Ml[-c(18:20)] )
+all.equal( testTobit2YesMl[ -c( 13, 16, 18:20 ) ], 
+   testTobit2Ml[ -c( 13, 16, 18:20 ) ] )
 all.equal( testTobit2YesMl$param[-9], testTobit2Ml$param[-9] )
 all.equal( fitted( testTobit2YesMl, part = "selection" ),
    fitted( testTobit2Ml, part = "selection" ) )
@@ -801,8 +803,8 @@ testTobit2MlStart <- selection( ys ~ xs, yo ~ xo, data = t2Dat, method = "ml",
    start = init )
 print( summary( testTobit2MlStart ) )
                            # Note: should be only 1 iteration
-all.equal( testTobit2Ml[ -c(2,5,6,9,16,17,19)],
-   testTobit2MlStart[ -c(2,5,6,9,16,17,19)], tol = 1e-5 )
+all.equal( testTobit2Ml[ -c(2,5,6,9,13,16,17,19)],
+   testTobit2MlStart[ -c(2,5,6,9,13,16,17,19)], tol = 1e-5 )
 
 ## Chris Hane: dummy variable (factor) as explanatory variable
 t2Dat$xF <- rbinom( nrow( t2Dat ), 1, 0.5 )
@@ -835,7 +837,7 @@ yo <- t2Dat$yo
 xo <- t2Dat$xo
 
 testTobit2WsTwoStep <- selection( ys ~ xs, yo ~ xo, method = "2step" )
-all.equal( testTobit2WsTwoStep[-1], testTobit2TwoStep[-1] )
+all.equal( testTobit2WsTwoStep[ -c( 1, 2 ) ], testTobit2TwoStep[ -c( 1, 2 ) ] )
 all.equal( model.matrix( testTobit2WsTwoStep ),
    mmoTestTobit2TwoStep )
 all.equal( model.matrix( testTobit2WsTwoStep, part = "selection" ),

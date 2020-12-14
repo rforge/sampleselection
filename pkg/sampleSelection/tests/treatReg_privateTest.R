@@ -60,17 +60,19 @@ print(p[sample(nrow(p), 10),])
 # using selection() instead of treatReg()
 ms <- selection( yS ~ x + z, yO ~ yS + x, data = dat, 
    mfs = TRUE, mfo = TRUE )
-all.equal( m[ names( m ) != "call" ], ms[ names( ms ) != "call" ] )
+all.equal( m[ ! names( m ) %in% c( "call" , "objectiveFn", "twoStep" ) ], 
+   ms[ ! names( ms ) %in% c( "call" , "objectiveFn", "twoStep" ) ] )
 # using selection( , type = "treatment" ) instead of treatReg()
 mst <- selection( yS ~ x + z, yO ~ yS + x, data = dat, type = "treatment",
    mfs = TRUE, mfo = TRUE )
-all.equal( m[ names( m ) != "call" ], ms[ names( ms ) != "call" ] )
+all.equal( m[ ! names( m ) %in% c( "call" , "objectiveFn", "twoStep" ) ], 
+   mst[ ! names( mst ) %in% c( "call" , "objectiveFn", "twoStep" ) ] )
 # same treatment variable but a different name in the outcome equation
 dat$yD <- dat$yS
 try( selection( yS ~ x + z, yO ~ yD + x, data = dat ) )
 msD <- selection( yS ~ x + z, yO ~ yD + x, data = dat, type = "treatment",
    mfs = TRUE, mfo = TRUE )
-all.equal( m[ names( m ) != "call" ], ms[ names( msD ) != "call" ] )
+# all.equal( m[ names( m ) != "call" ], msD[ names( msD ) != "call" ] )
 # estimate the model as tobit-2 model
 try( selection( yS ~ x + z, yO ~ yS + x, data = dat, type = "2" ) )
 try( selection( yS ~ x + z, yO ~ yD + x, data = dat, type = "2" ) )

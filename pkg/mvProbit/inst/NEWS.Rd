@@ -1,6 +1,6 @@
 \name{NEWS}
 \title{News for Package 'mvProbit'}
-\section{Changes in mvProbit version 0.1-10 (2020-03-02)}{
+\section{Changes in mvProbit version 0.1-10 (2020-12-20)}{
   \itemize{
     \item a few internal improvements
     \item removed the reference output of 3 test scripts

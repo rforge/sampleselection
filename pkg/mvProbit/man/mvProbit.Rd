@@ -189,18 +189,16 @@ yMatLin <- xMat \%*\% beta
 yMat <- ( yMatLin + rmvnorm( nObs, sigma = sigma ) ) > 0
 colnames( yMat ) <- paste( "y", 1:3, sep = "" )
 
-\dontrun{
 # estimation (BHHH optimizer and GHK algorithm)
 estResult <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
-   data = as.data.frame( cbind( xMat, yMat ) ), iterlim = 3 )
+   data = as.data.frame( cbind( xMat, yMat ) ), iterlim = 1, nGHK = 50 )
 summary( estResult )
 
 # same estimation with user-defined starting values
 estResultStart <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
    start = c( beta ), startSigma = sigma, 
-   data = as.data.frame( cbind( xMat, yMat ) ), iterlim = 3 )
+   data = as.data.frame( cbind( xMat, yMat ) ), iterlim = 1, nGHK = 50 )
 summary( estResultStart )
-}
 }
 
 \keyword{models}

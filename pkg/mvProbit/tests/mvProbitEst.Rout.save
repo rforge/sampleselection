@@ -96,7 +96,7 @@ R_2_3 -0.08406    0.34909  -0.241  0.8097
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BHHH maximisation, 1 iterations
-Return code 2: successive function values within tolerance limit
+Return code 2: successive function values within tolerance limit (tol)
 Log-likelihood: -56.91 on 12 Df
 
 > logLik( estResultBHHH )
@@ -105,8 +105,8 @@ Log-likelihood: -56.91 on 12 Df
 +    start = c( beta, sigma[ lower.tri( sigma ) ] ),
 +    data = dat, tol = 0.5,
 +    algorithm = GenzBretz() )
-> all.equal( estResultBHHH, estResultBHHHA )
-[1] "Component \"call\": target, current do not match when deparsed"
+> all.equal( estResultBHHH[-c(13:14)], estResultBHHHA[-c(13:14)] )
+[1] TRUE
 > 
 > # estimation with the BHHH algorithm, one-sided gradients
 > estResultBHHH1 <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -151,13 +151,13 @@ R_2_3 -0.08406    0.34909  -0.241  0.8097
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 BHHH maximisation, 1 iterations
-Return code 2: successive function values within tolerance limit
+Return code 2: successive function values within tolerance limit (tol)
 Log-likelihood: -56.91 on 12 Df
 
 > logLik( estResultBHHH1 )
 'log Lik.' -56.91 (df=12)
-> all.equal( estResultBHHH, estResultBHHH1, tol = 1e-5 )
-[1] "Component \"call\": target, current do not match when deparsed"
+> all.equal( estResultBHHH[-c(13:14)], estResultBHHH1[-c(13:14)], tol = 1e-5 )
+[1] TRUE
 > 
 > # estimation with the BFGS algorithm, two-sided gradients
 > estResultBFGS <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -256,8 +256,8 @@ Log-likelihood: -52.94 on 12 Df
 
 > logLik( estResultBFGS1 )
 'log Lik.' -52.94 (df=12)
-> all.equal( estResultBFGS, estResultBFGS1, tol = 1e-5 )
-[1] "Component \"call\": target, current do not match when deparsed"
+> all.equal( estResultBFGS[-c(14:15)], estResultBFGS1[-c(14:15)], tol = 1e-5 )
+[1] TRUE
 > 
 > # estimation with the BFGS algorithm, one-sided gradients, no starting values
 > estResultBFGS1a <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -450,8 +450,8 @@ Log-likelihood: -52.94 on 12 Df
 
 > logLik( estResultBFGSm )
 'log Lik.' -52.94 (df=12)
-> all.equal( estResultBFGS, estResultBFGSm, tol = 1e-3 )
-[1] "Component \"call\": target, current do not match when deparsed"
+> all.equal( estResultBFGS[-c(14:15)], estResultBFGSm[-c(14:15)], tol = 1e-3 )
+[1] TRUE
 > 
 > # estimation with the BFGS algorithm, GHK algorithm for obtaining integrals
 > estResultBFGSg <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -500,10 +500,10 @@ Log-likelihood: -52.95 on 12 Df
 
 > logLik( estResultBFGSg )
 'log Lik.' -52.95 (df=12)
-> all.equal( estResultBFGS, estResultBFGSg, tol = 1e-2 )
-[1] "Component \"call\": target, current do not match when deparsed"
-> all.equal( estResultBFGSm, estResultBFGSg, tol = 1e-2 )
-[1] "Component \"call\": target, current do not match when deparsed"
+> all.equal( estResultBFGS[-c(14:15)], estResultBFGSg[-c(14:15)], tol = 1e-2 )
+[1] TRUE
+> all.equal( estResultBFGSm[-c(14:15)], estResultBFGSg[-c(14:15)], tol = 1e-2 )
+[1] TRUE
 > 
 > # estimation with the Nelder-Mead algorithm
 > estResultNM <- mvProbit( cbind( y1, y2, y3 ) ~ x1 + x2,
@@ -641,9 +641,8 @@ Log-likelihood: -52.94 on 12 Df
 
 > logLik( estResultFac )
 'log Lik.' -52.94 (df=12)
-> all.equal( estResultBFGS, estResultFac )
-[1] "Component \"call\": target, current do not match when deparsed"
-[2] "Component \"dummyVars\": 1 string mismatch"                    
+> all.equal( estResultBFGS[-c(14:15)], estResultFac[-c(14:15)] )
+[1] "Component \"dummyVars\": 1 string mismatch"
 > 
 > # estimation with a factor as explanatory variable (x1 with 3 levels)
 > dat$x1Fac3 <- as.factor(
@@ -3000,4 +2999,4 @@ Error in colMeans(data) : 'x' must be numeric
 > 
 > proc.time()
    user  system elapsed 
- 27.011   0.148  27.157 
+ 26.670   0.173  26.843 
